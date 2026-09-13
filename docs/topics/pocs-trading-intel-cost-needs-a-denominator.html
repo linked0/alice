@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A known workflow is a graph, not a swarm — Dev Notes</title>
+<title>“25× cheaper trading intel” needs a denominator — signals are not P&amp;L — Dev Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -376,219 +376,129 @@
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; A known workflow is a graph, not a swarm</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#213</span><span>PoC</span></p>
-      <h1>A known workflow is a graph, not a swarm</h1>
-      <p class="lead">Google&#39;s &#39;graph engineering&#39; frames an agent system as an org chart of nodes — some LLM agents, some deterministic functions — wired by explicit edges and a shared state. The claim worth keeping: when you already know the workflow, pinning it as a graph buys the predictability, debuggability, and control that a single loop or an emergent swarm gives up. Fan-out, join, and router are just parallelism, a barrier, and a switch statement wearing new names.</p>
-      <p class="meta">Not yet scoped — the deliverable is a decision, not a build. For one workflow you actually run (a PR review, a digest triage), first disambiguate the three scopes the talk separates: the <em>harness</em> (one agent&#39;s environment — its tools, memory, guardrails), the <em>loop</em> (that agent reasoning → acting → observing until its goal is met), and the <em>graph</em> (the multi-node orchestration coordinating agents, loops, and deterministic functions through a shared state). Then pick the shape by how much of the path you know in advance: a single <em>loop</em> for a simple iterative task, a <em>graph</em> when the steps are known and you want them predictable, a <em>swarm</em> only when the path is genuinely open-ended. Source: Google Cloud Tech, &#39;Graph Engineering 101&#39; (youtube.com/watch?v=IrW0_f-w4kA) — agent vs function nodes, shared state via ADK, a PR-review pipeline built from fan-out / join / router, and the loop vs graph vs swarm trade-off table. Confirm timings and terms against the video before citing them.</p>
+      <p class="topic-kicker"><span class="topic-no">#53</span><span>PoC</span></p>
+      <h1>“25× cheaper trading intel” needs a denominator — signals are not P&amp;L</h1>
+      <p class="lead">Senpi advertises AI trading agents and Hyperliquid market intelligence, but the screenshot&#39;s “25× cheaper than Fable” claim has no reproducible benchmark attached. A cheaper answer is not necessarily a cheaper decision: measure total cost per valid, timely, risk-bounded action and the P&amp;L after fees, slippage, and bad signals.</p>
+      <p class="meta">Run the same read-only market brief through Senpi and the stated Fable baseline for 30 fixed Hyperliquid snapshots. Freeze the prompt, market data timestamp, asset set, output schema, and latency budget. Score factual accuracy, stale-position rate, actionable-signal coverage, and cost per accepted brief. Only then run paper trades with identical entry, sizing, stop, and exit rules; report net P&amp;L, maximum drawdown, turnover, fees, and slippage. Do not grant execution authority during the intelligence benchmark.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
       <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
-      <script type="application/json" id="copy-en">"# A known workflow is a graph, not a swarm\n\nGoogle's 'graph engineering' frames an agent system as an org chart of nodes — some LLM agents, some deterministic functions — wired by explicit edges and a shared state. The claim worth keeping: when you already know the workflow, pinning it as a graph buys the predictability, debuggability, and control that a single loop or an emergent swarm gives up. Fan-out, join, and router are just parallelism, a barrier, and a switch statement wearing new names.\n\nNot yet scoped — the deliverable is a decision, not a build. For one workflow you actually run (a PR review, a digest triage), first disambiguate the three scopes the talk separates: the *harness* (one agent's environment — its tools, memory, guardrails), the *loop* (that agent reasoning → acting → observing until its goal is met), and the *graph* (the multi-node orchestration coordinating agents, loops, and deterministic functions through a shared state). Then pick the shape by how much of the path you know in advance: a single *loop* for a simple iterative task, a *graph* when the steps are known and you want them predictable, a *swarm* only when the path is genuinely open-ended. Source: Google Cloud Tech, 'Graph Engineering 101' (youtube.com/watch?v=IrW0_f-w4kA) — agent vs function nodes, shared state via ADK, a PR-review pipeline built from fan-out / join / router, and the loop vs graph vs swarm trade-off table. Confirm timings and terms against the video before citing them.\n\n## Why\n\n**Three scopes get called 'the agent,' and most confused arguments are two people meaning different ones.** They nest: the *harness* is one model's environment (tools, memory, guardrails); the *loop* is that harness running — reason, act, observe — until a goal is met; the *graph* is many of those, plus deterministic functions, wired into one workflow through a shared state. 'Make the agent do X' is ambiguous until you say which scope owns X. Naming the three is most of the value.\n\n**Graph engineering is ordinary computer-science control flow, with LLMs as some of the nodes.** The PR-review example makes it concrete: **fan-out** is parallelism (split into five checks at once instead of five in a row — latency drops); the **join** is a barrier (wait for the slowest branch, then aggregate); the **router** is a switch statement (branch on the synthesized result — fail → a fixer agent, pass → human approval). None of that is new; what is new is that a node can be a non-deterministic reasoner. So the discipline is old data-structures-and-control-flow, applied to parts that no longer behave deterministically.\n\n**It is not a knowledge graph, and the shared word hides the difference.** A knowledge graph is a *data model* — entities, relations, retrieval (graph RAG). Graph engineering is *control flow* — what runs, in what order, routed on results. Same noun, orthogonal axis: one describes what the system knows, the other what the system does.\n\n**The real decision is loop vs graph vs swarm, and it is a bet on how much of the path you already know.** A **swarm** (agents with personalities and loose directives, collaborating without fixed edges) buys flexibility for open-ended problems — at the price of predictability. A **graph** spends the knowledge you have — every node, edge, and transition pre-defined — to buy predictability, debuggability, and isolation of responsibility. The common mistake is reaching for a swarm when the workflow is actually a known DAG: you surrender determinism you never needed to give up, and then debug an emergent system to get it back. The opposite mistake is forcing a rigid graph onto a genuinely open problem, pretending to a certainty you do not have. This is exactly the harness/workflow choice a coding agent makes every day — one subagent loop, or a fan-out workflow with a join and a router — which is why the card is a decision rule, not a framework.\n\n## How it works\n\nReading note, not a demo.\n\n### Three nested scopes people conflate\n\n| Scope | What it is | The one question it owns |\n|---|---|---|\n| **Harness** | one model's environment: tools, memory, guardrails | what can this agent see and do? |\n| **Loop** | that harness running: reason → act → observe, until the goal | is this agent done yet? |\n| **Graph** | many loops + deterministic functions, via shared state | what runs next, and in what order? |\n\n### The PR-review patterns are old control flow\n\n| Pattern | Classic CS name | What it does |\n|---|---|---|\n| **Fan-out** | parallelism | run five checks at once, not in sequence — latency drops |\n| **Join** | a barrier | wait for the slowest branch, then aggregate + synthesize |\n| **Router** | a switch statement | branch on the result: fail → fixer agent, pass → human merge |\n\n### The choice is a bet on how much you know\n\n| Shape | Pre-defined? | Best when | Buys | Gives up |\n|---|---|---|---|---|\n| **Loop** | one agent, iterating | a simple, single-goal task | simplicity | multi-step structure |\n| **Graph** | every node & edge | the workflow is known ahead | predictability, debuggability, control | flexibility |\n| **Swarm** | personalities, loose rules | the path is open-ended | exploration | determinism |\n\nThe failure mode is a category error: a **swarm for a known DAG** (throwing away determinism you didn't need to) or a **graph for an open problem** (faking a certainty you don't have). Cross-refs: `the-harness-not-the-model` (the harness is the innermost scope here — govern it, don't rebuild it), `ai-engineering-is-framing-non-determinism` (a graph pins the non-determinism to specific nodes and makes the edges deterministic), `agent-ask-not-write` (the router's fail branch is where a human ask belongs), `cli-batch-vs-mcp-interactive` (a graph favours artifact-leaving batch steps over open conversation).\n"</script>
+      <script type="application/json" id="copy-en">"# “25× cheaper trading intel” needs a denominator — signals are not P&L\n\nSenpi advertises AI trading agents and Hyperliquid market intelligence, but the screenshot's “25× cheaper than Fable” claim has no reproducible benchmark attached. A cheaper answer is not necessarily a cheaper decision: measure total cost per valid, timely, risk-bounded action and the P&L after fees, slippage, and bad signals.\n\nRun the same read-only market brief through Senpi and the stated Fable baseline for 30 fixed Hyperliquid snapshots. Freeze the prompt, market data timestamp, asset set, output schema, and latency budget. Score factual accuracy, stale-position rate, actionable-signal coverage, and cost per accepted brief. Only then run paper trades with identical entry, sizing, stop, and exit rules; report net P&L, maximum drawdown, turnover, fees, and slippage. Do not grant execution authority during the intelligence benchmark.\n\n## Why\n\nThe useful pattern is benchmark hygiene. '25× cheaper' is meaningless until the denominator is named: per token, per query, per minute of analysis, per accepted signal, or per dollar of risk-adjusted return. Trading systems make this especially dangerous because the cheapest component is often the model call while the dominant costs are turnover, taker fees, slippage, funding, stale data, and one bad position. A marketing comparison can be numerically true at the inference layer and economically false at the account layer.\n\nSenpi's published product material describes more than a chat answer: hosted personal agents on Hyperliquid, market and top-trader signals, automatic risk management, fee-aware execution, position reconciliation, and an audit trail. That makes the correct comparison a pipeline comparison. Separate intelligence from execution, then measure data freshness, signal provenance, policy gates, order type, fill quality, stop behavior, restart recovery, and revocation. A system that produces a strong brief but cannot explain which snapshot it saw is weaker than a costlier one with reproducible inputs.\n\nThe trust boundary is delegated trading authority. 'Non-custodial' means the platform says users retain custody; it does not mean the agent is harmless. A delegated account can still lose allowed funds through poor trades, leverage, excessive turnover, or a compromised strategy. Intelligence evaluation should therefore be read-only first, paper execution second, and tightly capped live execution last. Cost belongs beside error and authority, not alone in a headline.\n\n## How it works\n\n### Name the denominator\n\n| Claim | Required measurement |\n|---|---|\n| **25× cheaper per query** | identical input/output scope and all provider charges |\n| **25× cheaper per accepted signal** | quality threshold plus rejected-output cost |\n| **25× cheaper to trade** | inference + data + trading fees + funding + slippage |\n| **25× better economics** | net return, drawdown, exposure and turnover over the same period |\n\n### Evaluation ladder\n\n```text\nfixed snapshots → blind intel scoring → paper execution → capped live delegation\n      read-only          read-only          no funds          revocable limits\n```\n\nAt every step preserve prompt, market timestamp, inputs, output, decision, order intent, fill, and exit reason. Never use live P&L alone as the judge: one lucky leveraged trade is not intelligence quality.\n\n### Minimal comparison harness\n\n1. Select 30 historical Hyperliquid snapshots before outcomes are revealed.\n2. Ask both systems for the same structured brief: regime, positioning, smart-money evidence, invalidation, and no-trade condition.\n3. Score factual correctness and freshness separately from directional opinion.\n4. Paper-trade one deterministic policy using each system's signal.\n5. Publish inference cost, accepted-signal cost, net P&L, drawdown, fees, slippage, and turnover.\n\n### Verified and unverified\n\nSenpi's official material supports that it offers Hyperliquid personal agents, delegated/non-custodial trading, strategy controls, signal pipelines, fee-aware execution, reconciliation, and audit logs. Hyperliquid documents trading fees and maker rebates. I found no public reproducible methodology supporting the screenshot's specific 25× comparison, so retain it only as an advertised claim.\n\nSources: [Senpi — getting started](https://resources.senpi.ai/support/what-is-senpi-and-getting-started) · [Senpi — capabilities](https://www.senpi.ai/capabilities) · [Hyperliquid — fees](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees)\n"</script>
       <h2>Why</h2>
-      <p><strong>Three scopes get called &#39;the agent,&#39; and most confused arguments are two people meaning different ones.</strong> They nest: the <em>harness</em> is one model&#39;s environment (tools, memory, guardrails); the <em>loop</em> is that harness running — reason, act, observe — until a goal is met; the <em>graph</em> is many of those, plus deterministic functions, wired into one workflow through a shared state. &#39;Make the agent do X&#39; is ambiguous until you say which scope owns X. Naming the three is most of the value.</p>
-<p><strong>Graph engineering is ordinary computer-science control flow, with LLMs as some of the nodes.</strong> The PR-review example makes it concrete: <strong>fan-out</strong> is parallelism (split into five checks at once instead of five in a row — latency drops); the <strong>join</strong> is a barrier (wait for the slowest branch, then aggregate); the <strong>router</strong> is a switch statement (branch on the synthesized result — fail → a fixer agent, pass → human approval). None of that is new; what is new is that a node can be a non-deterministic reasoner. So the discipline is old data-structures-and-control-flow, applied to parts that no longer behave deterministically.</p>
-<p><strong>It is not a knowledge graph, and the shared word hides the difference.</strong> A knowledge graph is a <em>data model</em> — entities, relations, retrieval (graph RAG). Graph engineering is <em>control flow</em> — what runs, in what order, routed on results. Same noun, orthogonal axis: one describes what the system knows, the other what the system does.</p>
-<p><strong>The real decision is loop vs graph vs swarm, and it is a bet on how much of the path you already know.</strong> A <strong>swarm</strong> (agents with personalities and loose directives, collaborating without fixed edges) buys flexibility for open-ended problems — at the price of predictability. A <strong>graph</strong> spends the knowledge you have — every node, edge, and transition pre-defined — to buy predictability, debuggability, and isolation of responsibility. The common mistake is reaching for a swarm when the workflow is actually a known DAG: you surrender determinism you never needed to give up, and then debug an emergent system to get it back. The opposite mistake is forcing a rigid graph onto a genuinely open problem, pretending to a certainty you do not have. This is exactly the harness/workflow choice a coding agent makes every day — one subagent loop, or a fan-out workflow with a join and a router — which is why the card is a decision rule, not a framework.</p>
+      <p>The useful pattern is benchmark hygiene. &#39;25× cheaper&#39; is meaningless until the denominator is named: per token, per query, per minute of analysis, per accepted signal, or per dollar of risk-adjusted return. Trading systems make this especially dangerous because the cheapest component is often the model call while the dominant costs are turnover, taker fees, slippage, funding, stale data, and one bad position. A marketing comparison can be numerically true at the inference layer and economically false at the account layer.</p>
+<p>Senpi&#39;s published product material describes more than a chat answer: hosted personal agents on Hyperliquid, market and top-trader signals, automatic risk management, fee-aware execution, position reconciliation, and an audit trail. That makes the correct comparison a pipeline comparison. Separate intelligence from execution, then measure data freshness, signal provenance, policy gates, order type, fill quality, stop behavior, restart recovery, and revocation. A system that produces a strong brief but cannot explain which snapshot it saw is weaker than a costlier one with reproducible inputs.</p>
+<p>The trust boundary is delegated trading authority. &#39;Non-custodial&#39; means the platform says users retain custody; it does not mean the agent is harmless. A delegated account can still lose allowed funds through poor trades, leverage, excessive turnover, or a compromised strategy. Intelligence evaluation should therefore be read-only first, paper execution second, and tightly capped live execution last. Cost belongs beside error and authority, not alone in a headline.</p>
       <h2>How it works</h2>
-      <p>Reading note, not a demo.</p>
-<h3>Three nested scopes people conflate</h3>
+      <h3>Name the denominator</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>Scope</th>
-<th>What it is</th>
-<th>The one question it owns</th>
+<th>Claim</th>
+<th>Required measurement</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Harness</strong></td>
-<td>one model&#39;s environment: tools, memory, guardrails</td>
-<td>what can this agent see and do?</td>
+<td><strong>25× cheaper per query</strong></td>
+<td>identical input/output scope and all provider charges</td>
 </tr>
 <tr>
-<td><strong>Loop</strong></td>
-<td>that harness running: reason → act → observe, until the goal</td>
-<td>is this agent done yet?</td>
+<td><strong>25× cheaper per accepted signal</strong></td>
+<td>quality threshold plus rejected-output cost</td>
 </tr>
 <tr>
-<td><strong>Graph</strong></td>
-<td>many loops + deterministic functions, via shared state</td>
-<td>what runs next, and in what order?</td>
+<td><strong>25× cheaper to trade</strong></td>
+<td>inference + data + trading fees + funding + slippage</td>
+</tr>
+<tr>
+<td><strong>25× better economics</strong></td>
+<td>net return, drawdown, exposure and turnover over the same period</td>
 </tr>
 </tbody></table></div>
-<h3>The PR-review patterns are old control flow</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Classic CS name</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Fan-out</strong></td>
-<td>parallelism</td>
-<td>run five checks at once, not in sequence — latency drops</td>
-</tr>
-<tr>
-<td><strong>Join</strong></td>
-<td>a barrier</td>
-<td>wait for the slowest branch, then aggregate + synthesize</td>
-</tr>
-<tr>
-<td><strong>Router</strong></td>
-<td>a switch statement</td>
-<td>branch on the result: fail → fixer agent, pass → human merge</td>
-</tr>
-</tbody></table></div>
-<h3>The choice is a bet on how much you know</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Shape</th>
-<th>Pre-defined?</th>
-<th>Best when</th>
-<th>Buys</th>
-<th>Gives up</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Loop</strong></td>
-<td>one agent, iterating</td>
-<td>a simple, single-goal task</td>
-<td>simplicity</td>
-<td>multi-step structure</td>
-</tr>
-<tr>
-<td><strong>Graph</strong></td>
-<td>every node &amp; edge</td>
-<td>the workflow is known ahead</td>
-<td>predictability, debuggability, control</td>
-<td>flexibility</td>
-</tr>
-<tr>
-<td><strong>Swarm</strong></td>
-<td>personalities, loose rules</td>
-<td>the path is open-ended</td>
-<td>exploration</td>
-<td>determinism</td>
-</tr>
-</tbody></table></div>
-<p>The failure mode is a category error: a <strong>swarm for a known DAG</strong> (throwing away determinism you didn&#39;t need to) or a <strong>graph for an open problem</strong> (faking a certainty you don&#39;t have). Cross-refs: <code>the-harness-not-the-model</code> (the harness is the innermost scope here — govern it, don&#39;t rebuild it), <code>ai-engineering-is-framing-non-determinism</code> (a graph pins the non-determinism to specific nodes and makes the edges deterministic), <code>agent-ask-not-write</code> (the router&#39;s fail branch is where a human ask belongs), <code>cli-batch-vs-mcp-interactive</code> (a graph favours artifact-leaving batch steps over open conversation).</p>
+<h3>Evaluation ladder</h3>
+<pre><code class="language-text">fixed snapshots → blind intel scoring → paper execution → capped live delegation
+      read-only          read-only          no funds          revocable limits
+</code></pre>
+<p>At every step preserve prompt, market timestamp, inputs, output, decision, order intent, fill, and exit reason. Never use live P&amp;L alone as the judge: one lucky leveraged trade is not intelligence quality.</p>
+<h3>Minimal comparison harness</h3>
+<ol>
+<li>Select 30 historical Hyperliquid snapshots before outcomes are revealed.</li>
+<li>Ask both systems for the same structured brief: regime, positioning, smart-money evidence, invalidation, and no-trade condition.</li>
+<li>Score factual correctness and freshness separately from directional opinion.</li>
+<li>Paper-trade one deterministic policy using each system&#39;s signal.</li>
+<li>Publish inference cost, accepted-signal cost, net P&amp;L, drawdown, fees, slippage, and turnover.</li>
+</ol>
+<h3>Verified and unverified</h3>
+<p>Senpi&#39;s official material supports that it offers Hyperliquid personal agents, delegated/non-custodial trading, strategy controls, signal pipelines, fee-aware execution, reconciliation, and audit logs. Hyperliquid documents trading fees and maker rebates. I found no public reproducible methodology supporting the screenshot&#39;s specific 25× comparison, so retain it only as an advertised claim.</p>
+<p>Sources: <a href="https://resources.senpi.ai/support/what-is-senpi-and-getting-started">Senpi — getting started</a> · <a href="https://www.senpi.ai/capabilities">Senpi — capabilities</a> · <a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees">Hyperliquid — fees</a></p>
       
       <p><a href="../notes.html">&larr; All Dev Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
-      <script type="application/json" id="copy-ko">"# 아는 워크플로는 스웜이 아니라 그래프다\n\n구글의 '그래프 엔지니어링'은 에이전트 시스템을 노드들의 조직도로 봅니다 — 일부는 LLM 에이전트, 일부는 결정론적 함수 — 명시적 엣지와 공유 상태로 엮인. 붙들 주장: **워크플로를 이미 알 때, 그것을 그래프로 고정하면** 단일 루프나 창발적 스웜이 포기하는 **예측 가능성·디버깅 가능성·통제**를 사옵니다. 팬아웃·조인·라우터는 각각 병렬화·배리어·switch 문이 새 이름을 쓴 것일 뿐입니다.\n\n아직 범위 미정 — 산출물은 만들기가 아니라 결정입니다. 실제로 돌리는 워크플로 하나(PR 리뷰, 다이제스트 분류)에 대해, 먼저 영상이 구분하는 세 범위를 분리하세요: *하네스*(한 에이전트의 환경 — 도구·메모리·가드레일), *루프*(그 에이전트가 목표 달성까지 추론 → 행동 → 관찰), *그래프*(공유 상태를 통해 에이전트·루프·결정론적 함수를 조율하는 다중 노드 오케스트레이션). 그다음 **경로를 얼마나 미리 아는지**로 형태를 고릅니다: 단순 반복 작업이면 단일 *루프*, 단계가 알려져 있고 예측 가능하길 원하면 *그래프*, 경로가 진짜로 열려 있을 때만 *스웜*. 출처: Google Cloud Tech, 'Graph Engineering 101'(youtube.com/watch?v=IrW0_f-w4kA) — 에이전트 대 함수 노드, ADK 공유 상태, 팬아웃/조인/라우터로 지은 PR 리뷰 파이프라인, 루프 대 그래프 대 스웜 트레이드오프 표. 타이밍·용어는 영상으로 확인.\n\n## 왜\n\n**세 범위가 모두 '에이전트'라 불리고, 헷갈리는 논쟁 대부분은 두 사람이 서로 다른 범위를 뜻하는 것입니다.** 셋은 중첩됩니다: *하네스*는 한 모델의 환경(도구·메모리·가드레일); *루프*는 그 하네스가 도는 것 — 추론·행동·관찰 — 목표 달성까지; *그래프*는 그런 루프 여럿에 결정론적 함수를 더해, 공유 상태로 하나의 워크플로로 엮은 것. '에이전트가 X를 하게 하라'는 어느 범위가 X를 소유하는지 말하기 전엔 모호합니다. 셋에 이름 붙이는 것이 가치의 대부분입니다.\n\n**그래프 엔지니어링은 평범한 컴퓨터과학 제어 흐름이고, 노드 일부가 LLM일 뿐입니다.** PR 리뷰 예가 구체화합니다: **팬아웃**은 병렬화(다섯을 차례로 대신 한 번에 — 지연 감소); **조인**은 배리어(가장 느린 가지를 기다렸다가 취합); **라우터**는 switch 문(종합 결과로 분기 — 실패 → fixer 에이전트, 통과 → 사람 승인). 새로운 건 없습니다; 새로운 건 노드가 **비결정론적 추론자**일 수 있다는 것뿐. 그래서 이 규율은 오래된 자료구조·제어흐름을, 더 이상 결정론적이지 않은 부분에 적용한 것입니다.\n\n**지식 그래프가 아니며, 같은 단어가 차이를 가립니다.** 지식 그래프는 *데이터 모델* — 엔티티·관계·검색(graph RAG). 그래프 엔지니어링은 *제어 흐름* — 무엇이, 어떤 순서로, 결과에 따라 어디로. 같은 명사, 직교하는 축: 하나는 시스템이 **아는 것**을, 다른 하나는 시스템이 **하는 것**을 기술합니다.\n\n**진짜 결정은 루프냐 그래프냐 스웜이냐이고, 이는 경로를 얼마나 이미 아는지에 대한 베팅입니다.** **스웜**(성격과 느슨한 지시를 가진 에이전트들이 고정 엣지 없이 협업)은 열린 문제에 유연성을 사옵니다 — 예측 가능성을 대가로. **그래프**는 가진 지식을 씁니다 — 모든 노드·엣지·전이를 사전 정의 — 예측 가능성·디버깅 가능성·책임 격리를 사려고. 흔한 실수는 워크플로가 사실 알려진 DAG인데 스웜에 손을 뻗는 것입니다: 포기할 필요 없던 결정성을 내주고, 그걸 되찾으려 창발 시스템을 디버깅합니다. 반대 실수는 진짜로 열린 문제에 경직된 그래프를 강요해, 갖지 않은 확실성을 가진 척하는 것. 이건 코딩 에이전트가 매일 하는 하네스/워크플로 선택 그대로입니다 — 서브에이전트 루프 하나냐, 조인과 라우터가 달린 팬아웃 워크플로냐 — 그래서 이 카드는 프레임워크가 아니라 결정 규칙입니다.\n\n## 동작 방식\n\n데모가 아니라 정독 노트입니다.\n\n### 사람들이 뭉뚱그리는 세 중첩 범위\n\n| 범위 | 정체 | 소유하는 한 질문 |\n|---|---|---|\n| **하네스** | 한 모델의 환경: 도구·메모리·가드레일 | 이 에이전트가 무엇을 보고 할 수 있나? |\n| **루프** | 그 하네스가 도는 것: 추론 → 행동 → 관찰, 목표까지 | 이 에이전트는 다 됐나? |\n| **그래프** | 루프 여럿 + 결정론적 함수, 공유 상태로 | 다음에 무엇이, 어떤 순서로 도나? |\n\n### PR 리뷰 패턴은 오래된 제어 흐름\n\n| 패턴 | 고전 CS 이름 | 하는 일 |\n|---|---|---|\n| **팬아웃** | 병렬화 | 다섯 검사를 순차가 아니라 한 번에 — 지연 감소 |\n| **조인** | 배리어 | 가장 느린 가지를 기다렸다가 취합 + 종합 |\n| **라우터** | switch 문 | 결과로 분기: 실패 → fixer 에이전트, 통과 → 사람 머지 |\n\n### 선택은 얼마나 아는지에 대한 베팅\n\n| 형태 | 사전 정의? | 최적 상황 | 사는 것 | 포기하는 것 |\n|---|---|---|---|---|\n| **루프** | 에이전트 하나, 반복 | 단순·단일 목표 작업 | 단순함 | 다단계 구조 |\n| **그래프** | 모든 노드·엣지 | 워크플로를 미리 앎 | 예측·디버깅·통제 | 유연성 |\n| **스웜** | 성격·느슨한 규칙 | 경로가 열려 있음 | 탐색 | 결정성 |\n\n실패 모드는 범주 오류입니다: **알려진 DAG에 스웜**(필요 없던 결정성을 버림) 또는 **열린 문제에 그래프**(갖지 않은 확실성을 꾸밈). 교차: `the-harness-not-the-model`(하네스는 여기서 가장 안쪽 범위 — 다시 짓지 말고 다스려라), `ai-engineering-is-framing-non-determinism`(그래프는 비결정성을 특정 노드에 고정하고 엣지를 결정론적으로 만든다), `agent-ask-not-write`(라우터의 실패 가지가 사람에게 묻는 자리), `cli-batch-vs-mcp-interactive`(그래프는 열린 대화보다 산출물을 남기는 배치 단계를 선호).\n"</script>
-      <h1>아는 워크플로는 스웜이 아니라 그래프다</h1>
-      <p class="lead">구글의 &#39;그래프 엔지니어링&#39;은 에이전트 시스템을 노드들의 조직도로 봅니다 — 일부는 LLM 에이전트, 일부는 결정론적 함수 — 명시적 엣지와 공유 상태로 엮인. 붙들 주장: <strong>워크플로를 이미 알 때, 그것을 그래프로 고정하면</strong> 단일 루프나 창발적 스웜이 포기하는 <strong>예측 가능성·디버깅 가능성·통제</strong>를 사옵니다. 팬아웃·조인·라우터는 각각 병렬화·배리어·switch 문이 새 이름을 쓴 것일 뿐입니다.</p>
-      <p class="meta">아직 범위 미정 — 산출물은 만들기가 아니라 결정입니다. 실제로 돌리는 워크플로 하나(PR 리뷰, 다이제스트 분류)에 대해, 먼저 영상이 구분하는 세 범위를 분리하세요: <em>하네스</em>(한 에이전트의 환경 — 도구·메모리·가드레일), <em>루프</em>(그 에이전트가 목표 달성까지 추론 → 행동 → 관찰), <em>그래프</em>(공유 상태를 통해 에이전트·루프·결정론적 함수를 조율하는 다중 노드 오케스트레이션). 그다음 <strong>경로를 얼마나 미리 아는지</strong>로 형태를 고릅니다: 단순 반복 작업이면 단일 <em>루프</em>, 단계가 알려져 있고 예측 가능하길 원하면 <em>그래프</em>, 경로가 진짜로 열려 있을 때만 <em>스웜</em>. 출처: Google Cloud Tech, &#39;Graph Engineering 101&#39;(youtube.com/watch?v=IrW0_f-w4kA) — 에이전트 대 함수 노드, ADK 공유 상태, 팬아웃/조인/라우터로 지은 PR 리뷰 파이프라인, 루프 대 그래프 대 스웜 트레이드오프 표. 타이밍·용어는 영상으로 확인.</p>
+      <script type="application/json" id="copy-ko">"# “25배 저렴한 트레이딩 인텔”에는 분모가 필요하다 — 신호는 P&L이 아니다\n\nSenpi는 AI 트레이딩 에이전트와 Hyperliquid 시장 인텔리전스를 제공한다고 설명하지만, 스크린샷의 'Fable보다 25배 저렴' 주장에는 재현 가능한 벤치마크가 붙어 있지 않습니다. 더 싼 답변이 더 싼 의사결정은 아닙니다. 유효하고 제때 도착하며 위험이 제한된 액션당 총비용과 수수료·슬리피지·오신호 이후 P&L을 측정해야 합니다.\n\n고정된 Hyperliquid snapshot 30개에 같은 read-only market brief를 Senpi와 주장된 Fable baseline으로 실행합니다. prompt·시장 데이터 timestamp·asset 집합·output schema·latency budget을 고정합니다. 사실 정확도·stale position 비율·실행 가능한 신호 coverage·채택된 brief당 비용을 채점합니다. 그 뒤에만 동일한 진입·사이징·stop·exit 규칙으로 paper trade를 실행하고 순 P&L·최대 drawdown·turnover·수수료·slippage를 보고합니다. 인텔리전스 벤치마크 동안 실행 권한은 주지 않습니다.\n\n## 왜\n\n쓸모 있는 패턴은 벤치마크 위생입니다. '25배 저렴'은 분모를 밝히기 전에는 의미가 없습니다. token당인지, query당인지, 분석 시간당인지, 채택된 신호당인지, 위험조정 수익 1달러당인지가 필요합니다. 트레이딩 시스템에서는 이 문제가 특히 위험합니다. 가장 싼 구성요소는 모델 호출인 경우가 많지만 지배 비용은 turnover·taker fee·slippage·funding·stale data·한 번의 나쁜 포지션입니다. 마케팅 비교가 inference 층에서는 숫자상 참이고 account 층에서는 경제적으로 거짓일 수 있습니다.\n\nSenpi의 공개 제품 자료는 chat 답변 이상을 설명합니다. Hyperliquid의 hosted personal agent, 시장·상위 트레이더 신호, 자동 위험관리, 수수료 인지 실행, position reconciliation, audit trail입니다. 따라서 올바른 비교는 pipeline 비교입니다. intelligence와 execution을 분리한 뒤 data freshness·signal provenance·policy gate·order type·fill quality·stop 동작·restart recovery·revocation을 측정합니다. 좋은 brief를 내도 어떤 snapshot을 봤는지 설명하지 못하는 시스템은 더 비싸더라도 입력을 재현하는 시스템보다 약합니다.\n\n신뢰 경계는 위임된 거래 권한입니다. 'Non-custodial'은 사용자가 custody를 유지한다고 플랫폼이 설명한다는 뜻이지 에이전트가 무해하다는 뜻이 아닙니다. 위임 계정도 나쁜 거래·레버리지·과도한 turnover·손상된 전략으로 허용 자금을 잃을 수 있습니다. 따라서 intelligence 평가는 먼저 read-only, 다음 paper execution, 마지막에 강한 상한을 둔 live execution 순이어야 합니다. 비용은 헤드라인에 홀로 두지 말고 오류와 권한 옆에 둡니다.\n\n## 동작 방식\n\n### 분모를 이름 붙인다\n\n| 주장 | 필요한 측정 |\n|---|---|\n| **query당 25배 저렴** | 동일한 input/output 범위와 모든 provider 비용 |\n| **채택 신호당 25배 저렴** | 품질 threshold와 거부된 output 비용 |\n| **거래 비용 25배 저렴** | inference + data + 거래 수수료 + funding + slippage |\n| **경제성 25배 우수** | 같은 기간 순수익·drawdown·노출·turnover |\n\n### 평가 사다리\n\n```text\n고정 snapshot → blind intel scoring → paper execution → 상한 있는 live delegation\n   read-only          read-only          자금 없음             취소 가능 제한\n```\n\n모든 단계에서 prompt·시장 timestamp·입력·출력·결정·order intent·fill·exit reason을 보존합니다. live P&L만 심판으로 쓰지 않습니다. 운 좋은 레버리지 거래 한 번은 intelligence 품질이 아닙니다.\n\n### 최소 비교 하네스\n\n1. 결과를 가리기 전 Hyperliquid 과거 snapshot 30개를 고릅니다.\n2. 두 시스템에 같은 구조의 brief를 요구합니다: regime, positioning, smart-money 근거, invalidation, no-trade 조건.\n3. 사실 정확도와 freshness를 방향 의견과 따로 채점합니다.\n4. 각 신호에 같은 결정론적 정책으로 paper trade합니다.\n5. inference 비용·채택 신호당 비용·순 P&L·drawdown·수수료·slippage·turnover를 공개합니다.\n\n### 확인된 것과 미확인\n\nSenpi 공식 자료는 Hyperliquid personal agent, 위임형/non-custodial 거래, 전략 통제, signal pipeline, 수수료 인지 실행, reconciliation, audit log 제공을 뒷받침합니다. Hyperliquid는 거래 수수료와 maker rebate를 문서화합니다. 스크린샷의 구체적인 25배 비교를 뒷받침하는 공개·재현 가능한 방법론은 찾지 못했으므로 광고성 주장으로만 보관합니다.\n\n출처: [Senpi — 시작 안내](https://resources.senpi.ai/support/what-is-senpi-and-getting-started) · [Senpi — 기능](https://www.senpi.ai/capabilities) · [Hyperliquid — 수수료](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees)\n"</script>
+      <h1>“25배 저렴한 트레이딩 인텔”에는 분모가 필요하다 — 신호는 P&amp;L이 아니다</h1>
+      <p class="lead">Senpi는 AI 트레이딩 에이전트와 Hyperliquid 시장 인텔리전스를 제공한다고 설명하지만, 스크린샷의 &#39;Fable보다 25배 저렴&#39; 주장에는 재현 가능한 벤치마크가 붙어 있지 않습니다. 더 싼 답변이 더 싼 의사결정은 아닙니다. 유효하고 제때 도착하며 위험이 제한된 액션당 총비용과 수수료·슬리피지·오신호 이후 P&amp;L을 측정해야 합니다.</p>
+      <p class="meta">고정된 Hyperliquid snapshot 30개에 같은 read-only market brief를 Senpi와 주장된 Fable baseline으로 실행합니다. prompt·시장 데이터 timestamp·asset 집합·output schema·latency budget을 고정합니다. 사실 정확도·stale position 비율·실행 가능한 신호 coverage·채택된 brief당 비용을 채점합니다. 그 뒤에만 동일한 진입·사이징·stop·exit 규칙으로 paper trade를 실행하고 순 P&amp;L·최대 drawdown·turnover·수수료·slippage를 보고합니다. 인텔리전스 벤치마크 동안 실행 권한은 주지 않습니다.</p>
       <h2>왜</h2>
-      <p><strong>세 범위가 모두 &#39;에이전트&#39;라 불리고, 헷갈리는 논쟁 대부분은 두 사람이 서로 다른 범위를 뜻하는 것입니다.</strong> 셋은 중첩됩니다: <em>하네스</em>는 한 모델의 환경(도구·메모리·가드레일); <em>루프</em>는 그 하네스가 도는 것 — 추론·행동·관찰 — 목표 달성까지; <em>그래프</em>는 그런 루프 여럿에 결정론적 함수를 더해, 공유 상태로 하나의 워크플로로 엮은 것. &#39;에이전트가 X를 하게 하라&#39;는 어느 범위가 X를 소유하는지 말하기 전엔 모호합니다. 셋에 이름 붙이는 것이 가치의 대부분입니다.</p>
-<p><strong>그래프 엔지니어링은 평범한 컴퓨터과학 제어 흐름이고, 노드 일부가 LLM일 뿐입니다.</strong> PR 리뷰 예가 구체화합니다: <strong>팬아웃</strong>은 병렬화(다섯을 차례로 대신 한 번에 — 지연 감소); <strong>조인</strong>은 배리어(가장 느린 가지를 기다렸다가 취합); <strong>라우터</strong>는 switch 문(종합 결과로 분기 — 실패 → fixer 에이전트, 통과 → 사람 승인). 새로운 건 없습니다; 새로운 건 노드가 <strong>비결정론적 추론자</strong>일 수 있다는 것뿐. 그래서 이 규율은 오래된 자료구조·제어흐름을, 더 이상 결정론적이지 않은 부분에 적용한 것입니다.</p>
-<p><strong>지식 그래프가 아니며, 같은 단어가 차이를 가립니다.</strong> 지식 그래프는 <em>데이터 모델</em> — 엔티티·관계·검색(graph RAG). 그래프 엔지니어링은 <em>제어 흐름</em> — 무엇이, 어떤 순서로, 결과에 따라 어디로. 같은 명사, 직교하는 축: 하나는 시스템이 <strong>아는 것</strong>을, 다른 하나는 시스템이 <strong>하는 것</strong>을 기술합니다.</p>
-<p><strong>진짜 결정은 루프냐 그래프냐 스웜이냐이고, 이는 경로를 얼마나 이미 아는지에 대한 베팅입니다.</strong> <strong>스웜</strong>(성격과 느슨한 지시를 가진 에이전트들이 고정 엣지 없이 협업)은 열린 문제에 유연성을 사옵니다 — 예측 가능성을 대가로. <strong>그래프</strong>는 가진 지식을 씁니다 — 모든 노드·엣지·전이를 사전 정의 — 예측 가능성·디버깅 가능성·책임 격리를 사려고. 흔한 실수는 워크플로가 사실 알려진 DAG인데 스웜에 손을 뻗는 것입니다: 포기할 필요 없던 결정성을 내주고, 그걸 되찾으려 창발 시스템을 디버깅합니다. 반대 실수는 진짜로 열린 문제에 경직된 그래프를 강요해, 갖지 않은 확실성을 가진 척하는 것. 이건 코딩 에이전트가 매일 하는 하네스/워크플로 선택 그대로입니다 — 서브에이전트 루프 하나냐, 조인과 라우터가 달린 팬아웃 워크플로냐 — 그래서 이 카드는 프레임워크가 아니라 결정 규칙입니다.</p>
+      <p>쓸모 있는 패턴은 벤치마크 위생입니다. &#39;25배 저렴&#39;은 분모를 밝히기 전에는 의미가 없습니다. token당인지, query당인지, 분석 시간당인지, 채택된 신호당인지, 위험조정 수익 1달러당인지가 필요합니다. 트레이딩 시스템에서는 이 문제가 특히 위험합니다. 가장 싼 구성요소는 모델 호출인 경우가 많지만 지배 비용은 turnover·taker fee·slippage·funding·stale data·한 번의 나쁜 포지션입니다. 마케팅 비교가 inference 층에서는 숫자상 참이고 account 층에서는 경제적으로 거짓일 수 있습니다.</p>
+<p>Senpi의 공개 제품 자료는 chat 답변 이상을 설명합니다. Hyperliquid의 hosted personal agent, 시장·상위 트레이더 신호, 자동 위험관리, 수수료 인지 실행, position reconciliation, audit trail입니다. 따라서 올바른 비교는 pipeline 비교입니다. intelligence와 execution을 분리한 뒤 data freshness·signal provenance·policy gate·order type·fill quality·stop 동작·restart recovery·revocation을 측정합니다. 좋은 brief를 내도 어떤 snapshot을 봤는지 설명하지 못하는 시스템은 더 비싸더라도 입력을 재현하는 시스템보다 약합니다.</p>
+<p>신뢰 경계는 위임된 거래 권한입니다. &#39;Non-custodial&#39;은 사용자가 custody를 유지한다고 플랫폼이 설명한다는 뜻이지 에이전트가 무해하다는 뜻이 아닙니다. 위임 계정도 나쁜 거래·레버리지·과도한 turnover·손상된 전략으로 허용 자금을 잃을 수 있습니다. 따라서 intelligence 평가는 먼저 read-only, 다음 paper execution, 마지막에 강한 상한을 둔 live execution 순이어야 합니다. 비용은 헤드라인에 홀로 두지 말고 오류와 권한 옆에 둡니다.</p>
       <h2>동작 방식</h2>
-      <p>데모가 아니라 정독 노트입니다.</p>
-<h3>사람들이 뭉뚱그리는 세 중첩 범위</h3>
+      <h3>분모를 이름 붙인다</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>범위</th>
-<th>정체</th>
-<th>소유하는 한 질문</th>
+<th>주장</th>
+<th>필요한 측정</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>하네스</strong></td>
-<td>한 모델의 환경: 도구·메모리·가드레일</td>
-<td>이 에이전트가 무엇을 보고 할 수 있나?</td>
+<td><strong>query당 25배 저렴</strong></td>
+<td>동일한 input/output 범위와 모든 provider 비용</td>
 </tr>
 <tr>
-<td><strong>루프</strong></td>
-<td>그 하네스가 도는 것: 추론 → 행동 → 관찰, 목표까지</td>
-<td>이 에이전트는 다 됐나?</td>
+<td><strong>채택 신호당 25배 저렴</strong></td>
+<td>품질 threshold와 거부된 output 비용</td>
 </tr>
 <tr>
-<td><strong>그래프</strong></td>
-<td>루프 여럿 + 결정론적 함수, 공유 상태로</td>
-<td>다음에 무엇이, 어떤 순서로 도나?</td>
+<td><strong>거래 비용 25배 저렴</strong></td>
+<td>inference + data + 거래 수수료 + funding + slippage</td>
+</tr>
+<tr>
+<td><strong>경제성 25배 우수</strong></td>
+<td>같은 기간 순수익·drawdown·노출·turnover</td>
 </tr>
 </tbody></table></div>
-<h3>PR 리뷰 패턴은 오래된 제어 흐름</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>패턴</th>
-<th>고전 CS 이름</th>
-<th>하는 일</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>팬아웃</strong></td>
-<td>병렬화</td>
-<td>다섯 검사를 순차가 아니라 한 번에 — 지연 감소</td>
-</tr>
-<tr>
-<td><strong>조인</strong></td>
-<td>배리어</td>
-<td>가장 느린 가지를 기다렸다가 취합 + 종합</td>
-</tr>
-<tr>
-<td><strong>라우터</strong></td>
-<td>switch 문</td>
-<td>결과로 분기: 실패 → fixer 에이전트, 통과 → 사람 머지</td>
-</tr>
-</tbody></table></div>
-<h3>선택은 얼마나 아는지에 대한 베팅</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>형태</th>
-<th>사전 정의?</th>
-<th>최적 상황</th>
-<th>사는 것</th>
-<th>포기하는 것</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>루프</strong></td>
-<td>에이전트 하나, 반복</td>
-<td>단순·단일 목표 작업</td>
-<td>단순함</td>
-<td>다단계 구조</td>
-</tr>
-<tr>
-<td><strong>그래프</strong></td>
-<td>모든 노드·엣지</td>
-<td>워크플로를 미리 앎</td>
-<td>예측·디버깅·통제</td>
-<td>유연성</td>
-</tr>
-<tr>
-<td><strong>스웜</strong></td>
-<td>성격·느슨한 규칙</td>
-<td>경로가 열려 있음</td>
-<td>탐색</td>
-<td>결정성</td>
-</tr>
-</tbody></table></div>
-<p>실패 모드는 범주 오류입니다: <strong>알려진 DAG에 스웜</strong>(필요 없던 결정성을 버림) 또는 <strong>열린 문제에 그래프</strong>(갖지 않은 확실성을 꾸밈). 교차: <code>the-harness-not-the-model</code>(하네스는 여기서 가장 안쪽 범위 — 다시 짓지 말고 다스려라), <code>ai-engineering-is-framing-non-determinism</code>(그래프는 비결정성을 특정 노드에 고정하고 엣지를 결정론적으로 만든다), <code>agent-ask-not-write</code>(라우터의 실패 가지가 사람에게 묻는 자리), <code>cli-batch-vs-mcp-interactive</code>(그래프는 열린 대화보다 산출물을 남기는 배치 단계를 선호).</p>
+<h3>평가 사다리</h3>
+<pre><code class="language-text">고정 snapshot → blind intel scoring → paper execution → 상한 있는 live delegation
+   read-only          read-only          자금 없음             취소 가능 제한
+</code></pre>
+<p>모든 단계에서 prompt·시장 timestamp·입력·출력·결정·order intent·fill·exit reason을 보존합니다. live P&amp;L만 심판으로 쓰지 않습니다. 운 좋은 레버리지 거래 한 번은 intelligence 품질이 아닙니다.</p>
+<h3>최소 비교 하네스</h3>
+<ol>
+<li>결과를 가리기 전 Hyperliquid 과거 snapshot 30개를 고릅니다.</li>
+<li>두 시스템에 같은 구조의 brief를 요구합니다: regime, positioning, smart-money 근거, invalidation, no-trade 조건.</li>
+<li>사실 정확도와 freshness를 방향 의견과 따로 채점합니다.</li>
+<li>각 신호에 같은 결정론적 정책으로 paper trade합니다.</li>
+<li>inference 비용·채택 신호당 비용·순 P&amp;L·drawdown·수수료·slippage·turnover를 공개합니다.</li>
+</ol>
+<h3>확인된 것과 미확인</h3>
+<p>Senpi 공식 자료는 Hyperliquid personal agent, 위임형/non-custodial 거래, 전략 통제, signal pipeline, 수수료 인지 실행, reconciliation, audit log 제공을 뒷받침합니다. Hyperliquid는 거래 수수료와 maker rebate를 문서화합니다. 스크린샷의 구체적인 25배 비교를 뒷받침하는 공개·재현 가능한 방법론은 찾지 못했으므로 광고성 주장으로만 보관합니다.</p>
+<p>출처: <a href="https://resources.senpi.ai/support/what-is-senpi-and-getting-started">Senpi — 시작 안내</a> · <a href="https://www.senpi.ai/capabilities">Senpi — 기능</a> · <a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees">Hyperliquid — 수수료</a></p>
       
       <p><a href="../notes.html">&larr; 전체 개발 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sponsored-gas-is-cogs.html">&larr; 212. Sponsored gas is a COGS line — meter it or bleed</a><a href="pocs-wallet-is-a-distribution-business.html">214. A stablecoin wallet is a distribution business, not a crypto one &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-quote-is-a-product-promise.html">&larr; 52. Priced in fiat, settled in tokens — the quote is a product promise</a><a href="pocs-fast-ethereum-is-a-delivery-chain.html">54. Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user &rarr;</a></div>
   </div>
   </main>
 </div>
 <script src="_nav.js"></script>
-<script>window.__NAV_CURRENT__="known-workflow-is-a-graph";</script>
+<script>window.__NAV_CURRENT__="trading-intel-cost-needs-a-denominator";</script>
 <script>
 (function () {
   var data = window.__NAV__, cur = window.__NAV_CURRENT__;
