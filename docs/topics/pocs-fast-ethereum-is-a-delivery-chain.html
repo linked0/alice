@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Distribution splits from infrastructure — a wallet is worth more un-captured — Dev Notes</title>
+<title>Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user — Dev Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -376,125 +376,127 @@
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; Distribution splits from infrastructure — a wallet is worth more un-captured</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#83</span><span>PoC</span></p>
-      <h1>Distribution splits from infrastructure — a wallet is worth more un-captured</h1>
-      <p class="lead">Consensys is splitting in two: the company rebrands as <strong>MetaMask</strong>, fully focused on the consumer wallet (the distribution layer), and spins its <strong>protocols and institutional infrastructure — including the Linea L2 — into a separate company</strong>. Read the logic under the announcement: a wallet that also owns an L2 has a <strong>conflict</strong> — every default network, every routing choice, every &quot;recommended&quot; chain is a captured decision. Separating MetaMask (distribution to tens of millions) from Linea (one L2 among many) is a bet that the distribution layer is worth more when it is <strong>credibly neutral</strong> — not quietly steering users into infrastructure it owns. Distribution and infrastructure are different businesses; the split names the conflict between them.</p>
-      <p class="meta">Not a build — a conflict audit. Take any wallet (or aggregator, or browser) that <em>also</em> owns infrastructure — a default L2, a bridge, a staking product, a swap router, a &#39;recommended&#39; RPC — and list every place the interface&#39;s <strong>default</strong> steers value to the owned infrastructure. For each, ask the one question the split is answering: <em>would an independent wallet, paid only for distribution, make the same default?</em> Where the answer is no, you&#39;ve found captured value — the exact thing Consensys is unwinding by separating MetaMask from Linea. Then invert it: for a neutral wallet, what is the honest business model that does not depend on capturing routing (fees on volume, not on steering; paid placement disclosed as paid)? Source: MetaMask / Consensys announcement and Joseph Lubin&#39;s note (2026, via X). The pasted text is truncated — confirm the exact entity structure and what moves to the new company against the official post before citing.</p>
+      <p class="topic-kicker"><span class="topic-no">#53</span><span>PoC</span></p>
+      <h1>Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user</h1>
+      <p class="lead">Ethlabs&#39; interop sprint makes the adoption gap concrete: a faster confirmation rule is useless until consensus clients compute it, RPC providers expose it without breaking <code>safe</code>, and bridges, exchanges, L2s, and wallets consume it. Protocol latency and experienced latency are different measurements.</p>
+      <p class="meta">Build a latency ledger for one real path, not a generic &#39;interop&#39; benchmark. Trace L1 deposit → RPC observation → L2 credit and L2 withdrawal → data posting → proof/challenge → L1 release as separate journeys. Record timestamps at every boundary and the confidence label (<code>head</code>, fast-confirmed, <code>safe</code>, finalised). Then replace one consumer&#39;s fixed confirmation count with an explicit policy and test reorg, stale-RPC, and fallback behavior. For account interop, add one conditional cross-chain batch with a gas sponsor and an asynchronous continuation rather than pretending atomicity spans chains.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
       <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
-      <script type="application/json" id="copy-en">"# Distribution splits from infrastructure — a wallet is worth more un-captured\n\nConsensys is splitting in two: the company rebrands as **MetaMask**, fully focused on the consumer wallet (the distribution layer), and spins its **protocols and institutional infrastructure — including the Linea L2 — into a separate company**. Read the logic under the announcement: a wallet that also owns an L2 has a **conflict** — every default network, every routing choice, every \"recommended\" chain is a captured decision. Separating MetaMask (distribution to tens of millions) from Linea (one L2 among many) is a bet that the distribution layer is worth more when it is **credibly neutral** — not quietly steering users into infrastructure it owns. Distribution and infrastructure are different businesses; the split names the conflict between them.\n\nNot a build — a conflict audit. Take any wallet (or aggregator, or browser) that *also* owns infrastructure — a default L2, a bridge, a staking product, a swap router, a 'recommended' RPC — and list every place the interface's **default** steers value to the owned infrastructure. For each, ask the one question the split is answering: *would an independent wallet, paid only for distribution, make the same default?* Where the answer is no, you've found captured value — the exact thing Consensys is unwinding by separating MetaMask from Linea. Then invert it: for a neutral wallet, what is the honest business model that does not depend on capturing routing (fees on volume, not on steering; paid placement disclosed as paid)? Source: MetaMask / Consensys announcement and Joseph Lubin's note (2026, via X). The pasted text is truncated — confirm the exact entity structure and what moves to the new company against the official post before citing.\n\n## Why\n\n**A wallet and an L2 are different businesses, and owning both quietly turns the neutral one into a funnel for the other.** MetaMask's asset is distribution — the wallet tens of millions of people already open, the same insight `wallet-is-a-distribution-business` drew from KakaoPay. Linea's asset is infrastructure — one L2 competing with Base, Arbitrum, OP, and the rest. When the same company owns both, every 'default network,' 'recommended bridge,' and 'add this chain' is no longer a neutral convenience; it is a routing decision that happens to favor the house. That is real value — and it is exactly the value the split gives up on purpose.\n\n**Why give it up? Because the capture is worth less than the neutrality.** A wallet credibly neutral across every chain is the layer everyone builds toward — the distribution rail L2s, apps, and issuers must reach (`build-rent-or-own-the-rail` from the rail's own users' side). A wallet visibly steering into its owned L2 invites the obvious discount: users and integrators route around a biased default, and competitors market 'we don't own a chain.' Consensys is betting that an un-captured MetaMask compounds faster as pure distribution than a captured one does as a Linea funnel. The split is the credible signal that a wallet cannot send while it still owns the chain.\n\n**The transferable rule: when a company separates its distribution from its infrastructure, it is pricing neutrality.** The same shape recurs — an app store vs. the apps, a browser vs. the search default, an exchange vs. the tokens it lists (`incumbent-lists-the-wrapper`), a marketplace vs. its own house brand. Each default inside an interface is a choice with a beneficiary (`layerzero-default-is-a-choice`), and the sharpest question to carry to any 'neutral' front-end is: *what does it own downstream, and does the default quietly point there?* The MetaMask/Linea split is that question answered by structural separation instead of a promise — and structural separation is the only version markets fully believe.\n\n## How it works\n\n### Two businesses, one conflict\n\n| | MetaMask (stays as the company) | Linea + institutional infra (spun out) |\n|---|---|---|\n| What it is | consumer wallet — the distribution layer | an L2 + protocol/institutional infrastructure |\n| Its asset | tens of millions of users, the default surface | throughput, settlement, one chain among many |\n| Its customer | end users | apps, issuers, institutions |\n| The conflict | 'recommended network / bridge' can favor the house | needs the wallet's default to win distribution |\n\nThe split removes the row that matters: the wallet's defaults can no longer be quietly tuned to feed the owned L2.\n\n### Why separate instead of promise\n\n- A promise of neutrality from a wallet that still owns the chain is not credible — the incentive is visible.\n- Structural separation is the only signal markets fully price. It is the same reason exchanges are pressed to separate listing from proprietary trading.\n\n### The reusable audit\n\nFor any interface: list the downstream things it owns (chain, bridge, staking, router, RPC), then check whether its **defaults point there**. Each default is a choice with a beneficiary.\n\nCross-refs: `wallet-is-a-distribution-business` (the wallet's value *is* distribution — this is the same claim, now with the infrastructure conflict removed), `layerzero-default-is-a-choice` (a default is never neutral — someone benefits), `the-wallet-is-not-the-user` and `pick-a-signer-not-a-brand` (the wallet as a role/layer, not a brand), `incumbent-lists-the-wrapper` (the listing/default-placement conflict in another venue), `build-rent-or-own-the-rail` (distribution is the rail others must reach).\n"</script>
+      <script type="application/json" id="copy-en">"# Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user\n\nEthlabs' interop sprint makes the adoption gap concrete: a faster confirmation rule is useless until consensus clients compute it, RPC providers expose it without breaking `safe`, and bridges, exchanges, L2s, and wallets consume it. Protocol latency and experienced latency are different measurements.\n\nBuild a latency ledger for one real path, not a generic 'interop' benchmark. Trace L1 deposit → RPC observation → L2 credit and L2 withdrawal → data posting → proof/challenge → L1 release as separate journeys. Record timestamps at every boundary and the confidence label (`head`, fast-confirmed, `safe`, finalised). Then replace one consumer's fixed confirmation count with an explicit policy and test reorg, stale-RPC, and fallback behavior. For account interop, add one conditional cross-chain batch with a gas sponsor and an asynchronous continuation rather than pretending atomicity spans chains.\n\n## Why\n\nThe transferable lesson is that protocol improvement is only the first hop of a delivery chain. FCR can derive a stronger early view from attestations, but most applications do not run a consensus client; they see Ethereum through an RPC provider. If that provider does not expose the signal, or silently changes the meaning of `safe`, the improvement either never reaches users or breaks an existing assumption. The adoption artifact is therefore not only an EIP or client merge. It is a versioned confidence contract from client to RPC to application, with a migration and fallback path.\n\nInterop also has direction. L1 → L2 can benefit directly from faster L1 observations. L2 → L1 still pays for data availability, proof construction and verification, and in optimistic systems a challenge window. A single 'bridge latency' number hides which clock dominates. Account portability adds a third clock: cross-chain actions are not one atomic transaction, so the account needs conditions, gas sponsorship, resumable state, and a way to say what happens when step two arrives late or never.\n\nQuick Slots is the same pattern at another layer. The important part of EIP-8198 is removing hard-coded twelve-second assumptions and making timing fork-configurable; only then does a first cut compound into easier later cuts. Note the live draft currently specifies eight seconds, while Ethlabs advocates an initial ten-second Hegotá move. That difference is evidence that the number remains a proposal; the durable work is finding and removing every assumption that the number is fixed.\n\n## How it works\n\n### Two directions, different dominant clocks\n\n| Journey | What faster L1 helps | What remains |\n|---|---|---|\n| **L1 → L2 / exchange / bridge** | earlier confidence in the L1 block | client computation, RPC exposure, consumer policy |\n| **L2 → L1** | some L1 inclusion steps | data posting, proof generation/verification, optimistic challenge window |\n| **Account across chains** | faster observations between steps | sponsorship, conditional execution, asynchronous resume and failure policy |\n\n### The delivery chain\n\n```text\nEIP / rule → consensus client → RPC confidence signal → app policy → user-visible release\n```\n\nMeasure every arrow. A client merge is not adoption; an RPC field is not adoption; adoption is when the final consumer changes behavior with an explicit confidence threshold and fallback.\n\n### One useful PoC\n\n1. Instrument an L1 → L2 deposit and L2 → L1 withdrawal with boundary timestamps.\n2. Store block root plus confidence source (`head`, FCR, `safe`, finalised), never only a boolean.\n3. Let one bridge simulator release at FCR and another at the old confirmation rule.\n4. Replay a short reorg, delayed RPC, and conflicting providers; require the policy to fail closed or fall back explicitly.\n5. Report time saved separately from added synchrony/provider assumptions.\n\n### Verified anchors\n\nThe Ethereum consensus specification documents FCR and its synchrony assumption. EIP-8198 makes slot duration runtime-configurable and currently proposes 12s → 8s, while the Ethlabs Hegotá view advocates an initial 10s move. The FCR simulator lists multi-client implementation work including Prysm. The sprint's detailed prioritisation remains Ethlabs' position, not Ethereum-wide final adoption.\n\nSources: [Ethlabs — Hegotá view](https://ethlabs.org/writings/hegota-view.html) · [EIP-8198 — Quick Slots](https://eips.ethereum.org/EIPS/eip-8198) · [Ethereum consensus specs — FCR](https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/fast-confirmation.md) · [Cross-client FCR simulator](https://github.com/ethpandaops/fcr-simulator)\n"</script>
       <h2>Why</h2>
-      <p><strong>A wallet and an L2 are different businesses, and owning both quietly turns the neutral one into a funnel for the other.</strong> MetaMask&#39;s asset is distribution — the wallet tens of millions of people already open, the same insight <code>wallet-is-a-distribution-business</code> drew from KakaoPay. Linea&#39;s asset is infrastructure — one L2 competing with Base, Arbitrum, OP, and the rest. When the same company owns both, every &#39;default network,&#39; &#39;recommended bridge,&#39; and &#39;add this chain&#39; is no longer a neutral convenience; it is a routing decision that happens to favor the house. That is real value — and it is exactly the value the split gives up on purpose.</p>
-<p><strong>Why give it up? Because the capture is worth less than the neutrality.</strong> A wallet credibly neutral across every chain is the layer everyone builds toward — the distribution rail L2s, apps, and issuers must reach (<code>build-rent-or-own-the-rail</code> from the rail&#39;s own users&#39; side). A wallet visibly steering into its owned L2 invites the obvious discount: users and integrators route around a biased default, and competitors market &#39;we don&#39;t own a chain.&#39; Consensys is betting that an un-captured MetaMask compounds faster as pure distribution than a captured one does as a Linea funnel. The split is the credible signal that a wallet cannot send while it still owns the chain.</p>
-<p><strong>The transferable rule: when a company separates its distribution from its infrastructure, it is pricing neutrality.</strong> The same shape recurs — an app store vs. the apps, a browser vs. the search default, an exchange vs. the tokens it lists (<code>incumbent-lists-the-wrapper</code>), a marketplace vs. its own house brand. Each default inside an interface is a choice with a beneficiary (<code>layerzero-default-is-a-choice</code>), and the sharpest question to carry to any &#39;neutral&#39; front-end is: <em>what does it own downstream, and does the default quietly point there?</em> The MetaMask/Linea split is that question answered by structural separation instead of a promise — and structural separation is the only version markets fully believe.</p>
+      <p>The transferable lesson is that protocol improvement is only the first hop of a delivery chain. FCR can derive a stronger early view from attestations, but most applications do not run a consensus client; they see Ethereum through an RPC provider. If that provider does not expose the signal, or silently changes the meaning of <code>safe</code>, the improvement either never reaches users or breaks an existing assumption. The adoption artifact is therefore not only an EIP or client merge. It is a versioned confidence contract from client to RPC to application, with a migration and fallback path.</p>
+<p>Interop also has direction. L1 → L2 can benefit directly from faster L1 observations. L2 → L1 still pays for data availability, proof construction and verification, and in optimistic systems a challenge window. A single &#39;bridge latency&#39; number hides which clock dominates. Account portability adds a third clock: cross-chain actions are not one atomic transaction, so the account needs conditions, gas sponsorship, resumable state, and a way to say what happens when step two arrives late or never.</p>
+<p>Quick Slots is the same pattern at another layer. The important part of EIP-8198 is removing hard-coded twelve-second assumptions and making timing fork-configurable; only then does a first cut compound into easier later cuts. Note the live draft currently specifies eight seconds, while Ethlabs advocates an initial ten-second Hegotá move. That difference is evidence that the number remains a proposal; the durable work is finding and removing every assumption that the number is fixed.</p>
       <h2>How it works</h2>
-      <h3>Two businesses, one conflict</h3>
+      <h3>Two directions, different dominant clocks</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th></th>
-<th>MetaMask (stays as the company)</th>
-<th>Linea + institutional infra (spun out)</th>
+<th>Journey</th>
+<th>What faster L1 helps</th>
+<th>What remains</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>What it is</td>
-<td>consumer wallet — the distribution layer</td>
-<td>an L2 + protocol/institutional infrastructure</td>
+<td><strong>L1 → L2 / exchange / bridge</strong></td>
+<td>earlier confidence in the L1 block</td>
+<td>client computation, RPC exposure, consumer policy</td>
 </tr>
 <tr>
-<td>Its asset</td>
-<td>tens of millions of users, the default surface</td>
-<td>throughput, settlement, one chain among many</td>
+<td><strong>L2 → L1</strong></td>
+<td>some L1 inclusion steps</td>
+<td>data posting, proof generation/verification, optimistic challenge window</td>
 </tr>
 <tr>
-<td>Its customer</td>
-<td>end users</td>
-<td>apps, issuers, institutions</td>
-</tr>
-<tr>
-<td>The conflict</td>
-<td>&#39;recommended network / bridge&#39; can favor the house</td>
-<td>needs the wallet&#39;s default to win distribution</td>
+<td><strong>Account across chains</strong></td>
+<td>faster observations between steps</td>
+<td>sponsorship, conditional execution, asynchronous resume and failure policy</td>
 </tr>
 </tbody></table></div>
-<p>The split removes the row that matters: the wallet&#39;s defaults can no longer be quietly tuned to feed the owned L2.</p>
-<h3>Why separate instead of promise</h3>
-<ul>
-<li>A promise of neutrality from a wallet that still owns the chain is not credible — the incentive is visible.</li>
-<li>Structural separation is the only signal markets fully price. It is the same reason exchanges are pressed to separate listing from proprietary trading.</li>
-</ul>
-<h3>The reusable audit</h3>
-<p>For any interface: list the downstream things it owns (chain, bridge, staking, router, RPC), then check whether its <strong>defaults point there</strong>. Each default is a choice with a beneficiary.</p>
-<p>Cross-refs: <code>wallet-is-a-distribution-business</code> (the wallet&#39;s value <em>is</em> distribution — this is the same claim, now with the infrastructure conflict removed), <code>layerzero-default-is-a-choice</code> (a default is never neutral — someone benefits), <code>the-wallet-is-not-the-user</code> and <code>pick-a-signer-not-a-brand</code> (the wallet as a role/layer, not a brand), <code>incumbent-lists-the-wrapper</code> (the listing/default-placement conflict in another venue), <code>build-rent-or-own-the-rail</code> (distribution is the rail others must reach).</p>
+<h3>The delivery chain</h3>
+<pre><code class="language-text">EIP / rule → consensus client → RPC confidence signal → app policy → user-visible release
+</code></pre>
+<p>Measure every arrow. A client merge is not adoption; an RPC field is not adoption; adoption is when the final consumer changes behavior with an explicit confidence threshold and fallback.</p>
+<h3>One useful PoC</h3>
+<ol>
+<li>Instrument an L1 → L2 deposit and L2 → L1 withdrawal with boundary timestamps.</li>
+<li>Store block root plus confidence source (<code>head</code>, FCR, <code>safe</code>, finalised), never only a boolean.</li>
+<li>Let one bridge simulator release at FCR and another at the old confirmation rule.</li>
+<li>Replay a short reorg, delayed RPC, and conflicting providers; require the policy to fail closed or fall back explicitly.</li>
+<li>Report time saved separately from added synchrony/provider assumptions.</li>
+</ol>
+<h3>Verified anchors</h3>
+<p>The Ethereum consensus specification documents FCR and its synchrony assumption. EIP-8198 makes slot duration runtime-configurable and currently proposes 12s → 8s, while the Ethlabs Hegotá view advocates an initial 10s move. The FCR simulator lists multi-client implementation work including Prysm. The sprint&#39;s detailed prioritisation remains Ethlabs&#39; position, not Ethereum-wide final adoption.</p>
+<p>Sources: <a href="https://ethlabs.org/writings/hegota-view.html">Ethlabs — Hegotá view</a> · <a href="https://eips.ethereum.org/EIPS/eip-8198">EIP-8198 — Quick Slots</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/fast-confirmation.md">Ethereum consensus specs — FCR</a> · <a href="https://github.com/ethpandaops/fcr-simulator">Cross-client FCR simulator</a></p>
       
       <p><a href="../notes.html">&larr; All Dev Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
-      <script type="application/json" id="copy-ko">"# 유통이 인프라에서 갈라진다 — 지갑은 포획되지 않을 때 더 가치 있다\n\n컨센시스가 둘로 갈라집니다: 회사는 **메타마스크**로 리브랜딩해 소비자 지갑(유통 계층)에 전념하고, **프로토콜·기관 인프라 — Linea L2 포함 — 를 별도 회사로** 분리합니다. 발표 아래의 논리를 읽으세요: L2까지 소유한 지갑은 **이해충돌**을 안습니다 — 모든 기본 네트워크, 모든 라우팅 선택, 모든 \"추천\" 체인이 포획된 결정입니다. 메타마스크(수천만 명에게의 유통)를 Linea(여럿 중 한 L2)에서 떼어내는 건, 유통 계층이 **신뢰할 만하게 중립일 때** — 자기가 소유한 인프라로 사용자를 슬쩍 몰지 않을 때 — 더 가치 있다는 베팅입니다. 유통과 인프라는 다른 사업이고, 이 분리는 둘 사이의 충돌을 명명합니다.\n\n구현이 아니라 이해충돌 감사입니다. 인프라까지 *소유한* 지갑(또는 애그리게이터·브라우저) — 기본 L2, 브리지, 스테이킹 상품, 스왑 라우터, '추천' RPC — 을 잡아, 인터페이스의 **기본값**이 소유 인프라로 가치를 모는 지점을 전부 나열하세요. 각각에 대해, 이 분리가 답하는 질문을 던지세요: *유통 대가로만 돈 받는 독립 지갑이라면 같은 기본값을 고를까?* 아니오인 곳이 포획된 가치 — 컨센시스가 메타마스크를 Linea에서 떼며 되돌리는 바로 그것입니다. 그다음 뒤집으세요: 중립 지갑에게, 라우팅 포획에 기대지 않는 정직한 사업 모델은 무엇인가(몰이가 아니라 거래량 수수료; 유료 노출은 유료로 공시)? 출처: 메타마스크/컨센시스 발표와 조셉 루빈의 글(2026, X). 붙여넣은 글은 잘려 있으니, 정확한 법인 구조와 신설 회사로 넘어가는 범위는 공식 게시글로 확인 후 인용.\n\n## 왜\n\n**지갑과 L2는 다른 사업이고, 둘 다 소유하면 중립인 쪽이 조용히 다른 쪽의 깔때기가 됩니다.** 메타마스크의 자산은 유통 — 수천만 명이 이미 여는 지갑, `wallet-is-a-distribution-business`가 카카오페이에서 뽑은 같은 통찰입니다. Linea의 자산은 인프라 — Base·Arbitrum·OP 등과 경쟁하는 한 L2. 같은 회사가 둘 다 가지면 모든 '기본 네트워크', '추천 브리지', '이 체인 추가'가 더는 중립적 편의가 아니라, 우연히 집(house)에 유리한 라우팅 결정입니다. 그건 진짜 가치이고 — 이 분리가 일부러 포기하는 바로 그 가치입니다.\n\n**왜 포기하나? 포획이 중립보다 값어치가 적기 때문.** 모든 체인에 신뢰할 만하게 중립인 지갑은 모두가 향해 짓는 계층 — L2·앱·발행자가 닿아야 하는 유통 레일(`build-rent-or-own-the-rail`을 레일 사용자 쪽에서). 자기 L2로 눈에 띄게 모는 지갑은 뻔한 할인을 부릅니다: 사용자·통합자는 편향된 기본값을 우회하고, 경쟁자는 '우린 체인을 안 가진다'로 마케팅합니다. 컨센시스는 포획 안 된 메타마스크가 순수 유통으로서, 포획된 것이 Linea 깔때기로서보다 더 빨리 복리로 커진다에 베팅합니다. 이 분리는 체인을 여전히 소유한 채로는 지갑이 보낼 수 없는 신뢰 신호입니다.\n\n**이전 가능한 규칙: 회사가 유통을 인프라에서 분리하면, 그건 중립에 값을 매기는 것.** 같은 형태가 반복됩니다 — 앱스토어 대 앱, 브라우저 대 검색 기본값, 거래소 대 자기가 상장한 토큰(`incumbent-lists-the-wrapper`), 마켓플레이스 대 자체 PB 브랜드. 인터페이스 안의 각 기본값은 수혜자가 있는 선택이고(`layerzero-default-is-a-choice`), 어떤 '중립' 프런트엔드에도 던질 가장 날카로운 질문은: *하류에 무엇을 소유하며, 기본값이 조용히 거기를 가리키나?* 메타마스크/Linea 분리는 그 질문을 약속이 아니라 구조적 분리로 답한 것 — 그리고 구조적 분리만이 시장이 온전히 믿는 버전입니다.\n\n## 동작 방식\n\n### 두 사업, 하나의 충돌\n\n| | 메타마스크(회사로 잔류) | Linea + 기관 인프라(분리) |\n|---|---|---|\n| 무엇 | 소비자 지갑 — 유통 계층 | L2 + 프로토콜/기관 인프라 |\n| 자산 | 수천만 사용자, 기본 표면 | 처리량·정산, 여럿 중 한 체인 |\n| 고객 | 최종 사용자 | 앱·발행자·기관 |\n| 충돌 | '추천 네트워크/브리지'가 집에 유리 가능 | 유통을 이기려면 지갑 기본값이 필요 |\n\n분리는 중요한 그 행을 제거합니다: 지갑 기본값을 소유 L2를 먹이도록 조용히 조율할 수 없게.\n\n### 왜 약속이 아니라 분리인가\n\n- 체인을 여전히 소유한 지갑의 중립 약속은 신뢰 불가 — 인센티브가 보임.\n- 구조적 분리만 시장이 온전히 값 매기는 신호. 거래소가 상장과 자기매매 분리를 압박받는 것과 같은 이유.\n\n### 재사용 감사\n\n어떤 인터페이스든: 하류에 소유한 것(체인·브리지·스테이킹·라우터·RPC)을 나열하고, **기본값이 거기를 가리키는지** 확인. 각 기본값은 수혜자가 있는 선택.\n\n교차: `wallet-is-a-distribution-business`(지갑의 가치가 *곧* 유통 — 같은 주장, 이제 인프라 충돌 제거), `layerzero-default-is-a-choice`(기본값은 결코 중립 아님 — 누군가 이득), `the-wallet-is-not-the-user`·`pick-a-signer-not-a-brand`(지갑은 브랜드가 아니라 역할/계층), `incumbent-lists-the-wrapper`(다른 무대에서의 상장/기본 배치 충돌), `build-rent-or-own-the-rail`(유통은 남들이 닿아야 할 레일).\n"</script>
-      <h1>유통이 인프라에서 갈라진다 — 지갑은 포획되지 않을 때 더 가치 있다</h1>
-      <p class="lead">컨센시스가 둘로 갈라집니다: 회사는 <strong>메타마스크</strong>로 리브랜딩해 소비자 지갑(유통 계층)에 전념하고, <strong>프로토콜·기관 인프라 — Linea L2 포함 — 를 별도 회사로</strong> 분리합니다. 발표 아래의 논리를 읽으세요: L2까지 소유한 지갑은 <strong>이해충돌</strong>을 안습니다 — 모든 기본 네트워크, 모든 라우팅 선택, 모든 &quot;추천&quot; 체인이 포획된 결정입니다. 메타마스크(수천만 명에게의 유통)를 Linea(여럿 중 한 L2)에서 떼어내는 건, 유통 계층이 <strong>신뢰할 만하게 중립일 때</strong> — 자기가 소유한 인프라로 사용자를 슬쩍 몰지 않을 때 — 더 가치 있다는 베팅입니다. 유통과 인프라는 다른 사업이고, 이 분리는 둘 사이의 충돌을 명명합니다.</p>
-      <p class="meta">구현이 아니라 이해충돌 감사입니다. 인프라까지 <em>소유한</em> 지갑(또는 애그리게이터·브라우저) — 기본 L2, 브리지, 스테이킹 상품, 스왑 라우터, &#39;추천&#39; RPC — 을 잡아, 인터페이스의 <strong>기본값</strong>이 소유 인프라로 가치를 모는 지점을 전부 나열하세요. 각각에 대해, 이 분리가 답하는 질문을 던지세요: <em>유통 대가로만 돈 받는 독립 지갑이라면 같은 기본값을 고를까?</em> 아니오인 곳이 포획된 가치 — 컨센시스가 메타마스크를 Linea에서 떼며 되돌리는 바로 그것입니다. 그다음 뒤집으세요: 중립 지갑에게, 라우팅 포획에 기대지 않는 정직한 사업 모델은 무엇인가(몰이가 아니라 거래량 수수료; 유료 노출은 유료로 공시)? 출처: 메타마스크/컨센시스 발표와 조셉 루빈의 글(2026, X). 붙여넣은 글은 잘려 있으니, 정확한 법인 구조와 신설 회사로 넘어가는 범위는 공식 게시글로 확인 후 인용.</p>
+      <script type="application/json" id="copy-ko">"# 빠른 Ethereum은 전달 사슬이다 — 명세 → 클라이언트 → RPC → 지갑 → 사용자\n\nEthlabs의 interop sprint는 채택 간극을 구체화합니다. 더 빠른 confirmation rule도 합의 클라이언트가 계산하고, RPC가 기존 `safe` 의미를 깨지 않고 노출하고, bridge·거래소·L2·지갑이 소비해야 쓸모가 있습니다. 프로토콜 지연과 사용자가 느끼는 지연은 다른 측정값입니다.\n\n막연한 'interop' 벤치마크가 아니라 실제 경로 하나의 latency ledger를 만듭니다. L1 입금 → RPC 관측 → L2 크레딧과 L2 출금 → 데이터 게시 → proof/challenge → L1 해제를 서로 다른 여정으로 추적합니다. 모든 경계에 timestamp와 신뢰 라벨(`head`, fast-confirmed, `safe`, finalised)을 기록합니다. 그다음 소비자 하나의 고정 confirmation 수를 명시적 정책으로 바꾸고 reorg·stale RPC·fallback을 테스트합니다. account interop에는 체인 간 원자성을 가장하지 말고 gas sponsor와 비동기 continuation을 가진 조건부 batch 하나를 추가합니다.\n\n## 왜\n\n전이 가능한 교훈은 프로토콜 개선이 전달 사슬의 첫 hop일 뿐이라는 것입니다. FCR은 attestation에서 더 강한 조기 view를 만들 수 있지만 대부분의 앱은 합의 클라이언트를 직접 돌리지 않고 RPC를 통해 Ethereum을 봅니다. RPC가 신호를 노출하지 않거나 `safe`의 의미를 조용히 바꾸면 개선은 사용자에게 닿지 않거나 기존 가정을 깨뜨립니다. 따라서 채택 산출물은 EIP나 client merge만이 아닙니다. client → RPC → application을 잇는 버전 있는 confidence contract와 migration·fallback 경로입니다.\n\nInterop에는 방향도 있습니다. L1 → L2는 더 빠른 L1 관측의 직접 이익을 얻지만, L2 → L1은 data availability·proof 생성과 검증·optimistic 시스템의 challenge window를 여전히 지불합니다. 'bridge latency' 하나는 어떤 시계가 지배하는지 숨깁니다. account portability는 세 번째 시계를 더합니다. 체인 간 액션은 한 원자적 transaction이 아니므로 account에는 조건·gas sponsorship·재개 가능한 상태, 그리고 두 번째 단계가 늦거나 영영 오지 않을 때의 규칙이 필요합니다.\n\nQuick Slots도 다른 층의 같은 패턴입니다. EIP-8198의 중요한 부분은 하드코딩된 12초 가정을 제거하고 timing을 fork-configurable하게 만드는 것입니다. 그래야 첫 단축이 뒤 단축을 쉽게 만드는 복리 작업이 됩니다. 현재 EIP 초안은 8초를 명시하지만 Ethlabs는 Hegotá의 첫 이동으로 10초를 주장합니다. 이 차이는 숫자가 아직 제안임을 보여줍니다. 지속되는 작업은 숫자가 고정이라는 모든 가정을 찾아 제거하는 것입니다.\n\n## 동작 방식\n\n### 두 방향, 서로 다른 지배 시계\n\n| 여정 | 더 빠른 L1이 돕는 것 | 여전히 남는 것 |\n|---|---|---|\n| **L1 → L2 / 거래소 / bridge** | L1 block에 대한 더 이른 신뢰 | client 계산, RPC 노출, 소비자 정책 |\n| **L2 → L1** | 일부 L1 inclusion 단계 | 데이터 게시, proof 생성/검증, optimistic challenge window |\n| **체인 간 account** | 단계 사이 더 빠른 관측 | sponsorship, 조건부 실행, 비동기 재개·실패 정책 |\n\n### 전달 사슬\n\n```text\nEIP / rule → consensus client → RPC confidence signal → app policy → 사용자에게 보이는 해제\n```\n\n모든 화살표를 측정합니다. client merge가 곧 채택은 아니고 RPC field도 곧 채택은 아닙니다. 마지막 소비자가 명시적 confidence threshold와 fallback으로 동작을 바꿀 때 채택입니다.\n\n### 쓸모 있는 PoC 하나\n\n1. L1 → L2 입금과 L2 → L1 출금에 경계 timestamp를 심습니다.\n2. boolean 하나가 아니라 block root와 confidence 출처(`head`, FCR, `safe`, finalised)를 저장합니다.\n3. bridge simulator 하나는 FCR에서, 다른 하나는 기존 confirmation rule에서 release합니다.\n4. 짧은 reorg·지연 RPC·provider 충돌을 replay하고 정책이 fail-closed 또는 명시적 fallback하게 합니다.\n5. 절약한 시간과 추가된 synchrony/provider 가정을 따로 보고합니다.\n\n### 확인된 기준점\n\nEthereum consensus spec은 FCR과 synchrony 가정을 문서화합니다. EIP-8198은 slot duration을 runtime-configurable하게 만들고 현재 12초 → 8초를 제안하지만, Ethlabs Hegotá view는 첫 10초 이동을 주장합니다. FCR simulator는 Prysm을 포함한 multi-client 구현 작업을 열거합니다. sprint의 세부 우선순위는 Ethlabs의 입장이지 Ethereum 전체의 최종 채택은 아닙니다.\n\n출처: [Ethlabs — Hegotá view](https://ethlabs.org/writings/hegota-view.html) · [EIP-8198 — Quick Slots](https://eips.ethereum.org/EIPS/eip-8198) · [Ethereum consensus specs — FCR](https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/fast-confirmation.md) · [Cross-client FCR simulator](https://github.com/ethpandaops/fcr-simulator)\n"</script>
+      <h1>빠른 Ethereum은 전달 사슬이다 — 명세 → 클라이언트 → RPC → 지갑 → 사용자</h1>
+      <p class="lead">Ethlabs의 interop sprint는 채택 간극을 구체화합니다. 더 빠른 confirmation rule도 합의 클라이언트가 계산하고, RPC가 기존 <code>safe</code> 의미를 깨지 않고 노출하고, bridge·거래소·L2·지갑이 소비해야 쓸모가 있습니다. 프로토콜 지연과 사용자가 느끼는 지연은 다른 측정값입니다.</p>
+      <p class="meta">막연한 &#39;interop&#39; 벤치마크가 아니라 실제 경로 하나의 latency ledger를 만듭니다. L1 입금 → RPC 관측 → L2 크레딧과 L2 출금 → 데이터 게시 → proof/challenge → L1 해제를 서로 다른 여정으로 추적합니다. 모든 경계에 timestamp와 신뢰 라벨(<code>head</code>, fast-confirmed, <code>safe</code>, finalised)을 기록합니다. 그다음 소비자 하나의 고정 confirmation 수를 명시적 정책으로 바꾸고 reorg·stale RPC·fallback을 테스트합니다. account interop에는 체인 간 원자성을 가장하지 말고 gas sponsor와 비동기 continuation을 가진 조건부 batch 하나를 추가합니다.</p>
       <h2>왜</h2>
-      <p><strong>지갑과 L2는 다른 사업이고, 둘 다 소유하면 중립인 쪽이 조용히 다른 쪽의 깔때기가 됩니다.</strong> 메타마스크의 자산은 유통 — 수천만 명이 이미 여는 지갑, <code>wallet-is-a-distribution-business</code>가 카카오페이에서 뽑은 같은 통찰입니다. Linea의 자산은 인프라 — Base·Arbitrum·OP 등과 경쟁하는 한 L2. 같은 회사가 둘 다 가지면 모든 &#39;기본 네트워크&#39;, &#39;추천 브리지&#39;, &#39;이 체인 추가&#39;가 더는 중립적 편의가 아니라, 우연히 집(house)에 유리한 라우팅 결정입니다. 그건 진짜 가치이고 — 이 분리가 일부러 포기하는 바로 그 가치입니다.</p>
-<p><strong>왜 포기하나? 포획이 중립보다 값어치가 적기 때문.</strong> 모든 체인에 신뢰할 만하게 중립인 지갑은 모두가 향해 짓는 계층 — L2·앱·발행자가 닿아야 하는 유통 레일(<code>build-rent-or-own-the-rail</code>을 레일 사용자 쪽에서). 자기 L2로 눈에 띄게 모는 지갑은 뻔한 할인을 부릅니다: 사용자·통합자는 편향된 기본값을 우회하고, 경쟁자는 &#39;우린 체인을 안 가진다&#39;로 마케팅합니다. 컨센시스는 포획 안 된 메타마스크가 순수 유통으로서, 포획된 것이 Linea 깔때기로서보다 더 빨리 복리로 커진다에 베팅합니다. 이 분리는 체인을 여전히 소유한 채로는 지갑이 보낼 수 없는 신뢰 신호입니다.</p>
-<p><strong>이전 가능한 규칙: 회사가 유통을 인프라에서 분리하면, 그건 중립에 값을 매기는 것.</strong> 같은 형태가 반복됩니다 — 앱스토어 대 앱, 브라우저 대 검색 기본값, 거래소 대 자기가 상장한 토큰(<code>incumbent-lists-the-wrapper</code>), 마켓플레이스 대 자체 PB 브랜드. 인터페이스 안의 각 기본값은 수혜자가 있는 선택이고(<code>layerzero-default-is-a-choice</code>), 어떤 &#39;중립&#39; 프런트엔드에도 던질 가장 날카로운 질문은: <em>하류에 무엇을 소유하며, 기본값이 조용히 거기를 가리키나?</em> 메타마스크/Linea 분리는 그 질문을 약속이 아니라 구조적 분리로 답한 것 — 그리고 구조적 분리만이 시장이 온전히 믿는 버전입니다.</p>
+      <p>전이 가능한 교훈은 프로토콜 개선이 전달 사슬의 첫 hop일 뿐이라는 것입니다. FCR은 attestation에서 더 강한 조기 view를 만들 수 있지만 대부분의 앱은 합의 클라이언트를 직접 돌리지 않고 RPC를 통해 Ethereum을 봅니다. RPC가 신호를 노출하지 않거나 <code>safe</code>의 의미를 조용히 바꾸면 개선은 사용자에게 닿지 않거나 기존 가정을 깨뜨립니다. 따라서 채택 산출물은 EIP나 client merge만이 아닙니다. client → RPC → application을 잇는 버전 있는 confidence contract와 migration·fallback 경로입니다.</p>
+<p>Interop에는 방향도 있습니다. L1 → L2는 더 빠른 L1 관측의 직접 이익을 얻지만, L2 → L1은 data availability·proof 생성과 검증·optimistic 시스템의 challenge window를 여전히 지불합니다. &#39;bridge latency&#39; 하나는 어떤 시계가 지배하는지 숨깁니다. account portability는 세 번째 시계를 더합니다. 체인 간 액션은 한 원자적 transaction이 아니므로 account에는 조건·gas sponsorship·재개 가능한 상태, 그리고 두 번째 단계가 늦거나 영영 오지 않을 때의 규칙이 필요합니다.</p>
+<p>Quick Slots도 다른 층의 같은 패턴입니다. EIP-8198의 중요한 부분은 하드코딩된 12초 가정을 제거하고 timing을 fork-configurable하게 만드는 것입니다. 그래야 첫 단축이 뒤 단축을 쉽게 만드는 복리 작업이 됩니다. 현재 EIP 초안은 8초를 명시하지만 Ethlabs는 Hegotá의 첫 이동으로 10초를 주장합니다. 이 차이는 숫자가 아직 제안임을 보여줍니다. 지속되는 작업은 숫자가 고정이라는 모든 가정을 찾아 제거하는 것입니다.</p>
       <h2>동작 방식</h2>
-      <h3>두 사업, 하나의 충돌</h3>
+      <h3>두 방향, 서로 다른 지배 시계</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th></th>
-<th>메타마스크(회사로 잔류)</th>
-<th>Linea + 기관 인프라(분리)</th>
+<th>여정</th>
+<th>더 빠른 L1이 돕는 것</th>
+<th>여전히 남는 것</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>무엇</td>
-<td>소비자 지갑 — 유통 계층</td>
-<td>L2 + 프로토콜/기관 인프라</td>
+<td><strong>L1 → L2 / 거래소 / bridge</strong></td>
+<td>L1 block에 대한 더 이른 신뢰</td>
+<td>client 계산, RPC 노출, 소비자 정책</td>
 </tr>
 <tr>
-<td>자산</td>
-<td>수천만 사용자, 기본 표면</td>
-<td>처리량·정산, 여럿 중 한 체인</td>
+<td><strong>L2 → L1</strong></td>
+<td>일부 L1 inclusion 단계</td>
+<td>데이터 게시, proof 생성/검증, optimistic challenge window</td>
 </tr>
 <tr>
-<td>고객</td>
-<td>최종 사용자</td>
-<td>앱·발행자·기관</td>
-</tr>
-<tr>
-<td>충돌</td>
-<td>&#39;추천 네트워크/브리지&#39;가 집에 유리 가능</td>
-<td>유통을 이기려면 지갑 기본값이 필요</td>
+<td><strong>체인 간 account</strong></td>
+<td>단계 사이 더 빠른 관측</td>
+<td>sponsorship, 조건부 실행, 비동기 재개·실패 정책</td>
 </tr>
 </tbody></table></div>
-<p>분리는 중요한 그 행을 제거합니다: 지갑 기본값을 소유 L2를 먹이도록 조용히 조율할 수 없게.</p>
-<h3>왜 약속이 아니라 분리인가</h3>
-<ul>
-<li>체인을 여전히 소유한 지갑의 중립 약속은 신뢰 불가 — 인센티브가 보임.</li>
-<li>구조적 분리만 시장이 온전히 값 매기는 신호. 거래소가 상장과 자기매매 분리를 압박받는 것과 같은 이유.</li>
-</ul>
-<h3>재사용 감사</h3>
-<p>어떤 인터페이스든: 하류에 소유한 것(체인·브리지·스테이킹·라우터·RPC)을 나열하고, <strong>기본값이 거기를 가리키는지</strong> 확인. 각 기본값은 수혜자가 있는 선택.</p>
-<p>교차: <code>wallet-is-a-distribution-business</code>(지갑의 가치가 <em>곧</em> 유통 — 같은 주장, 이제 인프라 충돌 제거), <code>layerzero-default-is-a-choice</code>(기본값은 결코 중립 아님 — 누군가 이득), <code>the-wallet-is-not-the-user</code>·<code>pick-a-signer-not-a-brand</code>(지갑은 브랜드가 아니라 역할/계층), <code>incumbent-lists-the-wrapper</code>(다른 무대에서의 상장/기본 배치 충돌), <code>build-rent-or-own-the-rail</code>(유통은 남들이 닿아야 할 레일).</p>
+<h3>전달 사슬</h3>
+<pre><code class="language-text">EIP / rule → consensus client → RPC confidence signal → app policy → 사용자에게 보이는 해제
+</code></pre>
+<p>모든 화살표를 측정합니다. client merge가 곧 채택은 아니고 RPC field도 곧 채택은 아닙니다. 마지막 소비자가 명시적 confidence threshold와 fallback으로 동작을 바꿀 때 채택입니다.</p>
+<h3>쓸모 있는 PoC 하나</h3>
+<ol>
+<li>L1 → L2 입금과 L2 → L1 출금에 경계 timestamp를 심습니다.</li>
+<li>boolean 하나가 아니라 block root와 confidence 출처(<code>head</code>, FCR, <code>safe</code>, finalised)를 저장합니다.</li>
+<li>bridge simulator 하나는 FCR에서, 다른 하나는 기존 confirmation rule에서 release합니다.</li>
+<li>짧은 reorg·지연 RPC·provider 충돌을 replay하고 정책이 fail-closed 또는 명시적 fallback하게 합니다.</li>
+<li>절약한 시간과 추가된 synchrony/provider 가정을 따로 보고합니다.</li>
+</ol>
+<h3>확인된 기준점</h3>
+<p>Ethereum consensus spec은 FCR과 synchrony 가정을 문서화합니다. EIP-8198은 slot duration을 runtime-configurable하게 만들고 현재 12초 → 8초를 제안하지만, Ethlabs Hegotá view는 첫 10초 이동을 주장합니다. FCR simulator는 Prysm을 포함한 multi-client 구현 작업을 열거합니다. sprint의 세부 우선순위는 Ethlabs의 입장이지 Ethereum 전체의 최종 채택은 아닙니다.</p>
+<p>출처: <a href="https://ethlabs.org/writings/hegota-view.html">Ethlabs — Hegotá view</a> · <a href="https://eips.ethereum.org/EIPS/eip-8198">EIP-8198 — Quick Slots</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/fast-confirmation.md">Ethereum consensus specs — FCR</a> · <a href="https://github.com/ethpandaops/fcr-simulator">Cross-client FCR simulator</a></p>
       
       <p><a href="../notes.html">&larr; 전체 개발 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-deposit-fast-exit-slow.html">&larr; 82. Deposit trusts a fast confirmation; exit waits on the rollup's own proof</a><a href="pocs-the-chain-only-checks-a-proof-exists.html">84. The chain stops verifying — it only checks that a proof exists &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-quote-is-a-product-promise.html">&larr; 52. Priced in fiat, settled in tokens — the quote is a product promise</a><a href="pocs-agent-payments-korea-control-plane.html">54. AI agent payments in Korea — the payment rail is ready before the permission rail &rarr;</a></div>
   </div>
   </main>
 </div>
 <script src="_nav.js"></script>
-<script>window.__NAV_CURRENT__="distribution-splits-from-infrastructure";</script>
+<script>window.__NAV_CURRENT__="fast-ethereum-is-a-delivery-chain";</script>
 <script>
 (function () {
   var data = window.__NAV__, cur = window.__NAV_CURRENT__;
