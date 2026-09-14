@@ -1,0 +1,12 @@
+{
+  "name": "alice",
+  "private": true,
+  "description": "Jayverse design docs, plans, history, and tech notes — published via GitHub Pages",
+  "scripts": {
+    "docs:html": "node scripts/generate-docs-html.mjs",
+    "docs:logs": "node scripts/generate-logs-html.mjs"
+  },
+  "devDependencies": {
+    "marked": "^18.0.5"
+  }
+}

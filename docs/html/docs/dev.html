@@ -2733,7 +2733,7 @@ yarn hardhat node (chain id: 31337)</p>
 <ul>
 <li>docker exec -it pow-node geth attach <a href="http://localhost:8545">http://localhost:8545</a></li>
 <li>docker logs pow-node // enode 알아낼때 사용할 수 있음</li>
-<li>docker run --name postgresql <br>  -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password <br>  -p 5432:5432 <br>  -d postgres:latest</li>
+<li>docker run --name postgresql <br>-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password <br>-p 5432:5432 <br>-d postgres:latest</li>
 <li>docker exec -it poohgeth-1 sh</li>
 </ul>
 <h3 id="-idea">🌸 IDEA</h3>
@@ -2884,7 +2884,7 @@ shift cmd ,
     keystroke &quot;: create sentence with this text&quot;
 shift cmd &#39;
     keystroke &quot;: translate into korean and explain in english&quot;
-shift cmd <br>    keystroke &quot;: summarize this in brief&quot;
+shift cmd <br>keystroke &quot;: summarize this in brief&quot;
 shift cmd p
     keystroke &quot;: translate into english and answer in english&quot;</p>
 <p>💎 cdk</p>
@@ -2909,7 +2909,7 @@ cast send 0x3a7655D710E1ee579275e5F4fa2E4c2D4580BbE1 &quot;balanceOf(address acc
 </code></pre>
 <p>Make this cast rpc eth_call format</p>
 <p>💎 Etherscan
-<a href="https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=20000000000&apikey=G3CC3P4J717124Y31J9ZMPBH2G4KPY98FT">https://api.etherscan.io/api?module=gastracker&amp;action=gasestimate&amp;gasprice=20000000000&amp;apikey=G3CC3P4J717124Y31J9ZMPBH2G4KPY98FT</a></p>
+<a href="https://api.etherscan.io/api?module=gastracker&amp;action=gasestimate&amp;gasprice=20000000000&amp;apikey=G3CC3P4J717124Y31J9ZMPBH2G4KPY98FT">https://api.etherscan.io/api?module=gastracker&amp;action=gasestimate&amp;gasprice=20000000000&amp;apikey=G3CC3P4J717124Y31J9ZMPBH2G4KPY98FT</a></p>
 <p>💎 Foundry basic</p>
 <pre><code>curl -L https://foundry.paradigm.xyz | bash
 export PATH=&quot;$HOME/.foundry/bin:$PATH&quot;
@@ -2979,7 +2979,7 @@ yarn start:debug  // frontend</p>
 gh repo list linked0 --limit 1000 | sort 
 git submodule update --init // 처음에 submodule 파일 가져오기
 git submodule update --remote // submodule을 최신 커밋으로 업데이트, commit 해야함.
-git clone <repository_url> <new_folder_name> // 특정 폴더에 클론하기 
+git clone &lt;repository_url&gt; &lt;new_folder_name&gt; // 특정 폴더에 클론하기 
 git show --name-only HEAD // 현재 커밋의 파일 목록 확인
 git show --stat HEAD // 마지막 커밋 메시지 확인 
 git reset --hard Abdulkarim4u/feature/added-charts
@@ -3010,7 +3010,7 @@ popd
 lsof -nP -iTCP:4000 -sTCP:LISTEN
 pkill -f &quot;http.server 51225&quot;
 pgrep -fl my-process
-ps aux | grep <process_name>
+ps aux | grep &lt;process_name&gt;
 git push origin main:gh-pages
 grep -rn --include={&quot;<em>.sh&quot;,&quot;</em>.txt&quot;} &quot;DIR_NAME&quot; . // include 중간에 스페이스 넣으면 안됨</p>
 <p>🎂🌼🏓🦋⚾️🏐⚽️🏀🏈🪀🎾🐳🍀🌸🏆😈🐹🦁🔹🔸💎♦️💥🔥🐶🦄🚘🎱※반짝🌟🙌

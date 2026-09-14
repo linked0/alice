@@ -57,6 +57,20 @@
 <p>Deployed Cloud Build <code>3ef3deb9-caed-45db-893f-362a4da0e55c</code> as Cloud Run revision <code>rabbit-00136-qk4</code> with 100% traffic. The live <code>/game</code> page returned 200, and its generated JayVerse chunk contains both the two-row speaker wrapper and column layout rule.</p>
 <h3 id="jayverse-settlement-remove-the-header-back-button">Jayverse settlement: remove the header back button</h3>
 <p>Removed the visible “Back to the street” header button together with its translations and unused CSS while preserving the in-scene return tunnel. The isolated JayVerse static-export build passed, and the generated bundle contains no removed button text or class.</p>
+<h3 id="alice-create-non-destructive-rabbit-docs-snapshot">Alice: create non-destructive Rabbit docs snapshot</h3>
+<p>Created the Alice repository with a complete copy of Rabbit&#39;s <code>docs/</code> tree, including frozen content, and copied <code>docs/index.html</code> to the repository root as its landing page. Added a root-only base path so that landing-page links resolve into the preserved <code>docs/</code> snapshot. Rabbit remained unchanged; Alice started on <code>Codex/alice-content</code> with no commit so the full snapshot can be reviewed first.</p>
+<h3 id="alice-create-private-github-remote">Alice: create private GitHub remote</h3>
+<p>Created the private <code>linked0/alice</code> GitHub repository and attached it to the local Alice checkout as <code>origin</code>. Kept the initial snapshot uncommitted and unpushed in accordance with the review-before-commit policy.</p>
+<h3 id="alice-publish-the-documentation-snapshot-with-github-pages">Alice: publish the documentation snapshot with GitHub Pages</h3>
+<p>Prepared the copied documentation for <code>https://linked0.github.io/alice/</code> by keeping the root landing page pointed at <code>docs/</code> and adding <code>.nojekyll</code> so generated underscore-prefixed assets remain available. Published the reviewed snapshot through <code>Codex/alice-content</code> to remote <code>main</code> and configured Pages from the repository root.</p>
+<h3 id="alice-redact-credentials-before-public-publication">Alice: redact credentials before public publication</h3>
+<p>Replaced copied MCP/API credential values in Alice&#39;s <code>docs/zsub/settings.json</code> with <code>REDACTED</code> placeholders before the first push. The corresponding Rabbit file was not changed, and no credential-bearing Alice commit was published remotely.</p>
+<h3 id="alice-link-rabbit-cards-to-the-source-repository">Alice: link Rabbit cards to the source repository</h3>
+<p>Updated the Memo, Feature Designs, Current Plan, History, and Docs cards on both Alice landing-page copies to open their canonical files or folders in <code>linked0/rabbit</code>.</p>
+<h3 id="alice-align-rabbit-card-links-with-their-displayed-paths">Alice: align Rabbit card links with their displayed paths</h3>
+<p>Changed the Feature Designs card from the <code>docs/features/</code> folder to the exact displayed file, <code>docs/features/README.md</code>. The remaining cards already pointed to the files or folders printed on their labels.</p>
+<h3 id="jayverse-settlement-deploy-without-the-back-button">Jayverse settlement: deploy without the back button</h3>
+<p>Deployed Cloud Build <code>567c26c4-a8aa-41e9-99f6-200958e9b967</code> as Cloud Run revision <code>rabbit-00139-g2l</code> with 100% traffic. Verified live 200 responses for <code>/game</code> and <code>/jayverse-game/settlement</code>; the production bundle contains none of the removed button text or class while retaining the animated return tunnel, and the revision has no error-level log entries.</p>
 
   </article>
 </div>
