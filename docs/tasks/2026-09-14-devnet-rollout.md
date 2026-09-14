@@ -3,7 +3,7 @@
 *Brief for an agent session (Claude Code or Codex) working on jay's machine. Written 2026-09-14.
 Status: **steps 0–3 DONE — the devnet is live at https://devnet.jaylabs.xyz** (Seoul, e2-small,
 ~$21/mo). Step 4 core done (Registry + delegation framework seeded, idempotent); its six
-per-service deploys are blocked on step 5 work in each repo. Steps 5–7 not started. Bridge ruled
+per-service deploys are blocked on step 5 work in each repo. Step 5 **in progress** — wallet, defi and token now target the devnet and their contracts are deployed on it (Registry: 47 entries); verex, rabbit, game, personas remain. Step 6 (redeploy) not started. Bridge ruled
 **out of scope** (jay). Everything uncommitted, awaiting review. Last updated
 2026-09-14 (KST). Owner: jay. Plan doc for this work = this file; keep the Status line and the
 per-step checkboxes current as you go.
