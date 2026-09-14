@@ -53,6 +53,19 @@ pool (§1.2) with the **bridge as a second tab**, so "trade JYVE" and "move JYVE
 chains" live in one place (jay, 2026-09-09). Two primary screens — **Swap** and
 **Bridge** — sit over a shared balance/activity shell.
 
+> **Revised 2026-09-14 (jay): the Bridge screen moves to the Wallet.** The user-facing bridge
+> lives at the Wallet's `/bridge` ([jayverse-wallet.md](jayverse-wallet.md) §5) because the bridge is
+> the scariest signature and simulate-before-sign is the wallet's core. This repo keeps everything
+> behind that screen — `BridgeLock` / `BridgeMint`, the relayer, the `processed[id]` guard, and the
+> locked = minted invariant — since the bridge mints and burns JYVE and is part of the token's
+> economic unit. The exchange site keeps **Swap** and the balance/activity shell; its Bridge tab
+> becomes a link to the Wallet. The Bridge-screen notes below stay as the spec the Wallet implements.
+>
+> **Personas joins this project (jay, 2026-09-14).** The persona NFT market
+> ([jayverse-personas.md](jayverse-personas.md)) is a fourth package of `jayverse-token` and ships inside
+> the `jayverse-exchange` service at `/personas` — token market and NFT market as one project, personas
+> priced in JYVE through this pool. See the hub's [Ownership changes](README.md#ownership-changes-jay-2026-09-14).
+
 - **Balance widget:** JYVE balance per chain, labeled by network — `Local (Anvil fork)` and `Sepolia`. USDC shown alongside (rails already surface USDC).
 - **Swap screen (the exchange):**
   - JYVE ⇄ USDC swap form over the constant-product pool: pay-with / receive selector, amount in, live quote out.

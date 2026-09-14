@@ -6,8 +6,15 @@ per-message x402 payments turn "owning a persona" into ongoing creator revenue.
 
 *Source: [09-02-jayverse.md](../tasks/09-02-jayverse.md) "## 4. Persona market as NFT market"
 (jay's comment: "Show me the user scenario and what web app shows and the flow…"). Repo:
-`jayverse-personas` (app + contracts together). Hub: [README.md](README.md).
+`jayverse-token` — Personas moved into the Token + Exchange project (#7) on 2026-09-14; it was
+its own `jayverse-personas` repo before. Hub: [README.md](README.md).
 DESIGN DRAFT for review — nothing here is built yet.*
+
+> **Part of #7 Token + Exchange (jay, 2026-09-14).** Personas is a package of the `jayverse-token` repo
+> and ships inside the `jayverse-exchange` Cloud Run service — token market and NFT market as one
+> project, personas priced in JYVE through the pool ([jayverse-token-bridge.md](jayverse-token-bridge.md)).
+> Hub row #4 now belongs to the own L1/L2 chain. Paths below written as `jayverse-personas/...` read as
+> `jayverse-token/personas/...`. See the hub's [Ownership changes](README.md#ownership-changes-jay-2026-09-14).
 
 ---
 

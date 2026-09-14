@@ -164,6 +164,10 @@ Every signing path routes through `<JayverseSign>`:
   its PoC links) so an in-game purchase is as legible as a web one.
 - **Token bridge** (§7) — the lock/mint bridge is the *scariest* signature (funds leave a chain), so
   `<JayverseSign>` previews *lock N JYVE on source → receive N on dest* before signing.
+  **The Wallet owns the bridge screen** at `/bridge` (jay, 2026-09-14; it was a placeholder before):
+  source/dest picker, amount, the simulated effect, and the `Locked → Relaying → Minted` status.
+  The `BridgeLock` / `BridgeMint` contracts, the relayer, and the supply invariant stay in
+  `jayverse-token` — the wallet calls them, it does not run them, so no mint key lives here.
   simulate-before-sign is the connective tissue that makes verex-winnings → bridge → wallet one safe
   flow ([jayverse-token-bridge.md](jayverse-token-bridge.md)).
 - **Agent / Agentic AA** (§1) — complements, not replaces, the agent's on-chain mandate: the agent's
@@ -269,6 +273,10 @@ solve for us here.
 **Deferred — needs a live anvil to finish (not yet verified):**
 
 - **Confirm anvil's EIP-7702 support** (Pectra) on the fork we run — the 7702 path assumes it.
+  ✅ **Verified 2026-09-14** (anvil 1.6.0): on a Sepolia fork reporting chainId `313370` — the
+  [devnet](jayverse-devnet.md) id — and on a plain `--hardfork prague` node, a type-4 transaction
+  carrying a `cast wallet sign-auth` authorization mined with status 1 and left the EOA's code as
+  `0xef0100‖EntryPoint`. No MetaMask involved; the signature is scoped to the distinct id.
 - **ERC-7710 / 7715 framework grant + type-4 tx submit** — issue the scoped session-key grant
   through the delegation framework and submit the type-4 transaction end-to-end.
 

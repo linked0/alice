@@ -13,6 +13,11 @@ built. Sibling docs indexed in [README.md](README.md); the umbrella plan
 
 ## (a) L1 / L2 — our own chain (start at last)
 
+> **Promoted to #4 on 2026-09-14 (jay).** This candidate is now a committed service row in the
+> [hub](README.md#ownership-changes-jay-2026-09-14). The argument below stays as written; the
+> "start at last" caveat still holds. Design: [jayverse-devnet.md](jayverse-devnet.md) — phase 1 is a
+> hosted Anvil forked from Sepolia; the own chain is its phase 4.
+
 The own-chain ambition, explicitly **start-at-last**, with **supersim** as the local on-ramp. No
 repo yet — a `docs/` research folder first, infra-as-code only if we truly commit. The single most
 expensive line in the architecture to operate, so: learn locally now, production maybe never. PoC

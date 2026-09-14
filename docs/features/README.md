@@ -33,15 +33,35 @@ The last column is **where each service is deployed on GCP** (jay, 2026-09-14): 
 | 1 | Rabbit — Agentic AA | [jayverse-rabbit.md](jayverse-rabbit.md) | ERC-4337 AA — user scenario, web app, flow. **Start here** | Rabbit cloud · Cloud Run `rabbit` · <https://www.jaylabs.xyz> |
 | 2 | Verex — onboarding + MM | [jayverse-verex.md](jayverse-verex.md) | Stripe onboarding + Market Maker — scenario, web app, flow. **Start** | Verex cloud · Cloud Run `verex-web-prod` + `verex-api-prod` (asia-northeast3) · <https://verex.jaylabs.xyz> |
 | 3 | DeFi — EtherFi | [jayverse-defi.md](jayverse-defi.md) | Basic EtherFi **algorithms built from scratch** to study DeFi (no real-EtherFi integration) | Verex cloud · Firebase Hosting site `jayverse-defi` · <https://defi.jaylabs.xyz> (contracts on Sepolia) |
-| 4 | Persona market | [jayverse-personas.md](jayverse-personas.md) | NFT persona market — scenario, web app, flow | — not deployed |
+| 4 | Devnet — own L1 / L2 | [jayverse-devnet.md](jayverse-devnet.md) | **Promoted from Dark Horse (a)** (jay, 2026-09-14): starts as a hosted **Anvil** forked from Sepolia (its own chainId `313370`; `31337` stays local) that every service targets **instead of Sepolia**, with **every Jayverse contract deployed on it by the seed** (nothing inherited from the fork); later `supersim` → an OP-Stack L2 settling on it. Scenario C's argument: a chain whose block time and sequencer schedule *are* the app's clock | Rabbit cloud · GCE VM `jayverse-devnet` (asia-northeast1) · <https://devnet.jaylabs.xyz> (RPC + explorer) — planned, not deployed |
 | 5 | Unity — 3D browser game | [jayverse-game.md](jayverse-game.md) | Wander a 3D street, find verex markets on boards, trade. **Start** | Rabbit cloud · inside Cloud Run `rabbit` · <https://www.jaylabs.xyz/game> |
-| 6 | Wallet & simulate-before-sign | [jayverse-wallet.md](jayverse-wallet.md) | Embedded wallet + tx simulation — scenario, web app, flow | Rabbit cloud · Cloud Run `jayverse-wallet` · <https://wallet.jaylabs.xyz> (+ `/bridge`) |
-| 7 | Token + Exchange + Bridge | [jayverse-token-bridge.md](jayverse-token-bridge.md) | **JYVE** ecosystem coin + mini-AMM price + Anvil ⇄ Sepolia bridge (one `jayverse-token` repo) | Rabbit cloud · Cloud Run `jayverse-exchange` · <https://exchange.jaylabs.xyz> (contracts on Sepolia) |
+| 6 | Wallet & simulate-before-sign | [jayverse-wallet.md](jayverse-wallet.md) | Embedded wallet + tx simulation — scenario, web app, flow. **Owns the bridge screen** (`/bridge`; jay, 2026-09-14) — the UI for #7's lock-and-mint | Rabbit cloud · Cloud Run `jayverse-wallet` · <https://wallet.jaylabs.xyz> (+ `/bridge`) |
+| 7 | Token + Exchange + Bridge + Personas | [jayverse-token-bridge.md](jayverse-token-bridge.md) · [jayverse-personas.md](jayverse-personas.md) | **JYVE** ecosystem coin + mini-AMM price + Anvil ⇄ Sepolia bridge **contracts + relayer** (the bridge *screen* is in Wallet #6) + the **persona NFT market** (moved in from #4, jay 2026-09-14) — one `jayverse-token` repo, one project | Rabbit cloud · Cloud Run `jayverse-exchange` · <https://exchange.jaylabs.xyz> (contracts on Sepolia) · personas at `/personas` (own subdomain optional) |
 | 8 | OFA — intent + solver auction | [jayverse-ofa.md](jayverse-ofa.md) | ATLAS's core mechanism as a from-scratch study — intent + solver auction, surplus to the user. **Build the mechanism, not the framework** | — not deployed |
 | 9 | Math & Investment (Number) | [jayverse-number.md](jayverse-number.md) | Standalone `number.jaylabs.xyz` — investment information + math / economy / algorithm research. **Admin-only** (login-gated), split out of Rabbit's Portfolio into its own `jayverse-number` repo | Rabbit cloud · Cloud Run `jayverse-number` · <https://number.jaylabs.xyz> (alias `num.`) |
-| 10 | Dark Horse — candidate tracks | [jayverse-darkhorse.md](jayverse-darkhorse.md) | **Not committed** — candidates that *could* become services but aren't yet: (a) own L1/L2, (b) security-hole research, (c) **Base App** (moved from #8) | — candidates, not deployed |
+| 10 | Dark Horse — candidate tracks | [jayverse-darkhorse.md](jayverse-darkhorse.md) | **Not committed** — candidates that *could* become services but aren't yet: (b) security-hole research, (c) **Base App** (moved from #8) — (a) own L1/L2 was promoted to #4 on 2026-09-14 | — candidates, not deployed |
 
 *(#1–9 are the committed services; **#10 Dark Horse is candidates, not committed** — including Base App, moved from #8. Detail lives in [jayverse-darkhorse.md](jayverse-darkhorse.md).)*
+
+### Ownership changes (jay, 2026-09-14)
+
+Three decisions that cut across the rows above.
+
+- **Personas moved into #7 Token + Exchange.** First floated as an umbrella over two services, then
+  decided outright: the persona NFT market is a package of the `jayverse-token` repo and ships inside
+  the `jayverse-exchange` Cloud Run service — token market and NFT market as one project, personas
+  priced in JYVE through the pool. Open: whether personas keep a second domain mapping
+  (`personas.jaylabs.xyz`) onto the same service, or live only at `/personas`.
+- **Own L1/L2 promoted from Dark Horse (a) to #4, as `jayverse-devnet`.** It takes the freed row so it
+  is planned and phased like the other services. Phase 1 is deliberately small: a hosted Anvil in
+  the Rabbit cloud, forked from Sepolia, that the cloud services use instead of Sepolia — the own
+  chain comes later, still "start at last". Design: [jayverse-devnet.md](jayverse-devnet.md).
+- **Bridge split: screen in #6 Wallet, plumbing in #7 Token.** The Wallet owns the bridge UI at
+  `/bridge` (it was already a placeholder) because a bridge is the scariest signature and
+  simulate-before-sign is the wallet's core. The `BridgeLock` / `BridgeMint` contracts, the relayer,
+  and the supply invariant stay in `jayverse-token`: the bridge mints and burns JYVE, so it is part
+  of the token's economic unit (jay, 2026-09-08), and the relayer's mint key must not move into the
+  Wallet, which runs on the no-funds Rabbit cloud.
 
 ### Completed — built, past design
 
@@ -68,14 +88,14 @@ extras are **crammed into the last column** (Wallet's P3 + P4, etc.). ✅ = that
 | 1 | Rabbit — Agentic AA | Gasless one-click bet | Local ↔ Sepolia bundler switch | Identity & UX breadth (shared account, ERC-20 gas, recovery → Wallet) |
 | 2 | Verex | First-bet loop (Stripe + LMSR) | Operator / admin (kill switch) | Production leg (KYC/AML, custody, x402, reconcile) |
 | 3 | DeFi — EtherFi study | Liquid-staking core | Restaking layer | Real EtherFi (read) |
-| 4 | Personas | Mint + token-gated chat | Day rentals (ERC-4907) | Revenue + market (x402, IPFS, creator flow) |
+| 4 | Devnet — own L1 / L2 | Hosted Anvil (Sepolia fork, chainId 313370) on a Rabbit-cloud VM · allowlist proxy · faucet · explorer | Services switch from Sepolia to devnet · bridge becomes devnet ⇄ Sepolia · reset/snapshot ops | `supersim` → OP-Stack L2 settling on the devnet |
 | 5 | Game — 3D street | Replay | Live (synchronous) | Polish + optional player-trading |
-| 6 | Wallet | simulate-before-sign ✅ | Session keys & templates · public Sepolia wallet on Cloud Run (wallet.jaylabs.xyz) ✅ · `/bridge` route placeholder ✅ | 4337 breadth · **P4** own dev wallet (31337 fork) |
-| 7 | Token + Exchange + Bridge | Token + exchange (JYVE/USDC) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ | Intra bridge (lock-and-mint) | Real cross-chain — CCIP (arbitrary messages) + **Circle CCTP** (native USDC, burn-and-mint) + **xERC20 / ERC-7281** (JYVE as a sovereign bridged token, per-bridge rate limits) |
+| 6 | Wallet | simulate-before-sign ✅ | Session keys & templates · public Sepolia wallet on Cloud Run (wallet.jaylabs.xyz) ✅ · `/bridge` route placeholder ✅ → **bridge screen** for #7's lock-and-mint (jay, 2026-09-14) | 4337 breadth · **P4** own dev wallet (31337 fork) |
+| 7 | Token + Exchange + Bridge + Personas | Token + exchange (JYVE/USDC) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ · Personas: mint + token-gated chat | Intra bridge (lock-and-mint) — contracts + relayer; UI in Wallet #6 · Personas: day rentals (ERC-4907) | Real cross-chain — CCIP (arbitrary messages) + **Circle CCTP** (native USDC, burn-and-mint) + **xERC20 / ERC-7281** (JYVE as a sovereign bridged token, per-bridge rate limits) · Personas: revenue + market (x402, IPFS, creator flow) |
 | 8 | OFA | `IntentAuction` + `MockSolver`s | `AmmSolver` + two invariants | Web harness · backrun / LVR stretch |
 | 9 | Math & Investment (Number) | Admin auth gate | Portfolio migration | Deploy + math / algo research |
 | ✅ | Authority Auditor | Dogfood matrix ✅ | Rules engine ✅ | On-chain + API (viem verified cells, tier-3 provider API) |
-| 10 | Dark Horse | *candidates, not phased:* (a) own L1/L2 · (b) security research · (c) Base App | — | — |
+| 10 | Dark Horse | *candidates, not phased:* (b) security research · (c) Base App — (a) own L1/L2 promoted to #4 | — | — |
 
 ## Three end-to-end scenarios — every service in one story, plus the service each story asks for
 
@@ -108,7 +128,7 @@ seeing a seed phrase or a gas prompt.
    "top up" button — the price she sees is the reserve ratio, nothing more mysterious.
 6. **#3 DeFi.** The app offers *"park your idle balance"*: her unused USDC-equivalent ETH goes
    into **jeETH**; the position panel shows her balance rebasing up by the hour, and *why*.
-7. **#4 Personas.** She rents **"Coach Han"** — a persona NFT — for one day (ERC-4907) to explain
+7. **#7 Personas (Token + Exchange).** She rents **"Coach Han"** — a persona NFT — for one day (ERC-4907) to explain
    the market she just bet on; the token-gated chat opens only while the rental is live.
 8. **#8 OFA.** When she later flips her position, the swap-into-bet is submitted as an **intent**
    ("give X, want ≥ Y"), and the solver auction returns the surplus to *her*, not a searcher.
@@ -157,7 +177,7 @@ A, one layer down.
 7. **#3 DeFi.** Payout ETH that users leave parked keeps rebasing; one user **requests withdraw**
    and meets the **queue delay** — she experiences why a jweETH secondary market would trade at a
    discount today.
-8. **#4 Personas.** Coach Han's owner earns rental fees from the evening; the fee is paid
+8. **#7 Personas (Token + Exchange).** Coach Han's owner earns rental fees from the evening; the fee is paid
    per-message via **x402**, so the creator's revenue is a ledger, not a promise.
 9. **#5 Game.** Through the street's **warp gate**, anyone can watch the settlement-flow
    visualization replay the day: user → paymaster → market → bridge, entity by entity.
@@ -182,7 +202,7 @@ Coach Han's owner, Tae, turns the persona into a business: a week-long predictio
 entry fees, daily persona sessions, and prizes. Every service is touched by a *time edge* — a
 close, an expiry, a delay, a drip — which is what this story is really about.
 
-1. **#4 Personas.** Tae mints a **tournament persona** and lists **day rentals**; each rental is
+1. **#7 Personas (Token + Exchange).** Tae mints a **tournament persona** and lists **day rentals**; each rental is
    a token-gated seat at Han's daily session. Rentals expire at midnight KST — the first clock.
 2. **#7 Token.** Entry fees are paid in **JYVE**; the exchange's price chart becomes the
    tournament's scoreboard of demand. Tae's prize pool is escrowed — the second clock: it must
@@ -207,8 +227,8 @@ close, an expiry, a delay, a drip — which is what this story is really about.
 10. **#9 Number.** Tae has no Number access, but the operator uses it to price the next
     tournament: fee income vs paymaster cost per entrant, and whether the persona rental or the
     markets carried the week.
-11. **#10 Dark Horse.** Six clocks across five contracts is the argument for the **own L2**
-    candidate: a chain whose block time and sequencer schedule *are* the tournament clock.
+11. **#4 Own L1 / L2.** Six clocks across five contracts is the argument for the **own L2**
+    (promoted from Dark Horse on 2026-09-14): a chain whose block time and sequencer schedule *are* the tournament clock.
 
 **The gap this story finds — imaginary service: `jayverse-clock` (one scheduler for every time
 edge).** Six clocks, five services, and today each one is either a server timer or a human. Clock
@@ -288,7 +308,7 @@ its own Cloud Run service** either way, so the burden answer is unchanged: each 
 > service. So "Rabbit API" in the table is **fused into the portal** for now — web + route handlers
 > in one instance, which is exactly the thin-portal shape we want. Split it into a standalone
 > `rabbit-api` service only if that backend later grows heavy enough to autoscale on its own. The
-> other three rabbit-cloud APIs (Personas, Wallet, Auditor) are their own services from the start.
+> other rabbit-cloud APIs (Wallet, Auditor — and Personas, which since 2026-09-14 rides inside `jayverse-exchange`) are their own services from the start.
 
 > **Hosted infra is not in the split (jay asked, 2026-09-07).** The ERC-4337 **bundler** and
 > **paymaster** are *not* Jayverse services — the bundler is a hosted relay (thirdweb for v1,
@@ -324,17 +344,17 @@ started first.
 | 1 | **Agentic AA** | in `rabbit` | see Rabbit — pages `/live/aa`, `/live/agent/console` | :3100 |
 | 2 | **Verex** — markets + onboarding/MM | `verex` | `pnpm install`; **t1** `anvil`; **t2** `./scripts/reset.sh` (deploy CTF backbone + seed 10 markets); **t3** `pnpm --filter @verex/api dev`; **t4** `pnpm --filter @verex/web dev`. Re-run `./scripts/reset.sh` after any anvil restart. | web :3000 · api :4000 |
 | 3 | **DeFi** — EtherFi study | `jayverse-defi` | **t1** `anvil`; `forge test`; `npm run deploy` (writes `addresses.json`); `npm run study` (CLI walk-through); `npm run dev` (Vite) | :3030 |
-| 4 | **Personas** — NFT market | `jayverse-personas` | in `contracts/`: `forge test`; **t1** `anvil`; **t2** `forge script script/Deploy.s.sol:Deploy --rpc-url http://127.0.0.1:8545 --broadcast` (mints 2); then `cd ../app && pnpm install && pnpm dev` | :3040 |
+| 4 | **Devnet** — hosted Anvil | `jayverse-devnet` | `docker compose up` in `infra/` (anvil + proxy + explorer + status page); same stack as the cloud VM | :8545 (RPC) · :3040 (status) |
 | 5 | **Game** — 3D street | `jayverse-game` | `pnpm install` → `pnpm dev` (open `/street`) | :3050 |
 | 6 | **Wallet** — simulate-before-sign | `jayverse-wallet` | **t1** `anvil`; **t2** `pnpm install` → `pnpm dev` | :3060 |
-| 7 | **Token + Exchange** | `jayverse-token` | in `contracts/`: `forge test`; **t1** `anvil`; **t2** `forge script script/Deploy.s.sol:Deploy --rpc-url http://127.0.0.1:8545 --broadcast` (seed pool); then `cd ../app && pnpm install && pnpm dev` | :3070 |
+| 7 | **Token + Exchange + Personas** | `jayverse-token` | in `contracts/`: `forge test`; **t1** `anvil`; **t2** `forge script script/Deploy.s.sol:Deploy --rpc-url http://127.0.0.1:8545 --broadcast` (seed pool, mints 2 personas); then `cd ../app && pnpm install && pnpm dev` — personas at `/personas` (the standalone :3040 dev port retires) | :3070 |
 | 8 | **OFA** — intent + solver auction | `jayverse-ofa` | in `contracts/`: `forge test`; **t1** `anvil`; optional tiny harness | :3080† |
 | 9 | **Math & Investment (Number)** | `jayverse-number` | `pnpm install` → `pnpm dev` (admin login) | :3090 |
 | 10 | **Dark Horse** — candidate tracks | — | candidates only — nothing to run yet | — |
 | ✅ | **Authority Auditor** (built) | `jayverse-auditor` | `pnpm install` → `pnpm dev` — also live in Rabbit at `/live/auditor` | :3080 |
 
 > **Ports:** the six study webs bake their port into `dev` (`3000 + # × 10`) — DeFi :3030, Personas
-> :3040, Game :3050, Wallet :3060, Token :3070, Auditor :3080, Number :3090 — so `pnpm dev` alone is right and they
+> :3040 (folded into Token :3070 on 2026-09-14), Game :3050, Wallet :3060, Token :3070, Auditor :3080, Number :3090 — so `pnpm dev` alone is right and they
 > run side by side. Unchanged: Rabbit portal **:3100**, Verex web **:3000** / API **:4000**, anvil
 > **:8545**.
 >
@@ -380,6 +400,15 @@ feed is wrong" line **in code** (staleness check / fallback), not just in this t
 ---
 
 ## History
+
+**The cloud estate: [cloud-ops.md](cloud-ops.md)** (started 2026-09-14). What runs in
+which project and region, what it costs, and the standing decisions about how the cloud is
+maintained and reorganised — Jayverse as a **demo estate** and what that licenses, why Verex
+production is parked between demos, staging retired, the two production databases kept separate,
+why the Cloud Run services are *not* consolidated into `jayverse-api` + `jayverse-web`, and why the
+devnet needs a VM. Each entry records the reasoning and what would have to change to reopen it, so
+a later session does not re-argue a settled question — or quietly undo one. Open items are at the
+bottom of that file.
 
 The original **Rabbit feature-design index** (this file's pre-Jayverse content) now lives in
 [README-history.md](README-history.md) — this file used to hold it; it was split out 2026-09-09.
