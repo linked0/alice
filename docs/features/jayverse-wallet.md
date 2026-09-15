@@ -56,7 +56,7 @@ It is the *only* signing surface in Jayverse; no app calls `walletClient.writeCo
   and submit.
 
 Scope is deliberately small and buildable: `simulate()` + one component + the shared wallet
-provider. No new chain, no new token, settles on the shared rails (USDC on Base).
+provider. No new chain, no new token, settles on the shared rails (jUSD on Base).
 
 ---
 
@@ -65,12 +65,12 @@ provider. No new chain, no new token, settles on the shared rails (USDC on Base)
 **Mina** wants to bet on a Verex market from the Jayverse portal. She logged into the portal weeks
 ago with her email, so her embedded wallet is already connected — no popup, no seed phrase.
 
-She types "10 USDC on YES" and clicks **Place bet**. Instead of a raw wallet prompt full of hex,
+She types "10 jUSD on YES" and clicks **Place bet**. Instead of a raw wallet prompt full of hex,
 a preview slides up:
 
-> **You will spend** 10.00 USDC
+> **You will spend** 10.00 jUSD
 > **You will receive** ~12 YES shares
-> **Approval** USDC spending set to *Verex Exchange* (exact amount, 10 USDC)
+> **Approval** jUSD spending set to *Verex Exchange* (exact amount, 10 jUSD)
 > *No warnings.*
 
 She recognizes exactly what happens, clicks **Sign**, and the bet is placed. The signature was the
@@ -79,8 +79,8 @@ last step, not the first — she decided *with* the facts.
 **Off-happy-path.** The next day a market UI she doesn't fully trust asks her to sign. The preview
 shows a red banner:
 
-> ⚠ **Approval widening** — this sets *unlimited* USDC spending for an unknown contract.
-> ⚠ **Value drain** — simulated net balance change: **−48 USDC**, receive nothing.
+> ⚠ **Approval widening** — this sets *unlimited* jUSD spending for an unknown contract.
+> ⚠ **Value drain** — simulated net balance change: **−48 jUSD**, receive nothing.
 
 She clicks **Cancel**. The widget refused nothing on her behalf — it *showed* her, and she stopped.
 That is the product: the simulation turns "sign this opaque thing" into "here is what it does".
@@ -91,12 +91,12 @@ That is the product: the simulation turns "sign this opaque thing" into "here is
 
 **Connect flow.** A single **Connect** button. First-time users pick email or passkey; the embedded
 provider creates a smart account behind the scenes. Returning users are already connected (session
-restored). A small account chip shows address + USDC balance. No network-switching friction — the
+restored). A small account chip shows address + jUSD balance. No network-switching friction — the
 app targets the home chain.
 
 **Pre-sign preview modal** (the core screen). Rendered from `simulate()` output:
 
-- **Effects list** — one row per asset change: `−10.00 USDC`, `+12 YES shares`, each with token
+- **Effects list** — one row per asset change: `−10.00 jUSD`, `+12 YES shares`, each with token
   logo, human amount, and USD value where known.
 - **Approvals** — spender name (resolved from the address book), amount, and whether it is exact
   or unlimited.
@@ -153,10 +153,10 @@ anyway" only as an explicit, clearly-labeled fallback — never a silent skip.
 Everything else in the plan depends on *this* (§6: "everything else depends on it, so build early").
 Every signing path routes through `<JayverseSign>`:
 
-- **Verex bets** (§2) — placing/redeeming a bet previews `−USDC / +shares / approval to exchange`.
+- **Verex bets** (§2) — placing/redeeming a bet previews `−jUSD / +shares / approval to exchange`.
   Pairs with Verex's own AA (4337 smart accounts, paymaster) — the wallet provides the account and
   the preview, Verex provides the market.
-- **Personas** (§4) — mint/rent previews `−USDC / +NFT` and the ERC-4907 user-role grant, so a
+- **Personas** (§4) — mint/rent previews `−jUSD / +NFT` and the ERC-4907 user-role grant, so a
   renter sees exactly what a "rent for a day" transaction does.
 - **DeFi** (§3) — its plan literally says "simulate deposits via the Wallet's simulate-before-sign";
   a deposit previews the vault-share received and the token spent before any custody risk.
@@ -206,7 +206,7 @@ The answers become the "authority matrix of our own config" (§6 step 4) that th
 dogfoods against — our config choices *are* every user's custody reality.
 
 **Session-key policy templates** — per-app presets issued at connect time: e.g. *verex-bet* = "≤ N
-USDC/day, only the Verex exchange + USDC contracts, 24h"; *personas-rent* = "single mint/rent call,
+jUSD/day, only the Verex exchange + jUSD contracts, 24h"; *personas-rent* = "single mint/rent call,
 exact amount". Templates live in `jayverse-rails` so policy is reviewable, not ad-hoc per app.
 
 **New vs. reused:**
@@ -355,7 +355,7 @@ pnpm dev                         # terminal 2 → http://localhost:3060
 
 Chainlink's oracle stack is settlement-rail infrastructure the Wallet *consumes*, not reimplements — see the umbrella map in [README.md](README.md).
 
-- **Data Feeds** — USD valuation for external assets (ETH, USDC) in the balance and simulate-before-sign views. **If wrong or late:** the USD figures the user checks *before signing* are misleading — worst at exactly the moment trust matters most.
+- **Data Feeds** — USD valuation for external assets (ETH, jUSD) in the balance and simulate-before-sign views. **If wrong or late:** the USD figures the user checks *before signing* are misleading — worst at exactly the moment trust matters most.
 
 **Deliberate non-use — JYVE's USD.** JYVE's USD value is read from the mini-AMM (`getPrice()`), not a feed — a self-made token has no external price. (See [jayverse-token-bridge.md](jayverse-token-bridge.md).)
 

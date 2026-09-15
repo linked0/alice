@@ -9,7 +9,7 @@ from dataclasses import dataclass
 @dataclass
 class SessionKey:
     owner: str
-    cap: float          # e.g. "<=5 test USDC"
+    cap: float          # e.g. "<=5 test jUSD"
     remaining: float
     revoked: bool = False
 
@@ -24,7 +24,7 @@ class SessionKey:
 
 def grant_session_key(owner: str, cap: float) -> SessionKey:
     """Owner wallet signs one ERC-7715 permission request; no further popups after this."""
-    print(f"{owner} signs a permission request granting a session key <= {cap} USDC")
+    print(f"{owner} signs a permission request granting a session key <= {cap} jUSD")
     return SessionKey(owner=owner, cap=cap, remaining=cap)
 
 

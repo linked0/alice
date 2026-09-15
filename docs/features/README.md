@@ -91,7 +91,7 @@ extras are **crammed into the last column** (Wallet's P3 + P4, etc.). ✅ = that
 | 4 | Devnet — own L1 / L2 | Hosted Anvil (Sepolia fork, chainId 313370) on a Rabbit-cloud VM · allowlist proxy · faucet · explorer | Services switch from Sepolia to devnet · bridge becomes devnet ⇄ Sepolia · reset/snapshot ops | `supersim` → OP-Stack L2 settling on the devnet |
 | 5 | Game — 3D street | Replay | Live (synchronous) | Polish + optional player-trading |
 | 6 | Wallet | simulate-before-sign ✅ | Session keys & templates · public Sepolia wallet on Cloud Run (wallet.jaylabs.xyz) ✅ · `/bridge` route placeholder ✅ → **bridge screen** for #7's lock-and-mint (jay, 2026-09-14) | 4337 breadth · **P4** own dev wallet (31337 fork) |
-| 7 | Token + Exchange + Bridge + Personas | Token + exchange (JYVE/USDC) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ · Personas: mint + token-gated chat | Intra bridge (lock-and-mint) — contracts + relayer; UI in Wallet #6 · Personas: day rentals (ERC-4907) | Real cross-chain — CCIP (arbitrary messages) + **Circle CCTP** (native USDC, burn-and-mint) + **xERC20 / ERC-7281** (JYVE as a sovereign bridged token, per-bridge rate limits) · Personas: revenue + market (x402, IPFS, creator flow) |
+| 7 | Token + Exchange + Bridge + Personas | Token + exchange (JYVE/jUSD) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ · Personas: mint + token-gated chat | Intra bridge (lock-and-mint) — contracts + relayer; UI in Wallet #6 · Personas: day rentals (ERC-4907) | Real cross-chain — CCIP (arbitrary messages) + **Circle CCTP** (native jUSD, burn-and-mint) + **xERC20 / ERC-7281** (JYVE as a sovereign bridged token, per-bridge rate limits) · Personas: revenue + market (x402, IPFS, creator flow) |
 | 8 | OFA | `IntentAuction` + `MockSolver`s | `AmmSolver` + two invariants | Web harness · backrun / LVR stretch |
 | 9 | Math & Investment (Number) | Admin auth gate | Portfolio migration | Deploy + math / algo research |
 | ✅ | Authority Auditor | Dogfood matrix ✅ | Rules engine ✅ | On-chain + API (viem verified cells, tier-3 provider API) |
@@ -123,10 +123,10 @@ seeing a seed phrase or a gas prompt.
    shares; max loss ₩10,000"* — the decoded effect, not a hex blob.
 4. **#1 Rabbit AA.** The bet itself is a **gasless one-click** UserOp: a paymaster sponsors gas,
    a session key scoped to *Verex markets only, ≤ ₩50,000/day* signs it. No MetaMask popup.
-5. **#7 Token + Exchange.** Her leftover ₩ balance is held as USDC; the street's tip jars and
-   persona rentals price in **JYVE**, so a **mini-AMM swap** (USDC → JYVE) happens under a single
+5. **#7 Token + Exchange.** Her leftover ₩ balance is held as jUSD; the street's tip jars and
+   persona rentals price in **JYVE**, so a **mini-AMM swap** (jUSD → JYVE) happens under a single
    "top up" button — the price she sees is the reserve ratio, nothing more mysterious.
-6. **#3 DeFi.** The app offers *"park your idle balance"*: her unused USDC-equivalent ETH goes
+6. **#3 DeFi.** The app offers *"park your idle balance"*: her unused jUSD-equivalent ETH goes
    into **jeETH**; the position panel shows her balance rebasing up by the hour, and *why*.
 7. **#7 Personas (Token + Exchange).** She rents **"Coach Han"** — a persona NFT — for one day (ERC-4907) to explain
    the market she just bet on; the token-gated chat opens only while the rental is live.
@@ -164,12 +164,12 @@ A, one layer down.
 3. **#1 Rabbit AA.** Winners claim with **gasless claims** batched into UserOps; the paymaster's
    sponsored-gas bill is a **cost of goods** line the operator can read the next morning
    (`sponsored-gas-is-cogs`).
-4. **#6 Wallet.** Every claim previews first: *"you receive 1,240 USDC; this closes your
+4. **#6 Wallet.** Every claim previews first: *"you receive 1,240 jUSD; this closes your
    position"*. One user's preview shows a **revert** (a stale nonce) and the wallet refuses to sign
    — the failure never reaches the chain.
-5. **#7 Token + Exchange + Bridge.** A winner wants her USDC on Base. The bridge does
+5. **#7 Token + Exchange + Bridge.** A winner wants her jUSD on Base. The bridge does
    **lock-and-mint**; the `holding = issuance` and **1:1** invariants are checked on both legs.
-   On the same afternoon the JYVE/USDC pool absorbs the winners' swaps — the reserve-ratio price
+   On the same afternoon the JYVE/jUSD pool absorbs the winners' swaps — the reserve-ratio price
    moves visibly, which is the mini-AMM teaching what a thin pool does.
 6. **#8 OFA.** Large winners swapping out of JYVE go through the **intent auction** — three
    solvers bid, the AMM solver loses to a better route, surplus lands with the user, and the

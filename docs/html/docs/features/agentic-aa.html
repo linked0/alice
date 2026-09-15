@@ -55,13 +55,13 @@ keys).</em></p>
 <tbody><tr>
 <td>1</td>
 <td><strong>Scoped delegation</strong> (&quot;the allowance&quot;)</td>
-<td>No master key handed over — issue a <strong>session key</strong>: &quot;spend ≤ 10 USDC/day, only on service X, valid 48h&quot;</td>
+<td>No master key handed over — issue a <strong>session key</strong>: &quot;spend ≤ 10 jUSD/day, only on service X, valid 48h&quot;</td>
 <td>ERC-7715 / 7710 (already the §3 demo); ERC-4337 session-key validators</td>
 </tr>
 <tr>
 <td>2</td>
 <td><strong>Gas independence</strong> (&quot;the paymaster&quot;)</td>
-<td>Agent never hunts for ETH/SOL — pays gas <strong>in the USDC it earns</strong>, or a sponsor covers it</td>
+<td>Agent never hunts for ETH/SOL — pays gas <strong>in the jUSD it earns</strong>, or a sponsor covers it</td>
 <td>ERC-4337 <strong>Paymaster</strong> (ERC-20 gas payment or sponsored)</td>
 </tr>
 <tr>
@@ -83,7 +83,7 @@ keys).</em></p>
 Sepolia). Building §3 ticks this pillar.</li>
 <li><strong>Pillar 2</strong> = the paymaster ideas already noted in <a href="ap2-test.html">ap2-test.md</a> (escrow/
 paymaster, Verex session-key reuse) and <a href="dsrv-portal.html">dsrv-portal.md</a> PoC #2 (ZeroDev/
-Biconomy sponsored gas). New work: pay gas <strong>in ERC-20 (USDC)</strong>, not just sponsorship.</li>
+Biconomy sponsored gas). New work: pay gas <strong>in ERC-20 (jUSD)</strong>, not just sponsorship.</li>
 <li><strong>Pillar 3</strong> is the genuinely new demo: a batched UserOperation (e.g. testnet swap +
 transfer in one op) and a forced-failure case showing full revert.</li>
 <li><strong>Pillar 4</strong> is new and exploratory: read/register an agent in an <strong>ERC-8004</strong> identity/
@@ -95,7 +95,7 @@ reputation registry (testnet deployment availability to verify — the standard 
 <li><strong>Session key</strong> — grant scoped permission, agent spends within scope, out-of-scope attempt
 fails (this card <em>is</em> §3&#39;s demo).</li>
 <li><strong>Paymaster</strong> — send a tx with zero native token in the agent account; gas paid in test
-USDC (ZeroDev/Pimlico ERC-20 paymaster) or sponsored.</li>
+jUSD (ZeroDev/Pimlico ERC-20 paymaster) or sponsored.</li>
 <li><strong>Batch</strong> — one UserOp doing two actions atomically; a second run with a failing leg shows
 the whole op reverting.</li>
 <li><strong>KYA</strong> — look up (or register) the agent&#39;s ERC-8004 identity; display reputation fields.</li>
@@ -146,7 +146,7 @@ browser.</li>
 <td><strong>Pillar 3</strong> — atomic intent</td>
 </tr>
 <tr>
-<td>Gasless USDC transfers ($WCHAN stakers; relayer pays)</td>
+<td>Gasless jUSD transfers ($WCHAN stakers; relayer pays)</td>
 <td><strong>Pillar 2</strong> — paymaster/sponsorship</td>
 </tr>
 <tr>

@@ -85,7 +85,7 @@ decisions and the live-node verification evidence (what already works, what is b
 </tr>
 <tr>
 <td>Contracts</td>
-<td><strong>The seed deploys every Jayverse contract + the delegation framework + <code>Registry</code></strong> on the devnet. Nothing Jayverse-owned is used from what the fork inherits. The fork supplies only the base rails (ERC-4337 EntryPoint, Sepolia test USDC, Chainlink contracts).</td>
+<td><strong>The seed deploys every Jayverse contract + the delegation framework + <code>Registry</code></strong> on the devnet. Nothing Jayverse-owned is used from what the fork inherits. The fork supplies only the base rails (ERC-4337 EntryPoint, Chainlink contracts).</td>
 </tr>
 <tr>
 <td>Edge</td>
@@ -97,7 +97,7 @@ decisions and the live-node verification evidence (what already works, what is b
 </tr>
 <tr>
 <td>USD token</td>
-<td>Plain <strong>USDC</strong> (Circle&#39;s Sepolia test token via the fork; a mock in mode B). No new stable.</td>
+<td><strong>jUSD</strong>, the Jayverse dollar, deployed by the seed in both node modes. Superseded the original &quot;use Circle&#39;s Sepolia USDC from the fork&quot; plan (jay, 2026-09-15): forking Circle&#39;s token meant two unrelated ERC-20s answered to a dollar name, and services could not say which one they meant. An external stablecoin returns only when there is a reason for it.</td>
 </tr>
 </tbody></table>
 <h2 id="the-repos-and-where-each-runs-today">The repos and where each runs today</h2>
@@ -232,7 +232,7 @@ delegation env come from the seed. <strong>While in rabbit, fix <code>scripts/ve
 2026-09-14 it failed on every chain id (the predicted smart-account address has no code after the
 <code>@metamask/smart-accounts-kit</code> 1.7.0 upgrade, so <code>redeemDelegations</code> silently succeeds); it must
 pass its three checks on the devnet.</li>
-<li><input disabled="" type="checkbox"> <strong>6. Redeploy each service to its existing instance</strong> with the devnet config, using each repo&#39;s
+<li><input checked="" disabled="" type="checkbox"> <strong>6. Redeploy each service to its existing instance</strong> <em>(DONE 2026-09-15 — rabbit, verex api+web, jayverse-wallet, jayverse-exchange, jayverse-defi (Firebase). No new instances created beyond the devnet VM.)</em> with the devnet config, using each repo&#39;s
 existing deploy script (rabbit <code>scripts/deploy.sh</code>, verex <code>scripts/deploy-prod.sh</code>, defi
 <code>scripts/deploy-firebase.sh</code>, the others&#39; Cloud Run flow). <strong>Create no new instances</strong> other than
 the devnet VM. Any new Dockerfile gets a <code>.dockerignore</code>; multi-stage builds copy only artifacts.</li>
@@ -241,7 +241,7 @@ refusal, faucet within budget, one snapshot in the bucket, explorer showing the 
 transactions. Per service, one real action from its cloud deployment: Rabbit — a gasless bet
 UserOp through the forked EntryPoint; Verex — create a market, resolve it via <code>feeds.ts</code>; DeFi —
 deposit, observe a rebase; Wallet — simulate + sign on the devnet and one type-4 7702 tx; Token —
-a JYVE/USDC swap and one bridge lock (devnet) → mint (Sepolia); Game — boards list devnet
+a JYVE/jUSD swap and one bridge lock (devnet) → mint (Sepolia); Game — boards list devnet
 markets; Number and Auditor — read the devnet. Put the commands and their outputs in the report.</li>
 </ul>
 <h2 id="policies-jays-non-negotiable">Policies (jay&#39;s, non-negotiable)</h2>

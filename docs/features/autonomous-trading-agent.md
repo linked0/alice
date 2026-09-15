@@ -66,7 +66,7 @@ That covers all four of verex's contract sets, not just the trading ones:
 
 | | Contract | Script |
 |---|---|---|
-| 1–3 | MockUSDC · ConditionalTokens · CTFExchange | `DeployCTF.s.sol` |
+| 1–3 | JUSD · ConditionalTokens · CTFExchange | `DeployCTF.s.sol` |
 | 4 | MockOptimisticOracleV2 + UmaCtfAdapter | `DeployMockOracle.s.sol`, run by the seed |
 
 `scripts/deploy-uma-adapter.sh` is **not** part of this — it takes `<staging\|prod>` and refuses
@@ -131,7 +131,7 @@ Needs nothing but anvil and 3.3 — no verex, no Postgres, no MetaMask, delibera
 inside the mandate, then over the cap, then past the deadline:
 
 ```
-1. draw 4 of 10 …………  agent USDC: 4
+1. draw 4 of 10 …………  agent jUSD: 4
 2. cap exceeded ………  ERC20TransferAmountEnforcer:allowance-exceeded   (still 4)
 3. after expiry ………  TimestampEnforcer:expired-delegation             (still 4)
 ```
@@ -197,7 +197,7 @@ deploy transactions. This is the single most common misreading of the setup.
 ```
                          anvil · chainId 31337
   ┌────────────────────────────────────────────────────────────────┐
-  │  MockUSDC          CTF          CTFExchange      UMA adapter   │  ← verex seed
+  │  JUSD          CTF          CTFExchange      UMA adapter   │  ← verex seed
   │      ▲                                                          │
   │      │ the cap is scoped to THIS token ── the only shared object│
   │      │                                                          │
@@ -212,14 +212,14 @@ delegation, and does not know one exists. Verex's Phase-1 job was to *stop carin
 is*; handing it the mandate would undo that.
 
 They meet at exactly one address. `mandate/prepare` reads verex's `/config` and scopes the cap to
-**verex's own MockUSDC**. If the two ever sat on different chains the cap would guard a token
+**verex's own JUSD**. If the two ever sat on different chains the cap would guard a token
 nobody trades — so `prepare` returns **409** and the console's preflight turns red.
 
 ## 6. Who holds which key
 
 | Key | Lives | Can |
 |---|---|---|
-| Operator (anvil #0) | verex server | mint MockUSDC, send `matchOrders`, report payouts |
+| Operator (anvil #0) | verex server | mint JUSD, send `matchOrders`, report payouts |
 | Demo wallets 1–9 | verex server | trade as before — **Phase 1 was additive, none were removed** |
 | **Agent EOA** | **rabbit server** | sign CTF orders, call `redeemDelegations`. Testnet-grade, and the page says so |
 | Owner EOA | **MetaMask, yours** | sign the mandate. Never leaves the browser |
@@ -233,7 +233,7 @@ hidden.
 ```
 delegator   owner's Hybrid smart account   ← whose money
 delegate    agent EOA                      ← who may draw it
-cap         N MockUSDC                     → ERC20TransferAmountEnforcer
+cap         N JUSD                     → ERC20TransferAmountEnforcer
 expiry      unix seconds                   → TimestampEnforcer
 signature   MetaMask, EIP-712              ← eth_signTypedData_v4
 ```
@@ -248,7 +248,7 @@ if chainId 31337 were on its list. A plain EIP-712 `Delegation` works instead be
 wallet for its real supported-chain list, so this can be revisited from evidence.
 
 **The delegator is a smart account, not your EOA.** `redeemDelegations` executes in the delegator's
-context, so there must be contract code there. The USDC therefore sits at the smart-account
+context, so there must be contract code there. The jUSD therefore sits at the smart-account
 address. Upside: no EIP-7702, so anvil never needs the Prague hardfork. It is funded by **verex's
 address-scoped faucet** — a Phase-1 piece that slotted in unchanged.
 
@@ -289,7 +289,7 @@ Four seams, and no others:
 | Seam | Direction | Carrying |
 |---|---|---|
 | `@verex/sdk` | verex → rabbit | `signOrder`, the order type, the domain. A `file:` link, so **one definition** |
-| `GET /config` | verex → rabbit | chainId, exchange, **usdc**, ctf. Read every time — `reset.sh` changes them |
+| `GET /config` | verex → rabbit | chainId, exchange, **jusd**, ctf. Read every time — `reset.sh` changes them |
 | `POST /orders` | rabbit → verex | a signed order from an address verex holds no key for |
 | `POST /faucet` | rabbit → verex | funds the owner's smart account before the first draw |
 

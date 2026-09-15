@@ -63,14 +63,14 @@ curl -s -X POST -H &#39;content-type: application/json&#39; -d &#39;{&quot;addre
 <li><strong><code>agent:approve</code></strong> — one-time on-chain approvals from the <strong>agent</strong> EOA: ERC-20 <code>approve</code> (BUY) and
 ERC-1155 <code>setApprovalForAll</code> (SELL). verex&#39;s <code>checkExternalFunds</code> only <em>reads</em> an external
 maker&#39;s balance/allowance; it never approves on its behalf, so without this every BUY fails with
-<code>insufficient USDC allowance</code> and every SELL with <code>has not approved the exchange for CTF transfers</code>.
+<code>insufficient jUSD allowance</code> and every SELL with <code>has not approved the exchange for CTF transfers</code>.
 Two txs → the agent needs ETH first. <code>ANVIL_RPC_URL=</code> prefix because the script reads it from the
 process env, not <code>.env</code> (bare, it talks to :8545). Idempotent.</li>
 <li><strong><code>agent:seed-news</code></strong> — <code>estimate()</code> refuses to call the LLM with no news (a prior can&#39;t beat a live
 book), so an empty news store always yields <code>SKIP_NO_ESTIMATE</code>. Seeds use relative timestamps
 (90/55/20 min ago) to stay inside the 48 h window — rerun before each demo.</li>
-<li><strong><code>/faucet</code></strong> — MockUSDC mint on the fork. Fund the <strong>owner</strong> you grant from (the mandate lets the
-agent <em>pull</em> USDC out of the owner; the 7715 path skips <code>/prepare</code>, which is what funded the owner
+<li><strong><code>/faucet</code></strong> — JUSD mint on the fork. Fund the <strong>owner</strong> you grant from (the mandate lets the
+agent <em>pull</em> jUSD out of the owner; the 7715 path skips <code>/prepare</code>, which is what funded the owner
 on 31337) and optionally the <strong>agent</strong> as a cushion.</li>
 </ul>
 <p>Order: ETH → approve → faucet → seed → grant → tick.</p>
@@ -154,7 +154,7 @@ anvil --fork-url &quot;$SEPOLIA_RPC&quot; --chain-id 11155111 --state ./anvil-se
 pnpm --filter @verex/api dev            # :4000
 curl -s http://127.0.0.1:4000/config    # expect chainId 11155111, tradingEnabled true
 </code></pre>
-<h2 id="3-rabbit-rerun-approve--faucet-after-every-resetsh--usdcexchange-addresses-change">3. rabbit (rerun approve + faucet after every reset.sh — USDC/exchange addresses change)</h2>
+<h2 id="3-rabbit-rerun-approve--faucet-after-every-resetsh--jusdexchange-addresses-change">3. rabbit (rerun approve + faucet after every reset.sh — jUSD/exchange addresses change)</h2>
 <pre><code class="language-bash">cd /Users/jay/work/rabbit
 pnpm dev                                # :3100
 ANVIL_RPC_URL=http://127.0.0.1:8545 pnpm agent:approve
@@ -165,7 +165,7 @@ curl -s -X POST -H &#39;content-type: application/json&#39; -d &#39;{&quot;addre
 <ol>
 <li>MetaMask → Sepolia, RPC <code>http://127.0.0.1:8545</code>, an account that is <strong>not</strong> the agent.</li>
 <li>Fund it: faucet (above) + ETH (below).</li>
-<li><code>http://127.0.0.1:3100/live/agent/console</code> → Connect → <strong>Grant mandate</strong> → MetaMask&#39;s own &quot;up to 10 USDC, 60 min&quot; popup.</li>
+<li><code>http://127.0.0.1:3100/live/agent/console</code> → Connect → <strong>Grant mandate</strong> → MetaMask&#39;s own &quot;up to 10 jUSD, 60 min&quot; popup.</li>
 <li>Tick <code>us-federal-stablecoin-law-2026</code> with a short <code>cooldownSec</code> → expect <code>TRADED … (drawn on-chain 0x…)</code>.</li>
 <li>Tick <code>eth-above-10k-2026</code> → expect <code>SKIP_EDGE</code>.</li>
 </ol>

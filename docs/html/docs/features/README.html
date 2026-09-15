@@ -240,9 +240,9 @@ extras are <strong>crammed into the last column</strong> (Wallet&#39;s P3 + P4, 
 <tr>
 <td>7</td>
 <td>Token + Exchange + Bridge + Personas</td>
-<td>Token + exchange (JYVE/USDC) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ · Personas: mint + token-gated chat</td>
+<td>Token + exchange (JYVE/jUSD) ✅ live on Sepolia + exchange.jaylabs.xyz ✅ · supply-integrity sim page ✅ · Personas: mint + token-gated chat</td>
 <td>Intra bridge (lock-and-mint) — contracts + relayer; UI in Wallet #6 · Personas: day rentals (ERC-4907)</td>
-<td>Real cross-chain — CCIP (arbitrary messages) + <strong>Circle CCTP</strong> (native USDC, burn-and-mint) + <strong>xERC20 / ERC-7281</strong> (JYVE as a sovereign bridged token, per-bridge rate limits) · Personas: revenue + market (x402, IPFS, creator flow)</td>
+<td>Real cross-chain — CCIP (arbitrary messages) + <strong>Circle CCTP</strong> (native jUSD, burn-and-mint) + <strong>xERC20 / ERC-7281</strong> (JYVE as a sovereign bridged token, per-bridge rate limits) · Personas: revenue + market (x402, IPFS, creator flow)</td>
 </tr>
 <tr>
 <td>8</td>
@@ -296,10 +296,10 @@ on-chain action the wallet runs <strong>simulate-before-sign</strong>: she sees 
 shares; max loss ₩10,000&quot;</em> — the decoded effect, not a hex blob.</li>
 <li><strong>#1 Rabbit AA.</strong> The bet itself is a <strong>gasless one-click</strong> UserOp: a paymaster sponsors gas,
 a session key scoped to <em>Verex markets only, ≤ ₩50,000/day</em> signs it. No MetaMask popup.</li>
-<li><strong>#7 Token + Exchange.</strong> Her leftover ₩ balance is held as USDC; the street&#39;s tip jars and
-persona rentals price in <strong>JYVE</strong>, so a <strong>mini-AMM swap</strong> (USDC → JYVE) happens under a single
+<li><strong>#7 Token + Exchange.</strong> Her leftover ₩ balance is held as jUSD; the street&#39;s tip jars and
+persona rentals price in <strong>JYVE</strong>, so a <strong>mini-AMM swap</strong> (jUSD → JYVE) happens under a single
 &quot;top up&quot; button — the price she sees is the reserve ratio, nothing more mysterious.</li>
-<li><strong>#3 DeFi.</strong> The app offers <em>&quot;park your idle balance&quot;</em>: her unused USDC-equivalent ETH goes
+<li><strong>#3 DeFi.</strong> The app offers <em>&quot;park your idle balance&quot;</em>: her unused jUSD-equivalent ETH goes
 into <strong>jeETH</strong>; the position panel shows her balance rebasing up by the hour, and <em>why</em>.</li>
 <li><strong>#7 Personas (Token + Exchange).</strong> She rents <strong>&quot;Coach Han&quot;</strong> — a persona NFT — for one day (ERC-4907) to explain
 the market she just bet on; the token-gated chat opens only while the rental is live.</li>
@@ -335,12 +335,12 @@ and that is exactly what happens.</li>
 <li><strong>#1 Rabbit AA.</strong> Winners claim with <strong>gasless claims</strong> batched into UserOps; the paymaster&#39;s
 sponsored-gas bill is a <strong>cost of goods</strong> line the operator can read the next morning
 (<code>sponsored-gas-is-cogs</code>).</li>
-<li><strong>#6 Wallet.</strong> Every claim previews first: <em>&quot;you receive 1,240 USDC; this closes your
+<li><strong>#6 Wallet.</strong> Every claim previews first: <em>&quot;you receive 1,240 jUSD; this closes your
 position&quot;</em>. One user&#39;s preview shows a <strong>revert</strong> (a stale nonce) and the wallet refuses to sign
 — the failure never reaches the chain.</li>
-<li><strong>#7 Token + Exchange + Bridge.</strong> A winner wants her USDC on Base. The bridge does
+<li><strong>#7 Token + Exchange + Bridge.</strong> A winner wants her jUSD on Base. The bridge does
 <strong>lock-and-mint</strong>; the <code>holding = issuance</code> and <strong>1:1</strong> invariants are checked on both legs.
-On the same afternoon the JYVE/USDC pool absorbs the winners&#39; swaps — the reserve-ratio price
+On the same afternoon the JYVE/jUSD pool absorbs the winners&#39; swaps — the reserve-ratio price
 moves visibly, which is the mini-AMM teaching what a thin pool does.</li>
 <li><strong>#8 OFA.</strong> Large winners swapping out of JYVE go through the <strong>intent auction</strong> — three
 solvers bid, the AMM solver loses to a better route, surplus lands with the user, and the

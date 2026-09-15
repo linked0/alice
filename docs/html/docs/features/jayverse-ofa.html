@@ -78,11 +78,11 @@ not on its own screen.</p>
 when a user has to convert one token into another and a naive swap would leak the surplus to a
 searcher.</p>
 <p>Jun holds <strong>JYVE</strong> (the <a href="jayverse-token-bridge.html">jayverse-token</a> coin) but wants to bet on a
-<a href="jayverse-verex.html">Verex</a> market that settles in a USDC-like unit. He needs to convert — and that
+<a href="jayverse-verex.html">Verex</a> market that settles in a jUSD-like unit. He needs to convert — and that
 conversion is exactly where MEV normally leaks.</p>
 <ol>
 <li><strong>Intent, not a swap.</strong> In the <a href="jayverse-wallet.html">Wallet</a>, Jun taps <em>&quot;Fund this bet.&quot;</em> The
-wallet builds an <strong>intent</strong> — <code>give 100 JYVE, want &gt;= 98 USDC, deadline 2 min</code> (EIP-712) — instead
+wallet builds an <strong>intent</strong> — <code>give 100 JYVE, want &gt;= 98 jUSD, deadline 2 min</code> (EIP-712) — instead
 of a market swap. <strong>Simulate-before-sign</strong> shows the <code>minOut</code> floor and the <em>expected surplus
 range</em> before he commits.</li>
 <li><strong>One signature.</strong> He signs the intent once; it lands at <code>IntentAuction.submitIntent</code>.</li>
@@ -93,7 +93,7 @@ prices.</li>
 (<code>amountOut + bid</code>), pulls the JYVE, runs the winner, enforces <strong><code>finalOut &gt;= minOut</code></strong> <em>and</em>
 <strong><code>holding = issuance</code></strong>, and sends the <strong>surplus to Jun, never the searcher</strong>. Losing solvers
 revert cleanly.</li>
-<li><strong>The bet funds itself.</strong> The resulting USDC funds the Verex bet in the same flow;
+<li><strong>The bet funds itself.</strong> The resulting jUSD funds the Verex bet in the same flow;
 <a href="jayverse-number.html">Number</a> logs the fill and the realized surplus as a line in Jun&#39;s PnL.</li>
 <li><strong>Authority is checked, not assumed.</strong> Had <code>settle</code> been misconfigured to pay a searcher instead
 of Jun, the <a href="jayverse-auditor.html">Authority Auditor</a> matrix would surface &quot;who captures the

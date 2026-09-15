@@ -111,7 +111,7 @@ use. One piece is pulled forward: a <a href="#probe">smoke probe</a> against the
 the only thing in this plan that has never worked and it should not be discovered at the end.</p>
 <p><strong>Where it stands (2026-09-04): the milestone happened.</strong> On 2026-09-02 the loop produced its
 first <strong>fully scheduled, wallet-granted, on-chain-drawn trade</strong> — a server tick nobody triggered
-drew MockUSDC through a mandate granted by <strong>MetaMask&#39;s own ERC-7715 popup</strong> and bought <code>4.81 Yes</code>
+drew JUSD through a mandate granted by <strong>MetaMask&#39;s own ERC-7715 popup</strong> and bought <code>4.81 Yes</code>
 (draw tx <code>0x5e765a3b…</code>; the mandate read <code>7.50/10</code> after). Phases 1–2 (V-A…V-D, R-A…R-E, R-I)
 remain done with on-chain cap/expiry (<a href="#onchain">details</a>); <strong>R-F is built</strong> (<a href="#order">Phase 3</a>).
 Two changes made the milestone possible, both bigger than they look:</p>
@@ -236,7 +236,7 @@ uma-eth-above-6k-2026            0.57 ─── 0.62 ─── 0.67
 <p>Buying the 10k market until its ask is exhausted stops at <strong>0.49</strong>; selling the 6k market to its
 floor stops at <strong>0.57</strong>. <strong>Eating the ladders can never make them cross.</strong> The violation has to be
 <em>posted</em>, not walked to — a resting limit order priced past the whole ladder.</p>
-<p><strong>Steps.</strong> Verex API on <code>:4000</code>, anvil up, demo wallets seeded (wallet 1 holds 7,000 USDC).</p>
+<p><strong>Steps.</strong> Verex API on <code>:4000</code>, anvil up, demo wallets seeded (wallet 1 holds 7,000 jUSD).</p>
 <table>
 <thead>
 <tr>
@@ -253,7 +253,7 @@ floor stops at <strong>0.57</strong>. <strong>Eating the ladders can never make 
 <tr>
 <td>2</td>
 <td>Post a limit BUY that outruns the ladder — from <strong>wallet 1</strong>, the only one with enough: <br><code>curl -s -X POST localhost:4000/orders -H &#39;content-type: application/json&#39; -d &#39;{&quot;slug&quot;:&quot;eth-above-10k-2026&quot;,&quot;outcome&quot;:&quot;Yes&quot;,&quot;side&quot;:&quot;BUY&quot;,&quot;accountIndex&quot;:1,&quot;type&quot;:&quot;limit&quot;,&quot;amount&quot;:2100,&quot;price&quot;:0.64}&#39;</code></td>
-<td><code>amount</code> is <strong>tokens</strong>. The first 2,000 fill against the whole ask ladder (≈ <strong>927 USDC</strong>); the remaining 100 <strong>rest as a bid at 0.64</strong> (≈ 64 USDC escrowed). Total ≈ <strong>991 USDC</strong></td>
+<td><code>amount</code> is <strong>tokens</strong>. The first 2,000 fill against the whole ask ladder (≈ <strong>927 jUSD</strong>); the remaining 100 <strong>rest as a bid at 0.64</strong> (≈ 64 jUSD escrowed). Total ≈ <strong>991 jUSD</strong></td>
 </tr>
 <tr>
 <td>3</td>
@@ -286,10 +286,10 @@ floor stops at <strong>0.57</strong>. <strong>Eating the ladders can never make 
 <td><code>cd ~/work/verex &amp;&amp; ./scripts/reset.sh</code>. ⚠️ <strong>This deploys a fresh backbone</strong> — the Exchange address changes, so re-read <code>/config</code> and grant a new mandate. A cached <code>verifyingContract</code> produces a valid signature of the wrong message</td>
 </tr>
 </tbody></table>
-<p><strong>On the ≈991 USDC.</strong> That is not a fee. Roughly 927 of it <em>buys 2,000 YES tokens</em> at an average
+<p><strong>On the ≈991 jUSD.</strong> That is not a fee. Roughly 927 of it <em>buys 2,000 YES tokens</em> at an average
 0.46 — a position, not a loss — and the remaining ~64 is escrow behind the resting bid, released by
 step 7. The only real cost of the round trip is the spread on selling those tokens back. Wallet 1
-holds 7,000 USDC and is the only demo wallet with room; the others hold 1,000.</p>
+holds 7,000 jUSD and is the only demo wallet with room; the others hold 1,000.</p>
 <p><strong>Two things this procedure does not prove.</strong> It does not show the agent <em>finding</em> the violation —
 step 2 is a human posting it. And step 5 is two separate orders that can partially fill
 independently; a real implementation needs the legs to be atomic or the position bounded, which is
@@ -324,7 +324,7 @@ actually runs, see <a href="../features/autonomous-trading-agent.html">autonomou
 <a href="#onchain">The mandate is enforced on chain</a>.</p>
 </blockquote>
 <pre><code>  Owner wallet (MetaMask)
-      │  ERC-7715 delegation — cap: N MockUSDC, expiry: T
+      │  ERC-7715 delegation — cap: N JUSD, expiry: T
       │  ◀── the ONLY on-chain enforcement point
       ▼  redeem ≤ cap
   Agent EOA            key on RABBIT&#39;s server (testnet-grade, labelled on the page)
@@ -477,7 +477,7 @@ which means <strong>this table is not a work queue</strong>; the <a href="#order
 <tr>
 <td><strong>R-A</strong></td>
 <td>Mandate: grant · fund · revoke</td>
-<td>ERC-7715 delegation scoped to <strong>amount + expiry</strong>; redeeming it moves ≤ cap of MockUSDC to the agent EOA; key generated server-side, address-only to the browser, <strong>labelled testnet-grade on the page</strong></td>
+<td>ERC-7715 delegation scoped to <strong>amount + expiry</strong>; redeeming it moves ≤ cap of JUSD to the agent EOA; key generated server-side, address-only to the browser, <strong>labelled testnet-grade on the page</strong></td>
 <td>—</td>
 </tr>
 <tr>
@@ -554,8 +554,8 @@ end is how you find out too late.</p>
 <p>The probe is one call: <strong><code>initialize</code> on the staging adapter with Sepolia WETH as the reward
 token.</strong> If the live oracle accepts the request, the rest of W1 is waiting and configuration and
 can safely sit at the end. If it reverts, you learn it now.</p>
-<p><strong>Do not use MockUSDC.</strong> <a href="https://github.com/linked0/rabbit/blob/main/projects/verex/packages/contracts/src/UmaCtfAdapter.sol"><code>UmaCtfAdapter</code></a>&#39;s
-own docblock says it: the reward token must be on UMA&#39;s <code>AddressWhitelist</code>, MockUSDC is not, and
+<p><strong>Do not use JUSD.</strong> <a href="https://github.com/linked0/rabbit/blob/main/projects/verex/packages/contracts/src/UmaCtfAdapter.sol"><code>UmaCtfAdapter</code></a>&#39;s
+own docblock says it: the reward token must be on UMA&#39;s <code>AddressWhitelist</code>, JUSD is not, and
 Sepolia WETH <code>0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9</code> is — self-service via <code>deposit()</code>. This
 is the trap that passes locally and reverts on Sepolia.</p>
 <h3 id="phase-1--verex-accepts-a-counterparty-it-does-not-custody-v--23d">Phase 1 — verex accepts a counterparty it does not custody <code>[V]</code> · ~2–3d</h3>
@@ -615,7 +615,7 @@ a browser and needs neither R-B nor the <a href="#open">O1</a> decision.</p>
 <tbody><tr>
 <td><strong>R-A</strong></td>
 <td><strong>Mandate: grant · fund · revoke</strong></td>
-<td>ERC-7715 delegation scoped to amount + expiry; redeeming it transfers ≤ cap of MockUSDC to the agent EOA. Key generated server-side, address-only to the browser, <strong>labelled testnet-grade on the page</strong> — this is D2, answered</td>
+<td>ERC-7715 delegation scoped to amount + expiry; redeeming it transfers ≤ cap of JUSD to the agent EOA. Key generated server-side, address-only to the browser, <strong>labelled testnet-grade on the page</strong> — this is D2, answered</td>
 </tr>
 <tr>
 <td><strong>R-B</strong></td>
@@ -698,7 +698,7 @@ be doing it twice. What makes this safe rather than reckless is <a href="#probe"
 <p><strong>The steps live in verex&#39;s plan</strong>, not here — W1 is verex&#39;s item and this file only owns the
 seam. Seven steps with the trap next to each:
 <a href="" data-missing="../../projects/verex/docs/tasks/current-plan.md">verex current-plan.md → W1</a>. The short version
-is: fund Sepolia WETH (<strong>not MockUSDC</strong> — it is not on UMA&#39;s whitelist), fresh seed with a
+is: fund Sepolia WETH (<strong>not JUSD</strong> — it is not on UMA&#39;s whitelist), fresh seed with a
 short-dated market, propose, wait out real liveness, settle, redeem, close A5.</p>
 <p><strong>Take the undisputed path.</strong> The dispute branch is <strong>not walkable on Sepolia</strong>: a real dispute
 escalates to UMA&#39;s DVM — a ~2-day staked commit/reveal round that testnet does not reliably
@@ -743,7 +743,7 @@ Fixed on verex branch <code>claude/faucet-operator-and-target</code>.</p>
 <tr>
 <td><strong>V-B</strong></td>
 <td>✅</td>
-<td><code>checkExternalFunds</code> (reads and rejects), <code>faucetTo</code> + <code>POST /faucet {address}</code>. <strong>Written 2026-08-26, working 2026-08-27</strong> — see the note above; the UI for it (an address field on the faucet, showing the MockUSDC address) landed with the fix</td>
+<td><code>checkExternalFunds</code> (reads and rejects), <code>faucetTo</code> + <code>POST /faucet {address}</code>. <strong>Written 2026-08-26, working 2026-08-27</strong> — see the note above; the UI for it (an address field on the faucet, showing the JUSD address) landed with the fix</td>
 </tr>
 <tr>
 <td><strong>V-C</strong></td>
@@ -753,7 +753,7 @@ Fixed on verex branch <code>claude/faucet-operator-and-target</code>.</p>
 <tr>
 <td><strong>V-D</strong></td>
 <td>✅</td>
-<td><code>recordExternalRedeem</code> — verifies the receipt&#39;s <code>PayoutRedemption</code> before recording. <code>/config</code> gained <code>ctf</code> + <code>usdc</code></td>
+<td><code>recordExternalRedeem</code> — verifies the receipt&#39;s <code>PayoutRedemption</code> before recording. <code>/config</code> gained <code>ctf</code> + <code>jusd</code></td>
 </tr>
 <tr>
 <td><strong>SDK</strong></td>
@@ -823,11 +823,11 @@ Fixed on verex branch <code>claude/faucet-operator-and-target</code>.</p>
 <td><code>lib/agent-tick.ts</code></td>
 </tr>
 <tr>
-<td>Participants panel — operator/user/agent ETH+USDC balances, +1 ETH / +1000 USDC buttons; user row from <code>USER_PRIVATE_KEY</code>, ETH funded as a real transfer from anvil #0</td>
+<td>Participants panel — operator/user/agent ETH+jUSD balances, +1 ETH / +1000 jUSD buttons; user row from <code>USER_PRIVATE_KEY</code>, ETH funded as a real transfer from anvil #0</td>
 <td><code>ParticipantsPanel.tsx</code>, <code>app/api/agent/{participants,fund}</code></td>
 </tr>
 <tr>
-<td>In-console approvals (USDC allowance + CTF <code>setApprovalForAll</code>), idempotent, button survives failure</td>
+<td>In-console approvals (jUSD allowance + CTF <code>setApprovalForAll</code>), idempotent, button survives failure</td>
 <td><code>Preflight.tsx</code>, <code>app/api/agent/approve/</code></td>
 </tr>
 <tr>
@@ -872,7 +872,7 @@ The console has a button that asks the wallet for its real supported-chain list,
 appears there, this decision can be revisited from evidence rather than memory.</p>
 <p>Consequence to know: the delegator is a <strong>Hybrid smart account</strong> owned by the MetaMask EOA, because
 <code>redeemDelegations</code> executes in the delegator&#39;s context and therefore needs contract code there.
-The USDC lives at the smart-account address, not at the EOA. It is funded by <strong>V-B&#39;s address-scoped
+The jUSD lives at the smart-account address, not at the EOA. It is funded by <strong>V-B&#39;s address-scoped
 faucet</strong> — a Phase 1 piece that slotted in unchanged. Upside: no EIP-7702, so anvil never needs the
 Prague hardfork.</p>
 <p><strong>The tick now draws through the delegation before it places an order.</strong> Order-first would leave a
@@ -922,7 +922,7 @@ deploy above — no verex, no postgres, no MetaMask:</p>
 </code></pre>
 <p>It draws inside the mandate, then over the cap, then past the expiry, and prints what the contracts
 say. Expect exactly this, and treat any other outcome as the demo being broken:</p>
-<pre><code>1. draw 4 of 10 …………………  agent USDC: 4
+<pre><code>1. draw 4 of 10 …………………  agent jUSD: 4
 2. cap exceeded …………………  ERC20TransferAmountEnforcer:allowance-exceeded   (still 4)
 3. after expiry ………………… TimestampEnforcer:expired-delegation             (still 4)
 </code></pre>
@@ -974,7 +974,7 @@ at the same agent. It walks all seven verdicts and ends on two consecutive <code
 <tbody><tr>
 <td>1</td>
 <td><code>curl localhost:4000/config</code></td>
-<td><code>exchange</code>, <code>ctf</code>, <code>usdc</code> all present and non-null. <strong>This is what makes the EIP-712 domain buildable</strong> — hardcoding it breaks on every <code>reset.sh</code></td>
+<td><code>exchange</code>, <code>ctf</code>, <code>jusd</code> all present and non-null. <strong>This is what makes the EIP-712 domain buildable</strong> — hardcoding it breaks on every <code>reset.sh</code></td>
 </tr>
 <tr>
 <td>2</td>

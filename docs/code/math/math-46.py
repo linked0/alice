@@ -57,7 +57,7 @@ def H(*parts):
 
 d = 42 % n or 7          # 개인키
 Q = scalar_mul(d, G)      # 공개키
-message = "transfer 10 USDC to bob"
+message = "transfer 10 jUSD to bob"
 
 k = random.randrange(1, n)
 R = scalar_mul(k, G)
@@ -71,7 +71,7 @@ rhs = point_add(R, scalar_mul(e, Q))
 print("검증 결과 s*G == R + e*Q :", lhs == rhs)
 
 # 다른 메시지로는 같은 서명이 통과하지 못함을 확인
-e_wrong = H(R[0], "transfer 10000 USDC to bob")
+e_wrong = H(R[0], "transfer 10000 jUSD to bob")
 lhs_wrong = scalar_mul(s, G)
 rhs_wrong = point_add(R, scalar_mul(e_wrong, Q))
 print("변조된 메시지 검증(실패해야 정상) :", lhs_wrong == rhs_wrong)

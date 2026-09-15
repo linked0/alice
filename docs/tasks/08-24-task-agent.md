@@ -17,7 +17,7 @@ It's all resolved and you don't need to look at this.
     - Select the one market form the market list from verex
         - The page fetches the list from local verex server if it runs on rabbit local server.
         - It has a condition that a agent try to trade like once an period like one hour if some condition is fulfilled like a yes probility is 10% higher than one hour ago
-    - The USDC amount limit that the agent can use and comfirm button that can sign a signature for that through the Metamask
+    - The jUSD amount limit that the agent can use and comfirm button that can sign a signature for that through the Metamask
     - It shows the current status that the agent have used in trading in the current budget.
         - I can also show the current budget is all used up.
 - This requirements should make the verex change.

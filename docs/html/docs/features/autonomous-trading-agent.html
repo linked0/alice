@@ -125,7 +125,7 @@ anvil has to be up first — the seed <em>is</em> the deploy.</p>
 </thead>
 <tbody><tr>
 <td>1–3</td>
-<td>MockUSDC · ConditionalTokens · CTFExchange</td>
+<td>JUSD · ConditionalTokens · CTFExchange</td>
 <td><code>DeployCTF.s.sol</code></td>
 </tr>
 <tr>
@@ -178,7 +178,7 @@ every fresh chain). <strong>Re-run it every time anvil restarts.</strong></p>
 </code></pre>
 <p>Needs nothing but anvil and 3.3 — no verex, no Postgres, no MetaMask, deliberately. It draws
 inside the mandate, then over the cap, then past the deadline:</p>
-<pre><code>1. draw 4 of 10 …………  agent USDC: 4
+<pre><code>1. draw 4 of 10 …………  agent jUSD: 4
 2. cap exceeded ………  ERC20TransferAmountEnforcer:allowance-exceeded   (still 4)
 3. after expiry ………  TimestampEnforcer:expired-delegation             (still 4)
 </code></pre>
@@ -252,7 +252,7 @@ missing.</p>
 deploy transactions. This is the single most common misreading of the setup.</p>
 <pre><code>                         anvil · chainId 31337
   ┌────────────────────────────────────────────────────────────────┐
-  │  MockUSDC          CTF          CTFExchange      UMA adapter   │  ← verex seed
+  │  JUSD          CTF          CTFExchange      UMA adapter   │  ← verex seed
   │      ▲                                                          │
   │      │ the cap is scoped to THIS token ── the only shared object│
   │      │                                                          │
@@ -265,7 +265,7 @@ agent. Verex is <strong>not a party to it</strong> — it never calls <code>Dele
 delegation, and does not know one exists. Verex&#39;s Phase-1 job was to <em>stop caring who the trader
 is</em>; handing it the mandate would undo that.</p>
 <p>They meet at exactly one address. <code>mandate/prepare</code> reads verex&#39;s <code>/config</code> and scopes the cap to
-<strong>verex&#39;s own MockUSDC</strong>. If the two ever sat on different chains the cap would guard a token
+<strong>verex&#39;s own JUSD</strong>. If the two ever sat on different chains the cap would guard a token
 nobody trades — so <code>prepare</code> returns <strong>409</strong> and the console&#39;s preflight turns red.</p>
 <h2 id="6-who-holds-which-key">6. Who holds which key</h2>
 <table>
@@ -279,7 +279,7 @@ nobody trades — so <code>prepare</code> returns <strong>409</strong> and the c
 <tbody><tr>
 <td>Operator (anvil #0)</td>
 <td>verex server</td>
-<td>mint MockUSDC, send <code>matchOrders</code>, report payouts</td>
+<td>mint JUSD, send <code>matchOrders</code>, report payouts</td>
 </tr>
 <tr>
 <td>Demo wallets 1–9</td>
@@ -303,7 +303,7 @@ hidden.</p>
 <h2 id="7-the-mandate-concretely">7. The mandate, concretely</h2>
 <pre><code>delegator   owner&#39;s Hybrid smart account   ← whose money
 delegate    agent EOA                      ← who may draw it
-cap         N MockUSDC                     → ERC20TransferAmountEnforcer
+cap         N JUSD                     → ERC20TransferAmountEnforcer
 expiry      unix seconds                   → TimestampEnforcer
 signature   MetaMask, EIP-712              ← eth_signTypedData_v4
 </code></pre>
@@ -315,7 +315,7 @@ if chainId 31337 were on its list. A plain EIP-712 <code>Delegation</code> works
 <code>verifyingContract</code> and <code>chainId</code> are <strong>ours to pass</strong>. The console has a button that asks the
 wallet for its real supported-chain list, so this can be revisited from evidence.</p>
 <p><strong>The delegator is a smart account, not your EOA.</strong> <code>redeemDelegations</code> executes in the delegator&#39;s
-context, so there must be contract code there. The USDC therefore sits at the smart-account
+context, so there must be contract code there. The jUSD therefore sits at the smart-account
 address. Upside: no EIP-7702, so anvil never needs the Prague hardfork. It is funded by <strong>verex&#39;s
 address-scoped faucet</strong> — a Phase-1 piece that slotted in unchanged.</p>
 <p><strong>The struct is built server-side; the browser only signs.</strong> Two definitions of one signed struct
@@ -360,7 +360,7 @@ lie; the simulation costs nothing and returns <code>TimestampEnforcer:expired-de
 <tr>
 <td><code>GET /config</code></td>
 <td>verex → rabbit</td>
-<td>chainId, exchange, <strong>usdc</strong>, ctf. Read every time — <code>reset.sh</code> changes them</td>
+<td>chainId, exchange, <strong>jusd</strong>, ctf. Read every time — <code>reset.sh</code> changes them</td>
 </tr>
 <tr>
 <td><code>POST /orders</code></td>

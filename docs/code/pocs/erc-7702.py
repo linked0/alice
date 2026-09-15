@@ -46,13 +46,13 @@ def call(address: str, calldata: str) -> str:
 
 if __name__ == "__main__":
     owner = "0xOwnerEOA..."
-    print(f"before authorization: {call(owner, 'transfer(USDC, 10)')}")
+    print(f"before authorization: {call(owner, 'transfer(jUSD, 10)')}")
 
     authorize(owner, "0xDeleGator...")
     print(f"eth_getCode({owner}) -> {get_code(owner)}")
-    print(f"after authorization: {call(owner, 'transfer(USDC, 10)')}")
+    print(f"after authorization: {call(owner, 'transfer(jUSD, 10)')}")
 
     print("\nowner, balance, nonce untouched -- only the code slot changed")
     print("revoking by pointing the designator back at the zero address:")
     code_slots[owner] = f"{DELEGATION_MARKER}0xZeroAddr..."
-    print(f"after revoking: {call(owner, 'transfer(USDC, 10)')}")
+    print(f"after revoking: {call(owner, 'transfer(jUSD, 10)')}")

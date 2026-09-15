@@ -46,16 +46,16 @@ Smallest viable loop: request → <strong>HTTP 402</strong> → pay → retry �
 the agent &quot;spends&quot; against it on a mock service and the remaining budget ticks down.</p>
 <h2 id="if-a-smart-contract-is-needed-plan">If a smart contract is needed (plan)</h2>
 <ul>
-<li>A minimal <strong>escrow / paymaster</strong>: user deposits mock USDC; agent calls <code>pay(provider, amount)</code>
+<li>A minimal <strong>escrow / paymaster</strong>: user deposits mock jUSD; agent calls <code>pay(provider, amount)</code>
 bounded by a per-agent cap. Reuse session-key/paymaster ideas from Verex.</li>
 <li>Stack: a small Foundry contract + a tiny TS client; deploy to a testnet or local anvil.</li>
 </ul>
 <h2 id="real-payment-rail-korea-usable">Real payment rail (Korea-usable)</h2>
 <p>The first cut can be mocked, but a stronger demo uses a <strong>real</strong> payment leg. Candidate:
 <strong>Bridge API</strong> (<a href="https://www.bridge.xyz">bridge.xyz</a> — stablecoin orchestration: virtual
-accounts, USDC transfers, on/off-ramps). <strong>Open risk:</strong> Korea availability — KRW on/off-ramp and
+accounts, jUSD transfers, on/off-ramps). <strong>Open risk:</strong> Korea availability — KRW on/off-ramp and
 KYC are tightly regulated here, so Bridge&#39;s KR coverage must be <strong>verified</strong>, not assumed. Keep a
-fallback (another stablecoin/payments API, or stay on testnet USDC) in case it isn&#39;t usable from
+fallback (another stablecoin/payments API, or stay on testnet jUSD) in case it isn&#39;t usable from
 Korea.</p>
 <h2 id="rabbit-aiaas--agent-as-a-service-waiaas--x402">rabbit-aiaas — Agent-as-a-Service (waiaas / x402)</h2>
 <p><em>Source: <a href="../tasks/jun-26-rabbit-draft.html">../tasks/jun-26-rabbit-draft.md</a> — draft, to be refined.</em></p>
@@ -72,12 +72,12 @@ amounts on-chain <strong>without a human approving each charge</strong> — the 
 </ol>
 <p><strong>Scenarios</strong></p>
 <ul>
-<li><em>Personal:</em> a research/purchase agent auto-pays USDC per paid API call; the user sets only policy
+<li><em>Personal:</em> a research/purchase agent auto-pays jUSD per paid API call; the user sets only policy
 (&quot;$20/week; flights under ₩50k&quot;); pause on limit breach. Also subscription/billing automation and
 daily delegation of repeated micro-payments.</li>
 <li><em>Business (x402):</em> sell an API <strong>per call</strong> instead of &quot;key + monthly bill&quot;:<pre><code>agent        → GET /premium-data
 server       → 402 Payment Required (price $0.01, pay-to 0x…, chain Base)
-agent wallet → sends USDC 0.01
+agent wallet → sends jUSD 0.01
 server       → verifies payment, returns data
 </code></pre>
 </li>
@@ -86,14 +86,14 @@ server       → verifies payment, returns data
 <ul>
 <li><strong>rabbit-agent</strong> — gets its <strong>own category in the Rabbit top menu</strong>; talks to rabbit-provider;
 holds the wallet + policy and runs the pay→retry loop.</li>
-<li><strong>rabbit-provider</strong> — sells <strong>philosophical aphorisms</strong> for <strong>0.01 USDC</strong> (or a stablecoin) to AI
+<li><strong>rabbit-provider</strong> — sells <strong>philosophical aphorisms</strong> for <strong>0.01 jUSD</strong> (or a stablecoin) to AI
 agents like rabbit-agent. Built on a <strong>testnet</strong> first, but <strong>design for real stablecoin rails</strong>
 (see Bridge API above) so it can graduate later.</li>
 </ul>
 <p><strong>Next steps (from the draft)</strong></p>
 <ul>
 <li>Pick the smallest PoC scope: one personal scenario <strong>or</strong> one x402 402-flow.</li>
-<li>Choose wallet / chain / stablecoin (assume <strong>Base + USDC</strong>).</li>
+<li>Choose wallet / chain / stablecoin (assume <strong>Base + jUSD</strong>).</li>
 <li>Define a minimal policy engine.</li>
 </ul>
 <h2 id="open-questions">Open questions</h2>
@@ -117,14 +117,14 @@ agents like rabbit-agent. Built on a <strong>testnet</strong> first, but <strong
 <li><input disabled="" type="checkbox"> <strong>Real payment rail (Korea-usable)</strong><ul>
 <li><input disabled="" type="checkbox"> Evaluate <strong>Bridge API</strong> (<a href="https://www.bridge.xyz">bridge.xyz</a>) — stablecoin transfers / virtual accounts</li>
 <li><input disabled="" type="checkbox"> Verify KRW on/off-ramp + KYC/regulatory constraints in Korea (don&#39;t assume coverage)</li>
-<li><input disabled="" type="checkbox"> Pick a fallback if Bridge isn&#39;t usable from KR (other stablecoin/payments API, or stay on testnet USDC)</li>
+<li><input disabled="" type="checkbox"> Pick a fallback if Bridge isn&#39;t usable from KR (other stablecoin/payments API, or stay on testnet jUSD)</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> <strong>rabbit-aiaas (Agent-as-a-Service)</strong> — separate project <code>/Users/jay/work/task/rabbit-aiaas</code><ul>
-<li><input disabled="" type="checkbox"> <strong>rabbit-provider</strong> — testnet service selling aphorisms for 0.01 USDC via x402 402-flow; design for real rails</li>
+<li><input disabled="" type="checkbox"> <strong>rabbit-provider</strong> — testnet service selling aphorisms for 0.01 jUSD via x402 402-flow; design for real rails</li>
 <li><input disabled="" type="checkbox"> <strong>rabbit-agent</strong> — new top-menu category; wallet + policy + pay→retry against rabbit-provider</li>
 <li><input disabled="" type="checkbox"> Minimal policy engine (limit · allowlist · time-window) + settlement/audit log</li>
-<li><input disabled="" type="checkbox"> Choose wallet / chain / stablecoin (assume Base + USDC)</li>
+<li><input disabled="" type="checkbox"> Choose wallet / chain / stablecoin (assume Base + jUSD)</li>
 </ul>
 </li>
 </ul>

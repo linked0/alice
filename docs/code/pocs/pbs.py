@@ -41,7 +41,7 @@ class Relay:
 if __name__ == "__main__":
     random.seed(7)
     relay = Relay()
-    relay.submit(Bundle("searcher-A", bid_wei=12_000_000_000_000, txs=["swap(WETH,USDC)"]))
+    relay.submit(Bundle("searcher-A", bid_wei=12_000_000_000_000, txs=["swap(WETH,jUSD)"]))
     relay.submit(Bundle("searcher-B", bid_wei=18_500_000_000_000, txs=["arb(pool1,pool2)"]))
     relay.submit(Bundle("searcher-C", bid_wei=25_000_000_000_000, txs=["liquidate(user42)"], reverts=True))
     relay.submit(Bundle("searcher-D", bid_wei=16_000_000_000_000, txs=["sandwich(tx99)"]))

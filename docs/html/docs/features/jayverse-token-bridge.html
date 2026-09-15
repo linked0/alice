@@ -39,7 +39,7 @@
 <p><strong>Purpose:</strong> define an ecosystem ERC-20 (<code>JYVE</code>) used across Jayverse services, a tiny on-chain <strong>exchange</strong> (mini-AMM) that gives JYVE a readable price, and a minimal, dev-grade <strong>bridge</strong> to move it between jay&#39;s local Anvil fork and Sepolia. Token, exchange, and bridge are <strong>one economic unit</strong>, so they live together in a single <strong><code>jayverse-token</code></strong> repo (as packages), not three repos (jay, 2026-09-08). Design draft for review — nothing here is built yet.</p>
 <blockquote>
 <p>Source: <a href="../tasks/09-02-jayverse.html"><code>../tasks/09-02-jayverse.md</code></a> §7 &quot;Intra Jayverse Bridge&quot; and jay&#39;s comment there (&quot;We can create an ERC coin used in our ecosystem like JVRS or JVS… bridged between my Anvil chain and Sepolia. Show me some imaginary scenario.&quot;). Hub: <a href="README.html"><code>README.md</code></a>.</p>
-<p>Note on scope vs §7: the plan&#39;s §7 records a &quot;no new token&quot; decision (the intra-ledger is USDC balances in a shared vault). This doc explores the <em>opposite</em> branch jay asked for — an actual ecosystem token plus a real cross-chain hop — as a parallel design for jay to compare against the ledger-only approach. It does not overturn §7; it gives the token option a concrete shape to review.</p>
+<p>Note on scope vs §7: the plan&#39;s §7 records a &quot;no new token&quot; decision (the intra-ledger is jUSD balances in a shared vault). This doc explores the <em>opposite</em> branch jay asked for — an actual ecosystem token plus a real cross-chain hop — as a parallel design for jay to compare against the ledger-only approach. It does not overturn §7; it gives the token option a concrete shape to review.</p>
 </blockquote>
 <hr>
 <h2 id="phases-build-order">Phases (build order)</h2>
@@ -54,7 +54,7 @@
 <tbody><tr>
 <td><strong>1 (MVP)</strong></td>
 <td>Token + exchange</td>
-<td><code>JYVE.sol</code> (ERC-20, <code>MINTER_ROLE</code>, per-address + global mint caps); <code>Exchange.sol</code> constant-product <strong><code>JYVE/USDC</code></strong> pool with <code>addLiquidity</code>/<code>removeLiquidity</code>/<code>swap</code>/<code>getPrice</code>, pool seeded at deploy so a price exists from block one.</td>
+<td><code>JYVE.sol</code> (ERC-20, <code>MINTER_ROLE</code>, per-address + global mint caps); <code>Exchange.sol</code> constant-product <strong><code>JYVE/jUSD</code></strong> pool with <code>addLiquidity</code>/<code>removeLiquidity</code>/<code>swap</code>/<code>getPrice</code>, pool seeded at deploy so a price exists from block one.</td>
 </tr>
 <tr>
 <td><strong>2</strong></td>
@@ -72,7 +72,7 @@
 <p>Three small pieces, deliberately minimal:</p>
 <ol>
 <li><strong><code>JYVE</code> — an ERC-20 (Jayverse token).</strong> Standard OpenZeppelin ERC-20, 18 decimals, symbol <strong><code>JYVE</code></strong> (read &quot;jive&quot;), name &quot;Jayverse&quot;. Renamed from the <code>JVRS</code>/<code>JVS</code> jay first suggested — <code>JYVE</code> reads as a word and is far easier to say (jay, 2026-09-08). It is the unit of account inside the ecosystem: verex rewards, persona rentals/payments, and game prizes are denominated and paid in JYVE. On testnet/dev it is mintable by an owner/faucet role (see §6); it is <em>not</em> a real-money asset.</li>
-<li><strong>A minimal on-chain exchange (mini-AMM)</strong> — a constant-product <strong><code>JYVE/USDC</code></strong> pool. JYVE is a token we invented, so it has <strong>no external market an oracle could report</strong> — an oracle only relays a price that already exists somewhere liquid. So the pool itself <em>is</em> the price: <code>price = usdcReserve / jyveReserve</code>. Anything that needs a JYVE price (the wallet&#39;s USD display, the bridge&#39;s value readout, a portfolio view) reads the pool ratio on-chain. This is the honest way to price a self-made token, and a clean learning build (<code>x·y=k</code>, add/remove liquidity, swap).</li>
+<li><strong>A minimal on-chain exchange (mini-AMM)</strong> — a constant-product <strong><code>JYVE/jUSD</code></strong> pool. JYVE is a token we invented, so it has <strong>no external market an oracle could report</strong> — an oracle only relays a price that already exists somewhere liquid. So the pool itself <em>is</em> the price: <code>price = jusdReserve / jyveReserve</code>. Anything that needs a JYVE price (the wallet&#39;s USD display, the bridge&#39;s value readout, a portfolio view) reads the pool ratio on-chain. This is the honest way to price a self-made token, and a clean learning build (<code>x·y=k</code>, add/remove liquidity, swap).</li>
 <li><strong>A minimal bridge</strong> to move JYVE between jay&#39;s <strong>local Anvil fork of Sepolia</strong> (chain id 11155111) and <strong>real Sepolia</strong> (also 11155111). Because both report the same chain id, the bridge is keyed by RPC endpoint / deployment, not by chain id — see the honesty note in §6. Pattern: <strong>lock-and-mint / burn-and-release</strong> driven by a single trusted relayer worker.</li>
 </ol>
 <p>Keep both basic. No governance, no fee market, no multi-hop routing. The bridge is a developer convenience for testing cross-chain UX, not a trustless product.</p>
@@ -90,7 +90,7 @@
 <p>No step requires Mina to understand that the &quot;two chains&quot; are really a fork plus its origin — the UX is identical to a real bridge, which is the point of building it.</p>
 <hr>
 <h2 id="3-what-the-web-app-shows-the-exchange-site">3. What the web app shows (the exchange site)</h2>
-<p>The web app is a single <strong>token-exchange site</strong>: a swap-first UI over the <code>JYVE/USDC</code>
+<p>The web app is a single <strong>token-exchange site</strong>: a swap-first UI over the <code>JYVE/jUSD</code>
 pool (§1.2) with the <strong>bridge as a second tab</strong>, so &quot;trade JYVE&quot; and &quot;move JYVE across
 chains&quot; live in one place (jay, 2026-09-09). Two primary screens — <strong>Swap</strong> and
 <strong>Bridge</strong> — sit over a shared balance/activity shell.</p>
@@ -108,9 +108,9 @@ the <code>jayverse-exchange</code> service at <code>/personas</code> — token m
 priced in JYVE through this pool. See the hub&#39;s <a href="README.html#ownership-changes-jay-2026-09-14">Ownership changes</a>.</p>
 </blockquote>
 <ul>
-<li><strong>Balance widget:</strong> JYVE balance per chain, labeled by network — <code>Local (Anvil fork)</code> and <code>Sepolia</code>. USDC shown alongside (rails already surface USDC).</li>
+<li><strong>Balance widget:</strong> JYVE balance per chain, labeled by network — <code>Local (Anvil fork)</code> and <code>Sepolia</code>. jUSD shown alongside (rails already surface jUSD).</li>
 <li><strong>Swap screen (the exchange):</strong><ul>
-<li>JYVE ⇄ USDC swap form over the constant-product pool: pay-with / receive selector, amount in, live quote out.</li>
+<li>JYVE ⇄ jUSD swap form over the constant-product pool: pay-with / receive selector, amount in, live quote out.</li>
 <li>Live <strong>price</strong> and <strong>reserves</strong> from <code>Exchange.getPrice()</code> (polled every 5s), plus the price impact and the 0.30% fee for the entered amount.</li>
 <li>Slippage tolerance + minimum-received guard; a two-step <strong><code>approve → swap</code></strong> when the spent token needs allowance. Reads work with no wallet; executing a swap needs a connected wallet.</li>
 <li><em>(Later)</em> an add/remove-liquidity panel for the pool, reusing the same reserves read.</li>
@@ -162,8 +162,8 @@ priced in JYVE through this pool. See the hub&#39;s <a href="README.html#ownersh
 <hr>
 <h2 id="5-cooperate-with-existing-services">5. Cooperate with existing services</h2>
 <ul>
-<li><strong>Settlement Rails (<code>jayverse-rails</code>):</strong> publishes JYVE addresses per network in <code>addresses.json</code> alongside USDC. Rails stays the single source of truth for &quot;what token is at what address on what network.&quot; JYVE is listed as a first-class rail asset next to USDC.</li>
-<li><strong>Verex (collateral / rewards):</strong> verex mints/pays JYVE as reward on market resolution (via <code>MINTER_ROLE</code> or a payout treasury). Collateral can stay USDC; rewards denominated in JYVE. Verex calls the token, not the bridge.</li>
+<li><strong>Settlement Rails (<code>jayverse-rails</code>):</strong> publishes JYVE addresses per network in <code>addresses.json</code> alongside jUSD. Rails stays the single source of truth for &quot;what token is at what address on what network.&quot; JYVE is listed as a first-class rail asset next to jUSD.</li>
+<li><strong>Verex (collateral / rewards):</strong> verex mints/pays JYVE as reward on market resolution (via <code>MINTER_ROLE</code> or a payout treasury). Collateral can stay jUSD; rewards denominated in JYVE. Verex calls the token, not the bridge.</li>
 <li><strong>Personas (payments):</strong> persona rental/usage is priced in JYVE; payment is a plain ERC-20 <code>transfer</code> (or <code>transferFrom</code> with approval) to the persona payee. No bridge involved unless payer and payee are on different chains.</li>
 <li><strong>Wallet service (<code>jayverse-wallet</code>):</strong> holds keys / signs all user actions — token transfers, bridge <code>lock</code>/<code>burn</code> transactions. The bridge screen asks the wallet service to sign; the relayer uses its own dedicated key, never a user key.</li>
 </ul>
@@ -174,7 +174,7 @@ priced in JYVE through this pool. See the hub&#39;s <a href="README.html#ownersh
 <p><strong>New:</strong></p>
 <ul>
 <li><code>JYVE.sol</code> — ERC-20 (OZ), <code>MINTER_ROLE</code>, per-address + global mint caps.</li>
-<li><code>Exchange.sol</code> — constant-product AMM for <code>JYVE/USDC</code>: <code>addLiquidity</code>/<code>removeLiquidity</code>, <code>swap</code>, and a <code>getPrice()</code> view (<code>usdcReserve * 1e18 / jyveReserve</code>) that every service reads as the JYVE price. Seed the pool at deploy so a price exists from block one. (No oracle: nothing external prices a made-up token.)</li>
+<li><code>Exchange.sol</code> — constant-product AMM for <code>JYVE/jUSD</code>: <code>addLiquidity</code>/<code>removeLiquidity</code>, <code>swap</code>, and a <code>getPrice()</code> view (<code>jusdReserve * 1e18 / jyveReserve</code>) that every service reads as the JYVE price. Seed the pool at deploy so a price exists from block one. (No oracle: nothing external prices a made-up token.)</li>
 <li><code>BridgeLock.sol</code> (home chain) — <code>lock(amount, to)</code> escrows tokens, emits <code>Locked(id, to, amount)</code>; <code>release(id, to, amount)</code> callable only by relayer, guarded by <code>processed[id]</code>.</li>
 <li><code>BridgeMint.sol</code> (dest chain) — <code>mint(id, to, amount)</code> relayer-only + <code>processed[id]</code>; <code>burn(amount, to)</code> for the reverse leg emitting <code>Burned(id, to, amount)</code>.<ul>
 <li><em>Alt (simpler first cut):</em> skip a dest contract and use a <strong>relayer script</strong> that mints via the token&#39;s <code>MINTER_ROLE</code> on the dest and locks via a vault on the source — same semantics, less contract surface. Decide in review.</li>
@@ -200,10 +200,10 @@ priced in JYVE through this pool. See the hub&#39;s <a href="README.html#ownersh
 <p><strong>Open questions (for jay):</strong></p>
 <ol>
 <li><strong>Do we even need a real bridge for a fork?</strong> A fork already starts from Sepolia state. A <strong>faucet-mirror</strong> — mint the same JYVE balance on both networks via a script — may satisfy every dev/demo need with far less machinery. Real value of the lock/mint bridge is exercising the <em>UX and accounting</em> ahead of CCIP. Is that worth it now, or defer until a service truly leaves the home chain?</li>
-<li><strong>JYVE vs §7&#39;s &quot;no new token&quot; decision</strong> — do we introduce JYVE ecosystem-wide, or keep USDC as the ledger unit and treat JYVE as a rewards/points token only?</li>
+<li><strong>JYVE vs §7&#39;s &quot;no new token&quot; decision</strong> — do we introduce JYVE ecosystem-wide, or keep jUSD as the ledger unit and treat JYVE as a rewards/points token only?</li>
 <li><strong>Mint authority</strong> — one shared treasury with <code>MINTER_ROLE</code>, or per-service minters (verex, game) with individual caps?</li>
 <li><strong>Symbol — resolved (jay, 2026-09-08):</strong> <strong><code>JYVE</code></strong> (read &quot;jive&quot;), replacing the earlier <code>JVRS</code>/<code>JVS</code>.</li>
-<li><strong>Pricing — resolved (jay, 2026-09-08):</strong> a <code>JYVE/USDC</code> mini-AMM in the same <code>jayverse-token</code> repo is the on-chain price source; an oracle is not used (it can&#39;t price a self-made token). Open sub-question: seed price + initial liquidity depth for the demo pool.</li>
+<li><strong>Pricing — resolved (jay, 2026-09-08):</strong> a <code>JYVE/jUSD</code> mini-AMM in the same <code>jayverse-token</code> repo is the on-chain price source; an oracle is not used (it can&#39;t price a self-made token). Open sub-question: seed price + initial liquidity depth for the demo pool.</li>
 </ol>
 <hr>
 <h2 id="chainlink--infra-we-use-not-build">Chainlink — infra we use, not build</h2>
@@ -212,7 +212,7 @@ priced in JYVE through this pool. See the hub&#39;s <a href="README.html#ownersh
 <li><strong>CCIP</strong> — cross-chain transport when a service truly leaves the home chain (<strong>Phase 3</strong>), replacing the trusted dev relayer with Chainlink&#39;s cross-chain messaging + security. <strong>If a message is stuck or forged:</strong> the 1:1 lock↔mint invariant breaks (double-mint or stranded funds).</li>
 <li><strong>Proof of Reserve</strong> — attest that the locked reserve on the source backs the minted supply on the dest, so a redeem / release path can refuse units the reserve can&#39;t cover. This is the missing check from the <code>liquid-issuance-not-authorization</code> lesson: a mint bug made valid-but-unbacked units that every downstream check honored — authorization checked the <em>actor</em>, nothing checked the <em>object&#39;s backing</em>. PoR is that object-backing check (pair it with a mint-conservation invariant test).</li>
 </ul>
-<p><strong>Deliberate non-use — pricing JYVE (the loud one).</strong> JYVE trades only in our own market, so it has <strong>no external price an oracle could report</strong>. Its price comes from the constant-product mini-AMM (<code>price = usdcReserve / jyveReserve</code>), never a feed. Reaching for an oracle here is a category error — an oracle relays an <em>external</em> truth, and a self-made token has none. (See §1.2 and §6.)</p>
+<p><strong>Deliberate non-use — pricing JYVE (the loud one).</strong> JYVE trades only in our own market, so it has <strong>no external price an oracle could report</strong>. Its price comes from the constant-product mini-AMM (<code>price = jusdReserve / jyveReserve</code>), never a feed. Reaching for an oracle here is a category error — an oracle relays an <em>external</em> truth, and a self-made token has none. (See §1.2 and §6.)</p>
 <blockquote>
 <p>Every feed is a dependency with a failure mode — keep the &quot;if wrong / late&quot; guard in code, not only here.</p>
 </blockquote>

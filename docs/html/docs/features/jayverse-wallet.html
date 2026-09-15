@@ -111,17 +111,17 @@ the user reads plain-language consequences, not raw calldata.</li>
 and submit.</li>
 </ul>
 <p>Scope is deliberately small and buildable: <code>simulate()</code> + one component + the shared wallet
-provider. No new chain, no new token, settles on the shared rails (USDC on Base).</p>
+provider. No new chain, no new token, settles on the shared rails (jUSD on Base).</p>
 <hr>
 <h2 id="2-user-scenario">2. User scenario</h2>
 <p><strong>Mina</strong> wants to bet on a Verex market from the Jayverse portal. She logged into the portal weeks
 ago with her email, so her embedded wallet is already connected — no popup, no seed phrase.</p>
-<p>She types &quot;10 USDC on YES&quot; and clicks <strong>Place bet</strong>. Instead of a raw wallet prompt full of hex,
+<p>She types &quot;10 jUSD on YES&quot; and clicks <strong>Place bet</strong>. Instead of a raw wallet prompt full of hex,
 a preview slides up:</p>
 <blockquote>
-<p><strong>You will spend</strong> 10.00 USDC
+<p><strong>You will spend</strong> 10.00 jUSD
 <strong>You will receive</strong> ~12 YES shares
-<strong>Approval</strong> USDC spending set to <em>Verex Exchange</em> (exact amount, 10 USDC)
+<strong>Approval</strong> jUSD spending set to <em>Verex Exchange</em> (exact amount, 10 jUSD)
 <em>No warnings.</em></p>
 </blockquote>
 <p>She recognizes exactly what happens, clicks <strong>Sign</strong>, and the bet is placed. The signature was the
@@ -129,8 +129,8 @@ last step, not the first — she decided <em>with</em> the facts.</p>
 <p><strong>Off-happy-path.</strong> The next day a market UI she doesn&#39;t fully trust asks her to sign. The preview
 shows a red banner:</p>
 <blockquote>
-<p>⚠ <strong>Approval widening</strong> — this sets <em>unlimited</em> USDC spending for an unknown contract.
-⚠ <strong>Value drain</strong> — simulated net balance change: <strong>−48 USDC</strong>, receive nothing.</p>
+<p>⚠ <strong>Approval widening</strong> — this sets <em>unlimited</em> jUSD spending for an unknown contract.
+⚠ <strong>Value drain</strong> — simulated net balance change: <strong>−48 jUSD</strong>, receive nothing.</p>
 </blockquote>
 <p>She clicks <strong>Cancel</strong>. The widget refused nothing on her behalf — it <em>showed</em> her, and she stopped.
 That is the product: the simulation turns &quot;sign this opaque thing&quot; into &quot;here is what it does&quot;.</p>
@@ -138,11 +138,11 @@ That is the product: the simulation turns &quot;sign this opaque thing&quot; int
 <h2 id="3-what-the-web-app-shows">3. What the web app shows</h2>
 <p><strong>Connect flow.</strong> A single <strong>Connect</strong> button. First-time users pick email or passkey; the embedded
 provider creates a smart account behind the scenes. Returning users are already connected (session
-restored). A small account chip shows address + USDC balance. No network-switching friction — the
+restored). A small account chip shows address + jUSD balance. No network-switching friction — the
 app targets the home chain.</p>
 <p><strong>Pre-sign preview modal</strong> (the core screen). Rendered from <code>simulate()</code> output:</p>
 <ul>
-<li><strong>Effects list</strong> — one row per asset change: <code>−10.00 USDC</code>, <code>+12 YES shares</code>, each with token
+<li><strong>Effects list</strong> — one row per asset change: <code>−10.00 jUSD</code>, <code>+12 YES shares</code>, each with token
 logo, human amount, and USD value where known.</li>
 <li><strong>Approvals</strong> — spender name (resolved from the address book), amount, and whether it is exact
 or unlimited.</li>
@@ -212,10 +212,10 @@ decode any revert into its custom error via the target ABI; run the warning clas
 <p>Everything else in the plan depends on <em>this</em> (§6: &quot;everything else depends on it, so build early&quot;).
 Every signing path routes through <code>&lt;JayverseSign&gt;</code>:</p>
 <ul>
-<li><strong>Verex bets</strong> (§2) — placing/redeeming a bet previews <code>−USDC / +shares / approval to exchange</code>.
+<li><strong>Verex bets</strong> (§2) — placing/redeeming a bet previews <code>−jUSD / +shares / approval to exchange</code>.
 Pairs with Verex&#39;s own AA (4337 smart accounts, paymaster) — the wallet provides the account and
 the preview, Verex provides the market.</li>
-<li><strong>Personas</strong> (§4) — mint/rent previews <code>−USDC / +NFT</code> and the ERC-4907 user-role grant, so a
+<li><strong>Personas</strong> (§4) — mint/rent previews <code>−jUSD / +NFT</code> and the ERC-4907 user-role grant, so a
 renter sees exactly what a &quot;rent for a day&quot; transaction does.</li>
 <li><strong>DeFi</strong> (§3) — its plan literally says &quot;simulate deposits via the Wallet&#39;s simulate-before-sign&quot;;
 a deposit previews the vault-share received and the token spent before any custody risk.</li>
@@ -277,7 +277,7 @@ provider (Privy, from the PoC learnings) for the email/passkey UX, but the choic
 <p>The answers become the &quot;authority matrix of our own config&quot; (§6 step 4) that the Authority Auditor
 dogfoods against — our config choices <em>are</em> every user&#39;s custody reality.</p>
 <p><strong>Session-key policy templates</strong> — per-app presets issued at connect time: e.g. <em>verex-bet</em> = &quot;≤ N
-USDC/day, only the Verex exchange + USDC contracts, 24h&quot;; <em>personas-rent</em> = &quot;single mint/rent call,
+jUSD/day, only the Verex exchange + jUSD contracts, 24h&quot;; <em>personas-rent</em> = &quot;single mint/rent call,
 exact amount&quot;. Templates live in <code>jayverse-rails</code> so policy is reviewable, not ad-hoc per app.</p>
 <p><strong>New vs. reused:</strong></p>
 <ul>
@@ -435,7 +435,7 @@ refresh is not enough, the service worker must restart.</li>
 <h2 id="chainlink--infra-we-use-not-build">Chainlink — infra we use, not build</h2>
 <p>Chainlink&#39;s oracle stack is settlement-rail infrastructure the Wallet <em>consumes</em>, not reimplements — see the umbrella map in <a href="README.html">README.md</a>.</p>
 <ul>
-<li><strong>Data Feeds</strong> — USD valuation for external assets (ETH, USDC) in the balance and simulate-before-sign views. <strong>If wrong or late:</strong> the USD figures the user checks <em>before signing</em> are misleading — worst at exactly the moment trust matters most.</li>
+<li><strong>Data Feeds</strong> — USD valuation for external assets (ETH, jUSD) in the balance and simulate-before-sign views. <strong>If wrong or late:</strong> the USD figures the user checks <em>before signing</em> are misleading — worst at exactly the moment trust matters most.</li>
 </ul>
 <p><strong>Deliberate non-use — JYVE&#39;s USD.</strong> JYVE&#39;s USD value is read from the mini-AMM (<code>getPrice()</code>), not a feed — a self-made token has no external price. (See <a href="jayverse-token-bridge.html">jayverse-token-bridge.md</a>.)</p>
 <blockquote>

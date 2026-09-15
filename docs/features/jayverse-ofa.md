@@ -51,11 +51,11 @@ when a user has to convert one token into another and a naive swap would leak th
 searcher.
 
 Jun holds **JYVE** (the [jayverse-token](jayverse-token-bridge.md) coin) but wants to bet on a
-[Verex](jayverse-verex.md) market that settles in a USDC-like unit. He needs to convert — and that
+[Verex](jayverse-verex.md) market that settles in a jUSD-like unit. He needs to convert — and that
 conversion is exactly where MEV normally leaks.
 
 1. **Intent, not a swap.** In the [Wallet](jayverse-wallet.md), Jun taps *"Fund this bet."* The
-   wallet builds an **intent** — `give 100 JYVE, want >= 98 USDC, deadline 2 min` (EIP-712) — instead
+   wallet builds an **intent** — `give 100 JYVE, want >= 98 jUSD, deadline 2 min` (EIP-712) — instead
    of a market swap. **Simulate-before-sign** shows the `minOut` floor and the *expected surplus
    range* before he commits.
 2. **One signature.** He signs the intent once; it lands at `IntentAuction.submitIntent`.
@@ -66,7 +66,7 @@ conversion is exactly where MEV normally leaks.
    (`amountOut + bid`), pulls the JYVE, runs the winner, enforces **`finalOut >= minOut`** *and*
    **`holding = issuance`**, and sends the **surplus to Jun, never the searcher**. Losing solvers
    revert cleanly.
-5. **The bet funds itself.** The resulting USDC funds the Verex bet in the same flow;
+5. **The bet funds itself.** The resulting jUSD funds the Verex bet in the same flow;
    [Number](jayverse-number.md) logs the fill and the realized surplus as a line in Jun's PnL.
 6. **Authority is checked, not assumed.** Had `settle` been misconfigured to pay a searcher instead
    of Jun, the [Authority Auditor](jayverse-auditor.md) matrix would surface "who captures the

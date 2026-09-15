@@ -12,8 +12,8 @@ keys).*
 
 | # | Pillar | What it means | Key standard / piece |
 |---|--------|---------------|----------------------|
-| 1 | **Scoped delegation** ("the allowance") | No master key handed over — issue a **session key**: "spend ≤ 10 USDC/day, only on service X, valid 48h" | ERC-7715 / 7710 (already the §3 demo); ERC-4337 session-key validators |
-| 2 | **Gas independence** ("the paymaster") | Agent never hunts for ETH/SOL — pays gas **in the USDC it earns**, or a sponsor covers it | ERC-4337 **Paymaster** (ERC-20 gas payment or sponsored) |
+| 1 | **Scoped delegation** ("the allowance") | No master key handed over — issue a **session key**: "spend ≤ 10 jUSD/day, only on service X, valid 48h" | ERC-7715 / 7710 (already the §3 demo); ERC-4337 session-key validators |
+| 2 | **Gas independence** ("the paymaster") | Agent never hunts for ETH/SOL — pays gas **in the jUSD it earns**, or a sponsor covers it | ERC-4337 **Paymaster** (ERC-20 gas payment or sponsored) |
 | 3 | **Atomic intent** ("the batch") | Swap A→B → bridge → pay provider bundled into **one UserOperation**; any failure reverts the whole thing — agent never gets stuck mid-flow | ERC-4337 batched calls (`executeBatch`) |
 | 4 | **KYA — Know Your Agent** | The AA wallet doubles as a digital ID; counterparties check the agent's **reputation/"credit score"** before dealing | **ERC-8004** (trustless-agents identity/reputation registries) |
 
@@ -22,7 +22,7 @@ keys).*
   Sepolia). Building §3 ticks this pillar.
 - **Pillar 2** = the paymaster ideas already noted in [ap2-test.md](ap2-test.md) (escrow/
   paymaster, Verex session-key reuse) and [dsrv-portal.md](dsrv-portal.md) PoC #2 (ZeroDev/
-  Biconomy sponsored gas). New work: pay gas **in ERC-20 (USDC)**, not just sponsorship.
+  Biconomy sponsored gas). New work: pay gas **in ERC-20 (jUSD)**, not just sponsorship.
 - **Pillar 3** is the genuinely new demo: a batched UserOperation (e.g. testnet swap +
   transfer in one op) and a forced-failure case showing full revert.
 - **Pillar 4** is new and exploratory: read/register an agent in an **ERC-8004** identity/
@@ -33,7 +33,7 @@ One page, four cards; each card = one pillar with a [Run] button + result/tx lin
 1. **Session key** — grant scoped permission, agent spends within scope, out-of-scope attempt
    fails (this card *is* §3's demo).
 2. **Paymaster** — send a tx with zero native token in the agent account; gas paid in test
-   USDC (ZeroDev/Pimlico ERC-20 paymaster) or sponsored.
+   jUSD (ZeroDev/Pimlico ERC-20 paymaster) or sponsored.
 3. **Batch** — one UserOp doing two actions atomically; a second run with a failing leg shows
    the whole op reverting.
 4. **KYA** — look up (or register) the agent's ERC-8004 identity; display reputation fields.
@@ -78,7 +78,7 @@ reference architecture, and as a UX pattern the 4-pillar demo page can borrow.*
   | WalletChan v3 | Maps to |
   |---|---|
   | Batch transactions (AA-based) | **Pillar 3** — atomic intent |
-  | Gasless USDC transfers ($WCHAN stakers; relayer pays) | **Pillar 2** — paymaster/sponsorship |
+  | Gasless jUSD transfers ($WCHAN stakers; relayer pays) | **Pillar 2** — paymaster/sponsorship |
   | Remote signing in a TEE | Custody pillar — TEE alternative to MPC ([dsrv-portal.md](dsrv-portal.md) ①) |
   | Tx simulation before signing | No pillar — but a **safety rail worth copying** in our demo page |
   | Native in-wallet swaps | Convenience layer |

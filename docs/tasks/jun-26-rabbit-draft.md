@@ -61,7 +61,7 @@ Verex 설계 결정·차별화 가설이 `mike-memory`에 누적 중 — 이를 
 ### 시나리오
 
 #### 개인용
-1. **리서치/구매 에이전트** — 유료 API 호출당 USDC 소액 자동결제. 사용자는 "주당 $20,
+1. **리서치/구매 에이전트** — 유료 API 호출당 jUSD 소액 자동결제. 사용자는 "주당 $20,
    항공 예약은 5만 원 이하만" 같은 정책만 설정. 한도 초과 시 정지.
 2. **구독·청구 자동화** — 지갑에 스테이블코인 충전 → SaaS 구독료·API 충전 자동 처리.
    "월 $50 한도, 새 서비스 가입은 먼저 물어봐."
@@ -72,7 +72,7 @@ Verex 설계 결정·차별화 가설이 `mike-memory`에 누적 중 — 이를 
 ```
 에이전트  → GET /premium-data
 서버      → HTTP 402 Payment Required (가격 $0.01, 받을 주소 0x..., 체인 Base)
-에이전트 지갑 → USDC 0.01 자동 전송
+에이전트 지갑 → jUSD 0.01 자동 전송
 서버      → 결제 확인 후 데이터 응답
 ```
 
@@ -81,14 +81,14 @@ Verex 설계 결정·차별화 가설이 `mike-memory`에 누적 중 — 이를 
 - It communicate with the rabbit-privider service
 
 ## 5. rabbit-privider Project
-- This is an app to provide philosophical aphorism for 0.01 USDC or some stable coin to ai agent like rabbit-agent.
+- This is an app to provide philosophical aphorism for 0.01 jUSD or some stable coin to ai agent like rabbit-agent.
 - We can use real stable coin rails later in refinement step so we should design for that too.
 - We implement the feature in a testnet
 
 
 ### 다음 단계
 - 가장 단순한 PoC 범위 결정(개인 시나리오 1개 또는 x402 402-flow 1개).
-- 지갑/체인/스테이블코인 선택(Base + USDC 가정).
+- 지갑/체인/스테이블코인 선택(Base + jUSD 가정).
 - 정책 엔진 최소 형태 정의.
 
 ## 6. Spagettis in separate project

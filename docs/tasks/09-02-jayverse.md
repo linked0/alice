@@ -48,7 +48,7 @@
 
 ## Settlement Rails — shared infra (we USE this, we don't build it)
 - L1/L2 (Base mainnet + Base Sepolia, local supersim for labs), CCIP for anything cross-chain,
-  USDC as the settlement unit. Every service below settles here; none of them re-implements it.
+  jUSD as the settlement unit. Every service below settles here; none of them re-implements it.
 - Decisions to make once: home chain, which CCIP lanes we enable, and a shared address book.
 - The only artifact we own: the `jayverse-rails` TS config package (chain configs, addresses,
   viem clients) that every app imports — plumbing, not a product.
@@ -62,7 +62,7 @@
 - **Steps**: 1) give the agent a wallet with one scoped session key (spend cap + allowed contracts); 2) let it call one paid x402 endpoint end-to-end; 3) surface every agent action in the portal UI with its permission proof; 4) grow the permission set per service.
 - **Subtasks**: permission schema doc (who grants, who revokes); agent action log page; x402 client; 7702 vs 4337 decision memo; kill-switch.
 - **Risk**: the agent is the highest-authority component — the Authority Auditor should audit Rabbit first.
-- **Rails**: the Agent Commerce Layer settles x402 payments in USDC over the shared rails; a cross-chain payment rides CCIP — never a custom transfer path.
+- **Rails**: the Agent Commerce Layer settles x402 payments in jUSD over the shared rails; a cross-chain payment rides CCIP — never a custom transfer path.
 - **PoC links**: `x402-facilitator-market`, `agentic-intent-veto`, `walletconnect-session-authority`.
 - **Remaining (J2)** — detail in the [archived J2 plan → Build order](archive/2026-09-04-current-plan-j2-mandated-trader.md#order):
   - **R-F soak** — the scheduler is built; run it a full unattended day, journal showing ticks nobody triggered.
@@ -84,7 +84,7 @@
 - **Steps**: 1) wrap market entry in a 4337 smart account so users get gasless one-click bets; 2) replace admin resolution with an optimistic oracle + dispute window; 3) expose `verex-mcp` (list markets, quote, bet) consumed by Rabbit's agent; 4) meta-market: "which Jayverse service ships next".
 - **Subtasks**: paymaster budget policy; oracle liveness/dispute runbook; MCP tool schema; agent-vs-human market-integrity note.
 - **Risk**: oracle disputes are the product's trust core — design the dispute path before the happy path.
-- **Rails**: collateral is USDC on the home chain; cross-chain market entry (if ever) comes via a CCIP lane, not a Verex-owned bridge.
+- **Rails**: collateral is jUSD on the home chain; cross-chain market entry (if ever) comes via a CCIP lane, not a Verex-owned bridge.
 - **PoC links**: `decision-market-uncontrollability`, `bundler-paymaster-dependencies`, `mcp-three-sides`.
 - **Remaining (J2)** — detail in the [archived J2 snapshot → queue](https://linked0.github.io/verex/tasks/sep-04-plan.html) (verex `docs/tasks/sep-04-plan.md`):
   - **W6.5 match-time funds re-check** — funds are verified only at placement; an external maker can rest an order then withdraw. Re-check at match (or let W5 catch it).
@@ -120,7 +120,7 @@
 - **Steps**: 1) mint one persona NFT whose holder can chat with it (token-gated); 2) add ERC-4907 rentals (rent a persona for a day); 3) open creator flow from openclone's `new`; 4) list on the market with x402-priced chat as ongoing revenue.
 - **Subtasks**: persona knowledge licensing note (who owns ingested content); token-gate middleware; rental pricing experiment; royalty policy.
 - **Risk**: IP/likeness of real-person clones — market only original or clearly-parody personas.
-- **Rails**: mint/rent payments settle in USDC over the shared rails; x402 chat revenue uses the same path as the Agent Commerce Layer.
+- **Rails**: mint/rent payments settle in jUSD over the shared rails; x402 chat revenue uses the same path as the Agent Commerce Layer.
 - **PoC links**: `st-self-distribution`, `the-only-commitment-is-the-issuer` (utility claim framing).
 - My Comment: Show me the user scenario and what web app shows and the flow. You can imagine some basic feature. so please describe what you will do a new md file in features folder.
   - **Design doc:** [../features/jayverse-personas.md](../features/jayverse-personas.md)
@@ -155,7 +155,7 @@
 - **Repo**: `jayverse-bridge` — vault/credit contracts + reconciliation worker in one repo; not a public bridge product.
 - **Skills**: accounting-style invariants (every credit backed 1:1 in the vault), CCIP if services ever live on different chains, idempotent transfer workers.
 - **Depends on**: Settlement Rails (it is basically rails + bookkeeping); at least two live services to bridge.
-- **Steps**: 1) define the unit (USDC balance in the shared vault, no new token); 2) internal transfer API with idempotency keys; 3) per-service earmarking + one reconciliation job; 4) only add CCIP when a service actually leaves the home chain.
+- **Steps**: 1) define the unit (jUSD balance in the shared vault, no new token); 2) internal transfer API with idempotency keys; 3) per-service earmarking + one reconciliation job; 4) only add CCIP when a service actually leaves the home chain.
 - **Subtasks**: ledger schema; reconciliation cron + alert; abuse limits (rate/size); "no new token" decision recorded.
 - **Risk**: this is where double-spend bugs would live — invariant tests before features, always.
 - **Rails**: transport for any cross-chain leg is CCIP; we implement only the ledger, earmarking, and reconciliation on top.

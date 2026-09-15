@@ -23,7 +23,7 @@ moves monthly.
 | **Wallet onboarding** | Privy, Dynamic, Web3Auth, WalletConnect | consumer onboarding without seed phrases |
 | **Execution / intents / MEV back to users** | **FastLane Atlas** (OFA/OEV), Flashbots (MEV-Share), CoW Protocol, Uniswap X | settlement / order flow; MEV returned not extracted |
 | **Prediction-market primitives** | Gnosis / Polymarket **Conditional Tokens Framework (CTF)**, LMSR | Verex outcome shares & pricing |
-| **Fiat on-ramp / card payments** | Stripe, Circle; **x402** for machine payments | funding, USDCx flows |
+| **Fiat on-ramp / card payments** | Stripe, Circle; **x402** for machine payments | funding, jUSD flows |
 | **Indexing / reading chain data** | **The Graph**, Ponder; Alchemy / Infura RPC; Dune | app feeds, dashboards |
 | **Simulate & monitor on-chain** | **Tenderly**, OpenZeppelin Defender; Foundry (tests / invariants) | auditor; invariant watching |
 | **Identity & attestations** | ENS / **Basenames**, **EAS**, Sign Protocol | signed announcements; identity |
@@ -59,7 +59,7 @@ and not a hope.
 | **지갑 온보딩** | Privy, Dynamic, Web3Auth, WalletConnect | 시드구문 없는 소비자 온보딩 |
 | **실행 / 인텐트 / MEV 사용자 환원** | **FastLane Atlas**(OFA/OEV), Flashbots(MEV-Share), CoW Protocol, Uniswap X | 정산 / 오더플로; MEV 추출 아닌 환원 |
 | **예측시장 프리미티브** | Gnosis / Polymarket **Conditional Tokens Framework(CTF)**, LMSR | Verex 결과 공유 & 가격 |
-| **법정화폐 온램프 / 카드 결제** | Stripe, Circle; 기계 결제엔 **x402** | 자금, USDCx 플로우 |
+| **법정화폐 온램프 / 카드 결제** | Stripe, Circle; 기계 결제엔 **x402** | 자금, jUSD 플로우 |
 | **인덱싱 / 체인 데이터 읽기** | **The Graph**, Ponder; Alchemy / Infura RPC; Dune | 앱 피드, 대시보드 |
 | **온체인 시뮬 & 모니터** | **Tenderly**, OpenZeppelin Defender; Foundry(테스트 / 불변식) | 감사기; 불변식 감시 |
 | **신원 & attestation** | ENS / **Basenames**, **EAS**, Sign Protocol | 서명된 공지; 신원 |

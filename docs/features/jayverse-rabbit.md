@@ -31,8 +31,8 @@ One buildable slice, nothing more:
   is the user's existing EOA (MetaMask / embedded wallet). The EOA signs; the smart
   account acts.
 - **Gasless one-click bet.** From a verex market card inside the portal, the user clicks
-  **Bet 5 USDC on YES** once. A **paymaster** sponsors gas, so the user needs zero ETH.
-- **Batched approve + trade in one signature.** The `approve(USDC → verex exchange)` and
+  **Bet 5 jUSD on YES** once. A **paymaster** sponsors gas, so the user needs zero ETH.
+- **Batched approve + trade in one signature.** The `approve(jUSD → verex exchange)` and
   the `placeOrder(...)` calls are packed into a **single UserOperation** (`executeBatch`).
   One signature, one atomic result — either both land or neither does.
 
@@ -45,16 +45,16 @@ Explicitly out of scope for v1: an autonomous decision loop (that is the
 ## 2. User scenario
 
 **Mina** has used Rabbit before and has MetaMask connected, but her wallet holds only a
-little test USDC and **no Sepolia ETH**.
+little test jUSD and **no Sepolia ETH**.
 
 1. Mina opens the **Markets** tab in the Rabbit portal and sees a live verex market:
    *"Will Jayverse ship the DeFi service before Oct?"* — YES 0.62 / NO 0.38.
-2. She clicks **Bet** on YES, types `5` USDC, clicks **Place bet**.
+2. She clicks **Bet** on YES, types `5` jUSD, clicks **Place bet**.
 3. Rabbit tells her she has no smart account yet and shows **Enable one-click betting**.
    She clicks it and approves **one** MetaMask signature — no ETH, no gas prompt.
 4. A spinner: *"Sponsoring gas… submitting your order."* Behind the glass, her smart
-   account is deployed, USDC is approved, and the order is placed — all in one bundle.
-5. Seconds later: **"Bet placed — 5 USDC on YES @ 0.62. Gas paid by Jayverse."** with a
+   account is deployed, jUSD is approved, and the order is placed — all in one bundle.
+5. Seconds later: **"Bet placed — 5 jUSD on YES @ 0.62. Gas paid by Jayverse."** with a
    link to the UserOperation and the resulting on-chain tx.
 6. Her next bet skips step 3 entirely: the account already exists, so it is one click →
    one signature → done.
@@ -84,7 +84,7 @@ She never bought ETH, never issued a separate approval, never left the portal.
 - `signing` — MetaMask popup ("Sign to authorize this batch")
 - `bundling` — "Sponsoring gas & submitting…" with a UserOp hash once available
 - `success` — filled amount, price, **View UserOp** / **View tx** links, **Bet again**
-- `error` — decoded reason (e.g. *insufficient USDC*, *market closed*) + Retry; the batch
+- `error` — decoded reason (e.g. *insufficient jUSD*, *market closed*) + Retry; the batch
   is atomic, so a failure means nothing was spent.
 
 **Account page (`/live/aa`, existing — extended)**
@@ -111,7 +111,7 @@ sequenceDiagram
 
     U->>R: Click "Place bet (gasless)"
     R->>VX: GET market + quote (verex REST API)
-    R->>SA: Build callData = executeBatch([approve USDC, placeOrder])
+    R->>SA: Build callData = executeBatch([approve jUSD, placeOrder])
     R->>PM: Request sponsorship for this UserOp
     PM-->>R: paymasterAndData (gas covered)
     R->>U: Ask for ONE signature over the UserOp hash
@@ -121,7 +121,7 @@ sequenceDiagram
     EP->>PM: validatePaymasterUserOp (pays gas)
     EP->>SA: validateUserOp (checks owner signature)
     EP->>SA: execute batch
-    SA->>VX: approve(USDC) then placeOrder(...)
+    SA->>VX: approve(jUSD) then placeOrder(...)
     VX-->>EP: order accepted
     EP-->>B: receipt
     B-->>R: UserOp receipt + tx hash
@@ -136,7 +136,7 @@ Key points:
 - **Signature, not transaction.** The user signs the UserOp hash off-chain; the bundler,
   not the user, submits the on-chain transaction — hence no ETH needed on the EOA either.
 - **verex touchpoint.** Rabbit reads markets/quotes from the verex REST API and encodes the
-  exchange's `placeOrder` (or CLOB fill) call as the second batch item; settlement is USDC
+  exchange's `placeOrder` (or CLOB fill) call as the second batch item; settlement is jUSD
   on Sepolia, verex's existing collateral unit.
 
 ---
@@ -191,7 +191,7 @@ They compose later: an agent holding a 7715 mandate can *also* route its trades 
   `placeOrder` calldata). Shared with the console's existing usage if possible.
 - `lib/aa-bet.ts` — build `executeBatch([approve, placeOrder])`, request sponsorship, send
   the UserOp, surface UserOp hash + receipt.
-- Env: `NEXT_PUBLIC_VEREX_URL` / `VEREX_API_URL` (exists), verex exchange + USDC addresses
+- Env: `NEXT_PUBLIC_VEREX_URL` / `VEREX_API_URL` (exists), verex exchange + jUSD addresses
   from the shared `jayverse-rails` address book, `THIRDWEB_CLIENT_ID` (exists).
 
 **Stack choice**

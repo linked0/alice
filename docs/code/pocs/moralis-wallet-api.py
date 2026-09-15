@@ -9,13 +9,13 @@ def mock_moralis_get_wallet_tokens(address):
         "address": address,
         "tokens": [
             {"symbol": "ETH", "balance": 1.85},
-            {"symbol": "USDC", "balance": 2500.0},
+            {"symbol": "jUSD", "balance": 2500.0},
             {"symbol": "LINK", "balance": 120.0},
         ],
     }
 
 
-MOCK_PRICES_USD = {"ETH": 3200.0, "USDC": 1.0, "LINK": 14.5}
+MOCK_PRICES_USD = {"ETH": 3200.0, "jUSD": 1.0, "LINK": 14.5}
 
 
 def summarize_portfolio(snapshot, prices):

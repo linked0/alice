@@ -37,10 +37,10 @@ against it from its cloud deployment.
 | Chain id | **313370** for the hosted devnet. `31337` stays the *local* fork id. Never `11155111`. Confirm 313370 is unregistered on chainlist.org before first deploy; if taken, next free `3133xx`. |
 | Where | **Rabbit cloud** = GCP project `doubletree-498007`. One **GCE VM**, static IP. Not Cloud Run, not GKE. **Amended 2026-09-14 (jay):** region is **`asia-northeast3` (Seoul)**, not `asia-northeast1` — the whole estate standardises on Seoul, and building the devnet in Tokyo would mean redoing the IP, DNS record and certificate later. Machine is **`e2-small`, 10 GB `pd-balanced`** (~$20/mo), not `e2-medium`/20 GB — the design doc's original sizing, and enough for a demo chain. Both departures recorded in [`../features/cloud-ops.md`](../features/cloud-ops.md) decisions 6–7. |
 | Node mode | **Mode A first**: `anvil --fork-url $SEPOLIA_RPC --fork-block-number $PIN --chain-id 313370 --block-time 1 --state /data/anvil.json --state-interval 60`. Mode B (own genesis) is later; build the seed so both modes work. |
-| Contracts | **The seed deploys every Jayverse contract + the delegation framework + `Registry`** on the devnet. Nothing Jayverse-owned is used from what the fork inherits. The fork supplies only the base rails (ERC-4337 EntryPoint, Sepolia test USDC, Chainlink contracts). |
+| Contracts | **The seed deploys every Jayverse contract + the delegation framework + `Registry`** on the devnet. Nothing Jayverse-owned is used from what the fork inherits. The fork supplies only the base rails (ERC-4337 EntryPoint, Chainlink contracts). |
 | Edge | Public RPC only through the **method-allowlist proxy** (`eth_*`, `net_*`, `web3_*`, `ots_*` public; `anvil_*`, `evm_*`, `hardhat_*`, `/admin/*` need `ADMIN_TOKEN`); budgeted faucet; audit log; Caddy TLS; Otterscan at `/explorer`; status page at `/`. |
 | Sepolia | Stays as the **secondary** target only for oracle-dependent tests and MetaMask 7715 popup demos. Do not delete Sepolia deployments or configs. |
-| USD token | Plain **USDC** (Circle's Sepolia test token via the fork; a mock in mode B). No new stable. |
+| USD token | **jUSD**, the Jayverse dollar, deployed by the seed in both node modes. Superseded the original "use Circle's Sepolia USDC from the fork" plan (jay, 2026-09-15): forking Circle's token meant two unrelated ERC-20s answered to a dollar name, and services could not say which one they meant. An external stablecoin returns only when there is a reason for it. |
 
 ## The repos and where each runs today
 
@@ -106,7 +106,7 @@ acceptable — say which you did.
   2026-09-14 it failed on every chain id (the predicted smart-account address has no code after the
   `@metamask/smart-accounts-kit` 1.7.0 upgrade, so `redeemDelegations` silently succeeds); it must
   pass its three checks on the devnet.
-- [ ] **6. Redeploy each service to its existing instance** with the devnet config, using each repo's
+- [x] **6. Redeploy each service to its existing instance** *(DONE 2026-09-15 — rabbit, verex api+web, jayverse-wallet, jayverse-exchange, jayverse-defi (Firebase). No new instances created beyond the devnet VM.)* with the devnet config, using each repo's
   existing deploy script (rabbit `scripts/deploy.sh`, verex `scripts/deploy-prod.sh`, defi
   `scripts/deploy-firebase.sh`, the others' Cloud Run flow). **Create no new instances** other than
   the devnet VM. Any new Dockerfile gets a `.dockerignore`; multi-stage builds copy only artifacts.
@@ -115,7 +115,7 @@ acceptable — say which you did.
   transactions. Per service, one real action from its cloud deployment: Rabbit — a gasless bet
   UserOp through the forked EntryPoint; Verex — create a market, resolve it via `feeds.ts`; DeFi —
   deposit, observe a rebase; Wallet — simulate + sign on the devnet and one type-4 7702 tx; Token —
-  a JYVE/USDC swap and one bridge lock (devnet) → mint (Sepolia); Game — boards list devnet
+  a JYVE/jUSD swap and one bridge lock (devnet) → mint (Sepolia); Game — boards list devnet
   markets; Number and Auditor — read the devnet. Put the commands and their outputs in the report.
 
 ## Policies (jay's, non-negotiable)

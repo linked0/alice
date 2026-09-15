@@ -44,12 +44,12 @@ if __name__ == "__main__":
     carol = validator.create_chain("carol")
 
     # Each user extends their own chain independently -- no shared block to contend for.
-    alice.extend("deposit 10 USDC")
-    bob.extend("deposit 5 USDC")
-    carol.extend("deposit 20 USDC")
+    alice.extend("deposit 10 jUSD")
+    bob.extend("deposit 5 jUSD")
+    carol.extend("deposit 20 jUSD")
 
     # One cross-chain message: alice pays bob. This is the only point where chains touch.
-    validator.send_cross_chain("alice", "bob", "pay 3 USDC")
+    validator.send_cross_chain("alice", "bob", "pay 3 jUSD")
 
     for name, chain in validator.chains.items():
         print(f"\nchain[{name}] blocks:")

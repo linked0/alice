@@ -325,7 +325,7 @@ key**) / **ERC-7710** (delegation).
 - **Goal:** a test page for **delegatable smart accounts / session keys** — ties directly to the
   aiaas spend-policy idea (session key = agent's bounded wallet).
 - **Design (educational):**
-  - Connect a wallet → **grant a session key** with a scoped permission ("spend ≤ X testnet USDC to
+  - Connect a wallet → **grant a session key** with a scoped permission ("spend ≤ X testnet jUSD to
     address Y, valid 1h") per **ERC-7715** → show the session key performing that **bounded action
     without re-signing**.
   - Testnet (**Sepolia**) + a 7702-capable account; display the permission grant + one delegated tx.

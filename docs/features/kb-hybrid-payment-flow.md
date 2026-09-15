@@ -25,7 +25,7 @@ flowchart TB
 
     subgraph ON["③ On-chain — Avalanche subnet (minutes–daily batch)"]
         AUTH -.->|batched, later| BURN[Burn / lock stablecoin<br/>ERC-20 + ERC-2612 permit]
-        ORACLE[Oracle: Chainlink / Pyth<br/>USDC↔KRW rate] --> BURN
+        ORACLE[Oracle: Chainlink / Pyth<br/>jUSD↔KRW rate] --> BURN
         AA[ERC-4337 AA wallet<br/>card# ↔ address 1:1<br/>Paymaster pays gas] -.-> BURN
     end
 
@@ -53,7 +53,7 @@ sequenceDiagram
 
     Note over KB,AVAX: t = minutes ~ T+1 (batch)
     KB->>AVAX: batch settle (burn/lock held coins)
-    AVAX->>AVAX: oracle-fixed USDC↔KRW rate
+    AVAX->>AVAX: oracle-fixed jUSD↔KRW rate
     KB->>M: KRW payout from liquidity pool
 ```
 
@@ -67,7 +67,7 @@ the same authorize/settle split card networks already use, with the settle leg o
 - **ERC-2612 permit + ERC-4337/Paymaster** — end users never see gas or seed phrases; card
   number ↔ wallet address is 1:1, issuer sponsors gas.
 - **MPC custody** — no single private key to leak (same pillar as [dsrv-portal.md](dsrv-portal.md) ①).
-- **Oracle (Chainlink/Pyth)** — fixes the USDC↔KRW rate per settlement batch to bound FX drift.
+- **Oracle (Chainlink/Pyth)** — fixes the jUSD↔KRW rate per settlement batch to bound FX drift.
 - **KRW liquidity pool** — merchants want won, not coins; the pool fronts fiat while the
   stablecoin leg settles.
 

@@ -38,7 +38,7 @@
 <h1 id="jayverse--verex-onboarding-stripe--market-maker">Jayverse — Verex onboarding (Stripe) + Market Maker</h1>
 <p>Design draft for two paired Verex features: fiat card onboarding (Stripe test mode) that gives a crypto-less newcomer a spendable balance, and an LMSR operator market maker that keeps every market quotable on both sides.</p>
 <blockquote>
-<p>Status: <strong>DESIGN DRAFT for review — not built.</strong> Scope: Verex prediction market (CLOB on Sepolia; CTF backbone, Fastify API, Next.js web at <code>verex.jaylabs.xyz</code>, in-process LMSR operator in <code>packages/api/src/mm.ts</code>, USDC collateral). Source request: <a href="../tasks/09-02-jayverse.html"><code>../tasks/09-02-jayverse.md</code></a> §2 &quot;Verex as Prediction Market&quot; (roadmap step <strong>S8–S9 Stripe onboarding</strong>). Reuses the Stripe/AP2 pattern in <a href="ap2-test.html"><code>ap2-test.md</code></a>.</p>
+<p>Status: <strong>DESIGN DRAFT for review — not built.</strong> Scope: Verex prediction market (CLOB on Sepolia; CTF backbone, Fastify API, Next.js web at <code>verex.jaylabs.xyz</code>, in-process LMSR operator in <code>packages/api/src/mm.ts</code>, jUSD collateral). Source request: <a href="../tasks/09-02-jayverse.html"><code>../tasks/09-02-jayverse.md</code></a> §2 &quot;Verex as Prediction Market&quot; (roadmap step <strong>S8–S9 Stripe onboarding</strong>). Reuses the Stripe/AP2 pattern in <a href="ap2-test.html"><code>ap2-test.md</code></a>.</p>
 </blockquote>
 <hr>
 <h2 id="phases-build-order">Phases (build order)</h2>
@@ -53,7 +53,7 @@
 <tbody><tr>
 <td><strong>1 (MVP)</strong></td>
 <td>First-bet loop</td>
-<td>Stripe Checkout (test mode) <code>/funding</code> + webhook crediting a USDC-eq balance; header balance chip; LMSR maker (<code>mm.ts</code>) quoting YES/NO so a newcomer&#39;s first order always fills; bid/ask ladder + fill UI.</td>
+<td>Stripe Checkout (test mode) <code>/funding</code> + webhook crediting a jUSD-eq balance; header balance chip; LMSR maker (<code>mm.ts</code>) quoting YES/NO so a newcomer&#39;s first order always fills; bid/ask ladder + fill UI.</td>
 </tr>
 <tr>
 <td><strong>2</strong></td>
@@ -69,8 +69,8 @@
 <hr>
 <h2 id="1-two-features-why-they-ship-together">1. Two features, why they ship together</h2>
 <p>The two features remove the two things that stop a newcomer from ever placing a first bet:</p>
-<p><strong>(a) Stripe onboarding — the demand side.</strong> A newcomer has no wallet, no testnet USDC, and no
-faucet patience. Stripe Checkout (test mode) turns a card payment into a <strong>USDC-equivalent
+<p><strong>(a) Stripe onboarding — the demand side.</strong> A newcomer has no wallet, no testnet jUSD, and no
+faucet patience. Stripe Checkout (test mode) turns a card payment into a <strong>jUSD-equivalent
 internal balance</strong> they can bet with immediately. No self-custody, no seed phrase, no gas.</p>
 <p><strong>(b) Market Maker — the supply side.</strong> A brand-new market has an empty order book. If the
 newcomer&#39;s first order finds nothing to fill against, onboarding was pointless. The MM
@@ -92,7 +92,7 @@ though she&#39;s the first human here.</li>
 <strong>&quot;Add funds&quot;</strong> panel: pick an amount ($20), pay by card.</li>
 <li><strong>Pays with a test card.</strong> Stripe Checkout opens (test mode). She enters <code>4242 4242 4242 4242</code>,
 any future expiry, any CVC. Checkout succeeds and returns her to Verex.</li>
-<li><strong>Balance appears.</strong> Within a second or two her header shows <strong>$20.00 (20 USDC-eq)</strong>. Behind
+<li><strong>Balance appears.</strong> Within a second or two her header shows <strong>$20.00 (20 jUSD-eq)</strong>. Behind
 the scenes a Stripe webhook credited her internal balance — no on-chain transfer, no wallet.</li>
 <li><strong>Places the bet.</strong> She buys <strong>15 YES</strong> at the MM&#39;s ask (62¢) for ~$9.30. The order matches
 against the operator maker instantly.</li>
@@ -100,7 +100,7 @@ against the operator maker instantly.</li>
 card shows <em>15 YES, avg 0.62, current 0.63</em>. The MM&#39;s quote has nudged up because it just sold
 YES (LMSR moves price with inventory).</li>
 <li><strong>Later: resolution.</strong> When the market resolves YES, her 15 shares redeem for $15 of
-USDC-equivalent, credited back to her balance. (Redemption path is existing Verex; only the
+jUSD-equivalent, credited back to her balance. (Redemption path is existing Verex; only the
 <em>funding</em> leg is new.)</li>
 </ol>
 <p>Mina went from &quot;no crypto&quot; to &quot;settled a bet&quot; without ever seeing a seed phrase or a gas fee.</p>
@@ -109,14 +109,14 @@ USDC-equivalent, credited back to her balance. (Redemption path is existing Vere
 <p><strong>A. Add-funds / deposit screen</strong> (new)</p>
 <ul>
 <li>Amount chooser: preset chips ($10 / $20 / $50) + custom field.</li>
-<li>One line of honesty: <em>&quot;Test mode — no real charge. Funds are a play-money USDC-equivalent
+<li>One line of honesty: <em>&quot;Test mode — no real charge. Funds are a play-money jUSD-equivalent
 balance, not withdrawable crypto.&quot;</em></li>
 <li>Primary button <strong>&quot;Pay with card&quot;</strong> → redirects to Stripe Checkout (hosted page, test mode).</li>
 <li>Return states: <code>?funded=success</code> (toast + balance refresh) and <code>?funded=cancel</code> (no change).</li>
 </ul>
 <p><strong>B. Balance indicator</strong> (new, global header)</p>
 <ul>
-<li><code>$10.70 · 10.70 USDC-eq</code> with a small <strong>&quot;Add funds&quot;</strong> link.</li>
+<li><code>$10.70 · 10.70 jUSD-eq</code> with a small <strong>&quot;Add funds&quot;</strong> link.</li>
 <li>Clicking opens a mini ledger: deposits (Stripe), trades, redemptions — each a signed row.</li>
 </ul>
 <p><strong>C. Market page — quote + ladder</strong> (extends existing)</p>
@@ -167,14 +167,14 @@ guardrails, and the config risk-split are in §6 &quot;Operator / admin page&quo
   │                                │  checkout.session.completed
   │                                │◄─────────────────┤
   │                                ├─ verify sig, idempotent by session id
-  │                                ├─ credit balances(user += $20 USDC-eq)
+  │                                ├─ credit balances(user += $20 jUSD-eq)
   │  return to /market?funded=success                 │
   │◄──────────────────────────────┤                  │
 </code></pre>
 <p>Key points: the <strong>webhook is the source of truth</strong> for crediting (never the browser redirect —
 the user can close the tab). Each credit is <strong>idempotent</strong> on the Stripe session/event id so a
-retried webhook can&#39;t double-credit. No real custody: a &quot;USDC-eq&quot; credit is a <strong>ledger row</strong>, not
-an on-chain USDC transfer. (A later, real version would swap this leg for an on/off-ramp such as
+retried webhook can&#39;t double-credit. No real custody: a &quot;jUSD-eq&quot; credit is a <strong>ledger row</strong>, not
+an on-chain jUSD transfer. (A later, real version would swap this leg for an on/off-ramp such as
 Bridge — flagged as an open question in <code>ap2-test.md</code>.)</p>
 <h3 id="market-maker-flow-lmsr-quote--match--settle">Market-maker flow (LMSR quote → match → settle)</h3>
 <pre><code>   MM (mm.ts, LMSR)                  Order book / CTF                Balance ledger
@@ -215,14 +215,25 @@ taker.</p>
 <h2 id="6-implementation-sketch">6. Implementation sketch</h2>
 <p><strong>New</strong></p>
 <ul>
-<li><code>POST /funding/checkout</code> — create a Stripe Checkout Session (test keys), return <code>session.url</code>.</li>
-<li><code>POST /webhooks/stripe</code> — verify signature, handle <code>checkout.session.completed</code>, credit balance
-idempotently by event/session id. Raw-body route (Stripe signature needs the unparsed body).</li>
-<li><code>balances</code> table — <code>user_id, currency(&#39;USDCX&#39;), amount, updated_at</code>; plus a <code>ledger</code> table
-(<code>user_id, kind(deposit|trade|redeem), delta, ref, created_at</code>) for the mini-ledger UI.</li>
-<li>Balance guard in the order path — debit on fill, refuse if insufficient (mirrors the existing
-<code>checkExternalFunds</code> read-and-refuse discipline from Verex).</li>
-<li>Web: Add-funds screen (A), header balance (B), MM ladder on the market page (C).</li>
+<li><p><code>POST /funding/checkout</code> — create a Stripe Checkout Session (test keys), return <code>session.url</code>.</p>
+</li>
+<li><p><code>POST /webhooks/stripe</code> — verify signature, handle <code>checkout.session.completed</code>, record the
+deposit idempotently by event/session id. Raw-body route (Stripe signature needs the unparsed
+body).</p>
+</li>
+<li><p><code>deposits</code> table — <code>user_id, amount, session_id(unique), tx_hash, settled_at, created_at</code>.</p>
+</li>
+<li><p><code>POST /funding/settle</code> — mint jUSD for anything paid but not yet on-chain, and stamp <code>tx_hash</code>.</p>
+<p><strong>Superseded (jay, 2026-09-15).</strong> The original design credited an internal <code>USDCX</code> balance
+(<code>balances</code> + a signed <code>ledger</code>) and added a second guard in the order path. That gave one user
+two balances, and the one the UI showed was the one that was not real — the chain leg was funded
+by an unrelated open mint. A card payment now mints jUSD directly, so the only balance is
+on-chain and <code>checkExternalFunds</code> is the only guard. Because a card charge and a mint cannot
+share a transaction, the deposit row is the durable record of what is owed and settling is a
+separate, retryable step.</p>
+</li>
+<li><p>Web: Add-funds screen (A), header balance (B), MM ladder on the market page (C).</p>
+</li>
 </ul>
 <p><strong>Reused</strong></p>
 <ul>
@@ -263,9 +274,9 @@ ladder = LMSR sampled at ±N ticks; optional spread/fee bps around the mid.</li>
 <ul>
 <li><strong>KYC omitted</strong> in test mode — fine for a demo, mandatory before any real money. Where does the
 real KYC/AML leg live when this graduates?</li>
-<li><strong>Custody caveat</strong> — &quot;USDC-eq&quot; is an internal ledger credit, <em>not</em> redeemable crypto; the UI
+<li><strong>Custody caveat</strong> — &quot;jUSD-eq&quot; is an internal ledger credit, <em>not</em> redeemable crypto; the UI
 must say so plainly. Real deposits/withdrawals need an on/off-ramp (Bridge or alternative) and
-either real on-chain USDC custody or a regulated partner.</li>
+either real on-chain jUSD custody or a regulated partner.</li>
 <li><strong>Balance ↔ chain reconciliation</strong> — if internal balances ever back real on-chain positions,
 a consistency checker (cf. Verex W5 DB⇄chain checker) is required.</li>
 <li><strong>MM risk bound</strong> — pick <code>b</code> so max operator loss is acceptable for the test treasury; decide

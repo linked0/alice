@@ -112,7 +112,7 @@ panel list + tech in [../features/jayverse.md](../features/jayverse.md) and Jul-
 under **XYZ**, or its own slot.)*
 - **Standards:** **EIP-7702** (EOA runs smart-account code) + **ERC-7715** (`wallet_grantPermissions`
   = scoped **session key**) / **ERC-7710** (delegation).
-- **Design:** connect wallet → **grant a session key** (e.g. "spend ≤ X testnet USDC to Y, valid 1h")
+- **Design:** connect wallet → **grant a session key** (e.g. "spend ≤ X testnet jUSD to Y, valid 1h")
   → show the session key doing that **bounded action without re-signing**. Testnet **Sepolia**.
 - **Decided (jay):** stack = **MetaMask Delegation Toolkit** on Sepolia. Scope = short explainer + 1 demo tx.
 

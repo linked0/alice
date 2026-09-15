@@ -90,7 +90,7 @@ chat window.</p>
 <p><strong>Slice B — day rentals (ERC-4907).</strong>
 Add the ERC-4907 <code>user</code>/<code>expires</code> layer so the owner can rent chat access for a day without
 transferring ownership. The token-gate check becomes &quot;are you the current <em>user</em> (rental) OR
-the <em>owner</em>?&quot;. Rental price and duration are set per persona; payment settles in USDC.</p>
+the <em>owner</em>?&quot;. Rental price and duration are set per persona; payment settles in jUSD.</p>
 <p><strong>Later (noted, not first):</strong> creator onboarding straight from openclone&#39;s <code>new</code>, public market
 listing, and <strong>x402-priced chat</strong> (pay-per-message) as the recurring revenue rail. Kept out of
 the MVP so the first build stays &quot;mint one, gate it, chat.&quot;</p>
@@ -158,20 +158,20 @@ means the same thing everywhere.</p>
 <h2 id="2-user-scenario">2. User scenario</h2>
 <p><strong>Nova (creator).</strong> Nova has built an openclone persona — &quot;Astra, a synthwave music historian&quot; —
 with a few ingested articles as its knowledge. In the web app she clicks <strong>Create persona</strong>,
-picks her local openclone bundle, sets a name, avatar, a one-line pitch, a mint price (25 USDC),
-and a per-message chat price (0.02 USDC). The app pins the persona metadata + knowledge manifest
+picks her local openclone bundle, sets a name, avatar, a one-line pitch, a mint price (25 jUSD),
+and a per-message chat price (0.02 jUSD). The app pins the persona metadata + knowledge manifest
 to IPFS, she signs one transaction, and <code>Persona721</code> mints token #7 to her wallet. Astra now
 appears on the marketplace grid as &quot;by Nova&quot;.</p>
 <p><strong>Kai (buyer — for the asset, not just the chat).</strong> Kai isn&#39;t buying only to talk once; for that
 he&#39;d pay-per-message or rent (see &quot;Why an NFT&quot; above). He mints because he thinks Astra will get
-<em>used</em>: he pays the 25 USDC mint over the shared rails, one signature, and now holds token #7 as an
+<em>used</em>: he pays the 25 jUSD mint over the shared rails, one signature, and now holds token #7 as an
 income asset. He can still chat (SIWE prompt → backend confirms he holds #7 → chat opens), but the
 point of owning is what comes next — whenever <strong>anyone else</strong> talks to Astra (Ren&#39;s rental, the
 agent&#39;s consult, other buyers&#39; chats), the rental fees and per-message x402 revenue flow to <strong>Kai
 as the owner</strong>, with a creator-royalty slice to Nova (ERC-2981). If Astra&#39;s following grows, Kai can
 resell #7. Ownership is the <em>investment/control</em> form of access; the two tiers below are consumption.</p>
 <p><strong>Ren (renter).</strong> Ren doesn&#39;t want to own Astra, just to use her for a day. On the detail page
-he clicks <strong>Rent 1 day</strong> (3 USDC). The contract&#39;s <code>setUser(7, ren, now+24h)</code> records him as the
+he clicks <strong>Rent 1 day</strong> (3 jUSD). The contract&#39;s <code>setUser(7, ren, now+24h)</code> records him as the
 temporary user. For 24h Ren passes the token-gate exactly like an owner and can chat; after
 <code>expires</code>, the gate closes automatically and access reverts to Nova.</p>
 <p><strong>Agent (optional buyer).</strong> Rabbit&#39;s Agentic-AI, holding a scoped session key, can itself rent a
@@ -213,7 +213,7 @@ revenue per persona.</p>
 <pre><code>CREATE / MINT (ERC-721)
   creator: pick openclone bundle
     → pin persona metadata + knowledge manifest to IPFS  → tokenURI = ipfs://…
-    → Persona721.mint(to, tokenURI)   [creator mint]  OR  buyer pays mintPrice (USDC) → mint(to)
+    → Persona721.mint(to, tokenURI)   [creator mint]  OR  buyer pays mintPrice (jUSD) → mint(to)
     → token #N now held by owner
 
 TOKEN-GATE CHECK (SIWE / EIP-4361)
@@ -225,11 +225,11 @@ TOKEN-GATE CHECK (SIWE / EIP-4361)
 
 CHAT (openclone runtime)
   gated session → backend loads persona bundle for #N → openclone answers as the persona
-    → each message metered; x402 charges chatPrice in USDC (see below)
+    → each message metered; x402 charges chatPrice in jUSD (see below)
 
 RENTAL (ERC-4907)
   renter clicks Rent 1 day
-    → pay rentPrice (USDC over rails)
+    → pay rentPrice (jUSD over rails)
     → Persona721.setUser(N, renter, expires = now + 1 day)
     → gate&#39;s isRenter(N, addr) == (userOf(N)==addr &amp;&amp; userExpires(N) &gt; now)
     → at expiry, userOf() falls back to address(0); access auto-reverts to owner
@@ -247,11 +247,11 @@ X402-PRICED CHAT (ongoing revenue)
 metadata references an openclone persona bundle (persona card + knowledge manifest); the chat
 backend runs that bundle to answer as the persona. Creator flow reuses openclone <code>new</code> /
 <code>ingest</code>. This is the &quot;real utility&quot; the NFT unlocks — reused, not rebuilt.</li>
-<li><strong>Settlement Rails / USDC</strong> — every payment (mint, rent, x402 chat) settles in USDC on the
+<li><strong>Settlement Rails / jUSD</strong> — every payment (mint, rent, x402 chat) settles in jUSD on the
 home chain via <code>jayverse-rails</code>; cross-chain, if ever, rides CCIP. No persona-specific
 payment path.</li>
 <li><strong>Wallet service</strong> (<code>jayverse-wallet</code>) — supplies connect + embedded-wallet UX and
-simulate-before-sign for mint/rent transactions, so a buyer previews &quot;you will pay 25 USDC,
+simulate-before-sign for mint/rent transactions, so a buyer previews &quot;you will pay 25 jUSD,
 receive token #7&quot; before signing. SIWE signing uses the same wallet.</li>
 <li><strong>Rabbit portal + Agentic-AI</strong> — Rabbit imports the persona market UI and lists it in the
 Jayverse portal. The agent, with a scoped session key, can <strong>rent/consult a persona as a
@@ -288,7 +288,7 @@ Revenue split by ERC-2981/ splitter policy. Reuses the Agent Commerce Layer path
 <ul>
 <li><em>New:</em> <code>Persona721</code> (721+4907+2981), SIWE token-gate middleware, IPFS manifest packer, x402
 chat meter, the marketplace/detail/chat/create UI.</li>
-<li><em>Reused:</em> openclone runtime (persona brain), rails/USDC + x402 facilitator, wallet connect +
+<li><em>Reused:</em> openclone runtime (persona brain), rails/jUSD + x402 facilitator, wallet connect +
 simulate-before-sign, openclone categories.</li>
 </ul>
 <p><strong>Risk — IP / likeness</strong></p>

@@ -44,7 +44,7 @@ Design draft for review — not built. Sibling docs indexed in [README.md](READM
    *want* to hand out value, so it gets an explicit budget (per day) instead of an implicit one.
 
 **Why fork Sepolia rather than start from an empty genesis.** The fork gives us, for free, the
-*base rails* — the ERC-4337 `EntryPoint`, the test USDC the services already use, and the Chainlink
+*base rails* — the ERC-4337 `EntryPoint`, the test jUSD the services already use, and the Chainlink
 feed contracts — so those keep the addresses every tool already knows. An empty genesis would mean
 re-creating all of that first. Phase 4 is where a from-scratch chain becomes worth it.
 
@@ -106,7 +106,7 @@ treats as *the* chain. Five layers, from the metal up:
 │                        ── all use one chain definition: `jayverseDevnet` (rails pkg) │
 ├──────────────────────────────────────────────────────────────────────────────────────┤
 │  4. ECOSYSTEM          the Jayverse contract set, seeded at genesis/reset:            │
-│     (on-chain)         EntryPoint 4337 · USDC · JYVE · Exchange · BridgeLock          │
+│     (on-chain)         EntryPoint 4337 · jUSD · JYVE · Exchange · BridgeLock          │
 │                        Verex markets · DeFi (jeETH) · Personas · OFA IntentAuction    │
 │                        + `Registry` (name → address, the on-chain address book)       │
 ├──────────────────────────────────────────────────────────────────────────────────────┤
@@ -135,8 +135,8 @@ treats as *the* chain. Five layers, from the metal up:
 | Chain id | **313370** — dedicated; `31337` stays the *local* fork id | never collides with the localhost/Hardhat/Foundry default; EIP-155 keeps local and hosted signatures from replaying on each other (§1) |
 | Block time | 1 s (`--block-time 1`) | real blocks on a clock, not instamine — so timing bugs (queues, closes, session expiry) show up here, not on Sepolia |
 | Native currency | test ETH, faucet-issued | no value; the faucet is the only "issuer" |
-| **Mode A — fork** | `--fork-url $SEPOLIA_RPC --fork-block-number $PIN` | inherits the *base rails* only (EntryPoint, USDC, Chainlink contracts) at their known addresses; every Jayverse contract is still deployed fresh by `seed.ts`; default for phase 1 |
-| **Mode B — own genesis** | no fork; `seed.ts` deploys everything incl. a mock USDC and the 4337 EntryPoint | no upstream RPC dependency, fully reproducible; the form the chain takes once it is "ours" (phase 3+) and the one an OP-Stack L2 would settle on |
+| **Mode A — fork** | `--fork-url $SEPOLIA_RPC --fork-block-number $PIN` | inherits the *base rails* only (EntryPoint, jUSD, Chainlink contracts) at their known addresses; every Jayverse contract is still deployed fresh by `seed.ts`; default for phase 1 |
+| **Mode B — own genesis** | no fork; `seed.ts` deploys everything incl. a mock jUSD and the 4337 EntryPoint | no upstream RPC dependency, fully reproducible; the form the chain takes once it is "ours" (phase 3+) and the one an OP-Stack L2 would settle on |
 | Persistence | `--state /data/anvil.json --state-interval 60` + `--load-state` on boot | restarts and VM reboots keep balances, deployments, history |
 | Reset | `anvil_reset` (mode A) / restart with empty state (mode B) → `seed.ts` | a devnet must be cheap to wipe; a reset is a logged admin action, not an accident |
 
@@ -149,10 +149,10 @@ without anything above it noticing.
 An empty EVM is not an ecosystem. The devnet is defined by the contract set that `seed.ts` puts on
 it and by the **`Registry`** contract that names them:
 
-- **Base rails:** ERC-4337 `EntryPoint` (v0.7), `USDC` (Circle's Sepolia test token in mode A, a
+- **Base rails:** ERC-4337 `EntryPoint` (v0.7), `jUSD` (Circle's Sepolia test token in mode A, a
   mock in mode B), and the Chainlink feed/automation addresses (frozen in mode A, mocked in mode B).
 - **Jayverse contracts — all deployed on the devnet by `seed.ts`, never inherited from the fork**
-  (jay, 2026-09-14): `JYVE`, `Exchange` (JYVE/USDC pool, seeded with liquidity), `BridgeLock`
+  (jay, 2026-09-14): `JYVE`, `Exchange` (JYVE/jUSD pool, seeded with liquidity), `BridgeLock`
   (devnet side of the bridge), Verex market factory + a few demo markets, DeFi `jeETH` vault,
   `Personas` NFT + rental, OFA `IntentAuction` + mock solvers. Each service's repo owns its deploy
   script; `seed.ts` calls them in dependency order (token → exchange → bridge → verex/defi/personas/ofa).
@@ -269,7 +269,7 @@ A one-page **status site** at `devnet.jaylabs.xyz` (the RPC lives at `/rpc`, Web
 - **Connect:** the RPC URL with a copy button, and an *Add to wallet* button
   (`wallet_addEthereumChain` with name "Jayverse Devnet", currency ETH, explorer URL).
 - **Faucet:** address input → 10 ETH; shows the remaining daily budget and the per-address cooldown.
-- **Address book:** the deployed Jayverse contracts on this chain (EntryPoint, USDC, JYVE, Exchange,
+- **Address book:** the deployed Jayverse contracts on this chain (EntryPoint, jUSD, JYVE, Exchange,
   Bridge, Verex, DeFi, Personas) with explorer links — read from the shared rails config, not typed.
 - **Explorer:** [Otterscan](https://otterscan.io) served at `/explorer` — Anvil implements the
   `ots_*` API it needs, so blocks, txs, and traces are browsable with no indexer.
@@ -354,7 +354,7 @@ jayverse-devnet/
 - **Chain id — decided: dedicated `313370`** (jay, 2026-09-14; reasons in §1). `31337` stays the local
   fork. Still to do: confirm `313370` is unregistered on chainlist.org before the first deploy.
 - **How often to re-pin the fork block?** Never automatically. Re-pinning is a reset; do it when a
-  Sepolia change we depend on (a new EntryPoint, a USDC redeploy) must be picked up.
+  Sepolia change we depend on (a new EntryPoint, a jUSD redeploy) must be picked up.
 - **Faucet budget** — 10 ETH per address per day, 500 ETH per day total, as a starting point.
 
 ## Chainlink — infra we use, not build

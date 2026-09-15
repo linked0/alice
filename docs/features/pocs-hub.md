@@ -41,7 +41,7 @@ Each card shows:
 
 | Card | Links to | Status | How-to-run sketch |
 |---|---|---|---|
-| Hyperliquid Trading | `/market` | Live | Connect MetaMask → switch to HL testnet → claim mock USDC at the HL testnet faucet → place a small limit order |
+| Hyperliquid Trading | `/market` | Live | Connect MetaMask → switch to HL testnet → claim mock jUSD at the HL testnet faucet → place a small limit order |
 | PBS (searcher / relay) | `/xyz` | Live | Submit a bundle via the searcher form (Sepolia) → watch the relay dashboard for inclusion |
 | AP2 — Stripe settlement | `/ap2` (or `/etc/ap2`) | Coming soon — see [current-plan.md §2](../tasks/current-plan.md#s2) | Click "buy" → Stripe test Checkout → pay with Stripe's test card `4242 4242 4242 4242` |
 | AA — delegatable accounts & session keys | `/etc/aa` | Coming soon — see [current-plan.md §3](../tasks/current-plan.md#s3) + [§6](../tasks/current-plan.md#s6) | Connect MetaMask on Sepolia → grant a scoped session key → watch it spend within the granted limit, no re-sign popup |

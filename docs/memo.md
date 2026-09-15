@@ -31,14 +31,14 @@ curl -s -X POST -H 'content-type: application/json' -d '{"address":"<AGENT_OR_OW
 - **`agent:approve`** — one-time on-chain approvals from the **agent** EOA: ERC-20 `approve` (BUY) and
   ERC-1155 `setApprovalForAll` (SELL). verex's `checkExternalFunds` only *reads* an external
   maker's balance/allowance; it never approves on its behalf, so without this every BUY fails with
-  `insufficient USDC allowance` and every SELL with `has not approved the exchange for CTF transfers`.
+  `insufficient jUSD allowance` and every SELL with `has not approved the exchange for CTF transfers`.
   Two txs → the agent needs ETH first. `ANVIL_RPC_URL=` prefix because the script reads it from the
   process env, not `.env` (bare, it talks to :8545). Idempotent.
 - **`agent:seed-news`** — `estimate()` refuses to call the LLM with no news (a prior can't beat a live
   book), so an empty news store always yields `SKIP_NO_ESTIMATE`. Seeds use relative timestamps
   (90/55/20 min ago) to stay inside the 48 h window — rerun before each demo.
-- **`/faucet`** — MockUSDC mint on the fork. Fund the **owner** you grant from (the mandate lets the
-  agent *pull* USDC out of the owner; the 7715 path skips `/prepare`, which is what funded the owner
+- **`/faucet`** — JUSD mint on the fork. Fund the **owner** you grant from (the mandate lets the
+  agent *pull* jUSD out of the owner; the 7715 path skips `/prepare`, which is what funded the owner
   on 31337) and optionally the **agent** as a cushion.
 
 Order: ETH → approve → faucet → seed → grant → tick.
@@ -91,7 +91,7 @@ pnpm --filter @verex/api dev            # :4000
 curl -s http://127.0.0.1:4000/config    # expect chainId 11155111, tradingEnabled true
 ```
 
-## 3. rabbit (rerun approve + faucet after every reset.sh — USDC/exchange addresses change)
+## 3. rabbit (rerun approve + faucet after every reset.sh — jUSD/exchange addresses change)
 
 ```bash
 cd /Users/jay/work/rabbit
@@ -105,7 +105,7 @@ curl -s -X POST -H 'content-type: application/json' -d '{"address":"<AGENT_OR_OW
 
 1. MetaMask → Sepolia, RPC `http://127.0.0.1:8545`, an account that is **not** the agent.
 2. Fund it: faucet (above) + ETH (below).
-3. `http://127.0.0.1:3100/live/agent/console` → Connect → **Grant mandate** → MetaMask's own "up to 10 USDC, 60 min" popup.
+3. `http://127.0.0.1:3100/live/agent/console` → Connect → **Grant mandate** → MetaMask's own "up to 10 jUSD, 60 min" popup.
 4. Tick `us-federal-stablecoin-law-2026` with a short `cooldownSec` → expect `TRADED … (drawn on-chain 0x…)`.
 5. Tick `eth-above-10k-2026` → expect `SKIP_EDGE`.
 

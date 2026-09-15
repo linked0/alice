@@ -63,7 +63,7 @@ the only thing in this plan that has never worked and it should not be discovere
 
 **Where it stands (2026-09-04): the milestone happened.** On 2026-09-02 the loop produced its
 first **fully scheduled, wallet-granted, on-chain-drawn trade** — a server tick nobody triggered
-drew MockUSDC through a mandate granted by **MetaMask's own ERC-7715 popup** and bought `4.81 Yes`
+drew JUSD through a mandate granted by **MetaMask's own ERC-7715 popup** and bought `4.81 Yes`
 (draw tx `0x5e765a3b…`; the mandate read `7.50/10` after). Phases 1–2 (V-A…V-D, R-A…R-E, R-I)
 remain done with on-chain cap/expiry ([details](#onchain)); **R-F is built** ([Phase 3](#order)).
 Two changes made the milestone possible, both bigger than they look:
@@ -162,12 +162,12 @@ Buying the 10k market until its ask is exhausted stops at **0.49**; selling the 
 floor stops at **0.57**. **Eating the ladders can never make them cross.** The violation has to be
 *posted*, not walked to — a resting limit order priced past the whole ladder.
 
-**Steps.** Verex API on `:4000`, anvil up, demo wallets seeded (wallet 1 holds 7,000 USDC).
+**Steps.** Verex API on `:4000`, anvil up, demo wallets seeded (wallet 1 holds 7,000 jUSD).
 
 | # | Do this | Why / expect |
 |---|---|---|
 | 1 | `curl -s localhost:4000/markets/eth-above-10k-2026/book?outcome=Yes` and the same for `uma-eth-above-6k-2026` | Record both books. Expect `0.44` and `0.62` — the constraint **holds**, so there is nothing to arb |
-| 2 | Post a limit BUY that outruns the ladder — from **wallet 1**, the only one with enough: <br>`curl -s -X POST localhost:4000/orders -H 'content-type: application/json' -d '{"slug":"eth-above-10k-2026","outcome":"Yes","side":"BUY","accountIndex":1,"type":"limit","amount":2100,"price":0.64}'` | `amount` is **tokens**. The first 2,000 fill against the whole ask ladder (≈ **927 USDC**); the remaining 100 **rest as a bid at 0.64** (≈ 64 USDC escrowed). Total ≈ **991 USDC** |
+| 2 | Post a limit BUY that outruns the ladder — from **wallet 1**, the only one with enough: <br>`curl -s -X POST localhost:4000/orders -H 'content-type: application/json' -d '{"slug":"eth-above-10k-2026","outcome":"Yes","side":"BUY","accountIndex":1,"type":"limit","amount":2100,"price":0.64}'` | `amount` is **tokens**. The first 2,000 fill against the whole ask ladder (≈ **927 jUSD**); the remaining 100 **rest as a bid at 0.64** (≈ 64 jUSD escrowed). Total ≈ **991 jUSD** |
 | 3 | Re-read both books | `eth-above-10k` best bid **0.64**, `uma-eth-above-6k` best ask **0.63**. `0.64 > 0.63` — **the constraint is violated and the violation is tradeable** |
 | 4 | Compute what an agent would take | Sell 10k YES at 0.64, buy 6k YES at 0.63 → **+0.01 per share, credit**, for a position that pays in every world where the sold leg pays |
 | 5 | Execute the two legs by hand from **wallet 2** — a market SELL on `eth-above-10k` and a market BUY on `uma-eth-above-6k`, same token size | Wallet 2 must already hold 10k-YES tokens to sell; if it does not, buy some first and note that the round trip costs the spread. **This is the step that shows why the agent would need a two-leg `act`** — one leg filling without the other is an open position, not an arbitrage |
@@ -175,10 +175,10 @@ floor stops at **0.57**. **Eating the ladders can never make them cross.** The v
 | 7 | Cancel whatever is left resting: <br>`curl -s -X DELETE localhost:4000/orders/<orderId> -H 'content-type: application/json' -d '{"accountIndex":1}'` | Returns `{"status":"CANCELLED"}` and the bid leaves the book immediately — **verified 2026-08-27** with a 10-token probe at 0.30, posted and cancelled with the book restored byte-for-byte |
 | 8 | Restore the seeded state | `cd ~/work/verex && ./scripts/reset.sh`. ⚠️ **This deploys a fresh backbone** — the Exchange address changes, so re-read `/config` and grant a new mandate. A cached `verifyingContract` produces a valid signature of the wrong message |
 
-**On the ≈991 USDC.** That is not a fee. Roughly 927 of it *buys 2,000 YES tokens* at an average
+**On the ≈991 jUSD.** That is not a fee. Roughly 927 of it *buys 2,000 YES tokens* at an average
 0.46 — a position, not a loss — and the remaining ~64 is escrow behind the resting bid, released by
 step 7. The only real cost of the round trip is the spread on selling those tokens back. Wallet 1
-holds 7,000 USDC and is the only demo wallet with room; the others hold 1,000.
+holds 7,000 jUSD and is the only demo wallet with room; the others hold 1,000.
 
 **Two things this procedure does not prove.** It does not show the agent *finding* the violation —
 step 2 is a human posting it. And step 5 is two separate orders that can partially fill
@@ -203,7 +203,7 @@ work this plan has not scoped.
 
 ```
   Owner wallet (MetaMask)
-      │  ERC-7715 delegation — cap: N MockUSDC, expiry: T
+      │  ERC-7715 delegation — cap: N JUSD, expiry: T
       │  ◀── the ONLY on-chain enforcement point
       ▼  redeem ≤ cap
   Agent EOA            key on RABBIT's server (testnet-grade, labelled on the page)
@@ -278,7 +278,7 @@ which means **this table is not a work queue**; the [build order](#order) below 
 | **V-C** | Address-scoped reads | `/wallet/:address` — balance, positions, open orders, redeems, history (today all `/wallet/:index`) | V-A |
 | **⇄ V-D** | External redeem | `POST /redeem` by address; the redeem tx is signed by the **holder**, not the operator | V-C |
 | **⇄ R-G** | Resolution watch + self-redeem | Poll verex for resolution; redeem a winning position; record realised P&L. **Needs a little Sepolia ETH — this leg only** | V-D, R-F |
-| **R-A** | Mandate: grant · fund · revoke | ERC-7715 delegation scoped to **amount + expiry**; redeeming it moves ≤ cap of MockUSDC to the agent EOA; key generated server-side, address-only to the browser, **labelled testnet-grade on the page** | — |
+| **R-A** | Mandate: grant · fund · revoke | ERC-7715 delegation scoped to **amount + expiry**; redeeming it moves ≤ cap of JUSD to the agent EOA; key generated server-side, address-only to the browser, **labelled testnet-grade on the page** | — |
 | **R-C** | The tick, callable by hand | `POST /api/agent/tick` — observe → estimate → decide → act → record; **calling it twice must be safe** | R-A, R-B |
 | **R-I** | **News store — input, list, persistence** | Prisma model `NewsItem` — market scope, headline, body or URL, source, published-at, entered-at, `origin: operator \| feed`. An **input form** and a **list of stored items** for the selected market, with edit and delete. **The estimate reads this store, never a prompt textarea** — so a journal row's cited evidence still resolves to a row that exists tomorrow | — |
 | **R-D** | LLM estimate | LLM returns `{ p, rationale, cited }` for a market — reads the question **plus that market's items from R-I**. `cited` records which `NewsItem` ids the estimate actually used. The **deterministic rule** still owns the decision. Reuses `app/api/jay-chat/` plumbing | R-C, **R-I**, **O5** |
@@ -312,8 +312,8 @@ The probe is one call: **`initialize` on the staging adapter with Sepolia WETH a
 token.** If the live oracle accepts the request, the rest of W1 is waiting and configuration and
 can safely sit at the end. If it reverts, you learn it now.
 
-**Do not use MockUSDC.** [`UmaCtfAdapter`](../../projects/verex/packages/contracts/src/UmaCtfAdapter.sol)'s
-own docblock says it: the reward token must be on UMA's `AddressWhitelist`, MockUSDC is not, and
+**Do not use JUSD.** [`UmaCtfAdapter`](../../projects/verex/packages/contracts/src/UmaCtfAdapter.sol)'s
+own docblock says it: the reward token must be on UMA's `AddressWhitelist`, JUSD is not, and
 Sepolia WETH `0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9` is — self-service via `deposit()`. This
 is the trap that passes locally and reverts on Sepolia.
 
@@ -347,7 +347,7 @@ the external-maker path**.
 
 | | Item | Detail |
 |---|---|---|
-| **R-A** | **Mandate: grant · fund · revoke** | ERC-7715 delegation scoped to amount + expiry; redeeming it transfers ≤ cap of MockUSDC to the agent EOA. Key generated server-side, address-only to the browser, **labelled testnet-grade on the page** — this is D2, answered |
+| **R-A** | **Mandate: grant · fund · revoke** | ERC-7715 delegation scoped to amount + expiry; redeeming it transfers ≤ cap of JUSD to the agent EOA. Key generated server-side, address-only to the browser, **labelled testnet-grade on the page** — this is D2, answered |
 | **R-B** | **Verex client** | Typed client over V-A..V-D that signs CTF orders with the agent key. Blocked on [O1](#open) — how rabbit obtains verex's order-signing code |
 | **R-C** | **The tick, callable by hand** | `POST /api/agent/tick` — observe → estimate → decide → act → record. **Calling it twice in a row must be safe**, verified by `curl` before any scheduler exists |
 | **R-I** | **News store — input, list, persistence** | `NewsItem` in Postgres (market scope, headline, body/URL, source, published-at, entered-at, `origin`), an input form, and a list of the selected market's items with edit/delete. The estimate reads **the store**, not a prompt textarea, so a journal row's cited evidence outlives the input box. Scope and staleness are [O7](#open) |
@@ -403,7 +403,7 @@ be doing it twice. What makes this safe rather than reckless is [W0](#probe), ru
 **The steps live in verex's plan**, not here — W1 is verex's item and this file only owns the
 seam. Seven steps with the trap next to each:
 [verex current-plan.md → W1](../../projects/verex/docs/tasks/current-plan.md#w1). The short version
-is: fund Sepolia WETH (**not MockUSDC** — it is not on UMA's whitelist), fresh seed with a
+is: fund Sepolia WETH (**not JUSD** — it is not on UMA's whitelist), fresh seed with a
 short-dated market, propose, wait out real liveness, settle, redeem, close A5.
 
 **Take the undisputed path.** The dispute branch is **not walkable on Sepolia**: a real dispute
@@ -440,9 +440,9 @@ inside a demo. *(That last clause is J2's requirement on W1, not W1's own.)*
 | # | Status | Where |
 |---|---|---|
 | **V-A** | ✅ | `packages/api/src/book.ts` — `verifyExternalOrder`, `limitAmountsE6`, the external branch in `placeOrder`, and the settle handler using the **stored** signature with a partial `takerFillAmount`. Migration `20260825000000_maker_index_nullable` |
-| **V-B** | ✅ | `checkExternalFunds` (reads and rejects), `faucetTo` + `POST /faucet {address}`. **Written 2026-08-26, working 2026-08-27** — see the note above; the UI for it (an address field on the faucet, showing the MockUSDC address) landed with the fix |
+| **V-B** | ✅ | `checkExternalFunds` (reads and rejects), `faucetTo` + `POST /faucet {address}`. **Written 2026-08-26, working 2026-08-27** — see the note above; the UI for it (an address field on the faucet, showing the JUSD address) landed with the fix |
 | **V-C** | ✅ | `walletSummaryByAddress` / `walletHistoryByAddress`; `/wallet/:x` branches on `isAddress` |
-| **V-D** | ✅ | `recordExternalRedeem` — verifies the receipt's `PayoutRedemption` before recording. `/config` gained `ctf` + `usdc` |
+| **V-D** | ✅ | `recordExternalRedeem` — verifies the receipt's `PayoutRedemption` before recording. `/config` gained `ctf` + `jusd` |
 | **SDK** | ✅ | `recoverOrderSigner` + 3 tests |
 | **R-A** | ✅ | `lib/agent-wallet.ts`, `lib/delegation.ts`, `app/api/agent/mandate` + `/prepare`, `MandatePanel.tsx`. **The cap and the expiry are enforced by contracts on-chain** — see [the mandate is real now](#onchain) |
 | **R-B** | ✅ | `lib/verex-client.ts`. `@verex/sdk` via `file:` link ([O1](#open)) |
@@ -463,8 +463,8 @@ inside a demo. *(That last clause is J2's requirement on W1, not W1's own.)*
 | Real MetaMask ERC-7715 grant, drawn on-chain through the **canonical** DelegationManager the fork inherits | `MandatePanel.tsx` — `startTime` is read from the chain's own block clock, not `Date.now()`: a fork's clock trails wall time, and a restart restores the old time from the state file (`ERC20PeriodTransferEnforcer:transfer-not-started` was this) |
 | **R-F**: scheduler + start/stop panel; tick body extracted to `lib/agent-tick.ts`; manual tick button removed | `lib/agent-scheduler.ts`, `app/api/agent/scheduler/`, `SchedulerPanel.tsx` |
 | Bearish → **BUY the opposite outcome** on binary markets; TRADED rows say "(bearish on X, expressed as Y)" | `lib/agent-tick.ts` |
-| Participants panel — operator/user/agent ETH+USDC balances, +1 ETH / +1000 USDC buttons; user row from `USER_PRIVATE_KEY`, ETH funded as a real transfer from anvil #0 | `ParticipantsPanel.tsx`, `app/api/agent/{participants,fund}` |
-| In-console approvals (USDC allowance + CTF `setApprovalForAll`), idempotent, button survives failure | `Preflight.tsx`, `app/api/agent/approve/` |
+| Participants panel — operator/user/agent ETH+jUSD balances, +1 ETH / +1000 jUSD buttons; user row from `USER_PRIVATE_KEY`, ETH funded as a real transfer from anvil #0 | `ParticipantsPanel.tsx`, `app/api/agent/{participants,fund}` |
+| In-console approvals (jUSD allowance + CTF `setApprovalForAll`), idempotent, button survives failure | `Preflight.tsx`, `app/api/agent/approve/` |
 | Live hub renamed **Demo**; the console got its own card; verex `/config` serves the operator address | `app/Nav.tsx`, `lib/poc-cards.ts`; verex `packages/api` |
 
 Commits: rabbit `aa193cf` (the 2026-09-02 console day; fork work merged just before it),
@@ -495,7 +495,7 @@ appears there, this decision can be revisited from evidence rather than memory.
 
 Consequence to know: the delegator is a **Hybrid smart account** owned by the MetaMask EOA, because
 `redeemDelegations` executes in the delegator's context and therefore needs contract code there.
-The USDC lives at the smart-account address, not at the EOA. It is funded by **V-B's address-scoped
+The jUSD lives at the smart-account address, not at the EOA. It is funded by **V-B's address-scoped
 faucet** — a Phase 1 piece that slotted in unchanged. Upside: no EIP-7702, so anvil never needs the
 Prague hardfork.
 
@@ -557,7 +557,7 @@ It draws inside the mandate, then over the cap, then past the expiry, and prints
 say. Expect exactly this, and treat any other outcome as the demo being broken:
 
 ```
-1. draw 4 of 10 …………………  agent USDC: 4
+1. draw 4 of 10 …………………  agent jUSD: 4
 2. cap exceeded …………………  ERC20TransferAmountEnforcer:allowance-exceeded   (still 4)
 3. after expiry ………………… TimestampEnforcer:expired-delegation             (still 4)
 ```
@@ -594,7 +594,7 @@ at the same agent. It walks all seven verdicts and ends on two consecutive `SKIP
 
 | # | Do this | Expect |
 |---|---|---|
-| 1 | `curl localhost:4000/config` | `exchange`, `ctf`, `usdc` all present and non-null. **This is what makes the EIP-712 domain buildable** — hardcoding it breaks on every `reset.sh` |
+| 1 | `curl localhost:4000/config` | `exchange`, `ctf`, `jusd` all present and non-null. **This is what makes the EIP-712 domain buildable** — hardcoding it breaks on every `reset.sh` |
 | 2 | Open **`/live/agent/console`** | the preflight strip: verex chain, exchange, DelegationManager, agent address and balance. **Everything below depends on this row being green** |
 | 3 | Read the preflight's chain row | verex's chainId and the framework's must **match**. If they differ the page says so in red — a cap governing one chain's token while the trade happens on another makes the demo's claim false |
 | 4 | Check `agentKeyIsPersistent` | `true`. If false, `AGENT_PRIVATE_KEY` is unset and every mandate you grant will be orphaned by the next restart |
