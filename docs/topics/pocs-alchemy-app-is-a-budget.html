@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tokenization — the model does not see characters — Dev Notes</title>
+<title>An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking — Dev Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -365,7 +365,7 @@
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
-      
+
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
     <nav class="rail-nav" id="nav">
@@ -376,45 +376,77 @@
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; Tokenization — the model does not see characters</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#193</span><span>PoC</span></p>
-      <h1>Tokenization — the model does not see characters</h1>
-      <p class="lead">Text is split into subword tokens before a model sees it, which is why models miscount letters, why some languages cost more tokens, and why a prompt&#39;s real length is not its character count.</p>
-      <p class="meta">Not yet scoped.</p>
+      <p class="topic-kicker"><span class="topic-no">#54</span><span>PoC</span></p>
+      <h1>An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</h1>
+      <p class="lead">Alchemy&#39;s three-step Create app flow — create, choose chains, activate services — looks like account setup, but it is a budget decision. Every service you switch on (Node, Bundler, Gas Manager, userOp simulation, Webhooks, Transfers…) meters against the same compute-unit quota shown at the bottom of the page, keyed to that one app key. So an app is a unit of quota, rate limit, and revocation — and you create one per environment and role, not one per developer.</p>
+      <p class="meta">For Jayverse: one app for the devnet&#39;s upstream Sepolia fork (Node API only, read-heavy, its own key in Secret Manager), one for the Sepolia account-abstraction path (Bundler + Gas Manager + userOp simulation), and a separate one later for anything production. Name apps by environment-and-role, keep every key out of git, and read the dashboard per app so a runaway fork or a bundler test cannot starve the others.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
       <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
-      <script type="application/json" id="copy-en">"# Tokenization — the model does not see characters\n\nText is split into subword tokens before a model sees it, which is why models miscount letters, why some languages cost more tokens, and why a prompt's real length is not its character count.\n\nNot yet scoped.\n\n## Why\n\nThe PoC tokenizes English and Korean with the same tokenizer to show the cost asymmetry and the counting failures, making the invisible preprocessing visible.\n\n## How it works\n\nNot yet built.\n"</script>
-      <h2>Why</h2>
-      <p>The PoC tokenizes English and Korean with the same tokenizer to show the cost asymmetry and the counting failures, making the invisible preprocessing visible.</p>
-      <h2>How it works</h2>
-      <p>Not yet built.</p>
-      
+      <script type="application/json" id="copy-en">"# An app key is a budget, not a login — what Alchemy's create-app flow is really asking\n\nAlchemy's three-step Create app flow — create, choose chains, activate services — looks like account setup, but it is a budget decision. Every service you switch on (Node, Bundler, Gas Manager, userOp simulation, Webhooks, Transfers…) meters against the same compute-unit quota shown at the bottom of the page, keyed to that one app key. So an app is a unit of quota, rate limit, and revocation — and you create one per environment and role, not one per developer.\n\nFor Jayverse: one app for the devnet's upstream Sepolia fork (Node API only, read-heavy, its own key in Secret Manager), one for the Sepolia account-abstraction path (Bundler + Gas Manager + userOp simulation), and a separate one later for anything production. Name apps by environment-and-role, keep every key out of git, and read the dashboard per app so a runaway fork or a bundler test cannot starve the others.\n\n## Why\n\nThe page says \"you can always add more services later\", which is true, and hides the real question: what shares a budget with what. Compute units are charged per call, priced by method, and drawn from the app's quota; throughput limits are per app key too. Put the devnet's fork upstream, the AA bundler, and a webhook stream behind one key and the first heavy fork sync will rate-limit the wallet's simulate calls. Split them and each has its own dashboard, its own throttle, and its own revoke button when a key leaks. That is the same lesson as \"the refill rate is the real cap\": the headline quota matters less than who else is drinking from it.\n\n## How it works\n\n### What the three steps decide\n\n| Step | What it looks like | What it actually sets |\n|---|---|---|\n\n| 1. Create new app | a name | the key, and therefore the quota, rate limit, and dashboard everything below shares |\n\n| 2. Choose chains | a network list | which networks this key may serve — one key can span mainnet and testnets, which is exactly why prod and test should not share one |\n\n| 3. Activate services | toggles: Webhooks, Transfers, Node, NFT, Token, Prices, Bundler, Debug, Gas Manager, Trace, Receipts, userOp Simulation, Websockets | which metered APIs this key may call; each has its own per-call cost against the same pool |\n\n### One app per environment and role\n\n```text\njayverse-devnet-upstream   Sepolia · Node API only          → the fork source for anvil (read-heavy, bursty on first sync)\njayverse-sepolia-aa        Sepolia · Bundler + Gas Manager\n                                     + userOp Simulation      → Rabbit AA on the public testnet, MetaMask 7715 demos\njayverse-events            Sepolia · Webhooks / Websockets   → indexers and the watchtower, if and when\njayverse-prod-*            mainnet/Base · as needed           → never shares a key with anything above\n```\n\n1. Name by environment-and-role, never by person. A key named after a developer outlives the developer.\n2. Activate only what the role needs. Fewer services on a key means a leak can do less.\n3. Put each key in Secret Manager under the service that uses it; never in .env files that get committed or in a Dockerfile layer.\n4. Watch usage per app. The dashboard's per-app view is the whole point of splitting.\n\n### Where it lands in Jayverse\n\nThe devnet forks Sepolia lazily: every untouched account or storage slot is fetched from the upstream on first use, so compute-unit spend is proportional to state touched, and the first seed on a fresh fork is the expensive moment (a framework deploy took 2 m 28 s on 2026-09-14 for that reason). That is one app. The wallet's simulate API, the AA bundler, and the gas sponsorship are a different traffic shape — many small calls, latency-sensitive — and get their own. When the devnet becomes the primary target, the upstream app's usage should fall to almost nothing, which is itself a useful signal that services really moved.\n\n### Verified and unverified\n\nVerified from the dashboard itself: the three-step flow, the service list above, and the note that services can be added later. Not verified here: the exact compute-unit cost per method and the current throughput limits per tier — read them from Alchemy's reference pages before sizing the devnet's upstream app, and treat the number at the bottom of the page as the pool the selected services draw from.\nSources: [Alchemy — compute unit costs](https://www.alchemy.com/docs/reference/compute-unit-costs) · [Alchemy — throughput](https://www.alchemy.com/docs/reference/throughput) · [Alchemy — API overview](https://www.alchemy.com/docs/reference/api-overview)\n"</script>
+<h2>Why</h2>
+<p>The page says "you can always add more services later", which is true, and hides the real question: what shares a budget with what. Compute units are charged per call, priced by method, and drawn from the app&#39;s quota; throughput limits are per app key too. Put the devnet&#39;s fork upstream, the AA bundler, and a webhook stream behind one key and the first heavy fork sync will rate-limit the wallet&#39;s simulate calls. Split them and each has its own dashboard, its own throttle, and its own revoke button when a key leaks. That is the same lesson as "the refill rate is the real cap": the headline quota matters less than who else is drinking from it.</p>
+<h2>How it works</h2>
+<h3>What the three steps decide</h3>
+<table><thead><tr><th>Step</th><th>What it looks like</th><th>What it actually sets</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>1. Create new app</th><th>a name</th><th>the key, and therefore the quota, rate limit, and dashboard everything below shares</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>2. Choose chains</th><th>a network list</th><th>which networks this key may serve — one key can span mainnet and testnets, which is exactly why prod and test should not share one</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>3. Activate services</th><th>toggles: Webhooks, Transfers, Node, NFT, Token, Prices, Bundler, Debug, Gas Manager, Trace, Receipts, userOp Simulation, Websockets</th><th>which metered APIs this key may call; each has its own per-call cost against the same pool</th></tr></thead><tbody></tbody></table>
+<h3>One app per environment and role</h3>
+<pre><code class="language-text">jayverse-devnet-upstream   Sepolia · Node API only          → the fork source for anvil (read-heavy, bursty on first sync)
+jayverse-sepolia-aa        Sepolia · Bundler + Gas Manager
+                                     + userOp Simulation      → Rabbit AA on the public testnet, MetaMask 7715 demos
+jayverse-events            Sepolia · Webhooks / Websockets   → indexers and the watchtower, if and when
+jayverse-prod-*            mainnet/Base · as needed           → never shares a key with anything above
+</code></pre>
+<ol><li>Name by environment-and-role, never by person. A key named after a developer outlives the developer.</li><li>Activate only what the role needs. Fewer services on a key means a leak can do less.</li><li>Put each key in Secret Manager under the service that uses it; never in .env files that get committed or in a Dockerfile layer.</li><li>Watch usage per app. The dashboard&#39;s per-app view is the whole point of splitting.</li></ol>
+<h3>Where it lands in Jayverse</h3>
+<p>The devnet forks Sepolia lazily: every untouched account or storage slot is fetched from the upstream on first use, so compute-unit spend is proportional to state touched, and the first seed on a fresh fork is the expensive moment (a framework deploy took 2 m 28 s on 2026-09-14 for that reason). That is one app. The wallet&#39;s simulate API, the AA bundler, and the gas sponsorship are a different traffic shape — many small calls, latency-sensitive — and get their own. When the devnet becomes the primary target, the upstream app&#39;s usage should fall to almost nothing, which is itself a useful signal that services really moved.</p>
+<h3>Verified and unverified</h3>
+<p>Verified from the dashboard itself: the three-step flow, the service list above, and the note that services can be added later. Not verified here: the exact compute-unit cost per method and the current throughput limits per tier — read them from Alchemy&#39;s reference pages before sizing the devnet&#39;s upstream app, and treat the number at the bottom of the page as the pool the selected services draw from.</p>
+<p>Sources: <a href="https://www.alchemy.com/docs/reference/compute-unit-costs">Alchemy — compute unit costs</a> · <a href="https://www.alchemy.com/docs/reference/throughput">Alchemy — throughput</a> · <a href="https://www.alchemy.com/docs/reference/api-overview">Alchemy — API overview</a></p>
       <p><a href="../notes.html">&larr; All Dev Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
-      <script type="application/json" id="copy-ko">"# 토크나이제이션 — 모델은 문자를 보지 않는다\n\n텍스트는 모델이 보기 전에 서브워드 토큰으로 쪼개지며, 그래서 모델이 글자를 잘못 세고, 어떤 언어는 토큰이 더 들고, 프롬프트의 실제 길이가 문자 수가 아닙니다.\n\n아직 범위 미정.\n\n## 왜\n\n이 PoC는 같은 토크나이저로 영어와 한국어를 토큰화해 비용 비대칭과 세기 실패를 보이며, 보이지 않는 전처리를 드러냅니다.\n\n## 동작 방식\n\n아직 만들지 않음.\n"</script>
-      <h1>토크나이제이션 — 모델은 문자를 보지 않는다</h1>
-      <p class="lead">텍스트는 모델이 보기 전에 서브워드 토큰으로 쪼개지며, 그래서 모델이 글자를 잘못 세고, 어떤 언어는 토큰이 더 들고, 프롬프트의 실제 길이가 문자 수가 아닙니다.</p>
-      <p class="meta">아직 범위 미정.</p>
-      <h2>왜</h2>
-      <p>이 PoC는 같은 토크나이저로 영어와 한국어를 토큰화해 비용 비대칭과 세기 실패를 보이며, 보이지 않는 전처리를 드러냅니다.</p>
-      <h2>동작 방식</h2>
-      <p>아직 만들지 않음.</p>
-      
+      <script type="application/json" id="copy-ko">"# 앱 키는 로그인이 아니라 예산이다 — Alchemy의 create-app 흐름이 실제로 묻는 것\n\nAlchemy의 3단계 Create app 흐름 — 생성, 체인 선택, 서비스 활성화 — 은 계정 설정처럼 보이지만 사실은 예산 결정입니다. 켜는 서비스마다(Node, Bundler, Gas Manager, userOp simulation, Webhooks, Transfers…) 페이지 하단에 보이는 같은 compute-unit 쿼터에서 차감되고, 그 쿼터는 앱 키 하나에 묶여 있습니다. 즉 앱은 쿼터·속도 제한·폐기의 단위이며, 개발자별이 아니라 환경과 역할별로 하나씩 만듭니다.\n\nJayverse에서는: devnet의 업스트림 Sepolia 포크용 앱 하나(Node API만, 읽기 위주, Secret Manager에 자체 키), Sepolia 계정 추상화 경로용 앱 하나(Bundler + Gas Manager + userOp simulation), 그리고 나중에 프로덕션용은 별도로. 앱 이름은 환경-역할로 짓고, 모든 키는 git 밖에 두며, 대시보드는 앱별로 읽어서 폭주하는 포크나 번들러 테스트가 다른 앱을 굶기지 못하게 합니다.\n\n## 왜\n\n페이지는 \"서비스는 나중에 언제든 추가할 수 있다\"고 말하고, 그건 사실이지만 진짜 질문을 가립니다. 무엇이 무엇과 예산을 공유하는가. Compute unit은 호출마다 메서드별 단가로 앱 쿼터에서 차감되고, 처리량 제한도 앱 키 단위입니다. devnet의 포크 업스트림, AA 번들러, 웹훅 스트림을 키 하나 뒤에 두면 첫 번째 무거운 포크 동기화가 지갑의 simulate 호출을 속도 제한에 걸리게 합니다. 나누면 각각 자기 대시보드, 자기 스로틀, 키가 새면 자기 폐기 버튼을 갖습니다. \"리필 속도가 진짜 상한\"과 같은 교훈입니다. 헤드라인 쿼터보다 누가 함께 마시는지가 중요합니다.\n\n## 동작 방식\n\n### 세 단계가 결정하는 것\n\n| 단계 | 겉모습 | 실제로 정하는 것 |\n|---|---|---|\n\n| 1. Create new app | 이름 하나 | 키, 따라서 아래 모든 것이 공유하는 쿼터·속도 제한·대시보드 |\n\n| 2. Choose chains | 네트워크 목록 | 이 키가 서비스할 수 있는 네트워크 — 키 하나가 메인넷과 테스트넷을 함께 다룰 수 있고, 그래서 prod와 test가 키를 공유하면 안 된다 |\n\n| 3. Activate services | 토글: Webhooks, Transfers, Node, NFT, Token, Prices, Bundler, Debug, Gas Manager, Trace, Receipts, userOp Simulation, Websockets | 이 키가 호출할 수 있는 과금 API — 각각 같은 풀에서 호출당 단가로 차감 |\n\n### 환경과 역할별 앱 하나\n\n```text\njayverse-devnet-upstream   Sepolia · Node API만              → anvil의 포크 소스 (읽기 위주, 첫 동기화 때 폭증)\njayverse-sepolia-aa        Sepolia · Bundler + Gas Manager\n                                     + userOp Simulation      → 공개 테스트넷의 Rabbit AA, MetaMask 7715 데모\njayverse-events            Sepolia · Webhooks / Websockets   → 인덱서와 watchtower, 필요해질 때\njayverse-prod-*            mainnet/Base · 필요에 따라          → 위의 어떤 것과도 키를 공유하지 않음\n```\n\n1. 사람이 아니라 환경-역할로 이름을 짓습니다. 개발자 이름을 딴 키는 그 개발자보다 오래 남습니다.\n2. 역할에 필요한 것만 활성화합니다. 키에 걸린 서비스가 적을수록 유출 시 피해가 작습니다.\n3. 각 키는 그것을 쓰는 서비스 아래 Secret Manager에 둡니다. 커밋되는 .env 파일이나 Dockerfile 레이어에는 절대 넣지 않습니다.\n4. 사용량은 앱별로 봅니다. 대시보드의 앱별 화면이 나누는 이유의 전부입니다.\n\n### Jayverse에서의 위치\n\ndevnet은 Sepolia를 지연 방식으로 포크합니다. 건드리지 않은 계정이나 스토리지 슬롯은 처음 쓸 때 업스트림에서 가져오므로 compute-unit 소비는 건드린 상태의 양에 비례하고, 새 포크에서의 첫 시드가 가장 비싼 순간입니다(그래서 2026-09-14에 프레임워크 배포가 2분 28초 걸렸습니다). 그게 앱 하나입니다. 지갑의 simulate API, AA 번들러, 가스 스폰서십은 트래픽 모양이 다릅니다. 작은 호출이 많고 지연에 민감하므로 자기 앱을 갖습니다. devnet이 1차 대상이 되면 업스트림 앱의 사용량은 거의 0으로 떨어져야 하고, 그 자체가 서비스가 정말 옮겨갔다는 유용한 신호입니다.\n\n### 확인된 것과 미확인\n\n대시보드에서 직접 확인한 것: 3단계 흐름, 위의 서비스 목록, 서비스를 나중에 추가할 수 있다는 안내. 여기서 확인하지 않은 것: 메서드별 정확한 compute-unit 단가와 현재 등급별 처리량 제한 — devnet 업스트림 앱의 크기를 정하기 전에 Alchemy 레퍼런스 페이지에서 읽고, 페이지 하단의 숫자는 선택한 서비스들이 함께 쓰는 풀로 취급하세요.\n출처: [Alchemy — compute unit 비용](https://www.alchemy.com/docs/reference/compute-unit-costs) · [Alchemy — 처리량](https://www.alchemy.com/docs/reference/throughput) · [Alchemy — API 개요](https://www.alchemy.com/docs/reference/api-overview)\n"</script>
+      <h1>앱 키는 로그인이 아니라 예산이다 — Alchemy의 create-app 흐름이 실제로 묻는 것</h1>
+      <p class="lead">Alchemy의 3단계 Create app 흐름 — 생성, 체인 선택, 서비스 활성화 — 은 계정 설정처럼 보이지만 사실은 예산 결정입니다. 켜는 서비스마다(Node, Bundler, Gas Manager, userOp simulation, Webhooks, Transfers…) 페이지 하단에 보이는 같은 compute-unit 쿼터에서 차감되고, 그 쿼터는 앱 키 하나에 묶여 있습니다. 즉 앱은 쿼터·속도 제한·폐기의 단위이며, 개발자별이 아니라 환경과 역할별로 하나씩 만듭니다.</p>
+      <p class="meta">Jayverse에서는: devnet의 업스트림 Sepolia 포크용 앱 하나(Node API만, 읽기 위주, Secret Manager에 자체 키), Sepolia 계정 추상화 경로용 앱 하나(Bundler + Gas Manager + userOp simulation), 그리고 나중에 프로덕션용은 별도로. 앱 이름은 환경-역할로 짓고, 모든 키는 git 밖에 두며, 대시보드는 앱별로 읽어서 폭주하는 포크나 번들러 테스트가 다른 앱을 굶기지 못하게 합니다.</p>
+<h2>왜</h2>
+<p>페이지는 "서비스는 나중에 언제든 추가할 수 있다"고 말하고, 그건 사실이지만 진짜 질문을 가립니다. 무엇이 무엇과 예산을 공유하는가. Compute unit은 호출마다 메서드별 단가로 앱 쿼터에서 차감되고, 처리량 제한도 앱 키 단위입니다. devnet의 포크 업스트림, AA 번들러, 웹훅 스트림을 키 하나 뒤에 두면 첫 번째 무거운 포크 동기화가 지갑의 simulate 호출을 속도 제한에 걸리게 합니다. 나누면 각각 자기 대시보드, 자기 스로틀, 키가 새면 자기 폐기 버튼을 갖습니다. "리필 속도가 진짜 상한"과 같은 교훈입니다. 헤드라인 쿼터보다 누가 함께 마시는지가 중요합니다.</p>
+<h2>동작 방식</h2>
+<h3>세 단계가 결정하는 것</h3>
+<table><thead><tr><th>단계</th><th>겉모습</th><th>실제로 정하는 것</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>1. Create new app</th><th>이름 하나</th><th>키, 따라서 아래 모든 것이 공유하는 쿼터·속도 제한·대시보드</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>2. Choose chains</th><th>네트워크 목록</th><th>이 키가 서비스할 수 있는 네트워크 — 키 하나가 메인넷과 테스트넷을 함께 다룰 수 있고, 그래서 prod와 test가 키를 공유하면 안 된다</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>3. Activate services</th><th>토글: Webhooks, Transfers, Node, NFT, Token, Prices, Bundler, Debug, Gas Manager, Trace, Receipts, userOp Simulation, Websockets</th><th>이 키가 호출할 수 있는 과금 API — 각각 같은 풀에서 호출당 단가로 차감</th></tr></thead><tbody></tbody></table>
+<h3>환경과 역할별 앱 하나</h3>
+<pre><code class="language-text">jayverse-devnet-upstream   Sepolia · Node API만              → anvil의 포크 소스 (읽기 위주, 첫 동기화 때 폭증)
+jayverse-sepolia-aa        Sepolia · Bundler + Gas Manager
+                                     + userOp Simulation      → 공개 테스트넷의 Rabbit AA, MetaMask 7715 데모
+jayverse-events            Sepolia · Webhooks / Websockets   → 인덱서와 watchtower, 필요해질 때
+jayverse-prod-*            mainnet/Base · 필요에 따라          → 위의 어떤 것과도 키를 공유하지 않음
+</code></pre>
+<ol><li>사람이 아니라 환경-역할로 이름을 짓습니다. 개발자 이름을 딴 키는 그 개발자보다 오래 남습니다.</li><li>역할에 필요한 것만 활성화합니다. 키에 걸린 서비스가 적을수록 유출 시 피해가 작습니다.</li><li>각 키는 그것을 쓰는 서비스 아래 Secret Manager에 둡니다. 커밋되는 .env 파일이나 Dockerfile 레이어에는 절대 넣지 않습니다.</li><li>사용량은 앱별로 봅니다. 대시보드의 앱별 화면이 나누는 이유의 전부입니다.</li></ol>
+<h3>Jayverse에서의 위치</h3>
+<p>devnet은 Sepolia를 지연 방식으로 포크합니다. 건드리지 않은 계정이나 스토리지 슬롯은 처음 쓸 때 업스트림에서 가져오므로 compute-unit 소비는 건드린 상태의 양에 비례하고, 새 포크에서의 첫 시드가 가장 비싼 순간입니다(그래서 2026-09-14에 프레임워크 배포가 2분 28초 걸렸습니다). 그게 앱 하나입니다. 지갑의 simulate API, AA 번들러, 가스 스폰서십은 트래픽 모양이 다릅니다. 작은 호출이 많고 지연에 민감하므로 자기 앱을 갖습니다. devnet이 1차 대상이 되면 업스트림 앱의 사용량은 거의 0으로 떨어져야 하고, 그 자체가 서비스가 정말 옮겨갔다는 유용한 신호입니다.</p>
+<h3>확인된 것과 미확인</h3>
+<p>대시보드에서 직접 확인한 것: 3단계 흐름, 위의 서비스 목록, 서비스를 나중에 추가할 수 있다는 안내. 여기서 확인하지 않은 것: 메서드별 정확한 compute-unit 단가와 현재 등급별 처리량 제한 — devnet 업스트림 앱의 크기를 정하기 전에 Alchemy 레퍼런스 페이지에서 읽고, 페이지 하단의 숫자는 선택한 서비스들이 함께 쓰는 풀로 취급하세요.</p>
+<p>출처: <a href="https://www.alchemy.com/docs/reference/compute-unit-costs">Alchemy — compute unit 비용</a> · <a href="https://www.alchemy.com/docs/reference/throughput">Alchemy — 처리량</a> · <a href="https://www.alchemy.com/docs/reference/api-overview">Alchemy — API 개요</a></p>
       <p><a href="../notes.html">&larr; 전체 개발 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-attention.html">&larr; 192. Attention — the mechanism, and why context costs quadratically</a><a href="pocs-llm-embeddings.html">194. Embeddings — meaning as a vector you can search &rarr;</a></div>
+    <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 53. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-kb-kookmin-kinexys-deposit-rail.html">55. KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not &rarr;</a></div>
   </div>
   </main>
 </div>
 <script src="_nav.js"></script>
-<script>window.__NAV_CURRENT__="llm-tokenization";</script>
+<script>window.__NAV_CURRENT__="alchemy-app-is-a-budget";</script>
 <script>
 (function () {
   var data = window.__NAV__, cur = window.__NAV_CURRENT__;
