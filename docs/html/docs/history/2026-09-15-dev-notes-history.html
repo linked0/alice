@@ -62,6 +62,21 @@ had drifted before this change; e.g. Fast Ethereum showed #54 while the list sai
 said so: exact compute-unit costs per method and throughput per tier — the item links Alchemy&#39;s
 reference pages rather than quoting numbers.</li>
 </ul>
+<h3 id="dev-notes-54-add-what-alchemy-provides--the-13-api-catalogue-mapped-to-jayverse">Dev Notes #54: add &quot;What Alchemy provides&quot; — the 13-API catalogue mapped to Jayverse</h3>
+<ul>
+<li><strong>Cause:</strong> jay, after #54 shipped: &quot;I want to know what they provide, which is various APIs.&quot;</li>
+<li><strong>Reasoning:</strong> the first version argued the budget point but never listed the services the page
+offers. A table with Alchemy&#39;s own description shortened and an honest Jayverse column —
+including &quot;not needed&quot; and &quot;not for JYVE&quot; — turns the item into the reference jay will open when
+activating services. The closing paragraph reads the table by environment: on the devnet only
+Node API matters (fork upstream); on Sepolia the 4337 trio (Bundler, Gas Manager, userOp
+Simulation) is real infrastructure with no local substitute, the data APIs replace indexers,
+Webhooks/Websockets are push instead of poll.</li>
+<li><strong>Change:</strong> new <code>### What Alchemy provides</code> section (EN + KO) inserted after &quot;What the three
+steps decide&quot; in the card&#39;s copy text and in the detail page; card&#39;s &quot;How it works&quot; line lists
+it. Detail page bodies regenerated from the copy markdown so page and copy cannot diverge.</li>
+<li><strong>Result:</strong> uncommitted on <code>claude/notes-alchemy-app</code>.</li>
+</ul>
 
   </article>
 </div>

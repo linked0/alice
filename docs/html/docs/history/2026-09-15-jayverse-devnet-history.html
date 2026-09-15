@@ -199,6 +199,87 @@ failure had the same cause was not reproduced.</li>
 revisions still target Sepolia. Verex&#39;s operator still resolves via live Chainlink rather than
 <code>feeds.ts</code>. Game, personas, number and the auditor row are untouched.</li>
 </ul>
+<h3 id="step-6-done-the-estate-is-deployed-against-313370-and-everything-is-on-main">Step 6 done: the estate is deployed against 313370, and everything is on main</h3>
+<ul>
+<li><strong>Cause:</strong> jay: commit, push and deploy. The Jayverse estate is a portfolio demo, so the
+standing &quot;never commit to main&quot; rule was set aside deliberately for this request.</li>
+<li><strong>Reasoning:</strong> the earlier objection to pushing rabbit — that its three unpushed doc-migration
+commits broke the image build — had been <em>fixed</em> rather than waived, so it no longer applied.
+In alice only the two devnet files were committed: the working tree also held another session&#39;s
+in-progress work, which is not mine to commit, and that dirty tree is why alice&#39;s main was
+advanced with <code>push HEAD:main</code> rather than a branch switch.</li>
+<li><strong>Change:</strong> all seven repos on <code>main</code>. <code>jayverse-devnet</code> (<code>d606616</code>) and <code>jayverse-rails</code>
+(<code>392bfce</code>) created as new <strong>private</strong> GitHub repos, matching the other <code>jayverse-*</code> repos —
+only <code>rabbit</code> is public. Deployed: rabbit <code>rabbit-00142-m56</code>, verex api <code>00017-wr7</code> + web
+<code>00018-b6l</code>, <code>jayverse-wallet-00004-8t9</code>, jayverse-defi to Firebase Hosting, jayverse-exchange.</li>
+<li><strong>Result:</strong> all six public endpoints answer — www, verex, wallet, defi, exchange, devnet.
+jayverse-number needed no change (read-only, no devnet config). Out of scope as agreed: bridge
+(contracts do not exist), OFA (no repo), personas (pending its move into jayverse-token).</li>
+</ul>
+<h3 id="a-build-time-trap-in-defi-the-address-book-was-chosen-by-vite-command-not-by-chain">A build-time trap in DeFi: the address book was chosen by vite command, not by chain</h3>
+<ul>
+<li><strong>Cause:</strong> preparing the DeFi deploy and checking what the bundle would actually contain.</li>
+<li><strong>Reasoning:</strong> <code>vite.config.ts</code> selected <code>command === &quot;serve&quot; ? addresses.local : addresses.sepolia</code>,
+so <strong>every production build baked in Sepolia addresses</strong>. This is a worse class of bug than the
+runtime misconfigurations found earlier today: a runtime mistake can be corrected with an env
+var, but contract addresses compiled into the JavaScript cannot — the app would have called
+contracts that do not exist on the chain it was talking to, with nothing able to fix it short of
+a rebuild. It would also have looked like a contract bug rather than a build bug.</li>
+<li><strong>Change:</strong> <code>CHAIN</code> selects the address book (devnet by default), and the missing-file error
+names the deploy command for that chain instead of assuming Sepolia.</li>
+<li><strong>Result:</strong> verified on the live site rather than locally — the bundle served from
+defi.jaylabs.xyz contains the devnet LiquidityPool <code>0x3a75…9078</code> and not the Sepolia one.</li>
+</ul>
+<h3 id="two-alchemy-api-keys-leaked-into-the-session-transcript">Two Alchemy API keys leaked into the session transcript</h3>
+<ul>
+<li><strong>Cause:</strong> both were printed by commands run during this work, by two different routes:
+<code>cat /proc/1/cmdline</code> on the anvil container (which carries <code>--fork-url</code> in argv), and verex&#39;s
+<code>deploy.sh</code>, which prints its resolved seed env for debugging.</li>
+<li><strong>Reasoning:</strong> every secret in this work was otherwise handled without printing — piped between
+<code>gcloud secrets</code> and a file, or checked by length and host only. The blind spot is worth naming
+precisely: <strong>it is not enough to avoid printing secrets; one has to know which commands print
+them for you.</strong> Process argv and debug env dumps are both routes that look harmless.</li>
+<li><strong>Change:</strong> command output is now piped through a redactor
+(<code>sed &#39;s|/v2/[A-Za-z0-9_-]*|/v2/REDACTED|g&#39;</code>) rather than relying on remembering. Runbook §6b
+records that the fork URL is visible in <code>ps</code> and <code>docker inspect</code> on the VM.</li>
+<li><strong>Result:</strong> <strong>open — jay must rotate both keys.</strong> <code>Jk0zz6…</code> (rabbit-sepolia-rpc,
+devnet-sepolia-rpc) and <code>yxP6Uh…</code> (verex-rpc-url-*). Testnet keys, so the exposure is quota
+rather than funds, and bounded by the $50/month account cap — but per-app limits would stop one
+stolen key consuming another service&#39;s budget.</li>
+</ul>
+<h3 id="alchemy-keys-rotated-local-and-cloud-keys-deliberately-split">Alchemy keys rotated; local and cloud keys deliberately split</h3>
+<ul>
+<li><strong>Cause:</strong> two Alchemy keys were printed into the session transcript during this work (see the
+previous entry). jay decided on the split: the old key for local development, a new one for the
+cloud.</li>
+<li><strong>Reasoning:</strong> a key written somewhere you do not control is no longer a secret, so rotation was
+hygiene rather than an emergency — the keys are testnet, so the exposure is quota theft bounded
+by the account&#39;s $50/month cap, not funds. The split is sound on its own terms: separate keys
+give per-app usage visibility and stop one leak reaching the other environment.
+<strong>But it would have silently undone itself.</strong> <code>rabbit/scripts/deploy.sh</code> does not only <em>read</em>
+secrets, it <em>uploads</em> them: <code>upsert_secret rabbit-sepolia-rpc &quot;${CLOUD_AGENT_RPC_URL:-}&quot;</code> pushes
+the value from the local <code>.env</code> into Secret Manager on every deploy. The variable name says the
+intent — it is the <em>cloud&#39;s</em> RPC, stored locally — so local and cloud were never separate there:
+the local file is the source of truth for the cloud secret. Leaving the old key in <code>.env</code> would
+have written it back over the rotation at the next deploy, with no error. The version history
+showed it plainly: v14, v15 and v16 of <code>rabbit-sepolia-rpc</code> are three deploy attempts, each
+uploading the local value; v17 was the rotation.</li>
+<li><strong>Change:</strong> new key added to <code>devnet-sepolia-rpc</code>, <code>rabbit-sepolia-rpc</code> and
+<code>verex-rpc-url-verex</code>; the VM&#39;s <code>.env</code> regenerated from Secret Manager and anvil restarted with
+a graceful stop so the state overlay flushed rather than truncating; jay updated
+<code>CLOUD_AGENT_RPC_URL</code> in <code>rabbit/.env</code> to the new key, confirmed by hash to match the cloud
+secret. Old secret versions left enabled for rollback.</li>
+<li><strong>Result:</strong> verified by forcing a cache miss rather than trusting the swap — reading Sepolia
+state the devnet had never touched (Chainlink LINK, Uniswap V3 Factory, ENS Registry, and LINK
+storage slot 3 decoding to &quot;ChainLink Token&quot;) could only have come from a live upstream call on
+the new key. No redeploys were needed: Rabbit reads <code>rabbit-devnet-rpc</code> and Verex reads
+<code>verex-rpc-url-verex_prod</code>, and both hold the devnet URL rather than an Alchemy one — a payoff
+from splitting those secrets earlier.</li>
+<li><strong>Open:</strong> the old key stays in use locally and is still the exposed one, so <strong>per-app spending
+limits are not optional</strong> — without them, someone burning the exposed key eats the same
+$50/month budget the cloud key depends on. IP-allowlisting the cloud app to the devnet VM&#39;s
+egress IP (34.158.215.69), now the only Alchemy consumer, would make a future leak harmless.</li>
+</ul>
 
   </article>
 </div>
