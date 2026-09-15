@@ -26,3 +26,18 @@ Source: jay's request in conversation (pasted the Alchemy "Create app → Activa
 - **Result:** working tree on `claude/notes-alchemy-app`, uncommitted. Unverified in the item and
   said so: exact compute-unit costs per method and throughput per tier — the item links Alchemy's
   reference pages rather than quoting numbers.
+
+### Dev Notes #54: add "What Alchemy provides" — the 13-API catalogue mapped to Jayverse
+
+- **Cause:** jay, after #54 shipped: "I want to know what they provide, which is various APIs."
+- **Reasoning:** the first version argued the budget point but never listed the services the page
+  offers. A table with Alchemy's own description shortened and an honest Jayverse column —
+  including "not needed" and "not for JYVE" — turns the item into the reference jay will open when
+  activating services. The closing paragraph reads the table by environment: on the devnet only
+  Node API matters (fork upstream); on Sepolia the 4337 trio (Bundler, Gas Manager, userOp
+  Simulation) is real infrastructure with no local substitute, the data APIs replace indexers,
+  Webhooks/Websockets are push instead of poll.
+- **Change:** new `### What Alchemy provides` section (EN + KO) inserted after "What the three
+  steps decide" in the card's copy text and in the detail page; card's "How it works" line lists
+  it. Detail page bodies regenerated from the copy markdown so page and copy cannot diverge.
+- **Result:** uncommitted on `claude/notes-alchemy-app`.
