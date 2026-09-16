@@ -7,7 +7,7 @@
 // window.__NAV__.progress is the day-by-day log: [{date:"YYYY-MM-DD", done, all}, …].
 // Rule when bumping counters on a new KST day: first append the previous day's closing
 // numbers to `progress`, then change `jump`. The badge shows the latest entry dated before
-// today, labelled with its date, so a skipped day reads as what it is.
+// today; the date is kept only in the title tooltip (jay: no date in the badge text).
 (function () {
   var nav = window.__NAV__; if (!nav || !nav.jump) return;
   var head = document.querySelector('.rail-head'); if (!head) return;
@@ -27,7 +27,7 @@
     var log = (nav.progress || []).filter(function (e) { return e.date < today; });
     if (log.length) {
       var e = log[log.length - 1];
-      prev.textContent = e.date.slice(5) + ': ' + pct(e.done, e.all) + '% · ' + e.done + '/' + e.all;
+      prev.textContent = pct(e.done, e.all) + '% · ' + e.done + '/' + e.all;
       prev.classList.remove('rail-note-pink'); prev.style.display = 'inline-block';
       prev.title = 'closing status on ' + e.date;
     } else { prev.parentNode.hidden = true; }
