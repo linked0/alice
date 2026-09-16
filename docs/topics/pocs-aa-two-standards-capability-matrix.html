@@ -378,7 +378,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Dev Notes</a> &rsaquo; Two native AA standards — wallets need a capability matrix, not a chain-name switch</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#56</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#57</span><span>PoC</span></p>
       <h1>Two native AA standards — wallets need a capability matrix, not a chain-name switch</h1>
       <p class="lead">The effort to reconcile Ethereum&#39;s EIP-8141 Frame Transactions with Base&#39;s EIP-8130 Keystore Accounts has ended without one shared design, according to Ethlabs&#39; Derek Chiang. The wallet-layer response should not be two unrelated implementations. Keep one user-intent model, negotiate each chain&#39;s capabilities, and translate through separately tested 8141 and 8130 adapters.</p>
       <p class="meta">Define a wallet-level <code>AccountIntent</code> for authenticate, batch, sponsor, session, recover, and execute. For every chain, load a signed/versioned capability manifest instead of branching only on chain ID. Compile the intent through an 8141 Frames adapter, an 8130 Keystore adapter, or an explicit fallback such as ERC-4337. Before signing, show semantic differences and reject unsupported combinations. Run the same conformance vectors across every adapter and preserve one receipt format with the chosen rail, signer, payer, policy, and downgrade reason.</p>
@@ -531,7 +531,7 @@ fallback: erc-4337
       
       <p><a href="../notes.html">&larr; 전체 개발 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-agent-team-is-a-workflow.html">&larr; 54. One employee, one agent creates silos — the unit of AX is a governed workflow</a><a href="pocs-kb-kookmin-kinexys-deposit-rail.html">56. KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not &rarr;</a></div>
+    <div class="pager"><a href="pocs-agent-team-is-a-workflow.html">&larr; 56. One employee, one agent creates silos — the unit of AX is a governed workflow</a><a href="pocs-articulation-idea-library.html">58. Articulation is a retrieval system — build ten ideas, then compile them into three shapes &rarr;</a></div>
   </div>
   </main>
 </div>
