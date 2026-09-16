@@ -112,3 +112,43 @@ and unaffected — this was purely about what the Endpoints table *printed*.
 production it will no longer print the devnet's URL labelled as the local node. Renaming the variable
 across rabbit, `deploy.sh` and the secret bindings is [§6.6](../tasks/current-plan.md#open) — it
 touches the deploy path, so it waits for jay.
+
+### Contracts moved out of their own panel and into the service that owns them
+
+**Cause:** jay, 2026-09-16 — "we need contracts deployed for our ecosystem in each chain so can you
+add the addresses and related information in the Services section not in the separated section like
+Ecosystem contracts."
+
+**Reasoning:** "which contracts does Verex have, and where" is the question people arrive with, and
+the old layout answered it badly: read a service row, scroll to a panel grouped by *kind* of
+contract, match names by eye. Grouping by owner and then by chain also carries information the old
+grouping could not — that the same three CTF contracts exist twice, at different addresses, on two
+chains. It forced a gap closed too: the old `CONTRACT_GROUPS` left eleven contracts (the delegation
+implementations and all six caveat enforcers) belonging to no service at all.
+
+**Change:** `Service.contracts` is now `ContractSet[]` — `{chain, title?, names?, fixed?, note?}` —
+instead of a flat `string[]`. `names` resolve live from the devnet Registry contract; `fixed` are
+addresses nothing on chain indexes, and each says where it was copied from. Verex gained its CTF
+backbone on both chains (from verex's `deployments.json`) plus the Chainlink ETH/USD feed. A service
+renders as a block rather than a table row. The separate panel and `SEPOLIA_RAILS` are gone.
+
+**Result:** 8 hand-copied addresses render; the 21 Registry-backed names collapse into 5 honest
+"not in the Registry" lines (below). `pnpm build` passes; pushed as `e558625`.
+
+### The devnet's Registry has no code — the chain was reset after the last seed
+
+**Cause:** with every Registry name now shown per service, all 21 rendered as missing. Probed
+directly rather than assuming a bug: `eth_getCode` at `0xe8a133…674b` returns `0x`, and `count()`
+reverts. The status endpoint still reports that address with `seededAt: 2026-09-14T07:01:25Z`.
+
+**Reasoning:** the status endpoint reports the address the seed last *wrote*; the contract is the
+authority, and after a chain reset there is nothing there. This is exactly the failure the
+read-from-the-Registry rule exists to expose — a JSON address book would have shown 21 confident,
+dead addresses instead. Not a page bug: the page is right and the chain is empty.
+
+**Change:** the page states the cause once, at the top of the panel, and collapses per-set misses
+into one line. Without the collapse a single fact ("the chain was reset") rendered as twenty-one
+alarms.
+
+**Result:** reported to jay; **not fixed**. Re-seeding deploys ~21 contracts to the shared devnet,
+so it waits for him — `scripts/seed.ts` in `~/work/jayverse-devnet`.

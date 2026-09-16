@@ -399,6 +399,23 @@ left it alone. But its status column still reads &quot;planned, not deployed&quo
 being true on 2026-09-14. Out of this brief&#39;s scope; worth a one-line fix in whichever
 change next touches that file.</p>
 </li>
+<li><p><strong>The devnet needs re-seeding, and nothing watches for that.</strong> Confirmed 2026-09-16:
+<code>eth_getCode</code> at the devnet&#39;s Registry address returns <code>0x</code>, so all 21 Registry-backed
+addresses render as missing. The chain has been reset since <code>seededAt 2026-09-14</code>.
+<strong>Default taken:</strong> the page says so plainly and collapses the misses; it does not pretend.
+<strong>Decision needed:</strong> re-run <code>scripts/seed.ts</code> (deploys ~21 contracts to the shared devnet —
+not mine to trigger), and separately, whether anything should <em>notice</em> this without a human
+looking at the page. The devnet&#39;s <code>/status</code> reports the address the seed last wrote, so a
+check comparing it against <code>eth_getCode</code> would catch the next reset automatically.</p>
+</li>
+<li><p><strong>A third hand-copied address book.</strong> Verex&#39;s CTF backbone (jUSD, ConditionalTokens,
+CTFExchange, on both the devnet and Sepolia) is now copied into <code>lib/devnet.ts</code> from verex&#39;s
+<code>packages/contracts/deployments.json</code>, for the same reason as the rails definitions in
+<a href="#open">§6.5</a>: rabbit deploys with <code>--source .</code> and cannot read a sibling repo.
+<code>NEXT_PUBLIC_DEVNET_JUSD</code> in <code>.env.example</code> already carried one of these, which is how the
+duplication started. Same fix as 5 — publish, or accept the hand-sync and say so in the
+comments (done).</p>
+</li>
 </ol>
 <h2 id="7-policies-jays-non-negotiable">7. Policies (jay&#39;s, non-negotiable) <a id="policy"></a></h2>
 <ul>

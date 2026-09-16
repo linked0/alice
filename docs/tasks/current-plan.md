@@ -291,6 +291,23 @@ served that way on :4321). Anvil, however, **binds to `127.0.0.1` by default**, 
     being true on 2026-09-14. Out of this brief's scope; worth a one-line fix in whichever
     change next touches that file.
 
+11. **The devnet needs re-seeding, and nothing watches for that.** Confirmed 2026-09-16:
+    `eth_getCode` at the devnet's Registry address returns `0x`, so all 21 Registry-backed
+    addresses render as missing. The chain has been reset since `seededAt 2026-09-14`.
+    **Default taken:** the page says so plainly and collapses the misses; it does not pretend.
+    **Decision needed:** re-run `scripts/seed.ts` (deploys ~21 contracts to the shared devnet —
+    not mine to trigger), and separately, whether anything should *notice* this without a human
+    looking at the page. The devnet's `/status` reports the address the seed last wrote, so a
+    check comparing it against `eth_getCode` would catch the next reset automatically.
+
+12. **A third hand-copied address book.** Verex's CTF backbone (jUSD, ConditionalTokens,
+    CTFExchange, on both the devnet and Sepolia) is now copied into `lib/devnet.ts` from verex's
+    `packages/contracts/deployments.json`, for the same reason as the rails definitions in
+    [§6.5](#open): rabbit deploys with `--source .` and cannot read a sibling repo.
+    `NEXT_PUBLIC_DEVNET_JUSD` in `.env.example` already carried one of these, which is how the
+    duplication started. Same fix as 5 — publish, or accept the hand-sync and say so in the
+    comments (done).
+
 ## 7. Policies (jay's, non-negotiable) <a id="policy"></a>
 
 - Never `git reset --hard`; never commit before jay's review; never commit to `main`; one branch
