@@ -57,18 +57,27 @@ verification starts. Content jay pastes directly wins for that item.</li>
 </ul>
 <h2 id="blockchain--tech-conventions">Blockchain &amp; Tech conventions</h2>
 <ul>
-<li>Done items first. The newest report takes the first not-done slot; items after it shift by one.
-Detail pages&#39; <code>#N</code> kicker and prev/next pager are rebuilt after every insert.</li>
-<li>Dot colors: <code>#22c55e</code> DONE, <code>#38bdf8</code> RECENTLY DONE, <code>#ef4444</code> IMPORTANT, <code>#64748b</code> PLANNED,
-<code>#eab308</code> NEW. Mark done only when jay says so.</li>
-<li><strong>Added date (jay, 2026-09-16, from #54 on):</strong> the KST date the item was added appears on the
+<li><p><strong>Tooling:</strong> <code>python3 scripts/add-tech-item.py --key &lt;key&gt; --slot &lt;N&gt; --en en.md --ko ko.md [--status new] [--date]</code>
+does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
+Re-run with the same key to replace an item in place.</p>
+</li>
+<li><p>Done items first. The newest report takes the first not-done slot; items after it shift by one.
+Detail pages&#39; <code>#N</code> kicker and prev/next pager are rebuilt after every insert.</p>
+</li>
+<li><p>Dot colors: <code>#22c55e</code> DONE, <code>#38bdf8</code> RECENTLY DONE, <code>#ef4444</code> IMPORTANT, <code>#64748b</code> PLANNED,
+<code>#eab308</code> NEW. Mark done only when jay says so.</p>
+</li>
+<li><p><strong>Added date (jay, 2026-09-16, from #54 on):</strong> the KST date the item was added appears on the
 card head (<code>&lt;span class=&quot;topic-date&quot;&gt;YYYY-MM-DD&lt;/span&gt;</code>, right-aligned after the title) and in
-the detail page kicker after the type (<code>#N · PoC · YYYY-MM-DD</code>). Older items carry no date.</li>
-<li>Every item: English and Korean copy text as JSON on the card and the page; page body generated
+the detail page kicker after the type (<code>#N · PoC · YYYY-MM-DD</code>). Older items carry no date.</p>
+</li>
+<li><p>Every item: English and Korean copy text as JSON on the card and the page; page body generated
 from the copy text so they cannot diverge; a &quot;Verified and unverified&quot; closing section with
-sources.</li>
-<li>Counters agree in three places: rail pill, section meta, <code>_nav.js</code> jump. On a new KST day,
-append the previous day&#39;s closing totals to <code>progress</code> in <code>_nav.js</code> before changing counts.</li>
+sources.</p>
+</li>
+<li><p>Counters agree in three places: rail pill, section meta, <code>_nav.js</code> jump. On a new KST day,
+append the previous day&#39;s closing totals to <code>progress</code> in <code>_nav.js</code> before changing counts.</p>
+</li>
 </ul>
 <h2 id="dev-english">Dev English</h2>
 <p>One conversation per new tech item; rules and format in <a href="english/README.html">english/README.md</a>.</p>

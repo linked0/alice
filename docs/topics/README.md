@@ -22,6 +22,10 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 
 ## Blockchain & Tech conventions
 
+- **Tooling:** `python3 scripts/add-tech-item.py --key <key> --slot <N> --en en.md --ko ko.md [--status new] [--date]`
+  does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
+  Re-run with the same key to replace an item in place.
+
 - Done items first. The newest report takes the first not-done slot; items after it shift by one.
   Detail pages' `#N` kicker and prev/next pager are rebuilt after every insert.
 - Dot colors: `#22c55e` DONE, `#38bdf8` RECENTLY DONE, `#ef4444` IMPORTANT, `#64748b` PLANNED,
