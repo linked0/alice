@@ -46,3 +46,10 @@ Source: jay's request in conversation (screenshot of binji's post "Imagine 'Ethe
 ### Tech Notes #55 (Alchemy app key) marked done
 
 - jay: "make the 55 also done". Dot IMPORTANT → RECENTLY DONE in `notes.html` and `_nav.js`; counters 55/226, 61/418.
+
+### Tech Notes: third section "Dev English" — 20 developer conversations, generator, rail pill
+
+- **Cause:** jay: "one more section for the tech notes which is developer English conversations; it can grow to 100; add one more item whenever I ask you to add tech items; today 20 conversations; refer to the English section of the morning reports for the kind of conversation." Then: apply it to the rail head too; from #21 on the conversations should help getting a job abroad as a developer and team lead.
+- **Reasoning:** the morning reports' format is the target — situation, why chosen, dialogue with line-by-line Korean, three collaboration techniques, a key-expressions table — in the genres code review, design, incident, EIP, BD, plus ops, planning and one-on-one. Content is drawn from this week's own discussions (pause authority, fail-open/closed, bridge reconciliation, Quick Slots finality, chain id 313370, Cloud Run scale-to-zero, 7702 vs 4337, JYVE pricing, key rotation, estimation, Dockerfile copies, USDCX naming, Registry after reset, 7715 popup, KB rail hours, junior PR feedback, Tailscale exposure, one-fact-one-home). Unlike the Blockchain section the numbering is chronological and append-only, so a checked-in generator is the right tool: one markdown per conversation, one script, no hand edits to notes.html.
+- **Change:** `docs/topics/english/english-1..20.md` (sources) + `README.md` (rules, format); `scripts/english-notes.py` (idempotent: section article + nav group + rail pill in `notes.html`, jump/section entries in `_nav.js`, 20 detail pages with kicker and pager, and the static overall badge on every topic page); section counted in the rail: overall 61/438, pill "Dev English 0/20".
+- **Result:** working tree on `claude/dev-english`; jay: "you can commit and push". Rule recorded in the README and in memory.

@@ -82,6 +82,13 @@ yet), Hegotá&#39;s date, and whether 8 s or 10 s lands first.</li>
 <ul>
 <li>jay: &quot;make the 55 also done&quot;. Dot IMPORTANT → RECENTLY DONE in <code>notes.html</code> and <code>_nav.js</code>; counters 55/226, 61/418.</li>
 </ul>
+<h3 id="tech-notes-third-section-dev-english--20-developer-conversations-generator-rail-pill">Tech Notes: third section &quot;Dev English&quot; — 20 developer conversations, generator, rail pill</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;one more section for the tech notes which is developer English conversations; it can grow to 100; add one more item whenever I ask you to add tech items; today 20 conversations; refer to the English section of the morning reports for the kind of conversation.&quot; Then: apply it to the rail head too; from #21 on the conversations should help getting a job abroad as a developer and team lead.</li>
+<li><strong>Reasoning:</strong> the morning reports&#39; format is the target — situation, why chosen, dialogue with line-by-line Korean, three collaboration techniques, a key-expressions table — in the genres code review, design, incident, EIP, BD, plus ops, planning and one-on-one. Content is drawn from this week&#39;s own discussions (pause authority, fail-open/closed, bridge reconciliation, Quick Slots finality, chain id 313370, Cloud Run scale-to-zero, 7702 vs 4337, JYVE pricing, key rotation, estimation, Dockerfile copies, USDCX naming, Registry after reset, 7715 popup, KB rail hours, junior PR feedback, Tailscale exposure, one-fact-one-home). Unlike the Blockchain section the numbering is chronological and append-only, so a checked-in generator is the right tool: one markdown per conversation, one script, no hand edits to notes.html.</li>
+<li><strong>Change:</strong> <code>docs/topics/english/english-1..20.md</code> (sources) + <code>README.md</code> (rules, format); <code>scripts/english-notes.py</code> (idempotent: section article + nav group + rail pill in <code>notes.html</code>, jump/section entries in <code>_nav.js</code>, 20 detail pages with kicker and pager, and the static overall badge on every topic page); section counted in the rail: overall 61/438, pill &quot;Dev English 0/20&quot;.</li>
+<li><strong>Result:</strong> working tree on <code>claude/dev-english</code>; jay: &quot;you can commit and push&quot;. Rule recorded in the README and in memory.</li>
+</ul>
 
   </article>
 </div>
