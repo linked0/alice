@@ -33,3 +33,13 @@ Source: [`docs/features/README.md`](../features/README.md) (jay's request, no se
   uncommitted. Source comments in `app/` that cite `docs/features/*.md` or
   `docs/tasks/current-plan.md` are unchanged and now describe files in alice. `pnpm docs:logs`
   in rabbit will fail without `docs/history/`; `docs/logs.html` is frozen at its last output.
+
+### Nav: the Game tab is labelled "jayverse-game" (Codex session, 2026-09-14)
+
+#### Rabbit navigation: rename the Game tab
+
+Changed the `/game` top-menu label to `jayverse-game` in both Korean and English so the navigation consistently names the embedded game project. The route, visibility gate, and page title remain unchanged.
+
+#### Rabbit local server: run from the Codex worktree
+
+Confirmed no Rabbit process was using port 3100, left unrelated Verex and Gitboard servers untouched, and started Rabbit from `/Users/jay/work-codex/rabbit`. Initialized and built the existing JayVerse submodule, then verified HTTP 200 responses for `/game` and `/jayverse-game/street`, including the renamed menu and real iframe embed.

@@ -69,6 +69,11 @@ uncommitted. Source comments in <code>app/</code> that cite <code>docs/features/
 <code>docs/tasks/current-plan.md</code> are unchanged and now describe files in alice. <code>pnpm docs:logs</code>
 in rabbit will fail without <code>docs/history/</code>; <code>docs/logs.html</code> is frozen at its last output.</li>
 </ul>
+<h3 id="nav-the-game-tab-is-labelled-jayverse-game-codex-session-2026-09-14">Nav: the Game tab is labelled &quot;jayverse-game&quot; (Codex session, 2026-09-14)</h3>
+<h4 id="rabbit-navigation-rename-the-game-tab">Rabbit navigation: rename the Game tab</h4>
+<p>Changed the <code>/game</code> top-menu label to <code>jayverse-game</code> in both Korean and English so the navigation consistently names the embedded game project. The route, visibility gate, and page title remain unchanged.</p>
+<h4 id="rabbit-local-server-run-from-the-codex-worktree">Rabbit local server: run from the Codex worktree</h4>
+<p>Confirmed no Rabbit process was using port 3100, left unrelated Verex and Gitboard servers untouched, and started Rabbit from <code>/Users/jay/work-codex/rabbit</code>. Initialized and built the existing JayVerse submodule, then verified HTTP 200 responses for <code>/game</code> and <code>/jayverse-game/street</code>, including the renamed menu and real iframe embed.</p>
 
   </article>
 </div>
