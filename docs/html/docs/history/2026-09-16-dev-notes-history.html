@@ -67,6 +67,17 @@ every card now carries its nav number by key.</li>
 uncommitted. Stated as unverified in the item: whether 8198 is scheduled for Hegotá (no decision
 yet), Hegotá&#39;s date, and whether 8 s or 10 s lands first.</li>
 </ul>
+<h3 id="tech-notes-54-correction-the-schedule-is-bookkeeping-not-a-lever">Tech Notes #54 correction: the schedule is bookkeeping, not a lever</h3>
+<ul>
+<li><strong>Cause:</strong> jay disagreed with the item&#39;s line that the schedule &quot;turns the next cut into a parameter change instead of another fork&#39;s worth of refactoring&quot;, and with my gloss of it as a mechanism for future cuts.</li>
+<li><strong>Reasoning:</strong> read PR #5592&#39;s own description and <code>specs/_features/eip8198/beacon-chain.md</code>. <code>SLOT_TIMING_SCHEDULE</code> is an ordered list of eras starting at genesis, each with <code>EPOCH</code>, <code>SLOT_DURATION_MS</code>, and every intra-slot deadline; &quot;every subsequent entry MUST coincide with a network upgrade&quot;, and the PR body says it &quot;is simply a way to loop over historical slot durations&quot; for functions that accumulate time across eras (timestamp ↔ slot), explicitly <em>not</em> BPO-style changes between upgrades. The &quot;configuration updates rather than contentious protocol upgrades&quot; line is the EIP&#39;s motivation text, which the spec authors walked back. Also corrected: the PR does not scale intra-slot deadlines with the duration (the EIP had them as basis points that do); the values are deferred until testing.</li>
+<li><strong>Change:</strong> summary paragraph, <code>SLOT_DURATION_MS</code> table row, cascade item 4, and the Verified paragraph rewritten in EN and KO; card summary and copy JSON in <code>notes.html</code>, and the detail page&#39;s lead, body, and copy JSON regenerated from the corrected source text.</li>
+<li><strong>Result:</strong> working tree, uncommitted, on <code>main</code> checkout (the item&#39;s branch <code>claude/notes-eip-8198</code> is already merged).</li>
+</ul>
+<h3 id="tech-notes-54-marked-done">Tech Notes #54 marked done</h3>
+<ul>
+<li>jay: &quot;make the 54 done&quot;. Dot → RECENTLY DONE (#38bdf8) in <code>notes.html</code> and <code>_nav.js</code>; counters 54/226 for the section, 60/418 overall.</li>
+</ul>
 
   </article>
 </div>

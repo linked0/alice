@@ -31,3 +31,14 @@ Source: jay's request in conversation (screenshot of binji's post "Imagine 'Ethe
   `Codex/aa-standards-wallet-matrix` (two commits ahead of `origin/main`, both other-session items),
   uncommitted. Stated as unverified in the item: whether 8198 is scheduled for Hegotá (no decision
   yet), Hegotá's date, and whether 8 s or 10 s lands first.
+
+### Tech Notes #54 correction: the schedule is bookkeeping, not a lever
+
+- **Cause:** jay disagreed with the item's line that the schedule "turns the next cut into a parameter change instead of another fork's worth of refactoring", and with my gloss of it as a mechanism for future cuts.
+- **Reasoning:** read PR #5592's own description and `specs/_features/eip8198/beacon-chain.md`. `SLOT_TIMING_SCHEDULE` is an ordered list of eras starting at genesis, each with `EPOCH`, `SLOT_DURATION_MS`, and every intra-slot deadline; "every subsequent entry MUST coincide with a network upgrade", and the PR body says it "is simply a way to loop over historical slot durations" for functions that accumulate time across eras (timestamp ↔ slot), explicitly *not* BPO-style changes between upgrades. The "configuration updates rather than contentious protocol upgrades" line is the EIP's motivation text, which the spec authors walked back. Also corrected: the PR does not scale intra-slot deadlines with the duration (the EIP had them as basis points that do); the values are deferred until testing.
+- **Change:** summary paragraph, `SLOT_DURATION_MS` table row, cascade item 4, and the Verified paragraph rewritten in EN and KO; card summary and copy JSON in `notes.html`, and the detail page's lead, body, and copy JSON regenerated from the corrected source text.
+- **Result:** working tree, uncommitted, on `main` checkout (the item's branch `claude/notes-eip-8198` is already merged).
+
+### Tech Notes #54 marked done
+
+- jay: "make the 54 done". Dot → RECENTLY DONE (#38bdf8) in `notes.html` and `_nav.js`; counters 54/226 for the section, 60/418 overall.
