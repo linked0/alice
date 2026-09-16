@@ -169,3 +169,30 @@ pnpm --filter @verex/web dev        # web :3000 → http://localhost:3000 에서
 - **Slack / Claude Tag = 위임이 일어나는 층 (real-time delegation)** — Notion을 컨텍스트 소스로 읽어서 일한다. Notion을 대체하지 않는다.
 - 둘은 경쟁재가 아니라 다른 층위. 솔로 단계의 실질 조합 = **Notion(지식) + Claude Code/Cowork(위임)**.
 - Claude Tag는 현재 Enterprise/Team Slack 한정 → 솔로면 지금은 못 씀. 팀 셋업이 생기면 그때 위임 층으로 얹는다.
+
+---
+
+## Code Quality in the AI Era (AI 시대의 코드 품질)
+
+> Tech Bridge, "[한영자막] AI 시대의 코드 품질: 완벽한 코드로도 부족한 진짜 이유입니다" — a Korean-subtitled
+> IBM Technology talk. Generative AI made *writing* code cheap; the engineer's job moved to the
+> architectural and business decisions around it. _(2026-09-16)_
+> Video: <https://www.youtube.com/watch?v=3JDqfWGKoiY>
+
+### Five takeaways
+1. **Implementation quality vs. decision quality** [[03:44](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=224)] — AI outputs clean code, schemas, and tests in seconds but cannot weigh long-term trade-offs, operational complexity, or business fit. Implementation is commoditized; *decision quality* (trade-offs, scalability, failure modes) is the differentiator.
+2. **File-level review → system-level impact** [[06:03](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=363)] — a small change ripples across APIs, queues, and data contracts. The question moves from "is this function correct?" to "what does this change do to the whole platform?" [[07:02](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=422)].
+3. **Validation replaces authorship trust** [[07:46](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=466)] — trust comes from evidence, not from who wrote it: unit, contract, integration tests and observability are the proof of correctness.
+4. **Executable guardrails over static docs** [[09:18](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=558)] — wikis and style guides decay. Standards and security policy live in CI/CD, templates, and tooling so the correct path is the easiest path.
+5. **Continuous quality, not a release checkpoint** [[10:56](https://www.youtube.com/watch?v=3JDqfWGKoiY&t=656)] — quality is a feedback loop over every commit, deployment, and runtime signal, not a sign-off before release.
+
+### Feature workflow when AI writes the baseline and humans govern the system
+1. **Business context & problem framing** — does the feature solve the customer problem; which trade-offs win (speed, cost, reliability, UX); how success is measured.
+2. **Architectural & system decisions** — sync vs. async, downstream outages, retry/backoff, capacity from 10k to 10M users. The choices AI cannot contextualize.
+3. **AI-accelerated implementation** — routes, schemas, queue consumers, integration hooks, suggested unit tests.
+4. **Automated guardrails & validation** — static analysis, contract tests, security policy checks, integration suites, architectural linting in the pipeline.
+5. **System-level review & human judgment** — blast radius, API contracts, schema migrations, downstream dependencies, failure handling; not naming conventions.
+6. **Continuous deployment & observability feedback** — live telemetry and dashboards feed the next iteration; runtime signals replace pre-release sign-offs.
+
+> Ties to our own rules above: "Code Review는 하지 않는다 — 크리티컬한 부분만 사람이 리뷰" is step 5; the invariant
+> monitor and reconciliation crons in the Jayverse designs are step 4 made concrete.
