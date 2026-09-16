@@ -42,3 +42,7 @@ Source: jay's request in conversation (screenshot of binji's post "Imagine 'Ethe
 ### Tech Notes #54 marked done
 
 - jay: "make the 54 done". Dot → RECENTLY DONE (#38bdf8) in `notes.html` and `_nav.js`; counters 54/226 for the section, 60/418 overall.
+
+### Tech Notes #55 (Alchemy app key) marked done
+
+- jay: "make the 55 also done". Dot IMPORTANT → RECENTLY DONE in `notes.html` and `_nav.js`; counters 55/226, 61/418.
