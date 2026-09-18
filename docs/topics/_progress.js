@@ -27,17 +27,19 @@
     if (!cur) return;
     cur.textContent = 'All · ' + pct(done, all) + '% · ' + done + '/' + all;   // one fixed shape (jay, 2026-09-18: "don't change it when being clicked")
     cur.setAttribute('aria-pressed', railAll ? 'true' : 'false');
-    cur.title = railAll ? 'current — click: back to this section only' : 'current — click: show all sections in the rail';
+    cur.style.boxShadow = railAll ? 'inset 0 0 0 2px #ef4444' : '';        // lit like a selected pill (jay: "have meaning of all category")
+    cur.title = railAll ? 'All categories — click: back to this section only' : 'All categories — click: show every section in the rail';
   };
   if (cur) {
     cur.classList.remove('rail-note-pink');
     cur.style.color = '#ef4444'; cur.style.background = 'rgba(239,68,68,0.14)'; cur.style.cursor = 'pointer';
     cur.setAttribute('role', 'button'); cur.setAttribute('tabindex', '0');
     var toggle = function () {
-      railAll = !railAll; document.body.classList.toggle('rail-all', railAll);
-      try { sessionStorage.setItem('rail-all', railAll ? '1' : '0'); } catch (e) {}
-      paint(); document.dispatchEvent(new CustomEvent('rail-all-change'));
+      document.body.classList.toggle('rail-all', !railAll);
+      try { sessionStorage.setItem('rail-all', !railAll ? '1' : '0'); } catch (e) {}
+      document.dispatchEvent(new CustomEvent('rail-all-change'));   // the listener below repaints; the pages' pills listen too
     };
+    document.addEventListener('rail-all-change', function () { railAll = document.body.classList.contains('rail-all'); paint(); });
     cur.addEventListener('click', toggle);
     cur.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     paint();

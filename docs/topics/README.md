@@ -195,8 +195,10 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - **Goals:** 1,000 items done is the first turning point and 2,000 the final goal (`GOALS` in the same module, mirrored
   in `_progress.js`). When the done count reaches a goal, every page shows a one-time congratulation (confetti + card, dismissed with "Thanks", remembered per browser in
   `localStorage` `milestone-1000` / `milestone-2000`). No progress chip toward the goal (jay: the numbers already tell).
-- **The red badge is a button.** Clicking it toggles `body.rail-all` (kept in `sessionStorage`): the detail-page rail
-  then lists every section for whichever mode button is on. The badge always reads `All · 14% · 68/472` — one fixed
+- **The red badge is the "All categories" pill.** Clicking it toggles `body.rail-all` (kept in `sessionStorage`): the
+  detail-page rail then lists every section for whichever mode button is on, the badge gets an inset red ring and the
+  section pills go dark; clicking a section pill turns it off again (jay: "Make this button clickable and have meaning
+  of all category"). The badge always reads `All · 14% · 68/472` — one fixed
   shape, only the tooltip changes (jay: "don't change it when being clicked") (jay: "make it
   clickable and make the clicking shows all the categories … I mean All to the status red area").
 - **Section pills select the category** (jay: "these buttons are operational for each category and the section runs

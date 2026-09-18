@@ -761,7 +761,7 @@
   const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
   let railSection = defaultSection;
   const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
-  const paintPills = () => { for (const p of pills) p.classList.toggle('on', !!railSection && p.dataset.sec === railSection); };
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
   // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
@@ -786,10 +786,13 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
-  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
   for (const p of pills) {
     p.addEventListener('click', (e) => {
-      if (document.body.classList.contains('rail-all')) return;            // badge All: every section already shows
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
       if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
       railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
       paintPills(); applyFilter();

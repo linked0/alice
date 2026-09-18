@@ -361,6 +361,11 @@
 <li><strong>Cause:</strong> jay (screenshot <code>All · 14% · 68/472</code>): &quot;this should have one fixed shape like this. don&#39;t change it when being clicked.&quot;</li>
 <li><strong>Change:</strong> <code>_progress.js</code> always renders <code>All · &lt;pct&gt;% · &lt;done&gt;/&lt;all&gt;</code>; the click still toggles the all-sections rail, shown only by the tooltip and <code>aria-pressed</code>. README and memory adjusted.</li>
 </ul>
+<h3 id="red-badge--the-all-categories-pill">Red badge = the &quot;All categories&quot; pill</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot of the badge): &quot;Make this button clickable and have meaning of all category.&quot; It was clickable, but nothing showed the state and the section pills ignored clicks while it was on.</li>
+<li><strong>Change:</strong> the badge lights up with an inset red ring when All is on (text unchanged), the section pills go dark, and clicking a section pill turns All off and selects that section; <code>_progress.js</code> resyncs from <code>body.rail-all</code> on the <code>rail-all-change</code> event so both scripts agree. <code>notes.html</code>, 324 pages, <code>rtd-shell.mjs</code>.</li>
+</ul>
 
   </article>
 </div>

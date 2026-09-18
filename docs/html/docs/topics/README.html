@@ -234,8 +234,10 @@ promote a new item, demote one first.</li>
 <li><strong>Goals:</strong> 1,000 items done is the first turning point and 2,000 the final goal (<code>GOALS</code> in the same module, mirrored
 in <code>_progress.js</code>). When the done count reaches a goal, every page shows a one-time congratulation (confetti + card, dismissed with &quot;Thanks&quot;, remembered per browser in
 <code>localStorage</code> <code>milestone-1000</code> / <code>milestone-2000</code>). No progress chip toward the goal (jay: the numbers already tell).</li>
-<li><strong>The red badge is a button.</strong> Clicking it toggles <code>body.rail-all</code> (kept in <code>sessionStorage</code>): the detail-page rail
-then lists every section for whichever mode button is on. The badge always reads <code>All · 14% · 68/472</code> — one fixed
+<li><strong>The red badge is the &quot;All categories&quot; pill.</strong> Clicking it toggles <code>body.rail-all</code> (kept in <code>sessionStorage</code>): the
+detail-page rail then lists every section for whichever mode button is on, the badge gets an inset red ring and the
+section pills go dark; clicking a section pill turns it off again (jay: &quot;Make this button clickable and have meaning
+of all category&quot;). The badge always reads <code>All · 14% · 68/472</code> — one fixed
 shape, only the tooltip changes (jay: &quot;don&#39;t change it when being clicked&quot;) (jay: &quot;make it
 clickable and make the clicking shows all the categories … I mean All to the status red area&quot;).</li>
 <li><strong>Section pills select the category</strong> (jay: &quot;these buttons are operational for each category and the section runs

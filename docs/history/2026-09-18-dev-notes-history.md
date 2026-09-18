@@ -325,3 +325,8 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 
 - **Cause:** jay (screenshot `All · 14% · 68/472`): "this should have one fixed shape like this. don't change it when being clicked."
 - **Change:** `_progress.js` always renders `All · <pct>% · <done>/<all>`; the click still toggles the all-sections rail, shown only by the tooltip and `aria-pressed`. README and memory adjusted.
+
+### Red badge = the "All categories" pill
+
+- **Cause:** jay (screenshot of the badge): "Make this button clickable and have meaning of all category." It was clickable, but nothing showed the state and the section pills ignored clicks while it was on.
+- **Change:** the badge lights up with an inset red ring when All is on (text unchanged), the section pills go dark, and clicking a section pill turns All off and selects that section; `_progress.js` resyncs from `body.rail-all` on the `rail-all-change` event so both scripts agree. `notes.html`, 324 pages, `rtd-shell.mjs`.

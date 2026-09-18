@@ -635,7 +635,7 @@ many workflows = 1 shared organizational control plane
   const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
   let railSection = defaultSection;
   const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
-  const paintPills = () => { for (const p of pills) p.classList.toggle('on', !!railSection && p.dataset.sec === railSection); };
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
   // "Important" \uD544\uD130\uB294 \uC911\uC694(\uBE68\uAC15)\uBFD0 \uC544\uB2C8\uB77C "\uCD5C\uADFC \uC644\uB8CC"(\uD558\uB298)\uC640 "\uC0C8 \uD56D\uBAA9"(\uB178\uB791)\uB3C4 \uD568\uAED8 \uBCF4\uC5EC \uC900\uB2E4
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). \uCD5C\uADFC \uC644\uB8CC\uB294 \uBC29\uAE08 \uB05D\uB0B8 \uAC15\uC870 \uD56D\uBAA9\uC774\uACE0,
@@ -662,10 +662,13 @@ many workflows = 1 shared organizational control plane
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
-  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
   for (const p of pills) {
     p.addEventListener('click', (e) => {
-      if (document.body.classList.contains('rail-all')) return;            // badge All: every section already shows
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
       if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
       railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
       paintPills(); applyFilter();
