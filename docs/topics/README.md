@@ -1,7 +1,7 @@
 # Knowledge Notes (formerly Tech Notes, renamed 2026-09-18) — how items are added
 
 `docs/notes.html` is hand-maintained HTML with four sections: **Tech** (formerly "Blockchain & Tech"),
-**Foundations** (renamed from Fundamentals 2026-09-18; ids `sec-fundamentals` / `--section fundamentals` unchanged), **Life**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
+**Theory** (renamed from Fundamentals 2026-09-18; ids `sec-fundamentals` / `--section fundamentals` unchanged), **Life**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
 status; `docs/topics/_progress.js` paints the rail badges from it. Each item has a detail page in
 `docs/topics/`.
 
@@ -9,7 +9,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 
 - When jay mentions or pastes an item, a note, an article, a talk, or a number in conversation, treat it
   as an item for Knowledge Notes without waiting for the words "add this item": pick the section
-  (Tech, Foundations, Life), draft it, and say so in the reply. jay still decides whether it
+  (Tech, Theory, Life), draft it, and say so in the reply. jay still decides whether it
   stays; the default is to add, not to ask. Questions clearly marked "just asking" are the
   exception: answer them, and offer the item in one line.
 
@@ -42,7 +42,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 ## Tech (Blockchain) conventions
 
 - **Tooling:** `python3 scripts/add-tech-item.py --key <key> --slot <N> --en en.md --ko ko.md [--status new] [--date] [--source chat|file]`
-  Foundations items use the same script with `--section fundamentals --tag Math|Algorithms|Economics`;
+  Theory items use the same script with `--section fundamentals --tag Math|Algorithms|Economics`;
   they append at the end of the section (numbering there is curriculum order, not done-first) and get
   the same date and source tag (jay, 2026-09-18, first item #193).
   does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
@@ -82,7 +82,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## Key expressions on every detail page (jay, 2026-09-18)
 
-- Every Tech, Foundations and Life detail page ends with a **Key expressions** table (Korean
+- Every Tech, Theory and Life detail page ends with a **Key expressions** table (Korean
   article: **핵심 표현**): the words and phrases from its English text worth learning, with the
   Korean meaning, a note on where the expression is used, and the sentence it comes from. Example that
   started it: *treasury desk* on the S&P Global / OpenZeppelin page. English conversation pages already
@@ -117,7 +117,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## "Where it lands in Jayverse" on every detail page (jay, 2026-09-18)
 
-- Every Tech, Foundations and Life page closes its body with **Where it lands in Jayverse** (Korean:
+- Every Tech, Theory and Life page closes its body with **Where it lands in Jayverse** (Korean:
   **Jayverse에서의 위치**): two to four bullets, each a bold lead naming a service and a decision, then one
   or two sentences concrete enough to act on. New items carry it in their own markdown and
   `add-tech-item.py` refuses an item without it. The 410 older pages were backfilled on 2026-09-18 from
@@ -147,7 +147,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - When an item is marked done it becomes **TODAY DONE** (midnight blue, `#191970`) and stays so until the first item
   of the *next* day is marked done; then it becomes **YESTERDAY DONE** (sky blue, `#38bdf8`; jay, 2026-09-18:
   "add the other day done status of which name tells everything") for one more done-day, and then plain **DONE**
-  (green; Foundations blue). jay renamed the states from "lately done" / "done the other day" to **Today done** /
+  (green; Theory blue). jay renamed the states from "lately done" / "done the other day" to **Today done** /
   **Yesterday done** ("아예 change …"); "yesterday" means the previous day on which something was done, which is not
   always the calendar yesterday. "The other day" means the previous day on which something was done, not necessarily
   yesterday. A day starts at
@@ -175,19 +175,19 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## Order by status; at most 10 Important per section (jay, 2026-09-18)
 
-- In Tech and Foundations the numbers follow the status: **done (Done / Yesterday done / Today done) < Important <
+- In Tech and Theory the numbers follow the status: **done (Done / Yesterday done / Today done) < Important <
   New < Planned**, stable within each rank (jay: "make the important ones have lower number than new ones but higher
   than done"). `scripts/reorder-by-status.py` applies it to `_nav.js`, the rail and cards in `notes.html`, and every
   page's kicker and pager; run it after a status change that should move an item. Life is all NEW; English keeps its
   chronological numbering (2026-09-16).
 - **Important is capped at 10 per section** (jay: "make the amount of important items 10 for each category"). When the
-  cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
+  cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Theory 39) became Planned. To
   promote a new item, demote one first.
 
 ## Section numbering, goals, and the red badge (jay, 2026-09-18)
 
-- **Numbers start per section:** Tech **1**, Foundations **700**, English **1000**, Life **1300**, Health **1400**
-  (jay: "make the Items from 1, Foundations from 700, English 1000, Life 1300, Health 1400"). One table in
+- **Numbers start per section:** Tech **1**, Theory **700**, English **1000**, Life **1300**, Health **1400**
+  (jay: "make the Items from 1, Theory from 700, English 1000, Life 1300, Health 1400"). One table in
   `scripts/notes_numbering.py` (`BASE`, `display(navid, k)`, `position(navid, shown)`); `add-tech-item.py`,
   `reorder-by-status.py`, `english-notes.py` and `health-cards.py` all read it, so a number alone tells the section.
   `--slot` in `add-tech-item.py` is still the 1-based position inside the section. Keys and file names do not change
@@ -207,3 +207,18 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   pill returns to the default. On the list page the default is every section and the pill also jumps to the section in
   the main column. The mode buttons (Important · New · All / Done · Yesterday · Today) filter inside the selected
   category; the red badge's All is the only thing that widens a button to every section.
+
+## Invest section; Foundations → Theory (jay, 2026-09-18)
+
+- New fifth section **Invest** (`sec-invest` / `nav-sec-invest`, numbers from **800**) between Theory and Life: "how to
+  invest, the historical recessions or events, and how to analyze the chart with TradingView". Tag chips:
+  **Economics** (the economy and its data — every Economics-tagged item moved here from Foundations, jay: "All Economics
+  items should go to Investment") and **Invest** (method, history, charts). Add with
+  `add-tech-item.py --section invest --tag Economics|Invest`.
+- **Foundations is now Theory** (jay: "Make the Foundations shorter with proper name"), numbers from **500**; ids
+  `sec-fundamentals` / `nav-sec-fundamentals` unchanged; tags Math | Algorithms. Bases live in `scripts/notes_numbering.py`. The English section
+  is labelled **Eng** (jay: "English to Eng"; `LABEL` in `english-notes.py`, ids unchanged).
+- First Invest content: ten *basic and important* TradingView chart-reading items (candles, timeframes, support and
+  resistance, trend structure, moving averages, volume, RSI, MACD, Fibonacci, risk on the chart), tag Invest, type
+  Basics, status Important — which fills the 10-per-section Important cap, so promote a new Invest item only after
+  demoting one. Drafts were written from `scratchpad/tv/INSTRUCTIONS.md` (structure = the standard item source).

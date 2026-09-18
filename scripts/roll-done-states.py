@@ -13,7 +13,7 @@ Run by scripts/add-tech-item.py after each change; safe to run alone at any time
 """
 import json, re, pathlib, datetime
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
-DONE_COLOR = {"nav-sec-blockchain": "#22c55e", "nav-sec-fundamentals": "#0284c7", "nav-sec-mindset": "#22c55e", "nav-sec-english": "#22c55e"}
+DONE_COLOR = {"nav-sec-blockchain": "#22c55e", "nav-sec-fundamentals": "#0284c7", "nav-sec-invest": "#0284c7", "nav-sec-mindset": "#22c55e", "nav-sec-english": "#22c55e"}
 LATELY = ("#191970", "TODAY DONE")
 OTHER = ("#38bdf8", "YESTERDAY DONE")
 STAGED = ("TODAY DONE", "YESTERDAY DONE", "RECENTLY DONE")

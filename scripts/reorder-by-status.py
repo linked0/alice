@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Order Tech and Foundations items by status (jay, 2026-09-18: "make the important ones have lower number than
+"""Order Tech and Theory items by status (jay, 2026-09-18: "make the important ones have lower number than
 new ones but higher than done"): done (DONE / YESTERDAY DONE / TODAY DONE) < IMPORTANT < NEW < PLANNED, stable
 within each rank. Life is skipped (all NEW; the Health cards follow their own numbering) and English keeps its
 chronological append-only numbering (jay, 2026-09-16).
@@ -11,9 +11,9 @@ import json, re, pathlib, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent)); from notes_numbering import display
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 RANK = {"DONE": 0, "YESTERDAY DONE": 0, "TODAY DONE": 0, "RECENTLY DONE": 0, "IMPORTANT": 1, "NEW": 2, "PLANNED": 3}
-SECTIONS = {"nav-sec-blockchain": "sec-blockchain", "nav-sec-fundamentals": "sec-fundamentals", "nav-sec-mindset": "sec-mindset"}
-SORTED = ("nav-sec-blockchain", "nav-sec-fundamentals")   # Life is numbered (from 1300) but never reordered
-NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-mindset", "sec-mindset"), "nav-sec-mindset": ("nav-sec-english", "sec-english")}
+SECTIONS = {"nav-sec-blockchain": "sec-blockchain", "nav-sec-fundamentals": "sec-fundamentals", "nav-sec-invest": "sec-invest", "nav-sec-mindset": "sec-mindset"}
+SORTED = ("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest")   # Life is numbered (from 1300) but never reordered
+NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-mindset", "sec-mindset"), "nav-sec-mindset": ("nav-sec-english", "sec-english")}
 
 n = ROOT / "topics" / "_nav.js"
 nav = json.loads(re.match(r'window\.__NAV__=(.*);\s*$', n.read_text(), re.S).group(1))

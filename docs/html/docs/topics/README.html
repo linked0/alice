@@ -37,14 +37,14 @@
   <article>
 <h1 id="knowledge-notes-formerly-tech-notes-renamed-2026-09-18--how-items-are-added">Knowledge Notes (formerly Tech Notes, renamed 2026-09-18) — how items are added</h1>
 <p><code>docs/notes.html</code> is hand-maintained HTML with four sections: <strong>Tech</strong> (formerly &quot;Blockchain &amp; Tech&quot;),
-<strong>Foundations</strong> (renamed from Fundamentals 2026-09-18; ids <code>sec-fundamentals</code> / <code>--section fundamentals</code> unchanged), <strong>Life</strong>, <strong>English</strong> (formerly &quot;Dev English&quot;). <code>docs/topics/_nav.js</code> is the source of truth for numbering and
+<strong>Theory</strong> (renamed from Fundamentals 2026-09-18; ids <code>sec-fundamentals</code> / <code>--section fundamentals</code> unchanged), <strong>Life</strong>, <strong>English</strong> (formerly &quot;Dev English&quot;). <code>docs/topics/_nav.js</code> is the source of truth for numbering and
 status; <code>docs/topics/_progress.js</code> paints the rail badges from it. Each item has a detail page in
 <code>docs/topics/</code>.</p>
 <h2 id="anything-jay-mentions-is-a-candidate-item-jay-2026-09-18">Anything jay mentions is a candidate item (jay, 2026-09-18)</h2>
 <ul>
 <li>When jay mentions or pastes an item, a note, an article, a talk, or a number in conversation, treat it
 as an item for Knowledge Notes without waiting for the words &quot;add this item&quot;: pick the section
-(Tech, Foundations, Life), draft it, and say so in the reply. jay still decides whether it
+(Tech, Theory, Life), draft it, and say so in the reply. jay still decides whether it
 stays; the default is to add, not to ask. Questions clearly marked &quot;just asking&quot; are the
 exception: answer them, and offer the item in one line.</li>
 </ul>
@@ -77,7 +77,7 @@ verification starts. Content jay pastes directly wins for that item.</li>
 <h2 id="tech-blockchain-conventions">Tech (Blockchain) conventions</h2>
 <ul>
 <li><p><strong>Tooling:</strong> <code>python3 scripts/add-tech-item.py --key &lt;key&gt; --slot &lt;N&gt; --en en.md --ko ko.md [--status new] [--date] [--source chat|file]</code>
-Foundations items use the same script with <code>--section fundamentals --tag Math|Algorithms|Economics</code>;
+Theory items use the same script with <code>--section fundamentals --tag Math|Algorithms|Economics</code>;
 they append at the end of the section (numbering there is curriculum order, not done-first) and get
 the same date and source tag (jay, 2026-09-18, first item #193).
 does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
@@ -121,7 +121,7 @@ section last, keeps working unchanged. English conversations follow the once-a-d
 <p>One conversation per day (jay, 2026-09-18; until then it was one per new item): the first item request of a KST day also adds one English conversation, later items that day do not. Rules and format in <a href="english/README.html">english/README.md</a>.</p>
 <h2 id="key-expressions-on-every-detail-page-jay-2026-09-18">Key expressions on every detail page (jay, 2026-09-18)</h2>
 <ul>
-<li>Every Tech, Foundations and Life detail page ends with a <strong>Key expressions</strong> table (Korean
+<li>Every Tech, Theory and Life detail page ends with a <strong>Key expressions</strong> table (Korean
 article: <strong>핵심 표현</strong>): the words and phrases from its English text worth learning, with the
 Korean meaning, a note on where the expression is used, and the sentence it comes from. Example that
 started it: <em>treasury desk</em> on the S&amp;P Global / OpenZeppelin page. English conversation pages already
@@ -156,7 +156,7 @@ hand-written pages have no rail, so they are unchanged.</li>
 </ul>
 <h2 id="where-it-lands-in-jayverse-on-every-detail-page-jay-2026-09-18">&quot;Where it lands in Jayverse&quot; on every detail page (jay, 2026-09-18)</h2>
 <ul>
-<li>Every Tech, Foundations and Life page closes its body with <strong>Where it lands in Jayverse</strong> (Korean:
+<li>Every Tech, Theory and Life page closes its body with <strong>Where it lands in Jayverse</strong> (Korean:
 <strong>Jayverse에서의 위치</strong>): two to four bullets, each a bold lead naming a service and a decision, then one
 or two sentences concrete enough to act on. New items carry it in their own markdown and
 <code>add-tech-item.py</code> refuses an item without it. The 410 older pages were backfilled on 2026-09-18 from
@@ -186,7 +186,7 @@ numbers are not renumbered).</li>
 <li>When an item is marked done it becomes <strong>TODAY DONE</strong> (midnight blue, <code>#191970</code>) and stays so until the first item
 of the <em>next</em> day is marked done; then it becomes <strong>YESTERDAY DONE</strong> (sky blue, <code>#38bdf8</code>; jay, 2026-09-18:
 &quot;add the other day done status of which name tells everything&quot;) for one more done-day, and then plain <strong>DONE</strong>
-(green; Foundations blue). jay renamed the states from &quot;lately done&quot; / &quot;done the other day&quot; to <strong>Today done</strong> /
+(green; Theory blue). jay renamed the states from &quot;lately done&quot; / &quot;done the other day&quot; to <strong>Today done</strong> /
 <strong>Yesterday done</strong> (&quot;아예 change …&quot;); &quot;yesterday&quot; means the previous day on which something was done, which is not
 always the calendar yesterday. &quot;The other day&quot; means the previous day on which something was done, not necessarily
 yesterday. A day starts at
@@ -214,19 +214,19 @@ source format is unchanged (<code>&gt; 한국어</code> under each line).</li>
 </ul>
 <h2 id="order-by-status-at-most-10-important-per-section-jay-2026-09-18">Order by status; at most 10 Important per section (jay, 2026-09-18)</h2>
 <ul>
-<li>In Tech and Foundations the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;
+<li>In Tech and Theory the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;
 New &lt; Planned</strong>, stable within each rank (jay: &quot;make the important ones have lower number than new ones but higher
 than done&quot;). <code>scripts/reorder-by-status.py</code> applies it to <code>_nav.js</code>, the rail and cards in <code>notes.html</code>, and every
 page&#39;s kicker and pager; run it after a status change that should move an item. Life is all NEW; English keeps its
 chronological numbering (2026-09-16).</li>
 <li><strong>Important is capped at 10 per section</strong> (jay: &quot;make the amount of important items 10 for each category&quot;). When the
-cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
+cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Theory 39) became Planned. To
 promote a new item, demote one first.</li>
 </ul>
 <h2 id="section-numbering-goals-and-the-red-badge-jay-2026-09-18">Section numbering, goals, and the red badge (jay, 2026-09-18)</h2>
 <ul>
-<li><strong>Numbers start per section:</strong> Tech <strong>1</strong>, Foundations <strong>700</strong>, English <strong>1000</strong>, Life <strong>1300</strong>, Health <strong>1400</strong>
-(jay: &quot;make the Items from 1, Foundations from 700, English 1000, Life 1300, Health 1400&quot;). One table in
+<li><strong>Numbers start per section:</strong> Tech <strong>1</strong>, Theory <strong>700</strong>, English <strong>1000</strong>, Life <strong>1300</strong>, Health <strong>1400</strong>
+(jay: &quot;make the Items from 1, Theory from 700, English 1000, Life 1300, Health 1400&quot;). One table in
 <code>scripts/notes_numbering.py</code> (<code>BASE</code>, <code>display(navid, k)</code>, <code>position(navid, shown)</code>); <code>add-tech-item.py</code>,
 <code>reorder-by-status.py</code>, <code>english-notes.py</code> and <code>health-cards.py</code> all read it, so a number alone tells the section.
 <code>--slot</code> in <code>add-tech-item.py</code> is still the 1-based position inside the section. Keys and file names do not change
@@ -246,6 +246,21 @@ shows that section instead (the pill lights up, the rail scrolls to it, the page
 pill returns to the default. On the list page the default is every section and the pill also jumps to the section in
 the main column. The mode buttons (Important · New · All / Done · Yesterday · Today) filter inside the selected
 category; the red badge&#39;s All is the only thing that widens a button to every section.</li>
+</ul>
+<h2 id="invest-section-foundations--theory-jay-2026-09-18">Invest section; Foundations → Theory (jay, 2026-09-18)</h2>
+<ul>
+<li>New fifth section <strong>Invest</strong> (<code>sec-invest</code> / <code>nav-sec-invest</code>, numbers from <strong>800</strong>) between Theory and Life: &quot;how to
+invest, the historical recessions or events, and how to analyze the chart with TradingView&quot;. Tag chips:
+<strong>Economics</strong> (the economy and its data — every Economics-tagged item moved here from Foundations, jay: &quot;All Economics
+items should go to Investment&quot;) and <strong>Invest</strong> (method, history, charts). Add with
+<code>add-tech-item.py --section invest --tag Economics|Invest</code>.</li>
+<li><strong>Foundations is now Theory</strong> (jay: &quot;Make the Foundations shorter with proper name&quot;), numbers from <strong>500</strong>; ids
+<code>sec-fundamentals</code> / <code>nav-sec-fundamentals</code> unchanged; tags Math | Algorithms. Bases live in <code>scripts/notes_numbering.py</code>. The English section
+is labelled <strong>Eng</strong> (jay: &quot;English to Eng&quot;; <code>LABEL</code> in <code>english-notes.py</code>, ids unchanged).</li>
+<li>First Invest content: ten <em>basic and important</em> TradingView chart-reading items (candles, timeframes, support and
+resistance, trend structure, moving averages, volume, RSI, MACD, Fibonacci, risk on the chart), tag Invest, type
+Basics, status Important — which fills the 10-per-section Important cap, so promote a new Invest item only after
+demoting one. Drafts were written from <code>scratchpad/tv/INSTRUCTIONS.md</code> (structure = the standard item source).</li>
 </ul>
 
   </article>

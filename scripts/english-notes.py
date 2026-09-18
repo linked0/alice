@@ -30,7 +30,7 @@ SRC = ROOT / "topics" / "english"
 NOTES = ROOT / "notes.html"
 NAVJS = ROOT / "topics" / "_nav.js"
 TEMPLATE = ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html"
-SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "English"
+SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "Eng"   # label shortened (jay, 2026-09-18: "English to Eng"); ids unchanged
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
@@ -125,7 +125,7 @@ s = NOTES.read_text()
 # remove a previous build of the section (idempotent)
 s = re.sub(rf'      <div class="nav-group" id="{NAV_ID}" data-group>.*?      </div>\n', '', s, flags=re.S)
 s = re.sub(rf'    <article id="{SECTION_ID}">.*?    </article>\n', '', s, flags=re.S)
-s = re.sub(rf'<a href="#{SECTION_ID}" title="[^"]*">.*?</a>', '', s, flags=re.S)
+s = re.sub(rf'<a href="#{SECTION_ID}"(?: data-sec="[^"]*")? title="[^"]*">.*?</a>', '', s, flags=re.S)   # pills carry data-sec since 2026-09-18
 
 nav_lis = "".join(
     f'        <li><a class="nav-link" href="topics/{href(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
@@ -156,7 +156,7 @@ article = f'''    <article id="{SECTION_ID}">
 anchor2 = '    <p class="src">'
 assert s.count(anchor2) == 1; s = s.replace(anchor2, article + anchor2)
 
-pill = f'<a href="#{SECTION_ID}" title="{LABEL} &mdash; done ({DONE}) / all ({N})">{LABEL}<b><span class="count-done">{DONE}</span><span class="count-all">/{N}</span></b></a>'
+pill = f'<a href="#{SECTION_ID}" data-sec="{NAV_ID}" title="{LABEL} &mdash; done ({DONE}) / all ({N})">{LABEL}<b><span class="count-done">{DONE}</span><span class="count-all">/{N}</span></b></a>'
 s = re.sub(r'(<div class="rail-jump">.*?)(</div>)', lambda m: m.group(1) + pill + m.group(2), s, count=1, flags=re.S)
 
 # overall badge = sum of every rail pill

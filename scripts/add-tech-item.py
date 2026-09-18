@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert or update one Tech (or, with --section, Foundations / Life) item in Knowledge Notes from two markdown files.
+"""Insert or update one Tech (or, with --section, Theory / Life) item in Knowledge Notes from two markdown files.
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
         [--status new|important|planned|recent|done] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
@@ -23,16 +23,16 @@ the added date (KST) shows on the card head and in the page kicker (jay, 2026-09
 Re-running with an existing key replaces that item in place (slot argument ignored).
 """
 import re, json, pathlib, html, argparse, datetime, glob, sys, subprocess
-from notes_numbering import display, position  # section bases: Tech 1, Foundations 700, Life 1300 (jay, 2026-09-18)
+from notes_numbering import display, position  # section bases: Tech 1, Theory 700, Life 1300 (jay, 2026-09-18)
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Foundations 700, Life 1300)")
+ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 700, Life 1300)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
 ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
-ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "mindset"], help="which Knowledge Notes section the item belongs to")
-ap.add_argument("--tag", default="Economics", help="Foundations only: the topic-tag chip (Math | Algorithms | Economics)")
+ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
+ap.add_argument("--tag", default="Economics", help="Theory / Invest: the topic-tag chip (Theory: Math | Algorithms; Invest: Economics | Invest)")
 ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
@@ -40,11 +40,12 @@ COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recen
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")
-# Section constants. Blockchain has no tag chip; Foundations cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
-# right after the number (jay, 2026-09-18: first Foundations item added through this script).
+# Section constants. Blockchain has no tag chip; Theory cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
+# right after the number (jay, 2026-09-18: first Theory item added through this script).
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
-    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Foundations",      next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
     "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
