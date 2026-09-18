@@ -236,3 +236,10 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Reasoning:** plain words for the button faces; the semantics stay the roll's (Yesterday = the previous done-day, noted in the README). The rail now has five buttons, so `.rail-tier` wraps.
 - **Change:** labels `TODAY DONE` (#191970) / `YESTERDAY DONE` (#38bdf8) in `_nav.js`, `notes.html`, 324 pages, the scripts and docs; `scripts/roll-lately-done.py` → `roll-done-states.py`; `--status today` alias; buttons Yesterday / Today after All (jay: "change the button places between All and Today" → Important · New · All · Yesterday · Today) with `isToday` / `isYesterday` filters on the list page, every detail page and `rtd-shell.mjs` (the template also gains the New button and the same `tierMode` logic the pages already had); memory note renamed `feedback-today-yesterday-done-states`.
 - **Result:** Today shows #56–#60, Yesterday shows #54–#55; counts unchanged.
+
+### Rail: Done button
+
+- **Cause:** jay: "Add done button also."
+- **Reasoning:** Done shows every finished item — plain DONE plus YESTERDAY DONE and TODAY DONE — because the two day buttons are already the subsets; placed right after All so the row reads whole → finished → yesterday → today.
+- **Change:** button `data-tier-mode="done"` + `isDone` filter on `notes.html`, 324 detail pages and `rtd-shell.mjs`; README and memory updated.
+- **Result:** Important · New · All · Done · Yesterday · Today; Done currently lists 60 Tech and 6 Foundations items.

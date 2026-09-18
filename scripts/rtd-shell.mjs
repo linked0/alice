@@ -405,6 +405,7 @@ function railHtml(o, navGroupsHtml) {
       ${o.railTierToggle ? `<div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn on" data-tier-mode="important" aria-pressed="true">Important</button>
 <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn" data-tier-mode="all" aria-pressed="false">All</button>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -531,12 +532,13 @@ const RAIL_SCRIPT = String.raw`
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE' || d.title === 'NEW'); };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : isImportant(a)));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

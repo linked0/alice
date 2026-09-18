@@ -157,6 +157,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   on the `_nav.js` item, then runs `scripts/roll-done-states.py`, which buckets every stamped item by
   `(done − 6h).date()`, keeps the newest bucket as TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in
   `notes.html` with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
-- Rail buttons **Important · New · All · Yesterday · Today** (list page, every detail page, template `rtd-shell.mjs`):
-  Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
+- Rail buttons **Important · New · All · Done · Yesterday · Today** (list page, every detail page, template
+  `rtd-shell.mjs`): Done = every finished item (DONE + YESTERDAY DONE + TODAY DONE; jay, 2026-09-18: "Add done button
+  also"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
   template `scripts/rtd-shell.mjs`).

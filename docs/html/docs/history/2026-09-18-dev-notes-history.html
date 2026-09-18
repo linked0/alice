@@ -272,6 +272,13 @@
 <li><strong>Change:</strong> labels <code>TODAY DONE</code> (#191970) / <code>YESTERDAY DONE</code> (#38bdf8) in <code>_nav.js</code>, <code>notes.html</code>, 324 pages, the scripts and docs; <code>scripts/roll-lately-done.py</code> → <code>roll-done-states.py</code>; <code>--status today</code> alias; buttons Yesterday / Today after All (jay: &quot;change the button places between All and Today&quot; → Important · New · All · Yesterday · Today) with <code>isToday</code> / <code>isYesterday</code> filters on the list page, every detail page and <code>rtd-shell.mjs</code> (the template also gains the New button and the same <code>tierMode</code> logic the pages already had); memory note renamed <code>feedback-today-yesterday-done-states</code>.</li>
 <li><strong>Result:</strong> Today shows #56–#60, Yesterday shows #54–#55; counts unchanged.</li>
 </ul>
+<h3 id="rail-done-button">Rail: Done button</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Add done button also.&quot;</li>
+<li><strong>Reasoning:</strong> Done shows every finished item — plain DONE plus YESTERDAY DONE and TODAY DONE — because the two day buttons are already the subsets; placed right after All so the row reads whole → finished → yesterday → today.</li>
+<li><strong>Change:</strong> button <code>data-tier-mode=&quot;done&quot;</code> + <code>isDone</code> filter on <code>notes.html</code>, 324 detail pages and <code>rtd-shell.mjs</code>; README and memory updated.</li>
+<li><strong>Result:</strong> Important · New · All · Done · Yesterday · Today; Done currently lists 60 Tech and 6 Foundations items.</li>
+</ul>
 
   </article>
 </div>

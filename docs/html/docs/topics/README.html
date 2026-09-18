@@ -196,8 +196,9 @@ RECENTLY DONE (sky blue), which never rolled over.</li>
 on the <code>_nav.js</code> item, then runs <code>scripts/roll-done-states.py</code>, which buckets every stamped item by
 <code>(done − 6h).date()</code>, keeps the newest bucket as TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in
 <code>notes.html</code> with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
-<li>Rail buttons <strong>Important · New · All · Yesterday · Today</strong> (list page, every detail page, template <code>rtd-shell.mjs</code>):
-Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
+<li>Rail buttons <strong>Important · New · All · Done · Yesterday · Today</strong> (list page, every detail page, template
+<code>rtd-shell.mjs</code>): Done = every finished item (DONE + YESTERDAY DONE + TODAY DONE; jay, 2026-09-18: &quot;Add done button
+also&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
 template <code>scripts/rtd-shell.mjs</code>).</li>
 </ul>
 
