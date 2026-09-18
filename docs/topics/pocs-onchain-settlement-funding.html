@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#158</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#159</span><span>PoC</span></p>
       <h1>On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</h1>
       <p class="lead">Visa&#39;s stablecoin-card growth moved the interesting part one layer up: not users paying in stablecoins, but the card issuer borrowing stablecoins on-chain to fund Visa&#39;s daily settlement, underwritten by its own settlement history and repaid automatically as receipts arrive. Model that loop.</p>
       <p class="meta">Not a build yet — a model to build. Reproduce the funding loop on a local fork: (1) an issuer owes a daily settlement amount before its cardholder receipts land; (2) it draws stablecoin from a revolving credit line to cover the gap; (3) incoming receipts hit a smart-contract waterfall that repays principal + interest first, before the issuer keeps the rest; (4) the credit limit is a function of observed settlement throughput, not posted asset collateral. Then add the &#39;just-in-time&#39; variant — draw exactly the settlement shortfall at settlement time instead of pre-borrowing a buffer — and measure idle-capital cost against it. Confirm the real mechanics (Visa × Credit Coop, Rain, Karta) against their own writeups before citing numbers.</p>
@@ -520,7 +520,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-won-stablecoin-fee-savings.html">&larr; 157. The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money</a><a href="pocs-a-good-bet-that-lost.html">159. A good bet that lost looks exactly like a bad bet that lost &rarr;</a></div>
+    <div class="pager"><a href="pocs-won-stablecoin-fee-savings.html">&larr; 158. The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money</a><a href="pocs-a-good-bet-that-lost.html">160. A good bet that lost looks exactly like a bad bet that lost &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -603,6 +603,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

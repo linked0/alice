@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Automation and Repression — when control gets cheaper than sharing</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#153</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#17</span><span>PoC</span></p>
       <h1>Automation and Repression — when control gets cheaper than sharing</h1>
       <p class="lead">Acemoglu, Gitmez &amp; Shadmehr (NBER w35336, June 2026) model automation inside a polity: decentralized automation raises capital&#39;s income share and the odds of a successful revolt, so an owner-state chooses among regulating automation, redistributing via taxes, or repressing. The result is a complementarity — unless the revolt threat is weak or capital low, the state prefers repression. (A viral post overstated this as &#39;proof AI will destroy democracy&#39; to sell a guide; the paper is a conditional model, not a prophecy.)</p>
       <p class="meta">Not a build — read the actual paper, not the viral summary. The mechanism: automation raises capital&#39;s income share, which raises inequality, which raises revolt risk; the owner-state then weighs redistribution (give some back via tax) against repression (spend on control), and as capital accumulates, control gets cheaper relative to sharing, so the equilibrium drifts toward repression — &#39;not because anyone is evil but because it costs less.&#39; Verify against the primary source (NBER w35336 / MIT Economics / SSRN), and note the gap between the paper&#39;s conditional complementarity result and the viral post&#39;s deterministic framing plus its guide-selling close.</p>
@@ -500,7 +500,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="algorithms-100.html">&larr; 152. [Final] 내 스택의 ADR + 위협 모델 한 편 쓰기</a><a href="pocs-investing-for-programmers-book.html">154. Investing for Programmers — understanding markets through data and code &rarr;</a></div>
+    <div class="pager"><a href="math-13.html">&larr; 16. 메커니즘 디자인(VCG 개념)</a><a href="pocs-investing-for-programmers-book.html">18. Investing for Programmers — understanding markets through data and code &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -583,6 +583,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

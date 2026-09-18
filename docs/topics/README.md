@@ -173,3 +173,14 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   jay: "separate english and korean parts as others so that I don't read the translation first." No Korean line sits
   under an English line any more. `scripts/english-notes.py` renders it from `docs/topics/english/english-N.md`; the
   source format is unchanged (`> 한국어` under each line).
+
+## Order by status; at most 10 Important per section (jay, 2026-09-18)
+
+- In Tech and Foundations the numbers follow the status: **done (Done / Yesterday done / Today done) < Important <
+  New < Planned**, stable within each rank (jay: "make the important ones have lower number than new ones but higher
+  than done"). `scripts/reorder-by-status.py` applies it to `_nav.js`, the rail and cards in `notes.html`, and every
+  page's kicker and pager; run it after a status change that should move an item. Life is all NEW; English keeps its
+  chronological numbering (2026-09-16).
+- **Important is capped at 10 per section** (jay: "make the amount of important items 10 for each category"). When the
+  cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
+  promote a new item, demote one first.

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The remote excavator — teleoperation is a latency budget, not a '6G' headline</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#96</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#85</span><span>PoC</span></p>
       <h1>The remote excavator — teleoperation is a latency budget, not a '6G' headline</h1>
       <p class="lead">A showcased demo (CCTV): an excavator in Changsha driven live by an operator in Beijing over a network, billed as &#39;6G remote control.&#39; The real story is not the label — 6G is not a deployed standard — but the constraint teleoperation always has: a latency-and-reliability budget tight enough that the operator&#39;s control loop stays usable, plus bandwidth for the multi-camera feed. The value under the spectacle is pulling humans out of extreme, dangerous sites.</p>
       <p class="meta">Not a build — a demo to read past the label. Ask three questions the clip cannot answer: (1) the control loop&#39;s round-trip latency — teleoperation degrades fast past ~100–200 ms, so what was it, and under what network load? (2) reliability — what happens on a dropped packet or a link stall mid-dig (is there a fail-safe stop)? (3) is the link actually 6G (not standardized or deployed until ~2030) or 5G-Advanced / fiber dressed as 6G? The transferable question is the one every teleoperation faces: what is the latency budget, and does the network hold it under real load, not in a booth? Confirm distance, link type, and measured latency against primary coverage before citing.</p>
@@ -508,7 +508,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-stablepair-hook-fee-tracks-the-risk.html">&larr; 95. Uniswap v4 StablePair Hook — a constant fee is the wrong setting for a stable pair</a><a href="pocs-atlas-text-to-3d-rigged-characters.html">97. Atlas (text-to-3D) — the output is a rigged character, not a static mesh &rarr;</a></div>
+    <div class="pager"><a href="pocs-stablepair-hook-fee-tracks-the-risk.html">&larr; 84. Uniswap v4 StablePair Hook — a constant fee is the wrong setting for a stable pair</a><a href="pocs-atlas-text-to-3d-rigged-characters.html">86. Atlas (text-to-3D) — the output is a rigged character, not a static mesh &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -591,6 +591,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

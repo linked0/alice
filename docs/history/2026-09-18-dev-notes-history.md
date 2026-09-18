@@ -290,3 +290,15 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Cause:** jay: "make the important button only shows important. there is none have the status new and done at the same time. If some item newly added as important it will have a lower number than others."
 - **Reasoning:** the 2026-09-08/09 rule folded new and recently done items into Important because there was no other button for them; now New, Done, Yesterday and Today each have one, so every button maps to exactly one state.
 - **Change:** `isImportant` matches the `IMPORTANT` title only, on `notes.html`, 324 pages and `rtd-shell.mjs`; the code comment and the README rule updated. The list page still opens on Important, so it now shows the 21 Tech + 49 Foundations red items and nothing else until another button is pressed.
+
+### Rail: a mode button scrolls the rail to the current or first New item
+
+- **Cause:** jay: "clicking the all button goes to the items that are not new ones" — the rail kept its pixel scroll position from the Important list, so after All the view landed on an arbitrary stretch of old Tech items.
+- **Change:** after a tier button click, the rail scrolls (existing `revealInRail`, mode `top`) to the active item on a detail page, else to the first visible NEW item, else to the first visible item; `notes.html`, 324 pages, `rtd-shell.mjs`.
+
+### Numbers follow status (done < important < new < planned); Important capped at 10 per section
+
+- **Cause:** jay: "make the important ones have lower number than new ones but higher than done", then "make the amount of important items 10 for each category."
+- **Reasoning:** the rail is read top-down, so the number order should be the reading order: finished first, then the ten that matter, then what is new, then the backlog. A stable sort keeps each rank's existing order, and the cap keeps Important a short list rather than a second backlog (Foundations had 49 red items).
+- **Change:** `scripts/reorder-by-status.py` (sorts `_nav.js` items by rank, rebuilds rail and card order and numbers in `notes.html`, rewrites kickers and pagers on the pages; idempotent). Cap: in `_nav.js` the first 10 Important per section stay, the rest → PLANNED (11 Tech, 39 Foundations), then the roll script synced the dots and the reorder moved them into the planned block. Curriculum pages have no number or pager, so nothing on them was stale. README rule added.
+- **Result:** Tech order D×61 · I×10 · N×24 · P×146, Foundations D×6 · I×10 · N×5 · P×172; counts unchanged (overall 68/472); rail, card and kicker numbers verified equal for every item.

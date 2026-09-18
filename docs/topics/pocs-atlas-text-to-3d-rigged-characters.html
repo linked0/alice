@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Atlas (text-to-3D) — the output is a rigged character, not a static mesh</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#97</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#86</span><span>PoC</span></p>
       <h1>Atlas (text-to-3D) — the output is a rigged character, not a static mesh</h1>
       <p class="lead">A text-to-3D tool whose pitch is that it does not stop at a static mesh: a prompt yields a standardized T-pose plus a rig and skin weights, so the character is IK-ready and animatable the moment it is generated. Filed as a marker of where generative 3D is heading — from geometry to pipeline-ready assets. (Naming note: unrelated to FastLane&#39;s Atlas / execution abstraction discussed elsewhere here.)</p>
       <p class="meta">Not a build — a capability marker to test against a real need. The claim worth checking: most text-to-3D gives you a mesh you must then retopologize, rig, and weight by hand (hours to days); Atlas claims to ship the T-pose + rig + weights so the asset animates immediately. If you have a 3D/character need (robotics-sim avatars, game or agent embodiment), measure not the mesh&#39;s looks but the rig: clean topology, sensible joint placement, weights that deform without artifacts. Confirm current capabilities and limits against the product before relying on it — and mind the naming collision with FastLane&#39;s Atlas.</p>
@@ -504,7 +504,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-teleoperation-is-a-latency-budget.html">&larr; 96. The remote excavator — teleoperation is a latency budget, not a '6G' headline</a><a href="pocs-coxon-resignation-thread-race-vs-provenance.html">98. The Coxon resignation thread — race logic inside a safety lab, and who amplified it &rarr;</a></div>
+    <div class="pager"><a href="pocs-teleoperation-is-a-latency-budget.html">&larr; 85. The remote excavator — teleoperation is a latency budget, not a '6G' headline</a><a href="pocs-coxon-resignation-thread-race-vs-provenance.html">87. The Coxon resignation thread — race logic inside a safety lab, and who amplified it &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -587,6 +587,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

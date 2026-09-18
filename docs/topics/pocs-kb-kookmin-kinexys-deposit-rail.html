@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#74</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#65</span><span>PoC</span></p>
       <h1>KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not</h1>
       <p class="lead">KB Kookmin Bank plans to become the first Korean financial institution to use J.P. Morgan&#39;s Kinexys Blockchain Deposit Account network for corporate import/export payments. The initial service covers U.S. dollar remittances through KB&#39;s Korean and Singapore branches across ten countries. The announcement promises significantly shorter settlement times; it does not publish an end-to-end &#39;near-instant&#39; SLA.</p>
       <p class="meta">Build a two-rail payment clock, not a blockchain demo. Replay one corporate USD payment through a conventional correspondent route and a Kinexys BDA route. Record instruction acceptance, compliance clearance, FX lock, network settlement, and beneficiary availability as separate timestamps. Test a Friday cutoff, weekend processing, a duplicate instruction, and a compliance hold. The result should identify which clock Kinexys removes and which clocks remain with the banks.</p>
@@ -536,7 +536,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-articulation-idea-library.html">&larr; 73. Articulation is a retrieval system — build ten ideas, then compile them into three shapes</a><a href="pocs-fast-ethereum-is-a-delivery-chain.html">75. Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user &rarr;</a></div>
+    <div class="pager"><a href="pocs-articulation-idea-library.html">&larr; 64. Articulation is a retrieval system — build ten ideas, then compile them into three shapes</a><a href="pocs-fast-ethereum-is-a-delivery-chain.html">66. Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -621,6 +621,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // \uC9C4\uC785 \uC2DC \uAE30\uBCF8\uAC12: \uB4F1\uAE09 \uD1A0\uAE00\uC774 \uC788\uC73C\uBA74 Important \uB9CC \uBCF4\uC5EC \uC900\uB2E4 (jay, 2026-09-08).

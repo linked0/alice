@@ -454,7 +454,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-clarity-is-permission-lubin-floodgates.html">&larr; 60. Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</a><a href="pocs-mamba-selective-state-linear-time.html">62. Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs &rarr;</a></div>
+    <div class="pager"><a href="pocs-clarity-is-permission-lubin-floodgates.html">&larr; 60. Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</a><a href="pocs-agent-team-is-a-workflow.html">62. One employee, one agent creates silos — the unit of AX is a governed workflow &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -537,6 +537,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

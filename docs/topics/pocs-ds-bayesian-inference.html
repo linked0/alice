@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Bayesian inference — a prior is an assumption you have to write down</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#171</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#172</span><span>PoC</span></p>
       <h1>Bayesian inference — a prior is an assumption you have to write down</h1>
       <p class="lead">Bayesian methods turn belief-plus-evidence into a posterior distribution; their honesty is that the prior is explicit, and their trap is that a confident prior can survive weak data.</p>
       <p class="meta">Not yet scoped.</p>
@@ -446,7 +446,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-ds-time-series-arima.html">&larr; 170. Time-series forecasting — ARIMA and why most series are not stationary</a><a href="pocs-ds-monte-carlo.html">172. Monte Carlo — simulating the distribution you cannot solve for &rarr;</a></div>
+    <div class="pager"><a href="pocs-ds-time-series-arima.html">&larr; 171. Time-series forecasting — ARIMA and why most series are not stationary</a><a href="pocs-ds-monte-carlo.html">173. Monte Carlo — simulating the distribution you cannot solve for &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -529,6 +529,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

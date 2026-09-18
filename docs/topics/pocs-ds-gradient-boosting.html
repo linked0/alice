@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Gradient boosting — XGBoost wins the leaderboard and hides the reason</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#177</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#178</span><span>PoC</span></p>
       <h1>Gradient boosting — XGBoost wins the leaderboard and hides the reason</h1>
       <p class="lead">Boosted trees are the default winner on tabular data, but their accuracy comes wrapped in opacity — a strong model whose decisions need a second tool (SHAP) just to be explained.</p>
       <p class="meta">Not yet scoped.</p>
@@ -446,7 +446,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-ds-dimensionality-pca.html">&larr; 176. PCA — compressing dimensions and the meaning that leaks out</a><a href="pocs-ds-cross-validation.html">178. Cross-validation — the honest way to fail before you ship &rarr;</a></div>
+    <div class="pager"><a href="pocs-ds-dimensionality-pca.html">&larr; 177. PCA — compressing dimensions and the meaning that leaks out</a><a href="pocs-ds-cross-validation.html">179. Cross-validation — the honest way to fail before you ship &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -529,6 +529,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

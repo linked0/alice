@@ -213,6 +213,17 @@ jay: &quot;separate english and korean parts as others so that I don&#39;t read 
 under an English line any more. <code>scripts/english-notes.py</code> renders it from <code>docs/topics/english/english-N.md</code>; the
 source format is unchanged (<code>&gt; 한국어</code> under each line).</li>
 </ul>
+<h2 id="order-by-status-at-most-10-important-per-section-jay-2026-09-18">Order by status; at most 10 Important per section (jay, 2026-09-18)</h2>
+<ul>
+<li>In Tech and Foundations the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;
+New &lt; Planned</strong>, stable within each rank (jay: &quot;make the important ones have lower number than new ones but higher
+than done&quot;). <code>scripts/reorder-by-status.py</code> applies it to <code>_nav.js</code>, the rail and cards in <code>notes.html</code>, and every
+page&#39;s kicker and pager; run it after a status change that should move an item. Life is all NEW; English keeps its
+chronological numbering (2026-09-16).</li>
+<li><strong>Important is capped at 10 per section</strong> (jay: &quot;make the amount of important items 10 for each category&quot;). When the
+cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
+promote a new item, demote one first.</li>
+</ul>
 
   </article>
 </div>

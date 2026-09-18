@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Uniswap v4 StablePair Hook — a constant fee is the wrong setting for a stable pair</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#95</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#84</span><span>PoC</span></p>
       <h1>Uniswap v4 StablePair Hook — a constant fee is the wrong setting for a stable pair</h1>
       <p class="lead">Uniswap Labs shipped StablePair Hook, a v4 hook that sets liquidity-provider fees dynamically for two stable-pair pools on Ethereum instead of one constant rate. The point under the announcement: a stable-stable pool sits near 1:1 almost always (a low fee should win the volume) but occasionally depegs (the fee should rise to protect LPs). One constant fee is wrong for both regimes; a hook lets the fee track the risk.</p>
       <p class="meta">Not a build — a mechanism to understand and possibly reuse. v4 hooks run custom logic at swap time, so a pool can compute its fee from live state (volatility, imbalance, oracle deviation) instead of a fixed tier. For a stable pair the fee wants to be near-zero in calm times (win the USDC/USDT flow) and spike when the peg wobbles, so LPs are not run over by arbitrage/toxic flow during a depeg — the loss-versus-rebalancing (LVR) problem. If you touch the jayverse DeFi study or any AMM, the transferable move is: make the fee a function of risk, not a constant. Confirm the hook&#39;s actual fee formula and scope (which pairs, which triggers) against Uniswap&#39;s v4 docs before modeling it.</p>
@@ -502,7 +502,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-stablecoin-visa-card-invisible-under-the-hood.html">&larr; 94. MoneyGram's stablecoin Visa card — invisible to the user, a just-in-time conversion under the hood</a><a href="pocs-teleoperation-is-a-latency-budget.html">96. The remote excavator — teleoperation is a latency budget, not a '6G' headline &rarr;</a></div>
+    <div class="pager"><a href="pocs-stablecoin-visa-card-invisible-under-the-hood.html">&larr; 83. MoneyGram's stablecoin Visa card — invisible to the user, a just-in-time conversion under the hood</a><a href="pocs-teleoperation-is-a-latency-budget.html">85. The remote excavator — teleoperation is a latency budget, not a '6G' headline &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -585,6 +585,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Gross over net — the recycling multiple</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#161</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#162</span><span>PoC</span></p>
       <h1>Gross over net — the recycling multiple</h1>
       <p class="lead">When a protocol pays incentives on both deposits and borrows, the same capital loops. Total deposits inflate, outside money does not — and net TVL turns out to equal external capital exactly. The ratio between the headline and the net is a number you can compute today.</p>
       <p class="meta">Pick any lending market running a deposit-and-borrow incentive programme and take two figures it already publishes: total deposits and total borrows. Net is the difference. Gross divided by net is the recycling multiple. It needs no waiting, no modelling and no market-beta correction, and it applies to a live programme today. Then check whether the protocol&#39;s own reporting calls the gross number TVL.</p>
@@ -720,7 +720,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-where-yield-comes-from.html">&larr; 160. Every yield is somebody's cost — the three places it can come from</a><a href="pocs-risk-free-rate-is-the-floor.html">162. The risk-free rate is the floor under every yield &rarr;</a></div>
+    <div class="pager"><a href="pocs-where-yield-comes-from.html">&larr; 161. Every yield is somebody's cost — the three places it can come from</a><a href="pocs-risk-free-rate-is-the-floor.html">163. The risk-free rate is the floor under every yield &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -803,6 +803,11 @@
       tierMode = b.dataset.tierMode;
       for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
       applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
     });
   }
   // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
