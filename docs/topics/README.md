@@ -222,3 +222,9 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   resistance, trend structure, moving averages, volume, RSI, MACD, Fibonacci, risk on the chart), tag Invest, type
   Basics, status Important — which fills the 10-per-section Important cap, so promote a new Invest item only after
   demoting one. Drafts were written from `scratchpad/tv/INSTRUCTIONS.md` (structure = the standard item source).
+
+## Section order: Tech · Theory · Invest · Eng · Life (jay, 2026-09-18: "Eng before Life")
+
+- Life is the last section. Generators that need a "next section" marker use the end-of-list sentinels instead
+  (`id="no-results"` for the rail, `<p class="src">` for the articles): `add-tech-item.py` (mindset), `reorder-by-status.py`,
+  `health-cards.py`; `english-notes.py` inserts the Eng group, article, pill and nav entries *before* Life.

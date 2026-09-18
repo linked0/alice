@@ -45,8 +45,8 @@ DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hour
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
     "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag">{A.tag}</span>'),
-    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
-    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
+    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="no-results",           next_art=None,                tag=""),   # Life is last (jay, 2026-09-18: "Eng before Life")
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"
@@ -128,7 +128,7 @@ items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k
 # ---------------- notes.html ----------------
 p = ROOT / "notes.html"; s = p.read_text()
 a0 = s.index(f'id="{SEC["nav"]}"'); a1 = s.index(f'id="{SEC["next_nav"]}"')
-b0 = s.index(f'<article id="{SEC["art"]}">'); b1 = s.index(f'<article id="{SEC["next_art"]}">')
+b0 = s.index(f'<article id="{SEC["art"]}">'); b1 = s.index(f'<article id="{SEC["next_art"]}">') if SEC["next_art"] else s.index('    <p class="src">')
 nav, cards = s[a0:a1], s[b0:b1]
 # drop an existing copy of this item
 nav = re.sub(rf'        <li><a class="nav-link" href="[^"]*" data-key="{re.escape(KEY)}">.*?</li>\n', '', nav, flags=re.S)  # by key: hrefs carry the pocs- prefix (duplicates slipped in before 2026-09-18)

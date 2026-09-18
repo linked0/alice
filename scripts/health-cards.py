@@ -41,8 +41,8 @@ def place(s, start, end, block, region_start, region_end):
         return s[:i] + block + s[j:]
     k = s.rindex("      </ul>\n", a, b)
     return s[:k] + block + s[k:]
-s = place(s, "<!-- health-nav:start -->", "<!-- health-nav:end -->", NAV, 'id="nav-sec-mindset"', 'id="nav-sec-english"')
-s = place(s, "<!-- health-cards:start -->", "<!-- health-cards:end -->", CARDS, '<article id="sec-mindset">', '<article id="sec-english">')
+s = place(s, "<!-- health-nav:start -->", "<!-- health-nav:end -->", NAV, 'id="nav-sec-mindset"', 'id="no-results"')
+s = place(s, "<!-- health-cards:start -->", "<!-- health-cards:end -->", CARDS, '<article id="sec-mindset">', '    <p class="src">')
 p.write_text(s)
 
 # ---------------- detail pages: topics/health-N.html ----------------

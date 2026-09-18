@@ -131,7 +131,7 @@ nav_lis = "".join(
     f'        <li><a class="nav-link" href="topics/{href(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
     f'<span class="nav-text"><span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
 nav_group = f'      <div class="nav-group" id="{NAV_ID}" data-group>\n        <p class="nav-group-label">{LABEL} ({N})</p>\n        <ul>\n{nav_lis}        </ul>\n      </div>\n'
-anchor = '      <p class="no-results" id="no-results">'
+anchor = '      <div class="nav-group" id="nav-sec-mindset" data-group>'   # Eng sits before Life (jay, 2026-09-18)
 assert s.count(anchor) == 1; s = s.replace(anchor, nav_group + anchor)
 
 def card(x):
@@ -153,11 +153,11 @@ article = f'''    <article id="{SECTION_ID}">
 {"".join(card(x) for x in items)}      </ul>
     </article>
 '''
-anchor2 = '    <p class="src">'
+anchor2 = '    <article id="sec-mindset">'
 assert s.count(anchor2) == 1; s = s.replace(anchor2, article + anchor2)
 
 pill = f'<a href="#{SECTION_ID}" data-sec="{NAV_ID}" title="{LABEL} &mdash; done ({DONE}) / all ({N})">{LABEL}<b><span class="count-done">{DONE}</span><span class="count-all">/{N}</span></b></a>'
-s = re.sub(r'(<div class="rail-jump">.*?)(</div>)', lambda m: m.group(1) + pill + m.group(2), s, count=1, flags=re.S)
+s = s.replace('<a href="#sec-mindset" data-sec="nav-sec-mindset"', pill + '<a href="#sec-mindset" data-sec="nav-sec-mindset"', 1)   # before the Life pill
 
 # overall badge = sum of every rail pill
 pills = re.findall(r'<span class="count-done">(\d+)</span><span class="count-all">/(\d+)</span>', s[s.index('<div class="rail-jump">'):s.index('</div>', s.index('<div class="rail-jump">'))])
@@ -169,12 +169,12 @@ NOTES.write_text(s)
 
 # ---------------- _nav.js ----------------
 t = NAVJS.read_text(); m = re.match(r'window\.__NAV__=(.*);\s*$', t, re.S); nav = json.loads(m.group(1))
-nav["jump"] = [j for j in nav["jump"] if j["id"] != SECTION_ID] + [{"id": SECTION_ID, "label": LABEL, "all": N, "done": DONE}]
-nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID] + [{
+nav["jump"] = [j for j in nav["jump"] if j["id"] != SECTION_ID]; nav["jump"].insert(next(i for i, j in enumerate(nav["jump"]) if j["id"] == "sec-mindset"), {"id": SECTION_ID, "label": LABEL, "all": N, "done": DONE})
+nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID]; nav["sections"].insert(next(i for i, sec in enumerate(nav["sections"]) if sec["navId"] == "nav-sec-mindset"), {
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
                "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
-               **({"done": x["done"]} if x.get("done") else {})} for x in items]}]
+               **({"done": x["done"]} if x.get("done") else {})} for x in items]})
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 
 # ---------------- static overall badge on every topic page ----------------

@@ -13,7 +13,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 RANK = {"DONE": 0, "YESTERDAY DONE": 0, "TODAY DONE": 0, "RECENTLY DONE": 0, "IMPORTANT": 1, "NEW": 2, "PLANNED": 3}
 SECTIONS = {"nav-sec-blockchain": "sec-blockchain", "nav-sec-fundamentals": "sec-fundamentals", "nav-sec-invest": "sec-invest", "nav-sec-mindset": "sec-mindset"}
 SORTED = ("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest")   # Life is numbered (from 1300) but never reordered
-NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-mindset", "sec-mindset"), "nav-sec-mindset": ("nav-sec-english", "sec-english")}
+NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-english", "sec-english"), "nav-sec-mindset": ("no-results", None)}   # Life is last
 
 n = ROOT / "topics" / "_nav.js"
 nav = json.loads(re.match(r'window\.__NAV__=(.*);\s*$', n.read_text(), re.S).group(1))
@@ -41,7 +41,7 @@ for navid, artid in SECTIONS.items():
         for k in order: navblk = navblk.replace(lis[k], re.sub(r'<span class="topic-no">\d+</span>', f'<span class="topic-no">{num[k]}</span>', lis[k], count=1), 1)
     s = s[:a0] + navblk + s[a1:]
     # notes.html cards
-    b0 = s.index(f'<article id="{artid}">'); b1 = s.index(f'<article id="{NEXT[navid][1]}">')
+    b0 = s.index(f'<article id="{artid}">'); b1 = s.index(f'<article id="{NEXT[navid][1]}">') if NEXT[navid][1] else s.index('    <p class="src">')
     cards = s[b0:b1]
     cs = {m.group(2): m.group(1) for m in re.finditer(r'(        <li id="([^"]+)">\n.*?\n        </li>\n)', cards, re.S) if m.group(2) in num}
     assert set(cs) == set(order), (artid, set(cs) ^ set(order))

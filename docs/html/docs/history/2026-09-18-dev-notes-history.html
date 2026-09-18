@@ -373,6 +373,12 @@
 <li><strong>Change:</strong> <code>notes_numbering.py</code> bases Theory 500 / Invest 800; <code>add-tech-item.py --section invest</code> (tag chip, label Theory); <code>reorder-by-status.py</code> and <code>roll-done-states.py</code> know the section; <code>notes.html</code> gets the Invest pill, rail group and article (lead names the two tags), the five Economics items (Acemoglu automation, Investing for Programmers, ETF window, PPI print, max pain) moved out of Theory with their cards and rail entries; <code>_nav.js</code> section + jump entry; the label Theory replaced on 324 pages, landing sources, README, scripts and memory. Ten drafts written by parallel subagents from <code>scratchpad/tv/INSTRUCTIONS.md</code> (nine pushed first, support and resistance in a second push once its draft landed) (structure validated by <code>validate.py</code>: ~1,000 EN words, 17–18 vocab rows each), added with <code>--section invest --tag Invest --status important --type Basics</code>.</li>
 <li><strong>Result:</strong> sections Tech 1… / Theory 500… / Invest 800… / Life 1300… / Eng 1000… (English pill shortened to Eng, jay: &quot;English to Eng&quot;); every item&#39;s rail, card, kicker and nav numbers verified equal; README section and memory note <code>project-invest-section</code>.</li>
 </ul>
+<h3 id="eng-before-life-risk-page-refreshed">Eng before Life; risk page refreshed</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Eng Before Life.&quot; Also the last TradingView draft (risk on the chart) reported its final version after the earlier add.</li>
+<li><strong>Change:</strong> pill, rail group and article moved in <code>notes.html</code>; <code>_nav.js</code> jump and sections reordered; generators taught that Life is last (<code>add-tech-item.py</code>, <code>reorder-by-status.py</code>, <code>health-cards.py</code> use the <code>no-results</code> / <code>&lt;p class=&quot;src&quot;&gt;</code> sentinels; <code>english-notes.py</code> inserts before Life instead of appending, and its pill goes before the Life pill). Uneven <code>&lt;article&gt;</code> indentation from the Invest insertion normalised. <code>pocs-tv-risk-on-the-chart.html</code> re-added with the final draft.</li>
+<li><strong>Result:</strong> order Tech · Theory · Invest · Eng · Life on the list page, in the nav data and therefore on every detail-page rail; all generators re-run idempotently.</li>
+</ul>
 
   </article>
 </div>
