@@ -127,8 +127,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## Health items in Life (jay, 2026-09-18)
 
-- The Life list ends with password-locked items numbered **1000, 999, 998 …** (jay: "from number 1000 in Life and
-  decreasing") and titled only `Health 1`, `Health 2`, … The real title is inside the ciphertext. jay: never use the
+- The Life list ends with password-locked items numbered **1, 2, 3 …** (jay: first "from 1000 decreasing", then "I want the health number start from 1") and titled only `Health 1`, `Health 2`, … The real title is inside the ciphertext. jay: never use the
   word *private* in a file name, URL or title — "the word private makes people want to know"; *health* is the neutral
   name everywhere (`_health.js`, `health-N.html`, `health-*` ids and classes, `HEALTH_PASS`).
 - Each card has **Detail →** (page `topics/health-N.html`: same rail with the Life items plus the Health items,
@@ -142,3 +141,16 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   in `notes.html` between `<!-- health-nav -->` / `<!-- health-cards -->` markers and regenerates the `health-N.html`
   pages. The password is never written to a file; `add-tech-item.py` leaves these cards alone (no key in `_nav.js`,
   numbers are not renumbered).
+
+## LATELY DONE — the state of items done today (jay, 2026-09-18)
+
+- When an item is marked done it becomes **LATELY DONE** (midnight blue, `#191970`) and stays so until the first item
+  of the *next* day is marked done; then it drops to plain **DONE** (green; Foundations blue). A day starts at
+  **06:00 KST** (jay: "done from the 6 a.m. today before the new day's first one is done"). This replaces the old
+  RECENTLY DONE (sky blue), which never rolled over.
+- Mechanics: `add-tech-item.py --status recent` (alias `lately`) stamps `done` (ISO, +09:00; `--done-at` to override)
+  on the `_nav.js` item, then runs `scripts/roll-lately-done.py`, which buckets every stamped item by
+  `(done − 6h).date()`, keeps only the newest bucket as LATELY DONE, relabels the rest DONE, syncs every rail dot in
+  `notes.html` with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
+- The Important filter still shows LATELY DONE items (the label string changed everywhere, including the page
+  template `scripts/rtd-shell.mjs`).

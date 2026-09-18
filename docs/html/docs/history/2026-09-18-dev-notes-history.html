@@ -246,6 +246,18 @@
 <li><strong>Change:</strong> items titled <code>Health 1</code> … <code>Health 6</code> (plaintext headings renamed, bundle re-encrypted); <code>docs/topics/_private.js</code> → <code>_health.js</code>, pages <code>private-N.html</code> → <code>health-N.html</code>, ids/classes/markers <code>private-*</code> → <code>health-*</code>, sessionStorage key, <code>window.__PRIVATE__</code> → <code>__HEALTH__</code>; scripts renamed <code>health-encrypt.mjs</code> / <code>health-cards.py</code> with <code>HEALTH_PASS</code>; rail-foot link now <code>♥ Health</code>; plaintext file → <code>life-health-rules.md</code>; README section, memory (<code>project-life-health-items</code>) and index rewritten. The unrelated Tech item <code>private-rpc-visibility</code> is untouched.</li>
 <li><strong>Result:</strong> no <code>private</code> left in the feature&#39;s files, URLs or titles; six pages regenerated; round trip verified.</li>
 </ul>
+<h3 id="lately-done-todays-done-items-in-midnight-blue-until-the-next-days-first-done">LATELY DONE: today&#39;s done items in midnight blue until the next day&#39;s first done</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;make the done items midnight blue that are done from the 6 a.m. today before the new day&#39;s first time is done&quot;, &quot;which is a rule&quot;, &quot;the name of state of the new done is &#39;lately done&#39;&quot;.</li>
+<li><strong>Reasoning:</strong> the old RECENTLY DONE (sky blue) was set by hand and never expired — 16 Tech items carried it, some weeks old. The new state needs a time: each done item gets a <code>done</code> stamp in <code>_nav.js</code>, days are bucketed at 06:00 KST, and only the newest bucket is LATELY DONE. Rolling happens when the next item is marked done, which is exactly jay&#39;s &quot;before the new day&#39;s first one is done&quot;.</li>
+<li><strong>Change:</strong> <code>scripts/roll-lately-done.py</code> (bucket, relabel, sync every rail dot with <code>_nav.js</code>, collapse duplicate rail entries, refresh counts); <code>add-tech-item.py</code> — <code>recent</code>/<code>lately</code> → <code>#191970 LATELY DONE</code>, <code>--done-at</code>, <code>done</code> stamp, runs the roll script, and drops an existing rail entry by <code>data-key</code> (the old href match missed the <code>pocs-</code> prefix, which had left duplicate rail entries for #58 and #60); <code>english-notes.py</code> colour; the label string replaced in <code>notes.html</code>, <code>rtd-shell.mjs</code> and 324 pages. Migration: #56/#57 stamped 10:44 and #58/#59 12:51 (the commits that carried them; jay: &quot;56, 57 is lately done also&quot;), #60 14:20; 11 older items → DONE.</li>
+<li><strong>Result:</strong> Tech 60/241 unchanged; 5 LATELY DONE (56–60), 0 RECENTLY DONE, 0 duplicate rail keys. Re-running the script for #60 exercised the whole path.</li>
+</ul>
+<h3 id="health-items-numbered-1-2-3--instead-of-1000-downward">Health items numbered 1, 2, 3 … instead of 1000 downward</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;I want the health number start from 1 not 1000.&quot;</li>
+<li><strong>Change:</strong> <code>scripts/health-cards.py</code> numbers cards, rail links, kickers and pagers <code>1…N</code>; pages regenerated; README and memory updated. <code>add-tech-item.py</code> still ignores these keys, so Life items and Health items keep separate sequences.</li>
+</ul>
 
   </article>
 </div>

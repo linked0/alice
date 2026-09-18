@@ -210,3 +210,15 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Reasoning:** the whole point of the feature is to not draw the eye; a URL or title containing *private* does the opposite. *Health* is bland enough to pass. The plaintext folder `~/Documents/Private/` keeps its name (jay's own folder, outside the repo).
 - **Change:** items titled `Health 1` … `Health 6` (plaintext headings renamed, bundle re-encrypted); `docs/topics/_private.js` → `_health.js`, pages `private-N.html` → `health-N.html`, ids/classes/markers `private-*` → `health-*`, sessionStorage key, `window.__PRIVATE__` → `__HEALTH__`; scripts renamed `health-encrypt.mjs` / `health-cards.py` with `HEALTH_PASS`; rail-foot link now `♥ Health`; plaintext file → `life-health-rules.md`; README section, memory (`project-life-health-items`) and index rewritten. The unrelated Tech item `private-rpc-visibility` is untouched.
 - **Result:** no `private` left in the feature's files, URLs or titles; six pages regenerated; round trip verified.
+
+### LATELY DONE: today's done items in midnight blue until the next day's first done
+
+- **Cause:** jay: "make the done items midnight blue that are done from the 6 a.m. today before the new day's first time is done", "which is a rule", "the name of state of the new done is 'lately done'".
+- **Reasoning:** the old RECENTLY DONE (sky blue) was set by hand and never expired — 16 Tech items carried it, some weeks old. The new state needs a time: each done item gets a `done` stamp in `_nav.js`, days are bucketed at 06:00 KST, and only the newest bucket is LATELY DONE. Rolling happens when the next item is marked done, which is exactly jay's "before the new day's first one is done".
+- **Change:** `scripts/roll-lately-done.py` (bucket, relabel, sync every rail dot with `_nav.js`, collapse duplicate rail entries, refresh counts); `add-tech-item.py` — `recent`/`lately` → `#191970 LATELY DONE`, `--done-at`, `done` stamp, runs the roll script, and drops an existing rail entry by `data-key` (the old href match missed the `pocs-` prefix, which had left duplicate rail entries for #58 and #60); `english-notes.py` colour; the label string replaced in `notes.html`, `rtd-shell.mjs` and 324 pages. Migration: #56/#57 stamped 10:44 and #58/#59 12:51 (the commits that carried them; jay: "56, 57 is lately done also"), #60 14:20; 11 older items → DONE.
+- **Result:** Tech 60/241 unchanged; 5 LATELY DONE (56–60), 0 RECENTLY DONE, 0 duplicate rail keys. Re-running the script for #60 exercised the whole path.
+
+### Health items numbered 1, 2, 3 … instead of 1000 downward
+
+- **Cause:** jay: "I want the health number start from 1 not 1000."
+- **Change:** `scripts/health-cards.py` numbers cards, rail links, kickers and pagers `1…N`; pages regenerated; README and memory updated. `add-tech-item.py` still ignores these keys, so Life items and Health items keep separate sequences.

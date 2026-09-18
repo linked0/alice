@@ -22,19 +22,20 @@ Rules: done items first — a new report takes the first not-done slot (pass it 
 the added date (KST) shows on the card head and in the page kicker (jay, 2026-09-16).
 Re-running with an existing key replaces that item in place (slot argument ignored).
 """
-import re, json, pathlib, html, argparse, datetime, glob, sys
+import re, json, pathlib, html, argparse, datetime, glob, sys, subprocess
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int)
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
-ap.add_argument("--status", default="new"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
+ap.add_argument("--status", default="new", help="planned | done | recent (= lately, LATELY DONE: midnight blue until the next day's first done item) | important | new");
+ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-lately-done.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "mindset"], help="which Knowledge Notes section the item belongs to")
 ap.add_argument("--tag", default="Economics", help="Foundations only: the topic-tag chip (Math | Algorithms | Economics)")
 ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#38bdf8", "RECENTLY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "LATELY DONE"), "lately": ("#191970", "LATELY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")
@@ -106,11 +107,14 @@ if existing:
     slot = int(re.search(r'topic-no">(\d+)<', existing["text"]).group(1)); items[:] = [x for x in items if x["key"] != KEY]
 else:
     assert A.slot, "--slot is required for a new item"; slot = A.slot
-items.insert(slot - 1, {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE)})
+new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE)}
+if LABEL == "LATELY DONE": new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")
+elif existing and existing.get("done") and LABEL == "DONE": new_item["done"] = existing["done"]
+items.insert(slot - 1, new_item)
 for k, x in enumerate(items, 1):
     x["text"] = f'<span class="topic-no">{k}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
     x["n"] = str(k); x["title"] = re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
-N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "RECENTLY DONE"))
+N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "LATELY DONE"))
 sec["label"] = f"{SEC['label']} ({N})"
 for j in nav["jump"]:
     if j["id"] == SEC["art"]: j["all"], j["done"] = N, DONE
@@ -125,7 +129,7 @@ a0 = s.index(f'id="{SEC["nav"]}"'); a1 = s.index(f'id="{SEC["next_nav"]}"')
 b0 = s.index(f'<article id="{SEC["art"]}">'); b1 = s.index(f'<article id="{SEC["next_art"]}">')
 nav, cards = s[a0:a1], s[b0:b1]
 # drop an existing copy of this item
-nav = re.sub(rf'        <li><a class="nav-link" href="(?:#|topics/){re.escape(KEY)}(?:\.html)?".*?</li>\n', '', nav, flags=re.S)
+nav = re.sub(rf'        <li><a class="nav-link" href="[^"]*" data-key="{re.escape(KEY)}">.*?</li>\n', '', nav, flags=re.S)  # by key: hrefs carry the pocs- prefix (duplicates slipped in before 2026-09-18)
 cards = re.sub(rf'        <li id="{KEY}">.*?\n        </li>\n', '', cards, flags=re.S)
 # renumber nav links and cards by key from the nav.js order
 num = {x[0]: x[4] for x in items}
@@ -163,6 +167,8 @@ td, ta = sum(int(a) for a, _ in pills), sum(int(b) for _, b in pills)
 badge = f'{round(td * 100 / ta)}% &middot; {td}/{ta}'
 s = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), s, count=1)
 p.write_text(s)
+# LATELY DONE rule: items done before today's 06:00 KST bucket drop to DONE; rail dots synced (scripts/roll-lately-done.py)
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-lately-done.py")], check=True)
 
 # ---------------- detail page ----------------
 tpl = (ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html").read_text()
@@ -214,7 +220,7 @@ if first:
 # Every detail page ends with the words and phrases worth learning from its English text. The table
 # lives in docs/topics/vocab/<page>.md; scripts/add-vocab.py renders it into both articles. Pass --vocab
 # for a new item; on a re-run without --vocab the existing file is re-applied so the block survives.
-import shutil, subprocess
+import shutil
 VOCAB_DIR = ROOT / "topics" / "vocab"; VOCAB_DIR.mkdir(exist_ok=True); PAGE_KEY = HREF[:-5]
 if A.vocab: shutil.copyfile(A.vocab, VOCAB_DIR / f"{PAGE_KEY}.md")
 if (VOCAB_DIR / f"{PAGE_KEY}.md").exists():

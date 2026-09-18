@@ -686,7 +686,7 @@
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
-  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'LATELY DONE' || d.title === 'NEW'); };
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();

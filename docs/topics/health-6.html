@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html?list">Knowledge Notes</a> &rsaquo; Health 6</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#995</span><span>Locked</span><span title="section">Life</span></p>
+      <p class="topic-kicker"><span class="topic-no">#6</span><span>Locked</span><span title="section">Life</span></p>
       <h1>Health 6</h1>
       <p class="lead" id="health-status">&#128274; Opens with the password. The text is encrypted in the page data; nothing readable is stored on the site.</p>
     </header>
@@ -414,7 +414,7 @@
       <div id="health-slot"></div>
       <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
-    <div class="pager"><a href="health-5.html">&larr; 996. Health 5</a><a href="../notes.html#sec-mindset">Life &rarr;</a></div>
+    <div class="pager"><a href="health-5.html">&larr; 5. Health 5</a><a href="../notes.html#sec-mindset">Life &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -427,7 +427,7 @@
   var s = null; for (var i = 0; i < d.sections.length; i++) if (d.sections[i].navId === 'nav-sec-mindset') s = d.sections[i];
   if (!s || s.items.some(function (it) { return it.key === 'health-1'; })) return;
   var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (1000 - i) + '</span>' + esc(l) }); });
+  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (i + 1) + '</span>' + esc(l) }); });
 })();
 </script>
 <script src="_progress.js"></script>
@@ -476,7 +476,7 @@
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
-  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'LATELY DONE' || d.title === 'NEW'); };
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();

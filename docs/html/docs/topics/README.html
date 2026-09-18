@@ -166,8 +166,7 @@ block, placed before &quot;Verified and unverified&quot; or before Key expressio
 </ul>
 <h2 id="health-items-in-life-jay-2026-09-18">Health items in Life (jay, 2026-09-18)</h2>
 <ul>
-<li>The Life list ends with password-locked items numbered <strong>1000, 999, 998 …</strong> (jay: &quot;from number 1000 in Life and
-decreasing&quot;) and titled only <code>Health 1</code>, <code>Health 2</code>, … The real title is inside the ciphertext. jay: never use the
+<li>The Life list ends with password-locked items numbered <strong>1, 2, 3 …</strong> (jay: first &quot;from 1000 decreasing&quot;, then &quot;I want the health number start from 1&quot;) and titled only <code>Health 1</code>, <code>Health 2</code>, … The real title is inside the ciphertext. jay: never use the
 word <em>private</em> in a file name, URL or title — &quot;the word private makes people want to know&quot;; <em>health</em> is the neutral
 name everywhere (<code>_health.js</code>, <code>health-N.html</code>, <code>health-*</code> ids and classes, <code>HEALTH_PASS</code>).</li>
 <li>Each card has <strong>Detail →</strong> (page <code>topics/health-N.html</code>: same rail with the Life items plus the Health items,
@@ -181,6 +180,19 @@ These pages are exempt from the Key-expressions and &quot;Where it lands in Jayv
 in <code>notes.html</code> between <code>&lt;!-- health-nav --&gt;</code> / <code>&lt;!-- health-cards --&gt;</code> markers and regenerates the <code>health-N.html</code>
 pages. The password is never written to a file; <code>add-tech-item.py</code> leaves these cards alone (no key in <code>_nav.js</code>,
 numbers are not renumbered).</li>
+</ul>
+<h2 id="lately-done--the-state-of-items-done-today-jay-2026-09-18">LATELY DONE — the state of items done today (jay, 2026-09-18)</h2>
+<ul>
+<li>When an item is marked done it becomes <strong>LATELY DONE</strong> (midnight blue, <code>#191970</code>) and stays so until the first item
+of the <em>next</em> day is marked done; then it drops to plain <strong>DONE</strong> (green; Foundations blue). A day starts at
+<strong>06:00 KST</strong> (jay: &quot;done from the 6 a.m. today before the new day&#39;s first one is done&quot;). This replaces the old
+RECENTLY DONE (sky blue), which never rolled over.</li>
+<li>Mechanics: <code>add-tech-item.py --status recent</code> (alias <code>lately</code>) stamps <code>done</code> (ISO, +09:00; <code>--done-at</code> to override)
+on the <code>_nav.js</code> item, then runs <code>scripts/roll-lately-done.py</code>, which buckets every stamped item by
+<code>(done − 6h).date()</code>, keeps only the newest bucket as LATELY DONE, relabels the rest DONE, syncs every rail dot in
+<code>notes.html</code> with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
+<li>The Important filter still shows LATELY DONE items (the label string changed everywhere, including the page
+template <code>scripts/rtd-shell.mjs</code>).</li>
 </ul>
 
   </article>
