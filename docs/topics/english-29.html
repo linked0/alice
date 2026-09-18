@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,38 +404,47 @@
       <p class="topic-kicker"><span class="topic-no">#29</span><span>Incident</span></p>
       <h1>Telling the CTO the dependency was ours to check</h1>
       <p class="lead">Jay leads the settlement team at a Dublin fintech. A vendor&#39;s library shipped a bad release; the team&#39;s deploy pulled it automatically and payouts stalled for 40 minutes. The CTO, Rachel, opens the review with "so this was the vendor&#39;s fault." Jay&#39;s team did not pin the version. Saying "yes" is easy and wrong.</p>
-      <p class="meta">Jay는 더블린 핀테크의 정산 팀 리드. 벤더 라이브러리가 나쁜 릴리스를 냈고, 팀의 배포가 그것을 자동으로 끌어와 지급이 40분 멈췄다. CTO Rachel이 "그러니까 벤더 잘못이었군요"로 리뷰를 시작한다. Jay의 팀은 버전을 핀하지 않았다. "네"라고 하는 것은 쉽고 틀리다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 29 · Incident — Telling the CTO the dependency was ours to check\ntitle_ko: 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기\nsituation: Jay leads the settlement team at a Dublin fintech. A vendor's library shipped a bad release; the team's deploy pulled it automatically and payouts stalled for 40 minutes. The CTO, Rachel, opens the review with \"so this was the vendor's fault.\" Jay's team did not pin the version. Saying \"yes\" is easy and wrong.\nsituation_ko: Jay는 더블린 핀테크의 정산 팀 리드. 벤더 라이브러리가 나쁜 릴리스를 냈고, 팀의 배포가 그것을 자동으로 끌어와 지급이 40분 멈췄다. CTO Rachel이 \"그러니까 벤더 잘못이었군요\"로 리뷰를 시작한다. Jay의 팀은 버전을 핀하지 않았다. \"네\"라고 하는 것은 쉽고 틀리다.\nwhy: Owning a failure in front of an executive without either grovelling or deflecting is a lead's core skill, and non-native speakers often over-apologise. The form that works: correct the framing in one sentence, separate what was theirs from what was ours, and arrive with the fix already scheduled.\nwhy_ko: 임원 앞에서 굽실거리지도 회피하지도 않고 실패를 소유하는 것은 리드의 핵심 기술이고, 비원어민은 과하게 사과하는 일이 많다. 되는 형식: 프레임을 한 문장으로 바로잡고, 그들 몫과 우리 몫을 나누고, 수정을 이미 일정에 올린 채로 온다.\nstatus: planned\n\n## Dialogue\nRachel: So this was the vendor's fault. They shipped a broken release.\n> 그러니까 벤더 잘못이었군요. 망가진 릴리스를 냈으니.\nJay: They shipped a broken release, and we deployed it without anyone deciding to. Those are two different failures, and only the second one is ours to fix, so that's the one I want to spend this meeting on.\n> 망가진 릴리스를 낸 건 그들이고, 누구도 결정하지 않았는데 그것을 배포한 건 우리입니다. 다른 두 실패이고, 둘째만 우리가 고칠 수 있으니 이 회의는 그것에 쓰고 싶습니다.\nRachel: Why did it deploy without a decision?\n> 왜 결정 없이 배포됐죠?\nJay: Our manifest allowed any minor version, and the build didn't fail when the lockfile drifted. So a release that came out at 02:00 was in our production image by the 09:00 deploy. Nobody read it because nothing asked anyone to.\n> 매니페스트가 어떤 마이너 버전이든 허용했고, 락파일이 어긋나도 빌드가 실패하지 않았습니다. 그래서 02:00에 나온 릴리스가 09:00 배포 때 프로덕션 이미지에 들어갔습니다. 아무도 읽지 않은 건 아무것도 읽으라고 요구하지 않았기 때문입니다.\nRachel: That sounds like a process gap, not an engineering one.\n> 그건 엔지니어링이 아니라 프로세스 공백처럼 들리는데요.\nJay: It's both, and I own both. The process gap is that a dependency bump wasn't a reviewed change. The engineering gap is that CI let it through. As of this morning, the build fails on any lockfile mismatch, and bumps to the six packages that can move money arrive as pull requests, not as surprises. That took two hours; it should have taken two hours a year ago.\n> 둘 다이고, 둘 다 제 책임입니다. 프로세스 공백은 의존성 올림이 리뷰되는 변경이 아니었다는 것. 엔지니어링 공백은 CI가 통과시켰다는 것. 오늘 아침부터 락파일 불일치에는 빌드가 실패하고, 돈을 움직일 수 있는 여섯 패키지의 올림은 놀람이 아니라 풀 리퀘스트로 옵니다. 두 시간 걸렸고, 1년 전에 두 시간 걸렸어야 했습니다.\nRachel: What do we tell the vendor?\n> 벤더에게는 뭐라고 하죠?\nJay: That their release broke and we'd like a post-mortem, which is fair. But I'd rather we didn't tell them it cost us forty minutes, because it didn't. Their release cost us zero minutes. Our pipeline cost us forty.\n> 릴리스가 망가졌으니 사후 분석을 원한다고요. 그건 정당합니다. 다만 우리에게 40분을 잃게 했다고는 말하지 않는 게 좋겠습니다. 그렇지 않았으니까요. 그들의 릴리스는 0분을 잃게 했고, 우리 파이프라인이 40분을 잃게 했습니다.\nRachel: All right. Put the six packages in the review, and send me the list.\n> 좋아요. 여섯 패키지를 리뷰에 넣고, 목록을 보내주세요.\n\n## Techniques\n1. **프레임을 나누되 부정하지 않는다.** \"They shipped a broken release, and we deployed it without anyone deciding to.\" 상대 문장을 그대로 인정한 뒤 두 번째 사실을 붙인다. \"아니요\"로 시작하면 방어로 들린다.\n2. **고칠 수 있는 것에 회의를 쓴다.** \"only the second one is ours to fix, so that's the one I want to spend this meeting on.\" 책임 소재 논쟁을 행동으로 바꾸는 한 문장.\n3. **이미 고친 것으로 소유를 증명한다.** \"As of this morning, the build fails… That took two hours; it should have taken two hours a year ago.\" 사과 대신 완료된 수정과 솔직한 자책 한 줄. 이것이 신뢰를 회복한다.\n\n## Expressions\n| two different failures | 서로 다른 두 실패 |\n| ours to fix | 우리가 고칠 몫 |\n| without anyone deciding to | 누구도 결정하지 않은 채 |\n| the lockfile drifted | 락파일이 어긋났다 |\n| nothing asked anyone to | 아무것도 누구에게도 요구하지 않았다 |\n| a process gap | 프로세스 공백 |\n| I own both | 둘 다 제 책임입니다 |\n| as of this morning | 오늘 아침부터 |\n| not as surprises | 놀람이 아니라 |\n| it cost us zero minutes | 우리에게 0분을 잃게 했다 |\n| a post-mortem | 사후 분석 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Owning a failure in front of an executive without either grovelling or deflecting is a lead&#39;s core skill, and non-native speakers often over-apologise. The form that works: correct the framing in one sentence, separate what was theirs from what was ours, and arrive with the fix already scheduled.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">임원 앞에서 굽실거리지도 회피하지도 않고 실패를 소유하는 것은 리드의 핵심 기술이고, 비원어민은 과하게 사과하는 일이 많다. 되는 형식: 프레임을 한 문장으로 바로잡고, 그들 몫과 우리 몫을 나누고, 수정을 이미 일정에 올린 채로 온다.</p>
 <h2>Dialogue</h2>
 <p><strong>Rachel:</strong> So this was the vendor&#39;s fault. They shipped a broken release.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러니까 벤더 잘못이었군요. 망가진 릴리스를 냈으니.</p>
 <p><strong>Jay:</strong> They shipped a broken release, and we deployed it without anyone deciding to. Those are two different failures, and only the second one is ours to fix, so that&#39;s the one I want to spend this meeting on.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">망가진 릴리스를 낸 건 그들이고, 누구도 결정하지 않았는데 그것을 배포한 건 우리입니다. 다른 두 실패이고, 둘째만 우리가 고칠 수 있으니 이 회의는 그것에 쓰고 싶습니다.</p>
 <p><strong>Rachel:</strong> Why did it deploy without a decision?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">왜 결정 없이 배포됐죠?</p>
 <p><strong>Jay:</strong> Our manifest allowed any minor version, and the build didn&#39;t fail when the lockfile drifted. So a release that came out at 02:00 was in our production image by the 09:00 deploy. Nobody read it because nothing asked anyone to.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">매니페스트가 어떤 마이너 버전이든 허용했고, 락파일이 어긋나도 빌드가 실패하지 않았습니다. 그래서 02:00에 나온 릴리스가 09:00 배포 때 프로덕션 이미지에 들어갔습니다. 아무도 읽지 않은 건 아무것도 읽으라고 요구하지 않았기 때문입니다.</p>
 <p><strong>Rachel:</strong> That sounds like a process gap, not an engineering one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그건 엔지니어링이 아니라 프로세스 공백처럼 들리는데요.</p>
 <p><strong>Jay:</strong> It&#39;s both, and I own both. The process gap is that a dependency bump wasn&#39;t a reviewed change. The engineering gap is that CI let it through. As of this morning, the build fails on any lockfile mismatch, and bumps to the six packages that can move money arrive as pull requests, not as surprises. That took two hours; it should have taken two hours a year ago.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">둘 다이고, 둘 다 제 책임입니다. 프로세스 공백은 의존성 올림이 리뷰되는 변경이 아니었다는 것. 엔지니어링 공백은 CI가 통과시켰다는 것. 오늘 아침부터 락파일 불일치에는 빌드가 실패하고, 돈을 움직일 수 있는 여섯 패키지의 올림은 놀람이 아니라 풀 리퀘스트로 옵니다. 두 시간 걸렸고, 1년 전에 두 시간 걸렸어야 했습니다.</p>
 <p><strong>Rachel:</strong> What do we tell the vendor?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">벤더에게는 뭐라고 하죠?</p>
 <p><strong>Jay:</strong> That their release broke and we&#39;d like a post-mortem, which is fair. But I&#39;d rather we didn&#39;t tell them it cost us forty minutes, because it didn&#39;t. Their release cost us zero minutes. Our pipeline cost us forty.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">릴리스가 망가졌으니 사후 분석을 원한다고요. 그건 정당합니다. 다만 우리에게 40분을 잃게 했다고는 말하지 않는 게 좋겠습니다. 그렇지 않았으니까요. 그들의 릴리스는 0분을 잃게 했고, 우리 파이프라인이 40분을 잃게 했습니다.</p>
 <p><strong>Rachel:</strong> All right. Put the six packages in the review, and send me the list.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋아요. 여섯 패키지를 리뷰에 넣고, 목록을 보내주세요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>프레임을 나누되 부정하지 않는다.</strong> "They shipped a broken release, and we deployed it without anyone deciding to." 상대 문장을 그대로 인정한 뒤 두 번째 사실을 붙인다. "아니요"로 시작하면 방어로 들린다.</li><li><strong>고칠 수 있는 것에 회의를 쓴다.</strong> "only the second one is ours to fix, so that&#39;s the one I want to spend this meeting on." 책임 소재 논쟁을 행동으로 바꾸는 한 문장.</li><li><strong>이미 고친 것으로 소유를 증명한다.</strong> "As of this morning, the build fails… That took two hours; it should have taken two hours a year ago." 사과 대신 완료된 수정과 솔직한 자책 한 줄. 이것이 신뢰를 회복한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>two different failures</strong></td><td>서로 다른 두 실패</td></tr><tr><td><strong>ours to fix</strong></td><td>우리가 고칠 몫</td></tr><tr><td><strong>without anyone deciding to</strong></td><td>누구도 결정하지 않은 채</td></tr><tr><td><strong>the lockfile drifted</strong></td><td>락파일이 어긋났다</td></tr><tr><td><strong>nothing asked anyone to</strong></td><td>아무것도 누구에게도 요구하지 않았다</td></tr><tr><td><strong>a process gap</strong></td><td>프로세스 공백</td></tr><tr><td><strong>I own both</strong></td><td>둘 다 제 책임입니다</td></tr><tr><td><strong>as of this morning</strong></td><td>오늘 아침부터</td></tr><tr><td><strong>not as surprises</strong></td><td>놀람이 아니라</td></tr><tr><td><strong>it cost us zero minutes</strong></td><td>우리에게 0분을 잃게 했다</td></tr><tr><td><strong>a post-mortem</strong></td><td>사후 분석</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기</h1>
+      <p class="lead">Jay는 더블린 핀테크의 정산 팀 리드. 벤더 라이브러리가 나쁜 릴리스를 냈고, 팀의 배포가 그것을 자동으로 끌어와 지급이 40분 멈췄다. CTO Rachel이 "그러니까 벤더 잘못이었군요"로 리뷰를 시작한다. Jay의 팀은 버전을 핀하지 않았다. "네"라고 하는 것은 쉽고 틀리다.</p>
+<h2>왜 이 대화인가</h2>
+<p>임원 앞에서 굽실거리지도 회피하지도 않고 실패를 소유하는 것은 리드의 핵심 기술이고, 비원어민은 과하게 사과하는 일이 많다. 되는 형식: 프레임을 한 문장으로 바로잡고, 그들 몫과 우리 몫을 나누고, 수정을 이미 일정에 올린 채로 온다.</p>
+<h2>대화</h2>
+<p><strong>Rachel:</strong> 그러니까 벤더 잘못이었군요. 망가진 릴리스를 냈으니.</p>
+<p><strong>Jay:</strong> 망가진 릴리스를 낸 건 그들이고, 누구도 결정하지 않았는데 그것을 배포한 건 우리입니다. 다른 두 실패이고, 둘째만 우리가 고칠 수 있으니 이 회의는 그것에 쓰고 싶습니다.</p>
+<p><strong>Rachel:</strong> 왜 결정 없이 배포됐죠?</p>
+<p><strong>Jay:</strong> 매니페스트가 어떤 마이너 버전이든 허용했고, 락파일이 어긋나도 빌드가 실패하지 않았습니다. 그래서 02:00에 나온 릴리스가 09:00 배포 때 프로덕션 이미지에 들어갔습니다. 아무도 읽지 않은 건 아무것도 읽으라고 요구하지 않았기 때문입니다.</p>
+<p><strong>Rachel:</strong> 그건 엔지니어링이 아니라 프로세스 공백처럼 들리는데요.</p>
+<p><strong>Jay:</strong> 둘 다이고, 둘 다 제 책임입니다. 프로세스 공백은 의존성 올림이 리뷰되는 변경이 아니었다는 것. 엔지니어링 공백은 CI가 통과시켰다는 것. 오늘 아침부터 락파일 불일치에는 빌드가 실패하고, 돈을 움직일 수 있는 여섯 패키지의 올림은 놀람이 아니라 풀 리퀘스트로 옵니다. 두 시간 걸렸고, 1년 전에 두 시간 걸렸어야 했습니다.</p>
+<p><strong>Rachel:</strong> 벤더에게는 뭐라고 하죠?</p>
+<p><strong>Jay:</strong> 릴리스가 망가졌으니 사후 분석을 원한다고요. 그건 정당합니다. 다만 우리에게 40분을 잃게 했다고는 말하지 않는 게 좋겠습니다. 그렇지 않았으니까요. 그들의 릴리스는 0분을 잃게 했고, 우리 파이프라인이 40분을 잃게 했습니다.</p>
+<p><strong>Rachel:</strong> 좋아요. 여섯 패키지를 리뷰에 넣고, 목록을 보내주세요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>프레임을 나누되 부정하지 않는다.</strong> "They shipped a broken release, and we deployed it without anyone deciding to." 상대 문장을 그대로 인정한 뒤 두 번째 사실을 붙인다. "아니요"로 시작하면 방어로 들린다.</li><li><strong>고칠 수 있는 것에 회의를 쓴다.</strong> "only the second one is ours to fix, so that&#39;s the one I want to spend this meeting on." 책임 소재 논쟁을 행동으로 바꾸는 한 문장.</li><li><strong>이미 고친 것으로 소유를 증명한다.</strong> "As of this morning, the build fails… That took two hours; it should have taken two hours a year ago." 사과 대신 완료된 수정과 솔직한 자책 한 줄. 이것이 신뢰를 회복한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-28.html">&larr; 28. Telling a senior peer their design is wrong, in writing</a><a href="english-30.html">30. Explain your architecture to someone who won&#39;t read the diagram &rarr;</a></div>
   </div>
@@ -460,16 +471,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -490,12 +509,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

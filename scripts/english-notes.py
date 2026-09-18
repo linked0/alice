@@ -11,6 +11,7 @@ Source format (docs/topics/english/english-N.md):
   # N · Tag — Title
   title_ko: …            situation: …   situation_ko: …   why: …   why_ko: …
   status: planned | done | recent | important | new      (default planned)
+  done: 2026-09-18T15:08+09:00   (ISO +09:00, when status is recent/done; drives the TODAY/YESTERDAY DONE roll)
   ## Dialogue            Speaker: English line   /  > Korean line (directly under it)
   ## Techniques          1. **제목.** 설명 (Korean, quoting the English)
   ## Expressions         | english | 한국어 |
@@ -68,9 +69,12 @@ key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 tpl = TEMPLATE.read_text()
 head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
 tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
-KO_STYLE = 'style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em"'
 for idx, it in enumerate(items):
-    dlg = "\n".join(f'<p><strong>{E(d["who"])}:</strong> {inline(d["en"])}</p>\n<p {KO_STYLE}>{E(d["ko"])}</p>' for d in it["dialogue"])
+    # English and Korean in separate articles, like the PoC pages (jay, 2026-09-18: "separate english and korean
+    # parts as others so that I don't read the translation first").
+    dlg = "\n".join(f'<p><strong>{E(d["who"])}:</strong> {inline(d["en"])}</p>' for d in it["dialogue"])
+    dlg_ko = "\n".join(f'<p><strong>{E(d["who"])}:</strong> {E(d["ko"])}</p>' for d in it["dialogue"])
+    SWITCH = lambda on: f'<nav class="lang-switch" aria-label="Language"><a href="#en"{" class=\"on\"" if on == "en" else ""}>English</a><a href="#ko"{" class=\"on\"" if on == "ko" else ""}>한국어</a></nav>'
     tech = "<ol>" + "".join(f"<li>{inline(t)}</li>" for t in it["techniques"]) + "</ol>"
     expr = ('<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody>'
             + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td>{inline(b)}</td></tr>" for a, b in it["expressions"]) + "</tbody></table>")
@@ -84,21 +88,31 @@ for idx, it in enumerate(items):
       <p class="topic-kicker"><span class="topic-no">#{it["n"]}</span><span>{E(it["tag"])}</span></p>
       <h1>{E(it["title"])}</h1>
       <p class="lead">{E(it["situation"])}</p>
-      <p class="meta">{E(it["situation_ko"])}</p>
+      {SWITCH(None)}
     </header>
     <article id="en">
+      {SWITCH("en")}
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">{json.dumps(it["src"], ensure_ascii=False)}</script>
 <h2>Why this conversation</h2>
 <p>{inline(it["why"])}</p>
-<p {KO_STYLE}>{E(it["why_ko"])}</p>
 <h2>Dialogue</h2>
 {dlg}
-<h2>Three collaboration techniques</h2>
-{tech}
 <h2>Key expressions</h2>
 {expr}
-      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      {SWITCH("ko")}
+      <h1>{E(it["title_ko"])}</h1>
+      <p class="lead">{E(it["situation_ko"])}</p>
+<h2>왜 이 대화인가</h2>
+<p>{E(it["why_ko"])}</p>
+<h2>대화</h2>
+{dlg_ko}
+<h2>협업 기법 세 가지</h2>
+{tech}
+      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     {pager}
 '''
@@ -112,7 +126,7 @@ s = re.sub(rf'    <article id="{SECTION_ID}">.*?    </article>\n', '', s, flags=
 s = re.sub(rf'<a href="#{SECTION_ID}" title="[^"]*">.*?</a>', '', s, flags=re.S)
 
 nav_lis = "".join(
-    f'        <li><a class="nav-link" href="#{key(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
+    f'        <li><a class="nav-link" href="topics/{href(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
     f'<span class="nav-text"><span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
 nav_group = f'      <div class="nav-group" id="{NAV_ID}" data-group>\n        <p class="nav-group-label">{LABEL} ({N})</p>\n        <ul>\n{nav_lis}        </ul>\n      </div>\n'
 anchor = '      <p class="no-results" id="no-results">'
@@ -157,7 +171,8 @@ nav["jump"] = [j for j in nav["jump"] if j["id"] != SECTION_ID] + [{"id": SECTIO
 nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID] + [{
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
-               "text": f'<span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}'} for x in items]}]
+               "text": f'<span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
+               **({"done": x["done"]} if x.get("done") else {})} for x in items]}]
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 
 # ---------------- static overall badge on every topic page ----------------
@@ -168,3 +183,7 @@ for f in glob.glob(str(ROOT / "topics" / "*.html")):
     if c2 != c: p.write_text(c2); changed += 1
 
 print(f"{LABEL}: {N} items ({DONE} done) → notes.html section + nav + pill; _nav.js; {N} detail pages; overall badge '{badge}' on {changed} topic pages")
+
+# TODAY DONE / YESTERDAY DONE roll (scripts/roll-done-states.py): stamped items bucket by 06:00 KST day; rail dots synced.
+import subprocess
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)

@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,38 +404,47 @@
       <p class="topic-kicker"><span class="topic-no">#34</span><span>Design</span></p>
       <h1>Which price are we settling on?</h1>
       <p class="lead">Design review at a Paris fintech, Jay&#39;s sixth week as lead. The new market type resolves on "the ETH price at 16:00 UTC". Camille, the product manager, thinks that sentence is the spec. Jay knows it is the start of a dispute, and he has to say so without sounding like the engineer who blocks everything.</p>
-      <p class="meta">파리 핀테크의 설계 리뷰, Jay의 리드 6주 차. 새 마켓 타입은 "16:00 UTC의 ETH 가격"으로 정산된다. PM Camille은 그 문장이 스펙이라고 생각한다. Jay는 그것이 분쟁의 시작임을 알고, 모든 것을 막는 엔지니어처럼 들리지 않으면서 말해야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 34 · Design — Which price are we settling on?\ntitle_ko: 우리는 어느 가격으로 정산하나?\nsituation: Design review at a Paris fintech, Jay's sixth week as lead. The new market type resolves on \"the ETH price at 16:00 UTC\". Camille, the product manager, thinks that sentence is the spec. Jay knows it is the start of a dispute, and he has to say so without sounding like the engineer who blocks everything.\nsituation_ko: 파리 핀테크의 설계 리뷰, Jay의 리드 6주 차. 새 마켓 타입은 \"16:00 UTC의 ETH 가격\"으로 정산된다. PM Camille은 그 문장이 스펙이라고 생각한다. Jay는 그것이 분쟁의 시작임을 알고, 모든 것을 막는 엔지니어처럼 들리지 않으면서 말해야 한다.\nwhy: The gap between a price and a reference rate is where settlement disputes live, and it is invisible to product until the first angry customer. A lead's job is to turn \"the price\" into a named source, a fixing time and a fallback before launch, in a way the product manager can own.\nwhy_ko: 가격과 참조 금리 사이의 틈이 정산 분쟁이 사는 곳이고, 첫 화난 고객이 오기 전까지 제품 쪽에는 보이지 않는다. 리드의 일은 런칭 전에 \"그 가격\"을 이름 붙은 출처, 픽싱 시각, 폴백으로 바꾸되 PM이 소유할 수 있는 방식으로 하는 것이다.\nstatus: planned\n\n## Dialogue\nCamille: Resolution is simple: the ETH price at 16:00 UTC. What's the engineering concern?\n> 정산은 단순해요. 16:00 UTC의 ETH 가격. 엔지니어링 쪽 우려가 뭔가요?\nJay: Not an engineering concern, a customer one. At 16:00 there are about forty ETH prices, one per exchange, and on a normal day they differ by a few dollars. On a bad day one venue prints a wick that's 5 percent off for eleven seconds. Whichever number we pick, the customer on the losing side will point at another one.\n> 엔지니어링 우려가 아니라 고객 우려예요. 16:00에 ETH 가격은 거래소마다 하나씩 마흔 개쯤 있고, 평범한 날에도 몇 달러씩 달라요. 나쁜 날에는 한 거래소가 11초 동안 5퍼센트 벗어난 꼬리를 찍어요. 어느 숫자를 골라도 지는 쪽 고객은 다른 숫자를 가리킬 거예요.\nCamille: So we pick the biggest exchange.\n> 그럼 가장 큰 거래소로 하죠.\nJay: We could, and then our settlement depends on one company's uptime and one company's wash trading. The alternative is a reference rate: a benchmark administrator takes a vetted set of venues, throws out outliers by a published rule, aggregates over a window, and publishes one number with a methodology behind it. Kaiko does this under EU benchmark regulation, and it's available on-chain through an oracle. It costs us a licence and a day of integration.\n> 그럴 수 있고, 그러면 우리 정산이 한 회사의 가동률과 한 회사의 워시 트레이딩에 달리게 돼요. 대안은 참조 금리예요. 벤치마크 관리자가 심사된 거래소 집합을 가져다 공개된 규칙으로 이상치를 버리고, 창에 걸쳐 집계해서, 방법론이 뒤에 있는 숫자 하나를 발표해요. Kaiko가 EU 벤치마크 규정 아래 이걸 하고, 오라클로 온체인에서 받을 수 있어요. 비용은 라이선스 하나와 통합 하루예요.\nCamille: A day, and a licence fee, for a number that's almost the same.\n> 하루와 라이선스 비용을, 거의 같은 숫자에.\nJay: Almost the same on the days nobody complains. The licence buys us the sentence \"we settled on a regulated benchmark, here's the methodology\" on the day somebody does. Without it, the sentence is \"we settled on Binance,\" and then we are the ones defending Binance's print.\n> 아무도 불평 안 하는 날엔 거의 같죠. 라이선스가 사주는 건 누군가 불평하는 날 \"우리는 규제된 벤치마크로 정산했고, 방법론은 여기 있습니다\"라는 문장이에요. 없으면 문장은 \"우리는 바이낸스로 정산했습니다\"가 되고, 그러면 바이낸스의 체결가를 방어하는 게 우리예요.\nCamille: Fine. What do you need from me?\n> 좋아요. 제가 뭘 해야 하죠?\nJay: Three lines in the spec, and they're yours to write, not mine: the source by name, the fixing time to the second, and what happens if the source is down at 16:00. I'll propose the fallback; you decide it.\n> 스펙에 세 줄이고, 제가 아니라 당신이 쓸 것이에요. 이름 붙은 출처, 초 단위의 픽싱 시각, 16:00에 출처가 죽어 있으면 어떻게 하는지. 폴백은 제가 제안하고, 결정은 당신이 해요.\nCamille: Send me the fallback options today.\n> 폴백 옵션을 오늘 보내주세요.\n\n## Techniques\n1. **우려의 주인을 바꾼다.** \"Not an engineering concern, a customer one.\" 엔지니어의 반대를 고객의 결과로 재프레임하면 PM이 방어하지 않고 듣는다.\n2. **싼 대안이 실제로 사는 것을 말한다.** \"The licence buys us the sentence… on the day somebody does.\" 비용을 정당화할 때 기능이 아니라 나쁜 날의 문장을 판다.\n3. **결정을 스펙 세 줄로 돌려준다.** \"Three lines in the spec, and they're yours to write, not mine.\" 리뷰가 지적으로 끝나지 않고 PM이 소유하는 산출물로 끝난다.\n\n## Expressions\n| resolves on | ~로 정산된다(결과가 결정된다) |\n| a customer concern | 고객 쪽 우려 |\n| prints a wick | 꼬리(순간 급변)를 찍다 |\n| point at another one | 다른 것을 가리키다(반박하다) |\n| a vetted set of venues | 심사된 거래소 집합 |\n| by a published rule | 공개된 규칙으로 |\n| almost the same on the days nobody complains | 아무도 불평 안 하는 날엔 거의 같다 |\n| buys us the sentence | 그 문장을 살 수 있게 해준다 |\n| defending someone's print | 남의 체결가를 방어하다 |\n| to the second | 초 단위로 |\n| yours to write, not mine | 내가 아니라 당신이 쓸 것 |\n"</script>
 <h2>Why this conversation</h2>
 <p>The gap between a price and a reference rate is where settlement disputes live, and it is invisible to product until the first angry customer. A lead&#39;s job is to turn "the price" into a named source, a fixing time and a fallback before launch, in a way the product manager can own.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">가격과 참조 금리 사이의 틈이 정산 분쟁이 사는 곳이고, 첫 화난 고객이 오기 전까지 제품 쪽에는 보이지 않는다. 리드의 일은 런칭 전에 "그 가격"을 이름 붙은 출처, 픽싱 시각, 폴백으로 바꾸되 PM이 소유할 수 있는 방식으로 하는 것이다.</p>
 <h2>Dialogue</h2>
 <p><strong>Camille:</strong> Resolution is simple: the ETH price at 16:00 UTC. What&#39;s the engineering concern?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">정산은 단순해요. 16:00 UTC의 ETH 가격. 엔지니어링 쪽 우려가 뭔가요?</p>
 <p><strong>Jay:</strong> Not an engineering concern, a customer one. At 16:00 there are about forty ETH prices, one per exchange, and on a normal day they differ by a few dollars. On a bad day one venue prints a wick that&#39;s 5 percent off for eleven seconds. Whichever number we pick, the customer on the losing side will point at another one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">엔지니어링 우려가 아니라 고객 우려예요. 16:00에 ETH 가격은 거래소마다 하나씩 마흔 개쯤 있고, 평범한 날에도 몇 달러씩 달라요. 나쁜 날에는 한 거래소가 11초 동안 5퍼센트 벗어난 꼬리를 찍어요. 어느 숫자를 골라도 지는 쪽 고객은 다른 숫자를 가리킬 거예요.</p>
 <p><strong>Camille:</strong> So we pick the biggest exchange.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 가장 큰 거래소로 하죠.</p>
 <p><strong>Jay:</strong> We could, and then our settlement depends on one company&#39;s uptime and one company&#39;s wash trading. The alternative is a reference rate: a benchmark administrator takes a vetted set of venues, throws out outliers by a published rule, aggregates over a window, and publishes one number with a methodology behind it. Kaiko does this under EU benchmark regulation, and it&#39;s available on-chain through an oracle. It costs us a licence and a day of integration.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럴 수 있고, 그러면 우리 정산이 한 회사의 가동률과 한 회사의 워시 트레이딩에 달리게 돼요. 대안은 참조 금리예요. 벤치마크 관리자가 심사된 거래소 집합을 가져다 공개된 규칙으로 이상치를 버리고, 창에 걸쳐 집계해서, 방법론이 뒤에 있는 숫자 하나를 발표해요. Kaiko가 EU 벤치마크 규정 아래 이걸 하고, 오라클로 온체인에서 받을 수 있어요. 비용은 라이선스 하나와 통합 하루예요.</p>
 <p><strong>Camille:</strong> A day, and a licence fee, for a number that&#39;s almost the same.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">하루와 라이선스 비용을, 거의 같은 숫자에.</p>
 <p><strong>Jay:</strong> Almost the same on the days nobody complains. The licence buys us the sentence "we settled on a regulated benchmark, here&#39;s the methodology" on the day somebody does. Without it, the sentence is "we settled on Binance," and then we are the ones defending Binance&#39;s print.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">아무도 불평 안 하는 날엔 거의 같죠. 라이선스가 사주는 건 누군가 불평하는 날 "우리는 규제된 벤치마크로 정산했고, 방법론은 여기 있습니다"라는 문장이에요. 없으면 문장은 "우리는 바이낸스로 정산했습니다"가 되고, 그러면 바이낸스의 체결가를 방어하는 게 우리예요.</p>
 <p><strong>Camille:</strong> Fine. What do you need from me?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋아요. 제가 뭘 해야 하죠?</p>
 <p><strong>Jay:</strong> Three lines in the spec, and they&#39;re yours to write, not mine: the source by name, the fixing time to the second, and what happens if the source is down at 16:00. I&#39;ll propose the fallback; you decide it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">스펙에 세 줄이고, 제가 아니라 당신이 쓸 것이에요. 이름 붙은 출처, 초 단위의 픽싱 시각, 16:00에 출처가 죽어 있으면 어떻게 하는지. 폴백은 제가 제안하고, 결정은 당신이 해요.</p>
 <p><strong>Camille:</strong> Send me the fallback options today.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">폴백 옵션을 오늘 보내주세요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>우려의 주인을 바꾼다.</strong> "Not an engineering concern, a customer one." 엔지니어의 반대를 고객의 결과로 재프레임하면 PM이 방어하지 않고 듣는다.</li><li><strong>싼 대안이 실제로 사는 것을 말한다.</strong> "The licence buys us the sentence… on the day somebody does." 비용을 정당화할 때 기능이 아니라 나쁜 날의 문장을 판다.</li><li><strong>결정을 스펙 세 줄로 돌려준다.</strong> "Three lines in the spec, and they&#39;re yours to write, not mine." 리뷰가 지적으로 끝나지 않고 PM이 소유하는 산출물로 끝난다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>resolves on</strong></td><td>~로 정산된다(결과가 결정된다)</td></tr><tr><td><strong>a customer concern</strong></td><td>고객 쪽 우려</td></tr><tr><td><strong>prints a wick</strong></td><td>꼬리(순간 급변)를 찍다</td></tr><tr><td><strong>point at another one</strong></td><td>다른 것을 가리키다(반박하다)</td></tr><tr><td><strong>a vetted set of venues</strong></td><td>심사된 거래소 집합</td></tr><tr><td><strong>by a published rule</strong></td><td>공개된 규칙으로</td></tr><tr><td><strong>almost the same on the days nobody complains</strong></td><td>아무도 불평 안 하는 날엔 거의 같다</td></tr><tr><td><strong>buys us the sentence</strong></td><td>그 문장을 살 수 있게 해준다</td></tr><tr><td><strong>defending someone&#39;s print</strong></td><td>남의 체결가를 방어하다</td></tr><tr><td><strong>to the second</strong></td><td>초 단위로</td></tr><tr><td><strong>yours to write, not mine</strong></td><td>내가 아니라 당신이 쓸 것</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>우리는 어느 가격으로 정산하나?</h1>
+      <p class="lead">파리 핀테크의 설계 리뷰, Jay의 리드 6주 차. 새 마켓 타입은 "16:00 UTC의 ETH 가격"으로 정산된다. PM Camille은 그 문장이 스펙이라고 생각한다. Jay는 그것이 분쟁의 시작임을 알고, 모든 것을 막는 엔지니어처럼 들리지 않으면서 말해야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>가격과 참조 금리 사이의 틈이 정산 분쟁이 사는 곳이고, 첫 화난 고객이 오기 전까지 제품 쪽에는 보이지 않는다. 리드의 일은 런칭 전에 "그 가격"을 이름 붙은 출처, 픽싱 시각, 폴백으로 바꾸되 PM이 소유할 수 있는 방식으로 하는 것이다.</p>
+<h2>대화</h2>
+<p><strong>Camille:</strong> 정산은 단순해요. 16:00 UTC의 ETH 가격. 엔지니어링 쪽 우려가 뭔가요?</p>
+<p><strong>Jay:</strong> 엔지니어링 우려가 아니라 고객 우려예요. 16:00에 ETH 가격은 거래소마다 하나씩 마흔 개쯤 있고, 평범한 날에도 몇 달러씩 달라요. 나쁜 날에는 한 거래소가 11초 동안 5퍼센트 벗어난 꼬리를 찍어요. 어느 숫자를 골라도 지는 쪽 고객은 다른 숫자를 가리킬 거예요.</p>
+<p><strong>Camille:</strong> 그럼 가장 큰 거래소로 하죠.</p>
+<p><strong>Jay:</strong> 그럴 수 있고, 그러면 우리 정산이 한 회사의 가동률과 한 회사의 워시 트레이딩에 달리게 돼요. 대안은 참조 금리예요. 벤치마크 관리자가 심사된 거래소 집합을 가져다 공개된 규칙으로 이상치를 버리고, 창에 걸쳐 집계해서, 방법론이 뒤에 있는 숫자 하나를 발표해요. Kaiko가 EU 벤치마크 규정 아래 이걸 하고, 오라클로 온체인에서 받을 수 있어요. 비용은 라이선스 하나와 통합 하루예요.</p>
+<p><strong>Camille:</strong> 하루와 라이선스 비용을, 거의 같은 숫자에.</p>
+<p><strong>Jay:</strong> 아무도 불평 안 하는 날엔 거의 같죠. 라이선스가 사주는 건 누군가 불평하는 날 "우리는 규제된 벤치마크로 정산했고, 방법론은 여기 있습니다"라는 문장이에요. 없으면 문장은 "우리는 바이낸스로 정산했습니다"가 되고, 그러면 바이낸스의 체결가를 방어하는 게 우리예요.</p>
+<p><strong>Camille:</strong> 좋아요. 제가 뭘 해야 하죠?</p>
+<p><strong>Jay:</strong> 스펙에 세 줄이고, 제가 아니라 당신이 쓸 것이에요. 이름 붙은 출처, 초 단위의 픽싱 시각, 16:00에 출처가 죽어 있으면 어떻게 하는지. 폴백은 제가 제안하고, 결정은 당신이 해요.</p>
+<p><strong>Camille:</strong> 폴백 옵션을 오늘 보내주세요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>우려의 주인을 바꾼다.</strong> "Not an engineering concern, a customer one." 엔지니어의 반대를 고객의 결과로 재프레임하면 PM이 방어하지 않고 듣는다.</li><li><strong>싼 대안이 실제로 사는 것을 말한다.</strong> "The licence buys us the sentence… on the day somebody does." 비용을 정당화할 때 기능이 아니라 나쁜 날의 문장을 판다.</li><li><strong>결정을 스펙 세 줄로 돌려준다.</strong> "Three lines in the spec, and they&#39;re yours to write, not mine." 리뷰가 지적으로 끝나지 않고 PM이 소유하는 산출물로 끝난다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-33.html">&larr; 33. Grill me before you plan</a></div>
   </div>
@@ -460,16 +471,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -490,12 +509,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

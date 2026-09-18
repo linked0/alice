@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#4</span><span>EIP</span></p>
       <h1>Does Quick Slots make finality faster?</h1>
       <p class="lead">Sun-woo read the EIP-8198 thread and wants to tell the team "Ethereum is getting fast finality." Jay has to correct the claim without killing the enthusiasm.</p>
-      <p class="meta">선우가 EIP-8198 스레드를 읽고 팀에 "Ethereum이 빠른 최종성을 얻는다"고 말하려 한다. Jay는 열의를 꺾지 않으면서 주장을 바로잡아야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 4 · EIP — Does Quick Slots make finality faster?\ntitle_ko: Quick Slots가 최종성을 빠르게 하나?\nsituation: Sun-woo read the EIP-8198 thread and wants to tell the team \"Ethereum is getting fast finality.\" Jay has to correct the claim without killing the enthusiasm.\nsituation_ko: 선우가 EIP-8198 스레드를 읽고 팀에 \"Ethereum이 빠른 최종성을 얻는다\"고 말하려 한다. Jay는 열의를 꺾지 않으면서 주장을 바로잡아야 한다.\nwhy: How to correct a technical overstatement: separate what scales from what changes structure, and give the person a better sentence to say.\nwhy_ko: 기술적 과장을 바로잡는 법. 비례해서 줄어드는 것과 구조가 바뀌는 것을 구분하고, 상대에게 더 나은 문장을 건넨다.\n\n## Dialogue\nSun-woo: Quick Slots means fast finality, right? Ten-second slots, so everything finalizes faster.\n> Quick Slots면 최종성이 빨라지는 거죠? 10초 슬롯이니까 전부 더 빨리 확정되고요.\nJay: Faster, yes. Fast, no. The epoch stays thirty-two slots and finality is still two epochs, so twelve point eight minutes becomes ten point seven.\n> 더 빨라지긴 해요. 빠르진 않고요. 에포크는 32슬롯 그대로고 최종성은 여전히 2에포크라서, 12.8분이 10.7분이 됩니다.\nSun-woo: That's barely a change.\n> 거의 차이가 없네요.\nJay: For finality, it isn't one. What the EIP buys is inclusion latency: how long until your transaction is in a block, how stale a DEX price gets. That scales with the slot directly.\n> 최종성에는 변화가 아니죠. EIP가 사는 건 포함 지연이에요. 트랜잭션이 블록에 들어가기까지, DEX 가격이 얼마나 오래되는지. 그건 슬롯에 직접 비례합니다.\nSun-woo: So what should I say instead?\n> 그럼 대신 뭐라고 말하죠?\nJay: \"Blocks land faster, finality stays a different project.\" Fast finality comes from three-slot finality and the lean consensus work, and the EF's fourth prerequisite is that 8198 must not get in their way.\n> \"블록은 더 빨리 들어오고, 최종성은 별개의 프로젝트다.\" 빠른 최종성은 3슬롯 최종성과 lean 합의 작업에서 오고, EF의 네 번째 전제 조건이 8198이 그걸 방해하면 안 된다는 거예요.\nSun-woo: Got it. Two tracks, not one.\n> 알겠어요. 하나가 아니라 두 트랙이네요.\nJay: Exactly. And if anyone asks what changes for us: our bridge waits for finalized, so nothing. The user-visible win is the bet confirming sooner.\n> 정확해요. 우리에게 뭐가 바뀌냐고 누가 물으면, 브리지는 finalized를 기다리니 아무것도요. 사용자가 보는 이득은 베팅이 더 빨리 확인되는 거죠.\n\n## Techniques\n1. **정도와 종류를 갈라 답한다.** \"Faster, yes. Fast, no.\" 비교급과 원급을 나누는 네 단어가 과장을 정확히 잘라낸다.\n2. **틀린 문장 대신 맞는 문장을 준다.** \"So what should I say instead?\" 에 답을 준비해 두면 교정이 거절이 아니라 도움이 된다.\n3. **우리에게의 결과로 닫는다.** \"if anyone asks what changes for us\" 기술 논의를 팀의 행동 하나로 끝내면 대화가 남는다.\n\n## Expressions\n| Faster, yes. Fast, no. | 더 빠르긴 하다. 빠르진 않다. |\n| the epoch stays thirty-two slots | 에포크는 32슬롯 그대로다 |\n| barely a change | 거의 변화가 없다 |\n| inclusion latency | 포함 지연 |\n| scales with the slot directly | 슬롯에 직접 비례한다 |\n| what should I say instead? | 대신 뭐라고 말해야 하나? |\n| a different project | 별개의 프로젝트 |\n| must not get in their way | 그들을 방해하면 안 된다 |\n| two tracks, not one | 하나가 아닌 두 트랙 |\n| the user-visible win | 사용자가 보는 이득 |\n"</script>
 <h2>Why this conversation</h2>
 <p>How to correct a technical overstatement: separate what scales from what changes structure, and give the person a better sentence to say.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">기술적 과장을 바로잡는 법. 비례해서 줄어드는 것과 구조가 바뀌는 것을 구분하고, 상대에게 더 나은 문장을 건넨다.</p>
 <h2>Dialogue</h2>
 <p><strong>Sun-woo:</strong> Quick Slots means fast finality, right? Ten-second slots, so everything finalizes faster.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Quick Slots면 최종성이 빨라지는 거죠? 10초 슬롯이니까 전부 더 빨리 확정되고요.</p>
 <p><strong>Jay:</strong> Faster, yes. Fast, no. The epoch stays thirty-two slots and finality is still two epochs, so twelve point eight minutes becomes ten point seven.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">더 빨라지긴 해요. 빠르진 않고요. 에포크는 32슬롯 그대로고 최종성은 여전히 2에포크라서, 12.8분이 10.7분이 됩니다.</p>
 <p><strong>Sun-woo:</strong> That&#39;s barely a change.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">거의 차이가 없네요.</p>
 <p><strong>Jay:</strong> For finality, it isn&#39;t one. What the EIP buys is inclusion latency: how long until your transaction is in a block, how stale a DEX price gets. That scales with the slot directly.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">최종성에는 변화가 아니죠. EIP가 사는 건 포함 지연이에요. 트랜잭션이 블록에 들어가기까지, DEX 가격이 얼마나 오래되는지. 그건 슬롯에 직접 비례합니다.</p>
 <p><strong>Sun-woo:</strong> So what should I say instead?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 대신 뭐라고 말하죠?</p>
 <p><strong>Jay:</strong> "Blocks land faster, finality stays a different project." Fast finality comes from three-slot finality and the lean consensus work, and the EF&#39;s fourth prerequisite is that 8198 must not get in their way.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">"블록은 더 빨리 들어오고, 최종성은 별개의 프로젝트다." 빠른 최종성은 3슬롯 최종성과 lean 합의 작업에서 오고, EF의 네 번째 전제 조건이 8198이 그걸 방해하면 안 된다는 거예요.</p>
 <p><strong>Sun-woo:</strong> Got it. Two tracks, not one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">알겠어요. 하나가 아니라 두 트랙이네요.</p>
 <p><strong>Jay:</strong> Exactly. And if anyone asks what changes for us: our bridge waits for finalized, so nothing. The user-visible win is the bet confirming sooner.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">정확해요. 우리에게 뭐가 바뀌냐고 누가 물으면, 브리지는 finalized를 기다리니 아무것도요. 사용자가 보는 이득은 베팅이 더 빨리 확인되는 거죠.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>정도와 종류를 갈라 답한다.</strong> "Faster, yes. Fast, no." 비교급과 원급을 나누는 네 단어가 과장을 정확히 잘라낸다.</li><li><strong>틀린 문장 대신 맞는 문장을 준다.</strong> "So what should I say instead?" 에 답을 준비해 두면 교정이 거절이 아니라 도움이 된다.</li><li><strong>우리에게의 결과로 닫는다.</strong> "if anyone asks what changes for us" 기술 논의를 팀의 행동 하나로 끝내면 대화가 남는다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>Faster, yes. Fast, no.</strong></td><td>더 빠르긴 하다. 빠르진 않다.</td></tr><tr><td><strong>the epoch stays thirty-two slots</strong></td><td>에포크는 32슬롯 그대로다</td></tr><tr><td><strong>barely a change</strong></td><td>거의 변화가 없다</td></tr><tr><td><strong>inclusion latency</strong></td><td>포함 지연</td></tr><tr><td><strong>scales with the slot directly</strong></td><td>슬롯에 직접 비례한다</td></tr><tr><td><strong>what should I say instead?</strong></td><td>대신 뭐라고 말해야 하나?</td></tr><tr><td><strong>a different project</strong></td><td>별개의 프로젝트</td></tr><tr><td><strong>must not get in their way</strong></td><td>그들을 방해하면 안 된다</td></tr><tr><td><strong>two tracks, not one</strong></td><td>하나가 아닌 두 트랙</td></tr><tr><td><strong>the user-visible win</strong></td><td>사용자가 보는 이득</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>Quick Slots가 최종성을 빠르게 하나?</h1>
+      <p class="lead">선우가 EIP-8198 스레드를 읽고 팀에 "Ethereum이 빠른 최종성을 얻는다"고 말하려 한다. Jay는 열의를 꺾지 않으면서 주장을 바로잡아야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>기술적 과장을 바로잡는 법. 비례해서 줄어드는 것과 구조가 바뀌는 것을 구분하고, 상대에게 더 나은 문장을 건넨다.</p>
+<h2>대화</h2>
+<p><strong>Sun-woo:</strong> Quick Slots면 최종성이 빨라지는 거죠? 10초 슬롯이니까 전부 더 빨리 확정되고요.</p>
+<p><strong>Jay:</strong> 더 빨라지긴 해요. 빠르진 않고요. 에포크는 32슬롯 그대로고 최종성은 여전히 2에포크라서, 12.8분이 10.7분이 됩니다.</p>
+<p><strong>Sun-woo:</strong> 거의 차이가 없네요.</p>
+<p><strong>Jay:</strong> 최종성에는 변화가 아니죠. EIP가 사는 건 포함 지연이에요. 트랜잭션이 블록에 들어가기까지, DEX 가격이 얼마나 오래되는지. 그건 슬롯에 직접 비례합니다.</p>
+<p><strong>Sun-woo:</strong> 그럼 대신 뭐라고 말하죠?</p>
+<p><strong>Jay:</strong> "블록은 더 빨리 들어오고, 최종성은 별개의 프로젝트다." 빠른 최종성은 3슬롯 최종성과 lean 합의 작업에서 오고, EF의 네 번째 전제 조건이 8198이 그걸 방해하면 안 된다는 거예요.</p>
+<p><strong>Sun-woo:</strong> 알겠어요. 하나가 아니라 두 트랙이네요.</p>
+<p><strong>Jay:</strong> 정확해요. 우리에게 뭐가 바뀌냐고 누가 물으면, 브리지는 finalized를 기다리니 아무것도요. 사용자가 보는 이득은 베팅이 더 빨리 확인되는 거죠.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>정도와 종류를 갈라 답한다.</strong> "Faster, yes. Fast, no." 비교급과 원급을 나누는 네 단어가 과장을 정확히 잘라낸다.</li><li><strong>틀린 문장 대신 맞는 문장을 준다.</strong> "So what should I say instead?" 에 답을 준비해 두면 교정이 거절이 아니라 도움이 된다.</li><li><strong>우리에게의 결과로 닫는다.</strong> "if anyone asks what changes for us" 기술 논의를 팀의 행동 하나로 끝내면 대화가 남는다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-3.html">&larr; 3. Every transaction passed. The total was wrong.</a><a href="english-5.html">5. Make it easy for them to say no &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

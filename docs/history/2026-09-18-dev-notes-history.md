@@ -243,3 +243,44 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Reasoning:** Done shows every finished item — plain DONE plus YESTERDAY DONE and TODAY DONE — because the two day buttons are already the subsets; placed right after All so the row reads whole → finished → yesterday → today.
 - **Change:** button `data-tier-mode="done"` + `isDone` filter on `notes.html`, 324 detail pages and `rtd-shell.mjs`; README and memory updated.
 - **Result:** Important · New · All · Done · Yesterday · Today; Done currently lists 60 Tech and 6 Foundations items.
+
+### Rail: Done button means "done before yesterday"
+
+- **Cause:** jay: "Done before Yesterday" — the Done button should not repeat today's and yesterday's items.
+- **Change:** `isDone` matches the plain `DONE` title only, on `notes.html`, 324 pages and `rtd-shell.mjs`; tooltip and README updated. Done · Yesterday · Today now partition the finished items.
+- **Result:** Done lists 55 Tech (#1–#53 done ones) and 6 Foundations items; Yesterday #54–#55; Today #56–#60.
+
+### Rail: buttons in two fixed rows
+
+- **Cause:** jay: "Done, Yesterday, Today are on the same line."
+- **Change:** a `<span class="tier-break">` (flex-basis 100%) after All in `notes.html`, 324 pages and `rtd-shell.mjs`, so the row breaks there regardless of rail width: Important · New · All on the first line, Done · Yesterday · Today on the second.
+
+### Tech #61 agentic engineering marked TODAY DONE; Dark Horse (e) boundary files
+
+- **Cause:** jay: "Make the 61 done and add related tasks to dark horse."
+- **Change:** re-ran `add-tech-item.py` for `agentic-engineering-writes-boundaries` with `--status recent` (TODAY DONE, stamped now; index card → #62 Mamba). New Dark Horse candidate **(e) Agentic engineering — boundary files before agent tasks** in [`docs/features/jayverse-darkhorse.md`](../features/jayverse-darkhorse.md), built from the item's "Where it lands in Jayverse": boundary-file template piloted on one web-app module, Rabbit's 7715 mandate + enforcer tests as the boundary of agent features, a CI evaluation job for agent-produced changes, *boundary* into Dev English #32; mirrored as a §10 bullet in `docs/tasks/09-02-jayverse.md` and in the hub row 10 of `docs/features/README.md`.
+- **Result:** Tech 61/241, overall 67/472; Today shows #56–#61. Branch `claude/61-darkhorse` (carries the uncommitted Done-button work from `claude/done-button-scope`), uncommitted.
+
+### Rail foot simplified: All Notes · ♥ Health · Index
+
+- **Cause:** jay (screenshot of the rail foot): "make them simple: All Notes, Index."
+- **Change:** rail-foot links on the 324 detail pages read `All Notes · ♥ Health · Index` (new pages copy an existing page's head, so they inherit it; `rtd-shell.mjs` takes the foot as a parameter and is used only by the logs generator, so it is untouched) (was `← All Knowledge Notes · ♥ Health · Workspace Index`); `notes.html` foot reads `♥ Health · Index · Live PoCs` (it still said `🔒 Rules`, missed by the health rename). Body-end links and crumbs unchanged.
+
+### English pages: English article first, Korean article apart
+
+- **Cause:** jay: "For all the english [pages] separate english and korean parts as others so that I don't read the translation first."
+- **Reasoning:** the pages interleaved each English line with its Korean, so the eye caught the translation before finishing the English. The PoC pages already solve this with `#en` / `#ko` articles and a language switch; the English pages now use the same shape.
+- **Change:** `scripts/english-notes.py` — `#en` (why, dialogue, key expressions) and `#ko` (제목, 상황, 왜, 대화, 협업 기법 세 가지) articles, lang-switch pills in the hero and per article, KO situation moved out of the hero; rail links in the rebuilt English group now `topics/english-N.html` (the script still wrote `#english-N`, which the 2026-09-18 rail change had overridden by hand). All 34 pages rebuilt; source format unchanged.
+- **Result:** rail 34 page links, 0 hash links, 0 duplicate keys, Health cards and counts intact; README rule added.
+
+### English #1 "The function is fine. Who can call it?" marked TODAY DONE
+
+- **Cause:** jay: "make done The function is fine. Who can call it? of english" (after asking what *modifier* meant in that dialogue).
+- **Change:** `docs/topics/english/english-1.md` gets `status: recent` and `done: 2026-09-18T15:08+09:00` (it had no status line; the default was planned). `scripts/english-notes.py` now carries `done` into the `_nav.js` item and runs `roll-done-states.py`, so English items join the Today / Yesterday roll like the other sections.
+- **Result:** English 1/34, overall 68/472; Today shows #56–#61 and English #1.
+
+### Detail-page rail: Done / Yesterday / Today search every section
+
+- **Cause:** jay (screenshot of the three buttons): "For this part, it shows the matched ones for all the categories." A detail page's rail held only its own section, so Done on a Tech page could never show a Foundations or English item.
+- **Change:** the rail script on the 324 detail pages now renders every section — the current one first, the others tagged `data-other-section` — and the filter shows those other groups only in Done, Yesterday and Today modes; Important, New and All behave as before. `notes.html` already lists every section, so it needed nothing.
+- **Result:** on any page, Today lists Tech #56–#61 and English #1; Yesterday #54–#55; Done every green item across sections.

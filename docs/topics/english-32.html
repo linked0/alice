@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#32</span><span>Interview</span></p>
       <h1>How do you use AI, and what do you refuse to hand it?</h1>
       <p class="lead">A panel interview for a team lead role at a Copenhagen fintech. Sofie, the head of engineering, asks the question every 2026 interview now contains: "How do you use AI in your work?" The wrong answers are "for everything" and "I don&#39;t trust it." Jay has to show judgement, not enthusiasm.</p>
-      <p class="meta">코펜하겐 핀테크 팀 리드 패널 면접. 엔지니어링 헤드 Sofie가 2026년 모든 면접에 들어 있는 질문을 한다. "일에서 AI를 어떻게 쓰나요?" 틀린 답은 "전부에"와 "믿지 않습니다". Jay는 열의가 아니라 판단력을 보여야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 32 · Interview — How do you use AI, and what do you refuse to hand it?\ntitle_ko: AI를 어떻게 쓰고, 무엇은 넘기지 않나요?\nsituation: A panel interview for a team lead role at a Copenhagen fintech. Sofie, the head of engineering, asks the question every 2026 interview now contains: \"How do you use AI in your work?\" The wrong answers are \"for everything\" and \"I don't trust it.\" Jay has to show judgement, not enthusiasm.\nsituation_ko: 코펜하겐 핀테크 팀 리드 패널 면접. 엔지니어링 헤드 Sofie가 2026년 모든 면접에 들어 있는 질문을 한다. \"일에서 AI를 어떻게 쓰나요?\" 틀린 답은 \"전부에\"와 \"믿지 않습니다\". Jay는 열의가 아니라 판단력을 보여야 한다.\nwhy: This question is a proxy for whether you will let a team's fundamentals rot. The answer that works names what you delegate, what you keep, and why the line is where it is, with one example where the line saved you.\nwhy_ko: 이 질문은 팀의 기본기를 썩게 둘 사람인지의 대리 지표다. 되는 답은 무엇을 위임하고 무엇을 지키는지, 왜 선이 거기 있는지를 말하고, 그 선이 자신을 구한 사례 하나를 붙인다.\nstatus: planned\n\n## Dialogue\nSofie: How do you use AI in your work? Be specific.\n> 일에서 AI를 어떻게 쓰나요? 구체적으로요.\nJay: I split tasks into errands and walks. Errands go to the agent: literature and API surveys, refactoring inside a module whose interface I've fixed, test scaffolding, proofreading, and code review for the things a linter misses. Walks I do by hand: the design of a boundary, the first invariant test on anything that moves money, and any bug I don't yet understand. The line is there because the walks are where I learn the system, and a lead who stops learning the system can't review anything.\n> 작업을 심부름과 걷기로 나눕니다. 심부름은 에이전트에게요. 문헌과 API 조사, 제가 인터페이스를 고정한 모듈 내부의 리팩터링, 테스트 스캐폴딩, 교정, 린터가 놓치는 것에 대한 코드 리뷰. 걷기는 손으로 합니다. 경계 설계, 돈을 움직이는 모든 것의 첫 불변식 테스트, 그리고 아직 이해하지 못한 모든 버그. 선이 거기 있는 이유는 걷기가 시스템을 배우는 곳이고, 시스템 배우기를 멈춘 리드는 아무것도 리뷰할 수 없기 때문입니다.\nSofie: Give me a time the line mattered.\n> 그 선이 중요했던 때를 말해 주세요.\nJay: Last spring an agent proposed a settlement change that passed every test we had. I made myself trace the payout path by hand before approving, which took an hour I resented. The change double-counted fees on refunds, a case no test covered. If I had treated that as an errand, it would have shipped. So now, for anything touching payouts, the first review is a walk, and I write the missing test before I write the approval.\n> 지난봄 에이전트가 우리가 가진 모든 테스트를 통과하는 정산 변경을 제안했습니다. 승인 전에 지급 경로를 손으로 따라가게 스스로 강제했고, 짜증나는 한 시간이었습니다. 그 변경은 환불 시 수수료를 이중 계산했고, 어떤 테스트도 다루지 않는 케이스였습니다. 심부름으로 취급했다면 출시됐을 겁니다. 그래서 지금은 지급을 건드리는 모든 것에 첫 리뷰는 걷기이고, 승인을 쓰기 전에 빠진 테스트를 씁니다.\nSofie: Doesn't that slow your team down?\n> 그러면 팀이 느려지지 않나요?\nJay: It slows the ten percent that can lose money and speeds up the ninety that can't. And for juniors I'm stricter the other way: they walk more than I do, because the routine bugs are how they become the people who can review the agent later. If the agent takes all of those, in three years I have a team that can prompt and can't judge.\n> 돈을 잃을 수 있는 10퍼센트는 느려지고 그럴 수 없는 90퍼센트는 빨라집니다. 그리고 주니어에게는 반대로 더 엄격합니다. 저보다 더 많이 걷게 합니다. 일상적 버그가 나중에 에이전트를 리뷰할 수 있는 사람이 되는 방법이니까요. 에이전트가 그것을 전부 가져가면 3년 뒤 프롬프트는 할 수 있고 판단은 못 하는 팀이 생깁니다.\nSofie: What do you do when the agent is confidently wrong?\n> 에이전트가 자신 있게 틀리면 어떻게 하나요?\nJay: Treat it like a well-read colleague who's had two drinks. Ask for the reasoning step by step, run the step that can be run, and never accept a claim about money without a number I can reproduce. It's a useful colleague. It's not a witness.\n> 잘 읽었지만 두 잔 마신 동료처럼 대합니다. 추론을 단계별로 요구하고, 실행할 수 있는 단계는 실행하고, 재현할 수 있는 숫자 없이는 돈에 대한 주장을 절대 받지 않습니다. 유용한 동료입니다. 증인은 아닙니다.\n\n## Techniques\n1. **이분법을 거절하고 배분을 보여준다.** \"I split tasks into errands and walks.\" 전부/전무 대신 분류. 그리고 선의 이유(\"the walks are where I learn the system\").\n2. **선이 구한 사례는 비용도 함께.** \"an hour I resented… it would have shipped.\" 자기 규율의 비용을 인정할 때 사례가 진짜로 들린다.\n3. **팀 관점으로 끝낸다.** \"in three years I have a team that can prompt and can't judge.\" 리드 면접에서 개인 습관은 팀 정책으로 번역되어야 점수가 된다.\n\n## Expressions\n| errands and walks | 심부름과 걷기(위임할 일과 직접 할 일) |\n| whose interface I've fixed | 내가 인터페이스를 고정한 |\n| a bug I don't yet understand | 아직 이해하지 못한 버그 |\n| an hour I resented | 짜증났던 한 시간 |\n| a case no test covered | 어떤 테스트도 다루지 않은 케이스 |\n| it would have shipped | 출시됐을 것이다 |\n| stricter the other way | 반대 방향으로 더 엄격한 |\n| can prompt and can't judge | 프롬프트는 할 수 있고 판단은 못 하는 |\n| confidently wrong | 자신 있게 틀린 |\n| a number I can reproduce | 내가 재현할 수 있는 숫자 |\n| it's not a witness | 그것은 증인이 아니다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>This question is a proxy for whether you will let a team&#39;s fundamentals rot. The answer that works names what you delegate, what you keep, and why the line is where it is, with one example where the line saved you.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">이 질문은 팀의 기본기를 썩게 둘 사람인지의 대리 지표다. 되는 답은 무엇을 위임하고 무엇을 지키는지, 왜 선이 거기 있는지를 말하고, 그 선이 자신을 구한 사례 하나를 붙인다.</p>
 <h2>Dialogue</h2>
 <p><strong>Sofie:</strong> How do you use AI in your work? Be specific.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">일에서 AI를 어떻게 쓰나요? 구체적으로요.</p>
 <p><strong>Jay:</strong> I split tasks into errands and walks. Errands go to the agent: literature and API surveys, refactoring inside a module whose interface I&#39;ve fixed, test scaffolding, proofreading, and code review for the things a linter misses. Walks I do by hand: the design of a boundary, the first invariant test on anything that moves money, and any bug I don&#39;t yet understand. The line is there because the walks are where I learn the system, and a lead who stops learning the system can&#39;t review anything.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">작업을 심부름과 걷기로 나눕니다. 심부름은 에이전트에게요. 문헌과 API 조사, 제가 인터페이스를 고정한 모듈 내부의 리팩터링, 테스트 스캐폴딩, 교정, 린터가 놓치는 것에 대한 코드 리뷰. 걷기는 손으로 합니다. 경계 설계, 돈을 움직이는 모든 것의 첫 불변식 테스트, 그리고 아직 이해하지 못한 모든 버그. 선이 거기 있는 이유는 걷기가 시스템을 배우는 곳이고, 시스템 배우기를 멈춘 리드는 아무것도 리뷰할 수 없기 때문입니다.</p>
 <p><strong>Sofie:</strong> Give me a time the line mattered.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그 선이 중요했던 때를 말해 주세요.</p>
 <p><strong>Jay:</strong> Last spring an agent proposed a settlement change that passed every test we had. I made myself trace the payout path by hand before approving, which took an hour I resented. The change double-counted fees on refunds, a case no test covered. If I had treated that as an errand, it would have shipped. So now, for anything touching payouts, the first review is a walk, and I write the missing test before I write the approval.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">지난봄 에이전트가 우리가 가진 모든 테스트를 통과하는 정산 변경을 제안했습니다. 승인 전에 지급 경로를 손으로 따라가게 스스로 강제했고, 짜증나는 한 시간이었습니다. 그 변경은 환불 시 수수료를 이중 계산했고, 어떤 테스트도 다루지 않는 케이스였습니다. 심부름으로 취급했다면 출시됐을 겁니다. 그래서 지금은 지급을 건드리는 모든 것에 첫 리뷰는 걷기이고, 승인을 쓰기 전에 빠진 테스트를 씁니다.</p>
 <p><strong>Sofie:</strong> Doesn&#39;t that slow your team down?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러면 팀이 느려지지 않나요?</p>
 <p><strong>Jay:</strong> It slows the ten percent that can lose money and speeds up the ninety that can&#39;t. And for juniors I&#39;m stricter the other way: they walk more than I do, because the routine bugs are how they become the people who can review the agent later. If the agent takes all of those, in three years I have a team that can prompt and can&#39;t judge.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">돈을 잃을 수 있는 10퍼센트는 느려지고 그럴 수 없는 90퍼센트는 빨라집니다. 그리고 주니어에게는 반대로 더 엄격합니다. 저보다 더 많이 걷게 합니다. 일상적 버그가 나중에 에이전트를 리뷰할 수 있는 사람이 되는 방법이니까요. 에이전트가 그것을 전부 가져가면 3년 뒤 프롬프트는 할 수 있고 판단은 못 하는 팀이 생깁니다.</p>
 <p><strong>Sofie:</strong> What do you do when the agent is confidently wrong?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">에이전트가 자신 있게 틀리면 어떻게 하나요?</p>
 <p><strong>Jay:</strong> Treat it like a well-read colleague who&#39;s had two drinks. Ask for the reasoning step by step, run the step that can be run, and never accept a claim about money without a number I can reproduce. It&#39;s a useful colleague. It&#39;s not a witness.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">잘 읽었지만 두 잔 마신 동료처럼 대합니다. 추론을 단계별로 요구하고, 실행할 수 있는 단계는 실행하고, 재현할 수 있는 숫자 없이는 돈에 대한 주장을 절대 받지 않습니다. 유용한 동료입니다. 증인은 아닙니다.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>이분법을 거절하고 배분을 보여준다.</strong> "I split tasks into errands and walks." 전부/전무 대신 분류. 그리고 선의 이유("the walks are where I learn the system").</li><li><strong>선이 구한 사례는 비용도 함께.</strong> "an hour I resented… it would have shipped." 자기 규율의 비용을 인정할 때 사례가 진짜로 들린다.</li><li><strong>팀 관점으로 끝낸다.</strong> "in three years I have a team that can prompt and can&#39;t judge." 리드 면접에서 개인 습관은 팀 정책으로 번역되어야 점수가 된다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>errands and walks</strong></td><td>심부름과 걷기(위임할 일과 직접 할 일)</td></tr><tr><td><strong>whose interface I&#39;ve fixed</strong></td><td>내가 인터페이스를 고정한</td></tr><tr><td><strong>a bug I don&#39;t yet understand</strong></td><td>아직 이해하지 못한 버그</td></tr><tr><td><strong>an hour I resented</strong></td><td>짜증났던 한 시간</td></tr><tr><td><strong>a case no test covered</strong></td><td>어떤 테스트도 다루지 않은 케이스</td></tr><tr><td><strong>it would have shipped</strong></td><td>출시됐을 것이다</td></tr><tr><td><strong>stricter the other way</strong></td><td>반대 방향으로 더 엄격한</td></tr><tr><td><strong>can prompt and can&#39;t judge</strong></td><td>프롬프트는 할 수 있고 판단은 못 하는</td></tr><tr><td><strong>confidently wrong</strong></td><td>자신 있게 틀린</td></tr><tr><td><strong>a number I can reproduce</strong></td><td>내가 재현할 수 있는 숫자</td></tr><tr><td><strong>it&#39;s not a witness</strong></td><td>그것은 증인이 아니다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>AI를 어떻게 쓰고, 무엇은 넘기지 않나요?</h1>
+      <p class="lead">코펜하겐 핀테크 팀 리드 패널 면접. 엔지니어링 헤드 Sofie가 2026년 모든 면접에 들어 있는 질문을 한다. "일에서 AI를 어떻게 쓰나요?" 틀린 답은 "전부에"와 "믿지 않습니다". Jay는 열의가 아니라 판단력을 보여야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>이 질문은 팀의 기본기를 썩게 둘 사람인지의 대리 지표다. 되는 답은 무엇을 위임하고 무엇을 지키는지, 왜 선이 거기 있는지를 말하고, 그 선이 자신을 구한 사례 하나를 붙인다.</p>
+<h2>대화</h2>
+<p><strong>Sofie:</strong> 일에서 AI를 어떻게 쓰나요? 구체적으로요.</p>
+<p><strong>Jay:</strong> 작업을 심부름과 걷기로 나눕니다. 심부름은 에이전트에게요. 문헌과 API 조사, 제가 인터페이스를 고정한 모듈 내부의 리팩터링, 테스트 스캐폴딩, 교정, 린터가 놓치는 것에 대한 코드 리뷰. 걷기는 손으로 합니다. 경계 설계, 돈을 움직이는 모든 것의 첫 불변식 테스트, 그리고 아직 이해하지 못한 모든 버그. 선이 거기 있는 이유는 걷기가 시스템을 배우는 곳이고, 시스템 배우기를 멈춘 리드는 아무것도 리뷰할 수 없기 때문입니다.</p>
+<p><strong>Sofie:</strong> 그 선이 중요했던 때를 말해 주세요.</p>
+<p><strong>Jay:</strong> 지난봄 에이전트가 우리가 가진 모든 테스트를 통과하는 정산 변경을 제안했습니다. 승인 전에 지급 경로를 손으로 따라가게 스스로 강제했고, 짜증나는 한 시간이었습니다. 그 변경은 환불 시 수수료를 이중 계산했고, 어떤 테스트도 다루지 않는 케이스였습니다. 심부름으로 취급했다면 출시됐을 겁니다. 그래서 지금은 지급을 건드리는 모든 것에 첫 리뷰는 걷기이고, 승인을 쓰기 전에 빠진 테스트를 씁니다.</p>
+<p><strong>Sofie:</strong> 그러면 팀이 느려지지 않나요?</p>
+<p><strong>Jay:</strong> 돈을 잃을 수 있는 10퍼센트는 느려지고 그럴 수 없는 90퍼센트는 빨라집니다. 그리고 주니어에게는 반대로 더 엄격합니다. 저보다 더 많이 걷게 합니다. 일상적 버그가 나중에 에이전트를 리뷰할 수 있는 사람이 되는 방법이니까요. 에이전트가 그것을 전부 가져가면 3년 뒤 프롬프트는 할 수 있고 판단은 못 하는 팀이 생깁니다.</p>
+<p><strong>Sofie:</strong> 에이전트가 자신 있게 틀리면 어떻게 하나요?</p>
+<p><strong>Jay:</strong> 잘 읽었지만 두 잔 마신 동료처럼 대합니다. 추론을 단계별로 요구하고, 실행할 수 있는 단계는 실행하고, 재현할 수 있는 숫자 없이는 돈에 대한 주장을 절대 받지 않습니다. 유용한 동료입니다. 증인은 아닙니다.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>이분법을 거절하고 배분을 보여준다.</strong> "I split tasks into errands and walks." 전부/전무 대신 분류. 그리고 선의 이유("the walks are where I learn the system").</li><li><strong>선이 구한 사례는 비용도 함께.</strong> "an hour I resented… it would have shipped." 자기 규율의 비용을 인정할 때 사례가 진짜로 들린다.</li><li><strong>팀 관점으로 끝낸다.</strong> "in three years I have a team that can prompt and can&#39;t judge." 리드 면접에서 개인 습관은 팀 정책으로 번역되어야 점수가 된다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-31.html">&larr; 31. Your report wants to leave for a competitor</a><a href="english-33.html">33. Grill me before you plan &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,40 +404,49 @@
       <p class="topic-kicker"><span class="topic-no">#27</span><span>Interview</span></p>
       <h1>Why do you want to leave Korea?</h1>
       <p class="lead">Final-round interview with the VP of Engineering at a Stockholm payments company. The question is friendly and dangerous: "Why leave a good job in Seoul for this?" Any answer that criticises the current employer, the country, or the culture reads as a flight risk. Any answer that is only "for the experience" reads as a tourist.</p>
-      <p class="meta">스톡홀름 결제 회사 엔지니어링 VP와의 최종 면접. 질문은 친근하고 위험하다. "서울의 좋은 직장을 왜 떠나 여기로?" 현 직장, 나라, 문화를 비판하는 답은 이탈 위험으로 읽힌다. "경험을 위해"만인 답은 관광객으로 읽힌다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 27 · Interview — Why do you want to leave Korea?\ntitle_ko: 왜 한국을 떠나려 하나요?\nsituation: Final-round interview with the VP of Engineering at a Stockholm payments company. The question is friendly and dangerous: \"Why leave a good job in Seoul for this?\" Any answer that criticises the current employer, the country, or the culture reads as a flight risk. Any answer that is only \"for the experience\" reads as a tourist.\nsituation_ko: 스톡홀름 결제 회사 엔지니어링 VP와의 최종 면접. 질문은 친근하고 위험하다. \"서울의 좋은 직장을 왜 떠나 여기로?\" 현 직장, 나라, 문화를 비판하는 답은 이탈 위험으로 읽힌다. \"경험을 위해\"만인 답은 관광객으로 읽힌다.\nwhy: The motivation question is where candidates abroad most often disqualify themselves, by being too honest about the past or too vague about the future. The answer that works is specific about the work, generous about the past, and clear that the move is a decision already made.\nwhy_ko: 동기 질문은 해외 후보가 스스로를 가장 자주 탈락시키는 자리다. 과거에 너무 정직하거나 미래에 너무 막연해서. 되는 답은 일에 대해 구체적이고, 과거에 관대하고, 이 이동이 이미 내린 결정임을 분명히 한다.\nstatus: planned\n\n## Dialogue\nErik: You have a senior role, a team, a good company. Why leave Seoul for this?\n> 시니어 역할, 팀, 좋은 회사가 있잖아요. 왜 서울을 떠나 여기로 오나요?\nJay: Three reasons, and none of them is that something's wrong at home. First, the problem: I've built settlement for one currency and one regulator. You settle in eleven currencies under two regimes, and that's the version of the problem I want to be good at, and I can't learn it where I am.\n> 세 가지고, 그중 어느 것도 집에 문제가 있다는 건 아닙니다. 첫째, 문제요. 저는 한 통화, 한 규제기관을 위한 정산을 만들었습니다. 여기는 두 체제 아래 열한 개 통화로 정산하고, 그게 제가 잘하게 되고 싶은 버전의 문제인데 지금 있는 곳에서는 배울 수 없습니다.\nErik: Fair. Second?\n> 그렇군요. 둘째는요?\nJay: The team shape. I've led five engineers who sit next to me. Your team is fourteen across three countries. Leading people I can't tap on the shoulder is a skill I don't have yet, and I'd rather learn it in a company that's already good at it than invent it alone.\n> 팀의 모양입니다. 저는 옆에 앉은 엔지니어 다섯을 이끌어 왔습니다. 여기 팀은 세 나라에 열넷입니다. 어깨를 두드릴 수 없는 사람들을 이끄는 것은 제게 아직 없는 기술이고, 혼자 발명하는 것보다 이미 그걸 잘하는 회사에서 배우고 싶습니다.\nErik: And third?\n> 셋째는요?\nJay: Third is personal, and I'll be direct so you can weigh it. My partner and I decided two years ago that we'd live and work abroad while our daughter is young enough to grow up bilingual. We've saved for it, we've looked at three cities, and Stockholm is our first choice. So this isn't a job I'd take to see if I like Europe. It's the job I'd take because the decision to move is already made.\n> 셋째는 개인적인 것이고, 판단하실 수 있게 직접 말하겠습니다. 저와 배우자는 2년 전 딸이 이중언어로 자랄 수 있을 만큼 어릴 때 해외에서 살고 일하기로 결정했습니다. 그걸 위해 저축했고, 세 도시를 봤고, 스톡홀름이 첫 선택입니다. 그러니 유럽이 좋은지 보려고 택하는 직장이 아닙니다. 이주 결정은 이미 내렸기 때문에 택하는 직장입니다.\nErik: What would make you go back?\n> 무엇이 있으면 돌아가나요?\nJay: A family emergency. Nothing on the work side that I can foresee. And if you're asking about the two-year cliff most relocations hit, I know about it, we've planned for it, and I'd rather you ask me about it than not.\n> 가족의 비상사태요. 일 쪽에서는 예견되는 것이 없습니다. 그리고 대부분의 이주가 부딪히는 2년 절벽에 대해 묻는 거라면, 알고 있고, 계획했고, 묻지 않는 것보다 물어주시는 게 낫습니다.\nErik: I was going to.\n> 물어볼 참이었어요.\nJay: Then I've saved you a question. What's the one you'd ask next?\n> 그럼 질문 하나를 아껴드렸네요. 다음에 물으실 질문은 무엇인가요?\n\n## Techniques\n1. **부정을 먼저 차단한다.** \"Three reasons, and none of them is that something's wrong at home.\" 면접관이 찾는 것은 도망치는 사람인가다. 첫 문장에서 그 가능성을 지운다.\n2. **일의 구체적 버전을 말한다.** \"one currency and one regulator… eleven currencies under two regimes.\" \"성장하고 싶다\"가 아니라 이 회사에만 있는 문제의 형태. 이것이 관광객과 지원자를 나눈다.\n3. **결정된 사실로 말한다.** \"the decision to move is already made… we've saved… three cities… first choice.\" 이주 리스크를 면접관이 계산할 수 있는 사실로 바꾼다. 그리고 우려를 먼저 꺼낸다(\"the two-year cliff\").\n\n## Expressions\n| none of them is that something's wrong | 그중 어느 것도 문제가 있다는 것은 아니다 |\n| the version of the problem I want to be good at | 내가 잘하게 되고 싶은 버전의 문제 |\n| tap on the shoulder | 어깨를 두드리다(직접 말 걸다) |\n| invent it alone | 혼자 발명하다 |\n| I'll be direct so you can weigh it | 판단할 수 있게 직접 말하겠다 |\n| first choice | 첫 선택 |\n| the decision is already made | 결정은 이미 내려졌다 |\n| what would make you go back | 무엇이 당신을 돌아가게 하나 |\n| nothing I can foresee | 예견되는 것은 없다 |\n| the two-year cliff | 2년 절벽(이주 후 이탈이 몰리는 시점) |\n| I've saved you a question | 질문 하나를 아껴드렸다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>The motivation question is where candidates abroad most often disqualify themselves, by being too honest about the past or too vague about the future. The answer that works is specific about the work, generous about the past, and clear that the move is a decision already made.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">동기 질문은 해외 후보가 스스로를 가장 자주 탈락시키는 자리다. 과거에 너무 정직하거나 미래에 너무 막연해서. 되는 답은 일에 대해 구체적이고, 과거에 관대하고, 이 이동이 이미 내린 결정임을 분명히 한다.</p>
 <h2>Dialogue</h2>
 <p><strong>Erik:</strong> You have a senior role, a team, a good company. Why leave Seoul for this?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">시니어 역할, 팀, 좋은 회사가 있잖아요. 왜 서울을 떠나 여기로 오나요?</p>
 <p><strong>Jay:</strong> Three reasons, and none of them is that something&#39;s wrong at home. First, the problem: I&#39;ve built settlement for one currency and one regulator. You settle in eleven currencies under two regimes, and that&#39;s the version of the problem I want to be good at, and I can&#39;t learn it where I am.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">세 가지고, 그중 어느 것도 집에 문제가 있다는 건 아닙니다. 첫째, 문제요. 저는 한 통화, 한 규제기관을 위한 정산을 만들었습니다. 여기는 두 체제 아래 열한 개 통화로 정산하고, 그게 제가 잘하게 되고 싶은 버전의 문제인데 지금 있는 곳에서는 배울 수 없습니다.</p>
 <p><strong>Erik:</strong> Fair. Second?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그렇군요. 둘째는요?</p>
 <p><strong>Jay:</strong> The team shape. I&#39;ve led five engineers who sit next to me. Your team is fourteen across three countries. Leading people I can&#39;t tap on the shoulder is a skill I don&#39;t have yet, and I&#39;d rather learn it in a company that&#39;s already good at it than invent it alone.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">팀의 모양입니다. 저는 옆에 앉은 엔지니어 다섯을 이끌어 왔습니다. 여기 팀은 세 나라에 열넷입니다. 어깨를 두드릴 수 없는 사람들을 이끄는 것은 제게 아직 없는 기술이고, 혼자 발명하는 것보다 이미 그걸 잘하는 회사에서 배우고 싶습니다.</p>
 <p><strong>Erik:</strong> And third?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">셋째는요?</p>
 <p><strong>Jay:</strong> Third is personal, and I&#39;ll be direct so you can weigh it. My partner and I decided two years ago that we&#39;d live and work abroad while our daughter is young enough to grow up bilingual. We&#39;ve saved for it, we&#39;ve looked at three cities, and Stockholm is our first choice. So this isn&#39;t a job I&#39;d take to see if I like Europe. It&#39;s the job I&#39;d take because the decision to move is already made.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">셋째는 개인적인 것이고, 판단하실 수 있게 직접 말하겠습니다. 저와 배우자는 2년 전 딸이 이중언어로 자랄 수 있을 만큼 어릴 때 해외에서 살고 일하기로 결정했습니다. 그걸 위해 저축했고, 세 도시를 봤고, 스톡홀름이 첫 선택입니다. 그러니 유럽이 좋은지 보려고 택하는 직장이 아닙니다. 이주 결정은 이미 내렸기 때문에 택하는 직장입니다.</p>
 <p><strong>Erik:</strong> What would make you go back?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">무엇이 있으면 돌아가나요?</p>
 <p><strong>Jay:</strong> A family emergency. Nothing on the work side that I can foresee. And if you&#39;re asking about the two-year cliff most relocations hit, I know about it, we&#39;ve planned for it, and I&#39;d rather you ask me about it than not.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">가족의 비상사태요. 일 쪽에서는 예견되는 것이 없습니다. 그리고 대부분의 이주가 부딪히는 2년 절벽에 대해 묻는 거라면, 알고 있고, 계획했고, 묻지 않는 것보다 물어주시는 게 낫습니다.</p>
 <p><strong>Erik:</strong> I was going to.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">물어볼 참이었어요.</p>
 <p><strong>Jay:</strong> Then I&#39;ve saved you a question. What&#39;s the one you&#39;d ask next?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 질문 하나를 아껴드렸네요. 다음에 물으실 질문은 무엇인가요?</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>부정을 먼저 차단한다.</strong> "Three reasons, and none of them is that something&#39;s wrong at home." 면접관이 찾는 것은 도망치는 사람인가다. 첫 문장에서 그 가능성을 지운다.</li><li><strong>일의 구체적 버전을 말한다.</strong> "one currency and one regulator… eleven currencies under two regimes." "성장하고 싶다"가 아니라 이 회사에만 있는 문제의 형태. 이것이 관광객과 지원자를 나눈다.</li><li><strong>결정된 사실로 말한다.</strong> "the decision to move is already made… we&#39;ve saved… three cities… first choice." 이주 리스크를 면접관이 계산할 수 있는 사실로 바꾼다. 그리고 우려를 먼저 꺼낸다("the two-year cliff").</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>none of them is that something&#39;s wrong</strong></td><td>그중 어느 것도 문제가 있다는 것은 아니다</td></tr><tr><td><strong>the version of the problem I want to be good at</strong></td><td>내가 잘하게 되고 싶은 버전의 문제</td></tr><tr><td><strong>tap on the shoulder</strong></td><td>어깨를 두드리다(직접 말 걸다)</td></tr><tr><td><strong>invent it alone</strong></td><td>혼자 발명하다</td></tr><tr><td><strong>I&#39;ll be direct so you can weigh it</strong></td><td>판단할 수 있게 직접 말하겠다</td></tr><tr><td><strong>first choice</strong></td><td>첫 선택</td></tr><tr><td><strong>the decision is already made</strong></td><td>결정은 이미 내려졌다</td></tr><tr><td><strong>what would make you go back</strong></td><td>무엇이 당신을 돌아가게 하나</td></tr><tr><td><strong>nothing I can foresee</strong></td><td>예견되는 것은 없다</td></tr><tr><td><strong>the two-year cliff</strong></td><td>2년 절벽(이주 후 이탈이 몰리는 시점)</td></tr><tr><td><strong>I&#39;ve saved you a question</strong></td><td>질문 하나를 아껴드렸다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>왜 한국을 떠나려 하나요?</h1>
+      <p class="lead">스톡홀름 결제 회사 엔지니어링 VP와의 최종 면접. 질문은 친근하고 위험하다. "서울의 좋은 직장을 왜 떠나 여기로?" 현 직장, 나라, 문화를 비판하는 답은 이탈 위험으로 읽힌다. "경험을 위해"만인 답은 관광객으로 읽힌다.</p>
+<h2>왜 이 대화인가</h2>
+<p>동기 질문은 해외 후보가 스스로를 가장 자주 탈락시키는 자리다. 과거에 너무 정직하거나 미래에 너무 막연해서. 되는 답은 일에 대해 구체적이고, 과거에 관대하고, 이 이동이 이미 내린 결정임을 분명히 한다.</p>
+<h2>대화</h2>
+<p><strong>Erik:</strong> 시니어 역할, 팀, 좋은 회사가 있잖아요. 왜 서울을 떠나 여기로 오나요?</p>
+<p><strong>Jay:</strong> 세 가지고, 그중 어느 것도 집에 문제가 있다는 건 아닙니다. 첫째, 문제요. 저는 한 통화, 한 규제기관을 위한 정산을 만들었습니다. 여기는 두 체제 아래 열한 개 통화로 정산하고, 그게 제가 잘하게 되고 싶은 버전의 문제인데 지금 있는 곳에서는 배울 수 없습니다.</p>
+<p><strong>Erik:</strong> 그렇군요. 둘째는요?</p>
+<p><strong>Jay:</strong> 팀의 모양입니다. 저는 옆에 앉은 엔지니어 다섯을 이끌어 왔습니다. 여기 팀은 세 나라에 열넷입니다. 어깨를 두드릴 수 없는 사람들을 이끄는 것은 제게 아직 없는 기술이고, 혼자 발명하는 것보다 이미 그걸 잘하는 회사에서 배우고 싶습니다.</p>
+<p><strong>Erik:</strong> 셋째는요?</p>
+<p><strong>Jay:</strong> 셋째는 개인적인 것이고, 판단하실 수 있게 직접 말하겠습니다. 저와 배우자는 2년 전 딸이 이중언어로 자랄 수 있을 만큼 어릴 때 해외에서 살고 일하기로 결정했습니다. 그걸 위해 저축했고, 세 도시를 봤고, 스톡홀름이 첫 선택입니다. 그러니 유럽이 좋은지 보려고 택하는 직장이 아닙니다. 이주 결정은 이미 내렸기 때문에 택하는 직장입니다.</p>
+<p><strong>Erik:</strong> 무엇이 있으면 돌아가나요?</p>
+<p><strong>Jay:</strong> 가족의 비상사태요. 일 쪽에서는 예견되는 것이 없습니다. 그리고 대부분의 이주가 부딪히는 2년 절벽에 대해 묻는 거라면, 알고 있고, 계획했고, 묻지 않는 것보다 물어주시는 게 낫습니다.</p>
+<p><strong>Erik:</strong> 물어볼 참이었어요.</p>
+<p><strong>Jay:</strong> 그럼 질문 하나를 아껴드렸네요. 다음에 물으실 질문은 무엇인가요?</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>부정을 먼저 차단한다.</strong> "Three reasons, and none of them is that something&#39;s wrong at home." 면접관이 찾는 것은 도망치는 사람인가다. 첫 문장에서 그 가능성을 지운다.</li><li><strong>일의 구체적 버전을 말한다.</strong> "one currency and one regulator… eleven currencies under two regimes." "성장하고 싶다"가 아니라 이 회사에만 있는 문제의 형태. 이것이 관광객과 지원자를 나눈다.</li><li><strong>결정된 사실로 말한다.</strong> "the decision to move is already made… we&#39;ve saved… three cities… first choice." 이주 리스크를 면접관이 계산할 수 있는 사실로 바꾼다. 그리고 우려를 먼저 꺼낸다("the two-year cliff").</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-26.html">&larr; 26. Saying no to a date, with a counteroffer</a><a href="english-28.html">28. Telling a senior peer their design is wrong, in writing &rarr;</a></div>
   </div>
@@ -462,16 +473,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -492,12 +511,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

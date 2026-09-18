@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#12</span><span>Planning</span></p>
       <h1>What&#39;s the number?</h1>
       <p class="lead">Sun-woo says the Chains page "should take a few days." Jay needs a number that can be wrong, not a phrase that can&#39;t, and a scope cut if the number is too big.</p>
-      <p class="meta">선우가 Chains 페이지는 "며칠쯤"이라고 말한다. Jay는 틀릴 수 없는 표현이 아니라 틀릴 수 있는 숫자가 필요하고, 숫자가 크면 범위를 잘라야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 12 · Planning — What's the number?\ntitle_ko: 숫자가 뭔가?\nsituation: Sun-woo says the Chains page \"should take a few days.\" Jay needs a number that can be wrong, not a phrase that can't, and a scope cut if the number is too big.\nsituation_ko: 선우가 Chains 페이지는 \"며칠쯤\"이라고 말한다. Jay는 틀릴 수 없는 표현이 아니라 틀릴 수 있는 숫자가 필요하고, 숫자가 크면 범위를 잘라야 한다.\nwhy: Estimation English: how to ask for a commitment without pressure, and how to trade scope for a date instead of asking someone to work faster.\nwhy_ko: 견적 영어. 압박 없이 약속을 요구하는 법, 그리고 더 빨리 하라고 말하는 대신 범위와 날짜를 교환하는 법.\n\n## Dialogue\nSun-woo: The Chains page should take a few days.\n> Chains 페이지는 며칠 정도 걸릴 거예요.\nJay: Give me a number I can be wrong about. Three days? Five?\n> 제가 틀릴 수 있는 숫자를 주세요. 3일? 5일?\nSun-woo: Five, if the Sepolia RPC in the cloud is sorted. Three if I can ignore it.\n> 클라우드의 Sepolia RPC가 정리되면 5일. 무시할 수 있으면 3일이요.\nJay: That's useful, because it tells me where the risk is. What does \"sorted\" mean, concretely?\n> 그게 유용해요. 리스크가 어디 있는지 말해주니까요. \"정리된다\"는 게 구체적으로 뭐죠?\nSun-woo: Someone decides whether to reuse the secret or add a public fallback.\n> 시크릿을 재사용할지 공개 폴백을 추가할지 누군가 결정하는 거요.\nJay: Then I decide now: public fallback when the secret is unset. That takes the question off your plate. Does five become four?\n> 그럼 지금 결정할게요. 시크릿이 없으면 공개 폴백. 그 질문은 당신 접시에서 내려놓죠. 5일이 4일이 되나요?\nSun-woo: Four, with the capability matrix as a static table.\n> 4일이요. capability matrix는 정적 표로 하면요.\nJay: Static is fine for the first cut. Ship four, and put \"matrix from config\" in the follow-ups so it isn't forgotten.\n> 첫 버전은 정적이면 돼요. 4일로 내고, \"설정에서 매트릭스 생성\"은 후속 목록에 넣어서 잊히지 않게 해요.\n\n## Techniques\n1. **틀릴 수 있는 숫자를 요구한다.** \"Give me a number I can be wrong about.\" \"며칠\"은 책임을 피하는 표현이고, 숫자는 계획이 된다.\n2. **조건부 견적을 리스크 지도로 읽는다.** \"it tells me where the risk is\" 두 숫자의 차이가 곧 불확실성의 위치다.\n3. **결정으로 시간을 산다.** \"I decide now… Does five become four?\" 압박 대신 미결 사항을 제거해 견적을 줄인다.\n\n## Expressions\n| a few days | 며칠 |\n| a number I can be wrong about | 내가 틀릴 수 있는 숫자 |\n| if … is sorted | …이 정리되면 |\n| where the risk is | 리스크가 어디 있는지 |\n| concretely | 구체적으로 |\n| take it off your plate | 당신의 일에서 내려놓다 |\n| does five become four? | 5가 4가 되나? |\n| the first cut | 첫 버전 |\n| ship four | 4일 안에 내다 |\n| put it in the follow-ups | 후속 목록에 넣다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Estimation English: how to ask for a commitment without pressure, and how to trade scope for a date instead of asking someone to work faster.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">견적 영어. 압박 없이 약속을 요구하는 법, 그리고 더 빨리 하라고 말하는 대신 범위와 날짜를 교환하는 법.</p>
 <h2>Dialogue</h2>
 <p><strong>Sun-woo:</strong> The Chains page should take a few days.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Chains 페이지는 며칠 정도 걸릴 거예요.</p>
 <p><strong>Jay:</strong> Give me a number I can be wrong about. Three days? Five?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">제가 틀릴 수 있는 숫자를 주세요. 3일? 5일?</p>
 <p><strong>Sun-woo:</strong> Five, if the Sepolia RPC in the cloud is sorted. Three if I can ignore it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">클라우드의 Sepolia RPC가 정리되면 5일. 무시할 수 있으면 3일이요.</p>
 <p><strong>Jay:</strong> That&#39;s useful, because it tells me where the risk is. What does "sorted" mean, concretely?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그게 유용해요. 리스크가 어디 있는지 말해주니까요. "정리된다"는 게 구체적으로 뭐죠?</p>
 <p><strong>Sun-woo:</strong> Someone decides whether to reuse the secret or add a public fallback.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">시크릿을 재사용할지 공개 폴백을 추가할지 누군가 결정하는 거요.</p>
 <p><strong>Jay:</strong> Then I decide now: public fallback when the secret is unset. That takes the question off your plate. Does five become four?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 지금 결정할게요. 시크릿이 없으면 공개 폴백. 그 질문은 당신 접시에서 내려놓죠. 5일이 4일이 되나요?</p>
 <p><strong>Sun-woo:</strong> Four, with the capability matrix as a static table.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">4일이요. capability matrix는 정적 표로 하면요.</p>
 <p><strong>Jay:</strong> Static is fine for the first cut. Ship four, and put "matrix from config" in the follow-ups so it isn&#39;t forgotten.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">첫 버전은 정적이면 돼요. 4일로 내고, "설정에서 매트릭스 생성"은 후속 목록에 넣어서 잊히지 않게 해요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>틀릴 수 있는 숫자를 요구한다.</strong> "Give me a number I can be wrong about." "며칠"은 책임을 피하는 표현이고, 숫자는 계획이 된다.</li><li><strong>조건부 견적을 리스크 지도로 읽는다.</strong> "it tells me where the risk is" 두 숫자의 차이가 곧 불확실성의 위치다.</li><li><strong>결정으로 시간을 산다.</strong> "I decide now… Does five become four?" 압박 대신 미결 사항을 제거해 견적을 줄인다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>a few days</strong></td><td>며칠</td></tr><tr><td><strong>a number I can be wrong about</strong></td><td>내가 틀릴 수 있는 숫자</td></tr><tr><td><strong>if … is sorted</strong></td><td>…이 정리되면</td></tr><tr><td><strong>where the risk is</strong></td><td>리스크가 어디 있는지</td></tr><tr><td><strong>concretely</strong></td><td>구체적으로</td></tr><tr><td><strong>take it off your plate</strong></td><td>당신의 일에서 내려놓다</td></tr><tr><td><strong>does five become four?</strong></td><td>5가 4가 되나?</td></tr><tr><td><strong>the first cut</strong></td><td>첫 버전</td></tr><tr><td><strong>ship four</strong></td><td>4일 안에 내다</td></tr><tr><td><strong>put it in the follow-ups</strong></td><td>후속 목록에 넣다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>숫자가 뭔가?</h1>
+      <p class="lead">선우가 Chains 페이지는 "며칠쯤"이라고 말한다. Jay는 틀릴 수 없는 표현이 아니라 틀릴 수 있는 숫자가 필요하고, 숫자가 크면 범위를 잘라야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>견적 영어. 압박 없이 약속을 요구하는 법, 그리고 더 빨리 하라고 말하는 대신 범위와 날짜를 교환하는 법.</p>
+<h2>대화</h2>
+<p><strong>Sun-woo:</strong> Chains 페이지는 며칠 정도 걸릴 거예요.</p>
+<p><strong>Jay:</strong> 제가 틀릴 수 있는 숫자를 주세요. 3일? 5일?</p>
+<p><strong>Sun-woo:</strong> 클라우드의 Sepolia RPC가 정리되면 5일. 무시할 수 있으면 3일이요.</p>
+<p><strong>Jay:</strong> 그게 유용해요. 리스크가 어디 있는지 말해주니까요. "정리된다"는 게 구체적으로 뭐죠?</p>
+<p><strong>Sun-woo:</strong> 시크릿을 재사용할지 공개 폴백을 추가할지 누군가 결정하는 거요.</p>
+<p><strong>Jay:</strong> 그럼 지금 결정할게요. 시크릿이 없으면 공개 폴백. 그 질문은 당신 접시에서 내려놓죠. 5일이 4일이 되나요?</p>
+<p><strong>Sun-woo:</strong> 4일이요. capability matrix는 정적 표로 하면요.</p>
+<p><strong>Jay:</strong> 첫 버전은 정적이면 돼요. 4일로 내고, "설정에서 매트릭스 생성"은 후속 목록에 넣어서 잊히지 않게 해요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>틀릴 수 있는 숫자를 요구한다.</strong> "Give me a number I can be wrong about." "며칠"은 책임을 피하는 표현이고, 숫자는 계획이 된다.</li><li><strong>조건부 견적을 리스크 지도로 읽는다.</strong> "it tells me where the risk is" 두 숫자의 차이가 곧 불확실성의 위치다.</li><li><strong>결정으로 시간을 산다.</strong> "I decide now… Does five become four?" 압박 대신 미결 사항을 제거해 견적을 줄인다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-11.html">&larr; 11. The key leaked. What else does it open?</a><a href="english-13.html">13. The Dockerfile copies the whole repo &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

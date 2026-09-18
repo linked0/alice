@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,44 +404,53 @@
       <p class="topic-kicker"><span class="topic-no">#33</span><span>Planning</span></p>
       <h1>Grill me before you plan</h1>
       <p class="lead">Jay&#39;s first sprint planning as lead of a distributed team in Berlin. Nadia, a senior engineer, has written a plan for the new payout service in twenty minutes with an agent and wants to start. Jay suspects the plan encodes assumptions nobody agreed on. He has to slow it down without insulting the work.</p>
-      <p class="meta">베를린 분산 팀 리드로서 첫 스프린트 계획. 시니어 엔지니어 Nadia가 에이전트와 20분 만에 새 지급 서비스 계획을 썼고 시작하길 원한다. Jay는 그 계획이 아무도 합의하지 않은 가정을 담고 있다고 의심한다. 작업을 깎아내리지 않고 속도를 늦춰야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 33 · Planning — Grill me before you plan\ntitle_ko: 계획하기 전에 나를 심문하라\nsituation: Jay's first sprint planning as lead of a distributed team in Berlin. Nadia, a senior engineer, has written a plan for the new payout service in twenty minutes with an agent and wants to start. Jay suspects the plan encodes assumptions nobody agreed on. He has to slow it down without insulting the work.\nsituation_ko: 베를린 분산 팀 리드로서 첫 스프린트 계획. 시니어 엔지니어 Nadia가 에이전트와 20분 만에 새 지급 서비스 계획을 썼고 시작하길 원한다. Jay는 그 계획이 아무도 합의하지 않은 가정을 담고 있다고 의심한다. 작업을 깎아내리지 않고 속도를 늦춰야 한다.\nwhy: The most common failure of agent-assisted teams is a plan that looks finished before the team shares a picture. A lead's job is to make the questions happen before the code does, and to do it in a way that makes the author look thorough, not careless.\nwhy_ko: 에이전트 보조 팀의 가장 흔한 실패는 팀이 그림을 공유하기 전에 완성된 것처럼 보이는 계획이다. 리드의 일은 코드 전에 질문이 일어나게 하는 것이고, 저자가 부주의한 게 아니라 철저해 보이게 하는 방식으로 하는 것이다.\nstatus: planned\n\n## Dialogue\nNadia: The plan's in the doc. Agent and I went through it this morning. Can we start after standup?\n> 계획은 문서에 있어요. 오늘 아침 에이전트와 같이 봤어요. 스탠드업 뒤에 시작할까요?\nJay: It's a good plan, and I want to try something before we start. Give me ten minutes to grill you on it, out loud, and if I can't find a decision we haven't actually made, we start at eleven.\n> 좋은 계획이에요. 시작하기 전에 하나 해보고 싶어요. 10분만 소리 내어 심문하게 해주고, 우리가 실제로 내리지 않은 결정을 제가 못 찾으면 11시에 시작합시다.\nNadia: Fine. Go.\n> 좋아요. 하세요.\nJay: When a payout fails halfway, does the merchant see a pending balance or the old balance?\n> 지급이 중간에 실패하면 가맹점은 보류 잔고를 보나요, 이전 잔고를 보나요?\nNadia: Pending. The agent suggested optimistic updates.\n> 보류요. 에이전트가 낙관적 업데이트를 제안했어요.\nJay: Did we decide that, or did the agent? Because Finance told me last week they reconcile against what the merchant saw. If we show pending and roll back, their books don't match ours.\n> 그건 우리가 결정한 건가요, 에이전트가? 지난주 재무팀이 가맹점이 본 것을 기준으로 대사한다고 했거든요. 보류를 보여주고 롤백하면 그들 장부와 우리 장부가 안 맞아요.\nNadia: I didn't know that. Then it's the old balance until settlement confirms.\n> 그건 몰랐어요. 그럼 정산 확인까지 이전 잔고요.\nJay: Second one. The plan says \"idempotency key in Redis.\" Who owns the key when two services retry the same payout?\n> 둘째. 계획에 \"Redis의 멱등성 키\"라고 있어요. 두 서비스가 같은 지급을 재시도하면 키는 누가 소유하나요?\nNadia: ...The ledger should. Redis is a cache in front of it.\n> …원장이요. Redis는 그 앞의 캐시.\nJay: Agreed, and that's a sentence that isn't in the doc. Two decisions in six minutes. I'm not saying the plan was careless; I'm saying the agent can't know what Finance told me. Add those two, and let's make this the rule: any plan gets ten minutes of questions from someone who didn't write it, before the first line of code.\n> 동의하고, 그건 문서에 없는 문장이에요. 6분에 결정 둘. 계획이 부주의했다는 게 아니에요. 에이전트는 재무팀이 제게 한 말을 알 수 없다는 거예요. 그 둘을 추가하고, 이걸 규칙으로 합시다. 어떤 계획이든 첫 코드 줄 전에 쓰지 않은 사람에게서 10분의 질문을 받는다.\nNadia: Eleven, then. And you're doing this to your own plans too.\n> 그럼 11시. 그리고 당신 계획에도 이걸 하는 거죠.\nJay: Especially mine.\n> 제 것에 특히요.\n\n## Techniques\n1. **시간을 걸고 검증 가능한 조건을 붙인다.** \"Give me ten minutes… if I can't find a decision we haven't actually made, we start at eleven.\" 지연이 아니라 내기. 못 찾으면 바로 시작이므로 저자가 받아들일 수 있다.\n2. **\"누가 결정했나\"를 묻는다.** \"Did we decide that, or did the agent?\" 계획 속 가정을 드러내는 가장 짧은 질문. 에이전트는 회의실에 없었던 정보를 알 수 없다.\n3. **개인 지적을 팀 규칙으로 바꾼다.** \"let's make this the rule… Especially mine.\" 저자 한 사람에 대한 비판이 아니라 모두에게 적용되는 절차로 닫아, 관계와 규칙을 동시에 지킨다.\n\n## Expressions\n| grill you on it | 그것에 대해 당신을 심문하다 |\n| out loud | 소리 내어 |\n| a decision we haven't actually made | 우리가 실제로 내리지 않은 결정 |\n| halfway | 중간에 |\n| did we decide that, or did the agent | 그건 우리가 결정했나, 에이전트가 했나 |\n| their books don't match ours | 그들 장부와 우리 장부가 안 맞다 |\n| who owns the key | 키는 누가 소유하나 |\n| a sentence that isn't in the doc | 문서에 없는 문장 |\n| I'm not saying… I'm saying… | ~라는 게 아니라 ~라는 것이다 |\n| someone who didn't write it | 그것을 쓰지 않은 사람 |\n| especially mine | 제 것에 특히 |\n"</script>
 <h2>Why this conversation</h2>
 <p>The most common failure of agent-assisted teams is a plan that looks finished before the team shares a picture. A lead&#39;s job is to make the questions happen before the code does, and to do it in a way that makes the author look thorough, not careless.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">에이전트 보조 팀의 가장 흔한 실패는 팀이 그림을 공유하기 전에 완성된 것처럼 보이는 계획이다. 리드의 일은 코드 전에 질문이 일어나게 하는 것이고, 저자가 부주의한 게 아니라 철저해 보이게 하는 방식으로 하는 것이다.</p>
 <h2>Dialogue</h2>
 <p><strong>Nadia:</strong> The plan&#39;s in the doc. Agent and I went through it this morning. Can we start after standup?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">계획은 문서에 있어요. 오늘 아침 에이전트와 같이 봤어요. 스탠드업 뒤에 시작할까요?</p>
 <p><strong>Jay:</strong> It&#39;s a good plan, and I want to try something before we start. Give me ten minutes to grill you on it, out loud, and if I can&#39;t find a decision we haven&#39;t actually made, we start at eleven.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋은 계획이에요. 시작하기 전에 하나 해보고 싶어요. 10분만 소리 내어 심문하게 해주고, 우리가 실제로 내리지 않은 결정을 제가 못 찾으면 11시에 시작합시다.</p>
 <p><strong>Nadia:</strong> Fine. Go.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋아요. 하세요.</p>
 <p><strong>Jay:</strong> When a payout fails halfway, does the merchant see a pending balance or the old balance?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">지급이 중간에 실패하면 가맹점은 보류 잔고를 보나요, 이전 잔고를 보나요?</p>
 <p><strong>Nadia:</strong> Pending. The agent suggested optimistic updates.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">보류요. 에이전트가 낙관적 업데이트를 제안했어요.</p>
 <p><strong>Jay:</strong> Did we decide that, or did the agent? Because Finance told me last week they reconcile against what the merchant saw. If we show pending and roll back, their books don&#39;t match ours.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그건 우리가 결정한 건가요, 에이전트가? 지난주 재무팀이 가맹점이 본 것을 기준으로 대사한다고 했거든요. 보류를 보여주고 롤백하면 그들 장부와 우리 장부가 안 맞아요.</p>
 <p><strong>Nadia:</strong> I didn&#39;t know that. Then it&#39;s the old balance until settlement confirms.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그건 몰랐어요. 그럼 정산 확인까지 이전 잔고요.</p>
 <p><strong>Jay:</strong> Second one. The plan says "idempotency key in Redis." Who owns the key when two services retry the same payout?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">둘째. 계획에 "Redis의 멱등성 키"라고 있어요. 두 서비스가 같은 지급을 재시도하면 키는 누가 소유하나요?</p>
 <p><strong>Nadia:</strong> ...The ledger should. Redis is a cache in front of it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">…원장이요. Redis는 그 앞의 캐시.</p>
 <p><strong>Jay:</strong> Agreed, and that&#39;s a sentence that isn&#39;t in the doc. Two decisions in six minutes. I&#39;m not saying the plan was careless; I&#39;m saying the agent can&#39;t know what Finance told me. Add those two, and let&#39;s make this the rule: any plan gets ten minutes of questions from someone who didn&#39;t write it, before the first line of code.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">동의하고, 그건 문서에 없는 문장이에요. 6분에 결정 둘. 계획이 부주의했다는 게 아니에요. 에이전트는 재무팀이 제게 한 말을 알 수 없다는 거예요. 그 둘을 추가하고, 이걸 규칙으로 합시다. 어떤 계획이든 첫 코드 줄 전에 쓰지 않은 사람에게서 10분의 질문을 받는다.</p>
 <p><strong>Nadia:</strong> Eleven, then. And you&#39;re doing this to your own plans too.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 11시. 그리고 당신 계획에도 이걸 하는 거죠.</p>
 <p><strong>Jay:</strong> Especially mine.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">제 것에 특히요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>시간을 걸고 검증 가능한 조건을 붙인다.</strong> "Give me ten minutes… if I can&#39;t find a decision we haven&#39;t actually made, we start at eleven." 지연이 아니라 내기. 못 찾으면 바로 시작이므로 저자가 받아들일 수 있다.</li><li><strong>"누가 결정했나"를 묻는다.</strong> "Did we decide that, or did the agent?" 계획 속 가정을 드러내는 가장 짧은 질문. 에이전트는 회의실에 없었던 정보를 알 수 없다.</li><li><strong>개인 지적을 팀 규칙으로 바꾼다.</strong> "let&#39;s make this the rule… Especially mine." 저자 한 사람에 대한 비판이 아니라 모두에게 적용되는 절차로 닫아, 관계와 규칙을 동시에 지킨다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>grill you on it</strong></td><td>그것에 대해 당신을 심문하다</td></tr><tr><td><strong>out loud</strong></td><td>소리 내어</td></tr><tr><td><strong>a decision we haven&#39;t actually made</strong></td><td>우리가 실제로 내리지 않은 결정</td></tr><tr><td><strong>halfway</strong></td><td>중간에</td></tr><tr><td><strong>did we decide that, or did the agent</strong></td><td>그건 우리가 결정했나, 에이전트가 했나</td></tr><tr><td><strong>their books don&#39;t match ours</strong></td><td>그들 장부와 우리 장부가 안 맞다</td></tr><tr><td><strong>who owns the key</strong></td><td>키는 누가 소유하나</td></tr><tr><td><strong>a sentence that isn&#39;t in the doc</strong></td><td>문서에 없는 문장</td></tr><tr><td><strong>I&#39;m not saying… I&#39;m saying…</strong></td><td>~라는 게 아니라 ~라는 것이다</td></tr><tr><td><strong>someone who didn&#39;t write it</strong></td><td>그것을 쓰지 않은 사람</td></tr><tr><td><strong>especially mine</strong></td><td>제 것에 특히</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>계획하기 전에 나를 심문하라</h1>
+      <p class="lead">베를린 분산 팀 리드로서 첫 스프린트 계획. 시니어 엔지니어 Nadia가 에이전트와 20분 만에 새 지급 서비스 계획을 썼고 시작하길 원한다. Jay는 그 계획이 아무도 합의하지 않은 가정을 담고 있다고 의심한다. 작업을 깎아내리지 않고 속도를 늦춰야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>에이전트 보조 팀의 가장 흔한 실패는 팀이 그림을 공유하기 전에 완성된 것처럼 보이는 계획이다. 리드의 일은 코드 전에 질문이 일어나게 하는 것이고, 저자가 부주의한 게 아니라 철저해 보이게 하는 방식으로 하는 것이다.</p>
+<h2>대화</h2>
+<p><strong>Nadia:</strong> 계획은 문서에 있어요. 오늘 아침 에이전트와 같이 봤어요. 스탠드업 뒤에 시작할까요?</p>
+<p><strong>Jay:</strong> 좋은 계획이에요. 시작하기 전에 하나 해보고 싶어요. 10분만 소리 내어 심문하게 해주고, 우리가 실제로 내리지 않은 결정을 제가 못 찾으면 11시에 시작합시다.</p>
+<p><strong>Nadia:</strong> 좋아요. 하세요.</p>
+<p><strong>Jay:</strong> 지급이 중간에 실패하면 가맹점은 보류 잔고를 보나요, 이전 잔고를 보나요?</p>
+<p><strong>Nadia:</strong> 보류요. 에이전트가 낙관적 업데이트를 제안했어요.</p>
+<p><strong>Jay:</strong> 그건 우리가 결정한 건가요, 에이전트가? 지난주 재무팀이 가맹점이 본 것을 기준으로 대사한다고 했거든요. 보류를 보여주고 롤백하면 그들 장부와 우리 장부가 안 맞아요.</p>
+<p><strong>Nadia:</strong> 그건 몰랐어요. 그럼 정산 확인까지 이전 잔고요.</p>
+<p><strong>Jay:</strong> 둘째. 계획에 "Redis의 멱등성 키"라고 있어요. 두 서비스가 같은 지급을 재시도하면 키는 누가 소유하나요?</p>
+<p><strong>Nadia:</strong> …원장이요. Redis는 그 앞의 캐시.</p>
+<p><strong>Jay:</strong> 동의하고, 그건 문서에 없는 문장이에요. 6분에 결정 둘. 계획이 부주의했다는 게 아니에요. 에이전트는 재무팀이 제게 한 말을 알 수 없다는 거예요. 그 둘을 추가하고, 이걸 규칙으로 합시다. 어떤 계획이든 첫 코드 줄 전에 쓰지 않은 사람에게서 10분의 질문을 받는다.</p>
+<p><strong>Nadia:</strong> 그럼 11시. 그리고 당신 계획에도 이걸 하는 거죠.</p>
+<p><strong>Jay:</strong> 제 것에 특히요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>시간을 걸고 검증 가능한 조건을 붙인다.</strong> "Give me ten minutes… if I can&#39;t find a decision we haven&#39;t actually made, we start at eleven." 지연이 아니라 내기. 못 찾으면 바로 시작이므로 저자가 받아들일 수 있다.</li><li><strong>"누가 결정했나"를 묻는다.</strong> "Did we decide that, or did the agent?" 계획 속 가정을 드러내는 가장 짧은 질문. 에이전트는 회의실에 없었던 정보를 알 수 없다.</li><li><strong>개인 지적을 팀 규칙으로 바꾼다.</strong> "let&#39;s make this the rule… Especially mine." 저자 한 사람에 대한 비판이 아니라 모두에게 적용되는 절차로 닫아, 관계와 규칙을 동시에 지킨다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-32.html">&larr; 32. How do you use AI, and what do you refuse to hand it?</a><a href="english-34.html">34. Which price are we settling on? &rarr;</a></div>
   </div>
@@ -466,16 +477,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -496,12 +515,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

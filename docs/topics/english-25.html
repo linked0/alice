@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#25</span><span>Interview</span></p>
       <h1>The reviewer found a bug in your take-home</h1>
       <p class="lead">Take-home debrief for a senior engineer role at a Berlin exchange. Jay submitted an order-matching service. Tomasz, the reviewer, opens with a race condition Jay missed: two cancels for the same order can both succeed. Forty minutes left, and the first two matter most.</p>
-      <p class="meta">베를린 거래소 시니어 엔지니어 과제 디브리프. Jay는 주문 매칭 서비스를 제출했다. 리뷰어 Tomasz가 Jay가 놓친 레이스 컨디션으로 시작한다. 같은 주문에 대한 취소 둘이 모두 성공할 수 있다. 40분이 남았고, 처음 2분이 가장 중요하다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 25 · Interview — The reviewer found a bug in your take-home\ntitle_ko: 리뷰어가 과제에서 버그를 찾았다\nsituation: Take-home debrief for a senior engineer role at a Berlin exchange. Jay submitted an order-matching service. Tomasz, the reviewer, opens with a race condition Jay missed: two cancels for the same order can both succeed. Forty minutes left, and the first two matter most.\nsituation_ko: 베를린 거래소 시니어 엔지니어 과제 디브리프. Jay는 주문 매칭 서비스를 제출했다. 리뷰어 Tomasz가 Jay가 놓친 레이스 컨디션으로 시작한다. 같은 주문에 대한 취소 둘이 모두 성공할 수 있다. 40분이 남았고, 처음 2분이 가장 중요하다.\nwhy: The take-home debrief is not graded on the code you sent. It is graded on what you do when someone shows you it is wrong. Defending, over-apologising, and \"I would have fixed that with more time\" all lose. Diagnosing out loud wins.\nwhy_ko: 과제 디브리프는 제출한 코드로 채점되지 않는다. 누군가 틀렸다고 보여줄 때 무엇을 하는지로 채점된다. 방어, 과한 사과, \"시간이 더 있었으면 고쳤을 것\"은 모두 진다. 소리 내어 진단하는 것이 이긴다.\nstatus: planned\n\n## Dialogue\nTomasz: I ran two concurrent cancels against the same order id. Both returned 200 and the order book went negative. Talk me through that.\n> 같은 주문 id에 취소 둘을 동시에 보냈습니다. 둘 다 200을 돌려주고 오더북이 마이너스가 됐어요. 설명해 보세요.\nJay: You're right, and I can see why. The cancel reads the order, checks it's open, then writes the cancelled state in a separate statement. Between the read and the write there's no lock and no version check, so two readers both see \"open.\" That's a bug I should have caught; it's the same shape as a double-spend.\n> 맞습니다, 이유도 보입니다. 취소가 주문을 읽고, 열려 있는지 확인하고, 별도 문장으로 취소 상태를 씁니다. 읽기와 쓰기 사이에 락도 버전 체크도 없어서 두 읽기가 모두 \"열림\"을 봅니다. 제가 잡아야 했던 버그고, 이중 지출과 같은 모양입니다.\nTomasz: How would you fix it?\n> 어떻게 고치겠어요?\nJay: Smallest change: make the cancel a single conditional update, \"set state to cancelled where id equals X and state equals open,\" and treat zero rows affected as \"already cancelled,\" returning 409 instead of 200. That's atomic in Postgres without a transaction. If we later move the book in-memory, the same rule becomes a compare-and-swap on the order's version.\n> 가장 작은 변경: 취소를 단일 조건부 업데이트로 만듭니다. \"id가 X이고 state가 open인 곳의 state를 cancelled로.\" 영향 받은 행이 0이면 \"이미 취소됨\"으로 보고 200 대신 409를 반환합니다. Postgres에서는 트랜잭션 없이 원자적입니다. 나중에 오더북을 인메모리로 옮기면 같은 규칙이 주문 버전에 대한 compare-and-swap이 됩니다.\nTomasz: Why did your tests not catch it?\n> 왜 테스트가 못 잡았죠?\nJay: Because I tested the cancel path, not the cancel race. All my tests are sequential. The honest answer is that I didn't write a single concurrency test, and for a matching engine that's the wrong place to save time. If I were adding one now, it'd be a test that fires N cancels in parallel and asserts exactly one 200.\n> 취소 경로를 테스트했고 취소 레이스는 테스트하지 않았으니까요. 제 테스트는 전부 순차적입니다. 정직한 답은 동시성 테스트를 하나도 쓰지 않았다는 것이고, 매칭 엔진에서 그건 시간을 아낄 자리가 아니었습니다. 지금 하나 추가한다면 N개의 취소를 병렬로 쏘고 정확히 하나만 200인지 검증하는 테스트입니다.\nTomasz: Anything else in there you'd flag before we do?\n> 우리가 찾기 전에 먼저 지적할 게 있나요?\nJay: Two. The fee calculation uses floats; that should be integer minor units. And the matching loop is O(n) per incoming order because I used a list, which is fine for the exercise and wrong for production; a price-level map with FIFO queues is the standard fix. I chose to spend the time on the API and the tests instead, and I'd make that call again for a take-home, but I'd want those two fixed before anything real ran on it.\n> 둘요. 수수료 계산이 float를 씁니다. 정수 최소 단위여야 합니다. 그리고 리스트를 써서 매칭 루프가 들어오는 주문마다 O(n)인데, 과제에는 괜찮고 프로덕션에는 틀렸습니다. 가격 레벨 맵과 FIFO 큐가 표준 해법입니다. 대신 API와 테스트에 시간을 쓰기로 했고 과제라면 다시 그렇게 하겠지만, 실제로 무엇이든 돌리기 전엔 그 둘을 고치고 싶습니다.\n\n## Techniques\n1. **동의하고, 즉시 진단한다.** \"You're right, and I can see why. The cancel reads… then writes… no lock and no version check.\" 방어도 사과도 아닌, 원인을 한 문장으로. 리뷰어가 보는 것은 당신이 프로덕션 장애 회의에서 어떻게 행동할지다.\n2. **가장 작은 수정과 다음 수정을 함께.** \"Smallest change… If we later move the book in-memory, the same rule becomes a compare-and-swap.\" 지금 고칠 것과 아키텍처가 바뀌어도 살아남는 원칙을 같이 말하면 시니어로 읽힌다.\n3. **묻기 전에 먼저 꺼낸다.** \"Anything else you'd flag?\" 에 \"Two.\" 자기 코드의 약점을 리뷰어보다 먼저 아는 후보는 채용된다. 그리고 트레이드오프의 이유(\"I chose to spend the time on…\")를 붙여 실수와 선택을 구분한다.\n\n## Expressions\n| talk me through that | 그것을 설명해 달라 |\n| I can see why | 이유가 보인다 |\n| the same shape as | ~와 같은 모양(구조)이다 |\n| smallest change | 가장 작은 변경 |\n| zero rows affected | 영향 받은 행 0 |\n| the honest answer is | 정직한 답은 |\n| the wrong place to save time | 시간을 아낄 자리가 아니다 |\n| anything you'd flag | 지적할 것이 있는가 |\n| integer minor units | 정수 최소 단위(센트 등) |\n| I'd make that call again | 다시 그렇게 결정하겠다 |\n| before anything real ran on it | 실제로 무엇이든 그 위에서 돌기 전에 |\n"</script>
 <h2>Why this conversation</h2>
 <p>The take-home debrief is not graded on the code you sent. It is graded on what you do when someone shows you it is wrong. Defending, over-apologising, and "I would have fixed that with more time" all lose. Diagnosing out loud wins.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">과제 디브리프는 제출한 코드로 채점되지 않는다. 누군가 틀렸다고 보여줄 때 무엇을 하는지로 채점된다. 방어, 과한 사과, "시간이 더 있었으면 고쳤을 것"은 모두 진다. 소리 내어 진단하는 것이 이긴다.</p>
 <h2>Dialogue</h2>
 <p><strong>Tomasz:</strong> I ran two concurrent cancels against the same order id. Both returned 200 and the order book went negative. Talk me through that.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">같은 주문 id에 취소 둘을 동시에 보냈습니다. 둘 다 200을 돌려주고 오더북이 마이너스가 됐어요. 설명해 보세요.</p>
 <p><strong>Jay:</strong> You&#39;re right, and I can see why. The cancel reads the order, checks it&#39;s open, then writes the cancelled state in a separate statement. Between the read and the write there&#39;s no lock and no version check, so two readers both see "open." That&#39;s a bug I should have caught; it&#39;s the same shape as a double-spend.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">맞습니다, 이유도 보입니다. 취소가 주문을 읽고, 열려 있는지 확인하고, 별도 문장으로 취소 상태를 씁니다. 읽기와 쓰기 사이에 락도 버전 체크도 없어서 두 읽기가 모두 "열림"을 봅니다. 제가 잡아야 했던 버그고, 이중 지출과 같은 모양입니다.</p>
 <p><strong>Tomasz:</strong> How would you fix it?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">어떻게 고치겠어요?</p>
 <p><strong>Jay:</strong> Smallest change: make the cancel a single conditional update, "set state to cancelled where id equals X and state equals open," and treat zero rows affected as "already cancelled," returning 409 instead of 200. That&#39;s atomic in Postgres without a transaction. If we later move the book in-memory, the same rule becomes a compare-and-swap on the order&#39;s version.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">가장 작은 변경: 취소를 단일 조건부 업데이트로 만듭니다. "id가 X이고 state가 open인 곳의 state를 cancelled로." 영향 받은 행이 0이면 "이미 취소됨"으로 보고 200 대신 409를 반환합니다. Postgres에서는 트랜잭션 없이 원자적입니다. 나중에 오더북을 인메모리로 옮기면 같은 규칙이 주문 버전에 대한 compare-and-swap이 됩니다.</p>
 <p><strong>Tomasz:</strong> Why did your tests not catch it?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">왜 테스트가 못 잡았죠?</p>
 <p><strong>Jay:</strong> Because I tested the cancel path, not the cancel race. All my tests are sequential. The honest answer is that I didn&#39;t write a single concurrency test, and for a matching engine that&#39;s the wrong place to save time. If I were adding one now, it&#39;d be a test that fires N cancels in parallel and asserts exactly one 200.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">취소 경로를 테스트했고 취소 레이스는 테스트하지 않았으니까요. 제 테스트는 전부 순차적입니다. 정직한 답은 동시성 테스트를 하나도 쓰지 않았다는 것이고, 매칭 엔진에서 그건 시간을 아낄 자리가 아니었습니다. 지금 하나 추가한다면 N개의 취소를 병렬로 쏘고 정확히 하나만 200인지 검증하는 테스트입니다.</p>
 <p><strong>Tomasz:</strong> Anything else in there you&#39;d flag before we do?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">우리가 찾기 전에 먼저 지적할 게 있나요?</p>
 <p><strong>Jay:</strong> Two. The fee calculation uses floats; that should be integer minor units. And the matching loop is O(n) per incoming order because I used a list, which is fine for the exercise and wrong for production; a price-level map with FIFO queues is the standard fix. I chose to spend the time on the API and the tests instead, and I&#39;d make that call again for a take-home, but I&#39;d want those two fixed before anything real ran on it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">둘요. 수수료 계산이 float를 씁니다. 정수 최소 단위여야 합니다. 그리고 리스트를 써서 매칭 루프가 들어오는 주문마다 O(n)인데, 과제에는 괜찮고 프로덕션에는 틀렸습니다. 가격 레벨 맵과 FIFO 큐가 표준 해법입니다. 대신 API와 테스트에 시간을 쓰기로 했고 과제라면 다시 그렇게 하겠지만, 실제로 무엇이든 돌리기 전엔 그 둘을 고치고 싶습니다.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>동의하고, 즉시 진단한다.</strong> "You&#39;re right, and I can see why. The cancel reads… then writes… no lock and no version check." 방어도 사과도 아닌, 원인을 한 문장으로. 리뷰어가 보는 것은 당신이 프로덕션 장애 회의에서 어떻게 행동할지다.</li><li><strong>가장 작은 수정과 다음 수정을 함께.</strong> "Smallest change… If we later move the book in-memory, the same rule becomes a compare-and-swap." 지금 고칠 것과 아키텍처가 바뀌어도 살아남는 원칙을 같이 말하면 시니어로 읽힌다.</li><li><strong>묻기 전에 먼저 꺼낸다.</strong> "Anything else you&#39;d flag?" 에 "Two." 자기 코드의 약점을 리뷰어보다 먼저 아는 후보는 채용된다. 그리고 트레이드오프의 이유("I chose to spend the time on…")를 붙여 실수와 선택을 구분한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>talk me through that</strong></td><td>그것을 설명해 달라</td></tr><tr><td><strong>I can see why</strong></td><td>이유가 보인다</td></tr><tr><td><strong>the same shape as</strong></td><td>~와 같은 모양(구조)이다</td></tr><tr><td><strong>smallest change</strong></td><td>가장 작은 변경</td></tr><tr><td><strong>zero rows affected</strong></td><td>영향 받은 행 0</td></tr><tr><td><strong>the honest answer is</strong></td><td>정직한 답은</td></tr><tr><td><strong>the wrong place to save time</strong></td><td>시간을 아낄 자리가 아니다</td></tr><tr><td><strong>anything you&#39;d flag</strong></td><td>지적할 것이 있는가</td></tr><tr><td><strong>integer minor units</strong></td><td>정수 최소 단위(센트 등)</td></tr><tr><td><strong>I&#39;d make that call again</strong></td><td>다시 그렇게 결정하겠다</td></tr><tr><td><strong>before anything real ran on it</strong></td><td>실제로 무엇이든 그 위에서 돌기 전에</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>리뷰어가 과제에서 버그를 찾았다</h1>
+      <p class="lead">베를린 거래소 시니어 엔지니어 과제 디브리프. Jay는 주문 매칭 서비스를 제출했다. 리뷰어 Tomasz가 Jay가 놓친 레이스 컨디션으로 시작한다. 같은 주문에 대한 취소 둘이 모두 성공할 수 있다. 40분이 남았고, 처음 2분이 가장 중요하다.</p>
+<h2>왜 이 대화인가</h2>
+<p>과제 디브리프는 제출한 코드로 채점되지 않는다. 누군가 틀렸다고 보여줄 때 무엇을 하는지로 채점된다. 방어, 과한 사과, "시간이 더 있었으면 고쳤을 것"은 모두 진다. 소리 내어 진단하는 것이 이긴다.</p>
+<h2>대화</h2>
+<p><strong>Tomasz:</strong> 같은 주문 id에 취소 둘을 동시에 보냈습니다. 둘 다 200을 돌려주고 오더북이 마이너스가 됐어요. 설명해 보세요.</p>
+<p><strong>Jay:</strong> 맞습니다, 이유도 보입니다. 취소가 주문을 읽고, 열려 있는지 확인하고, 별도 문장으로 취소 상태를 씁니다. 읽기와 쓰기 사이에 락도 버전 체크도 없어서 두 읽기가 모두 "열림"을 봅니다. 제가 잡아야 했던 버그고, 이중 지출과 같은 모양입니다.</p>
+<p><strong>Tomasz:</strong> 어떻게 고치겠어요?</p>
+<p><strong>Jay:</strong> 가장 작은 변경: 취소를 단일 조건부 업데이트로 만듭니다. "id가 X이고 state가 open인 곳의 state를 cancelled로." 영향 받은 행이 0이면 "이미 취소됨"으로 보고 200 대신 409를 반환합니다. Postgres에서는 트랜잭션 없이 원자적입니다. 나중에 오더북을 인메모리로 옮기면 같은 규칙이 주문 버전에 대한 compare-and-swap이 됩니다.</p>
+<p><strong>Tomasz:</strong> 왜 테스트가 못 잡았죠?</p>
+<p><strong>Jay:</strong> 취소 경로를 테스트했고 취소 레이스는 테스트하지 않았으니까요. 제 테스트는 전부 순차적입니다. 정직한 답은 동시성 테스트를 하나도 쓰지 않았다는 것이고, 매칭 엔진에서 그건 시간을 아낄 자리가 아니었습니다. 지금 하나 추가한다면 N개의 취소를 병렬로 쏘고 정확히 하나만 200인지 검증하는 테스트입니다.</p>
+<p><strong>Tomasz:</strong> 우리가 찾기 전에 먼저 지적할 게 있나요?</p>
+<p><strong>Jay:</strong> 둘요. 수수료 계산이 float를 씁니다. 정수 최소 단위여야 합니다. 그리고 리스트를 써서 매칭 루프가 들어오는 주문마다 O(n)인데, 과제에는 괜찮고 프로덕션에는 틀렸습니다. 가격 레벨 맵과 FIFO 큐가 표준 해법입니다. 대신 API와 테스트에 시간을 쓰기로 했고 과제라면 다시 그렇게 하겠지만, 실제로 무엇이든 돌리기 전엔 그 둘을 고치고 싶습니다.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>동의하고, 즉시 진단한다.</strong> "You&#39;re right, and I can see why. The cancel reads… then writes… no lock and no version check." 방어도 사과도 아닌, 원인을 한 문장으로. 리뷰어가 보는 것은 당신이 프로덕션 장애 회의에서 어떻게 행동할지다.</li><li><strong>가장 작은 수정과 다음 수정을 함께.</strong> "Smallest change… If we later move the book in-memory, the same rule becomes a compare-and-swap." 지금 고칠 것과 아키텍처가 바뀌어도 살아남는 원칙을 같이 말하면 시니어로 읽힌다.</li><li><strong>묻기 전에 먼저 꺼낸다.</strong> "Anything else you&#39;d flag?" 에 "Two." 자기 코드의 약점을 리뷰어보다 먼저 아는 후보는 채용된다. 그리고 트레이드오프의 이유("I chose to spend the time on…")를 붙여 실수와 선택을 구분한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-24.html">&larr; 24. The senior who has been here nine years</a><a href="english-26.html">26. Saying no to a date, with a counteroffer &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

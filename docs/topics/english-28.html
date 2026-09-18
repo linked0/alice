@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,34 +404,43 @@
       <p class="topic-kicker"><span class="topic-no">#28</span><span>Feedback</span></p>
       <h1>Telling a senior peer their design is wrong, in writing</h1>
       <p class="lead">Jay is two months into a lead role at an Amsterdam fintech. Bram, a staff engineer on a sister team, has circulated a design that puts the ledger&#39;s idempotency keys in Redis with a 24-hour TTL. Jay knows from a production incident in Seoul that this loses duplicates after a day. The comment will be read by both teams and Bram&#39;s manager.</p>
-      <p class="meta">암스테르담 핀테크 리드 두 달 차. 자매 팀의 스태프 엔지니어 Bram이 원장의 멱등성 키를 24시간 TTL의 Redis에 두는 설계를 회람했다. Jay는 서울의 프로덕션 장애에서 이것이 하루 뒤 중복을 놓친다는 것을 안다. 코멘트는 두 팀과 Bram의 매니저가 읽는다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 28 · Feedback — Telling a senior peer their design is wrong, in writing\ntitle_ko: 시니어 동료의 설계가 틀렸다고 글로 말하기\nsituation: Jay is two months into a lead role at an Amsterdam fintech. Bram, a staff engineer on a sister team, has circulated a design that puts the ledger's idempotency keys in Redis with a 24-hour TTL. Jay knows from a production incident in Seoul that this loses duplicates after a day. The comment will be read by both teams and Bram's manager.\nsituation_ko: 암스테르담 핀테크 리드 두 달 차. 자매 팀의 스태프 엔지니어 Bram이 원장의 멱등성 키를 24시간 TTL의 Redis에 두는 설계를 회람했다. Jay는 서울의 프로덕션 장애에서 이것이 하루 뒤 중복을 놓친다는 것을 안다. 코멘트는 두 팀과 Bram의 매니저가 읽는다.\nwhy: Written disagreement across teams is where non-native speakers either soften until nothing lands or sound harsh without meaning to. Dutch directness helps here, but the form still matters: state the failure concretely, give the evidence, propose the fix, and leave the decision with the author.\nwhy_ko: 팀을 가로지르는 글로 된 반대는 비원어민이 아무것도 전달되지 않을 만큼 부드럽게 하거나 의도치 않게 거칠게 들리는 자리다. 네덜란드식 직설이 도움이 되지만 형식은 여전히 중요하다. 실패를 구체적으로 말하고, 증거를 주고, 수정을 제안하고, 결정은 저자에게 남긴다.\nstatus: planned\n\n## Dialogue\nJay (design doc comment): Bram, one blocking concern on section 4, the rest looks solid. A 24-hour TTL on idempotency keys means a retry after 24 hours is treated as a new payment. Retries that late are rare but real: a partner's batch job replayed a 3-day-old file at my last company and we double-paid 212 merchants before anyone noticed.\n> Bram, 4절에 블로킹 우려 하나, 나머지는 견고해 보입니다. 멱등성 키에 24시간 TTL을 두면 24시간 뒤의 재시도가 새 결제로 처리됩니다. 그렇게 늦은 재시도는 드물지만 실제로 있습니다. 전 직장에서 파트너 배치 작업이 3일 된 파일을 재전송했고 누군가 알아차리기 전에 가맹점 212곳에 이중 지급했습니다.\nBram: Fair example, but unbounded keys in Redis is a memory problem. What's your proposal?\n> 좋은 예지만, Redis에 무제한 키는 메모리 문제예요. 제안이 뭔가요?\nJay: Keep Redis as the fast path, but make the ledger itself the source of truth: a unique constraint on (partner_id, idempotency_key) in Postgres, kept for the retention period we already have for transactions, seven years. Redis TTL can stay at 24 hours because a miss falls through to the database, which rejects the duplicate. Cost is one index and one extra query on the cold path.\n> Redis는 빠른 경로로 두되, 원장 자체를 진실의 원천으로 만듭시다. Postgres에 (partner_id, idempotency_key) 유니크 제약을 두고, 거래에 이미 있는 보존 기간 7년을 유지합니다. Redis TTL은 24시간으로 둬도 됩니다. 미스는 데이터베이스로 떨어지고 거기서 중복을 거절하니까요. 비용은 인덱스 하나와 콜드 경로의 추가 쿼리 하나입니다.\nBram: That doubles the write path latency for every payment.\n> 그러면 모든 결제의 쓰기 경로 지연이 두 배가 돼요.\nJay: It adds one indexed insert that we're already doing, since the payment row is written anyway; the constraint rides on that write. I measured a similar setup at about 0.4 milliseconds extra at p99. If you'd like, I can put a benchmark in your branch by Thursday so we're arguing about a number rather than an estimate.\n> 이미 하고 있는 인덱스된 삽입 하나가 추가되는 겁니다. 결제 행은 어차피 쓰이고, 제약은 그 쓰기에 올라타니까요. 비슷한 구성에서 p99 약 0.4밀리초 추가로 측정했습니다. 원하시면 목요일까지 브랜치에 벤치마크를 넣어 추정이 아니라 숫자로 논쟁하죠.\nBram: Do that. If it's under a millisecond I'll take it.\n> 그렇게 하세요. 1밀리초 아래면 받겠습니다.\nJay: Deal. And to be clear, it's your design and your call. I'm flagging it because I've paid for this one already.\n> 좋습니다. 그리고 분명히 하면, 당신 설계고 당신 결정입니다. 제가 이미 이 비용을 치러봤기 때문에 표시하는 겁니다.\n\n## Techniques\n1. **하나만 블로킹, 나머지는 인정.** \"one blocking concern on section 4, the rest looks solid.\" 리뷰의 범위를 첫 문장에서 정한다. 열 개를 지적하면 하나도 고쳐지지 않는다.\n2. **사례는 숫자와 함께.** \"replayed a 3-day-old file… double-paid 212 merchants.\" 추상적 우려는 무시되고, 날짜와 숫자가 있는 사례는 의제가 된다.\n3. **추정 대신 측정을 제안한다.** \"a benchmark in your branch by Thursday so we're arguing about a number rather than an estimate.\" 논쟁을 의견에서 데이터로 옮기고, 내가 일을 맡아 상대의 방어를 낮춘다. 그리고 결정권을 돌려준다(\"your design and your call\").\n\n## Expressions\n| one blocking concern | 블로킹 우려 하나(승인을 막는 문제) |\n| the rest looks solid | 나머지는 견고해 보인다 |\n| rare but real | 드물지만 실제로 있는 |\n| before anyone noticed | 누군가 알아차리기 전에 |\n| fast path / cold path | 빠른 경로 / 느린 경로 |\n| source of truth | 진실의 원천 |\n| falls through to | ~로 떨어진다(다음 단계로 넘어간다) |\n| rides on that write | 그 쓰기에 올라탄다(추가 비용 없이) |\n| arguing about a number rather than an estimate | 추정이 아니라 숫자로 논쟁하다 |\n| I'll take it | 받겠다(수락) |\n| your design and your call | 당신의 설계고 당신의 결정 |\n| I've paid for this one already | 이 비용은 이미 치러봤다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Written disagreement across teams is where non-native speakers either soften until nothing lands or sound harsh without meaning to. Dutch directness helps here, but the form still matters: state the failure concretely, give the evidence, propose the fix, and leave the decision with the author.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">팀을 가로지르는 글로 된 반대는 비원어민이 아무것도 전달되지 않을 만큼 부드럽게 하거나 의도치 않게 거칠게 들리는 자리다. 네덜란드식 직설이 도움이 되지만 형식은 여전히 중요하다. 실패를 구체적으로 말하고, 증거를 주고, 수정을 제안하고, 결정은 저자에게 남긴다.</p>
 <h2>Dialogue</h2>
 <p><strong>Jay (design doc comment):</strong> Bram, one blocking concern on section 4, the rest looks solid. A 24-hour TTL on idempotency keys means a retry after 24 hours is treated as a new payment. Retries that late are rare but real: a partner&#39;s batch job replayed a 3-day-old file at my last company and we double-paid 212 merchants before anyone noticed.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Bram, 4절에 블로킹 우려 하나, 나머지는 견고해 보입니다. 멱등성 키에 24시간 TTL을 두면 24시간 뒤의 재시도가 새 결제로 처리됩니다. 그렇게 늦은 재시도는 드물지만 실제로 있습니다. 전 직장에서 파트너 배치 작업이 3일 된 파일을 재전송했고 누군가 알아차리기 전에 가맹점 212곳에 이중 지급했습니다.</p>
 <p><strong>Bram:</strong> Fair example, but unbounded keys in Redis is a memory problem. What&#39;s your proposal?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋은 예지만, Redis에 무제한 키는 메모리 문제예요. 제안이 뭔가요?</p>
 <p><strong>Jay:</strong> Keep Redis as the fast path, but make the ledger itself the source of truth: a unique constraint on (partner_id, idempotency_key) in Postgres, kept for the retention period we already have for transactions, seven years. Redis TTL can stay at 24 hours because a miss falls through to the database, which rejects the duplicate. Cost is one index and one extra query on the cold path.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Redis는 빠른 경로로 두되, 원장 자체를 진실의 원천으로 만듭시다. Postgres에 (partner_id, idempotency_key) 유니크 제약을 두고, 거래에 이미 있는 보존 기간 7년을 유지합니다. Redis TTL은 24시간으로 둬도 됩니다. 미스는 데이터베이스로 떨어지고 거기서 중복을 거절하니까요. 비용은 인덱스 하나와 콜드 경로의 추가 쿼리 하나입니다.</p>
 <p><strong>Bram:</strong> That doubles the write path latency for every payment.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러면 모든 결제의 쓰기 경로 지연이 두 배가 돼요.</p>
 <p><strong>Jay:</strong> It adds one indexed insert that we&#39;re already doing, since the payment row is written anyway; the constraint rides on that write. I measured a similar setup at about 0.4 milliseconds extra at p99. If you&#39;d like, I can put a benchmark in your branch by Thursday so we&#39;re arguing about a number rather than an estimate.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">이미 하고 있는 인덱스된 삽입 하나가 추가되는 겁니다. 결제 행은 어차피 쓰이고, 제약은 그 쓰기에 올라타니까요. 비슷한 구성에서 p99 약 0.4밀리초 추가로 측정했습니다. 원하시면 목요일까지 브랜치에 벤치마크를 넣어 추정이 아니라 숫자로 논쟁하죠.</p>
 <p><strong>Bram:</strong> Do that. If it&#39;s under a millisecond I&#39;ll take it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그렇게 하세요. 1밀리초 아래면 받겠습니다.</p>
 <p><strong>Jay:</strong> Deal. And to be clear, it&#39;s your design and your call. I&#39;m flagging it because I&#39;ve paid for this one already.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋습니다. 그리고 분명히 하면, 당신 설계고 당신 결정입니다. 제가 이미 이 비용을 치러봤기 때문에 표시하는 겁니다.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>하나만 블로킹, 나머지는 인정.</strong> "one blocking concern on section 4, the rest looks solid." 리뷰의 범위를 첫 문장에서 정한다. 열 개를 지적하면 하나도 고쳐지지 않는다.</li><li><strong>사례는 숫자와 함께.</strong> "replayed a 3-day-old file… double-paid 212 merchants." 추상적 우려는 무시되고, 날짜와 숫자가 있는 사례는 의제가 된다.</li><li><strong>추정 대신 측정을 제안한다.</strong> "a benchmark in your branch by Thursday so we&#39;re arguing about a number rather than an estimate." 논쟁을 의견에서 데이터로 옮기고, 내가 일을 맡아 상대의 방어를 낮춘다. 그리고 결정권을 돌려준다("your design and your call").</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>one blocking concern</strong></td><td>블로킹 우려 하나(승인을 막는 문제)</td></tr><tr><td><strong>the rest looks solid</strong></td><td>나머지는 견고해 보인다</td></tr><tr><td><strong>rare but real</strong></td><td>드물지만 실제로 있는</td></tr><tr><td><strong>before anyone noticed</strong></td><td>누군가 알아차리기 전에</td></tr><tr><td><strong>fast path / cold path</strong></td><td>빠른 경로 / 느린 경로</td></tr><tr><td><strong>source of truth</strong></td><td>진실의 원천</td></tr><tr><td><strong>falls through to</strong></td><td>~로 떨어진다(다음 단계로 넘어간다)</td></tr><tr><td><strong>rides on that write</strong></td><td>그 쓰기에 올라탄다(추가 비용 없이)</td></tr><tr><td><strong>arguing about a number rather than an estimate</strong></td><td>추정이 아니라 숫자로 논쟁하다</td></tr><tr><td><strong>I&#39;ll take it</strong></td><td>받겠다(수락)</td></tr><tr><td><strong>your design and your call</strong></td><td>당신의 설계고 당신의 결정</td></tr><tr><td><strong>I&#39;ve paid for this one already</strong></td><td>이 비용은 이미 치러봤다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>시니어 동료의 설계가 틀렸다고 글로 말하기</h1>
+      <p class="lead">암스테르담 핀테크 리드 두 달 차. 자매 팀의 스태프 엔지니어 Bram이 원장의 멱등성 키를 24시간 TTL의 Redis에 두는 설계를 회람했다. Jay는 서울의 프로덕션 장애에서 이것이 하루 뒤 중복을 놓친다는 것을 안다. 코멘트는 두 팀과 Bram의 매니저가 읽는다.</p>
+<h2>왜 이 대화인가</h2>
+<p>팀을 가로지르는 글로 된 반대는 비원어민이 아무것도 전달되지 않을 만큼 부드럽게 하거나 의도치 않게 거칠게 들리는 자리다. 네덜란드식 직설이 도움이 되지만 형식은 여전히 중요하다. 실패를 구체적으로 말하고, 증거를 주고, 수정을 제안하고, 결정은 저자에게 남긴다.</p>
+<h2>대화</h2>
+<p><strong>Jay (design doc comment):</strong> Bram, 4절에 블로킹 우려 하나, 나머지는 견고해 보입니다. 멱등성 키에 24시간 TTL을 두면 24시간 뒤의 재시도가 새 결제로 처리됩니다. 그렇게 늦은 재시도는 드물지만 실제로 있습니다. 전 직장에서 파트너 배치 작업이 3일 된 파일을 재전송했고 누군가 알아차리기 전에 가맹점 212곳에 이중 지급했습니다.</p>
+<p><strong>Bram:</strong> 좋은 예지만, Redis에 무제한 키는 메모리 문제예요. 제안이 뭔가요?</p>
+<p><strong>Jay:</strong> Redis는 빠른 경로로 두되, 원장 자체를 진실의 원천으로 만듭시다. Postgres에 (partner_id, idempotency_key) 유니크 제약을 두고, 거래에 이미 있는 보존 기간 7년을 유지합니다. Redis TTL은 24시간으로 둬도 됩니다. 미스는 데이터베이스로 떨어지고 거기서 중복을 거절하니까요. 비용은 인덱스 하나와 콜드 경로의 추가 쿼리 하나입니다.</p>
+<p><strong>Bram:</strong> 그러면 모든 결제의 쓰기 경로 지연이 두 배가 돼요.</p>
+<p><strong>Jay:</strong> 이미 하고 있는 인덱스된 삽입 하나가 추가되는 겁니다. 결제 행은 어차피 쓰이고, 제약은 그 쓰기에 올라타니까요. 비슷한 구성에서 p99 약 0.4밀리초 추가로 측정했습니다. 원하시면 목요일까지 브랜치에 벤치마크를 넣어 추정이 아니라 숫자로 논쟁하죠.</p>
+<p><strong>Bram:</strong> 그렇게 하세요. 1밀리초 아래면 받겠습니다.</p>
+<p><strong>Jay:</strong> 좋습니다. 그리고 분명히 하면, 당신 설계고 당신 결정입니다. 제가 이미 이 비용을 치러봤기 때문에 표시하는 겁니다.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>하나만 블로킹, 나머지는 인정.</strong> "one blocking concern on section 4, the rest looks solid." 리뷰의 범위를 첫 문장에서 정한다. 열 개를 지적하면 하나도 고쳐지지 않는다.</li><li><strong>사례는 숫자와 함께.</strong> "replayed a 3-day-old file… double-paid 212 merchants." 추상적 우려는 무시되고, 날짜와 숫자가 있는 사례는 의제가 된다.</li><li><strong>추정 대신 측정을 제안한다.</strong> "a benchmark in your branch by Thursday so we&#39;re arguing about a number rather than an estimate." 논쟁을 의견에서 데이터로 옮기고, 내가 일을 맡아 상대의 방어를 낮춘다. 그리고 결정권을 돌려준다("your design and your call").</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-27.html">&larr; 27. Why do you want to leave Korea?</a><a href="english-29.html">29. Telling the CTO the dependency was ours to check &rarr;</a></div>
   </div>
@@ -456,16 +467,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -486,12 +505,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

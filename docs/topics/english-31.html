@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,38 +404,47 @@
       <p class="topic-kicker"><span class="topic-no">#31</span><span>One-on-one</span></p>
       <h1>Your report wants to leave for a competitor</h1>
       <p class="lead">Jay is four months into leading a team in Amsterdam. Lucas, his strongest engineer, opens their one-on-one with "I&#39;ve had an offer." It is from a competitor, 20 percent more, and Lucas has not decided. Jay has no budget approval, no time to think, and one conversation.</p>
-      <p class="meta">암스테르담에서 팀을 이끈 4개월. 가장 강한 엔지니어 Lucas가 일대일을 "오퍼를 받았어요"로 시작한다. 경쟁사, 20퍼센트 인상, Lucas는 아직 결정하지 않았다. Jay에게는 예산 승인도, 생각할 시간도 없고, 대화 하나뿐이다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 31 · One-on-one — Your report wants to leave for a competitor\ntitle_ko: 팀원이 경쟁사로 가려 한다\nsituation: Jay is four months into leading a team in Amsterdam. Lucas, his strongest engineer, opens their one-on-one with \"I've had an offer.\" It is from a competitor, 20 percent more, and Lucas has not decided. Jay has no budget approval, no time to think, and one conversation.\nsituation_ko: 암스테르담에서 팀을 이끈 4개월. 가장 강한 엔지니어 Lucas가 일대일을 \"오퍼를 받았어요\"로 시작한다. 경쟁사, 20퍼센트 인상, Lucas는 아직 결정하지 않았다. Jay에게는 예산 승인도, 생각할 시간도 없고, 대화 하나뿐이다.\nwhy: A resignation conversation is the one a new lead abroad is least prepared for and most judged on. Panic, guilt, and counter-offers made on the spot all fail. What works is asking what the offer is actually buying, being honest about what you can and cannot change, and keeping the relationship whichever way it goes.\nwhy_ko: 퇴사 대화는 해외의 새 리드가 가장 준비되지 않았고 가장 평가받는 대화다. 당황, 죄책감, 즉석 역제안은 모두 실패한다. 되는 것은 그 오퍼가 실제로 무엇을 사는지 묻고, 바꿀 수 있는 것과 없는 것에 정직하고, 어느 쪽으로 가든 관계를 지키는 것.\nstatus: planned\n\n## Dialogue\nLucas: I've had an offer. Twenty percent more, at a competitor. I haven't said yes.\n> 오퍼를 받았어요. 20퍼센트 더, 경쟁사에서요. 아직 예스라고 하진 않았어요.\nJay: Thank you for telling me before you decided; most people don't. Before I say anything about money: what is the offer buying you that this job isn't? If it's only the twenty percent, that's one conversation. If it's something else, the twenty percent is a symptom.\n> 결정하기 전에 말해줘서 고마워요. 대부분은 안 그래요. 돈 이야기를 하기 전에, 그 오퍼가 이 직장이 주지 않는 무엇을 사주나요? 20퍼센트만이라면 그건 한 가지 대화고, 다른 것이라면 20퍼센트는 증상이에요.\nLucas: Honestly? They'd have me own the ledger rewrite. Here I'm still the person who fixes the ledger.\n> 솔직히요? 거기서는 원장 재작성을 제가 맡게 돼요. 여기서는 아직 원장을 고치는 사람이죠.\nJay: That's a fair thing to want, and it's the part I can actually do something about. The rewrite is on our roadmap for Q1. I've been staffing it in my head with someone external because I thought you wanted to stay close to production. I was wrong to assume that instead of asking.\n> 원하는 게 정당하고, 제가 실제로 뭔가 할 수 있는 부분이에요. 재작성은 우리 1분기 로드맵에 있어요. 당신이 프로덕션 가까이 있고 싶어한다고 생각해서 머릿속으로 외부 사람을 배치하고 있었어요. 묻지 않고 가정한 건 제 잘못이에요.\nLucas: And the money?\n> 그리고 돈은요?\nJay: I can't match twenty percent today, and I won't pretend I can. What I can do is take your case to comp this week with the rewrite ownership attached, and tell you the real answer by Friday, including if the answer is no. I'd rather you decide on facts than on my optimism.\n> 오늘 20퍼센트를 맞출 수는 없고, 그런 척하지 않겠어요. 할 수 있는 건 재작성 오너십을 붙여서 이번 주 보상 팀에 당신 건을 올리고, 답이 아니오일 때를 포함해 금요일까지 진짜 답을 말해주는 거예요. 제 낙관이 아니라 사실로 결정하길 바라요.\nLucas: And if I go anyway?\n> 그래도 제가 간다면요?\nJay: Then you go with a good reference and a handover we plan together, and I'll be annoyed for about a week. You've earned the choice. I'd just like it to be a choice between two real options, not between a real one and a guess.\n> 그러면 좋은 추천서와 함께 계획한 인수인계를 갖고 가고, 저는 일주일쯤 짜증날 거예요. 그 선택은 당신이 얻어낸 거예요. 다만 진짜 선택지 둘 사이의 선택이길 바라요, 진짜 하나와 추측 사이가 아니라.\nLucas: Friday, then.\n> 그럼 금요일에요.\n\n## Techniques\n1. **돈보다 먼저 이유를 묻는다.** \"what is the offer buying you that this job isn't? If it's only the twenty percent… If it's something else, the twenty percent is a symptom.\" 역제안 전에 진단. 대부분의 이직은 돈이 이유가 아니라 핑계다.\n2. **할 수 없는 것을 먼저 말한다.** \"I can't match twenty percent today, and I won't pretend I can.\" 지킬 수 없는 약속 하나가 남은 신뢰를 다 쓴다. 그리고 기한을 붙인다(\"by Friday, including if the answer is no\").\n3. **떠나는 경우를 미리 좋게 만든다.** \"you go with a good reference and a handover we plan together.\" 붙잡기가 아니라 관계 유지. 이 문장이 역설적으로 남을 확률을 높인다.\n\n## Expressions\n| I haven't said yes | 아직 예스라고 하지 않았다 |\n| before you decided | 결정하기 전에 |\n| what is the offer buying you | 그 오퍼가 당신에게 무엇을 사주나 |\n| a symptom | 증상(진짜 원인의 표면) |\n| own the rewrite | 재작성을 맡다(오너십) |\n| I was wrong to assume | 가정한 것은 내 잘못이었다 |\n| I won't pretend I can | 할 수 있는 척하지 않겠다 |\n| take your case to comp | 보상 팀에 당신 건을 올리다 |\n| including if the answer is no | 답이 아니오일 때를 포함해 |\n| you've earned the choice | 그 선택은 당신이 얻어낸 것이다 |\n| a real one and a guess | 진짜 하나와 추측 하나 |\n"</script>
 <h2>Why this conversation</h2>
 <p>A resignation conversation is the one a new lead abroad is least prepared for and most judged on. Panic, guilt, and counter-offers made on the spot all fail. What works is asking what the offer is actually buying, being honest about what you can and cannot change, and keeping the relationship whichever way it goes.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">퇴사 대화는 해외의 새 리드가 가장 준비되지 않았고 가장 평가받는 대화다. 당황, 죄책감, 즉석 역제안은 모두 실패한다. 되는 것은 그 오퍼가 실제로 무엇을 사는지 묻고, 바꿀 수 있는 것과 없는 것에 정직하고, 어느 쪽으로 가든 관계를 지키는 것.</p>
 <h2>Dialogue</h2>
 <p><strong>Lucas:</strong> I&#39;ve had an offer. Twenty percent more, at a competitor. I haven&#39;t said yes.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오퍼를 받았어요. 20퍼센트 더, 경쟁사에서요. 아직 예스라고 하진 않았어요.</p>
 <p><strong>Jay:</strong> Thank you for telling me before you decided; most people don&#39;t. Before I say anything about money: what is the offer buying you that this job isn&#39;t? If it&#39;s only the twenty percent, that&#39;s one conversation. If it&#39;s something else, the twenty percent is a symptom.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">결정하기 전에 말해줘서 고마워요. 대부분은 안 그래요. 돈 이야기를 하기 전에, 그 오퍼가 이 직장이 주지 않는 무엇을 사주나요? 20퍼센트만이라면 그건 한 가지 대화고, 다른 것이라면 20퍼센트는 증상이에요.</p>
 <p><strong>Lucas:</strong> Honestly? They&#39;d have me own the ledger rewrite. Here I&#39;m still the person who fixes the ledger.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">솔직히요? 거기서는 원장 재작성을 제가 맡게 돼요. 여기서는 아직 원장을 고치는 사람이죠.</p>
 <p><strong>Jay:</strong> That&#39;s a fair thing to want, and it&#39;s the part I can actually do something about. The rewrite is on our roadmap for Q1. I&#39;ve been staffing it in my head with someone external because I thought you wanted to stay close to production. I was wrong to assume that instead of asking.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">원하는 게 정당하고, 제가 실제로 뭔가 할 수 있는 부분이에요. 재작성은 우리 1분기 로드맵에 있어요. 당신이 프로덕션 가까이 있고 싶어한다고 생각해서 머릿속으로 외부 사람을 배치하고 있었어요. 묻지 않고 가정한 건 제 잘못이에요.</p>
 <p><strong>Lucas:</strong> And the money?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그리고 돈은요?</p>
 <p><strong>Jay:</strong> I can&#39;t match twenty percent today, and I won&#39;t pretend I can. What I can do is take your case to comp this week with the rewrite ownership attached, and tell you the real answer by Friday, including if the answer is no. I&#39;d rather you decide on facts than on my optimism.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오늘 20퍼센트를 맞출 수는 없고, 그런 척하지 않겠어요. 할 수 있는 건 재작성 오너십을 붙여서 이번 주 보상 팀에 당신 건을 올리고, 답이 아니오일 때를 포함해 금요일까지 진짜 답을 말해주는 거예요. 제 낙관이 아니라 사실로 결정하길 바라요.</p>
 <p><strong>Lucas:</strong> And if I go anyway?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그래도 제가 간다면요?</p>
 <p><strong>Jay:</strong> Then you go with a good reference and a handover we plan together, and I&#39;ll be annoyed for about a week. You&#39;ve earned the choice. I&#39;d just like it to be a choice between two real options, not between a real one and a guess.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러면 좋은 추천서와 함께 계획한 인수인계를 갖고 가고, 저는 일주일쯤 짜증날 거예요. 그 선택은 당신이 얻어낸 거예요. 다만 진짜 선택지 둘 사이의 선택이길 바라요, 진짜 하나와 추측 사이가 아니라.</p>
 <p><strong>Lucas:</strong> Friday, then.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 금요일에요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>돈보다 먼저 이유를 묻는다.</strong> "what is the offer buying you that this job isn&#39;t? If it&#39;s only the twenty percent… If it&#39;s something else, the twenty percent is a symptom." 역제안 전에 진단. 대부분의 이직은 돈이 이유가 아니라 핑계다.</li><li><strong>할 수 없는 것을 먼저 말한다.</strong> "I can&#39;t match twenty percent today, and I won&#39;t pretend I can." 지킬 수 없는 약속 하나가 남은 신뢰를 다 쓴다. 그리고 기한을 붙인다("by Friday, including if the answer is no").</li><li><strong>떠나는 경우를 미리 좋게 만든다.</strong> "you go with a good reference and a handover we plan together." 붙잡기가 아니라 관계 유지. 이 문장이 역설적으로 남을 확률을 높인다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>I haven&#39;t said yes</strong></td><td>아직 예스라고 하지 않았다</td></tr><tr><td><strong>before you decided</strong></td><td>결정하기 전에</td></tr><tr><td><strong>what is the offer buying you</strong></td><td>그 오퍼가 당신에게 무엇을 사주나</td></tr><tr><td><strong>a symptom</strong></td><td>증상(진짜 원인의 표면)</td></tr><tr><td><strong>own the rewrite</strong></td><td>재작성을 맡다(오너십)</td></tr><tr><td><strong>I was wrong to assume</strong></td><td>가정한 것은 내 잘못이었다</td></tr><tr><td><strong>I won&#39;t pretend I can</strong></td><td>할 수 있는 척하지 않겠다</td></tr><tr><td><strong>take your case to comp</strong></td><td>보상 팀에 당신 건을 올리다</td></tr><tr><td><strong>including if the answer is no</strong></td><td>답이 아니오일 때를 포함해</td></tr><tr><td><strong>you&#39;ve earned the choice</strong></td><td>그 선택은 당신이 얻어낸 것이다</td></tr><tr><td><strong>a real one and a guess</strong></td><td>진짜 하나와 추측 하나</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>팀원이 경쟁사로 가려 한다</h1>
+      <p class="lead">암스테르담에서 팀을 이끈 4개월. 가장 강한 엔지니어 Lucas가 일대일을 "오퍼를 받았어요"로 시작한다. 경쟁사, 20퍼센트 인상, Lucas는 아직 결정하지 않았다. Jay에게는 예산 승인도, 생각할 시간도 없고, 대화 하나뿐이다.</p>
+<h2>왜 이 대화인가</h2>
+<p>퇴사 대화는 해외의 새 리드가 가장 준비되지 않았고 가장 평가받는 대화다. 당황, 죄책감, 즉석 역제안은 모두 실패한다. 되는 것은 그 오퍼가 실제로 무엇을 사는지 묻고, 바꿀 수 있는 것과 없는 것에 정직하고, 어느 쪽으로 가든 관계를 지키는 것.</p>
+<h2>대화</h2>
+<p><strong>Lucas:</strong> 오퍼를 받았어요. 20퍼센트 더, 경쟁사에서요. 아직 예스라고 하진 않았어요.</p>
+<p><strong>Jay:</strong> 결정하기 전에 말해줘서 고마워요. 대부분은 안 그래요. 돈 이야기를 하기 전에, 그 오퍼가 이 직장이 주지 않는 무엇을 사주나요? 20퍼센트만이라면 그건 한 가지 대화고, 다른 것이라면 20퍼센트는 증상이에요.</p>
+<p><strong>Lucas:</strong> 솔직히요? 거기서는 원장 재작성을 제가 맡게 돼요. 여기서는 아직 원장을 고치는 사람이죠.</p>
+<p><strong>Jay:</strong> 원하는 게 정당하고, 제가 실제로 뭔가 할 수 있는 부분이에요. 재작성은 우리 1분기 로드맵에 있어요. 당신이 프로덕션 가까이 있고 싶어한다고 생각해서 머릿속으로 외부 사람을 배치하고 있었어요. 묻지 않고 가정한 건 제 잘못이에요.</p>
+<p><strong>Lucas:</strong> 그리고 돈은요?</p>
+<p><strong>Jay:</strong> 오늘 20퍼센트를 맞출 수는 없고, 그런 척하지 않겠어요. 할 수 있는 건 재작성 오너십을 붙여서 이번 주 보상 팀에 당신 건을 올리고, 답이 아니오일 때를 포함해 금요일까지 진짜 답을 말해주는 거예요. 제 낙관이 아니라 사실로 결정하길 바라요.</p>
+<p><strong>Lucas:</strong> 그래도 제가 간다면요?</p>
+<p><strong>Jay:</strong> 그러면 좋은 추천서와 함께 계획한 인수인계를 갖고 가고, 저는 일주일쯤 짜증날 거예요. 그 선택은 당신이 얻어낸 거예요. 다만 진짜 선택지 둘 사이의 선택이길 바라요, 진짜 하나와 추측 사이가 아니라.</p>
+<p><strong>Lucas:</strong> 그럼 금요일에요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>돈보다 먼저 이유를 묻는다.</strong> "what is the offer buying you that this job isn&#39;t? If it&#39;s only the twenty percent… If it&#39;s something else, the twenty percent is a symptom." 역제안 전에 진단. 대부분의 이직은 돈이 이유가 아니라 핑계다.</li><li><strong>할 수 없는 것을 먼저 말한다.</strong> "I can&#39;t match twenty percent today, and I won&#39;t pretend I can." 지킬 수 없는 약속 하나가 남은 신뢰를 다 쓴다. 그리고 기한을 붙인다("by Friday, including if the answer is no").</li><li><strong>떠나는 경우를 미리 좋게 만든다.</strong> "you go with a good reference and a handover we plan together." 붙잡기가 아니라 관계 유지. 이 문장이 역설적으로 남을 확률을 높인다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-30.html">&larr; 30. Explain your architecture to someone who won&#39;t read the diagram</a><a href="english-32.html">32. How do you use AI, and what do you refuse to hand it? &rarr;</a></div>
   </div>
@@ -460,16 +471,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -490,12 +509,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

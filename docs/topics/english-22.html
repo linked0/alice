@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,40 +404,49 @@
       <p class="topic-kicker"><span class="topic-no">#22</span><span>Negotiation</span></p>
       <h1>The number that gets to yes</h1>
       <p class="lead">A Berlin company makes Jay an offer for a team lead role: base below his target, equity he cannot value, relocation "to be discussed." The recruiter wants an answer by Friday. Jay wants the job and wants the offer to be right.</p>
-      <p class="meta">베를린 회사가 Jay에게 팀 리드 오퍼를 낸다. 기본급은 목표보다 낮고, 지분은 가치를 매길 수 없고, 이주 지원은 "논의 예정." 리크루터는 금요일까지 답을 원한다. Jay는 그 일을 원하고, 오퍼가 맞기를 원한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 22 · Negotiation — The number that gets to yes\ntitle_ko: 예스가 되는 숫자\nsituation: A Berlin company makes Jay an offer for a team lead role: base below his target, equity he cannot value, relocation \"to be discussed.\" The recruiter wants an answer by Friday. Jay wants the job and wants the offer to be right.\nsituation_ko: 베를린 회사가 Jay에게 팀 리드 오퍼를 낸다. 기본급은 목표보다 낮고, 지분은 가치를 매길 수 없고, 이주 지원은 \"논의 예정.\" 리크루터는 금요일까지 답을 원한다. Jay는 그 일을 원하고, 오퍼가 맞기를 원한다.\nwhy: Offer negotiation is where non-native speakers leave the most money on the table, usually by saying yes too early or by sounding adversarial. This is the version that keeps the warmth and still moves every number.\nwhy_ko: 오퍼 협상은 비원어민이 가장 많은 돈을 테이블에 남기는 곳이다. 대개 너무 일찍 예스라고 하거나 적대적으로 들려서다. 온기를 지키면서 모든 숫자를 움직이는 버전.\nstatus: planned\n\n## Dialogue\nRecruiter: We're excited to make you an offer: 95k base, 0.1 percent equity, and we can discuss relocation. We'd love an answer by Friday.\n> 오퍼를 드리게 되어 기쁩니다. 기본급 95k, 지분 0.1퍼센트, 이주 지원은 논의 가능합니다. 금요일까지 답을 주시면 좋겠습니다.\nJay: Thank you, I'm genuinely excited about the team, and I want to get to a yes. To do that I need to understand three things, and then I'll come back with one clear ask rather than several rounds.\n> 감사합니다. 팀에 대해 진심으로 기대하고 있고, 예스에 도달하고 싶습니다. 그러려면 세 가지를 이해해야 하고, 그 뒤에 여러 라운드 대신 명확한 요청 하나로 돌아오겠습니다.\nRecruiter: Of course. What do you need?\n> 물론이죠. 무엇이 필요하세요?\nJay: First, the equity: what's the current preferred price, the vesting, and the strike, so I can put a number on it rather than a percentage. Second, the band for this role, so I know where 95 sits in it. Third, relocation: is that a fixed sum or reimbursed costs, and does it include the visa for my family?\n> 첫째, 지분입니다. 현재 우선주 가격, 베스팅, 행사가를 알려주시면 퍼센트가 아니라 숫자로 볼 수 있습니다. 둘째, 이 직무의 급여 밴드요. 95가 그 안에서 어디인지 알고 싶습니다. 셋째, 이주 지원이 고정 금액인지 실비 정산인지, 가족 비자를 포함하는지요.\nRecruiter: The band is 90 to 120. Equity details I'll send today. Relocation is usually a fixed 8k.\n> 밴드는 90에서 120입니다. 지분 세부는 오늘 보내드리겠습니다. 이주 지원은 보통 고정 8k입니다.\nJay: That's helpful, and it tells me 95 is near the bottom of the band for a lead role. Here's my one ask: 112 base, and relocation at 12k including the family visa. If those two are there, I sign Friday, and I won't come back for more.\n> 도움이 됩니다. 그리고 95가 리드 직무 밴드의 바닥 근처라는 걸 알려주네요. 제 요청 하나는 이겁니다. 기본급 112, 가족 비자를 포함한 이주 지원 12k. 그 둘이 되면 금요일에 서명하고, 더 요구하지 않겠습니다.\nRecruiter: 112 is a big jump. Can you help me make that case internally?\n> 112는 큰 폭이네요. 내부에서 설득할 근거를 주실 수 있나요?\nJay: Two points. I'd be leading a team through a Sepolia-to-devnet migration in my first quarter, which is the exact work I've done twice, so there's no ramp. And I'm relocating a family across continents; the number has to survive a currency I don't earn in yet.\n> 두 가지요. 첫 분기에 Sepolia에서 devnet으로의 마이그레이션을 팀과 이끌 텐데, 정확히 제가 두 번 해본 일이라 적응 기간이 없습니다. 그리고 가족을 대륙 너머로 옮기는 것이라, 제가 아직 벌지 않는 통화에서도 버티는 숫자여야 합니다.\nRecruiter: Let me take that back. Can we have until Monday instead of Friday?\n> 가져가 보겠습니다. 금요일 대신 월요일까지로 해도 될까요?\nJay: Monday is fine. And to be clear: if the answer is 105 and 12k, call me anyway. I'd rather talk than lose this over a number.\n> 월요일 좋습니다. 그리고 분명히 말씀드리면, 답이 105와 12k라도 연락 주세요. 숫자 하나로 이걸 잃기보다는 이야기하고 싶습니다.\n\n## Techniques\n1. **기대를 먼저, 그다음 조건.** \"I'm genuinely excited… and I want to get to a yes.\" 협상을 대립이 아니라 공동 목표로 프레임한다. 그 뒤의 요구가 위협으로 들리지 않는다.\n2. **여러 라운드 대신 한 번의 요청.** \"one clear ask rather than several rounds… I sign Friday, and I won't come back for more.\" 리크루터에게 내부에서 팔 수 있는 패키지를 준다. 확정성이 곧 협상력이다.\n3. **근거는 회사의 언어로.** \"there's no ramp… the number has to survive a currency I don't earn in yet.\" 내 필요가 아니라 회사의 리스크 감소와 객관적 사정으로 말한다.\n\n## Expressions\n| get to a yes | 예스에 도달하다 |\n| one clear ask | 명확한 요청 하나 |\n| several rounds | 여러 라운드 |\n| put a number on it | 숫자로 환산하다 |\n| the band for this role | 이 직무의 급여 밴드 |\n| near the bottom of the band | 밴드의 바닥 근처 |\n| I won't come back for more | 더 요구하지 않겠다 |\n| make that case internally | 내부에서 그 근거를 설득하다 |\n| there's no ramp | 적응 기간이 없다 |\n| I'd rather talk than lose this over a number | 숫자로 잃기보다 이야기하겠다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Offer negotiation is where non-native speakers leave the most money on the table, usually by saying yes too early or by sounding adversarial. This is the version that keeps the warmth and still moves every number.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오퍼 협상은 비원어민이 가장 많은 돈을 테이블에 남기는 곳이다. 대개 너무 일찍 예스라고 하거나 적대적으로 들려서다. 온기를 지키면서 모든 숫자를 움직이는 버전.</p>
 <h2>Dialogue</h2>
 <p><strong>Recruiter:</strong> We&#39;re excited to make you an offer: 95k base, 0.1 percent equity, and we can discuss relocation. We&#39;d love an answer by Friday.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오퍼를 드리게 되어 기쁩니다. 기본급 95k, 지분 0.1퍼센트, 이주 지원은 논의 가능합니다. 금요일까지 답을 주시면 좋겠습니다.</p>
 <p><strong>Jay:</strong> Thank you, I&#39;m genuinely excited about the team, and I want to get to a yes. To do that I need to understand three things, and then I&#39;ll come back with one clear ask rather than several rounds.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">감사합니다. 팀에 대해 진심으로 기대하고 있고, 예스에 도달하고 싶습니다. 그러려면 세 가지를 이해해야 하고, 그 뒤에 여러 라운드 대신 명확한 요청 하나로 돌아오겠습니다.</p>
 <p><strong>Recruiter:</strong> Of course. What do you need?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">물론이죠. 무엇이 필요하세요?</p>
 <p><strong>Jay:</strong> First, the equity: what&#39;s the current preferred price, the vesting, and the strike, so I can put a number on it rather than a percentage. Second, the band for this role, so I know where 95 sits in it. Third, relocation: is that a fixed sum or reimbursed costs, and does it include the visa for my family?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">첫째, 지분입니다. 현재 우선주 가격, 베스팅, 행사가를 알려주시면 퍼센트가 아니라 숫자로 볼 수 있습니다. 둘째, 이 직무의 급여 밴드요. 95가 그 안에서 어디인지 알고 싶습니다. 셋째, 이주 지원이 고정 금액인지 실비 정산인지, 가족 비자를 포함하는지요.</p>
 <p><strong>Recruiter:</strong> The band is 90 to 120. Equity details I&#39;ll send today. Relocation is usually a fixed 8k.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">밴드는 90에서 120입니다. 지분 세부는 오늘 보내드리겠습니다. 이주 지원은 보통 고정 8k입니다.</p>
 <p><strong>Jay:</strong> That&#39;s helpful, and it tells me 95 is near the bottom of the band for a lead role. Here&#39;s my one ask: 112 base, and relocation at 12k including the family visa. If those two are there, I sign Friday, and I won&#39;t come back for more.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">도움이 됩니다. 그리고 95가 리드 직무 밴드의 바닥 근처라는 걸 알려주네요. 제 요청 하나는 이겁니다. 기본급 112, 가족 비자를 포함한 이주 지원 12k. 그 둘이 되면 금요일에 서명하고, 더 요구하지 않겠습니다.</p>
 <p><strong>Recruiter:</strong> 112 is a big jump. Can you help me make that case internally?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">112는 큰 폭이네요. 내부에서 설득할 근거를 주실 수 있나요?</p>
 <p><strong>Jay:</strong> Two points. I&#39;d be leading a team through a Sepolia-to-devnet migration in my first quarter, which is the exact work I&#39;ve done twice, so there&#39;s no ramp. And I&#39;m relocating a family across continents; the number has to survive a currency I don&#39;t earn in yet.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">두 가지요. 첫 분기에 Sepolia에서 devnet으로의 마이그레이션을 팀과 이끌 텐데, 정확히 제가 두 번 해본 일이라 적응 기간이 없습니다. 그리고 가족을 대륙 너머로 옮기는 것이라, 제가 아직 벌지 않는 통화에서도 버티는 숫자여야 합니다.</p>
 <p><strong>Recruiter:</strong> Let me take that back. Can we have until Monday instead of Friday?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">가져가 보겠습니다. 금요일 대신 월요일까지로 해도 될까요?</p>
 <p><strong>Jay:</strong> Monday is fine. And to be clear: if the answer is 105 and 12k, call me anyway. I&#39;d rather talk than lose this over a number.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">월요일 좋습니다. 그리고 분명히 말씀드리면, 답이 105와 12k라도 연락 주세요. 숫자 하나로 이걸 잃기보다는 이야기하고 싶습니다.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>기대를 먼저, 그다음 조건.</strong> "I&#39;m genuinely excited… and I want to get to a yes." 협상을 대립이 아니라 공동 목표로 프레임한다. 그 뒤의 요구가 위협으로 들리지 않는다.</li><li><strong>여러 라운드 대신 한 번의 요청.</strong> "one clear ask rather than several rounds… I sign Friday, and I won&#39;t come back for more." 리크루터에게 내부에서 팔 수 있는 패키지를 준다. 확정성이 곧 협상력이다.</li><li><strong>근거는 회사의 언어로.</strong> "there&#39;s no ramp… the number has to survive a currency I don&#39;t earn in yet." 내 필요가 아니라 회사의 리스크 감소와 객관적 사정으로 말한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>get to a yes</strong></td><td>예스에 도달하다</td></tr><tr><td><strong>one clear ask</strong></td><td>명확한 요청 하나</td></tr><tr><td><strong>several rounds</strong></td><td>여러 라운드</td></tr><tr><td><strong>put a number on it</strong></td><td>숫자로 환산하다</td></tr><tr><td><strong>the band for this role</strong></td><td>이 직무의 급여 밴드</td></tr><tr><td><strong>near the bottom of the band</strong></td><td>밴드의 바닥 근처</td></tr><tr><td><strong>I won&#39;t come back for more</strong></td><td>더 요구하지 않겠다</td></tr><tr><td><strong>make that case internally</strong></td><td>내부에서 그 근거를 설득하다</td></tr><tr><td><strong>there&#39;s no ramp</strong></td><td>적응 기간이 없다</td></tr><tr><td><strong>I&#39;d rather talk than lose this over a number</strong></td><td>숫자로 잃기보다 이야기하겠다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>예스가 되는 숫자</h1>
+      <p class="lead">베를린 회사가 Jay에게 팀 리드 오퍼를 낸다. 기본급은 목표보다 낮고, 지분은 가치를 매길 수 없고, 이주 지원은 "논의 예정." 리크루터는 금요일까지 답을 원한다. Jay는 그 일을 원하고, 오퍼가 맞기를 원한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>오퍼 협상은 비원어민이 가장 많은 돈을 테이블에 남기는 곳이다. 대개 너무 일찍 예스라고 하거나 적대적으로 들려서다. 온기를 지키면서 모든 숫자를 움직이는 버전.</p>
+<h2>대화</h2>
+<p><strong>Recruiter:</strong> 오퍼를 드리게 되어 기쁩니다. 기본급 95k, 지분 0.1퍼센트, 이주 지원은 논의 가능합니다. 금요일까지 답을 주시면 좋겠습니다.</p>
+<p><strong>Jay:</strong> 감사합니다. 팀에 대해 진심으로 기대하고 있고, 예스에 도달하고 싶습니다. 그러려면 세 가지를 이해해야 하고, 그 뒤에 여러 라운드 대신 명확한 요청 하나로 돌아오겠습니다.</p>
+<p><strong>Recruiter:</strong> 물론이죠. 무엇이 필요하세요?</p>
+<p><strong>Jay:</strong> 첫째, 지분입니다. 현재 우선주 가격, 베스팅, 행사가를 알려주시면 퍼센트가 아니라 숫자로 볼 수 있습니다. 둘째, 이 직무의 급여 밴드요. 95가 그 안에서 어디인지 알고 싶습니다. 셋째, 이주 지원이 고정 금액인지 실비 정산인지, 가족 비자를 포함하는지요.</p>
+<p><strong>Recruiter:</strong> 밴드는 90에서 120입니다. 지분 세부는 오늘 보내드리겠습니다. 이주 지원은 보통 고정 8k입니다.</p>
+<p><strong>Jay:</strong> 도움이 됩니다. 그리고 95가 리드 직무 밴드의 바닥 근처라는 걸 알려주네요. 제 요청 하나는 이겁니다. 기본급 112, 가족 비자를 포함한 이주 지원 12k. 그 둘이 되면 금요일에 서명하고, 더 요구하지 않겠습니다.</p>
+<p><strong>Recruiter:</strong> 112는 큰 폭이네요. 내부에서 설득할 근거를 주실 수 있나요?</p>
+<p><strong>Jay:</strong> 두 가지요. 첫 분기에 Sepolia에서 devnet으로의 마이그레이션을 팀과 이끌 텐데, 정확히 제가 두 번 해본 일이라 적응 기간이 없습니다. 그리고 가족을 대륙 너머로 옮기는 것이라, 제가 아직 벌지 않는 통화에서도 버티는 숫자여야 합니다.</p>
+<p><strong>Recruiter:</strong> 가져가 보겠습니다. 금요일 대신 월요일까지로 해도 될까요?</p>
+<p><strong>Jay:</strong> 월요일 좋습니다. 그리고 분명히 말씀드리면, 답이 105와 12k라도 연락 주세요. 숫자 하나로 이걸 잃기보다는 이야기하고 싶습니다.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>기대를 먼저, 그다음 조건.</strong> "I&#39;m genuinely excited… and I want to get to a yes." 협상을 대립이 아니라 공동 목표로 프레임한다. 그 뒤의 요구가 위협으로 들리지 않는다.</li><li><strong>여러 라운드 대신 한 번의 요청.</strong> "one clear ask rather than several rounds… I sign Friday, and I won&#39;t come back for more." 리크루터에게 내부에서 팔 수 있는 패키지를 준다. 확정성이 곧 협상력이다.</li><li><strong>근거는 회사의 언어로.</strong> "there&#39;s no ramp… the number has to survive a currency I don&#39;t earn in yet." 내 필요가 아니라 회사의 리스크 감소와 객관적 사정으로 말한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-21.html">&larr; 21. Don&#39;t draw yet. Ask what the box is for.</a><a href="english-23.html">23. Tell me about a time you disagreed with your manager &rarr;</a></div>
   </div>
@@ -462,16 +473,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -492,12 +511,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

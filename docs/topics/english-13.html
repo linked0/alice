@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,34 +404,43 @@
       <p class="topic-kicker"><span class="topic-no">#13</span><span>Review</span></p>
       <h1>The Dockerfile copies the whole repo</h1>
       <p class="lead">Marek&#39;s new Dockerfile does COPY . . in the final stage and there is no .dockerignore. The image works. It also contains .env and the git history.</p>
-      <p class="meta">Marek의 새 Dockerfile이 마지막 스테이지에서 COPY . .을 하고 .dockerignore가 없다. 이미지는 동작한다. .env와 git 히스토리도 들어 있다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 13 · Review — The Dockerfile copies the whole repo\ntitle_ko: Dockerfile이 레포 전체를 복사한다\nsituation: Marek's new Dockerfile does COPY . . in the final stage and there is no .dockerignore. The image works. It also contains .env and the git history.\nsituation_ko: Marek의 새 Dockerfile이 마지막 스테이지에서 COPY . .을 하고 .dockerignore가 없다. 이미지는 동작한다. .env와 git 히스토리도 들어 있다.\nwhy: A security review comment that stays specific: name what is in the image, not what could go wrong in general.\nwhy_ko: 구체적으로 머무는 보안 리뷰 코멘트. 일반적으로 무엇이 잘못될 수 있는지가 아니라 이미지에 실제로 무엇이 들어 있는지를 말한다.\n\n## Dialogue\nJay: The image builds and runs, so this isn't about function. I pulled it and listed the layers. There's a .env in there, and a .git folder.\n> 이미지가 빌드되고 돌아가니 기능 문제는 아니에요. 이미지를 받아서 레이어를 봤는데 .env와 .git 폴더가 들어 있어요.\nMarek: The .env only has local values.\n> .env는 로컬 값만 있어요.\nJay: Today. The Dockerfile doesn't know that, and the next person's .env will have a real key. The fix is two lines: a .dockerignore, and COPY --from=build of the exact output paths instead of the whole stage.\n> 오늘은요. Dockerfile은 그걸 모르고, 다음 사람의 .env에는 진짜 키가 있을 거예요. 수정은 두 줄이에요. .dockerignore 하나, 그리고 스테이지 전체 대신 정확한 출력 경로만 COPY --from=build.\nMarek: Copying the whole build stage was easier.\n> 빌드 스테이지 전체를 복사하는 게 더 쉬웠어요.\nJay: It was, and it's how source ends up in production images. Copy dist and package.json, nothing else. If the image needs something else, you'll find out at startup, which is the right time.\n> 그랬죠. 그리고 그게 소스가 프로덕션 이미지에 들어가는 경로예요. dist와 package.json만 복사하고 나머지는 빼요. 이미지에 다른 게 필요하면 시작할 때 알게 되고, 그게 맞는 시점이에요.\nMarek: Want me to add a size check too?\n> 크기 검사도 추가할까요?\nJay: Nice to have. The .dockerignore is the blocker; the rest is polish.\n> 있으면 좋고요. .dockerignore가 블로커고 나머지는 다듬기예요.\n\n## Techniques\n1. **증거를 먼저 보여준다.** \"I pulled it and listed the layers.\" 추정이 아니라 관찰로 시작하면 반박의 여지가 사라진다.\n2. **\"오늘은\"으로 시간을 확장한다.** \"Today. The Dockerfile doesn't know that.\" 지금은 괜찮다는 반론에 미래의 사용자를 끌어온다.\n3. **블로커와 다듬기를 구분한다.** \"The .dockerignore is the blocker; the rest is polish.\" 상대가 무엇을 먼저 해야 하는지 분명해진다.\n\n## Expressions\n| this isn't about function | 기능 문제가 아니다 |\n| list the layers | 레이어를 나열하다 |\n| the next person's .env | 다음 사람의 .env |\n| the fix is two lines | 수정은 두 줄이다 |\n| the exact output paths | 정확한 출력 경로 |\n| how source ends up in production images | 소스가 프로덕션 이미지에 들어가는 경로 |\n| nothing else | 그 외에는 아무것도 |\n| the right time to find out | 알게 되기에 맞는 시점 |\n| nice to have | 있으면 좋은 것 |\n| the blocker vs. polish | 블로커 vs. 다듬기 |\n"</script>
 <h2>Why this conversation</h2>
 <p>A security review comment that stays specific: name what is in the image, not what could go wrong in general.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">구체적으로 머무는 보안 리뷰 코멘트. 일반적으로 무엇이 잘못될 수 있는지가 아니라 이미지에 실제로 무엇이 들어 있는지를 말한다.</p>
 <h2>Dialogue</h2>
 <p><strong>Jay:</strong> The image builds and runs, so this isn&#39;t about function. I pulled it and listed the layers. There&#39;s a .env in there, and a .git folder.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">이미지가 빌드되고 돌아가니 기능 문제는 아니에요. 이미지를 받아서 레이어를 봤는데 .env와 .git 폴더가 들어 있어요.</p>
 <p><strong>Marek:</strong> The .env only has local values.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">.env는 로컬 값만 있어요.</p>
 <p><strong>Jay:</strong> Today. The Dockerfile doesn&#39;t know that, and the next person&#39;s .env will have a real key. The fix is two lines: a .dockerignore, and COPY --from=build of the exact output paths instead of the whole stage.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오늘은요. Dockerfile은 그걸 모르고, 다음 사람의 .env에는 진짜 키가 있을 거예요. 수정은 두 줄이에요. .dockerignore 하나, 그리고 스테이지 전체 대신 정확한 출력 경로만 COPY --from=build.</p>
 <p><strong>Marek:</strong> Copying the whole build stage was easier.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">빌드 스테이지 전체를 복사하는 게 더 쉬웠어요.</p>
 <p><strong>Jay:</strong> It was, and it&#39;s how source ends up in production images. Copy dist and package.json, nothing else. If the image needs something else, you&#39;ll find out at startup, which is the right time.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그랬죠. 그리고 그게 소스가 프로덕션 이미지에 들어가는 경로예요. dist와 package.json만 복사하고 나머지는 빼요. 이미지에 다른 게 필요하면 시작할 때 알게 되고, 그게 맞는 시점이에요.</p>
 <p><strong>Marek:</strong> Want me to add a size check too?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">크기 검사도 추가할까요?</p>
 <p><strong>Jay:</strong> Nice to have. The .dockerignore is the blocker; the rest is polish.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">있으면 좋고요. .dockerignore가 블로커고 나머지는 다듬기예요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>증거를 먼저 보여준다.</strong> "I pulled it and listed the layers." 추정이 아니라 관찰로 시작하면 반박의 여지가 사라진다.</li><li><strong>"오늘은"으로 시간을 확장한다.</strong> "Today. The Dockerfile doesn&#39;t know that." 지금은 괜찮다는 반론에 미래의 사용자를 끌어온다.</li><li><strong>블로커와 다듬기를 구분한다.</strong> "The .dockerignore is the blocker; the rest is polish." 상대가 무엇을 먼저 해야 하는지 분명해진다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>this isn&#39;t about function</strong></td><td>기능 문제가 아니다</td></tr><tr><td><strong>list the layers</strong></td><td>레이어를 나열하다</td></tr><tr><td><strong>the next person&#39;s .env</strong></td><td>다음 사람의 .env</td></tr><tr><td><strong>the fix is two lines</strong></td><td>수정은 두 줄이다</td></tr><tr><td><strong>the exact output paths</strong></td><td>정확한 출력 경로</td></tr><tr><td><strong>how source ends up in production images</strong></td><td>소스가 프로덕션 이미지에 들어가는 경로</td></tr><tr><td><strong>nothing else</strong></td><td>그 외에는 아무것도</td></tr><tr><td><strong>the right time to find out</strong></td><td>알게 되기에 맞는 시점</td></tr><tr><td><strong>nice to have</strong></td><td>있으면 좋은 것</td></tr><tr><td><strong>the blocker vs. polish</strong></td><td>블로커 vs. 다듬기</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>Dockerfile이 레포 전체를 복사한다</h1>
+      <p class="lead">Marek의 새 Dockerfile이 마지막 스테이지에서 COPY . .을 하고 .dockerignore가 없다. 이미지는 동작한다. .env와 git 히스토리도 들어 있다.</p>
+<h2>왜 이 대화인가</h2>
+<p>구체적으로 머무는 보안 리뷰 코멘트. 일반적으로 무엇이 잘못될 수 있는지가 아니라 이미지에 실제로 무엇이 들어 있는지를 말한다.</p>
+<h2>대화</h2>
+<p><strong>Jay:</strong> 이미지가 빌드되고 돌아가니 기능 문제는 아니에요. 이미지를 받아서 레이어를 봤는데 .env와 .git 폴더가 들어 있어요.</p>
+<p><strong>Marek:</strong> .env는 로컬 값만 있어요.</p>
+<p><strong>Jay:</strong> 오늘은요. Dockerfile은 그걸 모르고, 다음 사람의 .env에는 진짜 키가 있을 거예요. 수정은 두 줄이에요. .dockerignore 하나, 그리고 스테이지 전체 대신 정확한 출력 경로만 COPY --from=build.</p>
+<p><strong>Marek:</strong> 빌드 스테이지 전체를 복사하는 게 더 쉬웠어요.</p>
+<p><strong>Jay:</strong> 그랬죠. 그리고 그게 소스가 프로덕션 이미지에 들어가는 경로예요. dist와 package.json만 복사하고 나머지는 빼요. 이미지에 다른 게 필요하면 시작할 때 알게 되고, 그게 맞는 시점이에요.</p>
+<p><strong>Marek:</strong> 크기 검사도 추가할까요?</p>
+<p><strong>Jay:</strong> 있으면 좋고요. .dockerignore가 블로커고 나머지는 다듬기예요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>증거를 먼저 보여준다.</strong> "I pulled it and listed the layers." 추정이 아니라 관찰로 시작하면 반박의 여지가 사라진다.</li><li><strong>"오늘은"으로 시간을 확장한다.</strong> "Today. The Dockerfile doesn&#39;t know that." 지금은 괜찮다는 반론에 미래의 사용자를 끌어온다.</li><li><strong>블로커와 다듬기를 구분한다.</strong> "The .dockerignore is the blocker; the rest is polish." 상대가 무엇을 먼저 해야 하는지 분명해진다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-12.html">&larr; 12. What&#39;s the number?</a><a href="english-14.html">14. It looks like a stablecoin. It isn&#39;t one. &rarr;</a></div>
   </div>
@@ -456,16 +467,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -486,12 +505,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

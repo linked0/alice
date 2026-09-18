@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,38 +404,47 @@
       <p class="topic-kicker"><span class="topic-no">#20</span><span>Design</span></p>
       <h1>One fact, one home</h1>
       <p class="lead">The devnet&#39;s RPC URL is written in six places across four repos, and two of them disagree. Marek proposes a shared config package; Priya thinks that&#39;s overkill for a URL.</p>
-      <p class="meta">devnet의 RPC URL이 네 레포의 여섯 곳에 적혀 있고 그중 둘이 서로 다르다. Marek은 공유 설정 패키지를 제안하고, Priya는 URL 하나에 과하다고 본다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 20 · Design — One fact, one home\ntitle_ko: 사실 하나, 집 하나\nsituation: The devnet's RPC URL is written in six places across four repos, and two of them disagree. Marek proposes a shared config package; Priya thinks that's overkill for a URL.\nsituation_ko: devnet의 RPC URL이 네 레포의 여섯 곳에 적혀 있고 그중 둘이 서로 다르다. Marek은 공유 설정 패키지를 제안하고, Priya는 URL 하나에 과하다고 본다.\nwhy: The argument for a single source of truth, made with the cost of the current state rather than the elegance of the proposed one.\nwhy_ko: 단일 진실 원천을 위한 논증. 제안의 우아함이 아니라 현재 상태의 비용으로 설득한다.\n\n## Dialogue\nMarek: The devnet URL is in six places and two are wrong. Let's put chains in rails and import from there.\n> devnet URL이 여섯 곳에 있고 둘은 틀렸어요. 체인 정보를 rails에 두고 거기서 import합시다.\nPriya: It's a URL. A package for a URL is overkill.\n> URL 하나잖아요. URL 하나에 패키지는 과해요.\nJay: It's a URL, a chain id, a WebSocket endpoint, an explorer, and the block time, times three chains. That's fifteen facts, and today they have six homes each.\n> URL 하나에 체인 id, WebSocket 엔드포인트, 익스플로러, 블록 시간, 그것이 체인 셋. 사실 열다섯 개인데 지금은 각각 집이 여섯이에요.\nPriya: Most of them never change.\n> 대부분 바뀌지 않아요.\nJay: The devnet address changed twice this week. And the cost isn't editing six files; it's the day we edit five and debug the sixth.\n> devnet 주소는 이번 주에 두 번 바뀌었어요. 비용은 파일 여섯을 고치는 게 아니라, 다섯을 고치고 여섯 번째를 디버깅하는 날이에요.\nPriya: Fine, but rabbit deploys from source. It can't depend on a local path.\n> 알겠어요. 그런데 rabbit은 소스에서 배포해요. 로컬 경로에 의존할 수 없어요.\nJay: Good catch. Then rabbit copies the file and says in the header that rails is canonical. One home for the fact, and the copies know they're copies.\n> 잘 잡았어요. 그럼 rabbit은 파일을 복사하고 헤더에 rails가 정본이라고 적어요. 사실의 집은 하나, 복사본은 자기가 복사본임을 알게요.\nMarek: I'll add a check that diffs the copy against rails in CI.\n> CI에서 복사본과 rails를 diff하는 검사를 추가할게요.\nJay: Then it's a cache with a freshness check, which is the only kind of copy I trust.\n> 그러면 신선도 검사가 있는 캐시고, 제가 믿는 유일한 종류의 복사본이에요.\n\n## Techniques\n1. **크기를 다시 센다.** \"That's fifteen facts, and today they have six homes each.\" \"URL 하나\"라는 프레임을 숫자로 교정한다.\n2. **비용을 편집이 아니라 디버깅으로 말한다.** \"the day we edit five and debug the sixth\" 중복의 진짜 비용은 작업량이 아니라 불일치다.\n3. **반론을 설계에 흡수한다.** \"Good catch. Then rabbit copies the file and says… rails is canonical.\" 배포 제약을 인정하고 원칙을 지키는 형태를 찾는다.\n\n## Expressions\n| six places and two are wrong | 여섯 곳, 그중 둘은 틀림 |\n| overkill | 과한 것 |\n| fifteen facts with six homes each | 각각 집이 여섯인 사실 열다섯 |\n| most of them never change | 대부분 바뀌지 않는다 |\n| edit five and debug the sixth | 다섯을 고치고 여섯 번째를 디버깅하다 |\n| deploys from source | 소스에서 배포한다 |\n| good catch | 잘 잡았다 |\n| canonical | 정본인 |\n| the copies know they're copies | 복사본이 자기가 복사본임을 안다 |\n| a cache with a freshness check | 신선도 검사가 있는 캐시 |\n"</script>
 <h2>Why this conversation</h2>
 <p>The argument for a single source of truth, made with the cost of the current state rather than the elegance of the proposed one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">단일 진실 원천을 위한 논증. 제안의 우아함이 아니라 현재 상태의 비용으로 설득한다.</p>
 <h2>Dialogue</h2>
 <p><strong>Marek:</strong> The devnet URL is in six places and two are wrong. Let&#39;s put chains in rails and import from there.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">devnet URL이 여섯 곳에 있고 둘은 틀렸어요. 체인 정보를 rails에 두고 거기서 import합시다.</p>
 <p><strong>Priya:</strong> It&#39;s a URL. A package for a URL is overkill.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">URL 하나잖아요. URL 하나에 패키지는 과해요.</p>
 <p><strong>Jay:</strong> It&#39;s a URL, a chain id, a WebSocket endpoint, an explorer, and the block time, times three chains. That&#39;s fifteen facts, and today they have six homes each.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">URL 하나에 체인 id, WebSocket 엔드포인트, 익스플로러, 블록 시간, 그것이 체인 셋. 사실 열다섯 개인데 지금은 각각 집이 여섯이에요.</p>
 <p><strong>Priya:</strong> Most of them never change.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">대부분 바뀌지 않아요.</p>
 <p><strong>Jay:</strong> The devnet address changed twice this week. And the cost isn&#39;t editing six files; it&#39;s the day we edit five and debug the sixth.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">devnet 주소는 이번 주에 두 번 바뀌었어요. 비용은 파일 여섯을 고치는 게 아니라, 다섯을 고치고 여섯 번째를 디버깅하는 날이에요.</p>
 <p><strong>Priya:</strong> Fine, but rabbit deploys from source. It can&#39;t depend on a local path.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">알겠어요. 그런데 rabbit은 소스에서 배포해요. 로컬 경로에 의존할 수 없어요.</p>
 <p><strong>Jay:</strong> Good catch. Then rabbit copies the file and says in the header that rails is canonical. One home for the fact, and the copies know they&#39;re copies.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">잘 잡았어요. 그럼 rabbit은 파일을 복사하고 헤더에 rails가 정본이라고 적어요. 사실의 집은 하나, 복사본은 자기가 복사본임을 알게요.</p>
 <p><strong>Marek:</strong> I&#39;ll add a check that diffs the copy against rails in CI.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">CI에서 복사본과 rails를 diff하는 검사를 추가할게요.</p>
 <p><strong>Jay:</strong> Then it&#39;s a cache with a freshness check, which is the only kind of copy I trust.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러면 신선도 검사가 있는 캐시고, 제가 믿는 유일한 종류의 복사본이에요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>크기를 다시 센다.</strong> "That&#39;s fifteen facts, and today they have six homes each." "URL 하나"라는 프레임을 숫자로 교정한다.</li><li><strong>비용을 편집이 아니라 디버깅으로 말한다.</strong> "the day we edit five and debug the sixth" 중복의 진짜 비용은 작업량이 아니라 불일치다.</li><li><strong>반론을 설계에 흡수한다.</strong> "Good catch. Then rabbit copies the file and says… rails is canonical." 배포 제약을 인정하고 원칙을 지키는 형태를 찾는다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>six places and two are wrong</strong></td><td>여섯 곳, 그중 둘은 틀림</td></tr><tr><td><strong>overkill</strong></td><td>과한 것</td></tr><tr><td><strong>fifteen facts with six homes each</strong></td><td>각각 집이 여섯인 사실 열다섯</td></tr><tr><td><strong>most of them never change</strong></td><td>대부분 바뀌지 않는다</td></tr><tr><td><strong>edit five and debug the sixth</strong></td><td>다섯을 고치고 여섯 번째를 디버깅하다</td></tr><tr><td><strong>deploys from source</strong></td><td>소스에서 배포한다</td></tr><tr><td><strong>good catch</strong></td><td>잘 잡았다</td></tr><tr><td><strong>canonical</strong></td><td>정본인</td></tr><tr><td><strong>the copies know they&#39;re copies</strong></td><td>복사본이 자기가 복사본임을 안다</td></tr><tr><td><strong>a cache with a freshness check</strong></td><td>신선도 검사가 있는 캐시</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>사실 하나, 집 하나</h1>
+      <p class="lead">devnet의 RPC URL이 네 레포의 여섯 곳에 적혀 있고 그중 둘이 서로 다르다. Marek은 공유 설정 패키지를 제안하고, Priya는 URL 하나에 과하다고 본다.</p>
+<h2>왜 이 대화인가</h2>
+<p>단일 진실 원천을 위한 논증. 제안의 우아함이 아니라 현재 상태의 비용으로 설득한다.</p>
+<h2>대화</h2>
+<p><strong>Marek:</strong> devnet URL이 여섯 곳에 있고 둘은 틀렸어요. 체인 정보를 rails에 두고 거기서 import합시다.</p>
+<p><strong>Priya:</strong> URL 하나잖아요. URL 하나에 패키지는 과해요.</p>
+<p><strong>Jay:</strong> URL 하나에 체인 id, WebSocket 엔드포인트, 익스플로러, 블록 시간, 그것이 체인 셋. 사실 열다섯 개인데 지금은 각각 집이 여섯이에요.</p>
+<p><strong>Priya:</strong> 대부분 바뀌지 않아요.</p>
+<p><strong>Jay:</strong> devnet 주소는 이번 주에 두 번 바뀌었어요. 비용은 파일 여섯을 고치는 게 아니라, 다섯을 고치고 여섯 번째를 디버깅하는 날이에요.</p>
+<p><strong>Priya:</strong> 알겠어요. 그런데 rabbit은 소스에서 배포해요. 로컬 경로에 의존할 수 없어요.</p>
+<p><strong>Jay:</strong> 잘 잡았어요. 그럼 rabbit은 파일을 복사하고 헤더에 rails가 정본이라고 적어요. 사실의 집은 하나, 복사본은 자기가 복사본임을 알게요.</p>
+<p><strong>Marek:</strong> CI에서 복사본과 rails를 diff하는 검사를 추가할게요.</p>
+<p><strong>Jay:</strong> 그러면 신선도 검사가 있는 캐시고, 제가 믿는 유일한 종류의 복사본이에요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>크기를 다시 센다.</strong> "That&#39;s fifteen facts, and today they have six homes each." "URL 하나"라는 프레임을 숫자로 교정한다.</li><li><strong>비용을 편집이 아니라 디버깅으로 말한다.</strong> "the day we edit five and debug the sixth" 중복의 진짜 비용은 작업량이 아니라 불일치다.</li><li><strong>반론을 설계에 흡수한다.</strong> "Good catch. Then rabbit copies the file and says… rails is canonical." 배포 제약을 인정하고 원칙을 지키는 형태를 찾는다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-19.html">&larr; 19. Who can reach that port?</a><a href="english-21.html">21. Don&#39;t draw yet. Ask what the box is for. &rarr;</a></div>
   </div>
@@ -460,16 +471,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -490,12 +509,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

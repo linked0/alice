@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#8</span><span>Incident</span></p>
       <h1>"No answer" is not "broken"</h1>
       <p class="lead">The status page shows three services as unreachable at 3 a.m. Sun-woo is about to page everyone. The services are Cloud Run instances that scaled to zero.</p>
-      <p class="meta">새벽 3시, 상태 페이지에 서비스 셋이 무응답으로 뜬다. 선우가 모두를 호출하려 한다. 그 서비스들은 0으로 스케일된 Cloud Run 인스턴스다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 8 · Incident — \"No answer\" is not \"broken\"\ntitle_ko: \"무응답\"은 \"고장\"이 아니다\nsituation: The status page shows three services as unreachable at 3 a.m. Sun-woo is about to page everyone. The services are Cloud Run instances that scaled to zero.\nsituation_ko: 새벽 3시, 상태 페이지에 서비스 셋이 무응답으로 뜬다. 선우가 모두를 호출하려 한다. 그 서비스들은 0으로 스케일된 Cloud Run 인스턴스다.\nwhy: Incident English for the first five minutes: slow the escalation, separate signal from state, and fix the page so the next person doesn't have this conversation.\nwhy_ko: 사고 첫 5분의 영어. 에스컬레이션을 늦추고, 신호와 상태를 구분하고, 다음 사람이 같은 대화를 하지 않게 페이지를 고친다.\n\n## Dialogue\nSun-woo: Three services are down on the status page. I'm paging the on-call.\n> 상태 페이지에 서비스 셋이 다운이에요. 온콜을 호출할게요.\nJay: Hold one minute. Which three?\n> 1분만요. 어느 셋이죠?\nSun-woo: Exchange, DeFi, Game.\n> Exchange, DeFi, Game이요.\nJay: Those scale to zero when nobody's using them. From outside, a sleeping service and a stopped one look identical. Hit each one once and see if it wakes.\n> 그건 아무도 쓰지 않으면 0으로 줄어드는 것들이에요. 밖에서 보면 자는 서비스와 멈춘 서비스가 똑같아요. 각각 한 번 쳐보고 깨어나는지 봐요.\nSun-woo: Exchange is back. Cold start, four seconds. The other two as well.\n> Exchange 돌아왔어요. 콜드 스타트 4초. 나머지 둘도요.\nJay: Good. So there's no incident, but there is a bug, and it's on our status page. \"Unreachable\" is the wrong word for \"asleep.\"\n> 좋아요. 그러니 사고는 없지만 버그는 있고, 우리 상태 페이지에 있어요. \"무응답\"은 \"잠든\"의 잘못된 표현이에요.\nSun-woo: Should the probe wake them up first?\n> 프로브가 먼저 깨워야 할까요?\nJay: No. Waking three services every five seconds costs money for a page nobody reads at night. Label the state honestly, \"no answer, may be sleeping,\" and leave paging to real signals.\n> 아니요. 5초마다 서비스 셋을 깨우는 건 밤에 아무도 읽지 않는 페이지에 돈을 쓰는 거예요. 상태를 정직하게 \"무응답, 잠들었을 수 있음\"으로 표기하고 호출은 진짜 신호에 맡겨요.\n\n## Techniques\n1. **첫 문장은 속도를 늦춘다.** \"Hold one minute. Which three?\" 에스컬레이션을 막지 않고 정보를 하나 요구하면 1분을 벌 수 있다.\n2. **신호와 상태를 가른다.** \"a sleeping service and a stopped one look identical\" 관측이 상태를 결정하지 않는다는 점을 한 문장으로 말한다.\n3. **사고가 없어도 버그는 잡는다.** \"there's no incident, but there is a bug\" 야간 오경보를 낭비가 아니라 페이지 개선으로 끝맺는다.\n\n## Expressions\n| page the on-call | 온콜을 호출하다 |\n| hold one minute | 1분만 기다려라 |\n| scale to zero | 0으로 스케일되다 |\n| look identical from outside | 밖에서는 똑같이 보인다 |\n| see if it wakes | 깨어나는지 봐라 |\n| cold start | 콜드 스타트 |\n| no incident, but a bug | 사고는 없지만 버그는 있다 |\n| the wrong word for | ~의 잘못된 표현 |\n| label the state honestly | 상태를 정직하게 표기하라 |\n| leave paging to real signals | 호출은 진짜 신호에 맡겨라 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Incident English for the first five minutes: slow the escalation, separate signal from state, and fix the page so the next person doesn&#39;t have this conversation.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">사고 첫 5분의 영어. 에스컬레이션을 늦추고, 신호와 상태를 구분하고, 다음 사람이 같은 대화를 하지 않게 페이지를 고친다.</p>
 <h2>Dialogue</h2>
 <p><strong>Sun-woo:</strong> Three services are down on the status page. I&#39;m paging the on-call.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">상태 페이지에 서비스 셋이 다운이에요. 온콜을 호출할게요.</p>
 <p><strong>Jay:</strong> Hold one minute. Which three?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">1분만요. 어느 셋이죠?</p>
 <p><strong>Sun-woo:</strong> Exchange, DeFi, Game.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Exchange, DeFi, Game이요.</p>
 <p><strong>Jay:</strong> Those scale to zero when nobody&#39;s using them. From outside, a sleeping service and a stopped one look identical. Hit each one once and see if it wakes.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그건 아무도 쓰지 않으면 0으로 줄어드는 것들이에요. 밖에서 보면 자는 서비스와 멈춘 서비스가 똑같아요. 각각 한 번 쳐보고 깨어나는지 봐요.</p>
 <p><strong>Sun-woo:</strong> Exchange is back. Cold start, four seconds. The other two as well.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Exchange 돌아왔어요. 콜드 스타트 4초. 나머지 둘도요.</p>
 <p><strong>Jay:</strong> Good. So there&#39;s no incident, but there is a bug, and it&#39;s on our status page. "Unreachable" is the wrong word for "asleep."</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋아요. 그러니 사고는 없지만 버그는 있고, 우리 상태 페이지에 있어요. "무응답"은 "잠든"의 잘못된 표현이에요.</p>
 <p><strong>Sun-woo:</strong> Should the probe wake them up first?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">프로브가 먼저 깨워야 할까요?</p>
 <p><strong>Jay:</strong> No. Waking three services every five seconds costs money for a page nobody reads at night. Label the state honestly, "no answer, may be sleeping," and leave paging to real signals.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">아니요. 5초마다 서비스 셋을 깨우는 건 밤에 아무도 읽지 않는 페이지에 돈을 쓰는 거예요. 상태를 정직하게 "무응답, 잠들었을 수 있음"으로 표기하고 호출은 진짜 신호에 맡겨요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>첫 문장은 속도를 늦춘다.</strong> "Hold one minute. Which three?" 에스컬레이션을 막지 않고 정보를 하나 요구하면 1분을 벌 수 있다.</li><li><strong>신호와 상태를 가른다.</strong> "a sleeping service and a stopped one look identical" 관측이 상태를 결정하지 않는다는 점을 한 문장으로 말한다.</li><li><strong>사고가 없어도 버그는 잡는다.</strong> "there&#39;s no incident, but there is a bug" 야간 오경보를 낭비가 아니라 페이지 개선으로 끝맺는다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>page the on-call</strong></td><td>온콜을 호출하다</td></tr><tr><td><strong>hold one minute</strong></td><td>1분만 기다려라</td></tr><tr><td><strong>scale to zero</strong></td><td>0으로 스케일되다</td></tr><tr><td><strong>look identical from outside</strong></td><td>밖에서는 똑같이 보인다</td></tr><tr><td><strong>see if it wakes</strong></td><td>깨어나는지 봐라</td></tr><tr><td><strong>cold start</strong></td><td>콜드 스타트</td></tr><tr><td><strong>no incident, but a bug</strong></td><td>사고는 없지만 버그는 있다</td></tr><tr><td><strong>the wrong word for</strong></td><td>~의 잘못된 표현</td></tr><tr><td><strong>label the state honestly</strong></td><td>상태를 정직하게 표기하라</td></tr><tr><td><strong>leave paging to real signals</strong></td><td>호출은 진짜 신호에 맡겨라</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>"무응답"은 "고장"이 아니다</h1>
+      <p class="lead">새벽 3시, 상태 페이지에 서비스 셋이 무응답으로 뜬다. 선우가 모두를 호출하려 한다. 그 서비스들은 0으로 스케일된 Cloud Run 인스턴스다.</p>
+<h2>왜 이 대화인가</h2>
+<p>사고 첫 5분의 영어. 에스컬레이션을 늦추고, 신호와 상태를 구분하고, 다음 사람이 같은 대화를 하지 않게 페이지를 고친다.</p>
+<h2>대화</h2>
+<p><strong>Sun-woo:</strong> 상태 페이지에 서비스 셋이 다운이에요. 온콜을 호출할게요.</p>
+<p><strong>Jay:</strong> 1분만요. 어느 셋이죠?</p>
+<p><strong>Sun-woo:</strong> Exchange, DeFi, Game이요.</p>
+<p><strong>Jay:</strong> 그건 아무도 쓰지 않으면 0으로 줄어드는 것들이에요. 밖에서 보면 자는 서비스와 멈춘 서비스가 똑같아요. 각각 한 번 쳐보고 깨어나는지 봐요.</p>
+<p><strong>Sun-woo:</strong> Exchange 돌아왔어요. 콜드 스타트 4초. 나머지 둘도요.</p>
+<p><strong>Jay:</strong> 좋아요. 그러니 사고는 없지만 버그는 있고, 우리 상태 페이지에 있어요. "무응답"은 "잠든"의 잘못된 표현이에요.</p>
+<p><strong>Sun-woo:</strong> 프로브가 먼저 깨워야 할까요?</p>
+<p><strong>Jay:</strong> 아니요. 5초마다 서비스 셋을 깨우는 건 밤에 아무도 읽지 않는 페이지에 돈을 쓰는 거예요. 상태를 정직하게 "무응답, 잠들었을 수 있음"으로 표기하고 호출은 진짜 신호에 맡겨요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>첫 문장은 속도를 늦춘다.</strong> "Hold one minute. Which three?" 에스컬레이션을 막지 않고 정보를 하나 요구하면 1분을 벌 수 있다.</li><li><strong>신호와 상태를 가른다.</strong> "a sleeping service and a stopped one look identical" 관측이 상태를 결정하지 않는다는 점을 한 문장으로 말한다.</li><li><strong>사고가 없어도 버그는 잡는다.</strong> "there&#39;s no incident, but there is a bug" 야간 오경보를 낭비가 아니라 페이지 개선으로 끝맺는다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-7.html">&larr; 7. Why not just use 31337?</a><a href="english-9.html">9. 7702 or 4337 for the wallet &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

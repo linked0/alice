@@ -153,11 +153,21 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   yesterday. A day starts at
   **06:00 KST** (jay: "done from the 6 a.m. today before the new day's first one is done"). This replaces the old
   RECENTLY DONE (sky blue), which never rolled over.
-- Mechanics: `add-tech-item.py --status recent` (alias `lately`) stamps `done` (ISO, +09:00; `--done-at` to override)
-  on the `_nav.js` item, then runs `scripts/roll-done-states.py`, which buckets every stamped item by
-  `(done − 6h).date()`, keeps the newest bucket as TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in
-  `notes.html` with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
-- Rail buttons **Important · New · All · Done · Yesterday · Today** (list page, every detail page, template
-  `rtd-shell.mjs`): Done = every finished item (DONE + YESTERDAY DONE + TODAY DONE; jay, 2026-09-18: "Add done button
-  also"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
+- Mechanics: `add-tech-item.py --status recent` (alias `today`; `--done-at` to override the time) stamps `done`
+  (ISO, +09:00) on the `_nav.js` item; English items take `status: recent` + `done: <ISO +09:00>` in
+  `docs/topics/english/english-N.md`, which `english-notes.py` carries into `_nav.js`. Both scripts then run
+  `scripts/roll-done-states.py`, which buckets every stamped item by `(done − 6h).date()`, keeps the newest bucket as
+  TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in `notes.html`
+  with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
+- Rail buttons in two rows — **Important · New · All** / **Done · Yesterday · Today** (a `.tier-break` span forces the
+  break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
+  Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
   template `scripts/rtd-shell.mjs`).
+
+## English pages: English first, Korean apart (jay, 2026-09-18)
+
+- Every `english-N.html` has two articles like the PoC pages — `#en` (why, dialogue, key expressions) and `#ko`
+  (제목, 상황, 왜, 대화, 협업 기법 세 가지) — with the language switch in the hero and at the top of each article.
+  jay: "separate english and korean parts as others so that I don't read the translation first." No Korean line sits
+  under an English line any more. `scripts/english-notes.py` renders it from `docs/topics/english/english-N.md`; the
+  source format is unchanged (`> 한국어` under each line).

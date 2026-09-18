@@ -279,6 +279,47 @@
 <li><strong>Change:</strong> button <code>data-tier-mode=&quot;done&quot;</code> + <code>isDone</code> filter on <code>notes.html</code>, 324 detail pages and <code>rtd-shell.mjs</code>; README and memory updated.</li>
 <li><strong>Result:</strong> Important · New · All · Done · Yesterday · Today; Done currently lists 60 Tech and 6 Foundations items.</li>
 </ul>
+<h3 id="rail-done-button-means-done-before-yesterday">Rail: Done button means &quot;done before yesterday&quot;</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Done before Yesterday&quot; — the Done button should not repeat today&#39;s and yesterday&#39;s items.</li>
+<li><strong>Change:</strong> <code>isDone</code> matches the plain <code>DONE</code> title only, on <code>notes.html</code>, 324 pages and <code>rtd-shell.mjs</code>; tooltip and README updated. Done · Yesterday · Today now partition the finished items.</li>
+<li><strong>Result:</strong> Done lists 55 Tech (#1–#53 done ones) and 6 Foundations items; Yesterday #54–#55; Today #56–#60.</li>
+</ul>
+<h3 id="rail-buttons-in-two-fixed-rows">Rail: buttons in two fixed rows</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Done, Yesterday, Today are on the same line.&quot;</li>
+<li><strong>Change:</strong> a <code>&lt;span class=&quot;tier-break&quot;&gt;</code> (flex-basis 100%) after All in <code>notes.html</code>, 324 pages and <code>rtd-shell.mjs</code>, so the row breaks there regardless of rail width: Important · New · All on the first line, Done · Yesterday · Today on the second.</li>
+</ul>
+<h3 id="tech-61-agentic-engineering-marked-today-done-dark-horse-e-boundary-files">Tech #61 agentic engineering marked TODAY DONE; Dark Horse (e) boundary files</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Make the 61 done and add related tasks to dark horse.&quot;</li>
+<li><strong>Change:</strong> re-ran <code>add-tech-item.py</code> for <code>agentic-engineering-writes-boundaries</code> with <code>--status recent</code> (TODAY DONE, stamped now; index card → #62 Mamba). New Dark Horse candidate <strong>(e) Agentic engineering — boundary files before agent tasks</strong> in <a href="../features/jayverse-darkhorse.html"><code>docs/features/jayverse-darkhorse.md</code></a>, built from the item&#39;s &quot;Where it lands in Jayverse&quot;: boundary-file template piloted on one web-app module, Rabbit&#39;s 7715 mandate + enforcer tests as the boundary of agent features, a CI evaluation job for agent-produced changes, <em>boundary</em> into Dev English #32; mirrored as a §10 bullet in <code>docs/tasks/09-02-jayverse.md</code> and in the hub row 10 of <code>docs/features/README.md</code>.</li>
+<li><strong>Result:</strong> Tech 61/241, overall 67/472; Today shows #56–#61. Branch <code>claude/61-darkhorse</code> (carries the uncommitted Done-button work from <code>claude/done-button-scope</code>), uncommitted.</li>
+</ul>
+<h3 id="rail-foot-simplified-all-notes---health--index">Rail foot simplified: All Notes · ♥ Health · Index</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot of the rail foot): &quot;make them simple: All Notes, Index.&quot;</li>
+<li><strong>Change:</strong> rail-foot links on the 324 detail pages read <code>All Notes · ♥ Health · Index</code> (new pages copy an existing page&#39;s head, so they inherit it; <code>rtd-shell.mjs</code> takes the foot as a parameter and is used only by the logs generator, so it is untouched) (was <code>← All Knowledge Notes · ♥ Health · Workspace Index</code>); <code>notes.html</code> foot reads <code>♥ Health · Index · Live PoCs</code> (it still said <code>🔒 Rules</code>, missed by the health rename). Body-end links and crumbs unchanged.</li>
+</ul>
+<h3 id="english-pages-english-article-first-korean-article-apart">English pages: English article first, Korean article apart</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;For all the english [pages] separate english and korean parts as others so that I don&#39;t read the translation first.&quot;</li>
+<li><strong>Reasoning:</strong> the pages interleaved each English line with its Korean, so the eye caught the translation before finishing the English. The PoC pages already solve this with <code>#en</code> / <code>#ko</code> articles and a language switch; the English pages now use the same shape.</li>
+<li><strong>Change:</strong> <code>scripts/english-notes.py</code> — <code>#en</code> (why, dialogue, key expressions) and <code>#ko</code> (제목, 상황, 왜, 대화, 협업 기법 세 가지) articles, lang-switch pills in the hero and per article, KO situation moved out of the hero; rail links in the rebuilt English group now <code>topics/english-N.html</code> (the script still wrote <code>#english-N</code>, which the 2026-09-18 rail change had overridden by hand). All 34 pages rebuilt; source format unchanged.</li>
+<li><strong>Result:</strong> rail 34 page links, 0 hash links, 0 duplicate keys, Health cards and counts intact; README rule added.</li>
+</ul>
+<h3 id="english-1-the-function-is-fine-who-can-call-it-marked-today-done">English #1 &quot;The function is fine. Who can call it?&quot; marked TODAY DONE</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;make done The function is fine. Who can call it? of english&quot; (after asking what <em>modifier</em> meant in that dialogue).</li>
+<li><strong>Change:</strong> <code>docs/topics/english/english-1.md</code> gets <code>status: recent</code> and <code>done: 2026-09-18T15:08+09:00</code> (it had no status line; the default was planned). <code>scripts/english-notes.py</code> now carries <code>done</code> into the <code>_nav.js</code> item and runs <code>roll-done-states.py</code>, so English items join the Today / Yesterday roll like the other sections.</li>
+<li><strong>Result:</strong> English 1/34, overall 68/472; Today shows #56–#61 and English #1.</li>
+</ul>
+<h3 id="detail-page-rail-done--yesterday--today-search-every-section">Detail-page rail: Done / Yesterday / Today search every section</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot of the three buttons): &quot;For this part, it shows the matched ones for all the categories.&quot; A detail page&#39;s rail held only its own section, so Done on a Tech page could never show a Foundations or English item.</li>
+<li><strong>Change:</strong> the rail script on the 324 detail pages now renders every section — the current one first, the others tagged <code>data-other-section</code> — and the filter shows those other groups only in Done, Yesterday and Today modes; Important, New and All behave as before. <code>notes.html</code> already lists every section, so it needed nothing.</li>
+<li><strong>Result:</strong> on any page, Today lists Tech #56–#61 and English #1; Yesterday #54–#55; Done every green item across sections.</li>
+</ul>
 
   </article>
 </div>

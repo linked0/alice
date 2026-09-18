@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#19</span><span>Ops</span></p>
       <h1>Who can reach that port?</h1>
       <p class="lead">Priya wants to test the wallet on her phone against Jay&#39;s local Anvil and suggests opening port 8545 on the office router. Jay has a tailnet.</p>
-      <p class="meta">Priya가 Jay의 로컬 Anvil에 대고 폰에서 지갑을 테스트하고 싶어 사무실 라우터의 8545 포트를 열자고 한다. Jay에게는 tailnet이 있다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 19 · Ops — Who can reach that port?\ntitle_ko: 그 포트에 누가 닿을 수 있나?\nsituation: Priya wants to test the wallet on her phone against Jay's local Anvil and suggests opening port 8545 on the office router. Jay has a tailnet.\nsituation_ko: Priya가 Jay의 로컬 Anvil에 대고 폰에서 지갑을 테스트하고 싶어 사무실 라우터의 8545 포트를 열자고 한다. Jay에게는 tailnet이 있다.\nwhy: Network-exposure English: the one question to ask before opening anything, and how to offer the safer path without a security lecture.\nwhy_ko: 네트워크 노출 영어. 무엇이든 열기 전에 물을 질문 하나, 그리고 보안 훈계 없이 더 안전한 길을 제시하는 법.\n\n## Dialogue\nPriya: Can we open 8545 on the router so I can hit your Anvil from my phone?\n> 제 폰에서 당신의 Anvil에 접근할 수 있게 라우터의 8545를 열 수 있을까요?\nJay: Before we open anything: who can reach that port afterwards?\n> 무엇이든 열기 전에요. 그 다음엔 누가 그 포트에 닿을 수 있죠?\nPriya: Anyone on the internet, I suppose. It's just a test chain.\n> 인터넷의 누구나요, 아마. 그냥 테스트 체인인데요.\nJay: A test chain with anvil_setBalance and no auth. Someone finds it, mints themselves a million test ETH, and we spend a morning confused. Not a disaster, just a waste.\n> anvil_setBalance가 있고 인증이 없는 테스트 체인이죠. 누가 발견해서 테스트 ETH 백만 개를 자기에게 찍고, 우리는 아침 내내 혼란스러워하는 거예요. 재난은 아니고 낭비죠.\nPriya: So what instead?\n> 그럼 대신 뭘요?\nJay: Tailscale. Your phone joins the tailnet, Anvil listens on all interfaces, and the RPC is http://100.111.162.0:8545 for you and nobody else. I need to restart Anvil with --host 0.0.0.0 for that.\n> Tailscale이요. 당신 폰이 tailnet에 들어오고, Anvil이 모든 인터페이스에서 듣고, RPC는 당신에게만 http://100.111.162.0:8545예요. 그러려면 Anvil을 --host 0.0.0.0으로 재시작해야 해요.\nPriya: Does restarting lose the state?\n> 재시작하면 상태가 사라지나요?\nJay: No, it's on a state file. Only the listener changes. I'll do it after the current test finishes, not during.\n> 아니요, state 파일에 있어요. 리스너만 바뀌어요. 지금 테스트가 끝난 뒤에 할 거예요, 도중이 아니라.\n\n## Techniques\n1. **행동 전 질문 하나.** \"who can reach that port afterwards?\" 모든 노출 결정에 앞서는 한 문장. 거절이 아니라 질문이라 대화가 열린다.\n2. **피해를 정확한 크기로 말한다.** \"Not a disaster, just a waste.\" 과장하면 신뢰를 잃고, 축소하면 무시된다. 크기를 맞춘다.\n3. **대안을 실행 절차와 함께 준다.** \"I need to restart Anvil with --host 0.0.0.0\" 원칙만 말하지 않고 다음 행동을 명시한다.\n\n## Expressions\n| hit your Anvil from my phone | 내 폰에서 당신의 Anvil에 접근하다 |\n| before we open anything | 무엇이든 열기 전에 |\n| who can reach that port? | 누가 그 포트에 닿을 수 있나? |\n| no auth | 인증 없음 |\n| mint themselves a million | 자기에게 백만을 찍다 |\n| not a disaster, just a waste | 재난은 아니고 낭비다 |\n| listens on all interfaces | 모든 인터페이스에서 수신한다 |\n| for you and nobody else | 당신에게만 |\n| only the listener changes | 리스너만 바뀐다 |\n| after it finishes, not during | 끝난 뒤에, 도중이 아니라 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Network-exposure English: the one question to ask before opening anything, and how to offer the safer path without a security lecture.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">네트워크 노출 영어. 무엇이든 열기 전에 물을 질문 하나, 그리고 보안 훈계 없이 더 안전한 길을 제시하는 법.</p>
 <h2>Dialogue</h2>
 <p><strong>Priya:</strong> Can we open 8545 on the router so I can hit your Anvil from my phone?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">제 폰에서 당신의 Anvil에 접근할 수 있게 라우터의 8545를 열 수 있을까요?</p>
 <p><strong>Jay:</strong> Before we open anything: who can reach that port afterwards?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">무엇이든 열기 전에요. 그 다음엔 누가 그 포트에 닿을 수 있죠?</p>
 <p><strong>Priya:</strong> Anyone on the internet, I suppose. It&#39;s just a test chain.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">인터넷의 누구나요, 아마. 그냥 테스트 체인인데요.</p>
 <p><strong>Jay:</strong> A test chain with anvil_setBalance and no auth. Someone finds it, mints themselves a million test ETH, and we spend a morning confused. Not a disaster, just a waste.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">anvil_setBalance가 있고 인증이 없는 테스트 체인이죠. 누가 발견해서 테스트 ETH 백만 개를 자기에게 찍고, 우리는 아침 내내 혼란스러워하는 거예요. 재난은 아니고 낭비죠.</p>
 <p><strong>Priya:</strong> So what instead?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 대신 뭘요?</p>
 <p><strong>Jay:</strong> Tailscale. Your phone joins the tailnet, Anvil listens on all interfaces, and the RPC is http://100.111.162.0:8545 for you and nobody else. I need to restart Anvil with --host 0.0.0.0 for that.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">Tailscale이요. 당신 폰이 tailnet에 들어오고, Anvil이 모든 인터페이스에서 듣고, RPC는 당신에게만 http://100.111.162.0:8545예요. 그러려면 Anvil을 --host 0.0.0.0으로 재시작해야 해요.</p>
 <p><strong>Priya:</strong> Does restarting lose the state?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">재시작하면 상태가 사라지나요?</p>
 <p><strong>Jay:</strong> No, it&#39;s on a state file. Only the listener changes. I&#39;ll do it after the current test finishes, not during.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">아니요, state 파일에 있어요. 리스너만 바뀌어요. 지금 테스트가 끝난 뒤에 할 거예요, 도중이 아니라.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>행동 전 질문 하나.</strong> "who can reach that port afterwards?" 모든 노출 결정에 앞서는 한 문장. 거절이 아니라 질문이라 대화가 열린다.</li><li><strong>피해를 정확한 크기로 말한다.</strong> "Not a disaster, just a waste." 과장하면 신뢰를 잃고, 축소하면 무시된다. 크기를 맞춘다.</li><li><strong>대안을 실행 절차와 함께 준다.</strong> "I need to restart Anvil with --host 0.0.0.0" 원칙만 말하지 않고 다음 행동을 명시한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hit your Anvil from my phone</strong></td><td>내 폰에서 당신의 Anvil에 접근하다</td></tr><tr><td><strong>before we open anything</strong></td><td>무엇이든 열기 전에</td></tr><tr><td><strong>who can reach that port?</strong></td><td>누가 그 포트에 닿을 수 있나?</td></tr><tr><td><strong>no auth</strong></td><td>인증 없음</td></tr><tr><td><strong>mint themselves a million</strong></td><td>자기에게 백만을 찍다</td></tr><tr><td><strong>not a disaster, just a waste</strong></td><td>재난은 아니고 낭비다</td></tr><tr><td><strong>listens on all interfaces</strong></td><td>모든 인터페이스에서 수신한다</td></tr><tr><td><strong>for you and nobody else</strong></td><td>당신에게만</td></tr><tr><td><strong>only the listener changes</strong></td><td>리스너만 바뀐다</td></tr><tr><td><strong>after it finishes, not during</strong></td><td>끝난 뒤에, 도중이 아니라</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>그 포트에 누가 닿을 수 있나?</h1>
+      <p class="lead">Priya가 Jay의 로컬 Anvil에 대고 폰에서 지갑을 테스트하고 싶어 사무실 라우터의 8545 포트를 열자고 한다. Jay에게는 tailnet이 있다.</p>
+<h2>왜 이 대화인가</h2>
+<p>네트워크 노출 영어. 무엇이든 열기 전에 물을 질문 하나, 그리고 보안 훈계 없이 더 안전한 길을 제시하는 법.</p>
+<h2>대화</h2>
+<p><strong>Priya:</strong> 제 폰에서 당신의 Anvil에 접근할 수 있게 라우터의 8545를 열 수 있을까요?</p>
+<p><strong>Jay:</strong> 무엇이든 열기 전에요. 그 다음엔 누가 그 포트에 닿을 수 있죠?</p>
+<p><strong>Priya:</strong> 인터넷의 누구나요, 아마. 그냥 테스트 체인인데요.</p>
+<p><strong>Jay:</strong> anvil_setBalance가 있고 인증이 없는 테스트 체인이죠. 누가 발견해서 테스트 ETH 백만 개를 자기에게 찍고, 우리는 아침 내내 혼란스러워하는 거예요. 재난은 아니고 낭비죠.</p>
+<p><strong>Priya:</strong> 그럼 대신 뭘요?</p>
+<p><strong>Jay:</strong> Tailscale이요. 당신 폰이 tailnet에 들어오고, Anvil이 모든 인터페이스에서 듣고, RPC는 당신에게만 http://100.111.162.0:8545예요. 그러려면 Anvil을 --host 0.0.0.0으로 재시작해야 해요.</p>
+<p><strong>Priya:</strong> 재시작하면 상태가 사라지나요?</p>
+<p><strong>Jay:</strong> 아니요, state 파일에 있어요. 리스너만 바뀌어요. 지금 테스트가 끝난 뒤에 할 거예요, 도중이 아니라.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>행동 전 질문 하나.</strong> "who can reach that port afterwards?" 모든 노출 결정에 앞서는 한 문장. 거절이 아니라 질문이라 대화가 열린다.</li><li><strong>피해를 정확한 크기로 말한다.</strong> "Not a disaster, just a waste." 과장하면 신뢰를 잃고, 축소하면 무시된다. 크기를 맞춘다.</li><li><strong>대안을 실행 절차와 함께 준다.</strong> "I need to restart Anvil with --host 0.0.0.0" 원칙만 말하지 않고 다음 행동을 명시한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-18.html">&larr; 18. The PR is wrong and the person is fine</a><a href="english-20.html">20. One fact, one home &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

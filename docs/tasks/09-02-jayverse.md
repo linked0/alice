@@ -195,6 +195,11 @@
   reading and a verex market resolving on a named reference rate; Splice LocalNet first, then the
   Global Synchronizer DevNet; test networks only, no MainNet. Writeup in
   [`../features/jayverse-darkhorse.md`](../features/jayverse-darkhorse.md) (d).
+- **(e) Agentic engineering — boundary files before agent tasks** (jay, 2026-09-18, from Tech #61) —
+  a boundary-file template (interface, invariants, allowed tools, evaluation) piloted on one web-app
+  module; Rabbit's 7715 mandate + enforcer tests treated as the boundary of its agent features; a CI
+  evaluation job for agent-produced changes; *boundary* added to Dev English #32. Writeup in
+  [`../features/jayverse-darkhorse.md`](../features/jayverse-darkhorse.md) (e).
 - (also on the radar: **데이터 과학 / data science** — pandas/numpy, Dune/The Graph; see the PoC
   "Essential Math for Data Science".)
 - PoC items feed these candidates before any one of them graduates to a numbered service.

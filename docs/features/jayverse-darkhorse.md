@@ -75,6 +75,36 @@ Our core is EVM; Canton is Daml, a different language, toolchain and operating m
 PoC links: `canton-sv-seat-is-a-milestone-contract`, `kaiko-reference-rate-is-a-price-with-governance`,
 `sp-global-buys-openzeppelin`, `interop-os-one-network`.
 
+## (e) Agentic engineering — boundary files before agent tasks (added 2026-09-18, jay)
+
+**What.** Tech #61 (*Agentic engineering writes the boundaries, not the lines*) says the job of the
+engineer in an agent-built codebase is the boundary: interface, invariants, allowed tools and the
+evaluation that decides whether the agent's output ships. Jayverse already has agent-written code in
+every service; what varies is whether the boundary was written first. Tasks, cheapest first:
+
+1. **Boundary file template.** One short markdown the agent reads before a task:
+   *interface* (what the module exposes), *invariants* (what must never change), *allowed tools and
+   files*, *evaluation* (the tests or checks that prove the work). Pilot it on one web-app module
+   that has no invariant suite today; the Verex contracts already carry the invariant half.
+2. **Rabbit: mandates are boundaries for agents that move money.** Write the 7715 mandate — cap,
+   expiry, allowed targets — as the boundary file of the agent features, and treat the enforcer
+   tests as its evaluation. Rule: enforcer tests land before the agent feature that needs them.
+3. **CI as the verifier of probabilistic output.** Where an agent produces code or content that
+   ships, add an evaluation job: frozen lockfiles, the invariant / fuzz suites, and a boundary-file
+   check (the task's boundary file exists and its named tests ran). Start with the repo that has the
+   most agent-written changes per week.
+4. **Interview vocabulary.** Add *boundary* to the Dev English "how do you use AI" conversation
+   (#32): a lead is hired to write boundaries, not lines.
+
+**Why dark horse.** It compounds across every service the way (b) does — each boundary file is
+also the attack-surface description (b) needs and the spec a new contributor reads — but it is a
+way of working, not a service, so it should prove itself on one module before it becomes a rule.
+**Why not committed.** Nothing in #1–9 blocks on it; the cost is discipline, not code, and the
+right template is only known after a pilot. **Guardrail:** an agent task without a boundary file is
+vibe coding by the item's own definition; fine for a prototype, never for a module others depend on.
+PoC links: `agentic-engineering-writes-boundaries`, `model-is-weights-plus-objective`,
+`pocock-sergeant-not-general` (Life #2), `dependency-is-authority`.
+
 ---
 
 Every entry here is a **candidate for review**, not committed work. Promote one to a numbered service

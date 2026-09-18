@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#10</span><span>BD</span></p>
       <h1>There is no market price for JYVE</h1>
       <p class="lead">A small exchange offers to list JYVE and asks for "the current price" to seed the order book. JYVE has no external market; the constant-product pool is its only price.</p>
-      <p class="meta">소형 거래소가 JYVE 상장을 제안하며 오더북 시드용 "현재 가격"을 묻는다. JYVE에는 외부 시장이 없고, 상수곱 풀이 유일한 가격이다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 10 · BD — There is no market price for JYVE\ntitle_ko: JYVE에는 시장 가격이 없다\nsituation: A small exchange offers to list JYVE and asks for \"the current price\" to seed the order book. JYVE has no external market; the constant-product pool is its only price.\nsituation_ko: 소형 거래소가 JYVE 상장을 제안하며 오더북 시드용 \"현재 가격\"을 묻는다. JYVE에는 외부 시장이 없고, 상수곱 풀이 유일한 가격이다.\nwhy: Explaining a self-made token honestly to a counterparty who assumes every token has a price, without sounding like you have nothing.\nwhy_ko: 모든 토큰에 가격이 있다고 가정하는 상대에게 자체 토큰을 정직하게 설명하기. 아무것도 없는 것처럼 들리지 않게.\n\n## Dialogue\nTom: Send us the current JYVE price and a 30-day chart and we can list next week.\n> 현재 JYVE 가격과 30일 차트를 보내주시면 다음 주에 상장할 수 있습니다.\nJay: I can send you a number, but I'd be misrepresenting it. JYVE has no external market. Its only price is the ratio in our JYVE/jUSD pool, and jUSD is a test dollar.\n> 숫자를 보낼 수는 있지만 그건 사실을 왜곡하는 거예요. JYVE에는 외부 시장이 없어요. 유일한 가격은 우리 JYVE/jUSD 풀의 비율이고, jUSD는 테스트 달러입니다.\nTom: So it's a testnet token?\n> 그러니까 테스트넷 토큰인가요?\nJay: Today, yes. It's the unit of account inside Jayverse: personas are priced in it, the exchange pool quotes it. Listing it now would put a price on something that hasn't earned one.\n> 오늘은 그렇습니다. Jayverse 안의 계산 단위예요. 페르소나가 그걸로 가격이 매겨지고 거래소 풀이 그걸 시세로 내죠. 지금 상장하면 아직 가격을 얻을 자격이 없는 것에 가격을 붙이는 겁니다.\nTom: Then why are we talking?\n> 그럼 왜 이야기하고 있죠?\nJay: Because I'd like you to be the first venue when it does. What I can offer now is read access to the pool, the bridge contracts, and a heads-up before anything goes to mainnet.\n> 가격을 얻을 때 첫 거래소가 되어주시길 바라서요. 지금 드릴 수 있는 건 풀의 읽기 접근, 브리지 컨트랙트, 그리고 메인넷에 무엇이든 가기 전 사전 통지입니다.\nTom: That's a slower deal than I came for.\n> 제가 기대한 것보다 느린 거래네요.\nJay: It is, and it's the one I can stand behind. A listing we'd have to explain away later is worse for you than for me.\n> 그렇죠. 그리고 제가 책임질 수 있는 유일한 거래예요. 나중에 변명해야 하는 상장은 저보다 당신에게 더 나쁩니다.\n\n## Techniques\n1. **줄 수 있지만 왜곡이라고 말한다.** \"I can send you a number, but I'd be misrepresenting it.\" 거절이 아니라 정직의 문제로 프레임을 옮긴다.\n2. **\"아직 자격이 없다\"는 시간 프레임.** \"hasn't earned one\" 영구적인 부정이 아니라 순서의 문제로 만든다.\n3. **상대의 이익으로 닫는다.** \"worse for you than for me\" 느린 거래를 상대의 리스크 관리로 다시 설명한다.\n\n## Expressions\n| the current price | 현재 가격 |\n| I'd be misrepresenting it | 사실을 왜곡하는 것이 된다 |\n| no external market | 외부 시장이 없다 |\n| the unit of account | 계산 단위 |\n| put a price on something that hasn't earned one | 아직 자격 없는 것에 가격을 붙이다 |\n| then why are we talking? | 그럼 왜 이야기하고 있나? |\n| the first venue | 첫 거래 장소 |\n| a heads-up | 사전 통지 |\n| the one I can stand behind | 내가 책임질 수 있는 것 |\n| explain away later | 나중에 변명으로 넘기다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Explaining a self-made token honestly to a counterparty who assumes every token has a price, without sounding like you have nothing.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">모든 토큰에 가격이 있다고 가정하는 상대에게 자체 토큰을 정직하게 설명하기. 아무것도 없는 것처럼 들리지 않게.</p>
 <h2>Dialogue</h2>
 <p><strong>Tom:</strong> Send us the current JYVE price and a 30-day chart and we can list next week.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">현재 JYVE 가격과 30일 차트를 보내주시면 다음 주에 상장할 수 있습니다.</p>
 <p><strong>Jay:</strong> I can send you a number, but I&#39;d be misrepresenting it. JYVE has no external market. Its only price is the ratio in our JYVE/jUSD pool, and jUSD is a test dollar.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">숫자를 보낼 수는 있지만 그건 사실을 왜곡하는 거예요. JYVE에는 외부 시장이 없어요. 유일한 가격은 우리 JYVE/jUSD 풀의 비율이고, jUSD는 테스트 달러입니다.</p>
 <p><strong>Tom:</strong> So it&#39;s a testnet token?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그러니까 테스트넷 토큰인가요?</p>
 <p><strong>Jay:</strong> Today, yes. It&#39;s the unit of account inside Jayverse: personas are priced in it, the exchange pool quotes it. Listing it now would put a price on something that hasn&#39;t earned one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">오늘은 그렇습니다. Jayverse 안의 계산 단위예요. 페르소나가 그걸로 가격이 매겨지고 거래소 풀이 그걸 시세로 내죠. 지금 상장하면 아직 가격을 얻을 자격이 없는 것에 가격을 붙이는 겁니다.</p>
 <p><strong>Tom:</strong> Then why are we talking?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 왜 이야기하고 있죠?</p>
 <p><strong>Jay:</strong> Because I&#39;d like you to be the first venue when it does. What I can offer now is read access to the pool, the bridge contracts, and a heads-up before anything goes to mainnet.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">가격을 얻을 때 첫 거래소가 되어주시길 바라서요. 지금 드릴 수 있는 건 풀의 읽기 접근, 브리지 컨트랙트, 그리고 메인넷에 무엇이든 가기 전 사전 통지입니다.</p>
 <p><strong>Tom:</strong> That&#39;s a slower deal than I came for.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">제가 기대한 것보다 느린 거래네요.</p>
 <p><strong>Jay:</strong> It is, and it&#39;s the one I can stand behind. A listing we&#39;d have to explain away later is worse for you than for me.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그렇죠. 그리고 제가 책임질 수 있는 유일한 거래예요. 나중에 변명해야 하는 상장은 저보다 당신에게 더 나쁩니다.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>줄 수 있지만 왜곡이라고 말한다.</strong> "I can send you a number, but I&#39;d be misrepresenting it." 거절이 아니라 정직의 문제로 프레임을 옮긴다.</li><li><strong>"아직 자격이 없다"는 시간 프레임.</strong> "hasn&#39;t earned one" 영구적인 부정이 아니라 순서의 문제로 만든다.</li><li><strong>상대의 이익으로 닫는다.</strong> "worse for you than for me" 느린 거래를 상대의 리스크 관리로 다시 설명한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the current price</strong></td><td>현재 가격</td></tr><tr><td><strong>I&#39;d be misrepresenting it</strong></td><td>사실을 왜곡하는 것이 된다</td></tr><tr><td><strong>no external market</strong></td><td>외부 시장이 없다</td></tr><tr><td><strong>the unit of account</strong></td><td>계산 단위</td></tr><tr><td><strong>put a price on something that hasn&#39;t earned one</strong></td><td>아직 자격 없는 것에 가격을 붙이다</td></tr><tr><td><strong>then why are we talking?</strong></td><td>그럼 왜 이야기하고 있나?</td></tr><tr><td><strong>the first venue</strong></td><td>첫 거래 장소</td></tr><tr><td><strong>a heads-up</strong></td><td>사전 통지</td></tr><tr><td><strong>the one I can stand behind</strong></td><td>내가 책임질 수 있는 것</td></tr><tr><td><strong>explain away later</strong></td><td>나중에 변명으로 넘기다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>JYVE에는 시장 가격이 없다</h1>
+      <p class="lead">소형 거래소가 JYVE 상장을 제안하며 오더북 시드용 "현재 가격"을 묻는다. JYVE에는 외부 시장이 없고, 상수곱 풀이 유일한 가격이다.</p>
+<h2>왜 이 대화인가</h2>
+<p>모든 토큰에 가격이 있다고 가정하는 상대에게 자체 토큰을 정직하게 설명하기. 아무것도 없는 것처럼 들리지 않게.</p>
+<h2>대화</h2>
+<p><strong>Tom:</strong> 현재 JYVE 가격과 30일 차트를 보내주시면 다음 주에 상장할 수 있습니다.</p>
+<p><strong>Jay:</strong> 숫자를 보낼 수는 있지만 그건 사실을 왜곡하는 거예요. JYVE에는 외부 시장이 없어요. 유일한 가격은 우리 JYVE/jUSD 풀의 비율이고, jUSD는 테스트 달러입니다.</p>
+<p><strong>Tom:</strong> 그러니까 테스트넷 토큰인가요?</p>
+<p><strong>Jay:</strong> 오늘은 그렇습니다. Jayverse 안의 계산 단위예요. 페르소나가 그걸로 가격이 매겨지고 거래소 풀이 그걸 시세로 내죠. 지금 상장하면 아직 가격을 얻을 자격이 없는 것에 가격을 붙이는 겁니다.</p>
+<p><strong>Tom:</strong> 그럼 왜 이야기하고 있죠?</p>
+<p><strong>Jay:</strong> 가격을 얻을 때 첫 거래소가 되어주시길 바라서요. 지금 드릴 수 있는 건 풀의 읽기 접근, 브리지 컨트랙트, 그리고 메인넷에 무엇이든 가기 전 사전 통지입니다.</p>
+<p><strong>Tom:</strong> 제가 기대한 것보다 느린 거래네요.</p>
+<p><strong>Jay:</strong> 그렇죠. 그리고 제가 책임질 수 있는 유일한 거래예요. 나중에 변명해야 하는 상장은 저보다 당신에게 더 나쁩니다.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>줄 수 있지만 왜곡이라고 말한다.</strong> "I can send you a number, but I&#39;d be misrepresenting it." 거절이 아니라 정직의 문제로 프레임을 옮긴다.</li><li><strong>"아직 자격이 없다"는 시간 프레임.</strong> "hasn&#39;t earned one" 영구적인 부정이 아니라 순서의 문제로 만든다.</li><li><strong>상대의 이익으로 닫는다.</strong> "worse for you than for me" 느린 거래를 상대의 리스크 관리로 다시 설명한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-9.html">&larr; 9. 7702 or 4337 for the wallet</a><a href="english-11.html">11. The key leaked. What else does it open? &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

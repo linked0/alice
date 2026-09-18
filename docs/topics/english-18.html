@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,38 +404,47 @@
       <p class="topic-kicker"><span class="topic-no">#18</span><span>1:1</span></p>
       <h1>The PR is wrong and the person is fine</h1>
       <p class="lead">Sun-woo&#39;s first big PR reimplements a helper that already exists in rails, and does it worse. Jay has to get the PR redone without teaching Sun-woo to stop taking initiative.</p>
-      <p class="meta">선우의 첫 큰 PR이 rails에 이미 있는 헬퍼를 다시, 더 나쁘게 구현했다. Jay는 선우가 주도성을 잃지 않게 하면서 PR을 다시 하게 해야 한다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 18 · 1:1 — The PR is wrong and the person is fine\ntitle_ko: PR은 틀렸고 사람은 괜찮다\nsituation: Sun-woo's first big PR reimplements a helper that already exists in rails, and does it worse. Jay has to get the PR redone without teaching Sun-woo to stop taking initiative.\nsituation_ko: 선우의 첫 큰 PR이 rails에 이미 있는 헬퍼를 다시, 더 나쁘게 구현했다. Jay는 선우가 주도성을 잃지 않게 하면서 PR을 다시 하게 해야 한다.\nwhy: Feedback English for juniors: judge the work, protect the instinct, and give one concrete habit instead of a general lecture.\nwhy_ko: 주니어를 위한 피드백 영어. 결과물을 판단하고, 본능은 보호하고, 일반적인 훈계 대신 구체적인 습관 하나를 준다.\n\n## Dialogue\nJay: Before the code: the instinct to build the helper yourself instead of waiting for someone was right. Keep that.\n> 코드 얘기 전에요. 누굴 기다리는 대신 헬퍼를 직접 만들려 한 본능은 맞았어요. 그건 유지해요.\nSun-woo: But?\n> 그런데요?\nJay: But it exists. rails has formatUnits with the same signature, and it handles the eighteen-decimals edge case yours misses. So the PR should shrink to an import.\n> 그런데 이미 있어요. rails에 같은 시그니처의 formatUnits가 있고, 당신 것이 놓친 18자리 소수 엣지 케이스를 처리해요. 그러니 PR은 import 하나로 줄어들어야 해요.\nSun-woo: I didn't know rails had it. I searched the repo.\n> rails에 있는 줄 몰랐어요. 레포를 검색했는데요.\nJay: This repo, right? The habit I'd add is one more search, in rails, before writing anything that feels generic. Five minutes, every time. That's the whole lesson.\n> 이 레포죠? 제가 추가하고 싶은 습관은, 범용적으로 느껴지는 걸 쓰기 전에 rails에서 한 번 더 검색하는 거예요. 매번 5분. 그게 교훈의 전부예요.\nSun-woo: Should I close the PR?\n> PR을 닫을까요?\nJay: Rewrite it. The test you wrote is good and rails doesn't have one for that case. Keep the test, swap the implementation, and the PR becomes a contribution to rails instead of a duplicate.\n> 다시 쓰세요. 당신이 쓴 테스트는 좋고 rails에는 그 케이스의 테스트가 없어요. 테스트는 두고 구현을 바꾸면, PR이 중복이 아니라 rails에 대한 기여가 돼요.\nSun-woo: That's a better PR than the one I opened.\n> 제가 연 것보다 나은 PR이네요.\nJay: It usually is, the second time.\n> 대개 두 번째가 그래요.\n\n## Techniques\n1. **본능과 결과를 갈라 말한다.** \"the instinct… was right. Keep that.\" 주도성을 먼저 보호하면 뒤의 교정이 위축을 낳지 않는다.\n2. **훈계 대신 습관 하나.** \"one more search, in rails… Five minutes, every time. That's the whole lesson.\" 교훈을 한 문장으로 제한하면 실제로 남는다.\n3. **살릴 것을 찾는다.** \"Keep the test, swap the implementation.\" 전면 부정 대신 PR 안의 좋은 부분을 지목해 다시 쓸 동력을 준다.\n\n## Expressions\n| before the code | 코드 얘기 전에 |\n| the instinct was right | 본능은 맞았다 |\n| keep that | 그건 유지하라 |\n| shrink to an import | import 하나로 줄어들다 |\n| the habit I'd add | 내가 추가하고 싶은 습관 |\n| anything that feels generic | 범용적으로 느껴지는 무엇이든 |\n| that's the whole lesson | 그게 교훈의 전부다 |\n| keep the test, swap the implementation | 테스트는 두고 구현을 바꿔라 |\n| a contribution instead of a duplicate | 중복이 아닌 기여 |\n| it usually is, the second time | 대개 두 번째가 그렇다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Feedback English for juniors: judge the work, protect the instinct, and give one concrete habit instead of a general lecture.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">주니어를 위한 피드백 영어. 결과물을 판단하고, 본능은 보호하고, 일반적인 훈계 대신 구체적인 습관 하나를 준다.</p>
 <h2>Dialogue</h2>
 <p><strong>Jay:</strong> Before the code: the instinct to build the helper yourself instead of waiting for someone was right. Keep that.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">코드 얘기 전에요. 누굴 기다리는 대신 헬퍼를 직접 만들려 한 본능은 맞았어요. 그건 유지해요.</p>
 <p><strong>Sun-woo:</strong> But?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그런데요?</p>
 <p><strong>Jay:</strong> But it exists. rails has formatUnits with the same signature, and it handles the eighteen-decimals edge case yours misses. So the PR should shrink to an import.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그런데 이미 있어요. rails에 같은 시그니처의 formatUnits가 있고, 당신 것이 놓친 18자리 소수 엣지 케이스를 처리해요. 그러니 PR은 import 하나로 줄어들어야 해요.</p>
 <p><strong>Sun-woo:</strong> I didn&#39;t know rails had it. I searched the repo.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">rails에 있는 줄 몰랐어요. 레포를 검색했는데요.</p>
 <p><strong>Jay:</strong> This repo, right? The habit I&#39;d add is one more search, in rails, before writing anything that feels generic. Five minutes, every time. That&#39;s the whole lesson.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">이 레포죠? 제가 추가하고 싶은 습관은, 범용적으로 느껴지는 걸 쓰기 전에 rails에서 한 번 더 검색하는 거예요. 매번 5분. 그게 교훈의 전부예요.</p>
 <p><strong>Sun-woo:</strong> Should I close the PR?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">PR을 닫을까요?</p>
 <p><strong>Jay:</strong> Rewrite it. The test you wrote is good and rails doesn&#39;t have one for that case. Keep the test, swap the implementation, and the PR becomes a contribution to rails instead of a duplicate.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">다시 쓰세요. 당신이 쓴 테스트는 좋고 rails에는 그 케이스의 테스트가 없어요. 테스트는 두고 구현을 바꾸면, PR이 중복이 아니라 rails에 대한 기여가 돼요.</p>
 <p><strong>Sun-woo:</strong> That&#39;s a better PR than the one I opened.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">제가 연 것보다 나은 PR이네요.</p>
 <p><strong>Jay:</strong> It usually is, the second time.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">대개 두 번째가 그래요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>본능과 결과를 갈라 말한다.</strong> "the instinct… was right. Keep that." 주도성을 먼저 보호하면 뒤의 교정이 위축을 낳지 않는다.</li><li><strong>훈계 대신 습관 하나.</strong> "one more search, in rails… Five minutes, every time. That&#39;s the whole lesson." 교훈을 한 문장으로 제한하면 실제로 남는다.</li><li><strong>살릴 것을 찾는다.</strong> "Keep the test, swap the implementation." 전면 부정 대신 PR 안의 좋은 부분을 지목해 다시 쓸 동력을 준다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>before the code</strong></td><td>코드 얘기 전에</td></tr><tr><td><strong>the instinct was right</strong></td><td>본능은 맞았다</td></tr><tr><td><strong>keep that</strong></td><td>그건 유지하라</td></tr><tr><td><strong>shrink to an import</strong></td><td>import 하나로 줄어들다</td></tr><tr><td><strong>the habit I&#39;d add</strong></td><td>내가 추가하고 싶은 습관</td></tr><tr><td><strong>anything that feels generic</strong></td><td>범용적으로 느껴지는 무엇이든</td></tr><tr><td><strong>that&#39;s the whole lesson</strong></td><td>그게 교훈의 전부다</td></tr><tr><td><strong>keep the test, swap the implementation</strong></td><td>테스트는 두고 구현을 바꿔라</td></tr><tr><td><strong>a contribution instead of a duplicate</strong></td><td>중복이 아닌 기여</td></tr><tr><td><strong>it usually is, the second time</strong></td><td>대개 두 번째가 그렇다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>PR은 틀렸고 사람은 괜찮다</h1>
+      <p class="lead">선우의 첫 큰 PR이 rails에 이미 있는 헬퍼를 다시, 더 나쁘게 구현했다. Jay는 선우가 주도성을 잃지 않게 하면서 PR을 다시 하게 해야 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>주니어를 위한 피드백 영어. 결과물을 판단하고, 본능은 보호하고, 일반적인 훈계 대신 구체적인 습관 하나를 준다.</p>
+<h2>대화</h2>
+<p><strong>Jay:</strong> 코드 얘기 전에요. 누굴 기다리는 대신 헬퍼를 직접 만들려 한 본능은 맞았어요. 그건 유지해요.</p>
+<p><strong>Sun-woo:</strong> 그런데요?</p>
+<p><strong>Jay:</strong> 그런데 이미 있어요. rails에 같은 시그니처의 formatUnits가 있고, 당신 것이 놓친 18자리 소수 엣지 케이스를 처리해요. 그러니 PR은 import 하나로 줄어들어야 해요.</p>
+<p><strong>Sun-woo:</strong> rails에 있는 줄 몰랐어요. 레포를 검색했는데요.</p>
+<p><strong>Jay:</strong> 이 레포죠? 제가 추가하고 싶은 습관은, 범용적으로 느껴지는 걸 쓰기 전에 rails에서 한 번 더 검색하는 거예요. 매번 5분. 그게 교훈의 전부예요.</p>
+<p><strong>Sun-woo:</strong> PR을 닫을까요?</p>
+<p><strong>Jay:</strong> 다시 쓰세요. 당신이 쓴 테스트는 좋고 rails에는 그 케이스의 테스트가 없어요. 테스트는 두고 구현을 바꾸면, PR이 중복이 아니라 rails에 대한 기여가 돼요.</p>
+<p><strong>Sun-woo:</strong> 제가 연 것보다 나은 PR이네요.</p>
+<p><strong>Jay:</strong> 대개 두 번째가 그래요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>본능과 결과를 갈라 말한다.</strong> "the instinct… was right. Keep that." 주도성을 먼저 보호하면 뒤의 교정이 위축을 낳지 않는다.</li><li><strong>훈계 대신 습관 하나.</strong> "one more search, in rails… Five minutes, every time. That&#39;s the whole lesson." 교훈을 한 문장으로 제한하면 실제로 남는다.</li><li><strong>살릴 것을 찾는다.</strong> "Keep the test, swap the implementation." 전면 부정 대신 PR 안의 좋은 부분을 지목해 다시 쓸 동력을 준다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-17.html">&larr; 17. Fast settlement is not fast payment</a><a href="english-19.html">19. Who can reach that port? &rarr;</a></div>
   </div>
@@ -460,16 +471,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -490,12 +509,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

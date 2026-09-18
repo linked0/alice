@@ -192,14 +192,24 @@ always the calendar yesterday. &quot;The other day&quot; means the previous day 
 yesterday. A day starts at
 <strong>06:00 KST</strong> (jay: &quot;done from the 6 a.m. today before the new day&#39;s first one is done&quot;). This replaces the old
 RECENTLY DONE (sky blue), which never rolled over.</li>
-<li>Mechanics: <code>add-tech-item.py --status recent</code> (alias <code>lately</code>) stamps <code>done</code> (ISO, +09:00; <code>--done-at</code> to override)
-on the <code>_nav.js</code> item, then runs <code>scripts/roll-done-states.py</code>, which buckets every stamped item by
-<code>(done − 6h).date()</code>, keeps the newest bucket as TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in
-<code>notes.html</code> with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
-<li>Rail buttons <strong>Important · New · All · Done · Yesterday · Today</strong> (list page, every detail page, template
-<code>rtd-shell.mjs</code>): Done = every finished item (DONE + YESTERDAY DONE + TODAY DONE; jay, 2026-09-18: &quot;Add done button
-also&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
+<li>Mechanics: <code>add-tech-item.py --status recent</code> (alias <code>today</code>; <code>--done-at</code> to override the time) stamps <code>done</code>
+(ISO, +09:00) on the <code>_nav.js</code> item; English items take <code>status: recent</code> + <code>done: &lt;ISO +09:00&gt;</code> in
+<code>docs/topics/english/english-N.md</code>, which <code>english-notes.py</code> carries into <code>_nav.js</code>. Both scripts then run
+<code>scripts/roll-done-states.py</code>, which buckets every stamped item by <code>(done − 6h).date()</code>, keeps the newest bucket as
+TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in <code>notes.html</code>
+with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
+<li>Rail buttons in two rows — <strong>Important · New · All</strong> / <strong>Done · Yesterday · Today</strong> (a <code>.tier-break</code> span forces the
+break; list page, every detail page, template <code>rtd-shell.mjs</code>): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: &quot;Add done button also&quot; … &quot;Done before
+Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
 template <code>scripts/rtd-shell.mjs</code>).</li>
+</ul>
+<h2 id="english-pages-english-first-korean-apart-jay-2026-09-18">English pages: English first, Korean apart (jay, 2026-09-18)</h2>
+<ul>
+<li>Every <code>english-N.html</code> has two articles like the PoC pages — <code>#en</code> (why, dialogue, key expressions) and <code>#ko</code>
+(제목, 상황, 왜, 대화, 협업 기법 세 가지) — with the language switch in the hero and at the top of each article.
+jay: &quot;separate english and korean parts as others so that I don&#39;t read the translation first.&quot; No Korean line sits
+under an English line any more. <code>scripts/english-notes.py</code> renders it from <code>docs/topics/english/english-N.md</code>; the
+source format is unchanged (<code>&gt; 한국어</code> under each line).</li>
 </ul>
 
   </article>

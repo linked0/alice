@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#14</span><span>Design</span></p>
       <h1>It looks like a stablecoin. It isn&#39;t one.</h1>
       <p class="lead">Dana, from marketing, wants to call USDCX "our stablecoin" on the landing page. USDCX is a ledger credit in Verex&#39;s database, funded by Stripe test mode.</p>
-      <p class="meta">마케팅의 Dana가 랜딩 페이지에서 USDCX를 "우리 스테이블코인"이라 부르고 싶어 한다. USDCX는 Stripe 테스트 모드로 충전되는 Verex 데이터베이스의 장부 크레딧이다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 14 · Design — It looks like a stablecoin. It isn't one.\ntitle_ko: 스테이블코인처럼 보인다. 아니다.\nsituation: Dana, from marketing, wants to call USDCX \"our stablecoin\" on the landing page. USDCX is a ledger credit in Verex's database, funded by Stripe test mode.\nsituation_ko: 마케팅의 Dana가 랜딩 페이지에서 USDCX를 \"우리 스테이블코인\"이라 부르고 싶어 한다. USDCX는 Stripe 테스트 모드로 충전되는 Verex 데이터베이스의 장부 크레딧이다.\nwhy: Correcting a category error with a non-engineer: give the accurate word, explain the one property that matters, and offer the sentence they can use.\nwhy_ko: 비개발자와의 범주 오류 교정. 정확한 단어를 주고, 중요한 속성 하나를 설명하고, 상대가 쓸 수 있는 문장을 준다.\n\n## Dialogue\nDana: Can we call USDCX our stablecoin? It's a dollar, it's on the site, people know the word.\n> USDCX를 우리 스테이블코인이라고 부를 수 있을까요? 달러이고, 사이트에 있고, 사람들이 아는 단어예요.\nJay: People know the word, which is exactly why we can't. A stablecoin is a token anyone can hold in any wallet, backed by an issuer's reserve. USDCX is a row in our database.\n> 사람들이 아는 단어라서 오히려 쓸 수 없어요. 스테이블코인은 누구나 어떤 지갑에든 보유할 수 있고 발행자의 준비금이 뒷받침하는 토큰이에요. USDCX는 우리 데이터베이스의 행이죠.\nDana: Users don't see the difference.\n> 사용자는 차이를 못 봐요.\nJay: They see it the day they try to withdraw and can't. There's no off-ramp yet. That's the one property that matters, and the word \"stablecoin\" promises the opposite.\n> 출금하려다 못 하는 날 보게 돼요. 아직 오프램프가 없어요. 그게 중요한 속성 하나이고, \"스테이블코인\"이라는 단어는 그 반대를 약속하죠.\nDana: So what do I write?\n> 그럼 뭐라고 쓰죠?\nJay: \"USDCX is your Verex balance, credited when you pay with a card. Test mode, not withdrawable.\" Shorter than a disclaimer and it's true.\n> \"USDCX는 카드로 결제하면 충전되는 Verex 잔액입니다. 테스트 모드, 출금 불가.\" 면책 문구보다 짧고 사실이에요.\nDana: That's less exciting.\n> 덜 흥미롭네요.\nJay: It is. The exciting version comes when we wire a real off-ramp and swap the row for USDC. Then you get to say \"stablecoin\" and mean it.\n> 그렇죠. 흥미로운 버전은 실제 오프램프를 연결하고 행을 USDC로 바꿀 때 와요. 그때는 \"스테이블코인\"이라고 말해도 진짜가 되죠.\n\n## Techniques\n1. **상대의 근거를 뒤집어 쓴다.** \"People know the word, which is exactly why we can't.\" 같은 사실에서 반대 결론을 끌어낸다.\n2. **속성 하나로 압축한다.** \"the one property that matters\" 정의 논쟁 대신 사용자가 겪을 순간 하나를 말한다.\n3. **쓸 문장을 준다.** \"So what do I write?\" 에 완성된 문장으로 답하면 교정이 협업이 된다.\n\n## Expressions\n| people know the word | 사람들이 그 단어를 안다 |\n| which is exactly why | 바로 그래서 |\n| backed by an issuer's reserve | 발행자의 준비금이 뒷받침하는 |\n| a row in our database | 우리 데이터베이스의 행 |\n| the day they try to withdraw | 출금하려는 날 |\n| off-ramp | 오프램프, 현금화 경로 |\n| promises the opposite | 반대를 약속한다 |\n| shorter than a disclaimer | 면책 문구보다 짧다 |\n| less exciting | 덜 흥미롭다 |\n| say it and mean it | 말하고 그것이 진짜이다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Correcting a category error with a non-engineer: give the accurate word, explain the one property that matters, and offer the sentence they can use.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">비개발자와의 범주 오류 교정. 정확한 단어를 주고, 중요한 속성 하나를 설명하고, 상대가 쓸 수 있는 문장을 준다.</p>
 <h2>Dialogue</h2>
 <p><strong>Dana:</strong> Can we call USDCX our stablecoin? It&#39;s a dollar, it&#39;s on the site, people know the word.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">USDCX를 우리 스테이블코인이라고 부를 수 있을까요? 달러이고, 사이트에 있고, 사람들이 아는 단어예요.</p>
 <p><strong>Jay:</strong> People know the word, which is exactly why we can&#39;t. A stablecoin is a token anyone can hold in any wallet, backed by an issuer&#39;s reserve. USDCX is a row in our database.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">사람들이 아는 단어라서 오히려 쓸 수 없어요. 스테이블코인은 누구나 어떤 지갑에든 보유할 수 있고 발행자의 준비금이 뒷받침하는 토큰이에요. USDCX는 우리 데이터베이스의 행이죠.</p>
 <p><strong>Dana:</strong> Users don&#39;t see the difference.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">사용자는 차이를 못 봐요.</p>
 <p><strong>Jay:</strong> They see it the day they try to withdraw and can&#39;t. There&#39;s no off-ramp yet. That&#39;s the one property that matters, and the word "stablecoin" promises the opposite.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">출금하려다 못 하는 날 보게 돼요. 아직 오프램프가 없어요. 그게 중요한 속성 하나이고, "스테이블코인"이라는 단어는 그 반대를 약속하죠.</p>
 <p><strong>Dana:</strong> So what do I write?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 뭐라고 쓰죠?</p>
 <p><strong>Jay:</strong> "USDCX is your Verex balance, credited when you pay with a card. Test mode, not withdrawable." Shorter than a disclaimer and it&#39;s true.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">"USDCX는 카드로 결제하면 충전되는 Verex 잔액입니다. 테스트 모드, 출금 불가." 면책 문구보다 짧고 사실이에요.</p>
 <p><strong>Dana:</strong> That&#39;s less exciting.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">덜 흥미롭네요.</p>
 <p><strong>Jay:</strong> It is. The exciting version comes when we wire a real off-ramp and swap the row for USDC. Then you get to say "stablecoin" and mean it.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그렇죠. 흥미로운 버전은 실제 오프램프를 연결하고 행을 USDC로 바꿀 때 와요. 그때는 "스테이블코인"이라고 말해도 진짜가 되죠.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>상대의 근거를 뒤집어 쓴다.</strong> "People know the word, which is exactly why we can&#39;t." 같은 사실에서 반대 결론을 끌어낸다.</li><li><strong>속성 하나로 압축한다.</strong> "the one property that matters" 정의 논쟁 대신 사용자가 겪을 순간 하나를 말한다.</li><li><strong>쓸 문장을 준다.</strong> "So what do I write?" 에 완성된 문장으로 답하면 교정이 협업이 된다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>people know the word</strong></td><td>사람들이 그 단어를 안다</td></tr><tr><td><strong>which is exactly why</strong></td><td>바로 그래서</td></tr><tr><td><strong>backed by an issuer&#39;s reserve</strong></td><td>발행자의 준비금이 뒷받침하는</td></tr><tr><td><strong>a row in our database</strong></td><td>우리 데이터베이스의 행</td></tr><tr><td><strong>the day they try to withdraw</strong></td><td>출금하려는 날</td></tr><tr><td><strong>off-ramp</strong></td><td>오프램프, 현금화 경로</td></tr><tr><td><strong>promises the opposite</strong></td><td>반대를 약속한다</td></tr><tr><td><strong>shorter than a disclaimer</strong></td><td>면책 문구보다 짧다</td></tr><tr><td><strong>less exciting</strong></td><td>덜 흥미롭다</td></tr><tr><td><strong>say it and mean it</strong></td><td>말하고 그것이 진짜이다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>스테이블코인처럼 보인다. 아니다.</h1>
+      <p class="lead">마케팅의 Dana가 랜딩 페이지에서 USDCX를 "우리 스테이블코인"이라 부르고 싶어 한다. USDCX는 Stripe 테스트 모드로 충전되는 Verex 데이터베이스의 장부 크레딧이다.</p>
+<h2>왜 이 대화인가</h2>
+<p>비개발자와의 범주 오류 교정. 정확한 단어를 주고, 중요한 속성 하나를 설명하고, 상대가 쓸 수 있는 문장을 준다.</p>
+<h2>대화</h2>
+<p><strong>Dana:</strong> USDCX를 우리 스테이블코인이라고 부를 수 있을까요? 달러이고, 사이트에 있고, 사람들이 아는 단어예요.</p>
+<p><strong>Jay:</strong> 사람들이 아는 단어라서 오히려 쓸 수 없어요. 스테이블코인은 누구나 어떤 지갑에든 보유할 수 있고 발행자의 준비금이 뒷받침하는 토큰이에요. USDCX는 우리 데이터베이스의 행이죠.</p>
+<p><strong>Dana:</strong> 사용자는 차이를 못 봐요.</p>
+<p><strong>Jay:</strong> 출금하려다 못 하는 날 보게 돼요. 아직 오프램프가 없어요. 그게 중요한 속성 하나이고, "스테이블코인"이라는 단어는 그 반대를 약속하죠.</p>
+<p><strong>Dana:</strong> 그럼 뭐라고 쓰죠?</p>
+<p><strong>Jay:</strong> "USDCX는 카드로 결제하면 충전되는 Verex 잔액입니다. 테스트 모드, 출금 불가." 면책 문구보다 짧고 사실이에요.</p>
+<p><strong>Dana:</strong> 덜 흥미롭네요.</p>
+<p><strong>Jay:</strong> 그렇죠. 흥미로운 버전은 실제 오프램프를 연결하고 행을 USDC로 바꿀 때 와요. 그때는 "스테이블코인"이라고 말해도 진짜가 되죠.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>상대의 근거를 뒤집어 쓴다.</strong> "People know the word, which is exactly why we can&#39;t." 같은 사실에서 반대 결론을 끌어낸다.</li><li><strong>속성 하나로 압축한다.</strong> "the one property that matters" 정의 논쟁 대신 사용자가 겪을 순간 하나를 말한다.</li><li><strong>쓸 문장을 준다.</strong> "So what do I write?" 에 완성된 문장으로 답하면 교정이 협업이 된다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-13.html">&larr; 13. The Dockerfile copies the whole repo</a><a href="english-15.html">15. The address was right yesterday &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

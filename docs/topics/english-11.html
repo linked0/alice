@@ -93,6 +93,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -373,7 +374,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 66/472</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -381,7 +382,8 @@
       <div class="rail-tier" role="group" aria-label="Show which items">
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
-        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Every finished item (done, yesterday done, today done)">Done</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -393,7 +395,7 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
@@ -402,36 +404,45 @@
       <p class="topic-kicker"><span class="topic-no">#11</span><span>Ops</span></p>
       <h1>The key leaked. What else does it open?</h1>
       <p class="lead">An Alchemy key was committed to a public branch for twenty minutes. Priya rotated it. Jay wants to know the blast radius before calling it done.</p>
-      <p class="meta">Alchemy 키가 공개 브랜치에 20분 동안 커밋됐다. Priya가 교체했다. Jay는 끝났다고 하기 전에 피해 범위를 알고 싶다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
     </header>
     <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
       <script type="application/json" id="copy-en">"# 11 · Ops — The key leaked. What else does it open?\ntitle_ko: 키가 유출됐다. 그 키가 또 무엇을 여나?\nsituation: An Alchemy key was committed to a public branch for twenty minutes. Priya rotated it. Jay wants to know the blast radius before calling it done.\nsituation_ko: Alchemy 키가 공개 브랜치에 20분 동안 커밋됐다. Priya가 교체했다. Jay는 끝났다고 하기 전에 피해 범위를 알고 싶다.\nwhy: Security incidents in English are a sequence of scope questions. This one also shows how to praise the fast fix and still ask for the slow one.\nwhy_ko: 보안 사고 영어는 범위 질문의 연쇄다. 빠른 수정을 칭찬하면서도 느린 수정을 요구하는 법.\n\n## Dialogue\nPriya: The key was live for about twenty minutes. I've rotated it and the new one is in Secret Manager.\n> 키가 약 20분 노출됐어요. 교체했고 새 키는 Secret Manager에 있습니다.\nJay: Good, that's the right first move. Now the second question: what did that key open?\n> 좋아요, 올바른 첫 조치예요. 이제 두 번째 질문. 그 키가 무엇을 열었죠?\nPriya: The devnet's fork upstream. Node API on Sepolia.\n> devnet의 포크 업스트림이요. Sepolia의 Node API.\nJay: Only that? Same app as the bundler or the webhooks?\n> 그것만요? 번들러나 웹훅과 같은 앱이에요?\nPriya: Separate app. The AA path has its own key.\n> 별도 앱이에요. AA 경로는 자체 키가 있어요.\nJay: Then the blast radius is one read-only quota for twenty minutes. Check the dashboard for a usage spike and we can close it. That split just paid for itself.\n> 그럼 피해 범위는 20분간 읽기 전용 쿼터 하나네요. 대시보드에서 사용량 급증을 확인하고 닫죠. 그 분리가 방금 값을 했어요.\nPriya: Should we add a pre-commit hook for secrets?\n> 시크릿용 pre-commit 훅을 추가할까요?\nJay: Yes, and a scan of the history too. Twenty minutes is the window we noticed. I want to know it's the only one.\n> 네, 그리고 히스토리 스캔도요. 20분은 우리가 알아챈 창이에요. 그게 유일한 창인지 알고 싶어요.\n\n## Techniques\n1. **첫 조치를 명시적으로 인정한다.** \"that's the right first move\" 다음 질문이 비난으로 들리지 않게 하는 한 문장.\n2. **범위 질문을 순서대로 던진다.** \"what did that key open? Only that? Same app as…?\" 사고 대응은 짧은 질문의 연쇄다.\n3. **알아챈 것과 실제를 구분한다.** \"Twenty minutes is the window we noticed.\" 관측된 창과 진짜 창이 다를 수 있음을 짚어 후속 조치를 정당화한다.\n\n## Expressions\n| the key was live for | 키가 …동안 유효했다 |\n| rotate a key | 키를 교체하다 |\n| the right first move | 올바른 첫 조치 |\n| what did that key open? | 그 키가 무엇을 열었나? |\n| blast radius | 피해 범위 |\n| a usage spike | 사용량 급증 |\n| that split just paid for itself | 그 분리가 방금 값을 했다 |\n| a pre-commit hook for secrets | 시크릿 검사용 pre-commit 훅 |\n| the window we noticed | 우리가 알아챈 창 |\n| I want to know it's the only one | 그게 유일한 것인지 알고 싶다 |\n"</script>
 <h2>Why this conversation</h2>
 <p>Security incidents in English are a sequence of scope questions. This one also shows how to praise the fast fix and still ask for the slow one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">보안 사고 영어는 범위 질문의 연쇄다. 빠른 수정을 칭찬하면서도 느린 수정을 요구하는 법.</p>
 <h2>Dialogue</h2>
 <p><strong>Priya:</strong> The key was live for about twenty minutes. I&#39;ve rotated it and the new one is in Secret Manager.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">키가 약 20분 노출됐어요. 교체했고 새 키는 Secret Manager에 있습니다.</p>
 <p><strong>Jay:</strong> Good, that&#39;s the right first move. Now the second question: what did that key open?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">좋아요, 올바른 첫 조치예요. 이제 두 번째 질문. 그 키가 무엇을 열었죠?</p>
 <p><strong>Priya:</strong> The devnet&#39;s fork upstream. Node API on Sepolia.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">devnet의 포크 업스트림이요. Sepolia의 Node API.</p>
 <p><strong>Jay:</strong> Only that? Same app as the bundler or the webhooks?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그것만요? 번들러나 웹훅과 같은 앱이에요?</p>
 <p><strong>Priya:</strong> Separate app. The AA path has its own key.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">별도 앱이에요. AA 경로는 자체 키가 있어요.</p>
 <p><strong>Jay:</strong> Then the blast radius is one read-only quota for twenty minutes. Check the dashboard for a usage spike and we can close it. That split just paid for itself.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">그럼 피해 범위는 20분간 읽기 전용 쿼터 하나네요. 대시보드에서 사용량 급증을 확인하고 닫죠. 그 분리가 방금 값을 했어요.</p>
 <p><strong>Priya:</strong> Should we add a pre-commit hook for secrets?</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">시크릿용 pre-commit 훅을 추가할까요?</p>
 <p><strong>Jay:</strong> Yes, and a scan of the history too. Twenty minutes is the window we noticed. I want to know it&#39;s the only one.</p>
-<p style="opacity:.72;font-style:italic;margin:-8px 0 12px 1.4em;font-size:.94em">네, 그리고 히스토리 스캔도요. 20분은 우리가 알아챈 창이에요. 그게 유일한 창인지 알고 싶어요.</p>
-<h2>Three collaboration techniques</h2>
-<ol><li><strong>첫 조치를 명시적으로 인정한다.</strong> "that&#39;s the right first move" 다음 질문이 비난으로 들리지 않게 하는 한 문장.</li><li><strong>범위 질문을 순서대로 던진다.</strong> "what did that key open? Only that? Same app as…?" 사고 대응은 짧은 질문의 연쇄다.</li><li><strong>알아챈 것과 실제를 구분한다.</strong> "Twenty minutes is the window we noticed." 관측된 창과 진짜 창이 다를 수 있음을 짚어 후속 조치를 정당화한다.</li></ol>
 <h2>Key expressions</h2>
 <table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the key was live for</strong></td><td>키가 …동안 유효했다</td></tr><tr><td><strong>rotate a key</strong></td><td>키를 교체하다</td></tr><tr><td><strong>the right first move</strong></td><td>올바른 첫 조치</td></tr><tr><td><strong>what did that key open?</strong></td><td>그 키가 무엇을 열었나?</td></tr><tr><td><strong>blast radius</strong></td><td>피해 범위</td></tr><tr><td><strong>a usage spike</strong></td><td>사용량 급증</td></tr><tr><td><strong>that split just paid for itself</strong></td><td>그 분리가 방금 값을 했다</td></tr><tr><td><strong>a pre-commit hook for secrets</strong></td><td>시크릿 검사용 pre-commit 훅</td></tr><tr><td><strong>the window we noticed</strong></td><td>우리가 알아챈 창</td></tr><tr><td><strong>I want to know it&#39;s the only one</strong></td><td>그게 유일한 것인지 알고 싶다</td></tr></tbody></table>
-      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>키가 유출됐다. 그 키가 또 무엇을 여나?</h1>
+      <p class="lead">Alchemy 키가 공개 브랜치에 20분 동안 커밋됐다. Priya가 교체했다. Jay는 끝났다고 하기 전에 피해 범위를 알고 싶다.</p>
+<h2>왜 이 대화인가</h2>
+<p>보안 사고 영어는 범위 질문의 연쇄다. 빠른 수정을 칭찬하면서도 느린 수정을 요구하는 법.</p>
+<h2>대화</h2>
+<p><strong>Priya:</strong> 키가 약 20분 노출됐어요. 교체했고 새 키는 Secret Manager에 있습니다.</p>
+<p><strong>Jay:</strong> 좋아요, 올바른 첫 조치예요. 이제 두 번째 질문. 그 키가 무엇을 열었죠?</p>
+<p><strong>Priya:</strong> devnet의 포크 업스트림이요. Sepolia의 Node API.</p>
+<p><strong>Jay:</strong> 그것만요? 번들러나 웹훅과 같은 앱이에요?</p>
+<p><strong>Priya:</strong> 별도 앱이에요. AA 경로는 자체 키가 있어요.</p>
+<p><strong>Jay:</strong> 그럼 피해 범위는 20분간 읽기 전용 쿼터 하나네요. 대시보드에서 사용량 급증을 확인하고 닫죠. 그 분리가 방금 값을 했어요.</p>
+<p><strong>Priya:</strong> 시크릿용 pre-commit 훅을 추가할까요?</p>
+<p><strong>Jay:</strong> 네, 그리고 히스토리 스캔도요. 20분은 우리가 알아챈 창이에요. 그게 유일한 창인지 알고 싶어요.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>첫 조치를 명시적으로 인정한다.</strong> "that&#39;s the right first move" 다음 질문이 비난으로 들리지 않게 하는 한 문장.</li><li><strong>범위 질문을 순서대로 던진다.</strong> "what did that key open? Only that? Same app as…?" 사고 대응은 짧은 질문의 연쇄다.</li><li><strong>알아챈 것과 실제를 구분한다.</strong> "Twenty minutes is the window we noticed." 관측된 창과 진짜 창이 다를 수 있음을 짚어 후속 조치를 정당화한다.</li></ol>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="english-10.html">&larr; 10. There is no market price for JYVE</a><a href="english-12.html">12. What&#39;s the number? &rarr;</a></div>
   </div>
@@ -458,16 +469,24 @@
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    var lis = sec.items.map(function (it) {
-      var active = it.key === cur ? ' active' : '';
-      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
-    }).join('');
-    var group = document.createElement('div');
-    group.className = 'nav-group';
-    group.id = sec.navId;
-    group.setAttribute('data-group', '');
-    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
-    navEl.insertBefore(group, navEl.firstChild);
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
   }
 })();
 
@@ -488,12 +507,13 @@
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
-  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'DONE' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }
