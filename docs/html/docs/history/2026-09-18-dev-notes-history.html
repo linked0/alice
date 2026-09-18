@@ -191,6 +191,61 @@
 <li><strong>Change:</strong> rule in <code>docs/topics/README.md</code> and memory; <code>add-tech-item.py --source gemini</code>; first file <code>YouTube-2026-09-18-v2.md</code> → Tech #60 Lubin &quot;clarity is permission&quot; (Fox Business 2026-09-15, verified date and headline), #61 agentic engineering writes boundaries (IBM), #62 Mamba selective state (Gu and Dao, arXiv 2312.00752, figures verified), #63 a model is weights plus objective (IBM, anchor for the LLM stubs); Mindset #3 Harris on free will. Each with Key expressions (acronyms included) and a &quot;Where it lands in Jayverse&quot; section; older NEW items shift to #64–#70. No English conversation: today&#39;s already exists.</li>
 <li><strong>Result:</strong> Tech 59/241, Mindset 0/3, overall 65/471; index card now opens #60 Lubin. Branch <code>claude/docs-html-regen</code>, uncommitted.</li>
 </ul>
+<h3 id="fallback-rule-undecidable-entries-go-to-mindset-tokyo-vlog--mindset-4">Fallback rule: undecidable entries go to Mindset; Tokyo vlog → Mindset #4</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;If you can&#39;t decide what it belongs to, you can use Mindset&quot; (after asking where the Japan travel vlog went; it had been skipped as Culture).</li>
+<li><strong>Change:</strong> rule in <code>docs/topics/README.md</code> (Gemini section and Mindset section) and memory; the vlog written as Mindset #4 &quot;Eat the same dish twice — a Tokyo vlog as a method for paying attention&quot;, type Vlog, source gemini, framed as the compare-two-instances habit rather than a travel review; venue details marked unverified. Check log updated.</li>
+<li><strong>Result:</strong> Mindset 0/4, overall 65/472. Branch <code>claude/notes-culture-fallback</code>, uncommitted.</li>
+</ul>
+<h3 id="section-renamed-mindset--life">Section renamed Mindset → Life</h3>
+<ul>
+<li><strong>Cause:</strong> jay, on the Tokyo vlog: &quot;Or you can make the name Mindset to Life.&quot;</li>
+<li><strong>Reasoning:</strong> Life covers ways of thinking and working and also food, travel and living, so culture entries fit without a fallback rule. Label only: <code>sec-mindset</code>, <code>nav-sec-mindset</code> and <code>--section mindset</code> stay.</li>
+<li><strong>Change:</strong> <code>notes.html</code> (h1 is section-less; jump pill, nav-group label, and the four item bodies that referred to the section by name), <code>_nav.js</code>, <code>add-tech-item.py</code>, the topics/vocab/landing READMEs, the Gemini check log, memory. The fallback sentence now reads &quot;goes to Life&quot;.</li>
+<li><strong>Result:</strong> Tech / Foundations / Life / English. Life 0/4. Branch <code>claude/notes-culture-fallback</code>, uncommitted.</li>
+</ul>
+<h3 id="life-encrypted-private-tiles-rule-one--five">Life: encrypted Private tiles (Rule one … five)</h3>
+<ul>
+<li><strong>Cause:</strong> jay asked for hidden tiles in Life on a personal health topic, unlocked by a password, and asked whether hashing the password would keep others out.</li>
+<li><strong>Reasoning:</strong> a hash only verifies the password; the text would still be in the HTML and on GitHub. So the content is encrypted: plaintext outside the repo (<code>~/Documents/Private/life-private-rules.md</code>), AES-256-GCM under a PBKDF2-SHA256 key (600k iterations, random salt), only ciphertext in <code>docs/topics/_private.js</code>; the browser derives the key with WebCrypto. Limit stated to jay: a short dictionary-like password is brute-forceable offline; a longer passphrase is one re-run away.</li>
+<li><strong>Change:</strong> <code>scripts/private-encrypt.mjs</code>; Private section, CSS and unlock script in <code>notes.html</code> (tiles show labels only until unlocked; sessionStorage keeps the tab unlocked; Lock button); five tiles written as general health information with a &quot;see a urologist&quot; frame; rule in the topics README and memory. The password is recorded nowhere.</li>
+<li><strong>Result:</strong> <code>_private.js</code> contains no plaintext (checked by grep for a word from the text). Branch <code>claude/notes-culture-fallback</code>, uncommitted.</li>
+<li><strong>Test tile (later the same day):</strong> jay asked for one item to test the flow and confirmed Life as the home for these tiles. A sixth tile <code>Test</code> was appended to the plaintext file and the bundle re-encrypted under the throwaway password <code>placeholder-change-me</code>; round trip decrypts 6 tiles, a wrong password fails, grep finds no plaintext. jay unlocks at <code>notes.html#sec-mindset</code> with the throwaway password, then re-encrypts under his own and deletes the Test tile.</li>
+</ul>
+<h3 id="life-private-block-renamed-to-health-tiles-labelled-health-16">Life: Private block renamed to Health, tiles labelled Health #1–#6</h3>
+<ul>
+<li><strong>Cause:</strong> jay wants the locked tiles reachable from the Life section under deliberately ambiguous titles (&quot;health #1, #2&quot;) and opened only with the password.</li>
+<li><strong>Reasoning:</strong> the tile label is the one public field in <code>_private.js</code>; everything else (title, text) is ciphertext. So the label becomes <code>Health #N</code> and the block heading <code>Health</code>; the descriptive title appears only after unlock.</li>
+<li><strong>Change:</strong> plaintext headings renamed (<code>## Health #1 — …</code>), bundle re-encrypted (still the throwaway password); <code>notes.html</code> block heading/meta neutralised, a <code>🔒 Health (locked)</code> entry appended to the Life rail group (no <code>topic-no</code>, so <code>add-tech-item.py</code> renumbering ignores it and new items land before it), <code>🔒 Health</code> link in the rail foot of <code>notes.html</code> and of the 318 detail pages that have one (the template head carries it to new pages); README rule and memory updated.</li>
+<li><strong>Result:</strong> round trip decrypts 6 tiles; the repo file shows only <code>Health #1…#6</code> as labels.</li>
+</ul>
+<h3 id="life-locked-tiles-become-list-items-1000-999--titled-rule-1-rule-2-">Life: locked tiles become list items 1000, 999 … titled Rule 1, Rule 2 …</h3>
+<ul>
+<li><strong>Cause:</strong> jay wants the private notes to sit in the Life list like ordinary items, &quot;from number 1000 in Life and decreasing&quot;, titled only Rule 1, Rule 2 …, and to open only with the password. He also said the data is embarrassing rather than critical, so the short password stays and no further warnings are needed.</li>
+<li><strong>Reasoning:</strong> a separate Health block looked different from the rest of the list; an item card with a Locked tag and an Open button reads as one more note. Numbering from 1000 downward keeps them apart from the real 1…N sequence, and <code>add-tech-item.py</code> never renumbers keys it does not know, so they are stable. Found while rebuilding: the earlier unlock script had never been inserted into <code>notes.html</code> (the check matched the file name inside a CSS comment), so the Health block would have stayed hidden; fixed here.</li>
+<li><strong>Change:</strong> <code>scripts/private-cards.py</code> renders one card + one rail link per tile label from <code>_private.js</code> between markers in <code>notes.html</code>; <code>private-encrypt.mjs</code> runs it after encrypting. The Health block, its rail entry and CSS/JS were replaced: the password field appears inside the clicked card, decrypted text renders in the card, <code>Close</code> / <code>Lock all</code> buttons, <code>#private-N</code> deep links open that card. Plaintext headings renamed <code>## Rule N — …</code>; rail-foot links on the list page and 318 detail pages now read <code>🔒 Rules</code> → <code>notes.html#private-1</code>. README rule and memory rewritten.</li>
+<li><strong>Result:</strong> six cards 1000…995; round trip decrypts all six; no readable text or password in the repo.</li>
+</ul>
+<h3 id="life-a-detail-page-per-locked-rule-topicsprivate-nhtml">Life: a detail page per locked Rule (topics/private-N.html)</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;make it to detail&quot; — the Rules should behave like every other item, with a Detail page, not only an in-card expansion.</li>
+<li><strong>Reasoning:</strong> the page is built from the Life detail template so it inherits the rail, tier buttons and footer. The Rules are not in <code>_nav.js</code> (the item scripts would count them), so the page appends them to the Life group in memory before the rail script runs; the active highlight then works. Private pages skip the Key-expressions and landing sections because their text is not in the repo.</li>
+<li><strong>Change:</strong> <code>scripts/private-cards.py</code> now also writes <code>private-1.html</code> … (kicker <code>#1000 · Locked · Life</code>, password field on the page, decrypted title + EN/KO text, Lock all, pager between Rules, stale pages removed); cards gain <code>Detail →</code> and the rail links, cards and every rail-foot <code>🔒 Rules</code> link point at the pages.</li>
+<li><strong>Result:</strong> 6 pages generated, all inline scripts parse, generator idempotent (two runs, identical output).</li>
+</ul>
+<h3 id="tech-60-clarity-act-lubin-marked-recently-done">Tech #60 Clarity Act (Lubin) marked RECENTLY DONE</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;make the 60 done.&quot;</li>
+<li><strong>Change:</strong> re-ran <code>add-tech-item.py</code> for <code>clarity-is-permission-lubin-floodgates</code> with <code>--status recent</code> (slot 60 kept, kicker <code>#60 · PoC · 2026-09-18 · gemini</code>); Key expressions and the landing section were re-applied; the index card moved to the next NEW item, #61 agentic engineering.</li>
+<li><strong>Result:</strong> Tech 60/241, overall 66/472 (14 percent).</li>
+</ul>
+<h3 id="locked-life-items-every-private-name-becomes-health">Locked Life items: every &quot;private&quot; name becomes &quot;health&quot;</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;don&#39;t use private, use health instead&quot; and &quot;change the file and title name because the word private makes people want to know.&quot;</li>
+<li><strong>Reasoning:</strong> the whole point of the feature is to not draw the eye; a URL or title containing <em>private</em> does the opposite. <em>Health</em> is bland enough to pass. The plaintext folder <code>~/Documents/Private/</code> keeps its name (jay&#39;s own folder, outside the repo).</li>
+<li><strong>Change:</strong> items titled <code>Health 1</code> … <code>Health 6</code> (plaintext headings renamed, bundle re-encrypted); <code>docs/topics/_private.js</code> → <code>_health.js</code>, pages <code>private-N.html</code> → <code>health-N.html</code>, ids/classes/markers <code>private-*</code> → <code>health-*</code>, sessionStorage key, <code>window.__PRIVATE__</code> → <code>__HEALTH__</code>; scripts renamed <code>health-encrypt.mjs</code> / <code>health-cards.py</code> with <code>HEALTH_PASS</code>; rail-foot link now <code>♥ Health</code>; plaintext file → <code>life-health-rules.md</code>; README section, memory (<code>project-life-health-items</code>) and index rewritten. The unrelated Tech item <code>private-rpc-visibility</code> is untouched.</li>
+<li><strong>Result:</strong> no <code>private</code> left in the feature&#39;s files, URLs or titles; six pages regenerated; round trip verified.</li>
+</ul>
 
   </article>
 </div>

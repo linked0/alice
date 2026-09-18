@@ -1,7 +1,7 @@
 # Knowledge Notes (formerly Tech Notes, renamed 2026-09-18) — how items are added
 
 `docs/notes.html` is hand-maintained HTML with four sections: **Tech** (formerly "Blockchain & Tech"),
-**Foundations** (renamed from Fundamentals 2026-09-18; ids `sec-fundamentals` / `--section fundamentals` unchanged), **Mindset**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
+**Foundations** (renamed from Fundamentals 2026-09-18; ids `sec-fundamentals` / `--section fundamentals` unchanged), **Life**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
 status; `docs/topics/_progress.js` paints the rail badges from it. Each item has a detail page in
 `docs/topics/`.
 
@@ -9,18 +9,19 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 
 - When jay mentions or pastes an item, a note, an article, a talk, or a number in conversation, treat it
   as an item for Knowledge Notes without waiting for the words "add this item": pick the section
-  (Tech, Foundations, Mindset), draft it, and say so in the reply. jay still decides whether it
+  (Tech, Foundations, Life), draft it, and say so in the reply. jay still decides whether it
   stays; the default is to add, not to ask. Questions clearly marked "just asking" are the
   exception: answer them, and offer the item in one line.
 
 ## Gemini YouTube briefings — check twice a week (jay, 2026-09-18)
 
 - `/Users/jay/Documents/Gemini` receives Gemini's YouTube weekly briefing files (`YouTube-YYYY-MM-DD-*.md`,
-  sections Blockchain / Tech / Mindset / Culture). Twice a week, Monday and Thursday KST or at the first
+  sections Blockchain / Tech / Life / Culture). Twice a week, Monday and Thursday KST or at the first
   request after three days without a check, compare the folder with
   [gemini-checked.md](gemini-checked.md): every file not logged is new. Add each of its entries to the
-  related section (Blockchain and Tech → Tech, Mindset → Mindset) as a normal item with
-  `--source gemini`, then log the file. Culture entries have no section; say so in the reply.
+  related section (Blockchain and Tech → Tech, Life → Life) as a normal item with
+  `--source gemini`, then log the file. **Fallback (jay, 2026-09-18): an entry that fits no section
+  goes to Life** (first case: the Tokyo travel vlog, Life #4, type Vlog).
 - First check 2026-09-18: `YouTube-2026-09-18-v2.md`.
 
 ## Where new Blockchain items come from (jay, 2026-09-16)
@@ -64,7 +65,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 - Counters agree in three places: rail pill, section meta, `_nav.js` jump. On a new KST day,
   append the previous day's closing totals to `progress` in `_nav.js` before changing counts.
 
-## Mindset (jay, 2026-09-18)
+## Life (jay, 2026-09-18; named Life until later that day — ids `sec-mindset` / `--section mindset` unchanged)
 
 - The third knowledge section: ways of thinking and psychological insight for doing good work and
   living well with it — talks, interviews, essays, books, distilled. Not tooling, not news; the
@@ -73,7 +74,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
   Numbering is chronological and append-only, like Dev English. Same date and source tag, same
   EN + KO copy text, same "Why / How it works / Where it lands in Jayverse" body.
 - Sits before Dev English in the page so `scripts/english-notes.py`, which re-appends its own
-  section last, keeps working unchanged. English conversations follow the once-a-day rule, not one per Mindset item.
+  section last, keeps working unchanged. English conversations follow the once-a-day rule, not one per Life item.
 
 ## English (Dev English)
 
@@ -81,7 +82,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## Key expressions on every detail page (jay, 2026-09-18)
 
-- Every Tech, Foundations and Mindset detail page ends with a **Key expressions** table (Korean
+- Every Tech, Foundations and Life detail page ends with a **Key expressions** table (Korean
   article: **핵심 표현**): the words and phrases from its English text worth learning, with the
   Korean meaning, a note on where the expression is used, and the sentence it comes from. Example that
   started it: *treasury desk* on the S&P Global / OpenZeppelin page. English conversation pages already
@@ -116,10 +117,28 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## "Where it lands in Jayverse" on every detail page (jay, 2026-09-18)
 
-- Every Tech, Foundations and Mindset page closes its body with **Where it lands in Jayverse** (Korean:
+- Every Tech, Foundations and Life page closes its body with **Where it lands in Jayverse** (Korean:
   **Jayverse에서의 위치**): two to four bullets, each a bold lead naming a service and a decision, then one
   or two sentences concrete enough to act on. New items carry it in their own markdown and
   `add-tech-item.py` refuses an item without it. The 410 older pages were backfilled on 2026-09-18 from
   `docs/topics/landing/<page>.md` via `scripts/add-landing.py` (idempotent `<!-- landing:start/end -->`
   block, placed before "Verified and unverified" or before Key expressions). Curriculum pages keep their
   "Practical Connection" paragraph and add this section after it.
+
+## Health items in Life (jay, 2026-09-18)
+
+- The Life list ends with password-locked items numbered **1000, 999, 998 …** (jay: "from number 1000 in Life and
+  decreasing") and titled only `Health 1`, `Health 2`, … The real title is inside the ciphertext. jay: never use the
+  word *private* in a file name, URL or title — "the word private makes people want to know"; *health* is the neutral
+  name everywhere (`_health.js`, `health-N.html`, `health-*` ids and classes, `HEALTH_PASS`).
+- Each card has **Detail →** (page `topics/health-N.html`: same rail with the Life items plus the Health items,
+  password field on the page) and **Open here** (password field inside the card). Text decrypts in the browser and the
+  tab stays unlocked until **Lock all** or the tab closes. A `♥ Health` link in every rail foot jumps to the first one.
+  These pages are exempt from the Key-expressions and "Where it lands in Jayverse" rules: their text is not in the repo.
+- Their text is not in the repo: the plaintext lives outside it at `~/Documents/Private/life-health-rules.md`
+  (one `## Health N — title` heading per item, `### en` / `### ko` blocks), and
+  `HEALTH_PASS='…' node scripts/health-encrypt.mjs <that file>` writes only ciphertext (AES-256-GCM, PBKDF2-SHA256
+  600k) to `docs/topics/_health.js` and then runs `scripts/health-cards.py`, which rewrites the cards and rail links
+  in `notes.html` between `<!-- health-nav -->` / `<!-- health-cards -->` markers and regenerates the `health-N.html`
+  pages. The password is never written to a file; `add-tech-item.py` leaves these cards alone (no key in `_nav.js`,
+  numbers are not renumbered).

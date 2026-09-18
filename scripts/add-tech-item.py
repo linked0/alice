@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert or update one Tech (or, with --section, Foundations / Mindset) item in Knowledge Notes from two markdown files.
+"""Insert or update one Tech (or, with --section, Foundations / Life) item in Knowledge Notes from two markdown files.
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
         [--status new|important|planned|recent|done] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
@@ -43,7 +43,7 @@ DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hour
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
     "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Foundations",      next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
-    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Mindset",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
+    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"

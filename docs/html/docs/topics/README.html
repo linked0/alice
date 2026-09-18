@@ -37,25 +37,26 @@
   <article>
 <h1 id="knowledge-notes-formerly-tech-notes-renamed-2026-09-18--how-items-are-added">Knowledge Notes (formerly Tech Notes, renamed 2026-09-18) — how items are added</h1>
 <p><code>docs/notes.html</code> is hand-maintained HTML with four sections: <strong>Tech</strong> (formerly &quot;Blockchain &amp; Tech&quot;),
-<strong>Foundations</strong> (renamed from Fundamentals 2026-09-18; ids <code>sec-fundamentals</code> / <code>--section fundamentals</code> unchanged), <strong>Mindset</strong>, <strong>English</strong> (formerly &quot;Dev English&quot;). <code>docs/topics/_nav.js</code> is the source of truth for numbering and
+<strong>Foundations</strong> (renamed from Fundamentals 2026-09-18; ids <code>sec-fundamentals</code> / <code>--section fundamentals</code> unchanged), <strong>Life</strong>, <strong>English</strong> (formerly &quot;Dev English&quot;). <code>docs/topics/_nav.js</code> is the source of truth for numbering and
 status; <code>docs/topics/_progress.js</code> paints the rail badges from it. Each item has a detail page in
 <code>docs/topics/</code>.</p>
 <h2 id="anything-jay-mentions-is-a-candidate-item-jay-2026-09-18">Anything jay mentions is a candidate item (jay, 2026-09-18)</h2>
 <ul>
 <li>When jay mentions or pastes an item, a note, an article, a talk, or a number in conversation, treat it
 as an item for Knowledge Notes without waiting for the words &quot;add this item&quot;: pick the section
-(Tech, Foundations, Mindset), draft it, and say so in the reply. jay still decides whether it
+(Tech, Foundations, Life), draft it, and say so in the reply. jay still decides whether it
 stays; the default is to add, not to ask. Questions clearly marked &quot;just asking&quot; are the
 exception: answer them, and offer the item in one line.</li>
 </ul>
 <h2 id="gemini-youtube-briefings--check-twice-a-week-jay-2026-09-18">Gemini YouTube briefings — check twice a week (jay, 2026-09-18)</h2>
 <ul>
 <li><code>/Users/jay/Documents/Gemini</code> receives Gemini&#39;s YouTube weekly briefing files (<code>YouTube-YYYY-MM-DD-*.md</code>,
-sections Blockchain / Tech / Mindset / Culture). Twice a week, Monday and Thursday KST or at the first
+sections Blockchain / Tech / Life / Culture). Twice a week, Monday and Thursday KST or at the first
 request after three days without a check, compare the folder with
 <a href="gemini-checked.html">gemini-checked.md</a>: every file not logged is new. Add each of its entries to the
-related section (Blockchain and Tech → Tech, Mindset → Mindset) as a normal item with
-<code>--source gemini</code>, then log the file. Culture entries have no section; say so in the reply.</li>
+related section (Blockchain and Tech → Tech, Life → Life) as a normal item with
+<code>--source gemini</code>, then log the file. <strong>Fallback (jay, 2026-09-18): an entry that fits no section
+goes to Life</strong> (first case: the Tokyo travel vlog, Life #4, type Vlog).</li>
 <li>First check 2026-09-18: <code>YouTube-2026-09-18-v2.md</code>.</li>
 </ul>
 <h2 id="where-new-blockchain-items-come-from-jay-2026-09-16">Where new Blockchain items come from (jay, 2026-09-16)</h2>
@@ -105,7 +106,7 @@ sources.</p>
 append the previous day&#39;s closing totals to <code>progress</code> in <code>_nav.js</code> before changing counts.</p>
 </li>
 </ul>
-<h2 id="mindset-jay-2026-09-18">Mindset (jay, 2026-09-18)</h2>
+<h2 id="life-jay-2026-09-18-named-life-until-later-that-day--ids-sec-mindset----section-mindset-unchanged">Life (jay, 2026-09-18; named Life until later that day — ids <code>sec-mindset</code> / <code>--section mindset</code> unchanged)</h2>
 <ul>
 <li>The third knowledge section: ways of thinking and psychological insight for doing good work and
 living well with it — talks, interviews, essays, books, distilled. Not tooling, not news; the
@@ -114,13 +115,13 @@ test is whether the item still applies when the tools change.</li>
 Numbering is chronological and append-only, like Dev English. Same date and source tag, same
 EN + KO copy text, same &quot;Why / How it works / Where it lands in Jayverse&quot; body.</li>
 <li>Sits before Dev English in the page so <code>scripts/english-notes.py</code>, which re-appends its own
-section last, keeps working unchanged. English conversations follow the once-a-day rule, not one per Mindset item.</li>
+section last, keeps working unchanged. English conversations follow the once-a-day rule, not one per Life item.</li>
 </ul>
 <h2 id="english-dev-english">English (Dev English)</h2>
 <p>One conversation per day (jay, 2026-09-18; until then it was one per new item): the first item request of a KST day also adds one English conversation, later items that day do not. Rules and format in <a href="english/README.html">english/README.md</a>.</p>
 <h2 id="key-expressions-on-every-detail-page-jay-2026-09-18">Key expressions on every detail page (jay, 2026-09-18)</h2>
 <ul>
-<li>Every Tech, Foundations and Mindset detail page ends with a <strong>Key expressions</strong> table (Korean
+<li>Every Tech, Foundations and Life detail page ends with a <strong>Key expressions</strong> table (Korean
 article: <strong>핵심 표현</strong>): the words and phrases from its English text worth learning, with the
 Korean meaning, a note on where the expression is used, and the sentence it comes from. Example that
 started it: <em>treasury desk</em> on the S&amp;P Global / OpenZeppelin page. English conversation pages already
@@ -155,13 +156,31 @@ hand-written pages have no rail, so they are unchanged.</li>
 </ul>
 <h2 id="where-it-lands-in-jayverse-on-every-detail-page-jay-2026-09-18">&quot;Where it lands in Jayverse&quot; on every detail page (jay, 2026-09-18)</h2>
 <ul>
-<li>Every Tech, Foundations and Mindset page closes its body with <strong>Where it lands in Jayverse</strong> (Korean:
+<li>Every Tech, Foundations and Life page closes its body with <strong>Where it lands in Jayverse</strong> (Korean:
 <strong>Jayverse에서의 위치</strong>): two to four bullets, each a bold lead naming a service and a decision, then one
 or two sentences concrete enough to act on. New items carry it in their own markdown and
 <code>add-tech-item.py</code> refuses an item without it. The 410 older pages were backfilled on 2026-09-18 from
 <code>docs/topics/landing/&lt;page&gt;.md</code> via <code>scripts/add-landing.py</code> (idempotent <code>&lt;!-- landing:start/end --&gt;</code>
 block, placed before &quot;Verified and unverified&quot; or before Key expressions). Curriculum pages keep their
 &quot;Practical Connection&quot; paragraph and add this section after it.</li>
+</ul>
+<h2 id="health-items-in-life-jay-2026-09-18">Health items in Life (jay, 2026-09-18)</h2>
+<ul>
+<li>The Life list ends with password-locked items numbered <strong>1000, 999, 998 …</strong> (jay: &quot;from number 1000 in Life and
+decreasing&quot;) and titled only <code>Health 1</code>, <code>Health 2</code>, … The real title is inside the ciphertext. jay: never use the
+word <em>private</em> in a file name, URL or title — &quot;the word private makes people want to know&quot;; <em>health</em> is the neutral
+name everywhere (<code>_health.js</code>, <code>health-N.html</code>, <code>health-*</code> ids and classes, <code>HEALTH_PASS</code>).</li>
+<li>Each card has <strong>Detail →</strong> (page <code>topics/health-N.html</code>: same rail with the Life items plus the Health items,
+password field on the page) and <strong>Open here</strong> (password field inside the card). Text decrypts in the browser and the
+tab stays unlocked until <strong>Lock all</strong> or the tab closes. A <code>♥ Health</code> link in every rail foot jumps to the first one.
+These pages are exempt from the Key-expressions and &quot;Where it lands in Jayverse&quot; rules: their text is not in the repo.</li>
+<li>Their text is not in the repo: the plaintext lives outside it at <code>~/Documents/Private/life-health-rules.md</code>
+(one <code>## Health N — title</code> heading per item, <code>### en</code> / <code>### ko</code> blocks), and
+<code>HEALTH_PASS=&#39;…&#39; node scripts/health-encrypt.mjs &lt;that file&gt;</code> writes only ciphertext (AES-256-GCM, PBKDF2-SHA256
+600k) to <code>docs/topics/_health.js</code> and then runs <code>scripts/health-cards.py</code>, which rewrites the cards and rail links
+in <code>notes.html</code> between <code>&lt;!-- health-nav --&gt;</code> / <code>&lt;!-- health-cards --&gt;</code> markers and regenerates the <code>health-N.html</code>
+pages. The password is never written to a file; <code>add-tech-item.py</code> leaves these cards alone (no key in <code>_nav.js</code>,
+numbers are not renumbered).</li>
 </ul>
 
   </article>

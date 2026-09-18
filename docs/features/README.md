@@ -100,7 +100,8 @@ extras are **crammed into the last column** (Wallet's P3 + P4, etc.). ✅ = that
 ## Three end-to-end scenarios — every service in one story, plus the service each story asks for
 
 The per-service docs each carry their *own* user scenario (Nari learns an LST, Jun swaps without
-feeding a searcher…). These three are different: each one walks **all eleven services** in a
+feeding a searcher…). These three are different: each one walks **all eleven services** in acd ~/work/alice && PRIVATE_PASS='<your passphrase>' node scripts/private-encrypt.mjs ~/Documents/Private/life-private-rules.md && npm run docs:html
+
 single day, in the order a real user would actually touch them — and each story ends at a gap that
 none of the existing services fills. That gap is written up as an **imaginary service** (jay,
 2026-09-14: "imaginary services I could create") — a candidate, not a commitment, placed on the
