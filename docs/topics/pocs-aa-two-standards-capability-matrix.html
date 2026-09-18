@@ -80,6 +80,7 @@
     background:var(--card); white-space:nowrap;
   }
   .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
   .rail-jump a b { font-weight:600; margin-left:4px; }
   /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
      맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
@@ -623,6 +624,14 @@ fallback: erc-4337
   // tierMode \uAC00 'all' \uB85C \uB0A8\uC544 \uC608\uC804\uACFC \uC644\uC804\uD788 \uB3D9\uC77C\uD558\uAC8C \uB3D9\uC791\uD55C\uB2E4 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
   let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { for (const p of pills) p.classList.toggle('on', !!railSection && p.dataset.sec === railSection); };
   // "Important" \uD544\uD130\uB294 \uC911\uC694(\uBE68\uAC15)\uBFD0 \uC544\uB2C8\uB77C "\uCD5C\uADFC \uC644\uB8CC"(\uD558\uB298)\uC640 "\uC0C8 \uD56D\uBAA9"(\uB178\uB791)\uB3C4 \uD568\uAED8 \uBCF4\uC5EC \uC900\uB2E4
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). \uCD5C\uADFC \uC644\uB8CC\uB294 \uBC29\uAE08 \uB05D\uB0B8 \uAC15\uC870 \uD56D\uBAA9\uC774\uACE0,
@@ -636,8 +645,9 @@ fallback: erc-4337
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
-      const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }
@@ -649,6 +659,16 @@ fallback: erc-4337
   }
   input.addEventListener('input', applyFilter);
   document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) return;            // badge All: every section already shows
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

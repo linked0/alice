@@ -80,6 +80,7 @@
     background:var(--card); white-space:nowrap;
   }
   .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
   .rail-jump a b { font-weight:600; margin-left:4px; }
   /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
      맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
@@ -380,7 +381,7 @@
     <div class="rail-head">
       <a class="rail-title" href="index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/472</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
-      <div class="rail-jump"><a href="#sec-blockchain" title="Tech &mdash; done (61) / all (241)">Tech<b><span class="count-done">61</span><span class="count-all">/241</span></b></a><a href="#sec-fundamentals" title="Foundations &mdash; done (6) / all (193)">Foundations<b><span class="count-done">6</span><span class="count-all">/193</span></b></a><a href="#sec-mindset" title="Life &mdash; done (0) / all (4)">Life<b><span class="count-done">0</span><span class="count-all">/4</span></b></a><a href="#sec-english" title="English &mdash; done (1) / all (34)">English<b><span class="count-done">1</span><span class="count-all">/34</span></b></a></div>
+      <div class="rail-jump"><a href="#sec-blockchain" data-sec="nav-sec-blockchain" title="Tech &mdash; done (61) / all (241)">Tech<b><span class="count-done">61</span><span class="count-all">/241</span></b></a><a href="#sec-fundamentals" data-sec="nav-sec-fundamentals" title="Foundations &mdash; done (6) / all (193)">Foundations<b><span class="count-done">6</span><span class="count-all">/193</span></b></a><a href="#sec-mindset" data-sec="nav-sec-mindset" title="Life &mdash; done (0) / all (4)">Life<b><span class="count-done">0</span><span class="count-all">/4</span></b></a><a href="#sec-english" data-sec="nav-sec-english" title="English &mdash; done (1) / all (34)">English<b><span class="count-done">1</span><span class="count-all">/34</span></b></a></div>
     </div>
     <div class="rail-search">
       <div class="rail-tier" role="group" aria-label="Show which items">
@@ -4295,6 +4296,14 @@
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
   let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { for (const p of pills) p.classList.toggle('on', !!railSection && p.dataset.sec === railSection); };
   // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
@@ -4307,7 +4316,9 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || !railSection || (!!grp && grp.id === railSection);
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }
@@ -4319,6 +4330,16 @@
   }
   input.addEventListener('input', applyFilter);
   document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) return;            // badge All: every section already shows
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

@@ -309,3 +309,19 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Reasoning:** one number now names the section, and every generator reads the same table instead of each carrying its own arithmetic. The goals are about *done* counts (68 today), so the celebration is driven from the same `jump` totals the badge already sums; it fires once per browser so it is a day, not a permanent banner. The badge toggle reuses the `data-other-section` groups added earlier today — a body class the filter consults, so no rail re-render.
 - **Change:** `scripts/notes_numbering.py` (BASE, GOALS, display/position); `add-tech-item.py`, `reorder-by-status.py` (now numbers Life too, in place), `english-notes.py`, `health-cards.py` use it; all sections renumbered (Foundations 700–892, English 1000–1033, Life 1300–1303, Health 1400–1405) and verified rail = card = kicker = nav for every item. `_progress.js`: badge is a button toggling `body.rail-all` + `All ·` prefix (sessionStorage, `rail-all-change` event), grey goal chip `→ 1,000 · 6.8%`, confetti milestone card at 1,000 / 2,000 (localStorage). Pages and `notes.html`: filter treats `body.rail-all` like the day buttons and re-applies on the event. README section + memory note.
 - **Result:** overall 68/472 unchanged; all inline scripts parse; goal chip shows 6.8 percent toward 1,000.
+
+### Goal chip removed from the badge row
+
+- **Cause:** jay (screenshot of `→ 1,000 · 6.8%`): "the numbers are shown in order and we don't need this part."
+- **Change:** `_progress.js` no longer renders the grey goal chip; the milestone celebration at 1,000 / 2,000 and the clickable red badge stay. README and memory adjusted.
+
+### Rail: section pills select the category; mode buttons filter inside it
+
+- **Cause:** jay (screenshot of Important · New · All): "these buttons are operational for each category and the section runs as category selection."
+- **Reasoning:** three controls now have one job each — pills choose the section, mode buttons choose the state, the red badge's All widens to every section. The earlier special case (Done / Yesterday / Today always crossing sections) is folded into the badge toggle so the model stays one rule.
+- **Change:** pills carry `data-sec`; the filter keeps `railSection` (default: the current item's section on a detail page, everything on the list page), a pill click selects that section (clicking the lit pill returns to the default), the lit pill gets `.rail-jump a.on`, and the rail scrolls to the group; on detail pages the pill no longer leaves the page (the list page keeps its in-page jump). `notes.html`, 324 pages, `rtd-shell.mjs`.
+
+### Red badge: one fixed shape
+
+- **Cause:** jay (screenshot `All · 14% · 68/472`): "this should have one fixed shape like this. don't change it when being clicked."
+- **Change:** `_progress.js` always renders `All · <pct>% · <done>/<all>`; the click still toggles the all-sections rail, shown only by the tooltip and `aria-pressed`. README and memory adjusted.

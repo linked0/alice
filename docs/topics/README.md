@@ -163,8 +163,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
   Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
   2026-09-18: "make the important button only shows important"; the 2026-09-08/09 rule that Important also showed new
-  and recently done items is retired). Each button shows exactly one state; Done / Yesterday / Today search every
-  section on detail pages. The state labels changed everywhere, including the page template `scripts/rtd-shell.mjs`.
+  and recently done items is retired). Each button shows exactly one state, inside the selected category (see the pills rule below). The state labels changed everywhere, including the page template `scripts/rtd-shell.mjs`.
 
 ## English pages: English first, Korean apart (jay, 2026-09-18)
 
@@ -194,10 +193,15 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   `--slot` in `add-tech-item.py` is still the 1-based position inside the section. Keys and file names do not change
   (`english-1.md` shows as 1000; `health-1.html` as 1400).
 - **Goals:** 1,000 items done is the first turning point and 2,000 the final goal (`GOALS` in the same module, mirrored
-  in `_progress.js`). The rail shows a grey chip `→ 1,000 · 6.8%` next to the red badge; when the done count reaches a
-  goal, every page shows a one-time congratulation (confetti + card, dismissed with "Thanks", remembered per browser in
-  `localStorage` `milestone-1000` / `milestone-2000`).
+  in `_progress.js`). When the done count reaches a goal, every page shows a one-time congratulation (confetti + card, dismissed with "Thanks", remembered per browser in
+  `localStorage` `milestone-1000` / `milestone-2000`). No progress chip toward the goal (jay: the numbers already tell).
 - **The red badge is a button.** Clicking it toggles `body.rail-all` (kept in `sessionStorage`): the detail-page rail
-  then lists every section for whichever mode button is on, and the badge reads `All · 14% · 68/472` (jay: "make it
-  clickable and make the clicking shows all the categories … I mean All to the status red area"). Without the toggle,
-  Important / New / All show the current section only and Done / Yesterday / Today search every section.
+  then lists every section for whichever mode button is on. The badge always reads `All · 14% · 68/472` — one fixed
+  shape, only the tooltip changes (jay: "don't change it when being clicked") (jay: "make it
+  clickable and make the clicking shows all the categories … I mean All to the status red area").
+- **Section pills select the category** (jay: "these buttons are operational for each category and the section runs
+  as category selection"). On a detail page the rail starts on the current item's section; clicking another pill
+  shows that section instead (the pill lights up, the rail scrolls to it, the page does not change); clicking the lit
+  pill returns to the default. On the list page the default is every section and the pill also jumps to the section in
+  the main column. The mode buttons (Important · New · All / Done · Yesterday · Today) filter inside the selected
+  category; the red badge's All is the only thing that widens a button to every section.

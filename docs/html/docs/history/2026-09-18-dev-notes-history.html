@@ -345,6 +345,22 @@
 <li><strong>Change:</strong> <code>scripts/notes_numbering.py</code> (BASE, GOALS, display/position); <code>add-tech-item.py</code>, <code>reorder-by-status.py</code> (now numbers Life too, in place), <code>english-notes.py</code>, <code>health-cards.py</code> use it; all sections renumbered (Foundations 700–892, English 1000–1033, Life 1300–1303, Health 1400–1405) and verified rail = card = kicker = nav for every item. <code>_progress.js</code>: badge is a button toggling <code>body.rail-all</code> + <code>All ·</code> prefix (sessionStorage, <code>rail-all-change</code> event), grey goal chip <code>→ 1,000 · 6.8%</code>, confetti milestone card at 1,000 / 2,000 (localStorage). Pages and <code>notes.html</code>: filter treats <code>body.rail-all</code> like the day buttons and re-applies on the event. README section + memory note.</li>
 <li><strong>Result:</strong> overall 68/472 unchanged; all inline scripts parse; goal chip shows 6.8 percent toward 1,000.</li>
 </ul>
+<h3 id="goal-chip-removed-from-the-badge-row">Goal chip removed from the badge row</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot of <code>→ 1,000 · 6.8%</code>): &quot;the numbers are shown in order and we don&#39;t need this part.&quot;</li>
+<li><strong>Change:</strong> <code>_progress.js</code> no longer renders the grey goal chip; the milestone celebration at 1,000 / 2,000 and the clickable red badge stay. README and memory adjusted.</li>
+</ul>
+<h3 id="rail-section-pills-select-the-category-mode-buttons-filter-inside-it">Rail: section pills select the category; mode buttons filter inside it</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot of Important · New · All): &quot;these buttons are operational for each category and the section runs as category selection.&quot;</li>
+<li><strong>Reasoning:</strong> three controls now have one job each — pills choose the section, mode buttons choose the state, the red badge&#39;s All widens to every section. The earlier special case (Done / Yesterday / Today always crossing sections) is folded into the badge toggle so the model stays one rule.</li>
+<li><strong>Change:</strong> pills carry <code>data-sec</code>; the filter keeps <code>railSection</code> (default: the current item&#39;s section on a detail page, everything on the list page), a pill click selects that section (clicking the lit pill returns to the default), the lit pill gets <code>.rail-jump a.on</code>, and the rail scrolls to the group; on detail pages the pill no longer leaves the page (the list page keeps its in-page jump). <code>notes.html</code>, 324 pages, <code>rtd-shell.mjs</code>.</li>
+</ul>
+<h3 id="red-badge-one-fixed-shape">Red badge: one fixed shape</h3>
+<ul>
+<li><strong>Cause:</strong> jay (screenshot <code>All · 14% · 68/472</code>): &quot;this should have one fixed shape like this. don&#39;t change it when being clicked.&quot;</li>
+<li><strong>Change:</strong> <code>_progress.js</code> always renders <code>All · &lt;pct&gt;% · &lt;done&gt;/&lt;all&gt;</code>; the click still toggles the all-sections rail, shown only by the tooltip and <code>aria-pressed</code>. README and memory adjusted.</li>
+</ul>
 
   </article>
 </div>

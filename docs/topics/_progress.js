@@ -18,13 +18,15 @@
   var cur = head.querySelector('.rail-note');
   // The red badge is a button (jay, 2026-09-18: "make it clickable and make the clicking shows all the categories for
   // the buttons from Important and Today … I mean All to the status red area"). Clicking toggles body.rail-all: the
-  // rail then lists every section for whichever mode button is on, and the badge reads "All · 14% · 68/472". Kept in
+  // rail then lists every section for whichever mode button is on. The badge always reads "All · 14% · 68/472"; only the
+  // tooltip and aria-pressed change (jay: one fixed shape). Kept in
   // sessionStorage so it follows you from page to page; the pages' filter re-applies on 'rail-all-change'.
   var railAll = false; try { railAll = sessionStorage.getItem('rail-all') === '1'; } catch (e) {}
   if (railAll) document.body.classList.add('rail-all');
   var paint = function () {
     if (!cur) return;
-    cur.textContent = (railAll ? 'All · ' : '') + pct(done, all) + '% · ' + done + '/' + all;
+    cur.textContent = 'All · ' + pct(done, all) + '% · ' + done + '/' + all;   // one fixed shape (jay, 2026-09-18: "don't change it when being clicked")
+    cur.setAttribute('aria-pressed', railAll ? 'true' : 'false');
     cur.title = railAll ? 'current — click: back to this section only' : 'current — click: show all sections in the rail';
   };
   if (cur) {
@@ -40,16 +42,10 @@
     cur.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     paint();
   }
-  // Goal chip and milestones (jay, 2026-09-18): 1,000 items done is the first turning point and gets a congratulation
-  // effect; 2,000 is the final goal. Mirrors GOALS in scripts/notes_numbering.py.
-  var GOALS = [1000, 2000], next = GOALS.filter(function (g) { return done < g; })[0];
-  if (cur && next) {
-    var goal = document.createElement('span'); goal.className = 'rail-note rail-goal';
-    goal.textContent = '→ ' + next.toLocaleString() + ' · ' + (Math.round(done * 1000 / next) / 10) + '%';
-    goal.title = done + ' of the ' + next.toLocaleString() + ' done items goal';
-    goal.style.cssText = 'color:#64748b;background:rgba(100,116,139,0.16);margin-left:6px';
-    cur.parentNode.insertBefore(goal, cur.nextSibling);
-  }
+  // Milestones (jay, 2026-09-18): 1,000 items done is the first turning point and gets a congratulation effect;
+  // 2,000 is the final goal. Mirrors GOALS in scripts/notes_numbering.py. (A goal chip next to the badge was
+  // removed the same day — jay: "the numbers are shown in order and we don't need this part".)
+  var GOALS = [1000, 2000];
   GOALS.forEach(function (g) {
     if (done < g) return;
     var k = 'milestone-' + g; try { if (localStorage.getItem(k)) return; } catch (e) {}

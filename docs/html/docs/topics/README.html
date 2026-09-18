@@ -202,8 +202,7 @@ with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script
 break; list page, every detail page, template <code>rtd-shell.mjs</code>): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: &quot;Add done button also&quot; … &quot;Done before
 Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, <strong>Important = IMPORTANT only</strong> (jay,
 2026-09-18: &quot;make the important button only shows important&quot;; the 2026-09-08/09 rule that Important also showed new
-and recently done items is retired). Each button shows exactly one state; Done / Yesterday / Today search every
-section on detail pages. The state labels changed everywhere, including the page template <code>scripts/rtd-shell.mjs</code>.</li>
+and recently done items is retired). Each button shows exactly one state, inside the selected category (see the pills rule below). The state labels changed everywhere, including the page template <code>scripts/rtd-shell.mjs</code>.</li>
 </ul>
 <h2 id="english-pages-english-first-korean-apart-jay-2026-09-18">English pages: English first, Korean apart (jay, 2026-09-18)</h2>
 <ul>
@@ -233,13 +232,18 @@ promote a new item, demote one first.</li>
 <code>--slot</code> in <code>add-tech-item.py</code> is still the 1-based position inside the section. Keys and file names do not change
 (<code>english-1.md</code> shows as 1000; <code>health-1.html</code> as 1400).</li>
 <li><strong>Goals:</strong> 1,000 items done is the first turning point and 2,000 the final goal (<code>GOALS</code> in the same module, mirrored
-in <code>_progress.js</code>). The rail shows a grey chip <code>→ 1,000 · 6.8%</code> next to the red badge; when the done count reaches a
-goal, every page shows a one-time congratulation (confetti + card, dismissed with &quot;Thanks&quot;, remembered per browser in
-<code>localStorage</code> <code>milestone-1000</code> / <code>milestone-2000</code>).</li>
+in <code>_progress.js</code>). When the done count reaches a goal, every page shows a one-time congratulation (confetti + card, dismissed with &quot;Thanks&quot;, remembered per browser in
+<code>localStorage</code> <code>milestone-1000</code> / <code>milestone-2000</code>). No progress chip toward the goal (jay: the numbers already tell).</li>
 <li><strong>The red badge is a button.</strong> Clicking it toggles <code>body.rail-all</code> (kept in <code>sessionStorage</code>): the detail-page rail
-then lists every section for whichever mode button is on, and the badge reads <code>All · 14% · 68/472</code> (jay: &quot;make it
-clickable and make the clicking shows all the categories … I mean All to the status red area&quot;). Without the toggle,
-Important / New / All show the current section only and Done / Yesterday / Today search every section.</li>
+then lists every section for whichever mode button is on. The badge always reads <code>All · 14% · 68/472</code> — one fixed
+shape, only the tooltip changes (jay: &quot;don&#39;t change it when being clicked&quot;) (jay: &quot;make it
+clickable and make the clicking shows all the categories … I mean All to the status red area&quot;).</li>
+<li><strong>Section pills select the category</strong> (jay: &quot;these buttons are operational for each category and the section runs
+as category selection&quot;). On a detail page the rail starts on the current item&#39;s section; clicking another pill
+shows that section instead (the pill lights up, the rail scrolls to it, the page does not change); clicking the lit
+pill returns to the default. On the list page the default is every section and the pill also jumps to the section in
+the main column. The mode buttons (Important · New · All / Done · Yesterday · Today) filter inside the selected
+category; the red badge&#39;s All is the only thing that widens a button to every section.</li>
 </ul>
 
   </article>
