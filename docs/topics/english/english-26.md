@@ -1,0 +1,48 @@
+# 26 · Stakeholders — Saying no to a date, with a counteroffer
+title_ko: 날짜에 아니오라고 말하기, 대안과 함께
+situation: Jay's first month as team lead at a London fintech. The CTO, Rachel, wants the new settlement engine live by 15 November for a board demo. Jay's estimate is mid-January. Saying yes means a death march and a bad launch; saying no with nothing attached means the new lead is "not a team player" by week five.
+situation_ko: 런던 핀테크 팀 리드 첫 달. CTO Rachel은 이사회 데모를 위해 새 정산 엔진을 11월 15일까지 라이브하길 원한다. Jay의 추정은 1월 중순. 예스라고 하면 데스마치와 나쁜 런칭, 대안 없이 노라고 하면 새 리드는 5주 차에 "팀 플레이어가 아닌 사람"이 된다.
+why: Pushing back on a date is the most common leadership moment abroad, and the one where non-native speakers sound either weak or rude. The form that works: accept the goal, reject the date, offer a smaller thing on the date and the real thing after, and let the CTO choose.
+why_ko: 날짜에 반대하는 것은 해외에서 가장 흔한 리더십 순간이고, 비원어민이 약하거나 무례하게 들리기 가장 쉬운 순간이다. 되는 형식: 목표는 받고, 날짜는 거절하고, 그 날짜에 더 작은 것과 그 뒤에 진짜를 제안하고, CTO가 선택하게 한다.
+status: planned
+
+## Dialogue
+Rachel: I need the settlement engine live for the board on 15 November. Can you commit to that?
+> 11월 15일 이사회에 정산 엔진이 라이브여야 합니다. 약속할 수 있나요?
+Jay: I can commit to the board seeing settlement working on 15 November. I can't commit to it being live for customers by then, and I'd rather tell you that now than on the 10th.
+> 11월 15일에 이사회가 정산이 동작하는 것을 보는 것은 약속할 수 있습니다. 그때까지 고객에게 라이브인 것은 약속할 수 없고, 10일에 말하는 것보다 지금 말하는 게 낫다고 생각합니다.
+Rachel: What's the gap?
+> 차이가 뭔가요?
+Jay: Live means reconciliation against the bank file, the rollback path, and two weeks of shadow running next to the old engine. That's eight weeks of work after the core is done, and the core is done in early October. So live is mid-January with the current team.
+> 라이브는 은행 파일 대사, 롤백 경로, 그리고 구 엔진 옆에서 2주의 섀도 운영을 뜻합니다. 코어가 끝난 뒤 8주치 일이고, 코어는 10월 초에 끝납니다. 그러니 현재 팀으로 라이브는 1월 중순입니다.
+Rachel: The board doesn't care about shadow running.
+> 이사회는 섀도 운영에 관심 없어요.
+Jay: Agreed, and that's why I'm not proposing to show them that. Here's what I can put in front of them on the 15th: the new engine settling real yesterday's transactions in the shadow environment, side by side with the old engine's numbers, matching to the cent. That's a stronger demo than "it's live," because it shows the thing that actually worries a board, which is whether the numbers are right.
+> 동의합니다, 그래서 그것을 보여드리자고 제안하는 게 아닙니다. 15일에 이사회 앞에 놓을 수 있는 것은 이겁니다. 새 엔진이 섀도 환경에서 어제의 실제 거래를 정산하고, 구 엔진 숫자와 나란히 센트 단위까지 일치하는 것. "라이브입니다"보다 강한 데모입니다. 이사회가 실제로 걱정하는 것, 숫자가 맞는가를 보여주니까요.
+Rachel: And if I gave you two more engineers?
+> 엔지니어 둘을 더 주면요?
+Jay: Then I'd pull live into December, not November. The shadow period doesn't compress with headcount; it's calendar time. I'd take the two engineers, and I'd still not promise the 15th.
+> 그러면 라이브를 11월이 아니라 12월로 당기겠습니다. 섀도 기간은 인원으로 압축되지 않습니다. 달력 시간이니까요. 두 엔지니어는 받겠지만, 15일은 여전히 약속하지 않겠습니다.
+Rachel: Fine. Shadow demo on the 15th, live in December. Put it in writing.
+> 좋아요. 15일 섀도 데모, 12월 라이브. 문서로 주세요.
+Jay: You'll have it today, with the three things that would move December.
+> 오늘 드리겠습니다, 12월을 움직일 세 가지와 함께요.
+
+## Techniques
+1. **목표에는 예스, 날짜에는 노, 같은 문장에서.** "I can commit to the board seeing settlement working… I can't commit to it being live." 거절이 협조로 들리는 유일한 형식은 무엇을 할 수 있는지가 먼저 오는 것이다.
+2. **거절 대신 더 좋은 데모를 팔다.** "That's a stronger demo than 'it's live,' because it shows… whether the numbers are right." 상대의 진짜 목표(이사회 신뢰)를 내 일정이 더 잘 채운다고 보여준다.
+3. **압축되지 않는 것을 이름 붙인다.** "The shadow period doesn't compress with headcount; it's calendar time." 인원을 더 준다는 제안에 대한 정직한 답. 이 한 문장이 "현실적인 리드"와 "핑계 대는 리드"를 나눈다.
+
+## Expressions
+| can you commit to that | 그것을 약속할 수 있나 |
+| I'd rather tell you now than on the 10th | 10일보다 지금 말하는 게 낫다 |
+| what's the gap | 차이가 뭔가 |
+| shadow running | 구 시스템 옆에서 병행 운영 |
+| with the current team | 현재 팀으로 |
+| put in front of them | 그들 앞에 내놓다 |
+| matching to the cent | 센트 단위까지 일치 |
+| pull live into December | 라이브를 12월로 당기다 |
+| doesn't compress with headcount | 인원으로 압축되지 않는다 |
+| calendar time | 달력 시간(병렬화 불가한 기간) |
+| put it in writing | 문서로 남겨라 |
+| the three things that would move December | 12월을 움직일 세 가지 |
