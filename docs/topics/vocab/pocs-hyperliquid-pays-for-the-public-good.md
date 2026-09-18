@@ -9,3 +9,8 @@
 | standing doctrine | 소송당사자 적격 법리 · 누가 소송을 제기할 자격이 있는지를 다루는 법 이론 · "Standing doctrine is not a brand campaign" |
 | protects the road it intends to drive on | 앞으로 갈 길을 미리 지켜두다 · 훗날 쓸 사업 경로를 미리 법적으로 보호한다는 비유 · "The brief protects the road it intends to drive on" |
 | as-reported | 보도된 바로는, 사실 확인 전인 · 아직 검증되지 않은 정보임을 밝힐 때 · "Reported market-structure analysis — observations, not advice" |
+| CFTC | 미국 상품선물거래위원회(Commodity Futures Trading Commission) · 파생상품·퍼페추얼 규제를 담당하는 미국 연방기관, 이 소송의 피고 측 지지 대상. "backing the CFTC against CME's suit" |
+| CME | 시카고상품거래소(Chicago Mercantile Exchange) · 퍼페추얼 선물을 두고 CFTC를 상대로 소송을 낸 전통 거래소. "CME's suit over perpetual futures" |
+| GMX | 온체인 퍼페추얼 거래소 · 이 소송의 결과가 함께 이득을 보는 경쟁 perps venue 중 하나로 언급됨. "every perps venue (dYdX, GMX, Aster, Kalshi…)" |
+| HYPE | Hyperliquid의 자체 토큰 티커 · Kalshi가 퍼페추얼 상장을 신청한 대상, 이번 소송과 직결된 자산. "Kalshi filed to list $HYPE perps" |
+<!-- acronyms 2026-09-18 -->

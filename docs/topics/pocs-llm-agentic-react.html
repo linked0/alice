@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Agentic loops — ReAct, and the cost of letting a model iterate</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#216</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#220</span><span>PoC</span></p>
       <h1>Agentic loops — ReAct, and the cost of letting a model iterate</h1>
       <p class="lead">The reason-act-observe loop lets a model plan, call tools, and react to results across many steps, which unlocks real tasks and multiplies the ways it can go wrong or run away in cost.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reason-act-observe loop</strong></td><td>추론-행동-관찰을 반복하는 루프(ReAct 방식) · 에이전트가 여러 단계에 걸쳐 계획하고 도구를 쓰는 구조 · "The reason-act-observe loop lets a model plan"</td></tr><tr><td><strong>run away in cost</strong></td><td>비용이 걷잡을 수 없이 불어나다 · 에이전트가 무한정 반복하며 비용이 폭주하는 위험 · "or run away in cost"</td></tr><tr><td><strong>guardrails</strong></td><td>(안전) 가드레일·안전장치 · 에이전트 폭주를 막는 제약 장치를 가리킬 때 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>termination</strong></td><td>(실행) 종료 조건 · 에이전트가 언제 멈출지 정하는 것이 어려운 부분임을 강조 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>step and cost budget</strong></td><td>단계 수·비용 상한선 · 에이전트 실행을 제한하는 예산 개념 · "a multi-step task with a step and cost budget"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: enforce a step budget and a cost budget on any agent loop driving session-key actions before building the planning logic.</strong> Since Rabbit is agentic account abstraction, a runaway ReAct loop acting through a mandate or session key is expensive in a way a chatbot&#39;s runaway loop isn&#39;t — termination is the hard part, in the order this card recommends.</li><li><strong>OFA: if the intent/solver auction ever uses an LLM agent to search for solutions, build the step cap and cost cap first.</strong> Guardrails on iteration, not planning quality, are what the card treats as the actual engineering problem.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reason-act-observe loop</strong></td><td>추론-행동-관찰을 반복하는 루프(ReAct 방식) · 에이전트가 여러 단계에 걸쳐 계획하고 도구를 쓰는 구조 · "The reason-act-observe loop lets a model plan"</td></tr><tr><td><strong>run away in cost</strong></td><td>비용이 걷잡을 수 없이 불어나다 · 에이전트가 무한정 반복하며 비용이 폭주하는 위험 · "or run away in cost"</td></tr><tr><td><strong>guardrails</strong></td><td>(안전) 가드레일·안전장치 · 에이전트 폭주를 막는 제약 장치를 가리킬 때 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>termination</strong></td><td>(실행) 종료 조건 · 에이전트가 언제 멈출지 정하는 것이 어려운 부분임을 강조 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>step and cost budget</strong></td><td>단계 수·비용 상한선 · 에이전트 실행을 제한하는 예산 개념 · "a multi-step task with a step and cost budget"</td></tr><tr><td><strong>ReAct</strong></td><td>Reasoning + Acting · 모델이 추론과 행동을 번갈아 수행하며 도구를 쓰는 에이전트 기법의 명칭 · "Agentic loops — ReAct, and the cost of letting a model iterate"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reason-act-observe loop</strong></td><td>추론-행동-관찰을 반복하는 루프(ReAct 방식) · 에이전트가 여러 단계에 걸쳐 계획하고 도구를 쓰는 구조 · "The reason-act-observe loop lets a model plan"</td></tr><tr><td><strong>run away in cost</strong></td><td>비용이 걷잡을 수 없이 불어나다 · 에이전트가 무한정 반복하며 비용이 폭주하는 위험 · "or run away in cost"</td></tr><tr><td><strong>guardrails</strong></td><td>(안전) 가드레일·안전장치 · 에이전트 폭주를 막는 제약 장치를 가리킬 때 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>termination</strong></td><td>(실행) 종료 조건 · 에이전트가 언제 멈출지 정하는 것이 어려운 부분임을 강조 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>step and cost budget</strong></td><td>단계 수·비용 상한선 · 에이전트 실행을 제한하는 예산 개념 · "a multi-step task with a step and cost budget"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 세션 키 액션을 구동하는 에이전트 루프에는 계획 로직을 만들기 전에 스텝 예산과 비용 예산부터 강제한다.</strong> Rabbit은 에이전틱 계정 추상화이므로, 매지트나 세션 키를 통해 행동하는 폭주하는 ReAct 루프는 챗봇의 폭주 루프와는 다른 방식으로 비용이 크다. 이 카드가 권하는 순서대로, 종료가 어려운 부분이다.</li><li><strong>OFA: 인텐트·솔버 경매가 언젠가 LLM 에이전트로 해를 탐색한다면 스텝 상한과 비용 상한부터 만든다.</strong> 이 카드가 실제 공학 문제로 다루는 것은 계획의 품질이 아니라 반복에 대한 가드레일이다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reason-act-observe loop</strong></td><td>추론-행동-관찰을 반복하는 루프(ReAct 방식) · 에이전트가 여러 단계에 걸쳐 계획하고 도구를 쓰는 구조 · "The reason-act-observe loop lets a model plan"</td></tr><tr><td><strong>run away in cost</strong></td><td>비용이 걷잡을 수 없이 불어나다 · 에이전트가 무한정 반복하며 비용이 폭주하는 위험 · "or run away in cost"</td></tr><tr><td><strong>guardrails</strong></td><td>(안전) 가드레일·안전장치 · 에이전트 폭주를 막는 제약 장치를 가리킬 때 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>termination</strong></td><td>(실행) 종료 조건 · 에이전트가 언제 멈출지 정하는 것이 어려운 부분임을 강조 · "treating termination and guardrails as the hard part"</td></tr><tr><td><strong>step and cost budget</strong></td><td>단계 수·비용 상한선 · 에이전트 실행을 제한하는 예산 개념 · "a multi-step task with a step and cost budget"</td></tr><tr><td><strong>ReAct</strong></td><td>Reasoning + Acting · 모델이 추론과 행동을 번갈아 수행하며 도구를 쓰는 에이전트 기법의 명칭 · "Agentic loops — ReAct, and the cost of letting a model iterate"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-tool-use.html">&larr; 215. Tool use — the model that stops guessing and calls a function</a><a href="pocs-llm-evals-judge.html">217. Evals — you cannot improve what you do not measure, judge included &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-tool-use.html">&larr; 219. Tool use — the model that stops guessing and calls a function</a><a href="pocs-llm-evals-judge.html">221. Evals — you cannot improve what you do not measure, judge included &rarr;</a></div>
   </div>
   </main>
 </div>

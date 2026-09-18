@@ -9,3 +9,6 @@
 | evict | (강제로) 쫓아내다, 내보내다 · "cannot immediately evict yours" |
 | grace period | 유예 기간 · "add a time-locked grace period" |
 | granted capability | 부여된 권한 · "every link is a granted capability" |
+| SIWE | 이더리움으로 로그인(Sign-In With Ethereum) · 서명으로 키 통제권만 증명하는 인증 표준, 사람의 신원까지 증명하진 않음. "proves control of a key, not identity" |
+| SQLite | SQLite · 별도 서버 없이 파일 하나로 동작하는 경량 임베디드 데이터베이스, 이 PoC의 계정 저장소로 쓰임. "SIWE via viem, SQLite accounts" |
+<!-- acronyms 2026-09-18 -->

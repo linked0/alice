@@ -5,3 +5,5 @@
 | image-borne | 이미지를 매개로 한, 이미지를 통해 전달되는 · 텍스트가 아닌 이미지로 전달되는 인젝션 공격. "an image-borne injection" |
 | connect X to Y | X를 Y와 연결짓다 · 멀티모달의 능력과 새로운 공격 표면을 잇는 관계. "connecting multimodal power to its new attack surface" |
 | in the same context | 같은 맥락(문맥) 안에서 · 픽셀과 토큰을 하나의 문맥으로 함께 처리한다는 뜻. "take pixels and tokens in the same context" |
+| VLM | 시각-언어 모델(Vision-Language Model)의 약어 · 스크린샷 과제 실습에서 본문이 실제로 사용한 축약 표기. "The PoC runs a VLM on a screenshot task" |
+<!-- acronyms 2026-09-18 -->

@@ -10,3 +10,8 @@
 | attach (a question) to | 질문을 ~에 달아 붙이다 · 특정 주장에 검증 질문을 함께 제기할 때. "The honest question to attach to any" |
 | double-counting | 이중 계산 · 같은 금액을 두 번 세는 회계 오류. "The double-counting note quietly refutes a whole market narrative" |
 | reclassification is measurement, not policy | 재분류는 정책이 아니라 측정이다 · 통계적 재분류가 정책 변화를 의미하지 않음을 강조할 때. "reclassification is measurement, not policy" |
+| GENIUS Act | 미국 스테이블코인 규제법(GENIUS Act) · 미국 규제 대상 발행자에게 적용되는 준비자산 공시 근거법. "GENIUS applies to US-regulated issuers but on-chain flow" |
+| MMF | 머니마켓펀드(Money Market Fund) · 스테이블코인 준비자산으로 쓰이는 단기 국채 기반 펀드. "bank deposits, Treasury MMFs) are already in M2" |
+| OCC | 통화감독청(Office of the Comptroller of the Currency) · 미국 은행 규제 당국, 최종 규칙 제정 주체. "whether that requirement lands in the OCC final rule" |
+| M1/M2 | 통화량 지표 M1(협의통화)/M2(광의통화) · 교환수단이면 M1, 가치저장수단이면 M2로 분류하는 기준. "medium-of-exchange use implies M1, store-of-value implies M2" |
+<!-- acronyms 2026-09-18 -->

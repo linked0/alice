@@ -6,3 +6,6 @@
 | withhold | (공개하지 않고) 보류하다, 숨기다 · 채굴한 블록을 바로 내놓지 않는 것. "withholds a mined block instead of publishing it immediately" |
 | incentive-compatibility | 유인 양립성 · 보상 구조가 정직한 행동을 유도하도록 설계됐는지 여부. "a protocol's incentive-compatibility is a separate question" |
 | convert ... into | ~을 ~으로 바꾸다, 전환시키다 · 안전성 파라미터가 곧 돈의 문제가 된다는 것을 표현. "converts a safety parameter into money" |
+| Selfish mining | 이기적 채굴(전략적 블록 은닉) · 채굴한 블록을 즉시 공개하지 않고 비밀 체인을 유지하다 전략적으로 풀어 정직한 채굴자 몫을 가로채는 전략. "Selfish mining is a strategy where a miner withholds a mined block" |
+| reorg | 재구성(체인 재조직, reorganization) · 이미 쌓인 블록이 다른 체인으로 교체되며 되돌려지는 현상. "reshaped into finality rules and reorg risk" |
+<!-- acronyms 2026-09-18 -->

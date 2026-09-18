@@ -10,3 +10,7 @@
 | stop being a trust question and become a code path | 신뢰의 문제가 아니라 코드로 보장되는 문제가 되다 · 상환 여부가 계약으로 강제됨을 설명 · "stops being a trust question and becomes a code path" |
 | draw | (신용한도에서) 자금을 인출하다, 인출액 · 매일 부족분을 당겨쓰는 행위 · "it draws stablecoin from a revolving credit line" |
 | underwrite | (신용을) 심사해 보증하다 · 담보가 아닌 데이터로 한도를 산정함 · "underwritten by its own settlement history" |
+| Credit Coop | 크레딧 코업(Credit Coop) · 온체인 결제 이력을 담보로 스테이블코인 신용을 공급하는 카드 발급 인프라 업체. "Credit Coop reports 3,000+ draws and 9,000+ repayments" |
+| Rain | 레인(Rain) · 스테이블코인 기반 카드 발급 인프라를 제공하는 업체. "Visa × Credit Coop, Rain, Karta" |
+| Karta | 카르타(Karta) · 온체인 정산 이력을 쌓아 기관 신용한도를 확보한 카드 발급사 사례. "secured a $125M institutional credit line" |
+<!-- acronyms 2026-09-18 -->

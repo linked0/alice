@@ -5,3 +5,5 @@
 | trusted input | 신뢰할 수 있다고 가정된 입력값 · "framing the registry as trusted input that is not" |
 | scoping | 패키지 이름에 네임스페이스를 지정하는 것 · "the scoping/lockfile defenses" |
 | fetch | (패키지를) 가져오다, 당겨오다 · "can make a build fetch the attacker's version" |
+| PyPI | 파이파이(Python Package Index) · 파이썬 패키지 레지스트리, npm과 함께 디펜던시 컨퓨전 공격의 표적이 된 기본 저장소. "a supply-chain class that hit major companies via npm and PyPI defaults" |
+<!-- acronyms 2026-09-18 -->

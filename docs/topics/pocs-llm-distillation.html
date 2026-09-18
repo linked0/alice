@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Distillation — a small model trained to imitate a big one</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#213</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#217</span><span>PoC</span></p>
       <h1>Distillation — a small model trained to imitate a big one</h1>
       <p class="lead">Distillation trains a compact student on a large teacher&#39;s outputs, capturing much of the capability at a fraction of the cost — the standard path from a frontier model to a deployable one.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>at a fraction of the cost</strong></td><td>원래 비용의 일부만으로 · 훨씬 적은 비용으로 비슷한 효과를 낼 때. "at a fraction of the cost"</td></tr><tr><td><strong>the standard path from X to Y</strong></td><td>X에서 Y로 가는 표준 경로 · 일반적으로 거치는 정해진 과정을 말할 때. "the standard path from a frontier model"</td></tr><tr><td><strong>retained versus saved</strong></td><td>유지된 것 대 절약된 것 · 성능 유지량과 비용 절감량을 대비할 때. "the capability retained versus the size saved"</td></tr><tr><td><strong>narrow (task)</strong></td><td>범위가 좁은 작업 · 한정된 특정 작업만을 다룰 때. "on a narrow task"</td></tr><tr><td><strong>capture (capability)</strong></td><td>능력을 포착해 담아내다 · 큰 모델의 성능을 작은 모델이 흡수할 때. "capturing much of the capability"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Number: distill any on-site prediction model from a larger reference model.</strong> If Number ships an indicator or prediction model, train it on a narrow task from a bigger teacher&#39;s outputs, and publish capability-retained versus size-saved next to the indicator.</li><li><strong>Verex: use a distilled model as the cheap first-pass resolution check.</strong> Keep a larger model or a human as the escalation path when the small model&#39;s triage disagrees with the expected outcome.</li><li><strong>Auditor: require the teacher, task and retained-capability note for any distilled model in production.</strong> A distilled model&#39;s output should never be judged as if it came from the teacher without that methodology written down.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>at a fraction of the cost</strong></td><td>원래 비용의 일부만으로 · 훨씬 적은 비용으로 비슷한 효과를 낼 때. "at a fraction of the cost"</td></tr><tr><td><strong>the standard path from X to Y</strong></td><td>X에서 Y로 가는 표준 경로 · 일반적으로 거치는 정해진 과정을 말할 때. "the standard path from a frontier model"</td></tr><tr><td><strong>retained versus saved</strong></td><td>유지된 것 대 절약된 것 · 성능 유지량과 비용 절감량을 대비할 때. "the capability retained versus the size saved"</td></tr><tr><td><strong>narrow (task)</strong></td><td>범위가 좁은 작업 · 한정된 특정 작업만을 다룰 때. "on a narrow task"</td></tr><tr><td><strong>capture (capability)</strong></td><td>능력을 포착해 담아내다 · 큰 모델의 성능을 작은 모델이 흡수할 때. "capturing much of the capability"</td></tr><tr><td><strong>frontier model</strong></td><td>프런티어 모델(현재 최고 수준의 최첨단 대형 모델) · 증류의 출발점이 되는 고성능 대형 모델을 가리키는 업계 용어. "the standard path from a frontier model to a"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>at a fraction of the cost</strong></td><td>원래 비용의 일부만으로 · 훨씬 적은 비용으로 비슷한 효과를 낼 때. "at a fraction of the cost"</td></tr><tr><td><strong>the standard path from X to Y</strong></td><td>X에서 Y로 가는 표준 경로 · 일반적으로 거치는 정해진 과정을 말할 때. "the standard path from a frontier model"</td></tr><tr><td><strong>retained versus saved</strong></td><td>유지된 것 대 절약된 것 · 성능 유지량과 비용 절감량을 대비할 때. "the capability retained versus the size saved"</td></tr><tr><td><strong>narrow (task)</strong></td><td>범위가 좁은 작업 · 한정된 특정 작업만을 다룰 때. "on a narrow task"</td></tr><tr><td><strong>capture (capability)</strong></td><td>능력을 포착해 담아내다 · 큰 모델의 성능을 작은 모델이 흡수할 때. "capturing much of the capability"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Number: 사내 예측 모델은 더 큰 참조 모델에서 증류한다.</strong> Number가 지표나 예측 모델을 내놓는다면 더 큰 티처 모델의 출력으로 좁은 과업에 대해 학습시키고, 지표 옆에 보존된 능력 대비 절감된 크기를 공개한다.</li><li><strong>Verex: 증류된 모델을 저비용 1차 정산 체크로 쓴다.</strong> 작은 모델의 트리아지가 기대 결과와 어긋날 때 더 큰 모델이나 사람을 에스컬레이션 경로로 유지한다.</li><li><strong>Auditor: 프로덕션에 쓰이는 증류 모델마다 티처, 과업, 보존된 능력을 문서로 요구한다.</strong> 이 방법론을 적어두지 않은 채 증류 모델의 출력을 티처의 출력처럼 판단해서는 안 된다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>at a fraction of the cost</strong></td><td>원래 비용의 일부만으로 · 훨씬 적은 비용으로 비슷한 효과를 낼 때. "at a fraction of the cost"</td></tr><tr><td><strong>the standard path from X to Y</strong></td><td>X에서 Y로 가는 표준 경로 · 일반적으로 거치는 정해진 과정을 말할 때. "the standard path from a frontier model"</td></tr><tr><td><strong>retained versus saved</strong></td><td>유지된 것 대 절약된 것 · 성능 유지량과 비용 절감량을 대비할 때. "the capability retained versus the size saved"</td></tr><tr><td><strong>narrow (task)</strong></td><td>범위가 좁은 작업 · 한정된 특정 작업만을 다룰 때. "on a narrow task"</td></tr><tr><td><strong>capture (capability)</strong></td><td>능력을 포착해 담아내다 · 큰 모델의 성능을 작은 모델이 흡수할 때. "capturing much of the capability"</td></tr><tr><td><strong>frontier model</strong></td><td>프런티어 모델(현재 최고 수준의 최첨단 대형 모델) · 증류의 출발점이 되는 고성능 대형 모델을 가리키는 업계 용어. "the standard path from a frontier model to a"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-kv-cache.html">&larr; 212. KV cache — why the second token is cheaper than the first</a><a href="pocs-llm-constitutional-ai.html">214. Constitutional AI — alignment from written principles, not just raters &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-kv-cache.html">&larr; 216. KV cache — why the second token is cheaper than the first</a><a href="pocs-llm-constitutional-ai.html">218. Constitutional AI — alignment from written principles, not just raters &rarr;</a></div>
   </div>
   </main>
 </div>

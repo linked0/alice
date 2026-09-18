@@ -8,3 +8,5 @@
 | a thinner business | 이윤이 더 적은/얇은 사업 · 마진이 박한 사업 구조를 가리킬 때. "a much thinner business" |
 | bite | (부정적 영향을) 주다, 타격을 입히다 · 위험 요소가 실제로 손실을 낼 때. "duration and inflation still bite" |
 | risk premium | 위험 프리미엄 · 위험을 감수한 대가로 추가로 받는 수익. "The difference is the risk premium you are being paid" |
+| APY | 연환산수익률(Annual Percentage Yield) · 복리를 반영한 연간 수익률 표기, 위험을 가린 채 "그로스 숫자"로 광고되는 값. "written as 6% APY it is a product" |
+<!-- acronyms 2026-09-18 -->

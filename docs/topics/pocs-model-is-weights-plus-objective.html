@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#63</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span></p>
+      <h1>A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</h1>
+      <p class="lead">IBM Technology&#39;s five-minute explainer "How Large Language Models Work" (in the 2026-09-18 Gemini briefing) is the shortest correct account of the object every Jayverse agent is built on. A large language model is a foundation model: pre-trained on petabytes of unlabeled text and code with a self-supervised objective, predict the next token, and made of parameters, billions of adjustable weights that end up encoding grammar, relational knowledge and procedural patterns as statistics. A Transformer&#39;s attention heads carry context across a sequence; training minimises the loss between the predicted next token and the real one, over and over, across all the weights. Pre-training gives general capability; domain-specific fine-tuning then shapes the model for a job, chatbots, code generation, analysis pipelines. Nothing in the pipeline stores a fact as a fact or a rule as a rule.</p>
+      <p class="meta">For Jayverse the one sentence that matters is the last one. The model is a compressed statistical picture of its training text, steered by an objective. Fine-tuning moves the picture toward a style or a domain; it does not install a checklist, an invariant or a permission. That is why the agentic-engineering item (#61) puts boundaries, tools and evaluations outside the model, why the harness item (#113) governs agents from the outside, and why "the model knows our rules" is never an acceptable line in a design review. Status on 2026-09-18: this is settled textbook material; the item exists so the Foundations LLM stubs (#207 to #210) have a one-page anchor and so the argument for external verification has its root written down.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it\n\nIBM Technology's five-minute explainer \"How Large Language Models Work\" (in the 2026-09-18 Gemini briefing) is the shortest correct account of the object every Jayverse agent is built on. A large language model is a foundation model: pre-trained on petabytes of unlabeled text and code with a self-supervised objective, predict the next token, and made of parameters, billions of adjustable weights that end up encoding grammar, relational knowledge and procedural patterns as statistics. A Transformer's attention heads carry context across a sequence; training minimises the loss between the predicted next token and the real one, over and over, across all the weights. Pre-training gives general capability; domain-specific fine-tuning then shapes the model for a job, chatbots, code generation, analysis pipelines. Nothing in the pipeline stores a fact as a fact or a rule as a rule.\n\nFor Jayverse the one sentence that matters is the last one. The model is a compressed statistical picture of its training text, steered by an objective. Fine-tuning moves the picture toward a style or a domain; it does not install a checklist, an invariant or a permission. That is why the agentic-engineering item (#61) puts boundaries, tools and evaluations outside the model, why the harness item (#113) governs agents from the outside, and why \"the model knows our rules\" is never an acceptable line in a design review. Status on 2026-09-18: this is settled textbook material; the item exists so the Foundations LLM stubs (#207 to #210) have a one-page anchor and so the argument for external verification has its root written down.\n\n## Why\n\nEvery design decision about agents in these notes rests on what a model is not. It is not a database: a fact appears in its output because the statistics favour it, and it can be replaced by a plausible alternative with no error raised. It is not a rule engine: an instruction in the prompt is a strong statistical hint, not a constraint. It is not a ledger: it has no memory of what it said unless the text is put back in front of it. Those three absences are exactly the three things a financial service needs, correctness of fact, enforcement of rule, continuity of state, and they are why the surrounding system carries them.\n\nThe explainer is also a useful corrective to the hype in the other direction. The reason the same weights can write Solidity, summarise a bill and translate Korean is that all three are next-token problems over text the model has seen enough of. General capability is real; it is just not the same thing as reliability, and fine-tuning trades some of the first for a directed version of the second, never for a guarantee.\n\n## How it works\n\n### Anatomy in one table\n\n| Part | What it is | What it is not |\n|---|---|---|\n| Parameters | billions of weights adjusted during training | stored facts or rules |\n| Pre-training | self-supervised next-token prediction on petabytes of text and code | learning from labelled truth |\n| Attention | heads that let each position weigh earlier positions | memory beyond the context window |\n| Loss | gap between predicted and actual next token, minimised iteratively | a correctness score on facts |\n| Fine-tuning | further training on domain data to shape behaviour | installing constraints |\n\n### From explainer to design rule\n\nFacts the agent must get right come from retrieval or tools, and are checked. Rules the agent must obey live in code the model cannot edit, mandates, invariants, permission tables. State the agent must remember is written down and re-read. The model supplies language, planning and pattern completion, which is a great deal, and nothing else.\n\n### Where it lands in Jayverse\n\n- **Rabbit: no permission lives in a prompt.** Every cap, target list and expiry an agent respects is enforced by the mandate contract or the wallet policy, and the tests check the enforcement path, never the model's compliance.\n- **Verex resolution and Number readings: facts come from a source, not a model.** Any number an agent reports about a market or a price carries the tool call that produced it; an unsourced figure is a bug, and the copy-text rule on these pages is the same discipline for prose.\n- **Foundations: anchor the LLM stubs here.** Attention (#207), tokenization (#208), KV cache and mixture of experts each explain one row of the table above; link them from this page so the curriculum has a spine.\n- **Hiring and English #32: say what fine-tuning does not do.** The interview answer about AI use is stronger with the sentence \"fine-tuning aligns, it does not teach\", because it shows you know where verification has to live.\n\n### Verified and unverified\n\nVerified on 2026-09-18: the video's title, channel and length as listed; the description of pre-training, parameters, attention, next-token loss and fine-tuning is standard and consistent with the Transformer and foundation-model literature. Not verified: exact wording of the video, which was not re-watched for this item. The design rules in the last two sections are this site's, not IBM's.\nSources: [IBM Technology — How Large Language Models Work, YouTube](http://www.youtube.com/watch?v=5sLYAQS9sWQ) · Gemini YouTube briefing 2026-09-18 · related items: Agentic engineering writes the boundaries (#61); Mamba trades attention for a selective state (#62); Attention (#207); Tokenization (#208)\n"</script>
+<h2>Why</h2>
+<p>Every design decision about agents in these notes rests on what a model is not. It is not a database: a fact appears in its output because the statistics favour it, and it can be replaced by a plausible alternative with no error raised. It is not a rule engine: an instruction in the prompt is a strong statistical hint, not a constraint. It is not a ledger: it has no memory of what it said unless the text is put back in front of it. Those three absences are exactly the three things a financial service needs, correctness of fact, enforcement of rule, continuity of state, and they are why the surrounding system carries them.</p>
+<p>The explainer is also a useful corrective to the hype in the other direction. The reason the same weights can write Solidity, summarise a bill and translate Korean is that all three are next-token problems over text the model has seen enough of. General capability is real; it is just not the same thing as reliability, and fine-tuning trades some of the first for a directed version of the second, never for a guarantee.</p>
+<h2>How it works</h2>
+<h3>Anatomy in one table</h3>
+<table><thead><tr><th>Part</th><th>What it is</th><th>What it is not</th></tr></thead><tbody><tr><td>Parameters</td><td>billions of weights adjusted during training</td><td>stored facts or rules</td></tr><tr><td>Pre-training</td><td>self-supervised next-token prediction on petabytes of text and code</td><td>learning from labelled truth</td></tr><tr><td>Attention</td><td>heads that let each position weigh earlier positions</td><td>memory beyond the context window</td></tr><tr><td>Loss</td><td>gap between predicted and actual next token, minimised iteratively</td><td>a correctness score on facts</td></tr><tr><td>Fine-tuning</td><td>further training on domain data to shape behaviour</td><td>installing constraints</td></tr></tbody></table>
+<h3>From explainer to design rule</h3>
+<p>Facts the agent must get right come from retrieval or tools, and are checked. Rules the agent must obey live in code the model cannot edit, mandates, invariants, permission tables. State the agent must remember is written down and re-read. The model supplies language, planning and pattern completion, which is a great deal, and nothing else.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: no permission lives in a prompt.</strong> Every cap, target list and expiry an agent respects is enforced by the mandate contract or the wallet policy, and the tests check the enforcement path, never the model&#39;s compliance.</li><li><strong>Verex resolution and Number readings: facts come from a source, not a model.</strong> Any number an agent reports about a market or a price carries the tool call that produced it; an unsourced figure is a bug, and the copy-text rule on these pages is the same discipline for prose.</li><li><strong>Foundations: anchor the LLM stubs here.</strong> Attention (#207), tokenization (#208), KV cache and mixture of experts each explain one row of the table above; link them from this page so the curriculum has a spine.</li><li><strong>Hiring and English #32: say what fine-tuning does not do.</strong> The interview answer about AI use is stronger with the sentence "fine-tuning aligns, it does not teach", because it shows you know where verification has to live.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18: the video&#39;s title, channel and length as listed; the description of pre-training, parameters, attention, next-token loss and fine-tuning is standard and consistent with the Transformer and foundation-model literature. Not verified: exact wording of the video, which was not re-watched for this item. The design rules in the last two sections are this site&#39;s, not IBM&#39;s.</p>
+<p>Sources: <a href="http://www.youtube.com/watch?v=5sLYAQS9sWQ">IBM Technology — How Large Language Models Work, YouTube</a> · Gemini YouTube briefing 2026-09-18 · related items: Agentic engineering writes the boundaries (#61); Mamba trades attention for a selective state (#62); Attention (#207); Tokenization (#208)</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>foundation model</strong></td><td>파운데이션 모델(광범위한 데이터로 사전학습해 여러 일에 맞출 수 있는 모델) · LLM의 상위 범주. "A large language model is a foundation model"</td></tr><tr><td><strong>self-supervised</strong></td><td>자기지도의(라벨 없이 데이터 자체에서 목표를 만드는) · 다음 토큰 예측이 그 예. "with a self-supervised objective"</td></tr><tr><td><strong>next-token objective</strong></td><td>다음 토큰 목표 · 모델이 최적화하는 단 하나의 과제. "weights plus a next-token objective"</td></tr><tr><td><strong>loss</strong></td><td>손실(예측과 정답의 차이) · 학습이 최소화하는 값. "minimises the loss between the predicted next token and the real one"</td></tr><tr><td><strong>fine-tuning</strong></td><td>파인튜닝(사전학습된 모델을 도메인 데이터로 추가 학습) · 정렬은 하지만 규칙을 설치하지는 않음. "fine-tuning aligns it, it does not teach it"</td></tr><tr><td><strong>petabytes</strong></td><td>페타바이트(10¹⁵ 바이트) · 학습 데이터 규모를 말할 때. "petabytes of unlabeled text and code"</td></tr><tr><td><strong>a strong statistical hint, not a constraint</strong></td><td>강한 통계적 힌트이지 제약이 아니다 · 프롬프트 지시의 성격을 정확히. "an instruction in the prompt is a strong statistical hint"</td></tr><tr><td><strong>corrective</strong></td><td>교정(과장을 바로잡는 것) · 반대 방향 주장을 다룰 때. "a useful corrective to the hype"</td></tr><tr><td><strong>anchor</strong></td><td>기준점(다른 것을 붙들어 두는 자리) · 커리큘럼의 중심 페이지를 말할 때. "have a one-page anchor"</td></tr><tr><td><strong>spine</strong></td><td>척추(전체를 세우는 중심 구조) · 커리큘럼·문서의 뼈대. "so the curriculum has a spine"</td></tr><tr><td><strong>unsourced</strong></td><td>출처 없는 · 근거 없이 보고된 숫자를 지적할 때. "an unsourced figure is a bug"</td></tr><tr><td><strong>context window</strong></td><td>문맥 창(모델이 한 번에 볼 수 있는 토큰 범위) · 어텐션의 기억 한계. "memory beyond the context window"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 모델은 가중치 더하기 다음 토큰 목표다 — 파인튜닝은 정렬하지, 가르치지 않는다\n\nIBM Technology의 5분 설명 영상 \"How Large Language Models Work\"(2026-09-18 Gemini 브리핑)는 모든 Jayverse 에이전트가 세워진 그 대상에 대한 가장 짧고 올바른 설명입니다. 대규모 언어 모델은 파운데이션 모델입니다. 페타바이트의 라벨 없는 텍스트와 코드로 자기지도 목표, 즉 다음 토큰 예측으로 사전학습되고, 파라미터, 수십억 개의 조정 가능한 가중치로 이루어져 문법, 관계 지식, 절차 패턴을 통계로 담게 됩니다. 트랜스포머의 어텐션 헤드가 시퀀스에 걸쳐 문맥을 운반하고, 학습은 예측한 다음 토큰과 실제 토큰 사이의 손실을 모든 가중치에 걸쳐 반복해서 최소화합니다. 사전학습이 일반 능력을 주고, 도메인 특화 파인튜닝이 모델을 챗봇, 코드 생성, 분석 파이프라인 같은 일에 맞게 다듬습니다. 파이프라인의 어느 것도 사실을 사실로, 규칙을 규칙으로 저장하지 않습니다.\n\nJayverse에 중요한 한 문장은 마지막 문장입니다. 모델은 목표에 의해 조향된, 학습 텍스트의 압축된 통계적 그림입니다. 파인튜닝은 그림을 스타일이나 도메인 쪽으로 옮기고, 체크리스트나 불변식이나 권한을 설치하지는 않습니다. 그래서 에이전틱 엔지니어링 항목(#61)이 경계·도구·평가를 모델 밖에 두고, 하네스 항목(#113)이 에이전트를 밖에서 통치하고, \"모델이 우리 규칙을 안다\"는 설계 리뷰에서 절대 받아들일 수 없는 문장입니다. 2026-09-18 기준 상태: 정착된 교과서 내용입니다. 이 항목은 Foundations의 LLM 스텁(#207~#210)이 한 페이지 기준점을 갖고, 외부 검증 논거의 뿌리가 적혀 있도록 존재합니다.\n\n## 왜\n\n이 노트의 에이전트에 관한 모든 설계 결정은 모델이 무엇이 아닌가에 기댑니다. 데이터베이스가 아닙니다. 사실이 출력에 나오는 것은 통계가 그것을 선호하기 때문이고, 오류 없이 그럴듯한 대안으로 바뀔 수 있습니다. 규칙 엔진이 아닙니다. 프롬프트의 지시는 강한 통계적 힌트이지 제약이 아닙니다. 원장이 아닙니다. 텍스트를 다시 앞에 놓지 않으면 자기가 한 말을 기억하지 못합니다. 이 세 부재가 금융 서비스가 필요로 하는 바로 그 셋, 사실의 정확성, 규칙의 강제, 상태의 연속성이고, 그래서 주변 시스템이 그것들을 담습니다.\n\n설명 영상은 반대 방향의 과장에 대한 유용한 교정이기도 합니다. 같은 가중치가 Solidity를 쓰고 법안을 요약하고 한국어를 번역할 수 있는 이유는 셋 모두 모델이 충분히 본 텍스트 위의 다음 토큰 문제이기 때문입니다. 일반 능력은 실재합니다. 다만 신뢰성과 같은 것이 아니고, 파인튜닝은 첫째의 일부를 둘째의 방향성 있는 버전과 바꾸는 것이며 보증과 바꾸는 것은 결코 아닙니다.\n\n## 동작 방식\n\n### 표 하나로 본 해부\n\n| 부분 | 무엇인가 | 무엇이 아닌가 |\n|---|---|---|\n| 파라미터 | 학습 중 조정되는 수십억 가중치 | 저장된 사실이나 규칙 |\n| 사전학습 | 페타바이트 텍스트·코드에 대한 자기지도 다음 토큰 예측 | 라벨된 진실에서의 학습 |\n| 어텐션 | 각 위치가 이전 위치들에 가중치를 주게 하는 헤드 | 문맥 창 밖의 기억 |\n| 손실 | 예측과 실제 다음 토큰의 차이, 반복 최소화 | 사실에 대한 정확도 점수 |\n| 파인튜닝 | 도메인 데이터로 추가 학습해 행동을 다듬음 | 제약의 설치 |\n\n### 설명에서 설계 규칙으로\n\n에이전트가 맞혀야 하는 사실은 검색이나 도구에서 오고 검사된다. 에이전트가 지켜야 하는 규칙은 모델이 편집할 수 없는 코드에 산다. 위임, 불변식, 권한 표. 에이전트가 기억해야 하는 상태는 적어두고 다시 읽는다. 모델은 언어, 계획, 패턴 완성을 공급하고, 그것은 대단한 것이지만, 그 밖의 것은 아니다.\n\n### Jayverse에서의 위치\n\n- **Rabbit: 어떤 권한도 프롬프트에 살지 않는다.** 에이전트가 지키는 모든 한도, 대상 목록, 만기는 위임 컨트랙트나 지갑 정책이 강제하고, 테스트는 모델의 순응이 아니라 강제 경로를 검사한다.\n- **Verex 정산과 Number 읽기: 사실은 모델이 아니라 출처에서 온다.** 에이전트가 마켓이나 가격에 대해 보고하는 모든 숫자는 그것을 만든 도구 호출을 달고 있다. 출처 없는 수치는 버그이고, 이 페이지들의 복사 텍스트 규칙은 산문에 대한 같은 규율이다.\n- **Foundations: LLM 스텁을 여기에 고정한다.** 어텐션(#207), 토크나이제이션(#208), KV 캐시, 전문가 혼합은 각각 위 표의 한 행을 설명한다. 이 페이지에서 링크해서 커리큘럼에 척추를 준다.\n- **채용과 English #32: 파인튜닝이 하지 않는 것을 말한다.** AI 사용에 대한 면접 답은 \"파인튜닝은 정렬하지, 가르치지 않는다\"는 문장으로 더 강해진다. 검증이 어디에 살아야 하는지 안다는 것을 보여주기 때문이다.\n\n### 확인된 것과 미확인\n\n2026-09-18에 확인한 것: 적힌 대로의 영상 제목, 채널, 길이; 사전학습, 파라미터, 어텐션, 다음 토큰 손실, 파인튜닝의 설명은 표준적이고 트랜스포머·파운데이션 모델 문헌과 일치한다. 미확인: 영상의 정확한 문구. 이 항목을 위해 다시 보지 않았다. 마지막 두 절의 설계 규칙은 IBM이 아니라 이 사이트의 것이다.\n출처: [IBM Technology — How Large Language Models Work, YouTube](http://www.youtube.com/watch?v=5sLYAQS9sWQ) · Gemini YouTube 브리핑 2026-09-18 · 관련 항목: 에이전틱 엔지니어링은 경계를 쓴다(#61); Mamba는 어텐션을 선택적 상태로 바꾼다(#62); 어텐션(#207); 토크나이제이션(#208)\n"</script>
+      <h1>모델은 가중치 더하기 다음 토큰 목표다 — 파인튜닝은 정렬하지, 가르치지 않는다</h1>
+      <p class="lead">IBM Technology의 5분 설명 영상 "How Large Language Models Work"(2026-09-18 Gemini 브리핑)는 모든 Jayverse 에이전트가 세워진 그 대상에 대한 가장 짧고 올바른 설명입니다. 대규모 언어 모델은 파운데이션 모델입니다. 페타바이트의 라벨 없는 텍스트와 코드로 자기지도 목표, 즉 다음 토큰 예측으로 사전학습되고, 파라미터, 수십억 개의 조정 가능한 가중치로 이루어져 문법, 관계 지식, 절차 패턴을 통계로 담게 됩니다. 트랜스포머의 어텐션 헤드가 시퀀스에 걸쳐 문맥을 운반하고, 학습은 예측한 다음 토큰과 실제 토큰 사이의 손실을 모든 가중치에 걸쳐 반복해서 최소화합니다. 사전학습이 일반 능력을 주고, 도메인 특화 파인튜닝이 모델을 챗봇, 코드 생성, 분석 파이프라인 같은 일에 맞게 다듬습니다. 파이프라인의 어느 것도 사실을 사실로, 규칙을 규칙으로 저장하지 않습니다.</p>
+      <p class="meta">Jayverse에 중요한 한 문장은 마지막 문장입니다. 모델은 목표에 의해 조향된, 학습 텍스트의 압축된 통계적 그림입니다. 파인튜닝은 그림을 스타일이나 도메인 쪽으로 옮기고, 체크리스트나 불변식이나 권한을 설치하지는 않습니다. 그래서 에이전틱 엔지니어링 항목(#61)이 경계·도구·평가를 모델 밖에 두고, 하네스 항목(#113)이 에이전트를 밖에서 통치하고, "모델이 우리 규칙을 안다"는 설계 리뷰에서 절대 받아들일 수 없는 문장입니다. 2026-09-18 기준 상태: 정착된 교과서 내용입니다. 이 항목은 Foundations의 LLM 스텁(#207~#210)이 한 페이지 기준점을 갖고, 외부 검증 논거의 뿌리가 적혀 있도록 존재합니다.</p>
+<h2>왜</h2>
+<p>이 노트의 에이전트에 관한 모든 설계 결정은 모델이 무엇이 아닌가에 기댑니다. 데이터베이스가 아닙니다. 사실이 출력에 나오는 것은 통계가 그것을 선호하기 때문이고, 오류 없이 그럴듯한 대안으로 바뀔 수 있습니다. 규칙 엔진이 아닙니다. 프롬프트의 지시는 강한 통계적 힌트이지 제약이 아닙니다. 원장이 아닙니다. 텍스트를 다시 앞에 놓지 않으면 자기가 한 말을 기억하지 못합니다. 이 세 부재가 금융 서비스가 필요로 하는 바로 그 셋, 사실의 정확성, 규칙의 강제, 상태의 연속성이고, 그래서 주변 시스템이 그것들을 담습니다.</p>
+<p>설명 영상은 반대 방향의 과장에 대한 유용한 교정이기도 합니다. 같은 가중치가 Solidity를 쓰고 법안을 요약하고 한국어를 번역할 수 있는 이유는 셋 모두 모델이 충분히 본 텍스트 위의 다음 토큰 문제이기 때문입니다. 일반 능력은 실재합니다. 다만 신뢰성과 같은 것이 아니고, 파인튜닝은 첫째의 일부를 둘째의 방향성 있는 버전과 바꾸는 것이며 보증과 바꾸는 것은 결코 아닙니다.</p>
+<h2>동작 방식</h2>
+<h3>표 하나로 본 해부</h3>
+<table><thead><tr><th>부분</th><th>무엇인가</th><th>무엇이 아닌가</th></tr></thead><tbody><tr><td>파라미터</td><td>학습 중 조정되는 수십억 가중치</td><td>저장된 사실이나 규칙</td></tr><tr><td>사전학습</td><td>페타바이트 텍스트·코드에 대한 자기지도 다음 토큰 예측</td><td>라벨된 진실에서의 학습</td></tr><tr><td>어텐션</td><td>각 위치가 이전 위치들에 가중치를 주게 하는 헤드</td><td>문맥 창 밖의 기억</td></tr><tr><td>손실</td><td>예측과 실제 다음 토큰의 차이, 반복 최소화</td><td>사실에 대한 정확도 점수</td></tr><tr><td>파인튜닝</td><td>도메인 데이터로 추가 학습해 행동을 다듬음</td><td>제약의 설치</td></tr></tbody></table>
+<h3>설명에서 설계 규칙으로</h3>
+<p>에이전트가 맞혀야 하는 사실은 검색이나 도구에서 오고 검사된다. 에이전트가 지켜야 하는 규칙은 모델이 편집할 수 없는 코드에 산다. 위임, 불변식, 권한 표. 에이전트가 기억해야 하는 상태는 적어두고 다시 읽는다. 모델은 언어, 계획, 패턴 완성을 공급하고, 그것은 대단한 것이지만, 그 밖의 것은 아니다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 어떤 권한도 프롬프트에 살지 않는다.</strong> 에이전트가 지키는 모든 한도, 대상 목록, 만기는 위임 컨트랙트나 지갑 정책이 강제하고, 테스트는 모델의 순응이 아니라 강제 경로를 검사한다.</li><li><strong>Verex 정산과 Number 읽기: 사실은 모델이 아니라 출처에서 온다.</strong> 에이전트가 마켓이나 가격에 대해 보고하는 모든 숫자는 그것을 만든 도구 호출을 달고 있다. 출처 없는 수치는 버그이고, 이 페이지들의 복사 텍스트 규칙은 산문에 대한 같은 규율이다.</li><li><strong>Foundations: LLM 스텁을 여기에 고정한다.</strong> 어텐션(#207), 토크나이제이션(#208), KV 캐시, 전문가 혼합은 각각 위 표의 한 행을 설명한다. 이 페이지에서 링크해서 커리큘럼에 척추를 준다.</li><li><strong>채용과 English #32: 파인튜닝이 하지 않는 것을 말한다.</strong> AI 사용에 대한 면접 답은 "파인튜닝은 정렬하지, 가르치지 않는다"는 문장으로 더 강해진다. 검증이 어디에 살아야 하는지 안다는 것을 보여주기 때문이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 확인한 것: 적힌 대로의 영상 제목, 채널, 길이; 사전학습, 파라미터, 어텐션, 다음 토큰 손실, 파인튜닝의 설명은 표준적이고 트랜스포머·파운데이션 모델 문헌과 일치한다. 미확인: 영상의 정확한 문구. 이 항목을 위해 다시 보지 않았다. 마지막 두 절의 설계 규칙은 IBM이 아니라 이 사이트의 것이다.</p>
+<p>출처: <a href="http://www.youtube.com/watch?v=5sLYAQS9sWQ">IBM Technology — How Large Language Models Work, YouTube</a> · Gemini YouTube 브리핑 2026-09-18 · 관련 항목: 에이전틱 엔지니어링은 경계를 쓴다(#61); Mamba는 어텐션을 선택적 상태로 바꾼다(#62); 어텐션(#207); 토크나이제이션(#208)</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>foundation model</strong></td><td>파운데이션 모델(광범위한 데이터로 사전학습해 여러 일에 맞출 수 있는 모델) · LLM의 상위 범주. "A large language model is a foundation model"</td></tr><tr><td><strong>self-supervised</strong></td><td>자기지도의(라벨 없이 데이터 자체에서 목표를 만드는) · 다음 토큰 예측이 그 예. "with a self-supervised objective"</td></tr><tr><td><strong>next-token objective</strong></td><td>다음 토큰 목표 · 모델이 최적화하는 단 하나의 과제. "weights plus a next-token objective"</td></tr><tr><td><strong>loss</strong></td><td>손실(예측과 정답의 차이) · 학습이 최소화하는 값. "minimises the loss between the predicted next token and the real one"</td></tr><tr><td><strong>fine-tuning</strong></td><td>파인튜닝(사전학습된 모델을 도메인 데이터로 추가 학습) · 정렬은 하지만 규칙을 설치하지는 않음. "fine-tuning aligns it, it does not teach it"</td></tr><tr><td><strong>petabytes</strong></td><td>페타바이트(10¹⁵ 바이트) · 학습 데이터 규모를 말할 때. "petabytes of unlabeled text and code"</td></tr><tr><td><strong>a strong statistical hint, not a constraint</strong></td><td>강한 통계적 힌트이지 제약이 아니다 · 프롬프트 지시의 성격을 정확히. "an instruction in the prompt is a strong statistical hint"</td></tr><tr><td><strong>corrective</strong></td><td>교정(과장을 바로잡는 것) · 반대 방향 주장을 다룰 때. "a useful corrective to the hype"</td></tr><tr><td><strong>anchor</strong></td><td>기준점(다른 것을 붙들어 두는 자리) · 커리큘럼의 중심 페이지를 말할 때. "have a one-page anchor"</td></tr><tr><td><strong>spine</strong></td><td>척추(전체를 세우는 중심 구조) · 커리큘럼·문서의 뼈대. "so the curriculum has a spine"</td></tr><tr><td><strong>unsourced</strong></td><td>출처 없는 · 근거 없이 보고된 숫자를 지적할 때. "an unsourced figure is a bug"</td></tr><tr><td><strong>context window</strong></td><td>문맥 창(모델이 한 번에 볼 수 있는 토큰 범위) · 어텐션의 기억 한계. "memory beyond the context window"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-mamba-selective-state-linear-time.html">&larr; 62. Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs</a><a href="pocs-dependency-is-authority-parity-event-stream.html">64. A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018 &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="model-is-weights-plus-objective";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

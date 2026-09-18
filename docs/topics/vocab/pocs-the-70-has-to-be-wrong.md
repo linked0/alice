@@ -11,3 +11,9 @@
 | flatter | 실제보다 좋아 보이게 하다 · 편향된 비교가 결과를 유리하게 왜곡할 때. "silently flatters whichever side of it the agent traded on" |
 | game (something) | 부정하게 이용하다, 조작하다 · 시스템을 악용해 유리한 결과를 얻을 때. "it cannot be gamed by picking easier questions" |
 | proper scoring rule | 정직한 답을 하도록 설계된 채점 규칙 · 확률 예측을 평가하는 통계 용어. "is a proper scoring rule, meaning one whose expected score" |
+| AUC | 곡선 아래 면적(Area Under the Curve) · 순위 매기기 성능만 보는 지표, 확률 보정을 전혀 반영하지 못함. "The AUC row is the one that catches people" |
+| Brier score | 브라이어 점수 · 확률 예측의 평균제곱오차, 신뢰도·해상도·불확실성으로 분해되는 지표. "The Brier score is mean squared error on probabilities" |
+| log score | 로그 점수 · 확신에 찬 오답을 무한히 벌하는 유일한 로컬 적정 채점 규칙. "The log score is the only local proper rule" |
+| Kelly | 켈리 공식(포지션 사이징) · 확률값 자체로 베팅 크기를 정하는 방법, 과신하면 베팅 규모가 커짐. "Position sizing under Kelly is a function of the probability" |
+| Murphy's decomposition | 머피 분해 · 브라이어 점수를 신뢰도와 해상도 두 항으로 나눠 어느 쪽이 부족한지 보여줌. "Murphy's decomposition of the Brier score names the two halves" |
+<!-- acronyms 2026-09-18 -->

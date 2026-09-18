@@ -5,3 +5,6 @@
 | throw away | 내다버리다, 무시하다 · 일반 분류기가 아직 이탈 안 한 대상 정보를 버림 · "the thing a plain classifier throws away" |
 | bias itself | 스스로를 편향시키다 · 정보를 버림으로써 결과가 왜곡됨 · "biases itself by discarding" |
 | naive | 순진한, 단순한 · 중도절단을 무시한 이탈률 계산을 가리킴 · "why the naive churn rate wrong" |
+| Kaplan-Meier curve | 카플란-마이어 곡선(Kaplan-Meier curve) · 중도절단을 반영해 생존확률을 추정하는 비모수 통계 기법. "fits a Kaplan-Meier curve and a Cox model" |
+| Cox model | 콕스 비례위험모형(Cox proportional hazards model) · 생존분석에서 여러 변수가 사건 발생 위험에 미치는 영향을 추정하는 회귀모형. "fits a Kaplan-Meier curve and a Cox model" |
+<!-- acronyms 2026-09-18 -->

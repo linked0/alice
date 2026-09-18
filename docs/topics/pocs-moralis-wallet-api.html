@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Moralis — wallet snapshot via API</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#237</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#241</span><span>PoC</span></p>
       <h1>Moralis — wallet snapshot via API</h1>
       <p class="lead">Querying balance/net-worth for an address with Moralis&#39;s Wallet API.</p>
       <p class="meta">Service — from 2026-08-03&#39;s service-discovery track (39/113: Moralis).</p>
@@ -454,8 +454,12 @@ for symbol, balance, price, value in rows:
 print(f&quot;\ntotal portfolio value: ${total:,.2f}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/moralis-wallet-api.py">docs/code/pocs/moralis-wallet-api.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>build-vs-buy tradeoff</strong></td><td>직접 구축할지 외부 서비스를 살지의 선택 문제 · 개발 전략을 논할 때. "a common build-vs-buy tradeoff in crypto tooling"</td></tr><tr><td><strong>in one call</strong></td><td>한 번의 호출로 · API가 복잡한 조회를 단순화할 때. "a hosted indexing API... answers it in one call"</td></tr><tr><td><strong>hosted (service)</strong></td><td>(외부에서) 호스팅되는, 운영해주는 · 직접 운영하지 않고 맡기는 서비스를 말할 때. "a hosted indexing API like Moralis"</td></tr><tr><td><strong>render (verb)</strong></td><td>(화면을) 렌더링하다, 그려주다 · 데이터를 화면에 표시할 때. "rendering a simple portfolio snapshot"</td></tr><tr><td><strong>server-held</strong></td><td>서버가 보관하는 · 민감한 키를 클라이언트가 아닌 서버가 쥘 때. "a server-held API key"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Wallet: default to a hosted indexing API for portfolio/net-worth display, not a self-built indexer.</strong> Use Moralis or an equivalent for balance and net-worth first, and only build a custom indexer once a concrete gap forces it.</li><li><strong>Devnet: confirm the chosen indexing API actually supports Anvil devnet (chainId 313370) before depending on it.</strong> If it doesn&#39;t, that unsupported-chain gap is exactly the case that justifies building the custom indexer instead.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>build-vs-buy tradeoff</strong></td><td>직접 구축할지 외부 서비스를 살지의 선택 문제 · 개발 전략을 논할 때. "a common build-vs-buy tradeoff in crypto tooling"</td></tr><tr><td><strong>in one call</strong></td><td>한 번의 호출로 · API가 복잡한 조회를 단순화할 때. "a hosted indexing API... answers it in one call"</td></tr><tr><td><strong>hosted (service)</strong></td><td>(외부에서) 호스팅되는, 운영해주는 · 직접 운영하지 않고 맡기는 서비스를 말할 때. "a hosted indexing API like Moralis"</td></tr><tr><td><strong>render (verb)</strong></td><td>(화면을) 렌더링하다, 그려주다 · 데이터를 화면에 표시할 때. "rendering a simple portfolio snapshot"</td></tr><tr><td><strong>server-held</strong></td><td>서버가 보관하는 · 민감한 키를 클라이언트가 아닌 서버가 쥘 때. "a server-held API key"</td></tr><tr><td><strong>Moralis</strong></td><td>모랄리스 · 지갑 잔액·순자산을 API 한 번으로 조회해주는 호스팅형 인덱싱 서비스. "Moralis&#39;s Wallet API (net-worth and token-balance endpoints)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -514,12 +518,16 @@ for symbol, balance, price, value in rows:
 print(f&quot;\ntotal portfolio value: ${total:,.2f}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/moralis-wallet-api.py">docs/code/pocs/moralis-wallet-api.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>build-vs-buy tradeoff</strong></td><td>직접 구축할지 외부 서비스를 살지의 선택 문제 · 개발 전략을 논할 때. "a common build-vs-buy tradeoff in crypto tooling"</td></tr><tr><td><strong>in one call</strong></td><td>한 번의 호출로 · API가 복잡한 조회를 단순화할 때. "a hosted indexing API... answers it in one call"</td></tr><tr><td><strong>hosted (service)</strong></td><td>(외부에서) 호스팅되는, 운영해주는 · 직접 운영하지 않고 맡기는 서비스를 말할 때. "a hosted indexing API like Moralis"</td></tr><tr><td><strong>render (verb)</strong></td><td>(화면을) 렌더링하다, 그려주다 · 데이터를 화면에 표시할 때. "rendering a simple portfolio snapshot"</td></tr><tr><td><strong>server-held</strong></td><td>서버가 보관하는 · 민감한 키를 클라이언트가 아닌 서버가 쥘 때. "a server-held API key"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Wallet: 포트폴리오·순자산 표시는 직접 만든 인덱서가 아니라 호스팅 인덱싱 API를 기본값으로 삼는다.</strong> 잔액과 순자산은 먼저 Moralis나 동급 API로 처리하고, 구체적인 공백이 강제할 때만 커스텀 인덱서를 만든다.</li><li><strong>Devnet: 선택한 인덱싱 API가 Anvil devnet(체인ID 313370)을 실제로 지원하는지 의존하기 전에 확인한다.</strong> 지원하지 않는다면, 그 미지원 체인이라는 공백이 바로 커스텀 인덱서를 만들어야 하는 근거다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>build-vs-buy tradeoff</strong></td><td>직접 구축할지 외부 서비스를 살지의 선택 문제 · 개발 전략을 논할 때. "a common build-vs-buy tradeoff in crypto tooling"</td></tr><tr><td><strong>in one call</strong></td><td>한 번의 호출로 · API가 복잡한 조회를 단순화할 때. "a hosted indexing API... answers it in one call"</td></tr><tr><td><strong>hosted (service)</strong></td><td>(외부에서) 호스팅되는, 운영해주는 · 직접 운영하지 않고 맡기는 서비스를 말할 때. "a hosted indexing API like Moralis"</td></tr><tr><td><strong>render (verb)</strong></td><td>(화면을) 렌더링하다, 그려주다 · 데이터를 화면에 표시할 때. "rendering a simple portfolio snapshot"</td></tr><tr><td><strong>server-held</strong></td><td>서버가 보관하는 · 민감한 키를 클라이언트가 아닌 서버가 쥘 때. "a server-held API key"</td></tr><tr><td><strong>Moralis</strong></td><td>모랄리스 · 지갑 잔액·순자산을 API 한 번으로 조회해주는 호스팅형 인덱싱 서비스. "Moralis&#39;s Wallet API (net-worth and token-balance endpoints)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-amortized-potential-function.html">&larr; 236. Amortized analysis via potential functions</a></div>
+    <div class="pager"><a href="pocs-amortized-potential-function.html">&larr; 240. Amortized analysis via potential functions</a></div>
   </div>
   </main>
 </div>

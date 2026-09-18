@@ -9,3 +9,5 @@
 | plug in | (어디에) 들어맞다, 연결되다 · 이 개념이 실제로 적용되는 지점을 말할 때. "where Jayverse plugs in" |
 | threshold | 기준치, 문턱값 · 정책이 발동하는 설정값을 말할 때. "high-value fulfillment never starts before its configured threshold" |
 | rediscovered | (이미 있던 개념을) 다시 발견한 · 새 기술이 옛 관행을 재발명했을 때. "the chargeback, rediscovered" |
+| chargeback | 지불 거절(카드결제 취소 청구) · 카드망의 분쟁 처리 절차, 리오그 상태와 같은 개념으로 연결됨. "This card's reorged state is the chargeback, rediscovered" |
+<!-- acronyms 2026-09-18 -->

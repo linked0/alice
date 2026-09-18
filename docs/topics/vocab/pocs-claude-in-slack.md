@@ -9,3 +9,5 @@
 | dressed as | ~인 척 꾸민, ~로 포장된 · 실제로는 다른 것인데 겉모습만 그럴듯할 때. "an operations commitment dressed as a convenience" |
 | worth having | 가질 만한 가치가 있는 · 어떤 것이 도입할 가치가 있는지 판단할 때. "until the workflow is worth having" |
 | nobody misses it | 아무도 아쉬워하지 않다 · 없어져도 그리워하지 않는다는 뜻으로 불필요함을 확인할 때. "nobody misses it when it stops" |
+| MCP | 모델 컨텍스트 프로토콜(Model Context Protocol) · 클로드가 슬랙·노션 같은 외부 도구와 연결되는 표준 커넥터 방식. "Claude's existing Slack and Notion MCP connectors" |
+<!-- acronyms 2026-09-18 -->

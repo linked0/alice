@@ -9,3 +9,7 @@
 | price (an exposure) | 리스크(노출)에 값을 매기다 · 위험을 계량화해 비용으로 반영한다는 뜻의 금융 동사. "creates an exposure nobody prices" |
 | re-cut | (기준·규격을) 다시 잘라 만들다 · 기존 표준을 새 목적에 맞게 변형한 것을 가리킴. "A Base token standard re-cut for stablecoins" |
 | relocate | (문제·책임 등이) 자리를 옮기다 · 사라지는 게 아니라 다른 곳으로 이동함을 가리킴. "It relocates it" |
+| RWA | 실물자산(Real World Asset)의 토큰화 · 스테이블코인처럼 오프체인 자산을 대표하는 토큰 범주. "re-cut for stablecoins and RWAs is the first visible case" |
+| Alpaca | 규제 대상 중개·수탁 기관(regulated broker-custodian) · 이 토큰화 주식의 실물 주식을 보관하는 회사. "held by Alpaca as a regulated broker-custodian" |
+| B20 | Base 체인의 토큰 표준(a Base token standard) · 스테이블코인·RWA용으로 새로 만든 토큰 규격. "a Base token standard referred to as B20" |
+<!-- acronyms 2026-09-18 -->

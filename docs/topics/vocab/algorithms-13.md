@@ -6,3 +6,6 @@
 | settle an argument with numbers | 숫자로 논쟁을 매듭짓다 · 말이 아니라 계산 결과로 결론을 낸다는 뜻 · "settle an argument with numbers instead of opinions" |
 | relaxed by one unit | (제약을) 한 단위 완화하다 · 한계값의 변화를 계산할 때 쓰는 표현 · "if that constraint is relaxed by one unit" |
 | coincide | (두 값이) 일치하다 · 서로 다른 방식으로 구한 결과가 같아진다는 뜻 · "the two optimal values coincide" |
+| LP | 선형계획법(Linear Programming) · 선형 목적함수를 선형 제약 아래 최적화하는 문제, 이 글의 주제. "Linear programming (LP) maximizes or minimizes" |
+| CLOB | 중앙집중형 지정가 주문장(Central Limit Order Book) · 거래소 매칭 엔진 구조, Verex의 주문 매칭 로직을 가리킴. "re-reading Verex's CLOB matching logic" |
+<!-- acronyms 2026-09-18 -->

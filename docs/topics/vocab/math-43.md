@@ -7,3 +7,6 @@
 | at face value | 액면 그대로·곧이곧대로 · 겉으로 드러난 숫자를 검증 없이 믿지 말라고 할 때. "correlation between levels shouldn't be trusted at face value" |
 | long-run equilibrium | 장기 균형 · 단기적으로 벗어나도 결국 되돌아오는 안정 상태를 가리킬 때. "a long-run equilibrium exists between the two series" |
 | grounds to suspect | ~을 의심할 근거 · 어떤 이상 신호가 특정 문제를 의심하게 만들 때. "that's grounds to suspect a liquidity shortfall" |
+| LSTs | 유동성 스테이킹 토큰(Liquid Staking Tokens) · 스테이블코인처럼 페그 유지 여부를 확인해야 하는 자산의 예시. "peg deviations for stablecoins or LSTs" |
+| unit root | 단위근 · 시계열이 평균으로 돌아오지 않고 추세를 따라 계속 벗어나는(비정상) 상태를 판정하는 통계 개념. "each series is individually non-stationary (has a unit root)" |
+<!-- acronyms 2026-09-18 -->

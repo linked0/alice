@@ -6,3 +6,6 @@
 | turn X into Y | X를 Y로 바꾸다 · 매번 스캔하던 것을 한 번 전처리로 바꾼다는 뜻. "preprocess the text once and answer queries" |
 | operationally | 운영상으로, 실제 운용 측면에서 · 인덱스를 한 번 만드는 편이 안정적이라는 뜻. "operationally far more stable" |
 | memory footprint | 메모리 점유량 · 자료구조가 차지하는 메모리 크기. "compact memory footprint favors large" |
+| DAWG | 접미사 오토마톤(Deterministic Acyclic Word Graph) · 문자열의 모든 부분 문자열을 인식하는 최소 상태 기계. "A suffix automaton (DAWG) encodes the same information as a state machine" |
+| LCP | 최장 공통 접두사(Longest Common Prefix) · 인접한 접미사 사이의 공통 접두사 길이를 저장하는 배열. "pairing it with an LCP array" |
+<!-- acronyms 2026-09-18 -->

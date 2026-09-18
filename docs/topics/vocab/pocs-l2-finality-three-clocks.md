@@ -9,3 +9,6 @@
 | hold in your head | 머릿속에 기억해 두다 · "Timescales to hold in your head" |
 | derivable without | ~없이도 독립적으로 재구성 가능한 · "derivable without that operator" |
 | sell you a bridge | (신뢰 격차를 메워주는) 상품을 팔다 · "someone will sell you a bridge across it" |
+| Casper FFG | 캐스퍼 친화적 파이널리티 가젯(Casper Friendly Finality Gadget) · 이더리움 L1의 파이널리티(되돌릴 수 없음)를 확정하는 합의 메커니즘. "two epochs of Casper FFG" |
+| OP Stack | OP 스택 · Optimism이 공개한 L2 롤업 구축 프레임워크, 이 카드의 예시 체인이 이를 기반으로 함. "Submit one OP Stack transaction" |
+<!-- acronyms 2026-09-18 -->

@@ -7,3 +7,5 @@
 | halt | 작동을 멈추다, 정지시키다 · "if that entity excludes or halts" |
 | stuck | 묶여서 움직이지 못하는 · "how long funds stay stuck when that happens" |
 | stake-weighted rotation | 지분 비중에 따라 순번을 돌리는 방식 · "stake-weighted rotation" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 시퀀서 분산화 방식들 간의 트레이드오프로 언급된다. "different tradeoffs in latency, MEV, and complexity" |
+<!-- acronyms 2026-09-18 -->

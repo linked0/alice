@@ -8,3 +8,5 @@
 | earns a slot | (목록에) 오를 자격을 얻다 · 어떤 항목이 카탈로그에 포함될 만한 이유가 있을 때. "Why it earns a slot in the catalogue" |
 | a reading pointer | 읽어볼 자료를 가리키는 표식(요약이 아닌 안내) · 아직 검증 안 된 참고자료임을 밝힐 때. "Not a build — a reading pointer" |
 | the reusable spine | (여러 곳에 재사용되는) 핵심 골격 · 공통으로 적용되는 기본 흐름을 가리킬 때. "The reusable spine is the same everywhere" |
+| KirkDBorne | 커크 본(Kirk Borne) · 데이터사이언스 분야 인플루언서, 이 책을 소개한 X(트위터) 계정. "surfaced by Kirk Borne (@KirkDBorne) on X" |
+<!-- acronyms 2026-09-18 -->

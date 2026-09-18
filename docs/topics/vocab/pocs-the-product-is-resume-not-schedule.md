@@ -10,3 +10,5 @@
 | quietly becomes | 슬그머니 ~이 되어버리다 · 의도치 않게 문제로 바뀔 때. "quietly becomes double-spending" |
 | fight it for a month | 한 달 내내 애먹다, 씨름하다 · 이해 부족으로 계속 고생할 때. "will fight it for a month" |
 | worth noticing beyond | ~을 넘어서도 주목할 가치가 있는 · 한 사례를 넘어 일반화할 때. "That is worth noticing beyond this one vendor" |
+| durable execution | 내구성 실행(장애에도 진행 상태를 보존하는 실행 모델) · 워커가 죽어도 이벤트 히스토리를 재생해 정확한 지점부터 재개. "A durable execution engine journals every step" |
+<!-- acronyms 2026-09-18 -->

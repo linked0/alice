@@ -10,3 +10,10 @@
 | fork by fork | 포크를 거듭할 때마다 조금씩(점진적으로) · 모트가 한번에 사라지지 않고 서서히 줄어들 때 · "it erodes fork by fork" |
 | wearing a technology costume | ~인 척하는·~의 탈을 쓴 · 본질을 감추고 다른 것처럼 보이는 것을 비유 · "a timing business wearing a technology costume" |
 | staffed work | 사람이 직접 운영해야 하는 일 · 프로토콜이 흡수할 수 없는 운영 업무를 가리킬 때 · "it's staffed work, not a rule change" |
+| DVT | 분산 검증자 기술(Distributed Validator Technology) · 하나의 밸리데이터 키를 여러 서버에 분산하는 기술, Obol/SSV가 프로토콜 밖에서 파는 상품 · "Obol/SSV sell DVT outside the protocol" |
+| SSV | SSV Network · DVT 인프라를 판매하는 미들웨어 프로토콜, Obol과 나란히 언급되는 경쟁사 · "Obol/SSV sell DVT outside the protocol" |
+| ACDE | 이더리움 코어 개발자 실행계층 콜(All Core Devs Execution) · EIP 채택 여부를 논의하는 정기 회의, 결정이 미들웨어의 수명을 늦춤 · "ACDE outcomes (EIP-8141's "right direction, too heavy" verdict" |
+| CFI | 포함 고려 단계(Considered for Inclusion) · EIP가 하드포크에 채택되기 전 거치는 상태 단계 중 하나 · "idea, draft, CFI, or scheduled" |
+| MEV | 최대 추출가능 가치(Maximal Extractable Value) · 블록 생성 순서 조작으로 얻는 수익, MEV-Boost/ePBS 맥락에서 언급 · "Flashbots relays (MEV-Boost)" |
+| ePBS | 프로토콜에 내재화된 제안자-빌더 분리(enshrined Proposer-Builder Separation) · 블록 경매를 프로토콜 규칙으로 흡수하는 업그레이드, Glamsterdam 하드포크 예정 · "ePBS (Glamsterdam)" |
+<!-- acronyms 2026-09-18 -->

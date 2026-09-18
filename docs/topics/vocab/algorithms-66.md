@@ -7,3 +7,7 @@
 | eat into | (자원·여유를) 갉아먹다 · 어떤 행위가 여유분을 줄어들게 만들 때. "eats into block propagation slack" |
 | bolt on later | 나중에 임시로 덧붙이다 · 처음부터 설계하지 않고 뒤늦게 추가할 때. "they can't be bolted on later" |
 | prime target | 주요 표적, 공격받기 쉬운 대상 · 특정 거래가 공격에 취약할 때. "are prime sandwich/backrun targets" |
+| PBS | 제안자-빌더 분리(Proposer-Builder Separation) · 블록 조립과 블록 제안을 분리하는 이더리움 MEV 완화 구조. "Proposer-Builder Separation splits block assembly (the builder) from block proposal" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 블록 생성자가 거래 순서·포함·배제로 얻는 초과 이익. "MEV is the excess value that can be extracted" |
+| LMSR | 로그마켓점수규칙(Logarithmic Market Scoring Rule) · Verex의 가격 결정 방식, 체결 순서에 따라 가격이 바뀌어 프론트러닝에 노출됨. "Verex's LMSR price depends on execution order, so front-running" |
+<!-- acronyms 2026-09-18 -->

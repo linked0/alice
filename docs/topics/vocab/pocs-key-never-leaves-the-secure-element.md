@@ -10,3 +10,10 @@
 | reduce the burden of | ~의 부담을 줄이다 · 백업 방식이 사용자 부담을 낮출 때. "reduces the burden of handling a raw mnemonic" |
 | push past | (기존 방식·한계를) 넘어서다 · 새로운 서명 모델로 나아갈 때. "push past 'a human approves each signature'" |
 | two problems wearing one word | 한 단어가 사실 서로 다른 두 문제를 가리다 · 자기보관의 개념을 재정의할 때. "Self-custody is two problems wearing one word" |
+| BIP-39 | 니모닉 시드 표준(Bitcoin Improvement Proposal 39) · 키를 재생성할 수 있는 소지자 비밀, 진짜 공격 표면이 되는 대상. "The BIP-39 seed that can regenerate it" |
+| SLIP-39 | 샤미르 비밀분산 표준(SatoshiLabs Improvement Proposal 39) · 시드를 m-of-n 조각으로 나누는 백업 방식. "SLIP-39 splits the seed into m-of-n shares" |
+| EAL | 평가보증등급(Evaluation Assurance Level, Common Criteria 인증) · 보안칩의 변조 방지 인증 수준을 나타냄. "a certified (Common Criteria EAL5+/6+) tamper-resistant chip" |
+| MPC | 다자간연산(Multi-Party Computation) · 키 사용 시점 문제를 소프트웨어로 옮겨 커스터디를 설정값으로 바꾸는 방식. "MPC/Shamir moves the same key-in-use problem into software" |
+| D'CENT | 디센트 · 하드웨어 지갑 제조사, 8년째 기관·프리미엄 등급으로 리브랜딩 중. "D'CENT's 8-year rebrand into institutional and premium tiers" |
+| die | (반도체) 다이, 칩 본체 · 개인키가 결코 벗어나지 않는 물리적 경계를 가리킴. "without the private key ever leaving the die" |
+<!-- acronyms 2026-09-18 -->

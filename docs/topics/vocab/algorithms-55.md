@@ -7,3 +7,6 @@
 | leader replacement | 리더 교체(장애 시 새 리더 선출) · 정족수 조합별로 가능 여부가 달라질 때 · "whether leader replacement is possible for each" |
 | shrink the write quorum | 쓰기 정족수를 줄이다 · 정상 상태의 지연을 낮추기 위한 조치 · "shrink the write quorum to lower steady-state latency" |
 | enlarging the leader-election quorum | 리더 선출용 정족수를 키우다 · 장애 복구용 정족수를 대신 늘릴 때 · "enlarging the leader-election quorum instead" |
+| RTT | 왕복 시간(Round-Trip Time) · 리더 기반 프로토콜에서 정상 경로가 왜 1회 왕복인지 설명할 때 · "why is the normal path 1 RTT" |
+| HA | 고가용성(High Availability) · 시퀀서 등 인프라가 장애에도 계속 동작하도록 설계된 구성 · "Blockchain consensus and sequencer HA setups" |
+<!-- acronyms 2026-09-18 -->

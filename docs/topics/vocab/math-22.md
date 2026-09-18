@@ -7,3 +7,5 @@
 | fall into (a category) | ~범주에 속하다 · 특정 성질을 만족하는 대상들을 묶어 말할 때. "fall into that category" |
 | govern | 좌우하다, 지배하다 · 어떤 값이 전체 결과의 방향을 결정지을 때. "The magnitude of the eigenvalues governs growth and decay" |
 | spectral theorem | 스펙트럴 정리 · 대칭행렬의 고유값·고유벡터에 관한 정리. "the spectral theorem" |
+| PCA | 주성분분석(Principal Component Analysis) · 공분산행렬의 고유값 분해로 차원을 축소하는 기법. "dimensionality reduction via PCA" |
+<!-- acronyms 2026-09-18 -->

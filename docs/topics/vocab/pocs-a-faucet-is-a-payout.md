@@ -10,3 +10,6 @@
 | unit economics | 단위 경제성 · 지갑 하나당 수익과 비용 구조. "how each gate changes the attacker's unit economics" |
 | P&L | 손익(수익-비용) · 공격자의 수익 구조를 표로 나타낼 때 쓰는 약어. "the attacker's P&L per gate" |
 | stub | 임시 구현체, 최소 동작 코드 · 완전한 기능 대신 껍데기만 있는 코드. "a proof-of-personhood stub" |
+| proof-of-personhood | 인격 증명(사람임을 증명하는 절차) · 실명이 아니라 '한 사람=한 신원'임을 증명하는 시빌 저항 기법. "identity (proof-of-personhood, at its own trust cost)" |
+| paymaster | 페이마스터(가스비 대납 컨트랙트) · 사용자 대신 가스비를 지불하는 계정 추상화 구성요소. "reusable for the paymaster caps in sponsored-gas-is-cogs" |
+<!-- acronyms 2026-09-18 -->

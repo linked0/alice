@@ -11,3 +11,9 @@
 | wired to | ~에 연결되어 자동 작동하는 · "wired to an automatic halt" |
 | limping along | 제대로 안 되는 상태로 근근이 버티는 · "no 'degraded mode' to keep limping in" |
 | muted | (경고가) 꺼진, 무시되는 · "a muted monitor is worse than none" |
+| LBTC | 리퀴드 비트코인(Liquid Bitcoin) · 리퀴드 사이드체인에서 BTC와 1:1로 페그된 토큰. "An Elements issuance bug minted LBTC" |
+| PGP | PGP 서명(Pretty Good Privacy) · 브릿지처럼 신뢰 채널이 없을 때 신원을 증명하는 서명 방식. "a PGP-signed message with a condition" |
+| RWA | 실물자산 토큰(Real-World Asset) · 온체인에 실물자산 가치를 표상하는 토큰, 사칭 프로모션 사례로 언급. "used to promote an RWA token" |
+| OP_RETURN | OP_RETURN · 비트코인 스크립트 opcode, 체인에 임의 데이터를 남기는 용도. "an OP_RETURN plus a PGP-signed message" |
+| Elements | 엘리먼츠(Blockstream Elements) · 리퀴드 사이드체인을 구동하는 블록스트림의 소프트웨어. "An Elements issuance bug minted LBTC" |
+<!-- acronyms 2026-09-18 -->

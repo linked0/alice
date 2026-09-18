@@ -7,3 +7,5 @@
 | quietly reversed | 조용히(별다른 논의 없이) 번복되다 · 기록이 없어 별 생각 없이 뒤집히는 결정을 가리킴. "gets quietly reversed" |
 | premise | 전제(논리의 출발점이 되는 가정) · ADR·위협모델이 기록해야 할 핵심 요소. "record the premises and the alternatives" |
 | narrow scope | 범위를 좁히다·한정하다 · 문서가 끝까지 읽히도록 하나의 결정·시스템으로 한정하는 원칙. "keeping the scope narrow — one decision" |
+| ADR | 아키텍처 결정 기록(Architecture Decision Record) · 하나의 아키텍처 결정과 그 배경·대안·결과를 남기는 문서. "An ADR (Architecture Decision Record) briefly documents" |
+<!-- acronyms 2026-09-18 -->

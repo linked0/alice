@@ -10,3 +10,10 @@
 | handed wholesale to | 통째로 넘겨주다 · 고객·자금을 경쟁자에게 전부 빼앗기는 상황. "handed wholesale to a third party like Circle" |
 | prefunded inventory | 미리 자금을 채워둔 재고(자산) · 제3자 스테이블코인 접근을 위해 미리 확보해두는 자산. "prefunded inventory or a deposit-secured loan" |
 | narrow reach | 좁은 도달 범위 · 특정 네트워크 안에서만 쓸 수 있어 확장성이 부족함을 표현. "but narrow reach — JPMD on Base" |
+| LCR | 유동성커버리지비율(Liquidity Coverage Ratio) · 위기 시 30일 순유출을 감당할 고유동성자산 보유 여부를 재는 바젤 규제 지표. "LCR (Liquidity Coverage Ratio) asks whether a bank holds enough" |
+| NSFR | 순안정자금조달비율(Net Stable Funding Ratio) · 약 1년 관점에서 자산이 안정적 자금으로 조달되는지 보는 지표. "NSFR (Net Stable Funding Ratio) takes the longer" |
+| ASF | 가용안정자금(Available Stable Funding) · NSFR 계산에서 안정적 자금으로 인정되는 비율. "NSFR ASF from 50% to 0%" |
+| JPMD | JP모건의 토큰화 예금(JPMorgan Deposit token) · Base에서 발행되는, 예금 청구권을 토큰으로 감싼 사례. "JPMD on Base is the live example" |
+| Basel | 바젤 은행 자본·유동성 규제체계(Basel Accord) · LCR/NSFR 같은 지표의 근거가 되는 국제 은행 규제. "the Basel LCR/NSFR cost each one hard-codes" |
+| WSJ | 월스트리트저널(Wall Street Journal) · JP모건의 스테이블코인 검토를 보도한 매체. "The Wall Street Journal reports that JP Morgan" |
+<!-- acronyms 2026-09-18 -->

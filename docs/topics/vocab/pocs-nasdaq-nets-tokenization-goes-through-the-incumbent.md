@@ -10,3 +10,10 @@
 | snap back | 원래대로 튕겨 돌아가다 · 가격이 벌어졌다가 급격히 정상 수준으로 복귀할 때. "thin and snaps back at the open" |
 | gated by | ~에 의해 제한·발이 묶이다 · 규제나 조건 때문에 진행이 막혀 있는 상태. "gated by regulation and years out" |
 | markets tip | 시장이 (한쪽으로) 쏠리다 · 유동성이 쏠리며 한 시장으로 몰리는 현상. "liquidity attracts liquidity, and markets tip" |
+| NETs | 나스닥 주식 토큰(Nasdaq Equity Tokens) · 나스닥이 발행 주체로 참여해 기존 주주 권리를 유지한 토큰화 주식 상품. "Nasdaq Equity Tokens (NETs): tokenized shares that keep the rights" |
+| DLN | 디지털 유동성 네트워크(Digital Liquidity Network) · 나스닥이 구축하는 24/7 정산·유동성 인프라, NETs가 여기서 결제됨. "settle on Nasdaq's Digital Liquidity Network" |
+| AMC | 미국 영화관 체인 AMC · 로빈후드가 토큰화해 프리미엄이 붙었던 실패 사례의 기초자산 기업. "Robinhood's tokenized AMC" |
+| ADR | 미국예탁증권(American Depositary Receipt) · 해외 주식을 미국에서 거래하게 하는 예탁증서, 토큰화 주식과 같은 구조로 비교됨. "an ADR aligned with its foreign share" |
+| NAV | 순자산가치(Net Asset Value) · ETF가 추종하는 기준가, 토큰화 주식의 연동 메커니즘 비교 대상. "the same mechanism that keeps an ETF near its NAV" |
+| ETF | 상장지수펀드(Exchange-Traded Fund) · 발행·환매 차익거래로 기초자산과 가격이 연동되는 구조의 비교 대상. "an ETF near its NAV, an ADR aligned" |
+<!-- acronyms 2026-09-18 -->

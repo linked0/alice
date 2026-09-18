@@ -10,3 +10,7 @@
 | honesty meter | 정직함을 재는 척도(비유) · 예측이 얼마나 믿을 만한지 보여주는 지표. "the honesty meter of the explain step" |
 | false-promise rate | 거짓 약속 비율 · 시뮬레이션은 통과했지만 실제로 실패한 거래의 비율. "the false-promise rate... is the honesty meter" |
 | front-running | 선행매매 · 남의 거래를 미리 알고 앞서 끼어드는 행위. "does not... eliminate front-running" |
+| SLO | 서비스 수준 목표(Service Level Objective) · 서비스가 스스로 공개해야 할 정직성 지표의 기준. "the SLO the service should publish about itself" |
+| TOCTOU | 확인 시점과 사용 시점의 간극(Time-of-check to time-of-use) · 시뮬레이션 이후 실제 실행 사이에 상태가 바뀌는 문제. "Time-of-check to time-of-use." |
+| 4byte directory | 이더리움 함수 셀렉터 조회용 공개 레지스트리 · 알려지지 않은 revert 이유를 해독할 때 참조하는 도구. "a 4byte-style directory" |
+<!-- acronyms 2026-09-18 -->

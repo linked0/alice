@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Simplicity CTF</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#108</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#112</span><span>PoC</span></p>
       <h1>Simplicity CTF</h1>
       <p class="lead">Blockstream&#39;s first Simplicity CTF — unlock 0.01 LBTC (~$600) locked in a contract for the reward; hands-on practice with Simplicity, the new smart-contract language for Bitcoin/Liquid.</p>
       <p class="meta">Not yet scoped — for later. github.com/Arvolear/simplicity-ctf (added 2026-07-07)</p>
@@ -464,8 +464,12 @@ for label, witness in [
     print(f&quot;{label}: witness={witness} -&gt; unlocked={unlocked}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/simplicity-ctf.py">docs/code/pocs/simplicity-ctf.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hands-on</strong></td><td>직접 해보는·실습 위주의 · 읽기만 하는 게 아니라 손으로 익히는 학습. "hands-on practice with Simplicity"</td></tr><tr><td><strong>unlock (funds)</strong></td><td>(잠긴 자금을) 풀다 · 컨트랙트에 걸린 보상을 풀어내는 것. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>for later</strong></td><td>나중으로 미룸·차후 진행 · 아직 손대지 않고 뒤로 미뤄둔 항목. "Not yet scoped — for later"</td></tr><tr><td><strong>rather than just</strong></td><td>그냥 ~하는 데 그치지 않고 · 읽는 데서 그치지 않고 직접 해보는 것. "actually learn Simplicity rather than just read about it"</td></tr><tr><td><strong>for the reward</strong></td><td>보상을 받기 위해 · 상금을 걸고 문제를 푸는 CTF의 목적. "locked in a contract for the reward"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Dark Horse: solve the CTF to check whether the Bitcoin/Liquid skill gap is worth closing.</strong> Simplicity only matters if a Dark Horse idea touches Bitcoin/Liquid directly; the CTF is the cheap way to test that before scoping such an idea further.</li><li><strong>Devnet: no devnet action.</strong> Simplicity targets Bitcoin/Liquid, a separate chain family from Jayverse&#39;s Anvil/Sepolia/OP-Stack line, so this stays a personal-learning PoC, not a service integration.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hands-on</strong></td><td>직접 해보는·실습 위주의 · 읽기만 하는 게 아니라 손으로 익히는 학습. "hands-on practice with Simplicity"</td></tr><tr><td><strong>unlock (funds)</strong></td><td>(잠긴 자금을) 풀다 · 컨트랙트에 걸린 보상을 풀어내는 것. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>for later</strong></td><td>나중으로 미룸·차후 진행 · 아직 손대지 않고 뒤로 미뤄둔 항목. "Not yet scoped — for later"</td></tr><tr><td><strong>rather than just</strong></td><td>그냥 ~하는 데 그치지 않고 · 읽는 데서 그치지 않고 직접 해보는 것. "actually learn Simplicity rather than just read about it"</td></tr><tr><td><strong>for the reward</strong></td><td>보상을 받기 위해 · 상금을 걸고 문제를 푸는 CTF의 목적. "locked in a contract for the reward"</td></tr><tr><td><strong>LBTC</strong></td><td>리퀴드 비트코인(Liquid BTC, 리퀴드 네트워크 상의 BTC 페깅 자산) · 이 CTF의 보상으로 걸린 토큰. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>Simplicity</strong></td><td>블록스트림이 만든 비트코인/리퀴드용 신규 스마트컨트랙트 언어 · 이 CTF에서 실습하는 대상 언어. "the new smart-contract language for Bitcoin/Liquid"</td></tr><tr><td><strong>Blockstream</strong></td><td>비트코인·리퀴드 네트워크를 개발하는 회사 · 이 CTF를 주최한 곳. "Blockstream&#39;s first Simplicity CTF"</td></tr><tr><td><strong>CTF</strong></td><td>해킹 실습 대회(Capture The Flag) · 문제를 풀어 잠긴 자금을 푸는 보안 실습 형식. "Blockstream&#39;s first Simplicity CTF"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -534,12 +538,16 @@ for label, witness in [
     print(f&quot;{label}: witness={witness} -&gt; unlocked={unlocked}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/simplicity-ctf.py">docs/code/pocs/simplicity-ctf.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hands-on</strong></td><td>직접 해보는·실습 위주의 · 읽기만 하는 게 아니라 손으로 익히는 학습. "hands-on practice with Simplicity"</td></tr><tr><td><strong>unlock (funds)</strong></td><td>(잠긴 자금을) 풀다 · 컨트랙트에 걸린 보상을 풀어내는 것. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>for later</strong></td><td>나중으로 미룸·차후 진행 · 아직 손대지 않고 뒤로 미뤄둔 항목. "Not yet scoped — for later"</td></tr><tr><td><strong>rather than just</strong></td><td>그냥 ~하는 데 그치지 않고 · 읽는 데서 그치지 않고 직접 해보는 것. "actually learn Simplicity rather than just read about it"</td></tr><tr><td><strong>for the reward</strong></td><td>보상을 받기 위해 · 상금을 걸고 문제를 푸는 CTF의 목적. "locked in a contract for the reward"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Dark Horse: CTF를 풀어서 Bitcoin/Liquid 스킬 갭을 메울 가치가 있는지 확인한다.</strong> Simplicity는 Dark Horse 아이디어가 Bitcoin/Liquid를 직접 다룰 때만 의미가 있으므로, 그런 아이디어를 더 구체화하기 전에 CTF로 저렴하게 검증한다.</li><li><strong>Devnet: devnet에는 조치 없음.</strong> Simplicity는 Jayverse의 Anvil/Sepolia/OP-Stack 라인과는 별개의 체인군인 Bitcoin/Liquid를 대상으로 하므로, 이는 서비스 통합이 아니라 개인 학습 PoC로 남는다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hands-on</strong></td><td>직접 해보는·실습 위주의 · 읽기만 하는 게 아니라 손으로 익히는 학습. "hands-on practice with Simplicity"</td></tr><tr><td><strong>unlock (funds)</strong></td><td>(잠긴 자금을) 풀다 · 컨트랙트에 걸린 보상을 풀어내는 것. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>for later</strong></td><td>나중으로 미룸·차후 진행 · 아직 손대지 않고 뒤로 미뤄둔 항목. "Not yet scoped — for later"</td></tr><tr><td><strong>rather than just</strong></td><td>그냥 ~하는 데 그치지 않고 · 읽는 데서 그치지 않고 직접 해보는 것. "actually learn Simplicity rather than just read about it"</td></tr><tr><td><strong>for the reward</strong></td><td>보상을 받기 위해 · 상금을 걸고 문제를 푸는 CTF의 목적. "locked in a contract for the reward"</td></tr><tr><td><strong>LBTC</strong></td><td>리퀴드 비트코인(Liquid BTC, 리퀴드 네트워크 상의 BTC 페깅 자산) · 이 CTF의 보상으로 걸린 토큰. "unlock 0.01 LBTC (~$600) locked in a contract"</td></tr><tr><td><strong>Simplicity</strong></td><td>블록스트림이 만든 비트코인/리퀴드용 신규 스마트컨트랙트 언어 · 이 CTF에서 실습하는 대상 언어. "the new smart-contract language for Bitcoin/Liquid"</td></tr><tr><td><strong>Blockstream</strong></td><td>비트코인·리퀴드 네트워크를 개발하는 회사 · 이 CTF를 주최한 곳. "Blockstream&#39;s first Simplicity CTF"</td></tr><tr><td><strong>CTF</strong></td><td>해킹 실습 대회(Capture The Flag) · 문제를 풀어 잠긴 자금을 푸는 보안 실습 형식. "Blockstream&#39;s first Simplicity CTF"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-fork-date-provenance.html">&larr; 107. A fork date nobody decided — reading the claim, not the number</a><a href="pocs-float-not-the-paperwork.html">109. The stablecoin replaces the float, not the paperwork &rarr;</a></div>
+    <div class="pager"><a href="pocs-fork-date-provenance.html">&larr; 111. A fork date nobody decided — reading the claim, not the number</a><a href="pocs-float-not-the-paperwork.html">113. The stablecoin replaces the float, not the paperwork &rarr;</a></div>
   </div>
   </main>
 </div>

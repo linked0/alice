@@ -9,3 +9,6 @@
 | above a threshold | 임계값을 넘으면 · 어떤 지점을 지나야 결과가 바뀔 때. "above a threshold the capitalist state prefers repression" |
 | cap (verb) | 상한을 두다·제한하다 · 규모나 속도를 규제로 억누를 때. "cap the automation driving the threat" |
 | complementarity | 상호보완성(둘이 서로를 강화하는 관계) · 두 요소가 함께 늘어나는 구조. "a complementarity between automation and repression" |
+| NBER | 전미경제연구소(National Bureau of Economic Research) · 이 논문이 워킹페이퍼로 게재된 미국 경제학 연구기관. "NBER Working Paper w35336 (June 2026)" |
+| SSRN | 사회과학 논문 공유 플랫폼(Social Science Research Network) · 논문의 1차 출처를 확인할 수 있는 경로 중 하나. "also MIT Economics and SSRN" |
+<!-- acronyms 2026-09-18 -->

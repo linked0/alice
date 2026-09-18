@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Linera microchains</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#137</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#141</span><span>PoC</span></p>
       <h1>Linera microchains</h1>
       <p class="lead">One chain per user — removing blockspace contention instead of pricing it.</p>
       <p class="meta">Reference — docs/knowledge/linera-microchains.html.</p>
@@ -471,8 +471,12 @@ if __name__ == &quot;__main__&quot;:
             print(f&quot;  - {b}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/linera-microchains.py">docs/code/pocs/linera-microchains.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take X as a given</strong></td><td>X를 당연한 전제로 여기다 · 다른 접근법들이 의심 없이 받아들이는 가정을 지적할 때. "takes contention as a given"</td></tr><tr><td><strong>compete for</strong></td><td>~을 두고 경쟁하다 · 한정된 자원(블록 공간)을 서로 차지하려 할 때. "compete for the block"</td></tr><tr><td><strong>reject the assumption</strong></td><td>전제를 거부하다, 근본 가정 자체를 부정하다 · 남들과 다른 출발점을 취할 때. "it rejects the assumption the rest... is built on"</td></tr><tr><td><strong>extend (a chain)</strong></td><td>체인을 이어나가다, 확장하다 · 사용자가 자기 체인에 블록을 계속 추가할 때. "a chain they alone extend"</td></tr><tr><td><strong>the whole point</strong></td><td>핵심, 가장 중요한 요지 · 논의에서 진짜 중요한 부분이 무엇인지 짚을 때. "an application whose whole point is that many users touch the same state"</td></tr><tr><td><strong>contend for</strong></td><td>~을 놓고 다투다, 경합하다 · 공유 자원을 두고 여러 참여자가 겨룰 때. "there is nothing to contend for"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: keep the CLOB on one shared chain rather than assuming it composes under sharding.</strong> The order book is exactly the shared-state case this note flags as hard for a per-user microchain model, so if Jayverse ever considers sharding by user, exclude Verex&#39;s book from that plan explicitly.</li><li><strong>Devnet: read this as confirmation that Devnet&#39;s single shared chain is a deliberate choice.</strong> Most Jayverse services (Verex, Token/Bridge) depend on shared state that a per-user chain would fragment, so contention-removal-by-sharding is not a direction to pursue without a specific reason.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take X as a given</strong></td><td>X를 당연한 전제로 여기다 · 다른 접근법들이 의심 없이 받아들이는 가정을 지적할 때. "takes contention as a given"</td></tr><tr><td><strong>compete for</strong></td><td>~을 두고 경쟁하다 · 한정된 자원(블록 공간)을 서로 차지하려 할 때. "compete for the block"</td></tr><tr><td><strong>reject the assumption</strong></td><td>전제를 거부하다, 근본 가정 자체를 부정하다 · 남들과 다른 출발점을 취할 때. "it rejects the assumption the rest... is built on"</td></tr><tr><td><strong>extend (a chain)</strong></td><td>체인을 이어나가다, 확장하다 · 사용자가 자기 체인에 블록을 계속 추가할 때. "a chain they alone extend"</td></tr><tr><td><strong>the whole point</strong></td><td>핵심, 가장 중요한 요지 · 논의에서 진짜 중요한 부분이 무엇인지 짚을 때. "an application whose whole point is that many users touch the same state"</td></tr><tr><td><strong>contend for</strong></td><td>~을 놓고 다투다, 경합하다 · 공유 자원을 두고 여러 참여자가 겨룰 때. "there is nothing to contend for"</td></tr><tr><td><strong>PBS</strong></td><td>제안자-빌더 분리(Proposer-Builder Separation) · 블록 생성 권한을 경매로 분리해 컨텐션을 가격 매기는 구조의 예. "PBS auctions it, gas prices it"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -548,12 +552,16 @@ if __name__ == &quot;__main__&quot;:
             print(f&quot;  - {b}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/linera-microchains.py">docs/code/pocs/linera-microchains.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take X as a given</strong></td><td>X를 당연한 전제로 여기다 · 다른 접근법들이 의심 없이 받아들이는 가정을 지적할 때. "takes contention as a given"</td></tr><tr><td><strong>compete for</strong></td><td>~을 두고 경쟁하다 · 한정된 자원(블록 공간)을 서로 차지하려 할 때. "compete for the block"</td></tr><tr><td><strong>reject the assumption</strong></td><td>전제를 거부하다, 근본 가정 자체를 부정하다 · 남들과 다른 출발점을 취할 때. "it rejects the assumption the rest... is built on"</td></tr><tr><td><strong>extend (a chain)</strong></td><td>체인을 이어나가다, 확장하다 · 사용자가 자기 체인에 블록을 계속 추가할 때. "a chain they alone extend"</td></tr><tr><td><strong>the whole point</strong></td><td>핵심, 가장 중요한 요지 · 논의에서 진짜 중요한 부분이 무엇인지 짚을 때. "an application whose whole point is that many users touch the same state"</td></tr><tr><td><strong>contend for</strong></td><td>~을 놓고 다투다, 경합하다 · 공유 자원을 두고 여러 참여자가 겨룰 때. "there is nothing to contend for"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 샤딩해도 자연히 합성될 거라 가정하지 말고 CLOB을 하나의 공유 체인에 둔다.</strong> 오더북은 이 노트가 사용자별 마이크로체인 모델에서 어렵다고 지적하는 바로 그 공유 상태 사례이므로, 사용자별 샤딩을 고려하게 되더라도 Verex의 오더북은 명시적으로 그 계획에서 제외한다.</li><li><strong>Devnet: 이 노트를 Devnet이 단일 공유 체인을 쓰는 것이 의도된 선택이라는 확인으로 읽는다.</strong> Verex, Token/Bridge 같은 대부분의 Jayverse 서비스는 사용자별 체인이 쪼개버릴 공유 상태에 의존하므로, 샤딩으로 경합을 없애는 방향은 특별한 이유 없이는 추구할 방향이 아니다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take X as a given</strong></td><td>X를 당연한 전제로 여기다 · 다른 접근법들이 의심 없이 받아들이는 가정을 지적할 때. "takes contention as a given"</td></tr><tr><td><strong>compete for</strong></td><td>~을 두고 경쟁하다 · 한정된 자원(블록 공간)을 서로 차지하려 할 때. "compete for the block"</td></tr><tr><td><strong>reject the assumption</strong></td><td>전제를 거부하다, 근본 가정 자체를 부정하다 · 남들과 다른 출발점을 취할 때. "it rejects the assumption the rest... is built on"</td></tr><tr><td><strong>extend (a chain)</strong></td><td>체인을 이어나가다, 확장하다 · 사용자가 자기 체인에 블록을 계속 추가할 때. "a chain they alone extend"</td></tr><tr><td><strong>the whole point</strong></td><td>핵심, 가장 중요한 요지 · 논의에서 진짜 중요한 부분이 무엇인지 짚을 때. "an application whose whole point is that many users touch the same state"</td></tr><tr><td><strong>contend for</strong></td><td>~을 놓고 다투다, 경합하다 · 공유 자원을 두고 여러 참여자가 겨룰 때. "there is nothing to contend for"</td></tr><tr><td><strong>PBS</strong></td><td>제안자-빌더 분리(Proposer-Builder Separation) · 블록 생성 권한을 경매로 분리해 컨텐션을 가격 매기는 구조의 예. "PBS auctions it, gas prices it"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-solana.html">&larr; 136. Solana</a><a href="pocs-thirdweb.html">138. Thirdweb — platform survey &rarr;</a></div>
+    <div class="pager"><a href="pocs-solana.html">&larr; 140. Solana</a><a href="pocs-thirdweb.html">142. Thirdweb — platform survey &rarr;</a></div>
   </div>
   </main>
 </div>

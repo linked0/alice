@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; KV cache — why the second token is cheaper than the first</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#212</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#216</span><span>PoC</span></p>
       <h1>KV cache — why the second token is cheaper than the first</h1>
       <p class="lead">The KV cache stores attention keys and values so each new token does not recompute the whole context, which is why prefill is expensive and decoding is fast — and why cache pricing reshapes agent economics.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reshape</strong></td><td>(구조·형태를) 다시 짜다, 재편하다 · 가격 정책이 전체 비용 구조를 바꿀 때. "why cache pricing reshapes agent economics"</td></tr><tr><td><strong>recompute</strong></td><td>다시 계산하다 · 이전에 계산해둔 것을 매번 새로 구하지 않아도 될 때. "does not recompute the whole context"</td></tr><tr><td><strong>versus</strong></td><td>~ 대(對) ~, ~와 비교하여 · 두 단계나 항목을 나란히 비교할 때. "measures prefill versus decode cost"</td></tr><tr><td><strong>cache reuse</strong></td><td>캐시 재사용 · 이전에 계산한 결과를 다시 활용하는 것. "with and without cache reuse"</td></tr><tr><td><strong>price cut</strong></td><td>가격 인하 · 특정 항목의 가격이 낮아진 것을 가리킬 때. "the cache-read price cut that changes long-context agent bills"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor / gitboard: track prefill vs decode cost separately for any LLM-backed tool.</strong> Agent workflows and Auditor methodology write-ups should prefer cache-read pricing for repeated long-context calls, since that&#39;s where the real bill lives.</li><li><strong>Devnet / alice-tech: reuse the same context prefix across workflow stages.</strong> Running agent-team-style stages against a fixed case record only gets cache reuse if each stage doesn&#39;t re-pay prefill from scratch.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reshape</strong></td><td>(구조·형태를) 다시 짜다, 재편하다 · 가격 정책이 전체 비용 구조를 바꿀 때. "why cache pricing reshapes agent economics"</td></tr><tr><td><strong>recompute</strong></td><td>다시 계산하다 · 이전에 계산해둔 것을 매번 새로 구하지 않아도 될 때. "does not recompute the whole context"</td></tr><tr><td><strong>versus</strong></td><td>~ 대(對) ~, ~와 비교하여 · 두 단계나 항목을 나란히 비교할 때. "measures prefill versus decode cost"</td></tr><tr><td><strong>cache reuse</strong></td><td>캐시 재사용 · 이전에 계산한 결과를 다시 활용하는 것. "with and without cache reuse"</td></tr><tr><td><strong>price cut</strong></td><td>가격 인하 · 특정 항목의 가격이 낮아진 것을 가리킬 때. "the cache-read price cut that changes long-context agent bills"</td></tr><tr><td><strong>KV cache</strong></td><td>키/값 캐시(Key-Value cache) · 어텐션의 키·값을 저장해 두어 새 토큰마다 전체 문맥을 다시 계산하지 않게 하는 캐시. "The KV cache stores attention keys and values"</td></tr><tr><td><strong>prefill / decode</strong></td><td>프리필(프롬프트 전체를 한번에 처리하는 단계) / 디코드(토큰을 한 개씩 생성하는 단계) · LLM 추론이 나뉘는 두 단계, 비용 구조가 서로 다름. "why prefill is expensive and decoding is fast"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reshape</strong></td><td>(구조·형태를) 다시 짜다, 재편하다 · 가격 정책이 전체 비용 구조를 바꿀 때. "why cache pricing reshapes agent economics"</td></tr><tr><td><strong>recompute</strong></td><td>다시 계산하다 · 이전에 계산해둔 것을 매번 새로 구하지 않아도 될 때. "does not recompute the whole context"</td></tr><tr><td><strong>versus</strong></td><td>~ 대(對) ~, ~와 비교하여 · 두 단계나 항목을 나란히 비교할 때. "measures prefill versus decode cost"</td></tr><tr><td><strong>cache reuse</strong></td><td>캐시 재사용 · 이전에 계산한 결과를 다시 활용하는 것. "with and without cache reuse"</td></tr><tr><td><strong>price cut</strong></td><td>가격 인하 · 특정 항목의 가격이 낮아진 것을 가리킬 때. "the cache-read price cut that changes long-context agent bills"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor / gitboard: LLM 기반 도구마다 prefill과 decode 비용을 따로 추적한다.</strong> 에이전트 워크플로우와 Auditor 방법론 문서는 반복되는 롱컨텍스트 호출에 캐시 읽기 가격을 우선해야 한다. 실제 비용이 거기서 나오기 때문이다.</li><li><strong>Devnet / alice-tech: 워크플로우 단계 전체에서 같은 컨텍스트 프리픽스를 재사용한다.</strong> 고정된 케이스 레코드에 대해 agent-team 스타일 단계를 돌릴 때, 각 단계가 prefill을 처음부터 다시 내지 않아야만 캐시 재사용이 실제로 적용된다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reshape</strong></td><td>(구조·형태를) 다시 짜다, 재편하다 · 가격 정책이 전체 비용 구조를 바꿀 때. "why cache pricing reshapes agent economics"</td></tr><tr><td><strong>recompute</strong></td><td>다시 계산하다 · 이전에 계산해둔 것을 매번 새로 구하지 않아도 될 때. "does not recompute the whole context"</td></tr><tr><td><strong>versus</strong></td><td>~ 대(對) ~, ~와 비교하여 · 두 단계나 항목을 나란히 비교할 때. "measures prefill versus decode cost"</td></tr><tr><td><strong>cache reuse</strong></td><td>캐시 재사용 · 이전에 계산한 결과를 다시 활용하는 것. "with and without cache reuse"</td></tr><tr><td><strong>price cut</strong></td><td>가격 인하 · 특정 항목의 가격이 낮아진 것을 가리킬 때. "the cache-read price cut that changes long-context agent bills"</td></tr><tr><td><strong>KV cache</strong></td><td>키/값 캐시(Key-Value cache) · 어텐션의 키·값을 저장해 두어 새 토큰마다 전체 문맥을 다시 계산하지 않게 하는 캐시. "The KV cache stores attention keys and values"</td></tr><tr><td><strong>prefill / decode</strong></td><td>프리필(프롬프트 전체를 한번에 처리하는 단계) / 디코드(토큰을 한 개씩 생성하는 단계) · LLM 추론이 나뉘는 두 단계, 비용 구조가 서로 다름. "why prefill is expensive and decoding is fast"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-speculative-decoding.html">&larr; 211. Speculative decoding — a small model drafts, a big model checks</a><a href="pocs-llm-distillation.html">213. Distillation — a small model trained to imitate a big one &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-speculative-decoding.html">&larr; 215. Speculative decoding — a small model drafts, a big model checks</a><a href="pocs-llm-distillation.html">217. Distillation — a small model trained to imitate a big one &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -7,3 +7,7 @@
 | poor conditioning | 조건수가 나쁜 상태 · 골짜기가 좁고 길어 최적화가 어려운 상황을 가리킴 · "poor conditioning causes zig-zagging" |
 | mitigate | 완화하다, 줄이다 · 모멘텀·적응적 학습률 등으로 지그재그를 완화함 · "techniques like momentum... are used to mitigate it" |
 | follow directly from | ~로부터 바로(당연히) 도출되다 · 볼록성만으로 여러 좋은 성질이 자동으로 성립함 · "properties like well-defined prices... follow directly from convexity" |
+| L-Lipschitz | 립시츠 연속(L-Lipschitz continuous) · 기울기 변화 속도가 상수 L로 제한됨을 뜻하는 수학적 성질, 수렴 보장의 전제조건. "whose gradient is L-Lipschitz continuous" |
+| LMSR | 로그 마켓 스코어링 룰(Logarithmic Market Scoring Rule, LMSR) · 예측시장에서 쓰이는 볼록 비용함수 기반 가격 결정 메커니즘. "The LMSR cost function is convex" |
+| condition number | 조건수(condition number) · 골짜기가 얼마나 좁고 길쭉한지를 나타내는, 최적화 난이도의 척도. "a deliberately poor condition number, run both plain and momentum-based gradient descent" |
+<!-- acronyms 2026-09-18 -->

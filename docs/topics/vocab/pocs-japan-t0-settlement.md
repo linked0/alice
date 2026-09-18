@@ -9,3 +9,10 @@
 | get ... for free | 거저/공짜로 얻다 · 별다른 노력 없이 이점을 얻을 때. "The contract stack gets the easy half for free" |
 | bolted back on | 나중에 덧붙여지다 · 원래 없던 기능을 뒤늦게 붙일 때. "a liquidity-saving mechanism bolted back on" |
 | the headline benefit | 표면에 내세우는, 가장 부각되는 이점 · 홍보 문구가 강조하는 장점을 가리킬 때. "This is the headline benefit, and it is real" |
+| FSA | 일본 금융청(Financial Services Agency) · 이번 결제 개혁 연구모임을 주도하는 일본 금융 규제기관. "Japan's FSA, Ministry of Finance and the BOJ" |
+| BOJ | 일본은행(Bank of Japan) · 중앙은행 당좌예금을 원장에 올리는 핵심 주체로 언급. "the BOJ current account on the ledger" |
+| JGB | 일본 국채(Japanese Government Bond) · T+0/T+1 결제 주기가 적용되는 채권 상품. "24-hour instant settlement for JGBs and equities" |
+| DvP | 동시결제(Delivery versus Payment) · 증권 인도와 대금 지급이 한 번에 일어나는 결제 방식, 온체인에서는 거저 주어지는 속성. "on chain, delivery and payment are one operation" |
+| CCP | 중앙청산소(Central Counterparty) · 다자간 넷팅을 수행해 결제 건수를 줄여주는 청산 기관. "A CCP nets many trades into few obligations" |
+| T+0 | 결제일 표기(거래일 기준 결제 소요일) · T+0/T+1/T+2처럼 거래 후 결제 완료까지 걸리는 영업일수를 나타내는 표준 표기. "equities T+2 and JGBs T+1 today" |
+<!-- acronyms 2026-09-18 -->

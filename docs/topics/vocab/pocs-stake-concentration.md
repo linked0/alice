@@ -7,3 +7,7 @@
 | aggregate by | ~기준으로 (데이터를) 집계하다 · 여러 항목을 특정 범주로 묶어 합산할 때. "aggregate stake by ASN, by provider" |
 | unit of independence | 독립성의 단위(비유) · 무엇을 기준으로 '진짜 분산되어 있는지' 판단해야 하는지. "the real unit of independence" |
 | routing error | 라우팅 오류, 네트워크 경로 설정 실수 · 해킹 없이도 대규모 장애를 일으킬 수 있는 원인. "a routing error on Solana took roughly 29% of stake offline" |
+| ASN | 자율시스템 번호(Autonomous System Number) · 인터넷 라우팅상 독립 네트워크를 식별하는 번호, 상관 장애의 단위로 쓰임. "map those to ASN and hosting provider" |
+| BFT | 비잔틴 장애 허용(Byzantine Fault Tolerance) · 합의가 깨지는 정족수 기준(33%)을 가리킬 때 쓰는 용어. "Solana's and Ethereum's BFT thresholds" |
+| TPU | 트랜잭션 처리 유닛(Transaction Processing Unit) · 솔라나 검증자가 트랜잭션을 받는 네트워크 엔드포인트. "resolve each advertised gossip/TPU endpoint to an IP" |
+<!-- acronyms 2026-09-18 -->

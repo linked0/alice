@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Audit firms and contests — who signs off, and what a signature means</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#200</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#204</span><span>PoC</span></p>
       <h1>Audit firms and contests — who signs off, and what a signature means</h1>
       <p class="lead">Trail of Bits, OpenZeppelin and competitive-audit platforms all produce a report, but a passed audit is a snapshot under a scope, not a proof of safety — the same preview-means-no-promise reading.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sign off</strong></td><td>승인 서명을 하다, 최종 확인하다 · 감사 보고서에 누가 도장을 찍는지 말할 때. "who signs off, and what a signature means"</td></tr><tr><td><strong>snapshot under a scope</strong></td><td>특정 범위 안에서만 찍은 스냅샷 · 감사가 전체 안전을 보장하지 않는다는 뜻. "a snapshot under a scope, not a proof of safety"</td></tr><tr><td><strong>badge</strong></td><td>실질적 보증 없는 장식적 인증 표시 · &#39;감사 완료&#39;를 그대로 믿지 말라는 뜻. "as a claim to be read, not a badge"</td></tr><tr><td><strong>guarantee</strong></td><td>보장하다, 보증하다 · 각 감사 방식이 실제로 무엇을 확실히 해주는지. "what each actually guarantees"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: record every Jayverse audit as a scoped snapshot — firm or contest, scope, date, and exact commit hash — not a badge.</strong> An "audited" claim without those four fields is not checkable, and this row is exactly where the fields belong before any contract carries real value.</li><li><strong>Bridge/CI: pin the audited commit in CI so a passing audit stays tied to a frozen state.</strong> OpenZeppelin is already pinned as submodules; extend that discipline to the bridge&#39;s own lock-and-mint contracts so a later dependency bump can&#39;t silently invalidate what was actually reviewed.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sign off</strong></td><td>승인 서명을 하다, 최종 확인하다 · 감사 보고서에 누가 도장을 찍는지 말할 때. "who signs off, and what a signature means"</td></tr><tr><td><strong>snapshot under a scope</strong></td><td>특정 범위 안에서만 찍은 스냅샷 · 감사가 전체 안전을 보장하지 않는다는 뜻. "a snapshot under a scope, not a proof of safety"</td></tr><tr><td><strong>badge</strong></td><td>실질적 보증 없는 장식적 인증 표시 · &#39;감사 완료&#39;를 그대로 믿지 말라는 뜻. "as a claim to be read, not a badge"</td></tr><tr><td><strong>guarantee</strong></td><td>보장하다, 보증하다 · 각 감사 방식이 실제로 무엇을 확실히 해주는지. "what each actually guarantees"</td></tr><tr><td><strong>Trail of Bits</strong></td><td>스마트컨트랙트 보안 감사 전문 회사(Trail of Bits) · 이 카드에서 비교 대상인 대표적 감사 펌. "Trail of Bits, OpenZeppelin and competitive-audit platforms all produce a report"</td></tr><tr><td><strong>OpenZeppelin</strong></td><td>스마트컨트랙트 라이브러리·보안 감사로 유명한 회사(OpenZeppelin) · 감사 보고서를 발행하는 대표 펌으로 언급. "Trail of Bits, OpenZeppelin and competitive-audit platforms all produce a report"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sign off</strong></td><td>승인 서명을 하다, 최종 확인하다 · 감사 보고서에 누가 도장을 찍는지 말할 때. "who signs off, and what a signature means"</td></tr><tr><td><strong>snapshot under a scope</strong></td><td>특정 범위 안에서만 찍은 스냅샷 · 감사가 전체 안전을 보장하지 않는다는 뜻. "a snapshot under a scope, not a proof of safety"</td></tr><tr><td><strong>badge</strong></td><td>실질적 보증 없는 장식적 인증 표시 · &#39;감사 완료&#39;를 그대로 믿지 말라는 뜻. "as a claim to be read, not a badge"</td></tr><tr><td><strong>guarantee</strong></td><td>보장하다, 보증하다 · 각 감사 방식이 실제로 무엇을 확실히 해주는지. "what each actually guarantees"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: Jayverse의 모든 감사를 배지가 아니라 범위가 정해진 스냅샷으로 기록한다 — 수행 기관/콘테스트, 범위, 날짜, 정확한 커밋 해시.</strong> 이 네 항목 없는 "감사됨" 주장은 검증할 수 없다. 어떤 컨트랙트든 실제 가치를 담기 전에 이 필드들이 있어야 할 곳이 바로 이 행이다.</li><li><strong>Bridge/CI: 감사받은 커밋을 CI에 고정해 통과한 감사가 동결된 상태에 묶이게 한다.</strong> OpenZeppelin은 이미 서브모듈로 고정돼 있다. 이후 의존성 업데이트가 실제로 검토된 내용을 조용히 무효화하지 않도록 브릿지 자체의 lock-and-mint 컨트랙트에도 같은 규율을 확장한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sign off</strong></td><td>승인 서명을 하다, 최종 확인하다 · 감사 보고서에 누가 도장을 찍는지 말할 때. "who signs off, and what a signature means"</td></tr><tr><td><strong>snapshot under a scope</strong></td><td>특정 범위 안에서만 찍은 스냅샷 · 감사가 전체 안전을 보장하지 않는다는 뜻. "a snapshot under a scope, not a proof of safety"</td></tr><tr><td><strong>badge</strong></td><td>실질적 보증 없는 장식적 인증 표시 · &#39;감사 완료&#39;를 그대로 믿지 말라는 뜻. "as a claim to be read, not a badge"</td></tr><tr><td><strong>guarantee</strong></td><td>보장하다, 보증하다 · 각 감사 방식이 실제로 무엇을 확실히 해주는지. "what each actually guarantees"</td></tr><tr><td><strong>Trail of Bits</strong></td><td>스마트컨트랙트 보안 감사 전문 회사(Trail of Bits) · 이 카드에서 비교 대상인 대표적 감사 펌. "Trail of Bits, OpenZeppelin and competitive-audit platforms all produce a report"</td></tr><tr><td><strong>OpenZeppelin</strong></td><td>스마트컨트랙트 라이브러리·보안 감사로 유명한 회사(OpenZeppelin) · 감사 보고서를 발행하는 대표 펌으로 언급. "Trail of Bits, OpenZeppelin and competitive-audit platforms all produce a report"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-cve-zeroday.html">&larr; 199. CVE, NVD and the zero-day — the clock between discovery and patch</a><a href="pocs-llm-rag.html">201. RAG — the model answers from what you retrieved, right or wrong &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-cve-zeroday.html">&larr; 203. CVE, NVD and the zero-day — the clock between discovery and patch</a><a href="pocs-llm-rag.html">205. RAG — the model answers from what you retrieved, right or wrong &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Tool use — the model that stops guessing and calls a function</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#215</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#219</span><span>PoC</span></p>
       <h1>Tool use — the model that stops guessing and calls a function</h1>
       <p class="lead">Function calling lets a model emit a structured call to real code instead of hallucinating an answer, the primitive under agents, MCP and x402 — and the point where a wrong call becomes a real action.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stop guessing</strong></td><td>추측을 멈추다 · 모델이 근거 없이 답을 지어내는 대신 실제 함수를 호출함을 표현. "the model that stops guessing and calls"</td></tr><tr><td><strong>hallucinate</strong></td><td>(사실이 아닌 내용을) 지어내다 · 모델이 근거 없이 답을 만들어내는 현상을 가리키는 AI 용어. "instead of hallucinating an answer"</td></tr><tr><td><strong>routing</strong></td><td>(호출을 올바른 곳으로) 라우팅·연결하는 것 · 모델이 알맞은 도구를 선택해 호출하는지를 가리킴. "shows correct routing, a wrong call"</td></tr><tr><td><strong>validation layer</strong></td><td>검증 계층 · 의도와 실행 사이에서 잘못된 호출을 걸러내는 안전장치. "and the validation layer that must sit"</td></tr><tr><td><strong>sit between</strong></td><td>~사이에 위치하다 · 검증 계층이 의도와 실행 사이를 지키고 있음을 표현하는 구동사. "sit between intent and execution"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: keep a deterministic validator between the tool call and the signature.</strong> Any agent-initiated mandate execution should pass through a validator before the signed transaction is sent — the wrong-call case this card describes is exactly what simulate-before-sign exists to catch.</li><li><strong>OFA: treat a solver&#39;s proposed fill as a tool call, not an execution.</strong> The auction contract is the validation layer that must reject a bad solver call before it settles, the same intent-versus-execution gap this card flags for function calling.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stop guessing</strong></td><td>추측을 멈추다 · 모델이 근거 없이 답을 지어내는 대신 실제 함수를 호출함을 표현. "the model that stops guessing and calls"</td></tr><tr><td><strong>hallucinate</strong></td><td>(사실이 아닌 내용을) 지어내다 · 모델이 근거 없이 답을 만들어내는 현상을 가리키는 AI 용어. "instead of hallucinating an answer"</td></tr><tr><td><strong>routing</strong></td><td>(호출을 올바른 곳으로) 라우팅·연결하는 것 · 모델이 알맞은 도구를 선택해 호출하는지를 가리킴. "shows correct routing, a wrong call"</td></tr><tr><td><strong>validation layer</strong></td><td>검증 계층 · 의도와 실행 사이에서 잘못된 호출을 걸러내는 안전장치. "and the validation layer that must sit"</td></tr><tr><td><strong>sit between</strong></td><td>~사이에 위치하다 · 검증 계층이 의도와 실행 사이를 지키고 있음을 표현하는 구동사. "sit between intent and execution"</td></tr><tr><td><strong>x402</strong></td><td>HTTP 402 기반 에이전트 결제 프로토콜(an agent-payments protocol) · 함수 호출이 실제 결제 행동으로 이어지는 대표 사례로 언급됨. "the primitive under agents, MCP and x402"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stop guessing</strong></td><td>추측을 멈추다 · 모델이 근거 없이 답을 지어내는 대신 실제 함수를 호출함을 표현. "the model that stops guessing and calls"</td></tr><tr><td><strong>hallucinate</strong></td><td>(사실이 아닌 내용을) 지어내다 · 모델이 근거 없이 답을 만들어내는 현상을 가리키는 AI 용어. "instead of hallucinating an answer"</td></tr><tr><td><strong>routing</strong></td><td>(호출을 올바른 곳으로) 라우팅·연결하는 것 · 모델이 알맞은 도구를 선택해 호출하는지를 가리킴. "shows correct routing, a wrong call"</td></tr><tr><td><strong>validation layer</strong></td><td>검증 계층 · 의도와 실행 사이에서 잘못된 호출을 걸러내는 안전장치. "and the validation layer that must sit"</td></tr><tr><td><strong>sit between</strong></td><td>~사이에 위치하다 · 검증 계층이 의도와 실행 사이를 지키고 있음을 표현하는 구동사. "sit between intent and execution"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 툴 콜과 서명 사이에 결정적 검증자를 둔다.</strong> 에이전트가 시작한 mandate 실행은 서명된 트랜잭션이 나가기 전에 검증자를 거쳐야 한다. 이 카드가 설명하는 잘못된 호출 케이스는 정확히 simulate-before-sign이 잡아내기 위해 존재하는 것이다.</li><li><strong>OFA: 솔버가 제안한 체결을 실행이 아니라 툴 콜로 취급한다.</strong> 옥션 컨트랙트는 나쁜 솔버 호출이 정산되기 전에 거부해야 하는 검증 레이어다. 이 카드가 함수 호출에 대해 지적하는 의도-대-실행 간극과 같다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stop guessing</strong></td><td>추측을 멈추다 · 모델이 근거 없이 답을 지어내는 대신 실제 함수를 호출함을 표현. "the model that stops guessing and calls"</td></tr><tr><td><strong>hallucinate</strong></td><td>(사실이 아닌 내용을) 지어내다 · 모델이 근거 없이 답을 만들어내는 현상을 가리키는 AI 용어. "instead of hallucinating an answer"</td></tr><tr><td><strong>routing</strong></td><td>(호출을 올바른 곳으로) 라우팅·연결하는 것 · 모델이 알맞은 도구를 선택해 호출하는지를 가리킴. "shows correct routing, a wrong call"</td></tr><tr><td><strong>validation layer</strong></td><td>검증 계층 · 의도와 실행 사이에서 잘못된 호출을 걸러내는 안전장치. "and the validation layer that must sit"</td></tr><tr><td><strong>sit between</strong></td><td>~사이에 위치하다 · 검증 계층이 의도와 실행 사이를 지키고 있음을 표현하는 구동사. "sit between intent and execution"</td></tr><tr><td><strong>x402</strong></td><td>HTTP 402 기반 에이전트 결제 프로토콜(an agent-payments protocol) · 함수 호출이 실제 결제 행동으로 이어지는 대표 사례로 언급됨. "the primitive under agents, MCP and x402"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-constitutional-ai.html">&larr; 214. Constitutional AI — alignment from written principles, not just raters</a><a href="pocs-llm-agentic-react.html">216. Agentic loops — ReAct, and the cost of letting a model iterate &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-constitutional-ai.html">&larr; 218. Constitutional AI — alignment from written principles, not just raters</a><a href="pocs-llm-agentic-react.html">220. Agentic loops — ReAct, and the cost of letting a model iterate &rarr;</a></div>
   </div>
   </main>
 </div>

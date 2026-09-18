@@ -10,3 +10,5 @@
 | compensation | 보상 처리, 원상복구 절차 · 실패 시 이전 상태로 되돌리는 처리. "transitions, retries, compensation, escalation" |
 | grant oneself | 스스로에게 (권한을) 부여하다 · 에이전트가 자기 권한을 임의로 늘리는 것을 경계할 때. "cannot silently... grant themselves more authority" |
 | durable orchestrator | 지속성 있는 오케스트레이터(실행 관리자) · 상태 전이와 재시도를 책임지는 중앙 실행 주체. "a durable orchestrator owns transitions and retries" |
+| AX | 에이전트 경험/도입 체계(Agent Experience) · 텍스트에 정의 없이 등장하는 약어, 이 카드에서 조직이 AI 에이전트를 도입하는 단위를 가리킴. "the unit of AX is a governed workflow" |
+<!-- acronyms 2026-09-18 -->

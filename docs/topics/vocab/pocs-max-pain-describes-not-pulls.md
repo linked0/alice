@@ -10,3 +10,8 @@
 | dominated by | ~에 의해 좌우되다 · 소수 요인이 전체 결과를 지배할 때. "dominated by the strikes with the largest interest" |
 | notional | (파생상품의) 명목 금액 · 실제 결제액이 아니라 계약 기준 금액을 말할 때. "$14.7 billion notional" |
 | just met its condition | 방금 그 조건을 충족했다 · 미리 세운 검증 기준이 실제로 성립했을 때. "This one just met its condition" |
+| IBIT | 블랙록의 비트코인 현물 ETF 티커(iShares Bitcoin Trust) · 옵션 만기 데이터의 기초자산으로 언급되는 상장 상품. "IBIT's 2026-09-18 option expiry had max pain" |
+| Deribit | 암호화폐 옵션·선물 전문 거래소(Deribit) · 노셔널·풋콜비율 같은 만기 데이터의 출처가 되는 주요 거래소. "the Deribit quarterly expiry of 2026-09-25" |
+| put-call | 풋콜비율(put-call ratio) · 풋옵션 대 콜옵션 미결제약정 비율, 포지셔닝의 방향성을 가늠하는 지표. "186,000 contracts, put-call 0.52" |
+| open interest | 미결제약정(open interest) · 아직 청산되지 않은 옵션 계약 수량, 맥스페인 계산의 입력값. "call open interest at K" |
+<!-- acronyms 2026-09-18 -->

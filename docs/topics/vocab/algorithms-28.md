@@ -7,3 +7,6 @@
 | diverge from | ~와 어긋나다, 갈라지다 · 두 설계가 어느 지점에서 달라지는지 볼 때. "diverge from WASM's sandbox model" |
 | raise (a trap) | 예외나 트랩을 발생시키다 · 잘못된 접근 시 런타임이 오류를 일으킬 때. "what trap the runtime raises when you attempt a load" |
 | overlap with | ~와 겹치다, 공통되다 · 두 설계의 공통 지점을 확인할 때. "worth comparing where the EVM's determinism and gas-metering" |
+| WAT | WebAssembly 텍스트 포맷(WebAssembly Text format) · WASM 바이트코드를 사람이 읽을 수 있게 표현한 형식. "compile a simple function into WAT, read" |
+| stack smashing | 스택 스매싱(콜스택을 덮어써 실행 흐름을 탈취하는 고전적 공격 기법) · WASM 구조상 원천적으로 불가능함을 설명할 때. "classic stack smashing or jumping to an arbitrary" |
+<!-- acronyms 2026-09-18 -->

@@ -7,3 +7,7 @@
 | out of good faith | 선의에 기대어, 선의만으로 · 신뢰를 도덕이 아니라 구조로 설계해야 한다는 문맥 · "not something you can count on out of good faith" |
 | one-shot | 일회성의, 단발성의 · 반복되지 않는 단 한 번의 상호작용을 가리킴 · "The moment a relationship becomes one-shot" |
 | discount factor | 할인율(미래 가치를 현재 가치로 환산하는 계수) · 게임이 계속될 확률로도 해석됨 · "The key variable is the discount factor" |
+| Folk theorem | 포크 정리 · 할인율이 1에 가까워지면 개인합리성을 만족하는 거의 모든 보수 조합이 균형으로 지지된다는 반복게임 정리. "The folk theorem states that as the discount factor approaches 1" |
+| Grim trigger | 그림 트리거 전략 · 상대가 한 번이라도 배신하면 이후 영원히 비협조로 전환하는 반복게임 전략. "Strategies like grim trigger and tit-for-tat" |
+| Tit-for-tat | 팃포탯 전략 · 상대의 직전 행동을 그대로 따라 하는 반복게임 전략(협조엔 협조, 배신엔 배신). "grim trigger and tit-for-tat turn this comparison" |
+<!-- acronyms 2026-09-18 -->

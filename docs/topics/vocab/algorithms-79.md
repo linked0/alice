@@ -7,3 +7,5 @@
 | take down | (서버 등을) 다운시키다·마비시키다 · 몰린 요청이 원본 서버를 멈추게 하는 상황. "can momentarily take the origin down" |
 | exposed load | (캐시가 사라져) 그대로 노출된 부하 · 백엔드가 감당 못 하는 트래픽을 가리킴. "the backend collapsing under the exposed load" |
 | acceptable staleness | 허용 가능한 데이터 지연(오래됨) 정도 · 캐시 전략을 고르기 전에 먼저 정의해야 하는 기준. "how much staleness is acceptable" |
+| TTL | 생존 시간(Time To Live) · 캐시 정책 중 만료 시간 기반 방식을 가리킴. "policies broadly split into expiration-based (TTL)" |
+<!-- acronyms 2026-09-18 -->

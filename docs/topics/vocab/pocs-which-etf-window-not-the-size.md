@@ -9,3 +9,9 @@
 | print (동사, 수치가) | (수치·지표가) 찍혀 나오다, 발표되다 · ETF 자금 흐름 수치가 공개될 때. "When an ETF flow number prints" |
 | turn the same way | (지표가) 같은 방향으로 함께 움직이다 · 진짜 수요 약세로 판단하는 조건. "the low-fee net turning the same way" |
 | too small to call | ~라고 단정하기엔 너무 작은 · 하루치 유출을 추세 반전으로 보기엔 미미하다는 뜻. "too small to call a reversal" |
+| ETHA | 블랙록의 현물 이더리움 ETF 티커(iShares Ethereum Trust) · 저비용 신규자금 펀드의 대표 사례. "BlackRock ETHA was exactly zero" |
+| FETH | 피델리티의 현물 이더리움 ETF 티커(Fidelity Ethereum Fund) · 저비용 펀드 쪽에서 순유입을 보인 사례. "Fidelity FETH took +$9.89M" |
+| Grayscale | 고수수료 레거시 크립토 신탁 운용사(Grayscale) · 이번 유출이 집중된 곳으로 지목됨. "The outflow was Grayscale-concentrated" |
+| BlackRock | 세계 최대 자산운용사(BlackRock) · ETHA를 운용하는 발행사. "BlackRock ETHA was exactly zero" |
+| Farside | ETF 자금 흐름 데이터를 집계하는 사이트(Farside) · 발표 수치를 검증하는 출처로 언급. "Confirm daily flow figures against Farside / issuer data" |
+<!-- acronyms 2026-09-18 -->

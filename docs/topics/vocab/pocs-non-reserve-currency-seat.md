@@ -10,3 +10,9 @@
 | sits with | ~에게 있다, ~가 떠안다 · 책임이나 위험의 소재를 말할 때. "Settlement risk sits with" |
 | framed ... as | ~로 규정하다, ~라고 표현하다 · 특정 관점으로 의미를 부여할 때. "framed participation as standard-setting rather than as membership" |
 | worth taking seriously | 진지하게 받아들일 가치가 있다 · 가볍게 넘길 수 없는 논점을 말할 때. "the part worth taking seriously" |
+| BIS | 국제결제은행(Bank for International Settlements) · Agorá 프로젝트를 주도하는 중앙은행간 협력 기구. "Project Agorá is BIS-led, not Korean and not American" |
+| CBDC | 중앙은행 디지털화폐(Central Bank Digital Currency) · 한국이 별도로 진행 중인 자체 디지털화폐 실험을 가리킬 때. "Korea's separate domestic CBDC and tokenised-deposit work" |
+| IMF | 국제통화기금(International Monetary Fund) · 어떤 통화가 준비통화인지 공식 분류하는 근거 기관으로 언급. "the IMF's own reserve-currency classification" |
+| FX | 외환(foreign exchange) · 통화 환전을 가리키는 금융 용어, 원화가 1급 결제 자산이 될 때의 조건과 대비됨. "the FX conversion is a choice, not a requirement" |
+| Institute of International Finance | 국제금융협회 · 민간 금융회사들이 이 기구를 통해 Agorá 프로젝트에 참여. "private financial firms convened through the Institute of International Finance" |
+<!-- acronyms 2026-09-18 -->

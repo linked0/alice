@@ -10,3 +10,7 @@
 | skip oversight | 감독 절차를 건너뛰다 · 경쟁 압박 때문에 검토 단계를 생략하는 것. "makes a lab skip oversight steps" |
 | legible | (구조·의도가) 명확히 읽히는·파악 가능한 · 복잡한 상황을 구분해서 이해할 수 있게 만들 때. "keep the two structures legible" |
 | adjudicate | 판정하다·시비를 가리다 · 논쟁적인 주장의 옳고 그름을 최종 결론짓는 행위. "does not adjudicate the object-level question" |
+| WSJ | 월스트리트저널(Wall Street Journal) · 이 사건의 최초 특종을 보도한 매체, 게시물 타이밍의 기준점이 됨. "reported minutes after a WSJ exclusive" |
+| IPO | 기업공개(Initial Public Offering) · 베스팅·지분 인센티브 논란과 함께 언급되는 상장 관련 맥락. "vesting/IPO incentives" |
+| Axios | 액시오스 · 이 사건을 검증할 1차 출처로 언급되는 미국 뉴스 매체. "against primary sources (WSJ, Axios, the original posts" |
+<!-- acronyms 2026-09-18 -->

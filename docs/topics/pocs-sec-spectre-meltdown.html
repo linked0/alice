@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Spectre and Meltdown — the CPU leaks through speculation</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#190</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#194</span><span>PoC</span></p>
       <h1>Spectre and Meltdown — the CPU leaks through speculation</h1>
       <p class="lead">Spectre and Meltdown showed that speculative execution — a performance feature in every modern CPU — leaves timing traces that leak memory across security boundaries in hardware.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Devnet: treat Spectre/Meltdown mitigation as a Cloud Run host assumption, not something Jayverse patches.</strong> Note in infra docs that node isolation for Devnet/Anvil relies on the cloud provider&#39;s speculative-execution mitigations.</li><li><strong>Auditor: add "architectural, not a bug" as a category in security write-ups.</strong> When documenting what was checked and by which rule, distinguish a hardware-level side channel like this from an application-level vulnerability the team actually controls.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>speculative execution</strong></td><td>추측 실행(미리 예측해서 먼저 실행하는 CPU 기법) · "speculative execution — a performance feature in every modern CPU"</td></tr><tr><td><strong>leave traces</strong></td><td>흔적을 남기다 · "leaves timing traces that leak memory"</td></tr><tr><td><strong>side channel</strong></td><td>부채널(정상 경로가 아닌 우회 유출 통로) · "the cache-timing side channel"</td></tr><tr><td><strong>leak across</strong></td><td>경계를 넘어 새어나가다 · "leak memory across security boundaries in hardware"</td></tr><tr><td><strong>architectural, not a bug</strong></td><td>버그가 아니라 설계 자체의 문제 · "some vulnerabilities are architectural, not bugs"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Devnet: Spectre/Meltdown 완화는 Jayverse가 패치하는 게 아니라 Cloud Run 호스트의 전제로 다룬다.</strong> Devnet/Anvil의 노드 격리가 클라우드 제공자의 추측 실행 완화에 의존한다는 것을 인프라 문서에 적어둔다.</li><li><strong>Auditor: 보안 문서에 "아키텍처적 문제, 버그 아님" 카테고리를 추가한다.</strong> 무엇을 어떤 규칙으로 확인했는지 적을 때, 이런 하드웨어 수준 사이드채널과 팀이 실제로 통제하는 애플리케이션 수준 취약점을 구분한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>speculative execution</strong></td><td>추측 실행(미리 예측해서 먼저 실행하는 CPU 기법) · "speculative execution — a performance feature in every modern CPU"</td></tr><tr><td><strong>leave traces</strong></td><td>흔적을 남기다 · "leaves timing traces that leak memory"</td></tr><tr><td><strong>side channel</strong></td><td>부채널(정상 경로가 아닌 우회 유출 통로) · "the cache-timing side channel"</td></tr><tr><td><strong>leak across</strong></td><td>경계를 넘어 새어나가다 · "leak memory across security boundaries in hardware"</td></tr><tr><td><strong>architectural, not a bug</strong></td><td>버그가 아니라 설계 자체의 문제 · "some vulnerabilities are architectural, not bugs"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-solarwinds.html">&larr; 189. SolarWinds — compromising the build server, not the code</a><a href="pocs-sec-sql-injection.html">191. SQL injection — the oldest bug that still tops the charts &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-solarwinds.html">&larr; 193. SolarWinds — compromising the build server, not the code</a><a href="pocs-sec-sql-injection.html">195. SQL injection — the oldest bug that still tops the charts &rarr;</a></div>
   </div>
   </main>
 </div>

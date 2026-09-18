@@ -10,3 +10,6 @@
 | price (동사, 위험을) | (위험·비용을) 값으로 따져보다, 계산에 넣다 · 아무도 고려하지 않는 비용을 지적할 때. "The cost nobody prices" |
 | mental model | 머릿속에 박힌 사고방식·전제 · 더 이상 통하지 않는 관행적 가정을 가리킬 때. "the usual replace-by-fee mental model" |
 | gotcha | 예상치 못한 함정, 문제점 · 가장 까다로운 부분을 짚을 때. "Cancellation is the sharpest gotcha" |
+| MEV | 최대추출가능가치(Maximal Extractable Value) · 공개 멤풀 노출로 발생하는 프론트러닝 등 위험을 가리킴. "MEV-protected RPCs avoid broadcasting a transaction" |
+| Flashbots Protect | MEV 보호 기능을 제공하는 프라이빗 트랜잭션 전송 서비스 · 공개 멤풀을 우회해 제출하는 대표적 프로바이더. "equivalent small swaps through a public endpoint and Flashbots Protect" |
+<!-- acronyms 2026-09-18 -->

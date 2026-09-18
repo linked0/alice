@@ -9,3 +9,8 @@
 | operational bill | 운영 비용 청구서 · 실제 운영에 드는 총비용. "the operational bill" |
 | determinism tax | 결정성을 지키기 위해 치러야 하는 대가 · 코드 작성 방식에 붙는 제약 비용. "the determinism tax on the code" |
 | hand-build | 직접 수작업으로 구축하다 · 플랫폼 없이 처음부터 만든다는 뜻. "you would otherwise hand-build" |
+| Inngest | 내구성 있는 실행을 지원하는 경량 서버리스 워크플로 플랫폼(Inngest) · Temporal보다 가벼운 소규모 백엔드용 대안으로 언급. "Inngest (lighter for small backends), Restate" |
+| Restate | 이벤트 기반의 또 다른 내구성 실행 런타임(Restate) · Temporal과 비교되는 대안 목록에 포함. "Restate, and the hand-rolled cron + state table" |
+| activity (Temporal) | 워크플로 밖에서 실행되는 비결정적 작업 단위(activity) · 외부 호출·시계·난수 등 부작용을 격리해 기록·재생하는 개념. "those move into 'activities' that are recorded and replayed" |
+| event history | 워크플로 상태 대신 저장되는 이벤트 기록(event history) · 재생 비용을 좌우하는 저장 단위. "event-history size grows replay cost" |
+<!-- acronyms 2026-09-18 -->

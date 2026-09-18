@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Bug bounty platforms — pricing a vulnerability before an attacker does</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#198</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#202</span><span>PoC</span></p>
       <h1>Bug bounty platforms — pricing a vulnerability before an attacker does</h1>
       <p class="lead">Immunefi, HackerOne and code contests (Code4rena, Sherlock) create a legal market for finding bugs, and the payout size is a live signal of what a given exploit is actually worth.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>legal market</strong></td><td>합법적인 시장 · 해커의 취약점 발견 행위를 불법이 아닌 정식 거래로 만든 구조. "create a legal market for finding bugs"</td></tr><tr><td><strong>payout tiers</strong></td><td>보상 등급·지급 단계 · 취약점 심각도에 따라 나뉜 포상금 구간. "real disclosed reports and payout tiers"</td></tr><tr><td><strong>disclosed reports</strong></td><td>공개된 보고서·공개 제보 내역 · 실제로 세상에 알려진 취약점 신고 사례. "studies real disclosed reports and payout tiers"</td></tr><tr><td><strong>frame (as)</strong></td><td>~로 규정짓다·틀 짓다 · 어떤 현상을 특정 개념으로 해석해 설명할 때. "framing the bounty as a market that prices security"</td></tr><tr><td><strong>live signal</strong></td><td>실시간 신호·살아있는 지표 · 시장에서 바로바로 반영되는 가치 판단 신호. "the payout size is a live signal of what a given exploit is actually worth"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: budget a scoped bounty or a Code4rena-style contest as a second check before Verex or DeFi contracts move past devnet toward anything real-money.</strong> Size the payout tier against actual TVL at risk, not a flat number.</li><li><strong>Verex/DeFi: use disclosed payout tiers from Immunefi-type reports as a rough external price for the bug classes most relevant here.</strong> Oracle manipulation, signature replay, invariant breaks — when deciding how much internal review time those categories deserve.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>legal market</strong></td><td>합법적인 시장 · 해커의 취약점 발견 행위를 불법이 아닌 정식 거래로 만든 구조. "create a legal market for finding bugs"</td></tr><tr><td><strong>payout tiers</strong></td><td>보상 등급·지급 단계 · 취약점 심각도에 따라 나뉜 포상금 구간. "real disclosed reports and payout tiers"</td></tr><tr><td><strong>disclosed reports</strong></td><td>공개된 보고서·공개 제보 내역 · 실제로 세상에 알려진 취약점 신고 사례. "studies real disclosed reports and payout tiers"</td></tr><tr><td><strong>frame (as)</strong></td><td>~로 규정짓다·틀 짓다 · 어떤 현상을 특정 개념으로 해석해 설명할 때. "framing the bounty as a market that prices security"</td></tr><tr><td><strong>live signal</strong></td><td>실시간 신호·살아있는 지표 · 시장에서 바로바로 반영되는 가치 판단 신호. "the payout size is a live signal of what a given exploit is actually worth"</td></tr><tr><td><strong>Immunefi</strong></td><td>이뮨파이 · 스마트컨트랙트 취약점 신고 시 대형 포상금으로 유명한 대표 버그바운티 플랫폼. "Immunefi, HackerOne and code contests"</td></tr><tr><td><strong>HackerOne</strong></td><td>해커원 · 다양한 산업의 버그바운티·취약점 신고를 중개하는 대표 플랫폼. "Immunefi, HackerOne and code contests (Code4rena, Sherlock)"</td></tr><tr><td><strong>Code4rena / Sherlock</strong></td><td>코드포리나 / 셜록 · 정해진 기간 동안 여러 감사자가 경쟁적으로 코드를 검토하는 컨테스트형 스마트컨트랙트 감사 플랫폼. "code contests (Code4rena, Sherlock) create a legal market"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>legal market</strong></td><td>합법적인 시장 · 해커의 취약점 발견 행위를 불법이 아닌 정식 거래로 만든 구조. "create a legal market for finding bugs"</td></tr><tr><td><strong>payout tiers</strong></td><td>보상 등급·지급 단계 · 취약점 심각도에 따라 나뉜 포상금 구간. "real disclosed reports and payout tiers"</td></tr><tr><td><strong>disclosed reports</strong></td><td>공개된 보고서·공개 제보 내역 · 실제로 세상에 알려진 취약점 신고 사례. "studies real disclosed reports and payout tiers"</td></tr><tr><td><strong>frame (as)</strong></td><td>~로 규정짓다·틀 짓다 · 어떤 현상을 특정 개념으로 해석해 설명할 때. "framing the bounty as a market that prices security"</td></tr><tr><td><strong>live signal</strong></td><td>실시간 신호·살아있는 지표 · 시장에서 바로바로 반영되는 가치 판단 신호. "the payout size is a live signal of what a given exploit is actually worth"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: Verex나 DeFi 컨트랙트가 devnet을 넘어 실제 자금을 다루는 단계로 가기 전, 범위가 정해진 바운티나 Code4rena식 컨테스트를 2차 점검으로 예산에 넣는다.</strong> 지급 등급은 정액이 아니라 실제 위험에 노출된 TVL에 맞춰 산정한다.</li><li><strong>Verex/DeFi: Immunefi류 보고서의 공개된 지급 등급을, 여기서 가장 관련 있는 버그 유형(오라클 조작, 서명 재생, 불변식 붕괴)의 대략적인 외부 가격으로 참고한다.</strong> 그 유형들에 내부 리뷰 시간을 얼마나 들일지 정할 때 쓴다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>legal market</strong></td><td>합법적인 시장 · 해커의 취약점 발견 행위를 불법이 아닌 정식 거래로 만든 구조. "create a legal market for finding bugs"</td></tr><tr><td><strong>payout tiers</strong></td><td>보상 등급·지급 단계 · 취약점 심각도에 따라 나뉜 포상금 구간. "real disclosed reports and payout tiers"</td></tr><tr><td><strong>disclosed reports</strong></td><td>공개된 보고서·공개 제보 내역 · 실제로 세상에 알려진 취약점 신고 사례. "studies real disclosed reports and payout tiers"</td></tr><tr><td><strong>frame (as)</strong></td><td>~로 규정짓다·틀 짓다 · 어떤 현상을 특정 개념으로 해석해 설명할 때. "framing the bounty as a market that prices security"</td></tr><tr><td><strong>live signal</strong></td><td>실시간 신호·살아있는 지표 · 시장에서 바로바로 반영되는 가치 판단 신호. "the payout size is a live signal of what a given exploit is actually worth"</td></tr><tr><td><strong>Immunefi</strong></td><td>이뮨파이 · 스마트컨트랙트 취약점 신고 시 대형 포상금으로 유명한 대표 버그바운티 플랫폼. "Immunefi, HackerOne and code contests"</td></tr><tr><td><strong>HackerOne</strong></td><td>해커원 · 다양한 산업의 버그바운티·취약점 신고를 중개하는 대표 플랫폼. "Immunefi, HackerOne and code contests (Code4rena, Sherlock)"</td></tr><tr><td><strong>Code4rena / Sherlock</strong></td><td>코드포리나 / 셜록 · 정해진 기간 동안 여러 감사자가 경쟁적으로 코드를 검토하는 컨테스트형 스마트컨트랙트 감사 플랫폼. "code contests (Code4rena, Sherlock) create a legal market"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-static-analysis.html">&larr; 197. Static analysis — Slither and Semgrep read the code you skimmed</a><a href="pocs-sec-cve-zeroday.html">199. CVE, NVD and the zero-day — the clock between discovery and patch &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-static-analysis.html">&larr; 201. Static analysis — Slither and Semgrep read the code you skimmed</a><a href="pocs-sec-cve-zeroday.html">203. CVE, NVD and the zero-day — the clock between discovery and patch &rarr;</a></div>
   </div>
   </main>
 </div>

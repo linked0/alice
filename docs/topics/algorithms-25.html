@@ -398,7 +398,11 @@ print(f&quot;레지스터 머신 결과={register_result}, 명령 수={len(regis
       <p>Pick a simple arithmetic expression, hand-translate it into both a stack-machine instruction sequence and a three-address register instruction sequence, then check what opcode sequence the same expression actually produces in solc's output bytecode.</p>
       <h2>Practical Connection</h2>
       <p>When optimizing a Solidity contract for gas, judging where stack-too-deep errors or unnecessary DUP/SWAP and memory round-trips come from requires exactly this understanding of the model difference.</p>
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h2>Where it lands in Jayverse</h2>
+<ul><li><strong>Verex: audit the CLOB matching loop for stack-machine overhead.</strong> Check for stack-too-deep errors and excess DUP/SWAP specifically in the hot matching and settlement path, since that&#39;s where this tradeoff turns into real gas cost.</li><li><strong>CI: add a gas-regression check on matching/settlement functions.</strong> Track compiled bytecode gas for those specific functions across commits, not just overall contract size.</li><li><strong>DeFi: minimize intermediate values in jayverse-defi&#39;s own math.</strong> For the from-scratch liquid-staking algorithms, prefer fewer live locals to reduce stack pressure, informed by this stack-vs-register model.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>operand</strong></td><td>연산 대상, 피연산자 · "A register machine names operands explicitly"</td></tr><tr><td><strong>stack-shuffling</strong></td><td>스택 안에서 값을 이리저리 옮기는 작업 · "adds stack-shuffling operations like DUP and SWAP"</td></tr><tr><td><strong>encoding (instruction)</strong></td><td>명령어를 표현·부호화하는 방식 · "short instruction encodings"</td></tr><tr><td><strong>prioritize X over Y</strong></td><td>Y보다 X를 우선시하다 · "over raw performance"</td></tr><tr><td><strong>fight over gas</strong></td><td>가스비를 두고 다투다·고민하다 · "read EVM bytecode or fight over gas"</td></tr><tr><td><strong>compile AOT/JIT into</strong></td><td>~로 사전 컴파일하거나 즉시 컴파일하다 · "compile AOT/JIT into native register code"</td></tr><tr><td><strong>stack-too-deep</strong></td><td>스택이 너무 깊어져 나는 오류 · "stack-too-deep errors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
@@ -460,7 +464,11 @@ print(f&quot;레지스터 머신 결과={register_result}, 명령 수={len(regis
       <p>간단한 산술식 하나를 골라 스택 머신 명령열과 3-주소 레지스터 명령열로 각각 손으로 번역한 뒤, 실제 solc 출력 바이트코드에서 같은 식이 어떤 opcode 열로 나오는지 대조하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Solidity 컨트랙트를 가스 기준으로 최적화할 때 스택 깊이 초과 오류나 불필요한 DUP/SWAP·메모리 왕복이 어디서 생기는지 판단하려면 이 모델 차이가 바로 필요하다.</p>
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h2>Jayverse에서의 위치</h2>
+<ul><li><strong>Verex: CLOB 매칭 루프에서 스택 머신 오버헤드를 점검한다.</strong> 이 트레이드오프가 실제 가스 비용으로 나타나는 지점인 매칭·정산 핫 패스에서 특히 stack-too-deep 오류와 과도한 DUP/SWAP을 확인한다.</li><li><strong>CI: 매칭·정산 함수에 가스 회귀 체크를 추가한다.</strong> 전체 컨트랙트 크기가 아니라 이 특정 함수들의 컴파일된 바이트코드 가스를 커밋마다 추적한다.</li><li><strong>DeFi: jayverse-defi 자체 수식에서 중간값을 최소화한다.</strong> 처음부터 만든 리퀴드 스테이킹 알고리즘에서, 이 스택 대 레지스터 모델을 참고해 살아있는 로컬 변수 수를 줄여 스택 압력을 낮춘다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>operand</strong></td><td>연산 대상, 피연산자 · "A register machine names operands explicitly"</td></tr><tr><td><strong>stack-shuffling</strong></td><td>스택 안에서 값을 이리저리 옮기는 작업 · "adds stack-shuffling operations like DUP and SWAP"</td></tr><tr><td><strong>encoding (instruction)</strong></td><td>명령어를 표현·부호화하는 방식 · "short instruction encodings"</td></tr><tr><td><strong>prioritize X over Y</strong></td><td>Y보다 X를 우선시하다 · "over raw performance"</td></tr><tr><td><strong>fight over gas</strong></td><td>가스비를 두고 다투다·고민하다 · "read EVM bytecode or fight over gas"</td></tr><tr><td><strong>compile AOT/JIT into</strong></td><td>~로 사전 컴파일하거나 즉시 컴파일하다 · "compile AOT/JIT into native register code"</td></tr><tr><td><strong>stack-too-deep</strong></td><td>스택이 너무 깊어져 나는 오류 · "stack-too-deep errors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>

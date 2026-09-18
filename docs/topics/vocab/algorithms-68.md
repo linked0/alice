@@ -7,3 +7,9 @@
 | sacrifice (동사) | (안전성·생존성을) 희생시키다, 포기하다 · 트레이드오프에서 어느 속성을 내주는지 가리킴. "what safety or liveness gets sacrificed" |
 | known result | 이미 증명된 사실, 정설 · 학계에서 입증되어 통용되는 결론을 가리킴. "it's a known result that deterministic consensus is impossible" |
 | carry (a failure model) | (장애 모델·신뢰 수준을) 지니다, 내포하다 · 시스템 구성요소마다 서로 다른 전제를 갖고 있음을 표현. "carrying a different failure model and trust level" |
+| crash-recovery | 정지 후 복구 장애 모델 · 노드가 멈췄다가 나중에 다시 살아나는 것을 가정하는 모델. "crash-recovery (it halts and later comes back)" |
+| omission | 메시지 누락 장애 모델 · 노드가 일부 메시지를 그냥 흘려버리는(전달 실패) 장애 유형. "omission (it drops messages)" |
+| Byzantine | 비잔틴(임의 고장, 악의적 행동) · 노드가 임의로 거짓말할 수 있다고 가정하는 가장 강한 장애 모델. "Byzantine (it can lie arbitrarily)" |
+| quorum | 정족수 · 결정을 내리기 위해 필요한 최소 노드 동의 수. "the required quorum size and cost both grow" |
+| liveness | 생존성 · 시스템이 결국 진전(응답)한다는 보장, 안전성(safety)과 짝을 이루는 속성. "what safety or liveness gets sacrificed" |
+<!-- acronyms 2026-09-18 -->

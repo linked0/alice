@@ -10,3 +10,10 @@
 | by construction | 구조상 당연히, 설계 자체로 인해 · 의도치 않아도 필연적으로 그렇게 되는 경우. "is, by construction, the one thing" |
 | consolidate onto | ~로 통합되다, ~에 집중되다 · 여러 기능이 한 계층으로 모일 때. "Consolidating interop onto one layer" |
 | perfectly correlated | 완전히 함께 움직이는(상관관계가 1인) · 하나가 무너지면 전부 같이 무너질 때. "perfectly correlated" |
+| DVN | 분산 검증자 네트워크(Decentralized Verifier Network) · LayerZero 메시지의 보안을 담당하는 검증 주체, 기본값을 쓰면 신뢰 결정을 떠넘기는 셈. "which DVNs actually secure each message" |
+| OApp | 옴니체인 애플리케이션 모델(Omnichain Application) · 여러 체인을 하나처럼 다루는 LayerZero의 앱 표준. "the OApp / omnichain model" |
+| IBC | 체인 간 통신 프로토콜(Inter-Blockchain Communication) · Cosmos 계열에서 쓰는 대안적 상호운용 경로. "CCIP, Wormhole, Hyperlane, IBC, or L1-native interop" |
+| CCIP | 크로스체인 상호운용성 프로토콜(Cross-Chain Interoperability Protocol) · LayerZero의 대안 경로로 언급된 Chainlink의 표준. "CCIP, Wormhole, Hyperlane, IBC, or L1-native interop" |
+| Wormhole | 크로스체인 브리지 프로토콜 · LayerZero와 비교 대상으로 언급된 대안적 메시징 네트워크. "CCIP, Wormhole, Hyperlane, IBC, or L1-native interop" |
+| Hyperlane | 퍼미션리스 크로스체인 메시징 프로토콜 · LayerZero와 비교 대상으로 언급된 또 다른 대안. "CCIP, Wormhole, Hyperlane, IBC, or L1-native interop" |
+<!-- acronyms 2026-09-18 -->

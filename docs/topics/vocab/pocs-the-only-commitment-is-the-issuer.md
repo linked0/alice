@@ -10,3 +10,5 @@
 | sort into columns | 항목을 분류해 나누다 · 이미 일어난 일과 앞으로 할 일을 구분해 정리할 때. "sort every clause into two columns" |
 | opposite half | 반대쪽 절반, 정반대의 몫 · 두 당사자가 서로 다른 부족한 부분을 채우는 거래 구조를 말할 때. "it is the opposite half a bank buys" |
 | position taken early | 미리 취해둔 입장, 선점 행보 · 아직 확정 안 된 계획을 미리 발표하는 것을 가리킬 때. "a position has been taken early" |
+| OUSD | Open Standard사가 발행하는 스테이블코인 이름 · 이번 파트너십에서 USDC 등 기존 강자 대신 채택이 검토되는 발행사로, 준비금·상환 통제권이 누구에게 가는지가 핵심 쟁점. "OUSD from Open Standard as the stablecoin under consideration" |
+<!-- acronyms 2026-09-18 -->

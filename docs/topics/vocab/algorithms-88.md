@@ -7,3 +7,5 @@
 | one-off | 한 번뿐인·일회성의 · 반복 없이 딱 한 번만 수행하는 연산에 적합할 때. "it suits one-off reductions" |
 | throughput | 처리량 · 단위 시간당 처리할 수 있는 연산의 양을 가리키는 성능 지표. "directly decides throughput and gas cost" |
 | precompute | 미리 계산해 두다 · 실행 전에 값을 구해놓아 나중 연산을 빠르게 하는 기법. "Barrett reduction precomputes an approximation" |
+| TAOCP | 도널드 크누스의 저서(The Art of Computer Programming) · 몽고메리·바렛 리덕션 등 이 카드가 참고하는 알고리즘 고전 교과서. "Montgomery and Barrett Reduction (TAOCP Vol. 2)" |
+<!-- acronyms 2026-09-18 -->

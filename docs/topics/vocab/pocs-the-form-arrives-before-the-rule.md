@@ -10,3 +10,10 @@
 | ajar | 살짝 열린 · 완전히 닫히지 않고 여지가 남아 있는 상태. "the foreign-issuer door is still ajar" |
 | split along the border | 경계선을 따라 나누다 · 규제 구분에 맞춰 회사를 분할할 때. "Split the company along the border" |
 | consolidate onto | (하나로) 집중되다, 몰리다 · 시장 참여자들이 특정 소수에게 쏠릴 때. "which audit firms the market will consolidate onto" |
+| CUSIP | 미국 증권 식별 코드(CUSIP) · 개별 증권을 구분하는 식별번호, 준비금 구성 보고의 세분화 단위. "A form demanding monthly reserve composition at CUSIP granularity" |
+| GENIUS Act | 미국 스테이블코인 규제법(GENIUS Act) · 발행자 인가 체계를 정하는 연방법, 2027-01-18 또는 최종 규칙 후 120일 시행. "GENIUS takes effect 2027-01-18 or 120 days after" |
+| OCC | 미국 통화감독청(Office of the Comptroller of the Currency) · 연방 인가 은행·신탁을 감독하는 기관, 이 회보의 발행처. "OCC Bulletin 2026-24 publishes reporting forms for GENIUS-era stablecoin issuers" |
+| SLA | 서비스수준협약(Service-Level Agreement) · 상환 절차가 지켜야 할 처리 기준·기한을 가리킬 때. "the redemption desk's SLA, written as a report" |
+| USAT | 테더가 앵커리지를 통해 발행한 미국 국내용 스테이블코인 · GENIUS 체제에 맞춰 테더가 분할한 국내 발행 트랙. "(USAT via Anchorage) while Treasury's reciprocity determination stays unissued" |
+| Anchorage | 앵커리지 디지털 · 테더의 USAT 발행을 대행하는 미국 연방인가 신탁회사(커스터디언). "domestic issue (USAT via Anchorage) while Treasury's reciprocity" |
+<!-- acronyms 2026-09-18 -->

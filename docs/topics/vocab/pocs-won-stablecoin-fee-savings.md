@@ -10,3 +10,9 @@
 | funded out of | ~에서 자금이 충당되다 · 특정 재원에서 비용을 지불할 때. "rewards funded out of that fee" |
 | spillover | (영향이) 번져나가는 것, 전이 · 한 자산의 변동성이 다른 자산으로 옮겨갈 때. "volatility spillover" |
 | erosion | 서서히 깎여나감, 잠식 · 수익이나 기반이 점진적으로 줄어드는 것. "that erosion would show up before general retail" |
+| FX | 외환(Foreign Exchange) · 스테이블코인과 다른 자산 간 환변동성 연계를 다룰 때. "stablecoin↔FX is moderate (avg ~4%, max ~8–10%)" |
+| KOSPI | 한국종합주가지수(Korea Composite Stock Price Index) · 변동성 연계성 분석에 포함된 한국 주가지수. "USDT, USDC, BTC, KRW/USD, KOSPI, and the 3Y KTB rate" |
+| KTB | 한국 국고채(Korea Treasury Bond) · 3년물 국채 금리를 연계성 분석 변수로 사용. "the 3Y KTB rate" |
+| MiCA | EU 가상자산시장 규제(Markets in Crypto-Assets) · '유의 스테이블코인' 지정 방식의 모델로 언급. "a 'significant stablecoin' designation (MiCA-style)" |
+| NABO | 국회예산정책처(National Assembly Budget Office) · 이 절감액 추정 보고서를 작성한 한국 국회 산하 기관. "Confirm figures against the NABO report before citing" |
+<!-- acronyms 2026-09-18 -->

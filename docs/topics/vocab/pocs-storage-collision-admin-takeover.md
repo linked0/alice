@@ -10,3 +10,6 @@
 | go unnoticed | 눈치채지 못한 채 넘어가다 · 문제가 발견되지 않고 지나갈 때. "how long would an unauthorised admin change go unnoticed" |
 | repoint | 도구나 기법의 방향을 다시 맞추다 · 기존 기술을 다른 대상에 재적용할 때. "the work is mostly repointing it, not inventing it" |
 | procedurally (ordinary) | 절차상으로는 정상적인 · 겉보기에는 정상 절차를 따르는 공격을 말할 때. "they are, procedurally, ordinary" |
+| ENJ | 엔진코인 티커(Enjin Coin) · 이 사건에서 토큰 가격 하락 폭을 나타낼 때 쓰인 심볼. "ENJ down 6.39% to $0.02625, no statement from Enjin" |
+| SlowMist | 블록체인 보안 감사·위협 인텔리전스 업체 · 이 탈취 사건을 처음 보고한 보안사. "Source: SlowMist via X, and Digital Asset, 2026-08-26" |
+<!-- acronyms 2026-09-18 -->

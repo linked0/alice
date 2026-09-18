@@ -10,3 +10,10 @@
 | step change | 계단식 급변 · 점진적이 아니라 한 번에 크게 바뀌는 변화를 가리킬 때. "exposed to a step change nobody trades through" |
 | sit oddly beside | ~와 나란히 두면 어색하다·모순돼 보이다 · 두 주장이 논리적으로 안 맞을 때. "would sit oddly beside Coinbase restricting" |
 | net flow | 순유입·순유출 · 들어온 것과 나간 것을 합친 순수한 자금 흐름을 말할 때. "Net flow — rotation and withdrawal look identical" |
+| TGA | 미국 재무부 일반계정(Treasury General Account) · 재무부가 연준에 보유한 현금 잔고, 매크로 유동성 지표로 언급. "the Treasury General Account balance fall by more than X" |
+| SPCX | 비상장 SpaceX 주식을 추적하는 토큰화 상품 티커 · 공개 시세가 없어 정산 기준이 불투명한 사례로 제시됨. "the largest single instrument by weekly volume is SPCX" |
+| CNBC | 미국 경제·금융 전문 뉴스 채널 · 재무부 관련 보도의 출처로 인용됨. "CNBC reporting on 08-24" |
+| CryptoQuant | 온체인 데이터 분석 업체 · 이 카드가 인용한 거래량 수치의 출처. "a CryptoQuant insight by @CryptoOnchain" |
+| ETF | 상장지수펀드(Exchange-Traded Fund) · 자산 가격에 영향을 주는 자금 흐름 요인 중 하나로 언급. "ETF flows, leverage positioning and everything else" |
+| TradFi | 전통 금융(Traditional Finance) · 크립토와 대비되는 기존 금융시장을 가리키는 업계 용어. "7-day average TradFi volume $436.8M/day" |
+<!-- acronyms 2026-09-18 -->

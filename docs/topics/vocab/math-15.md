@@ -7,3 +7,5 @@
 | mutual expectation | 상호 기대(서로가 같은 것을 예상함) · 강제 없이도 유지되는 합의의 근거를 말할 때. "purely by mutual expectation" |
 | backed by | ~에 의해 뒷받침되다 · 어떤 주장이나 규칙의 근거를 말할 때. "aren't backed by enforced rules" |
 | shared knowledge | 모두가 안다는 사실을 서로 아는 것(공유 지식) · 조정 게임에서 균형 성립의 핵심 조건. "there must be shared knowledge that everyone else also recognizes" |
+| UMA | UMA 프로토콜(Universal Market Access) · 정직한 답이 셸링포인트라는 전제로 설계된 낙관적 오라클 프로토콜. "UMA-style optimistic oracles are built on the assumption" |
+<!-- acronyms 2026-09-18 -->

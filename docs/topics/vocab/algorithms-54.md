@@ -7,3 +7,5 @@
 | stale reads | 오래된(최신이 아닌) 값을 읽어오는 것 · "stale reads right after a leader change" |
 | show up one after another | 연달아 잇따라 나타나다 · "show up one after another" |
 | account for | (원인의 상당 부분을) 차지하다, 설명하다 · "these three account for most real incidents" |
+| ReadIndex | 커밋 인덱스를 기록하고 과반수 하트비트로 리더십을 확인한 뒤 읽는 선형성 읽기 기법 · "The standard fix for linearizable reads is ReadIndex" |
+<!-- acronyms 2026-09-18 -->

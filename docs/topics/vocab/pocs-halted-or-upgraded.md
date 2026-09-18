@@ -8,3 +8,5 @@
 | the vulnerable thing | 취약했던 대상(무엇이 뚫렸는지) · 패치 위치로 실제 취약점의 범위를 역추적할 때. "Then the vulnerable thing was" |
 | governance disclosure | 거버넌스(운영 권한) 노출·폭로 · 얼마나 빨리 누가 움직였는지가 권력 구조를 드러낸다는 뜻. "The speed is a governance disclosure" |
 | dispute | (공식적으로) 반박하다·이의를 제기하다 · 보도 내용을 부인하는 공식 성명을 가리키는 동사. "Injective disputes reports that its chain halted" |
+| Injective | 자체 L1 블록체인 프로젝트 이름(a Layer-1 blockchain) · 이 사고가 발생한 체인. "Injective disputes reports that its chain halted" |
+<!-- acronyms 2026-09-18 -->

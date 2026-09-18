@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>entity map</strong></td><td>개체(실체) 지도 · 익명 주소를 실제 주체(거래소, 기업 등)로 연결해 놓은 매핑. "only as good as its entity map"</td></tr><tr><td><strong>inherit</strong></td><td>(성질을) 물려받다 · 하위 지표가 상위 데이터의 정확도와 오류를 그대로 이어받을 때. "every on-chain metric downstream inherits the accuracy"</td></tr><tr><td><strong>propagate</strong></td><td>전파되다, 퍼져나가다 · 작은 오류가 뒤로 갈수록 점점 더 큰 결론의 오류로 번질 때. "how a wrong label propagates into a wrong conclusion"</td></tr><tr><td><strong>cluster (addresses)</strong></td><td>(주소들을) 군집화하다, 묶다 · 유사한 패턴을 가진 주소들을 하나의 실체로 묶어볼 때. "clusters addresses by heuristics"</td></tr><tr><td><strong>heuristics</strong></td><td>휴리스틱, 경험적 판단 규칙 · 정확한 증명 대신 경험 규칙으로 분류할 때. "funding source, interaction graph"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Number/Auditor: cite the address-labeling method behind any on-chain analytics Jayverse consumes or publishes.</strong> A wrong label propagates directly into a wrong conclusion, so whale-tracking or flow-analysis reads need their heuristic named, not assumed.</li><li><strong>Verex: record label confidence as a field wherever counterparty risk leans on address clustering.</strong> If wash-trading or counterparty detection ever uses entity labels, treat the label as a probabilistic field to store, not a fact to trust outright.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>entity map</strong></td><td>개체(실체) 지도 · 익명 주소를 실제 주체(거래소, 기업 등)로 연결해 놓은 매핑. "only as good as its entity map"</td></tr><tr><td><strong>inherit</strong></td><td>(성질을) 물려받다 · 하위 지표가 상위 데이터의 정확도와 오류를 그대로 이어받을 때. "every on-chain metric downstream inherits the accuracy"</td></tr><tr><td><strong>propagate</strong></td><td>전파되다, 퍼져나가다 · 작은 오류가 뒤로 갈수록 점점 더 큰 결론의 오류로 번질 때. "how a wrong label propagates into a wrong conclusion"</td></tr><tr><td><strong>cluster (addresses)</strong></td><td>(주소들을) 군집화하다, 묶다 · 유사한 패턴을 가진 주소들을 하나의 실체로 묶어볼 때. "clusters addresses by heuristics"</td></tr><tr><td><strong>heuristics</strong></td><td>휴리스틱, 경험적 판단 규칙 · 정확한 증명 대신 경험 규칙으로 분류할 때. "funding source, interaction graph"</td></tr><tr><td><strong>Nansen</strong></td><td>온체인 분석 플랫폼(Nansen) · 익명 주소를 알려진 실체(거래소, 펀드 등)로 라벨링해 지갑 행동을 추적하는 대표적 블록체인 분석 서비스. "Nansen and Arkham turn anonymous addresses into named entities"</td></tr><tr><td><strong>Arkham</strong></td><td>온체인 인텔리전스 플랫폼(Arkham Intelligence) · 주소-실체 매핑을 통해 자금 흐름을 추적하는 또 다른 대표적 블록체인 분석 서비스. "Nansen and Arkham turn anonymous addresses into named entities"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>entity map</strong></td><td>개체(실체) 지도 · 익명 주소를 실제 주체(거래소, 기업 등)로 연결해 놓은 매핑. "only as good as its entity map"</td></tr><tr><td><strong>inherit</strong></td><td>(성질을) 물려받다 · 하위 지표가 상위 데이터의 정확도와 오류를 그대로 이어받을 때. "every on-chain metric downstream inherits the accuracy"</td></tr><tr><td><strong>propagate</strong></td><td>전파되다, 퍼져나가다 · 작은 오류가 뒤로 갈수록 점점 더 큰 결론의 오류로 번질 때. "how a wrong label propagates into a wrong conclusion"</td></tr><tr><td><strong>cluster (addresses)</strong></td><td>(주소들을) 군집화하다, 묶다 · 유사한 패턴을 가진 주소들을 하나의 실체로 묶어볼 때. "clusters addresses by heuristics"</td></tr><tr><td><strong>heuristics</strong></td><td>휴리스틱, 경험적 판단 규칙 · 정확한 증명 대신 경험 규칙으로 분류할 때. "funding source, interaction graph"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Number/Auditor: Jayverse가 소비하거나 공개하는 온체인 분석의 주소 라벨링 방법을 명시한다.</strong> 잘못된 라벨은 그대로 잘못된 결론으로 이어지므로, 웨일 추적이나 자금 흐름 분석은 어떤 휴리스틱을 썼는지 밝혀야지 당연하게 가정해서는 안 된다.</li><li><strong>Verex: 상대방 리스크가 주소 클러스터링에 기댈 때는 라벨 신뢰도를 하나의 필드로 기록한다.</strong> 워시트레이딩이나 상대방 탐지에 엔티티 라벨을 쓴다면, 라벨을 그대로 믿을 사실이 아니라 저장해야 할 확률적 필드로 다룬다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>entity map</strong></td><td>개체(실체) 지도 · 익명 주소를 실제 주체(거래소, 기업 등)로 연결해 놓은 매핑. "only as good as its entity map"</td></tr><tr><td><strong>inherit</strong></td><td>(성질을) 물려받다 · 하위 지표가 상위 데이터의 정확도와 오류를 그대로 이어받을 때. "every on-chain metric downstream inherits the accuracy"</td></tr><tr><td><strong>propagate</strong></td><td>전파되다, 퍼져나가다 · 작은 오류가 뒤로 갈수록 점점 더 큰 결론의 오류로 번질 때. "how a wrong label propagates into a wrong conclusion"</td></tr><tr><td><strong>cluster (addresses)</strong></td><td>(주소들을) 군집화하다, 묶다 · 유사한 패턴을 가진 주소들을 하나의 실체로 묶어볼 때. "clusters addresses by heuristics"</td></tr><tr><td><strong>heuristics</strong></td><td>휴리스틱, 경험적 판단 규칙 · 정확한 증명 대신 경험 규칙으로 분류할 때. "funding source, interaction graph"</td></tr><tr><td><strong>Nansen</strong></td><td>온체인 분석 플랫폼(Nansen) · 익명 주소를 알려진 실체(거래소, 펀드 등)로 라벨링해 지갑 행동을 추적하는 대표적 블록체인 분석 서비스. "Nansen and Arkham turn anonymous addresses into named entities"</td></tr><tr><td><strong>Arkham</strong></td><td>온체인 인텔리전스 플랫폼(Arkham Intelligence) · 주소-실체 매핑을 통해 자금 흐름을 추적하는 또 다른 대표적 블록체인 분석 서비스. "Nansen and Arkham turn anonymous addresses into named entities"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

@@ -9,3 +9,7 @@
 | one-time authorization | 1회용 승인 · "Settlement consumes a one-time authorization" |
 | replay key | 재사용(재생) 방지 키 · "expiry, jurisdiction mode, and replay key" |
 | abstract ... behind | ~을 뒤로 감춰 단순화하다 · "Kora abstracts Solana fees behind a policy-aware signer" |
+| AML | 자금세탁방지(Anti-Money Laundering) · 한국 규제 검증 목록에 포함되는 컴플라이언스 영역. "AML, network-separation, tax, and sandbox treatment" |
+| AP2 | 에이전트 결제 프로토콜(Agent Payments Protocol) · 구글 클라우드의, 위임된 의도(mandate)를 암호학적으로 증명하는 프로토콜. "AP2 carries evidence of what the human authorized" |
+| VASP | 가상자산서비스제공자(Virtual Asset Service Provider) · 커스터디·송금업자 해당 여부를 가리는 한국 규제상 핵심 분류. "a regulated virtual-asset service provider" |
+<!-- acronyms 2026-09-18 -->

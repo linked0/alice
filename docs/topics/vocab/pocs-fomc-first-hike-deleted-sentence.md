@@ -10,3 +10,11 @@
 | one and done | 한 번으로 끝, 단발성 조치 · 추가 조치 없이 한 번만 하고 끝나는 상황. "the "one and done" default should not be assumed" |
 | meeting-grade | 이번 회의 수준의(장기 추세는 아닌) · 이번 결정만 판단하고 장기 흐름은 유보할 때. "Meeting-grade means: judge the meeting, defer the cycle" |
 | non-event | 별일 아닌 사건, 예상대로 지나간 이벤트 · 시장이 이미 반영해 실제로는 영향이 없었을 때. "was a non-event" |
+| FOMC | 연방공개시장위원회(Federal Open Market Committee) · 미 연준 산하 통화정책 결정 기구, 이번 금리 인상을 발표한 주체. "the FOMC raised the federal funds target by 25 basis points" |
+| basis point (bp) | 베이시스 포인트(1bp = 0.01%p) · 금리 변동폭을 나타내는 단위. "by 25 basis points to 3.75–4.00 percent" |
+| CPI | 소비자물가지수(Consumer Price Index) · 인플레이션을 측정하는 핵심 지표로 인용됨. "core CPI accelerating, core PCE 3.4" |
+| PCE | 개인소비지출 물가지수(Personal Consumption Expenditures) · 연준이 선호하는 인플레이션 지표. "Core PCE is projected at 3.4 percent for 2026" |
+| SEP | 경제전망요약표(Summary of Economic Projections) · 점도표가 담긴 연준의 공식 전망 자료. "the Summary of Economic Projections table" |
+| CME | 시카고상품거래소(Chicago Mercantile Exchange) · 향후 금리 인상 확률을 가격에 반영하는 선물 시장으로 인용. "CME futures put a second hike in October at about 51 percent" |
+| Clarity Act | 클래리티법(미 의회의 디지털자산 시장구조 관련 법안) · 상원 토론종결 표결이 부결된 법안으로 언급됨. "the Clarity Act failed cloture on 2026-09-15" |
+<!-- acronyms 2026-09-18 -->

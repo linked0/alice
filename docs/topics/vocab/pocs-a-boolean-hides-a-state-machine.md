@@ -9,3 +9,5 @@
 | witness (n.) | 상태가 맞다는 것을 보증해줄 근거·증인 · "each step names its witness" |
 | wearing one word | 여러 상태가 하나의 단어로 위장하고 있음 · "two or more states wearing one word" |
 | footnote | 부차적인 이야기, 각주 취급밖에 안 되는 것 · "this is a card and not a footnote" |
+| EntryPoint | ERC-4337 계정추상화의 핵심 컨트랙트 이름 · 번들러·페이마스터가 처리한 오퍼레이션을 최종 확정하는 컨트랙트. "bundler / paymaster, then EntryPoint" |
+<!-- acronyms 2026-09-18 -->

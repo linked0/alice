@@ -10,3 +10,9 @@
 | read end to end | 처음부터 끝까지 다 읽다 · 공시·보고서를 요약만 보지 않고 전문을 읽을 때. "an incident you can read end to end" |
 | sell ... to a wrench | (신체적 위협·강도에게) 정보를 팔아넘기는 꼴이 되다 · '$5 wrench attack' 농담에서 온 표현, 물류 유출의 위험을 말할 때. "selling your address to a wrench" |
 | kill the criterion | (판단 기준을) 무력화하다, 못 쓰게 만들다 · 어떤 사실이 기존 판단 기준을 무의미하게 만들 때. "kills the criterion most buyers actually use" |
+| RFC 6979 | 결정론적 논스 생성 표준(RFC 6979, Request for Comments) · 키와 메시지에서 논스를 결정론적으로 유도해 논스 재사용으로 인한 키 유출을 막는 서명 표준. "deterministic nonces (RFC 6979) or hedged determinism" |
+| PRNG | 소프트웨어 의사난수생성기(Pseudo-Random Number Generator) · 하드웨어 RNG 대신 소프트웨어로 난수를 생성해 엔트로피가 부족해지는 문제의 원인. "routed seed generation to a software PRNG" |
+| STM32 | ST마이크로일렉트로닉스의 마이크로컨트롤러 제품군, 여기서는 하드웨어 난수발생기를 가리킴 · Coldcard가 원래 썼어야 했던 하드웨어 RNG 칩. "instead of the STM32 hardware RNG" |
+| ShipMonk | Trezor의 주문처리(풀필먼트) 대행업체 · 이 업체가 침해당해 고객 배송 정보가 유출된 사건의 당사자. "Trezor's fulfilment partner ShipMonk was breached" |
+| hedged determinism | 혼합형 결정론적 서명 방식 · 순수 결정론 대신 무작위성을 일부 섞어 결함 공격에 더 안전하게 만든 논스 생성 방식. "hedged determinism deliberately mixes in fresh randomness" |
+<!-- acronyms 2026-09-18 -->

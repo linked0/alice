@@ -12,3 +12,7 @@
 | no-trade band | 거래해도 이익이 안 나는 구간 · "the width of the no-trade band" |
 | delta-neutral | 가격 방향에 노출이 없는 포지션 · "delta-neutral is not risk-neutral" |
 | readout of | ~을 보여주는 지표·판독값 · "a readout of the cheapest arbitrageur's cost floor" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 블록생성자가 거래 순서를 조작해 얻는 이익, 아무도 맡지 않은 채 경쟁하는 사례로 언급. "liquidations, oracle updates, MEV, bridge relaying" |
+| designated market maker | 지정 시장조성자 · 거래소가 공식 지정한 마켓메이커, 봇들의 경쟁 구조와 대비되는 개념. "in a way a designated market maker is not" |
+| basis | 베이시스(perp가와 현물가의 차이) · 무기한선물 가격 괴리를 가리키는 핵심 용어. "the basis you observe is a readout" |
+<!-- acronyms 2026-09-18 -->

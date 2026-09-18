@@ -11,3 +11,7 @@
 | overrate | 과대평가하다 · "poker intuitions systematically overrate" |
 | borrow X, not Y | X는 빌리되 Y는 취하지 말라 · "Borrow poker's decision hygiene and not its confidence" |
 | no longer contains you | (이미 지나버린 상황이라) 더는 자신이 포함되지 않은 · "a world that no longer contains you" |
+| EV | 기댓값(Expected Value) · 확률 가중 평균 결과값, 목표로 삼으면 안 되는 지표로 논의된다. "EV per decision" |
+| Kelly | 켈리 기준(Kelly criterion) · 엣지와 확률로부터 베팅 규모를 정하는 공식. "Kelly turns a probability into a size" |
+| edge | 통계적으로 유리한 우위, 기대값상의 우위 · "had edge over their own break-even" |
+<!-- acronyms 2026-09-18 -->

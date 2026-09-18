@@ -6,3 +6,7 @@
 | bottleneck | 병목, 발목을 잡는 지점 · 여기서는 위트니스 크기가 속도를 제한하는 요인임을 가리킴. "The bottleneck of this approach is witness size" |
 | branching factor | 분기 계수 · 트리에서 한 노드가 갖는 자식 노드 수. "have a wide branching factor, their proofs are large" |
 | at face value | 액면 그대로, 검증 없이 곧이곧대로 · 응답을 의심 없이 그대로 믿는다는 뜻. "trusting RPC responses at face value" |
+| PoS | 지분증명(Proof of Stake) · 검증자 서명 집합에 대한 경량 증명으로 헤더를 따라가는 합의 방식. "on a PoS chain, the light client follows headers" |
+| Verkle tree | 벌클 트리 · 머클 트리보다 증명 크기가 작은 차세대 상태 커밋 구조. "smaller commitment structures such as Verkle trees" |
+| STARK | 확장 가능한 투명 논증(Scalable Transparent Argument of Knowledge) · 위트니스 크기를 줄이기 위해 연구되는 증명 방식. "Verkle trees or STARK-based proofs are being researched" |
+<!-- acronyms 2026-09-18 -->

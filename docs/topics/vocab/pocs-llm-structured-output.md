@@ -5,3 +5,5 @@
 | contrast X with Y | X를 Y와 대조하다 · 두 접근 방식을 비교할 때. "contrasts free-form prompting with schema-constrained decoding" |
 | reliable interface | 신뢰할 수 있는 인터페이스 · 애플리케이션이 의지할 수 있는 안정적 출력. "a reliable interface an application can depend on" |
 | parse-failure rate | 파싱 실패율 · 출력이 형식에 안 맞아 실패하는 비율을 측정할 때. "measures the parse-failure rate each produces" |
+| constrained decoding | 제약 디코딩 · 모델이 정해진 스키마를 벗어나지 않게 강제로 생성시키는 기법. "Constrained decoding and schema-guided generation make a model emit output" |
+<!-- acronyms 2026-09-18 -->

@@ -8,3 +8,7 @@
 | settle the argument | 논쟁을 매듭짓다 · 측정 결과로 논란을 확실히 해결할 때. "and it settles the argument" |
 | do all the work | (비유) 모든 것을 좌우하다 · 전제 하나가 결론 전체를 떠받칠 때. "the assumption is doing all the work" |
 | a prefix of | ~의 앞부분(초반)에 불과하다 · 전체 중 일부만 해당함을 말할 때. "not a prefix of the sequence" |
+| BLS12-381 | 페어링 친화적 타원곡선 표준(BLS12-381) · BLS 서명 집계에 쓰이는 암호학 표준, 양자내성 마이그레이션 논의의 전제. "BLS12-381 and signature aggregation" |
+| pairing | 페어링(쌍선형 사상, 암호학 연산) · 서명 검증이 이 연산 한 번으로 끝난다는 맥락에서. "verification finishes in a pairing" |
+| signature aggregation | 서명 집계(여러 서명을 하나로 합치는 기법) · n개의 서명을 모아도 96바이트로 고정된다는 성질을 가리킴. "signature aggregation ... n of them still occupy 96 bytes" |
+<!-- acronyms 2026-09-18 -->

@@ -7,3 +7,7 @@
 | skip (entire subtrees) | (전체 부분트리를) 건너뛰다 · 참조가 같은 부분은 비교할 필요 없이 넘어감 · "diffing two versions can skip entire subtrees" |
 | basically free | 사실상 공짜다, 거의 비용이 없다 · 로그 복잡도라 비용이 없다고 착각하는 흔한 가정 · "copying is O(log n), so it's basically free" |
 | bounded by | ~로 상한이 정해지다, ~이내로 제한되다 · 업데이트 1회가 O(log n) 복사로 제한됨 · "a single update is bounded by O(log n) node copies" |
+| HAMT | 해시 배열 매핑 트라이(Hash Array Mapped Trie, HAMT) · 경로 복사로 구조적 공유를 구현하는 불변 자료구조. "trie-based structures like HAMTs, the path length is O(log n)" |
+| GC | 가비지 컬렉션(Garbage Collection, GC) · 매번 새 노드를 할당하는 함수형 업데이트가 늘리는 부담. "increases allocation and GC pressure" |
+| copy-on-write | 카피온라이트(복사 후 쓰기, copy-on-write) · 변경분만 복사하고 나머지는 공유하는 구조, EVM 상태 트리도 이 방식. "a direct on-chain instance of a copy-on-write structure" |
+<!-- acronyms 2026-09-18 -->

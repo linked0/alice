@@ -7,3 +7,5 @@
 | flag as | ~로 표시하다/판정하다 · 자동화된 시스템이 특정 항목을 문제로 분류할 때. "flagging harmless changes as regressions" |
 | nobody trusts the results anymore | 아무도 더 이상 결과를 신뢰하지 않게 되다 · 잘못된 판정이 반복되어 신뢰가 무너진 상태. "eventually nobody trusts the results anymore" |
 | pinned to | ~에 고정되다/특정 값으로 못박히다 · 결정론적 값이라 정확히 특정할 수 있을 때. "regressions can be pinned to an exact value" |
+| JIT | 즉시 컴파일(Just-In-Time compilation) · 실행 중 컴파일이 초기 실행과 안정 상태 성능을 다르게 만드는 요인. "JIT compilation, caches, branch predictors, and connection pools" |
+<!-- acronyms 2026-09-18 -->

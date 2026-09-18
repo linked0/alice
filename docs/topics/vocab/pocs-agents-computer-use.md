@@ -9,3 +9,9 @@
 | cache (as deterministic code) | 실행 결과를 고정된 코드로 캐싱해두다 · 반복 작업을 결정적 코드로 저장해 비용을 낮추는 패턴. "caches it as deterministic code, and is only" |
 | smart form-filling | 지능형 자동 양식 입력 · 에이전트가 웹 폼을 대신 채워주는 활용 사례. "smart form-filling, is the natural first use" |
 | the cost of authoring | 작업을 정의(기술)하는 데 드는 비용 · 작업을 시키는 절차 자체의 비용을 가리킴. "the cost of authoring a task and leaves" |
+| OSWorld | 실제 데스크톱 환경에서 에이전트를 평가하는 벤치마크(a real-desktop agent benchmark) · 에이전트 성능 추이를 보여주는 기준점. "OSWorld jumped from 42% to 85% in a year" |
+| CPG | 소비재(Consumer Packaged Goods) · 이 리포트가 인터뷰한 실제 운영 사례 업종. "a CPG data platform running 15-20M portal interactions" |
+| BPO | 업무프로세스 아웃소싱(Business Process Outsourcing) · 해외 인력 위탁을 에이전트 비용과 비교하는 항목. "Offshore BPO" |
+| a16z | 벤처캐피털 Andreessen Horowitz의 약칭 · 이 리포트를 작성한 기관. "The a16z piece is built on interviews with real operators" |
+| browser-use | 브라우저를 조작하는 오픈소스 에이전트 라이브러리 · page-agent가 기반으로 삼은 도구. "and is built on browser-use" |
+<!-- acronyms 2026-09-18 -->

@@ -8,3 +8,6 @@
 | the volume crown | 거래량 1위 자리 · 순위 경쟁에서 최고 자리를 차지했다는 비유 · "The volume crown sits on the category" |
 | spillover | 파급 효과, 넘쳐흐름 · 한 분야의 성장이 다른 분야로 번지는 효과 · "or only rides the sports flywheel's spillover" |
 | residual | (제외하고 남은) 잔여분 · 특정 항목을 뺀 나머지 수치를 가리키는 통계 용어 · "Non-sports residual: roughly a fifth to a quarter" |
+| CFTC | 미국 상품선물거래위원회(Commodity Futures Trading Commission) · Kalshi·Polymarket 모두가 근거로 삼는 연방 규제기관 라이선스. "CFTC license notwithstanding" |
+| TAM | 전체 addressable 시장 규모(Total Addressable Market) · 합산 거래량을 그대로 시장 규모로 인용하면 과장된다는 지적의 대상. "quoting the combined total as the market's TAM" |
+<!-- acronyms 2026-09-18 -->

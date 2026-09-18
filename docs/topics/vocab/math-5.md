@@ -7,3 +7,6 @@
 | point ahead to | 아직 존재하지 않는 대상을 미리 가리키다 · 해시 링크가 미래 값을 참조할 수 없다는 제약. "can never point ahead to a hash that doesn't exist" |
 | the basis for | ~의 토대/근거가 되다 · 어떤 개념이 다른 응용의 기반이 될 때. "the basis for dependency resolution" |
 | connected, acyclic | 연결되어 있고 순환이 없는 · 트리의 정의를 이루는 두 성질을 가리킬 때. "A tree is a connected, acyclic graph" |
+| DAG | 방향성 비순환 그래프(Directed Acyclic Graph) · 사이클 없는 방향 그래프, 위상정렬이 가능한 구조. "A DAG has only directed edges and no cycles" |
+| Gnosis Conditional Tokens | Gnosis가 만든 조건부 토큰 프레임워크(예측시장용 포지션 토큰 표준) · 조건·포지션 식별자를 해시로 만드는 예로 언급. "Gnosis Conditional Tokens derive condition and position identifiers as hashes" |
+<!-- acronyms 2026-09-18 -->

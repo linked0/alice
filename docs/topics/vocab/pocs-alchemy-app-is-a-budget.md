@@ -10,3 +10,7 @@
 | proportional to | ~에 비례하는 · 비용이나 사용량이 다른 값에 정비례할 때. "proportional to state touched" |
 | size (v.) | 규모를 산정하다, 맞추다 · 시스템 용량을 미리 계산해 맞출 때. "before sizing the devnet's upstream app" |
 | quota exposure with no reader | 아무도 쓰지 않는데 할당량만 노출된 상태 · 켜뒀지만 안 쓰는 기능이 위험만 키울 때. "an activated-but-unused API is quota exposure with no reader" |
+| ERC-4337 | 계정 추상화 표준(ERC-4337) · 번들러가 처리하는 유저오퍼레이션의 JSON-RPC 규격을 정의하는 이더리움 표준. "ERC-4337 JSON-RPC for user operations" |
+| paymaster | 가스비 대납자(paymaster) · 사용자 대신 가스를 후원하거나 ERC-20으로 받게 해주는 주체, Gas Manager가 이를 호스팅. "a hosted paymaster with policies" |
+| userOp | 유저오퍼레이션(User Operation) · ERC-4337에서 EOA 대신 번들러·페이마스터가 처리하는 트랜잭션 단위. "simulate a user operation and return" |
+<!-- acronyms 2026-09-18 -->

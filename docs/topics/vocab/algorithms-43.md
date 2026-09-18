@@ -7,3 +7,6 @@
 | blow up | 급격히 치솟다, 폭증하다 · 지연 시간 등이 걷잡을 수 없이 커질 때. "and blows up sharply" |
 | runaway latency | 걷잡을 수 없이 늘어나는 지연 시간 · 큐가 무한정 쌓여 생기는 실패 양상을 가리킬 때. "turns the failure into runaway latency and memory exhaustion" |
 | a storm of | ~이 폭주하다, 쏟아지다 · 재시도 요청 등이 한꺼번에 몰릴 때. "user timeouts and a storm of resubmissions" |
+| Little's Law | 리틀의 법칙(L = λW) · 대기 시스템의 평균 항목 수, 도착률, 체류시간의 관계를 나타내는 정리, 분포 가정 없이 성립. "Little's law states that in steady state, L = λW" |
+| credit-based flow control | 크레딧 기반 흐름 제어 · 수신 측이 처리 가능한 만큼만 허용량을 주는 방식의 배압 기법. "implemented via bounded queues, blocking, credit-based flow control, or load shedding" |
+<!-- acronyms 2026-09-18 -->

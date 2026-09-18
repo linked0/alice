@@ -5,3 +5,5 @@
 | retained versus saved | 유지된 것 대 절약된 것 · 성능 유지량과 비용 절감량을 대비할 때. "the capability retained versus the size saved" |
 | narrow (task) | 범위가 좁은 작업 · 한정된 특정 작업만을 다룰 때. "on a narrow task" |
 | capture (capability) | 능력을 포착해 담아내다 · 큰 모델의 성능을 작은 모델이 흡수할 때. "capturing much of the capability" |
+| frontier model | 프런티어 모델(현재 최고 수준의 최첨단 대형 모델) · 증류의 출발점이 되는 고성능 대형 모델을 가리키는 업계 용어. "the standard path from a frontier model to a" |
+<!-- acronyms 2026-09-18 -->

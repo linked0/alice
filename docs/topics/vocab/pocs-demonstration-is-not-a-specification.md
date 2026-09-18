@@ -10,3 +10,6 @@
 | field of view | 시야, 보이는 범위 · 화면 공유 등에서 노출되는 범위를 말할 때. "it is the field of view" |
 | scoped (credential) | 범위가 제한된 (권한) · 필요한 만큼만 접근을 허용하는 권한 설계. "a privilege to be scoped rather than a setting" |
 | the bottleneck moved to | 병목 지점이 ~로 옮겨갔다 · 문제의 핵심이 이동했음을 말할 때. "the bottleneck moved to how a non-programmer states a task" |
+| CRM | 고객관계관리 시스템(Customer Relationship Management) · 영업·고객 데이터를 저장하는 업무용 소프트웨어, 화면 공유 위험의 예시. "someone else's data in a CRM" |
+| tacit knowledge | 암묵지, 말로 설명하기 어려운 숙련 지식 · 전문가가 무의식적으로 수행해 문서화하지 못하는 노하우. "Demonstration recovers tacit knowledge and loses intent" |
+<!-- acronyms 2026-09-18 -->

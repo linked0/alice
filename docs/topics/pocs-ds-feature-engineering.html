@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Number: budget indicator work as engineered features first, model choice second.</strong> For any reading Number distributes, build rolling windows, ratios and lags before swapping models, and record the accuracy delta from feature work versus model swaps as evidence, not assumption.</li><li><strong>Number: keep one definition per feature, a small feature store.</strong> Stop the same rolling-window or ratio being recomputed three inconsistent ways across different readings.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>feed (features fed to it)</strong></td><td>(모델에 데이터를) 공급하다, 투입하다 · 입력값을 모델에 넣어준다는 뜻. "the features fed to it"</td></tr><tr><td><strong>feature store</strong></td><td>피처 스토어(특성 저장소) · 여러 팀이 같은 피처를 일관되게 재사용하도록 관리하는 시스템. "a feature store exists to stop the same feature being computed three inconsistent ways"</td></tr><tr><td><strong>rolling window</strong></td><td>이동 윈도우(구간) · 일정 구간씩 옮겨가며 계산하는 통계 기법. "rolling windows, ratios, lags"</td></tr><tr><td><strong>lag (특성으로서)</strong></td><td>시차(지연) 변수 · 과거 시점의 값을 특성으로 사용하는 기법. "rolling windows, ratios, lags"</td></tr><tr><td><strong>accuracy delta</strong></td><td>정확도 차이(증분) · 두 접근법 간 성능 차이를 수치로 나타낸 것. "the accuracy delta from feature work versus model swaps"</td></tr><tr><td><strong>model swap</strong></td><td>모델 교체 · 알고리즘 자체를 바꾸는 작업을 가리킴. "versus model swaps"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,7 +432,11 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Number: 지표 작업의 예산을 모델 교체보다 엔지니어링된 피처에 먼저 배정한다.</strong> Number가 배포하는 모든 읽기에 대해 모델을 바꾸기 전에 롤링 윈도우, 비율, 랙부터 만들고, 피처 작업과 모델 교체가 낸 정확도 차이를 가정이 아니라 증거로 기록한다.</li><li><strong>Number: 피처마다 정의를 하나로 유지하는 작은 피처 스토어를 둔다.</strong> 같은 롤링 윈도우나 비율이 서로 다른 읽기마다 세 가지 불일치하는 방식으로 다시 계산되는 것을 막는다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>feed (features fed to it)</strong></td><td>(모델에 데이터를) 공급하다, 투입하다 · 입력값을 모델에 넣어준다는 뜻. "the features fed to it"</td></tr><tr><td><strong>feature store</strong></td><td>피처 스토어(특성 저장소) · 여러 팀이 같은 피처를 일관되게 재사용하도록 관리하는 시스템. "a feature store exists to stop the same feature being computed three inconsistent ways"</td></tr><tr><td><strong>rolling window</strong></td><td>이동 윈도우(구간) · 일정 구간씩 옮겨가며 계산하는 통계 기법. "rolling windows, ratios, lags"</td></tr><tr><td><strong>lag (특성으로서)</strong></td><td>시차(지연) 변수 · 과거 시점의 값을 특성으로 사용하는 기법. "rolling windows, ratios, lags"</td></tr><tr><td><strong>accuracy delta</strong></td><td>정확도 차이(증분) · 두 접근법 간 성능 차이를 수치로 나타낸 것. "the accuracy delta from feature work versus model swaps"</td></tr><tr><td><strong>model swap</strong></td><td>모델 교체 · 알고리즘 자체를 바꾸는 작업을 가리킴. "versus model swaps"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>

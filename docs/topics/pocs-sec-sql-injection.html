@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; SQL injection — the oldest bug that still tops the charts</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#191</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#195</span><span>PoC</span></p>
       <h1>SQL injection — the oldest bug that still tops the charts</h1>
       <p class="lead">SQL injection concatenates untrusted input into a query so the input becomes code, a decades-old class that parameterized queries fully solve yet still appears in new breaches.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>gitboard: audit every dashboard query for string-concatenated input.</strong> Any query built from user or service input must use parameterized queries, never string-joined data.</li><li><strong>Number: apply the same parameterized-query rule to its data access layer.</strong> Even though Number is admin-only, add it as a standing test for research and reading lookups.</li><li><strong>Auditor: generalize "never build a command by string-joining untrusted data" beyond SQL.</strong> Apply it to any off-chain service constructing shell commands, RPC calls or queries from external input.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>top the charts</strong></td><td>순위 최상위를 차지하다 · 오래된 취약점이 여전히 1위일 때. "a decades-old class... still tops the charts"</td></tr><tr><td><strong>untrusted input</strong></td><td>신뢰할 수 없는 입력값 · 검증되지 않은 외부 데이터를 가리킬 때. "concatenates untrusted input into a query"</td></tr><tr><td><strong>string-join</strong></td><td>문자열을 그대로 이어붙이다 · 위험한 쿼리 작성 방식을 지적할 때. "never build a command by string-joining untrusted data"</td></tr><tr><td><strong>generalize to</strong></td><td>~로 일반화하다 · 구체적 사례에서 일반 원칙을 끌어낼 때. "then generalizes to the rule"</td></tr><tr><td><strong>toy endpoint</strong></td><td>연습용(단순화된) 엔드포인트 · 실습을 위해 만든 가벼운 예제를 말할 때. "injection against a toy endpoint"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>gitboard: 문자열 연결로 만든 쿼리를 모든 대시보드에서 감사한다.</strong> 사용자나 서비스 입력으로 만들어지는 모든 쿼리는 문자열 결합이 아니라 파라미터화된 쿼리를 써야 한다.</li><li><strong>Number: 데이터 접근 계층에도 같은 파라미터화 쿼리 규칙을 적용한다.</strong> Number가 관리자 전용이더라도, 연구·읽기 조회에 상시 테스트로 추가한다.</li><li><strong>Auditor: "신뢰할 수 없는 데이터를 문자열로 이어붙여 명령을 만들지 않는다"를 SQL 너머로 일반화한다.</strong> 셸 명령, RPC 호출, 쿼리를 외부 입력으로 구성하는 모든 오프체인 서비스에 적용한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>top the charts</strong></td><td>순위 최상위를 차지하다 · 오래된 취약점이 여전히 1위일 때. "a decades-old class... still tops the charts"</td></tr><tr><td><strong>untrusted input</strong></td><td>신뢰할 수 없는 입력값 · 검증되지 않은 외부 데이터를 가리킬 때. "concatenates untrusted input into a query"</td></tr><tr><td><strong>string-join</strong></td><td>문자열을 그대로 이어붙이다 · 위험한 쿼리 작성 방식을 지적할 때. "never build a command by string-joining untrusted data"</td></tr><tr><td><strong>generalize to</strong></td><td>~로 일반화하다 · 구체적 사례에서 일반 원칙을 끌어낼 때. "then generalizes to the rule"</td></tr><tr><td><strong>toy endpoint</strong></td><td>연습용(단순화된) 엔드포인트 · 실습을 위해 만든 가벼운 예제를 말할 때. "injection against a toy endpoint"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-spectre-meltdown.html">&larr; 190. Spectre and Meltdown — the CPU leaks through speculation</a><a href="pocs-sec-xss-csrf.html">192. XSS and CSRF — the browser trusts the wrong origin &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-spectre-meltdown.html">&larr; 194. Spectre and Meltdown — the CPU leaks through speculation</a><a href="pocs-sec-xss-csrf.html">196. XSS and CSRF — the browser trusts the wrong origin &rarr;</a></div>
   </div>
   </main>
 </div>

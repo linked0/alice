@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -491,7 +491,11 @@
 <h3>Related cards</h3>
 <p><code>erc-8141</code> and <code>aa-standard-execution-split</code> (the proposal and its execution-model fight), <code>bundler-paymaster-dependencies</code> (who fronts the ETH when you pay in USDC), <code>float-not-the-paperwork</code> and <code>arb-bots-are-the-peg</code> (the marginal holder sets the price on a thin float), <code>where-yield-comes-from</code> and <code>fees-over-security-budget</code> (where value actually comes from), <code>chain-becomes-a-token</code> (the mirror question about a token&#39;s worth).</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: size the paymaster&#39;s ETH float explicitly.</strong> If Rabbit lets users pay gas in JYVE or USDC via ERC-4337 paymasters, the paymaster is now the party holding and converting ETH; monitor that float rather than assuming gas abstraction removes ETH demand from the system.</li><li><strong>Wallet: show which token actually funds gas, not just "no ETH needed."</strong> The simulate-before-sign screen should disclose that a paymaster is converting the user&#39;s chosen token to ETH under the hood, since holding demand moved, it didn&#39;t vanish.</li><li><strong>DeFi: don&#39;t conflate burn activity with ETH&#39;s store-of-value demand.</strong> When sizing ETH-denominated collateral or staking assumptions in the liquid-staking study, treat flow demand (gas burned) and stock demand (ETH held) as separate estimates that can move in opposite directions.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bull case</strong></td><td>강세(낙관)를 뒷받침하는 논리 · "David Hoffman&#39;s bull case for EIP-8141"</td></tr><tr><td><strong>sleight-of-hand</strong></td><td>논리적 눈속임 · "The bull case does a real sleight-of-hand"</td></tr><tr><td><strong>fuse (two things)</strong></td><td>서로 다른 것을 하나로 뒤섞다 · "fuses two different ETH demands"</td></tr><tr><td><strong>under-specified</strong></td><td>조건이 충분히 명시되지 않은 · "it is under-specified"</td></tr><tr><td><strong>net to</strong></td><td>결국 순효과로 ~이 남다 · "does that net to more ETH held or less"</td></tr><tr><td><strong>at the edge</strong></td><td>(거래·과정의) 마지막 단계에서 · "converting at the edge"</td></tr><tr><td><strong>sticky (holders)</strong></td><td>잘 안 떠나고 고착된 · "sticky retail holders"</td></tr><tr><td><strong>marginal holder</strong></td><td>가격을 결정짓는 한계 보유자 · "the marginal holder is now a bot"</td></tr><tr><td><strong>moneyness</strong></td><td>화폐로서 갖는 가치·성격 · "whether ETH&#39;s moneyness survives"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -588,7 +592,11 @@
 <h3>관련 카드</h3>
 <p><code>erc-8141</code>·<code>aa-standard-execution-split</code>(제안과 그 실행 모델 다툼), <code>bundler-paymaster-dependencies</code>(USDC 로 낼 때 누가 ETH 를 선대하나), <code>float-not-the-paperwork</code>·<code>arb-bots-are-the-peg</code>(얇은 유통량 위 한계 보유자가 가격을 정함), <code>where-yield-comes-from</code>·<code>fees-over-security-budget</code>(가치는 실제로 어디서 오나), <code>chain-becomes-a-token</code>(토큰 가치에 대한 거울 질문).</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 페이마스터의 ETH 보유량을 명시적으로 산정한다.</strong> Rabbit이 ERC-4337 페이마스터를 통해 JYVE나 USDC로 가스비를 내게 한다면, 이제 ETH를 보유하고 변환하는 쪽은 페이마스터다. 가스 추상화가 시스템의 ETH 수요를 없앤다고 가정하지 말고 그 보유량을 모니터링한다.</li><li><strong>Wallet: "ETH 필요 없음"이 아니라 실제로 가스를 대는 토큰을 보여준다.</strong> simulate-before-sign 화면은 페이마스터가 내부적으로 사용자가 고른 토큰을 ETH로 변환하고 있음을 드러내야 한다. 보유 수요는 사라진 게 아니라 옮겨간 것이다.</li><li><strong>DeFi: 소각 활동과 ETH의 가치 저장 수요를 혼동하지 않는다.</strong> 유동성 스테이킹 연구에서 ETH 표시 담보나 스테이킹 가정을 산정할 때, 플로우 수요(소각된 가스)와 스톡 수요(보유된 ETH)를 서로 반대로 움직일 수 있는 별개의 추정치로 다룬다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bull case</strong></td><td>강세(낙관)를 뒷받침하는 논리 · "David Hoffman&#39;s bull case for EIP-8141"</td></tr><tr><td><strong>sleight-of-hand</strong></td><td>논리적 눈속임 · "The bull case does a real sleight-of-hand"</td></tr><tr><td><strong>fuse (two things)</strong></td><td>서로 다른 것을 하나로 뒤섞다 · "fuses two different ETH demands"</td></tr><tr><td><strong>under-specified</strong></td><td>조건이 충분히 명시되지 않은 · "it is under-specified"</td></tr><tr><td><strong>net to</strong></td><td>결국 순효과로 ~이 남다 · "does that net to more ETH held or less"</td></tr><tr><td><strong>at the edge</strong></td><td>(거래·과정의) 마지막 단계에서 · "converting at the edge"</td></tr><tr><td><strong>sticky (holders)</strong></td><td>잘 안 떠나고 고착된 · "sticky retail holders"</td></tr><tr><td><strong>marginal holder</strong></td><td>가격을 결정짓는 한계 보유자 · "the marginal holder is now a bot"</td></tr><tr><td><strong>moneyness</strong></td><td>화폐로서 갖는 가치·성격 · "whether ETH&#39;s moneyness survives"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>

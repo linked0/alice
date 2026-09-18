@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; SolarWinds — compromising the build server, not the code</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#189</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#193</span><span>PoC</span></p>
       <h1>SolarWinds — compromising the build server, not the code</h1>
       <p class="lead">The SolarWinds attack inserted malware during the build, so signed, trusted updates carried the backdoor to thousands of customers — proof that a valid signature says nothing about a clean build.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>says nothing about</strong></td><td>~에 대해 아무것도 보장해주지 않는다 · "a valid signature says nothing about a clean build"</td></tr><tr><td><strong>compromise (verb)</strong></td><td>(시스템을) 침해하다, 뚫다 · "compromising the build server, not the code"</td></tr><tr><td><strong>carried the backdoor</strong></td><td>백도어를 실어 날랐다 · "carried the backdoor to thousands of customers"</td></tr><tr><td><strong>highest-value target</strong></td><td>가장 노릴 만한(우선순위가 가장 높은) 표적 · "framing the CI system as the highest-value target"</td></tr><tr><td><strong>map X to Y</strong></td><td>X를 Y에 대응시켜 분석하다 · "maps the build-pipeline attack to reproducible-builds and SLSA provenance"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI: treat the build pipeline itself as a target.</strong> Keep OpenZeppelin submodules pinned as already required, and add reproducible-build verification so a compromised runner can&#39;t silently inject code into a signed release.</li><li><strong>Auditor/gitboard: record SLSA-style provenance per release.</strong> Which commit, which runner, which CI config produced a given build artifact, not just contract-level checks.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>says nothing about</strong></td><td>~에 대해 아무것도 보장해주지 않는다 · "a valid signature says nothing about a clean build"</td></tr><tr><td><strong>compromise (verb)</strong></td><td>(시스템을) 침해하다, 뚫다 · "compromising the build server, not the code"</td></tr><tr><td><strong>carried the backdoor</strong></td><td>백도어를 실어 날랐다 · "carried the backdoor to thousands of customers"</td></tr><tr><td><strong>highest-value target</strong></td><td>가장 노릴 만한(우선순위가 가장 높은) 표적 · "framing the CI system as the highest-value target"</td></tr><tr><td><strong>map X to Y</strong></td><td>X를 Y에 대응시켜 분석하다 · "maps the build-pipeline attack to reproducible-builds and SLSA provenance"</td></tr><tr><td><strong>SolarWinds</strong></td><td>2020년 발생한 소프트웨어 공급망 공격 사건 이름 · 빌드 서버를 노려 서명된 업데이트에 백도어를 심은 사례, 이 카드의 소재. "SolarWinds attack inserted malware during the build"</td></tr><tr><td><strong>SLSA</strong></td><td>소프트웨어 아티팩트 공급망 보안 등급(Supply-chain Levels for Software Artifacts) · 재현 가능한 빌드와 함께 이 공격에 대한 방어책으로 언급. "reproducible-builds and SLSA provenance as the defenses"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>says nothing about</strong></td><td>~에 대해 아무것도 보장해주지 않는다 · "a valid signature says nothing about a clean build"</td></tr><tr><td><strong>compromise (verb)</strong></td><td>(시스템을) 침해하다, 뚫다 · "compromising the build server, not the code"</td></tr><tr><td><strong>carried the backdoor</strong></td><td>백도어를 실어 날랐다 · "carried the backdoor to thousands of customers"</td></tr><tr><td><strong>highest-value target</strong></td><td>가장 노릴 만한(우선순위가 가장 높은) 표적 · "framing the CI system as the highest-value target"</td></tr><tr><td><strong>map X to Y</strong></td><td>X를 Y에 대응시켜 분석하다 · "maps the build-pipeline attack to reproducible-builds and SLSA provenance"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI: 빌드 파이프라인 자체를 공격 대상으로 취급한다.</strong> 이미 요구되는 대로 OpenZeppelin 서브모듈을 고정하고, 손상된 러너가 서명된 릴리스에 코드를 조용히 주입할 수 없도록 재현 가능한 빌드 검증을 추가한다.</li><li><strong>Auditor/gitboard: 릴리스마다 SLSA 스타일 프로비넌스를 기록한다.</strong> 컨트랙트 수준 체크만이 아니라, 어떤 커밋, 어떤 러너, 어떤 CI 설정이 해당 빌드 산출물을 만들었는지 남긴다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>says nothing about</strong></td><td>~에 대해 아무것도 보장해주지 않는다 · "a valid signature says nothing about a clean build"</td></tr><tr><td><strong>compromise (verb)</strong></td><td>(시스템을) 침해하다, 뚫다 · "compromising the build server, not the code"</td></tr><tr><td><strong>carried the backdoor</strong></td><td>백도어를 실어 날랐다 · "carried the backdoor to thousands of customers"</td></tr><tr><td><strong>highest-value target</strong></td><td>가장 노릴 만한(우선순위가 가장 높은) 표적 · "framing the CI system as the highest-value target"</td></tr><tr><td><strong>map X to Y</strong></td><td>X를 Y에 대응시켜 분석하다 · "maps the build-pipeline attack to reproducible-builds and SLSA provenance"</td></tr><tr><td><strong>SolarWinds</strong></td><td>2020년 발생한 소프트웨어 공급망 공격 사건 이름 · 빌드 서버를 노려 서명된 업데이트에 백도어를 심은 사례, 이 카드의 소재. "SolarWinds attack inserted malware during the build"</td></tr><tr><td><strong>SLSA</strong></td><td>소프트웨어 아티팩트 공급망 보안 등급(Supply-chain Levels for Software Artifacts) · 재현 가능한 빌드와 함께 이 공격에 대한 방어책으로 언급. "reproducible-builds and SLSA provenance as the defenses"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-xz-backdoor.html">&larr; 188. XZ Utils backdoor — a supply-chain attack that almost shipped</a><a href="pocs-sec-spectre-meltdown.html">190. Spectre and Meltdown — the CPU leaks through speculation &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-xz-backdoor.html">&larr; 192. XZ Utils backdoor — a supply-chain attack that almost shipped</a><a href="pocs-sec-spectre-meltdown.html">194. Spectre and Meltdown — the CPU leaks through speculation &rarr;</a></div>
   </div>
   </main>
 </div>

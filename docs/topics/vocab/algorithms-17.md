@@ -7,3 +7,5 @@
 | comfortably larger than | 넉넉히 더 큰, 여유 있게 큰 · 비교 대상보다 충분히 클 때. "parallelism needs to be comfortably larger than p" |
 | approach (linear scaling) | 선형 확장에 근접하다 · 이상적인 성능 향상에 가까워질 때. "to approach linear scaling" |
 | pays off | 보람이 있다, 이득이 되다 · 투자한 노력이 결실을 맺을 때. "how far parallelization pays off in block-execution parallelism" |
+| work-stealing | 워크 스틸링(유휴 코어가 다른 코어의 작업을 가져와 처리하는 스케줄링 기법) · 병렬 스케줄러의 대표적 구현 방식. "A good scheduler (e.g., work-stealing) guarantees that Tp is" |
+<!-- acronyms 2026-09-18 -->

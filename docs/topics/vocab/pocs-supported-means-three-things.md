@@ -10,3 +10,7 @@
 | term sheet | 핵심 조건을 정리한 요약표 · 협상·의사결정의 조건들을 한눈에 정리할 때. "a four-row term sheet" |
 | structurally cannot | 구조적으로 ~할 수 없다 · 도구 자체의 근본적 한계를 말할 때. "Anvil structurally cannot show you" |
 | dominated by | ~에 의해 좌우되다/압도되다 · 비용의 대부분을 한 요인이 차지할 때. "can be dominated by calldata" |
+| DA | 데이터 가용성(Data Availability) · 롤업이 트랜잭션 데이터를 공개적으로 게시하는 계층. "Building a sequencer, DA layer, bridge or fault proof" |
+| OP | 옵티미즘 체인(Optimism) · 리니아 등 다른 L2와 경쟁하는 체인 중 하나로 언급. "Modifying OP Stack or Arbitrum Orbit" |
+| Orbit | 아비트럼의 커스텀 체인 배포 프레임워크(Arbitrum Orbit) · 자체 L2/L3 롤업을 만들 때 쓰는 스택. "OP Stack or Arbitrum Orbit" |
+<!-- acronyms 2026-09-18 -->

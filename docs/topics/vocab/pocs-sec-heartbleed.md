@@ -5,3 +5,6 @@
 | a one-line bug | 단 한 줄짜리 버그 · 아주 작은 코드 결함이 큰 피해로 이어질 때. "a one-line bug in the code" |
 | secure most of the web | 웹 대부분을 (암호적으로) 지키다 · 광범위하게 쓰이는 보안 인프라의 중요성을 말할 때. "the code that secures most of the web" |
 | would have prevented it | (그랬더라면) 막을 수 있었을 것이다 · 가정법으로 사후에 원인을 짚을 때. "would have prevented it" |
+| CVE | 공통 취약점 및 노출 식별자(Common Vulnerabilities and Exposures) · 보안 취약점에 부여되는 표준 식별 번호. "Heartbleed (CVE-2014-0160) let an attacker read chunks" |
+| OpenSSL | 오픈소스 TLS/SSL 암호 통신 라이브러리 · 하트블리드 취약점이 발생한 서버 암호화 라이브러리. "chunks of OpenSSL server memory" |
+<!-- acronyms 2026-09-18 -->

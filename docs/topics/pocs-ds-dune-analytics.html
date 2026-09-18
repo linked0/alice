@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: document the join and dedup decision behind every volume, open-interest or fee metric before publishing it on gitboard.</strong> Which event table, how duplicate fills or cancels are handled — don&#39;t ship a plausible-looking number without that note.</li><li><strong>gitboard: keep an internal decoded-table equivalent if Verex or DeFi activity is ever also published on Dune.</strong> So the two numbers can be reconciled; a public number that can&#39;t be traced back to Jayverse&#39;s own indexer is unverifiable.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>decoded ledger</strong></td><td>디코딩된(해석된) 원장 · 원시 체인 데이터를 사람이 읽을 수 있는 표 형태로 변환한 것 · "SQL over a decoded ledger"</td></tr><tr><td><strong>double-counting</strong></td><td>중복 집계 · 같은 값을 두 번 세어 지표가 부풀려지는 오류 · "answers the question without double-counting"</td></tr><tr><td><strong>dedup</strong></td><td>중복 제거 · 데이터에서 겹치는 항목을 걸러내는 작업 · "documents the join and dedup decisions"</td></tr><tr><td><strong>plausible-looking</strong></td><td>그럴듯해 보이는(하지만 틀린) · 얼핏 맞아 보이지만 실제로는 잘못된 결과 · "separate a correct metric from a plausible-looking wrong one"</td></tr><tr><td><strong>shareable dashboard</strong></td><td>공유 가능한 대시보드 · 여러 사람이 함께 볼 수 있도록 게시된 시각화 화면 · "SQL-queryable tables and shareable dashboards"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,7 +432,11 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 거래량, 미결제약정, 수수료 지표를 gitboard에 올리기 전에 그 뒤의 조인과 중복 제거 결정을 문서화한다.</strong> 어느 이벤트 테이블을 쓰는지, 중복 체결이나 취소를 어떻게 처리하는지 적어두지 않은 채 그럴듯해 보이는 숫자만 내보내지 않는다.</li><li><strong>gitboard: Verex나 DeFi 활동을 Dune에도 공개한다면 내부에 디코딩된 테이블 대응본을 유지한다.</strong> 두 숫자를 서로 맞춰볼 수 있어야 한다. Jayverse 자체 인덱서로 추적할 수 없는 공개 숫자는 검증할 수 없다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>decoded ledger</strong></td><td>디코딩된(해석된) 원장 · 원시 체인 데이터를 사람이 읽을 수 있는 표 형태로 변환한 것 · "SQL over a decoded ledger"</td></tr><tr><td><strong>double-counting</strong></td><td>중복 집계 · 같은 값을 두 번 세어 지표가 부풀려지는 오류 · "answers the question without double-counting"</td></tr><tr><td><strong>dedup</strong></td><td>중복 제거 · 데이터에서 겹치는 항목을 걸러내는 작업 · "documents the join and dedup decisions"</td></tr><tr><td><strong>plausible-looking</strong></td><td>그럴듯해 보이는(하지만 틀린) · 얼핏 맞아 보이지만 실제로는 잘못된 결과 · "separate a correct metric from a plausible-looking wrong one"</td></tr><tr><td><strong>shareable dashboard</strong></td><td>공유 가능한 대시보드 · 여러 사람이 함께 볼 수 있도록 게시된 시각화 화면 · "SQL-queryable tables and shareable dashboards"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>

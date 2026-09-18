@@ -9,3 +9,10 @@
 | bid (v.) | 매수세가 붙다, 사자 주문이 들어오다 · 안전자산에 수요가 몰릴 때. "gold gets bid again" |
 | mean-revert | 평균으로 회귀하다 · 급등락한 가격이 원래 수준으로 돌아올 때. "Mean-revert" |
 | give back the move | 상승분(하락분)을 반납하다, 되돌리다 · 가격이 움직인 만큼 다시 원위치로 갈 때. "oil gives back the move" |
+| IRGC | 이란 혁명수비대(Islamic Revolutionary Guard Corps) · 미국이 타격한 표적, 이번 유가 충격의 발단이 된 이란 군사조직. "US strikes on IRGC targets sent Brent up 4%" |
+| WTI | 서부텍사스산원유(West Texas Intermediate) · 미국 기준 원유 벤치마크 가격, Brent와 나란히 비교되는 유가 지표. "WTI +4.5%, ~$90" |
+| Brent | 브렌트유(북해산 원유 벤치마크) · 국제 유가의 대표 기준가격으로, 이번 공급 충격의 크기를 재는 지표. "Brent up 4% past $94" |
+| CME FedWatch | 시카고상품거래소의 금리인상 확률 예측 도구(CME FedWatch Tool) · 선물 가격에서 역산한 연준 금리 인상·인하 확률을 보여주는 지표. "the change in September hike odds (CME FedWatch)" |
+| Hormuz | 호르무즈 해협(Strait of Hormuz) · 세계 원유 수송의 핵심 길목, 봉쇄 시 공급 충격이 인플레이션 경로를 넘어설 정도로 커짐. "If threat becomes blockade — Hormuz actually closes" |
+| bp | 베이시스포인트(basis point, 0.01%) · 금리 인상 확률 변화폭을 재는 단위. "Hike odds vs. Brent, in bp" |
+<!-- acronyms 2026-09-18 -->

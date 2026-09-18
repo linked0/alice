@@ -7,3 +7,6 @@
 | surface quietly | 조용히(눈에 띄지 않게) 드러나다 · 부하가 커져야 비로소 발견되는 버그를 가리킴. "creates bugs that surface quietly, only once" |
 | physicalize the invariant | 불변조건을 물리적 구조(단일 행 등)로 구현하다 · 애플리케이션 규칙을 DB 제약으로 강제하는 해법. "physicalize the invariant as a single row" |
 | explicitly lock the rows | 근거로 삼은 행을 명시적으로 잠그다 · 동시성 문제를 막는 수동 잠금 기법. "explicitly lock the rows a decision was based on" |
+| MVCC | 다중버전 동시성 제어(Multi-Version Concurrency Control) · 갱신 시 기존 행을 덮어쓰지 않고 새 버전을 만드는 방식. "MVCC never overwrites an existing row on update" |
+| SSI | 직렬화 가능 스냅샷 격리(Serializable Snapshot Isolation) · write skew를 막는 직렬화 가능 격리 수준. "to use a serializable isolation level such as SSI" |
+<!-- acronyms 2026-09-18 -->

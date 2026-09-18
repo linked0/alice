@@ -7,3 +7,7 @@
 | backpressure | 백프레셔(역압), 처리 속도에 맞춘 유입 제어 · 큐가 넘치지 않도록 압박을 되돌려주는 메커니즘. "mailbox backpressure" |
 | multiplex | 다중화하다 · 적은 자원(스레드)에 많은 작업을 겹쳐 배정할 때. "multiplexes many lightweight tasks onto a small number" |
 | violate (an assumption) | 전제를 어기다, 깨뜨리다 · 모델이 기대는 규칙을 지키지 않아 문제가 생길 때. "violating the assumptions behind whichever model was chosen" |
+| false sharing | 거짓 공유(false sharing) · 서로 다른 변수가 같은 캐시라인에 걸쳐 있어, 실제론 안 겹치는 데이터인데도 캐시 무효화가 반복되며 성능이 떨어지는 현상. "which brings contention, deadlocks, and false sharing" |
+| p99 | p99 지연시간 · 요청의 99번째 백분위수 지연시간, 평균이 아니라 꼬리(tail) 구간의 최악 지연을 보는 지표. "measure with a load tool how p99 latency changes" |
+| goroutine | 고루틴(goroutine) · Go 언어의 경량 사용자 레벨 태스크, 소수의 OS 스레드 위에 다중화되어 실행됨. "Go's goroutines, for instance, use a user-level scheduler" |
+<!-- acronyms 2026-09-18 -->

@@ -10,3 +10,11 @@
 | out loud | 소리 내어, 명시적으로 · 함정을 숨기지 않고 드러내 말할 때. "Name the trap out loud before starting" |
 | out-of-sample | 표본 밖(검증에 쓰지 않은) 구간의 · 백테스트 방법론을 말할 때. "Test out-of-sample, on bars you have not read" |
 | corollary | 당연한 귀결, 따름정리 · 앞 주장에서 자연히 따라 나오는 결론을 말할 때. "The corollary is the part worth keeping" |
+| SMA | 단순이동평균(Simple Moving Average) · 최근 n개 종가의 평균, 추세를 나타내지만 정보는 추가하지 않음. "mean of the last n closes" |
+| EMA | 지수이동평균(Exponential Moving Average) · 최근 값에 더 큰 가중치를 둔 이동평균, 지연은 줄지만 노이즈는 늘어남. "EMA buys back some of that lag" |
+| RSI | 상대강도지수(Relative Strength Index) · 0~100 범위로 제한된 모멘텀 비율 지표. "RSI is a bounded momentum ratio" |
+| MACD | 이동평균수렴확산지수(Moving Average Convergence Divergence) · 두 EMA의 차이로 추세 변화를 나타냄. "MACD is the difference of two EMAs" |
+| Bollinger Bands | 볼린저 밴드 · 이동평균 ± k표준편차로 그리는 변동성 지표, 방향은 말해주지 않음. "average plus and minus k standard deviations" |
+| CPI | 소비자물가지수(Consumer Price Index) · 추세 확인의 기준이 되는 거시지표, 캔들 하나로는 대체할 수 없음. "The confirmation is the 9/11 CPI print" |
+| ETF | 상장지수펀드(Exchange-Traded Fund) · 현물 비트코인 자금 유입을 나타내는 독립적 수요 지표. "spot-BTC ETFs took $730M — a 9-month high" |
+<!-- acronyms 2026-09-18 -->

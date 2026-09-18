@@ -11,3 +11,9 @@
 | go nowhere | 성과 없이 끝나다, 진전이 없다 · 아이디어나 시도가 결실을 못 맺을 때. "keep going nowhere: they are scored against the wrong baseline" |
 | necessary, never sufficient | 필요조건이지만 충분조건은 아닌 · 하나의 조건만으로는 부족함을 말할 때. "(necessary, never sufficient)" |
 | the trap underneath the trap | 함정 속에 숨은 또 다른 함정 · 겉보기 경고 뒤에 더 근본적인 문제가 있을 때. "The trap underneath the trap" |
+| ACH | 자동청산소(Automated Clearing House) · 미국의 배치식 은행 간 송금망, 느리고 수수료가 있어 원화 이체와 대비됨. "measured against ACH, which is slow and expensive" |
+| FX | 외환(foreign exchange) · 국경 간 결제에서 환전이 필요한 구간을 가리킴. "Business hours, FX, correspondent banks and pre-funded liquidity" |
+| correspondent bank | 환거래은행 · 국제 송금을 중개하는 은행, 비용·지연의 주요 원인. "Business hours, FX, correspondent banks and pre-funded liquidity" |
+| pre-funded liquidity | 사전 예치 유동성 · 결제 전 미리 자금을 예치해 둬야 하는 비용 구조. "Business hours, FX, correspondent banks and pre-funded liquidity" |
+| merchant-category rule | 가맹점 업종 코드 기반 지출 제한 규칙 · 카드·바우처에 이미 쓰이는 용도 제한 방식, 정책자금 비교 기준. "the bar is a merchant-category rule that works today" |
+<!-- acronyms 2026-09-18 -->

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag</strong></td><td>(이상 징후로) 표시하다, 짚어내다 · 시스템이 의심스러운 항목을 골라낼 때. "Anomaly detectors flag points"</td></tr><tr><td><strong>fit a learned normal</strong></td><td>학습된 &#39;정상&#39; 패턴에 들어맞다 · 데이터가 모델이 배운 평범한 범위 안에 있을 때. "do not fit a learned normal"</td></tr><tr><td><strong>the entire product is the threshold</strong></td><td>제품 전체가 결국 그 임계값 하나로 귀결된다 · 성패가 딱 하나의 기준값 설정에 달려 있을 때. "the entire product is the threshold"</td></tr><tr><td><strong>miss (an event)</strong></td><td>(중요한 것을) 놓치다 · 탐지기가 정작 중요한 사건을 못 잡아낼 때. "it misses the one event that mattered"</td></tr><tr><td><strong>the honest deliverable</strong></td><td>있는 그대로 보여주는 결과물 · 과장 없이 진짜 성능을 드러내는 산출물. "the ROC curve is the honest deliverable"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: report precision/recall at multiple thresholds for any anomaly flag it raises.</strong> An Auditor alert on suspicious settlement or transaction activity is only useful with an ROC curve behind it, not a single silent threshold nobody chose deliberately.</li><li><strong>Verex: run an isolation-forest pass over order and fill data before trusting manual fraud rules.</strong> Compare a statistical anomaly detector&#39;s flagged trades against Verex&#39;s existing rule-based checks and report where they disagree.</li><li><strong>gitboard: surface the threshold, not just the alert.</strong> Any anomaly-based alert gitboard displays should show what threshold produced it, so a noisy or missed alert can be tuned instead of silently ignored.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag</strong></td><td>(이상 징후로) 표시하다, 짚어내다 · 시스템이 의심스러운 항목을 골라낼 때. "Anomaly detectors flag points"</td></tr><tr><td><strong>fit a learned normal</strong></td><td>학습된 &#39;정상&#39; 패턴에 들어맞다 · 데이터가 모델이 배운 평범한 범위 안에 있을 때. "do not fit a learned normal"</td></tr><tr><td><strong>the entire product is the threshold</strong></td><td>제품 전체가 결국 그 임계값 하나로 귀결된다 · 성패가 딱 하나의 기준값 설정에 달려 있을 때. "the entire product is the threshold"</td></tr><tr><td><strong>miss (an event)</strong></td><td>(중요한 것을) 놓치다 · 탐지기가 정작 중요한 사건을 못 잡아낼 때. "it misses the one event that mattered"</td></tr><tr><td><strong>the honest deliverable</strong></td><td>있는 그대로 보여주는 결과물 · 과장 없이 진짜 성능을 드러내는 산출물. "the ROC curve is the honest deliverable"</td></tr><tr><td><strong>ROC</strong></td><td>수신자 조작 특성 곡선(Receiver Operating Characteristic curve) · 여러 임계값에서 정밀도-재현율 트레이드오프를 보여주는 평가 곡선. "the ROC curve is the honest deliverable"</td></tr><tr><td><strong>isolation-forest</strong></td><td>아이솔레이션 포레스트(Isolation Forest) · 데이터를 무작위로 분할해 이상치를 빠르게 고립시켜 탐지하는 알고리즘. "runs isolation-forest and statistical detectors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag</strong></td><td>(이상 징후로) 표시하다, 짚어내다 · 시스템이 의심스러운 항목을 골라낼 때. "Anomaly detectors flag points"</td></tr><tr><td><strong>fit a learned normal</strong></td><td>학습된 &#39;정상&#39; 패턴에 들어맞다 · 데이터가 모델이 배운 평범한 범위 안에 있을 때. "do not fit a learned normal"</td></tr><tr><td><strong>the entire product is the threshold</strong></td><td>제품 전체가 결국 그 임계값 하나로 귀결된다 · 성패가 딱 하나의 기준값 설정에 달려 있을 때. "the entire product is the threshold"</td></tr><tr><td><strong>miss (an event)</strong></td><td>(중요한 것을) 놓치다 · 탐지기가 정작 중요한 사건을 못 잡아낼 때. "it misses the one event that mattered"</td></tr><tr><td><strong>the honest deliverable</strong></td><td>있는 그대로 보여주는 결과물 · 과장 없이 진짜 성능을 드러내는 산출물. "the ROC curve is the honest deliverable"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: 이상 신호를 띄울 때마다 여러 임계값에서의 정밀도/재현율을 함께 보고한다.</strong> 정산이나 거래 활동에 대한 Auditor 알림은 아무도 신중히 고르지 않은 단일 임계값이 아니라 ROC 곡선이 뒷받침해야 의미가 있다.</li><li><strong>Verex: 수동 사기 규칙을 신뢰하기 전에 주문·체결 데이터에 isolation-forest를 돌려본다.</strong> 통계적 이상 탐지기가 표시한 거래를 Verex의 기존 규칙 기반 검사와 비교하고, 둘이 어디서 어긋나는지 보고한다.</li><li><strong>gitboard: 알림뿐 아니라 임계값도 함께 보여준다.</strong> gitboard가 표시하는 이상 기반 알림마다 어떤 임계값에서 나왔는지 보여야 시끄럽거나 놓친 알림을 조용히 무시하는 대신 조정할 수 있다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag</strong></td><td>(이상 징후로) 표시하다, 짚어내다 · 시스템이 의심스러운 항목을 골라낼 때. "Anomaly detectors flag points"</td></tr><tr><td><strong>fit a learned normal</strong></td><td>학습된 &#39;정상&#39; 패턴에 들어맞다 · 데이터가 모델이 배운 평범한 범위 안에 있을 때. "do not fit a learned normal"</td></tr><tr><td><strong>the entire product is the threshold</strong></td><td>제품 전체가 결국 그 임계값 하나로 귀결된다 · 성패가 딱 하나의 기준값 설정에 달려 있을 때. "the entire product is the threshold"</td></tr><tr><td><strong>miss (an event)</strong></td><td>(중요한 것을) 놓치다 · 탐지기가 정작 중요한 사건을 못 잡아낼 때. "it misses the one event that mattered"</td></tr><tr><td><strong>the honest deliverable</strong></td><td>있는 그대로 보여주는 결과물 · 과장 없이 진짜 성능을 드러내는 산출물. "the ROC curve is the honest deliverable"</td></tr><tr><td><strong>ROC</strong></td><td>수신자 조작 특성 곡선(Receiver Operating Characteristic curve) · 여러 임계값에서 정밀도-재현율 트레이드오프를 보여주는 평가 곡선. "the ROC curve is the honest deliverable"</td></tr><tr><td><strong>isolation-forest</strong></td><td>아이솔레이션 포레스트(Isolation Forest) · 데이터를 무작위로 분할해 이상치를 빠르게 고립시켜 탐지하는 알고리즘. "runs isolation-forest and statistical detectors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

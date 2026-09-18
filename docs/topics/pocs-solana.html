@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Solana</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#136</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#140</span><span>PoC</span></p>
       <h1>Solana</h1>
       <p class="lead">EVM-vs-Solana study + a sample Anchor program on devnet.</p>
       <p class="meta">Not yet scoped.</p>
@@ -469,8 +469,12 @@ if __name__ == &quot;__main__&quot;:
     print(f&quot;\nFinal on-chain state (lives in the account, not the program): {counter.data}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/solana.py">docs/code/pocs/solana.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>data point</strong></td><td>하나의 사례, 참고 자료 · 여러 비교 대상 중 의미 있는 표본 하나를 가리킬 때. "a deliberate non-EVM data point"</td></tr><tr><td><strong>exercise (a model)</strong></td><td>(기능을) 실제로 시험해보다, 활용해보다 · 이론이 아니라 코드로 직접 그 구조를 써볼 때. "to exercise Solana&#39;s account model"</td></tr><tr><td><strong>cross-program invocation</strong></td><td>프로그램 간 호출(CPI) · 솔라나에서 한 프로그램이 다른 프로그램을 호출하는 방식. "cross-program invocations"</td></tr><tr><td><strong>passed in explicitly</strong></td><td>명시적으로 전달되다 · 상태가 암묵적으로 저장되는 게 아니라 매번 인자로 넘겨질 때. "all state passed in explicitly"</td></tr><tr><td><strong>worth understanding</strong></td><td>이해할 가치가 있는 · 당연시하지 말고 제대로 짚고 넘어가야 할 대상을 말할 때. "worth understanding rather than assuming EVM concepts transfer"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Dark Horse: use the Anchor PoC to test whether a Dark Horse idea actually needs Solana.</strong> A small PDA counter and SPL escrow is the cheapest way to check whether any Dark Horse candidate needs Solana&#39;s parallel execution rather than an EVM devnet.</li><li><strong>Devnet: keep this study standalone.</strong> Jayverse&#39;s own devnet stays Anvil/EVM; the Solana PoC&#39;s job is comparison, not adding a second chain to any current service&#39;s critical path.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>data point</strong></td><td>하나의 사례, 참고 자료 · 여러 비교 대상 중 의미 있는 표본 하나를 가리킬 때. "a deliberate non-EVM data point"</td></tr><tr><td><strong>exercise (a model)</strong></td><td>(기능을) 실제로 시험해보다, 활용해보다 · 이론이 아니라 코드로 직접 그 구조를 써볼 때. "to exercise Solana&#39;s account model"</td></tr><tr><td><strong>cross-program invocation</strong></td><td>프로그램 간 호출(CPI) · 솔라나에서 한 프로그램이 다른 프로그램을 호출하는 방식. "cross-program invocations"</td></tr><tr><td><strong>passed in explicitly</strong></td><td>명시적으로 전달되다 · 상태가 암묵적으로 저장되는 게 아니라 매번 인자로 넘겨질 때. "all state passed in explicitly"</td></tr><tr><td><strong>worth understanding</strong></td><td>이해할 가치가 있는 · 당연시하지 말고 제대로 짚고 넘어가야 할 대상을 말할 때. "worth understanding rather than assuming EVM concepts transfer"</td></tr><tr><td><strong>AA</strong></td><td>계정 추상화(Account Abstraction) · 이더리움에서 지갑을 스마트컨트랙트처럼 다루는 표준(ERC-4337 등), 이 카탈로그의 다른 데모("Sepolia AA")가 다루는 주제. "Hyperliquid, Sepolia AA, PBS"</td></tr><tr><td><strong>PBS</strong></td><td>제안자-빌더 분리(Proposer-Builder Separation) · 블록 생성자와 제안자를 분리하는 이더리움 아키텍처, 이 카탈로그의 다른 데모가 다루는 주제. "Sepolia AA, PBS"</td></tr><tr><td><strong>PDA</strong></td><td>프로그램 파생 주소(Program Derived Address) · 개인키 없이 프로그램이 결정론적으로 파생시켜 소유하는 솔라나 계정 주소, EVM의 컨트랙트 스토리지에 대응하는 솔라나식 상태 저장 방식. "starting with a PDA-based counter"</td></tr><tr><td><strong>SPL</strong></td><td>솔라나 프로그램 라이브러리 토큰 표준(Solana Program Library Token) · 솔라나의 표준 토큰 규격, 이더리움의 ERC-20에 대응. "a small SPL-token escrow"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -544,12 +548,16 @@ if __name__ == &quot;__main__&quot;:
     print(f&quot;\nFinal on-chain state (lives in the account, not the program): {counter.data}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/solana.py">docs/code/pocs/solana.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>data point</strong></td><td>하나의 사례, 참고 자료 · 여러 비교 대상 중 의미 있는 표본 하나를 가리킬 때. "a deliberate non-EVM data point"</td></tr><tr><td><strong>exercise (a model)</strong></td><td>(기능을) 실제로 시험해보다, 활용해보다 · 이론이 아니라 코드로 직접 그 구조를 써볼 때. "to exercise Solana&#39;s account model"</td></tr><tr><td><strong>cross-program invocation</strong></td><td>프로그램 간 호출(CPI) · 솔라나에서 한 프로그램이 다른 프로그램을 호출하는 방식. "cross-program invocations"</td></tr><tr><td><strong>passed in explicitly</strong></td><td>명시적으로 전달되다 · 상태가 암묵적으로 저장되는 게 아니라 매번 인자로 넘겨질 때. "all state passed in explicitly"</td></tr><tr><td><strong>worth understanding</strong></td><td>이해할 가치가 있는 · 당연시하지 말고 제대로 짚고 넘어가야 할 대상을 말할 때. "worth understanding rather than assuming EVM concepts transfer"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Dark Horse: Anchor PoC로 Dark Horse 아이디어가 실제로 Solana를 필요로 하는지 테스트한다.</strong> 작은 PDA 카운터와 SPL 에스크로가 Dark Horse 후보 중 어떤 것이 EVM devnet이 아니라 Solana의 병렬 실행을 필요로 하는지 확인하는 가장 저렴한 방법이다.</li><li><strong>Devnet: 이 연구는 독립적으로 유지한다.</strong> Jayverse 자체 devnet은 Anvil/EVM으로 남는다. Solana PoC의 역할은 비교이지, 어떤 현재 서비스의 크리티컬 패스에 두 번째 체인을 추가하는 것이 아니다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>data point</strong></td><td>하나의 사례, 참고 자료 · 여러 비교 대상 중 의미 있는 표본 하나를 가리킬 때. "a deliberate non-EVM data point"</td></tr><tr><td><strong>exercise (a model)</strong></td><td>(기능을) 실제로 시험해보다, 활용해보다 · 이론이 아니라 코드로 직접 그 구조를 써볼 때. "to exercise Solana&#39;s account model"</td></tr><tr><td><strong>cross-program invocation</strong></td><td>프로그램 간 호출(CPI) · 솔라나에서 한 프로그램이 다른 프로그램을 호출하는 방식. "cross-program invocations"</td></tr><tr><td><strong>passed in explicitly</strong></td><td>명시적으로 전달되다 · 상태가 암묵적으로 저장되는 게 아니라 매번 인자로 넘겨질 때. "all state passed in explicitly"</td></tr><tr><td><strong>worth understanding</strong></td><td>이해할 가치가 있는 · 당연시하지 말고 제대로 짚고 넘어가야 할 대상을 말할 때. "worth understanding rather than assuming EVM concepts transfer"</td></tr><tr><td><strong>AA</strong></td><td>계정 추상화(Account Abstraction) · 이더리움에서 지갑을 스마트컨트랙트처럼 다루는 표준(ERC-4337 등), 이 카탈로그의 다른 데모("Sepolia AA")가 다루는 주제. "Hyperliquid, Sepolia AA, PBS"</td></tr><tr><td><strong>PBS</strong></td><td>제안자-빌더 분리(Proposer-Builder Separation) · 블록 생성자와 제안자를 분리하는 이더리움 아키텍처, 이 카탈로그의 다른 데모가 다루는 주제. "Sepolia AA, PBS"</td></tr><tr><td><strong>PDA</strong></td><td>프로그램 파생 주소(Program Derived Address) · 개인키 없이 프로그램이 결정론적으로 파생시켜 소유하는 솔라나 계정 주소, EVM의 컨트랙트 스토리지에 대응하는 솔라나식 상태 저장 방식. "starting with a PDA-based counter"</td></tr><tr><td><strong>SPL</strong></td><td>솔라나 프로그램 라이브러리 토큰 표준(Solana Program Library Token) · 솔라나의 표준 토큰 규격, 이더리움의 ERC-20에 대응. "a small SPL-token escrow"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-cre-cloud.html">&larr; 135. CRE × Cloud — four hybrid patterns</a><a href="pocs-linera-microchains.html">137. Linera microchains &rarr;</a></div>
+    <div class="pager"><a href="pocs-cre-cloud.html">&larr; 139. CRE × Cloud — four hybrid patterns</a><a href="pocs-linera-microchains.html">141. Linera microchains &rarr;</a></div>
   </div>
   </main>
 </div>

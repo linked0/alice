@@ -10,3 +10,7 @@
 | all but guarantee | 사실상 보장하다 · 거의 확실하게 그렇게 될 것이라고 말할 때. "all but guarantees that most entries demonstrate" |
 | poisoned (context) | (입력이) 오염되다, 조작되다 · 악성 데이터가 에이전트의 판단을 흐릴 때. "an agent whose context is poisoned" |
 | happy path | 정상 흐름, 문제 없는 이상적 시나리오 · 대부분의 참가작이 보여줄 뻔한 흐름. "the happy path of exactly the mechanism" |
+| AP2 | 에이전트 결제 프로토콜(Agent Payments Protocol) · 구글의 Intent Mandate/Cart Mandate 구조, 이 카드가 솔라나로 옮겨온 개념. "That is AP2's Intent Mandate / Cart Mandate split" |
+| CRE | 체인링크 런타임 환경(Chainlink Runtime Environment) · 온체인 집행·오프체인 결정 분리 패턴을 다루는 다른 카드. "the same split the CRE × Cloud card arrives" |
+| Cloud Run | 구글 클라우드의 서버리스 실행 서비스(Google Cloud Run) · 에이전트가 접근할 수 없는 곳에서 정책 서비스를 돌리는 위치. "a Cloud Run policy service" |
+<!-- acronyms 2026-09-18 -->

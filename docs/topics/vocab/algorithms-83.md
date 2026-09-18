@@ -7,3 +7,6 @@
 | one byte at a time | 한 바이트씩 (차례로) · 공격자가 비밀값을 조금씩 알아낼 때. "match the tag one byte at a time" |
 | forge and push in | 위조해서 밀어넣다 · 검증 없이 가짜 이벤트를 시스템에 주입할 때. "anyone can forge and push in payment... events" |
 | the first gate | 첫 번째 관문 · 다음 단계로 넘어가기 전에 반드시 통과해야 하는 검증. "become the first gate on the path to on-chain settlement" |
+| AEAD | 인증 암호화 방식(Authenticated Encryption with Associated Data) · 기밀성과 무결성을 한 번에 보장하는 암호화 모드. "AEAD is a mode that handles encryption and authentication" |
+| AAD | 추가 인증 데이터(Additional Authenticated Data) · 암호화하지 않지만 무결성 검증에는 포함되는 데이터. "any additional authenticated data (AAD)" |
+<!-- acronyms 2026-09-18 -->

@@ -1,7 +1,7 @@
 # Knowledge Notes (formerly Tech Notes, renamed 2026-09-18) — how items are added
 
 `docs/notes.html` is hand-maintained HTML with four sections: **Tech** (formerly "Blockchain & Tech"),
-**Fundamentals**, **Mindset**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
+**Foundations** (renamed from Fundamentals 2026-09-18; ids `sec-fundamentals` / `--section fundamentals` unchanged), **Mindset**, **English** (formerly "Dev English"). `docs/topics/_nav.js` is the source of truth for numbering and
 status; `docs/topics/_progress.js` paints the rail badges from it. Each item has a detail page in
 `docs/topics/`.
 
@@ -9,9 +9,19 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 
 - When jay mentions or pastes an item, a note, an article, a talk, or a number in conversation, treat it
   as an item for Knowledge Notes without waiting for the words "add this item": pick the section
-  (Tech, Fundamentals, Mindset), draft it, and say so in the reply. jay still decides whether it
+  (Tech, Foundations, Mindset), draft it, and say so in the reply. jay still decides whether it
   stays; the default is to add, not to ask. Questions clearly marked "just asking" are the
   exception: answer them, and offer the item in one line.
+
+## Gemini YouTube briefings — check twice a week (jay, 2026-09-18)
+
+- `/Users/jay/Documents/Gemini` receives Gemini's YouTube weekly briefing files (`YouTube-YYYY-MM-DD-*.md`,
+  sections Blockchain / Tech / Mindset / Culture). Twice a week, Monday and Thursday KST or at the first
+  request after three days without a check, compare the folder with
+  [gemini-checked.md](gemini-checked.md): every file not logged is new. Add each of its entries to the
+  related section (Blockchain and Tech → Tech, Mindset → Mindset) as a normal item with
+  `--source gemini`, then log the file. Culture entries have no section; say so in the reply.
+- First check 2026-09-18: `YouTube-2026-09-18-v2.md`.
 
 ## Where new Blockchain items come from (jay, 2026-09-16)
 
@@ -31,7 +41,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 ## Tech (Blockchain) conventions
 
 - **Tooling:** `python3 scripts/add-tech-item.py --key <key> --slot <N> --en en.md --ko ko.md [--status new] [--date] [--source chat|file]`
-  Fundamentals items use the same script with `--section fundamentals --tag Math|Algorithms|Economics`;
+  Foundations items use the same script with `--section fundamentals --tag Math|Algorithms|Economics`;
   they append at the end of the section (numbering there is curriculum order, not done-first) and get
   the same date and source tag (jay, 2026-09-18, first item #193).
   does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
@@ -46,7 +56,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
   the detail page kicker after the type (`#N · PoC · YYYY-MM-DD`). Older items carry no date.
 - **Source tag (jay, 2026-09-18):** next to the date, a small pill says where the subject came from:
   `chat` when jay pasted or pointed at the content, `file` when it was taken from the alice-tech
-  file. Content jay pastes that is itself a candidate from that day's alice-tech file is tagged
+  file, `gemini` when it came from the Gemini briefing folder (2026-09-18). Content jay pastes that is itself a candidate from that day's alice-tech file is tagged
   `file` (its subject came from the file; the paste is how it was pointed at). Card: `<span class="topic-src">`; kicker: `#N · PoC · YYYY-MM-DD · chat`. Pass `--source`.
 - Every item: English and Korean copy text as JSON on the card and the page; page body generated
   from the copy text so they cannot diverge; a "Verified and unverified" closing section with
@@ -71,7 +81,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## Key expressions on every detail page (jay, 2026-09-18)
 
-- Every Tech, Fundamentals and Mindset detail page ends with a **Key expressions** table (Korean
+- Every Tech, Foundations and Mindset detail page ends with a **Key expressions** table (Korean
   article: **핵심 표현**): the words and phrases from its English text worth learning, with the
   Korean meaning, a note on where the expression is used, and the sentence it comes from. Example that
   started it: *treasury desk* on the S&P Global / OpenZeppelin page. English conversation pages already
@@ -83,8 +93,11 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - New items: write the table while writing the item and pass `--vocab <file>` to
   `add-tech-item.py`; it copies the file into `vocab/` and renders it. Size: 8–12 rows for a full
   item, fewer for short curriculum stubs. Pick what a fluent non-native developer would stop at
-  (domain terms, idioms, collocations, phrasal verbs, prepositions); skip bare proper nouns and words
-  that are the same in Korean transliteration.
+  (domain terms, idioms, collocations, phrasal verbs, prepositions), **and every acronym, regulation,
+  standard or institution name the page assumes** (jay, 2026-09-18: "add the unusual words like BMR or
+  MiFID II or ETP NAV, not only words and phrases") — for an acronym the Korean meaning is followed by
+  the full English form in parentheses. Skip only everyday EVM vocabulary (EVM, RPC, ERC-20, L1/L2,
+  NFT, DeFi) and words that are the same in Korean transliteration.
 - Backfill on 2026-09-18 covered all 426 pages that existed that day.
 
 ## Entering the notes lands on a detail page (jay, 2026-09-18)
@@ -100,3 +113,13 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - Detail-page rails have the same Important / New / All buttons as the list page, defaulting to All so
   the current item is always visible. The 148 curriculum pages (algorithms-N, math-N) and the three
   hand-written pages have no rail, so they are unchanged.
+
+## "Where it lands in Jayverse" on every detail page (jay, 2026-09-18)
+
+- Every Tech, Foundations and Mindset page closes its body with **Where it lands in Jayverse** (Korean:
+  **Jayverse에서의 위치**): two to four bullets, each a bold lead naming a service and a decision, then one
+  or two sentences concrete enough to act on. New items carry it in their own markdown and
+  `add-tech-item.py` refuses an item without it. The 410 older pages were backfilled on 2026-09-18 from
+  `docs/topics/landing/<page>.md` via `scripts/add-landing.py` (idempotent `<!-- landing:start/end -->`
+  block, placed before "Verified and unverified" or before Key expressions). Curriculum pages keep their
+  "Practical Connection" paragraph and add this section after it.

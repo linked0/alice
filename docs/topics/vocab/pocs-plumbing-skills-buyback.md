@@ -10,3 +10,12 @@
 | syllabus | (여기서는) 공부 목록, 강의계획표 · 실행할 가격표가 아니라 읽을거리 목록이 되는 것을 경계. "rather than a syllabus" |
 | under-collateralisation | 담보 부족 상태 · 순노출 대비 담보가 모자란 상태. "may be under-collateralisation, not netting" |
 | staff a desk for | 그 업무를 위해 전담 데스크(인력)를 두다 · 전통 거래소가 감시 인력을 배치하는 것을 가리킴. "a traditional venue staffs a desk for" |
+| CCP | 중앙청산소(Central Counterparty) · 청산소가 매도자·매수자 사이에서 신용위험을 흡수하는 전통 금융 기관. "Netting without a CCP means somebody is exposed" |
+| LOB | 지정가 주문서(Limit Order Book) · 오프체인에서 매칭이 이루어지는 전통적 주문 장부 구조. "off-chain LOB with batch settlement" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 체인 상 거래 순서 결정 권한에서 나오는 대리인 비용. "the economics of routing return as MEV" |
+| TLS | 전송계층 보안(Transport Layer Security) · 오라클 피드가 신뢰를 부여받는 방식 중 하나, 암호화 통신 증명. "a TLS-attested feed is a trusted party" |
+| MPC | 다자간 계산(Multi-Party Computation) · 여러 참여자가 비밀을 나누어 계산하는 오라클 피드 방식. "dispute escrow, TLS-attested feeds, MPC feeds" |
+| SPAN | 표준 포트폴리오 분석(Standard Portfolio Analysis of Risk) · 전통 청산소가 쓰는 마진 계산 방법론. "novation, multilateral netting, SPAN/VaR margin" |
+| VaR | 위험가치(Value at Risk) · 일정 확률로 발생 가능한 최대 손실을 추정하는 위험 지표. "SPAN/VaR margin, default waterfall" |
+| ZK | 영지식(Zero-Knowledge) · 데이터를 공개하지 않고 유효성만 증명하는 암호 기법, 여기선 상태 전이 증명. "Merkle proofs and ZK state-transition proofs" |
+<!-- acronyms 2026-09-18 -->

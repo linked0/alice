@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Reentrancy — the withdraw that calls back before the balance drops</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#181</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#185</span><span>PoC</span></p>
       <h1>Reentrancy — the withdraw that calls back before the balance drops</h1>
       <p class="lead">Reentrancy lets a callee re-enter the caller before its state updates, the class that drained The DAO in 2016; the fix (checks-effects-interactions) is old, and the bug still ships.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex contracts: add a checks-effects-interactions review and a reentrancy-guard to every withdraw/claim path in the ctf-exchange fork.</strong> Add a Foundry invariant test that fails on any external call occurring before its own balance write.</li><li><strong>Bridge/DeFi: audit the lock-and-mint unlock path and the from-scratch staking withdraw path the same way.</strong> Both are the same "callback before state update" shape as the classic exploit, so the same guard and test belong there too.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>re-enter</strong></td><td>되돌아 들어오다(재진입하다) · 콜백이 상태 갱신 전에 다시 함수를 호출할 때. "lets a callee re-enter the caller"</td></tr><tr><td><strong>drain</strong></td><td>(자금을) 다 빼가다/탈탈 털다 · 해킹으로 컨트랙트 자금이 전부 빠져나갈 때. "drained The DAO in 2016"</td></tr><tr><td><strong>still ships</strong></td><td>여전히 (제품·코드로) 출시되다 · 오래된 버그가 지금도 실제 배포에 남아있을 때. "the bug still ships"</td></tr><tr><td><strong>closing it</strong></td><td>(취약점을) 막다/닫다 · 보안 결함을 최종적으로 해결할 때. "and a reentrancy guard closing it"</td></tr><tr><td><strong>the canonical first lesson</strong></td><td>가장 대표적인/기본이 되는 첫 교훈 · 해당 분야 입문에서 반드시 배우는 첫 사례. "the canonical first lesson in smart-contract security"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex 컨트랙트: ctf-exchange 포크의 모든 withdraw/claim 경로에 checks-effects-interactions 리뷰와 리엔트런시 가드를 추가한다.</strong> 자기 잔액 쓰기보다 먼저 일어나는 외부 호출이 있으면 실패하는 Foundry 인바리언트 테스트를 추가한다.</li><li><strong>Bridge/DeFi: 락앤민트의 언락 경로와 처음부터 만든 스테이킹의 인출 경로도 같은 방식으로 감사한다.</strong> 둘 다 고전적 익스플로잇과 같은 "상태 갱신 전 콜백" 형태이므로 같은 가드와 테스트가 거기에도 필요하다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>re-enter</strong></td><td>되돌아 들어오다(재진입하다) · 콜백이 상태 갱신 전에 다시 함수를 호출할 때. "lets a callee re-enter the caller"</td></tr><tr><td><strong>drain</strong></td><td>(자금을) 다 빼가다/탈탈 털다 · 해킹으로 컨트랙트 자금이 전부 빠져나갈 때. "drained The DAO in 2016"</td></tr><tr><td><strong>still ships</strong></td><td>여전히 (제품·코드로) 출시되다 · 오래된 버그가 지금도 실제 배포에 남아있을 때. "the bug still ships"</td></tr><tr><td><strong>closing it</strong></td><td>(취약점을) 막다/닫다 · 보안 결함을 최종적으로 해결할 때. "and a reentrancy guard closing it"</td></tr><tr><td><strong>the canonical first lesson</strong></td><td>가장 대표적인/기본이 되는 첫 교훈 · 해당 분야 입문에서 반드시 배우는 첫 사례. "the canonical first lesson in smart-contract security"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-interface-premium-collapses.html">&larr; 180. The 2,234 pieces were already there — the agent collapsed the interface premium</a><a href="pocs-sec-integer-overflow.html">182. Integer overflow — arithmetic that wraps past zero &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-interface-premium-collapses.html">&larr; 184. The 2,234 pieces were already there — the agent collapsed the interface premium</a><a href="pocs-sec-integer-overflow.html">186. Integer overflow — arithmetic that wraps past zero &rarr;</a></div>
   </div>
   </main>
 </div>

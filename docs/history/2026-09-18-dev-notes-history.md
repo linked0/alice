@@ -115,3 +115,43 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Reasoning:** English pages already end with an expressions table, so the same shape (Expression | 뜻 · 쓰이는 자리) goes on Tech, Fundamentals and Mindset pages, in both articles. Source of truth is markdown per page so a regenerated page only needs a re-run. Backfilling 426 pages by hand was not realistic in one session, so the English text of each page was extracted to scratch and 22 sonnet subagents wrote the tables in balanced batches; the S&P page was written by hand as the model.
 - **Change:** new `scripts/add-vocab.py` (idempotent `<!-- vocab:start/end -->` block before the footer, or before the curriculum stub, table wrapped for horizontal scroll); `add-tech-item.py --vocab` copies and renders the file for new items and re-applies an existing one on re-run; `docs/topics/vocab/<page>.md` × 426 plus a README; rule in `docs/topics/README.md` and memory.
 - **Result:** 426 of 426 non-English pages carry the table (English pages skipped by design); format validated programmatically (header, two cells, no stray pipes, ≥4 rows). Row counts scale with page length: 8–12 for full items, 6–8 for curriculum pages, 4–6 for short stubs. Branch `claude/notes-mindset`.
+
+### docs/html mirror regenerated (Dark Horse (d) was invisible in the HTML copy)
+
+- **Cause:** jay: "where can I find the (d) you mentioned in docs/html/docs/features/jayverse-darkhorse.html?" The markdown had it; the generated HTML mirror was stale.
+- **Change:** `npm run docs:html` on `claude/docs-html-regen`; 795 markdown files converted, the features, tasks, topics and history mirrors updated, English #32–34 and the vocab folder mirrored for the first time.
+- **Result:** the (d) section is now in the HTML copy. Lesson recorded in memory: regenerate the mirror after any .md edit, in the same commit. Uncommitted until jay says push.
+
+### Tech #58 Kaiko marked RECENTLY DONE
+
+- **Cause:** jay: "make the 58 done."
+- **Change:** re-ran `add-tech-item.py` for `kaiko-reference-rate-is-a-price-with-governance` with `--status recent` (slot 58 kept); the Key expressions block was re-applied automatically and the index card moved to the next NEW item, #60 dependency-is-authority.
+- **Result:** Tech 59/237, overall 65/466. Branch `claude/docs-html-regen`, uncommitted.
+
+### Section renamed Fundamentals → Foundations
+
+- **Cause:** jay: "Change the name Fundamentals to the more proper name."
+- **Reasoning:** the section's own lead calls it "the foundations underneath the rest of the catalogue" (math, algorithms, economics), and Foundations reads as a track name beside Tech, Mindset and English. Label only: `sec-fundamentals`, `nav-sec-fundamentals` and `--section fundamentals` stay so links and the script keep working.
+- **Change:** `notes.html` (h1, jump pill, nav-group label), `_nav.js` labels, the CSS comment on 312 topic pages, `add-tech-item.py` label and help text, the topics/vocab/landing READMEs and memory notes. Item bodies that mention the old name in prose, and Pocock's talk title "Software Fundamentals Matter More Than Ever", were left as written.
+- **Result:** rail and section read Foundations (193). Branch `claude/docs-html-regen`, uncommitted.
+
+### Key expressions widened to acronyms and domain names (second pass)
+
+- **Cause:** jay: "You should add the unusual words like BMR or MiFID II or ETP NAV to Key Expressions for all the detail pages, not only words and phrases … make it a rule … and change all the detail pages."
+- **Reasoning:** the first pass had told the writers to skip proper nouns and acronyms, which is exactly what a Korean developer outside finance has to look up. Second pass appends rows instead of rewriting, with the full English form in parentheses after the Korean meaning.
+- **Change:** regex pre-extraction of capitalised tokens per page as a hint list; 22 sonnet subagents read each page plus its existing table and wrote only new rows; merged with a dedupe on the expression and an `<!-- acronyms 2026-09-18 -->` marker so a re-run cannot double-append; `add-vocab.py --all` re-rendered. Rule widened in the topics README, the vocab README and memory.
+- **Result:** 373 of 426 files gained rows, 1,271 rows added, 4,603 expressions in total; 53 pages had nothing new (pure math or already covered). Kaiko's table now opens with BMR, MiFID II, ETP NAV, AMF, S&P DJI, EOD, Canton Network.
+
+### "Where it lands in Jayverse" on all 410 pages that lacked it
+
+- **Cause:** jay: "Where it lands in Jayverse: all the detail pages should have this section."
+- **Reasoning:** only the 16 newest pages had it; 264 older PoC pages and 146 curriculum pages did not. The section is what turns reading into a decision for a service, so it is backfilled bilingually rather than renamed from "Practical Connection" (the curriculum pages keep that paragraph and build on it).
+- **Change:** `docs/topics/landing/<page>.md` (## en / ## ko bullets) for 410 pages, written by 22 sonnet subagents from a Jayverse brief (services, repos, the Kaiko section as the style example); new `scripts/add-landing.py` inserts an idempotent `<!-- landing:start/end -->` block before "Verified and unverified", else before Key expressions, as h3 on PoC pages and h2 on curriculum pages; `add-tech-item.py` now refuses an item whose markdown lacks the section; rule in the topics README, `landing/README.md` and memory.
+- **Result:** 426 of 426 non-English pages carry the section, 2 to 4 bullets each, English and Korean in the same order, always before the Key expressions block; docs/html mirror regenerated (1,206 markdown files). Branch `claude/docs-html-regen`, uncommitted.
+
+### Rule: check ~/Documents/Gemini twice a week; first check → 5 items
+
+- **Cause:** jay: "One more rule: twice a week you check this folder (/Users/jay/Documents/Gemini) and if there's a new one you didn't notice, add the items to the related sections. Check it now."
+- **Reasoning:** the folder holds Gemini's YouTube weekly briefings with Blockchain / Tech / Mindset / Culture sections. A check log (`docs/topics/gemini-checked.md`) makes "new" decidable across sessions and machines; a third source tag `gemini` keeps the provenance visible on cards and kickers. Culture has no section, so its entry is reported, not added.
+- **Change:** rule in `docs/topics/README.md` and memory; `add-tech-item.py --source gemini`; first file `YouTube-2026-09-18-v2.md` → Tech #60 Lubin "clarity is permission" (Fox Business 2026-09-15, verified date and headline), #61 agentic engineering writes boundaries (IBM), #62 Mamba selective state (Gu and Dao, arXiv 2312.00752, figures verified), #63 a model is weights plus objective (IBM, anchor for the LLM stubs); Mindset #3 Harris on free will. Each with Key expressions (acronyms included) and a "Where it lands in Jayverse" section; older NEW items shift to #64–#70. No English conversation: today's already exists.
+- **Result:** Tech 59/241, Mindset 0/3, overall 65/471; index card now opens #60 Lubin. Branch `claude/docs-html-regen`, uncommitted.

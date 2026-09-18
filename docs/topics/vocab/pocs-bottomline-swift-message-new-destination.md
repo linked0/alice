@@ -10,3 +10,10 @@
 | timed for | ~에 맞춰 일정이 잡히다 · 발표를 특정 행사에 맞출 때. "timed for Sibos Miami" |
 | land in | ~에 적용되다, ~로 귀결되다 · 교훈이 실제 프로젝트에 어떻게 적용되는지 말할 때. "Where it lands in Jayverse" |
 | option, not a guarantee | 선택지일 뿐 확정된 것은 아니다 · 은행이 채택할 수도 있지만 아직 안 했다는 단서. "described the offer as an option banks may take" |
+| CCIP | 크로스체인 상호운용성 프로토콜(Cross-Chain Interoperability Protocol) · 체인 간 토큰화 자산 이동을 담당하는 Chainlink의 표준. "CCIP moves tokenized value between networks" |
+| CRE | 체인링크 런타임 환경(Chainlink Runtime Environment) · 온·오프체인 시스템에 걸친 결제 워크플로우를 조율하는 계층. "the Chainlink Runtime Environment (CRE) orchestrates the payment workflow" |
+| ISO 20022 | 국제 결제 메시징 표준(ISO 20022) · 은행이 주고받는 결제 지시 메시지의 데이터 포맷. "It keeps sending ISO 20022 messages over the Swift connectivity" |
+| GTM | 시장 진출 전략 조직(Go-To-Market) · 은행권 영업 총괄 직함에 쓰이는 약어. "Global Head of Banking GTM" |
+| pain.001 | ISO 20022의 지급 지시 메시지 유형 · 은행이 오늘도 보내는 표준 송금 지시 포맷. "the same pain.001 it sends today" |
+| Sibos | 스위프트가 주최하는 연례 금융 컨퍼런스 · 이 발표가 맞춰 공개된 업계 행사. "presenting at Sibos Miami" |
+<!-- acronyms 2026-09-18 -->

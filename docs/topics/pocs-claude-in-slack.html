@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Claude in Slack — the workflow first, the presence second</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#151</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#155</span><span>PoC</span></p>
       <h1>Claude in Slack — the workflow first, the presence second</h1>
       <p class="lead">Wire Slack, Claude and Notion together through MCP connectors so a thread gets summarized and logged. The tagged-bot version of the same idea is the packaged form of that workflow, which is why it stays parked until the workflow is worth having.</p>
       <p class="meta">Not yet scoped, and deliberately parked. When it resumes, the order is fixed: build the workflow by hand first — a Slack conversation summarized by Claude and written to Notion through the existing connectors — and only consider a tagged presence once the manual version has run often enough to be missed.</p>
@@ -451,8 +451,12 @@
 <h3>Why it stays parked</h3>
 <p>Both halves were marked <em>not currently important</em> in August 2026 and nothing has changed that. <strong>The entry stays on the list because the ordering is the finding</strong>, not because the work is queued.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>parked</strong></td><td>보류된, 잠시 미뤄둔 · 프로젝트나 아이디어를 당장 진행 안 하고 미뤄둘 때. "deliberately parked"</td></tr><tr><td><strong>the definition of a merge</strong></td><td>그야말로 병합에 해당하는 상황 · 두 항목이 사실상 하나로 합쳐져야 함을 강조할 때. "which is the definition of a merge"</td></tr><tr><td><strong>no new surface area</strong></td><td>새로 노출되는 위험·관리 지점이 없음 · 추가 구현 없이 기존 것만으로 되는 경우. "with no new surface area"</td></tr><tr><td><strong>availability promise</strong></td><td>항상 응답 가능해야 한다는 약속 · 서비스가 언제나 가동돼야 하는 부담을 가리킬 때. "an availability promise attached"</td></tr><tr><td><strong>the expensive half</strong></td><td>(둘 중) 비용이 큰 쪽 · 두 대안 중 부담이 더 큰 쪽을 가리킬 때. "the promise is the expensive half"</td></tr><tr><td><strong>fail visibly</strong></td><td>눈에 띄게(명확히) 실패하다 · 오류가 조용히 묻히지 않고 드러나야 함을 말할 때. "fail visibly rather than silently"</td></tr><tr><td><strong>dressed as</strong></td><td>~인 척 꾸민, ~로 포장된 · 실제로는 다른 것인데 겉모습만 그럴듯할 때. "an operations commitment dressed as a convenience"</td></tr><tr><td><strong>worth having</strong></td><td>가질 만한 가치가 있는 · 어떤 것이 도입할 가치가 있는지 판단할 때. "until the workflow is worth having"</td></tr><tr><td><strong>nobody misses it</strong></td><td>아무도 아쉬워하지 않다 · 없어져도 그리워하지 않는다는 뜻으로 불필요함을 확인할 때. "nobody misses it when it stops"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>alice-tech report: build the Slack-to-Notion summarization by hand before automating it.</strong> Route a Slack thread through Claude&#39;s existing Slack and Notion MCP connectors into the daily alice-tech report manually first, and only consider a tagged bot once that manual step is run often enough to be missed.</li><li><strong>gitboard: treat a future tagged presence as an ops commitment, not a convenience.</strong> If gitboard ever gets an @-mentionable Claude, budget for it having to always be running, handle being tagged in the wrong channel, and fail visibly — the availability promise is the expensive half.</li><li><strong>Auditor: apply the same "run it manually, see if it&#39;s missed" test before automating.</strong> Before building any automated auditor bot, run the manual publish-and-log workflow for a few weeks; if nobody misses it when it stops, the automation was not needed.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>parked</strong></td><td>보류된, 잠시 미뤄둔 · 프로젝트나 아이디어를 당장 진행 안 하고 미뤄둘 때. "deliberately parked"</td></tr><tr><td><strong>the definition of a merge</strong></td><td>그야말로 병합에 해당하는 상황 · 두 항목이 사실상 하나로 합쳐져야 함을 강조할 때. "which is the definition of a merge"</td></tr><tr><td><strong>no new surface area</strong></td><td>새로 노출되는 위험·관리 지점이 없음 · 추가 구현 없이 기존 것만으로 되는 경우. "with no new surface area"</td></tr><tr><td><strong>availability promise</strong></td><td>항상 응답 가능해야 한다는 약속 · 서비스가 언제나 가동돼야 하는 부담을 가리킬 때. "an availability promise attached"</td></tr><tr><td><strong>the expensive half</strong></td><td>(둘 중) 비용이 큰 쪽 · 두 대안 중 부담이 더 큰 쪽을 가리킬 때. "the promise is the expensive half"</td></tr><tr><td><strong>fail visibly</strong></td><td>눈에 띄게(명확히) 실패하다 · 오류가 조용히 묻히지 않고 드러나야 함을 말할 때. "fail visibly rather than silently"</td></tr><tr><td><strong>dressed as</strong></td><td>~인 척 꾸민, ~로 포장된 · 실제로는 다른 것인데 겉모습만 그럴듯할 때. "an operations commitment dressed as a convenience"</td></tr><tr><td><strong>worth having</strong></td><td>가질 만한 가치가 있는 · 어떤 것이 도입할 가치가 있는지 판단할 때. "until the workflow is worth having"</td></tr><tr><td><strong>nobody misses it</strong></td><td>아무도 아쉬워하지 않다 · 없어져도 그리워하지 않는다는 뜻으로 불필요함을 확인할 때. "nobody misses it when it stops"</td></tr><tr><td><strong>MCP</strong></td><td>모델 컨텍스트 프로토콜(Model Context Protocol) · 클로드가 슬랙·노션 같은 외부 도구와 연결되는 표준 커넥터 방식. "Claude&#39;s existing Slack and Notion MCP connectors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -508,12 +512,16 @@
 <h3>왜 계속 보류인가</h3>
 <p>둘 다 2026년 8월에 <em>지금은 중요하지 않음</em> 으로 표시됐고 <strong>바뀐 것이 없습니다.</strong> <strong>이 항목이 목록에 남는 이유는 작업이 대기열에 있어서가 아니라 그 순서가 곧 발견이기 때문</strong>입니다.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>parked</strong></td><td>보류된, 잠시 미뤄둔 · 프로젝트나 아이디어를 당장 진행 안 하고 미뤄둘 때. "deliberately parked"</td></tr><tr><td><strong>the definition of a merge</strong></td><td>그야말로 병합에 해당하는 상황 · 두 항목이 사실상 하나로 합쳐져야 함을 강조할 때. "which is the definition of a merge"</td></tr><tr><td><strong>no new surface area</strong></td><td>새로 노출되는 위험·관리 지점이 없음 · 추가 구현 없이 기존 것만으로 되는 경우. "with no new surface area"</td></tr><tr><td><strong>availability promise</strong></td><td>항상 응답 가능해야 한다는 약속 · 서비스가 언제나 가동돼야 하는 부담을 가리킬 때. "an availability promise attached"</td></tr><tr><td><strong>the expensive half</strong></td><td>(둘 중) 비용이 큰 쪽 · 두 대안 중 부담이 더 큰 쪽을 가리킬 때. "the promise is the expensive half"</td></tr><tr><td><strong>fail visibly</strong></td><td>눈에 띄게(명확히) 실패하다 · 오류가 조용히 묻히지 않고 드러나야 함을 말할 때. "fail visibly rather than silently"</td></tr><tr><td><strong>dressed as</strong></td><td>~인 척 꾸민, ~로 포장된 · 실제로는 다른 것인데 겉모습만 그럴듯할 때. "an operations commitment dressed as a convenience"</td></tr><tr><td><strong>worth having</strong></td><td>가질 만한 가치가 있는 · 어떤 것이 도입할 가치가 있는지 판단할 때. "until the workflow is worth having"</td></tr><tr><td><strong>nobody misses it</strong></td><td>아무도 아쉬워하지 않다 · 없어져도 그리워하지 않는다는 뜻으로 불필요함을 확인할 때. "nobody misses it when it stops"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>alice-tech 리포트: 자동화 전에 Slack→Notion 요약을 수동으로 먼저 만든다.</strong> Claude의 기존 Slack·Notion MCP 커넥터로 Slack 스레드를 일일 alice-tech 리포트로 수동 연결해 먼저 돌려보고, 그 수동 단계가 자주 그리워질 만큼 쓰인 뒤에야 태그형 봇을 고려한다.</li><li><strong>gitboard: 미래의 태그형 프레즌스는 편의가 아니라 운영 책임으로 다룬다.</strong> gitboard에 @멘션 가능한 Claude가 생긴다면, 항상 실행 중이어야 하고, 엉뚱한 채널에서 태그되는 상황을 처리하고, 눈에 보이게 실패해야 한다는 비용까지 예산에 넣는다. 가용성 약속이 비싼 쪽이다.</li><li><strong>Auditor: 자동화 전에 "수동으로 돌려보고 그리운지 본다"는 같은 테스트를 적용한다.</strong> 자동화된 auditor 봇을 만들기 전에 수동 게시·기록 워크플로를 몇 주 돌려본다. 멈췄을 때 아무도 그리워하지 않으면 자동화는 필요 없던 것이다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>parked</strong></td><td>보류된, 잠시 미뤄둔 · 프로젝트나 아이디어를 당장 진행 안 하고 미뤄둘 때. "deliberately parked"</td></tr><tr><td><strong>the definition of a merge</strong></td><td>그야말로 병합에 해당하는 상황 · 두 항목이 사실상 하나로 합쳐져야 함을 강조할 때. "which is the definition of a merge"</td></tr><tr><td><strong>no new surface area</strong></td><td>새로 노출되는 위험·관리 지점이 없음 · 추가 구현 없이 기존 것만으로 되는 경우. "with no new surface area"</td></tr><tr><td><strong>availability promise</strong></td><td>항상 응답 가능해야 한다는 약속 · 서비스가 언제나 가동돼야 하는 부담을 가리킬 때. "an availability promise attached"</td></tr><tr><td><strong>the expensive half</strong></td><td>(둘 중) 비용이 큰 쪽 · 두 대안 중 부담이 더 큰 쪽을 가리킬 때. "the promise is the expensive half"</td></tr><tr><td><strong>fail visibly</strong></td><td>눈에 띄게(명확히) 실패하다 · 오류가 조용히 묻히지 않고 드러나야 함을 말할 때. "fail visibly rather than silently"</td></tr><tr><td><strong>dressed as</strong></td><td>~인 척 꾸민, ~로 포장된 · 실제로는 다른 것인데 겉모습만 그럴듯할 때. "an operations commitment dressed as a convenience"</td></tr><tr><td><strong>worth having</strong></td><td>가질 만한 가치가 있는 · 어떤 것이 도입할 가치가 있는지 판단할 때. "until the workflow is worth having"</td></tr><tr><td><strong>nobody misses it</strong></td><td>아무도 아쉬워하지 않다 · 없어져도 그리워하지 않는다는 뜻으로 불필요함을 확인할 때. "nobody misses it when it stops"</td></tr><tr><td><strong>MCP</strong></td><td>모델 컨텍스트 프로토콜(Model Context Protocol) · 클로드가 슬랙·노션 같은 외부 도구와 연결되는 표준 커넥터 방식. "Claude&#39;s existing Slack and Notion MCP connectors"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-steal-the-structure.html">&larr; 150. Two reading lists, and the same instruction — steal the structure, not the content</a><a href="pocs-the-product-is-resume-not-schedule.html">152. What you are buying is resume, not scheduling &rarr;</a></div>
+    <div class="pager"><a href="pocs-steal-the-structure.html">&larr; 154. Two reading lists, and the same instruction — steal the structure, not the content</a><a href="pocs-the-product-is-resume-not-schedule.html">156. What you are buying is resume, not scheduling &rarr;</a></div>
   </div>
   </main>
 </div>

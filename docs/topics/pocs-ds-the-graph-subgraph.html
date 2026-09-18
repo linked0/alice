@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>move upstream</strong></td><td>(작업을) 더 이른 단계로 앞당기다 · 나중에 할 일을 미리 처리해야 할 때. "moving the modeling work upstream"</td></tr><tr><td><strong>without a re-sync</strong></td><td>재동기화 없이는 · 처음부터 데이터를 다시 색인하지 않고서는. "cannot query later without a re-sync."</td></tr><tr><td><strong>query ergonomics</strong></td><td>조회(쿼리)의 사용 편의성 · API가 얼마나 쓰기 편한지를 말할 때. "contrasts its query ergonomics with raw RPC"</td></tr><tr><td><strong>make explicit</strong></td><td>~을 명시적으로 드러내다 · 암묵적이던 트레이드오프를 분명하게 보여줄 때. "making the index-design tradeoff explicit."</td></tr><tr><td><strong>fail to index</strong></td><td>색인화하지 못하다, 빠뜨리다 · 필요한 데이터를 미리 색인하지 않았을 때. "what you fail to index at deploy time"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: design the subgraph schema for markets, orders and settlements before the first deploy.</strong> What is not indexed at deploy time cannot be queried later without a re-sync, and Verex&#39;s query ergonomics depend entirely on decisions made before any data exists.</li><li><strong>gitboard: treat The Graph as one option for the projection layer this dashboard already needs.</strong> The comparison against raw RPC this PoC produces is the concrete evidence for choosing between a subgraph and the hand-rolled indexer from the-app-reads-a-projection.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>move upstream</strong></td><td>(작업을) 더 이른 단계로 앞당기다 · 나중에 할 일을 미리 처리해야 할 때. "moving the modeling work upstream"</td></tr><tr><td><strong>without a re-sync</strong></td><td>재동기화 없이는 · 처음부터 데이터를 다시 색인하지 않고서는. "cannot query later without a re-sync."</td></tr><tr><td><strong>query ergonomics</strong></td><td>조회(쿼리)의 사용 편의성 · API가 얼마나 쓰기 편한지를 말할 때. "contrasts its query ergonomics with raw RPC"</td></tr><tr><td><strong>make explicit</strong></td><td>~을 명시적으로 드러내다 · 암묵적이던 트레이드오프를 분명하게 보여줄 때. "making the index-design tradeoff explicit."</td></tr><tr><td><strong>fail to index</strong></td><td>색인화하지 못하다, 빠뜨리다 · 필요한 데이터를 미리 색인하지 않았을 때. "what you fail to index at deploy time"</td></tr><tr><td><strong>GraphQL</strong></td><td>그래프 기반 API 쿼리 언어(제품/기술명) · The Graph가 체인 이벤트를 색인해 제공하는 질의 인터페이스 형식. "The Graph indexes chain events into a GraphQL API"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>move upstream</strong></td><td>(작업을) 더 이른 단계로 앞당기다 · 나중에 할 일을 미리 처리해야 할 때. "moving the modeling work upstream"</td></tr><tr><td><strong>without a re-sync</strong></td><td>재동기화 없이는 · 처음부터 데이터를 다시 색인하지 않고서는. "cannot query later without a re-sync."</td></tr><tr><td><strong>query ergonomics</strong></td><td>조회(쿼리)의 사용 편의성 · API가 얼마나 쓰기 편한지를 말할 때. "contrasts its query ergonomics with raw RPC"</td></tr><tr><td><strong>make explicit</strong></td><td>~을 명시적으로 드러내다 · 암묵적이던 트레이드오프를 분명하게 보여줄 때. "making the index-design tradeoff explicit."</td></tr><tr><td><strong>fail to index</strong></td><td>색인화하지 못하다, 빠뜨리다 · 필요한 데이터를 미리 색인하지 않았을 때. "what you fail to index at deploy time"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 첫 배포 전에 마켓, 주문, 정산에 대한 서브그래프 스키마를 설계한다.</strong> 배포 시점에 인덱싱하지 않은 것은 나중에 재동기화 없이 쿼리할 수 없다. Verex의 쿼리 편의성은 데이터가 존재하기 전에 내린 결정에 전적으로 달려 있다.</li><li><strong>gitboard: The Graph를 이 대시보드가 이미 필요로 하는 프로젝션 레이어의 한 옵션으로 다룬다.</strong> 이 PoC가 만드는 raw RPC 대비 비교가, 서브그래프와 the-app-reads-a-projection의 수작업 인덱서 중 무엇을 고를지에 대한 구체적 근거가 된다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>move upstream</strong></td><td>(작업을) 더 이른 단계로 앞당기다 · 나중에 할 일을 미리 처리해야 할 때. "moving the modeling work upstream"</td></tr><tr><td><strong>without a re-sync</strong></td><td>재동기화 없이는 · 처음부터 데이터를 다시 색인하지 않고서는. "cannot query later without a re-sync."</td></tr><tr><td><strong>query ergonomics</strong></td><td>조회(쿼리)의 사용 편의성 · API가 얼마나 쓰기 편한지를 말할 때. "contrasts its query ergonomics with raw RPC"</td></tr><tr><td><strong>make explicit</strong></td><td>~을 명시적으로 드러내다 · 암묵적이던 트레이드오프를 분명하게 보여줄 때. "making the index-design tradeoff explicit."</td></tr><tr><td><strong>fail to index</strong></td><td>색인화하지 못하다, 빠뜨리다 · 필요한 데이터를 미리 색인하지 않았을 때. "what you fail to index at deploy time"</td></tr><tr><td><strong>GraphQL</strong></td><td>그래프 기반 API 쿼리 언어(제품/기술명) · The Graph가 체인 이벤트를 색인해 제공하는 질의 인터페이스 형식. "The Graph indexes chain events into a GraphQL API"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

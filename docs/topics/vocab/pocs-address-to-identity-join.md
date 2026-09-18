@@ -10,3 +10,10 @@
 | belong in the same column as | ~와 같은 취급을 받아야 하다 · 아직 실현되지 않은 항목들을 한데 묶을 때. "belongs in the same column as everything else" |
 | diarise | (나중에 확인하려고) 메모·일정에 적어두다 · 앞으로 지켜볼 후속 사항을 표시할 때. "the follow-up worth diarising" |
 | held under [obligations] | ~라는 의무 하에 보관·관리되다 · 신원 정보가 규제 의무 아래 잠겨있는 상황. "Held under KYC obligations" |
+| NCFTA | 국가 사이버포렌식 훈련 연합(National Cyber-Forensics and Training Alliance) · 여러 기관이 모여 작전을 수행한 물리적 거점. "held at the NCFTA in New York" |
+| AFP | 호주연방경찰(Australian Federal Police) · 작전에 참여한 법 집행기관 중 하나. "the Australian Federal Police" |
+| RCMP | 캐나다 왕립기마경찰(Royal Canadian Mounted Police) · 작전에 참여한 캐나다 측 법 집행기관. "the RCMP, the UK National Crime Agency" |
+| NCA | 영국 국가범죄청(UK National Crime Agency) · 작전에 참여한 영국 측 법 집행기관. "the UK National Crime Agency" |
+| IWF | 인터넷 감시재단(Internet Watch Foundation) · 콘텐츠 분류를 담당한 비영리 참여기관. "the Internet Watch Foundation" |
+| Chainalysis | 온체인 분석 전문 기업(blockchain analytics firm) · 이번 다기관 작전을 주도한 주체. "Chainalysis ran a multi-agency operation" |
+<!-- acronyms 2026-09-18 -->

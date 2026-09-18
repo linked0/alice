@@ -10,3 +10,11 @@
 | passporting | 패스포팅(단일 인가로 여러 나라 영업 허용) · EU 금융 규제 특유의 상호인정 제도. "Passporting rules" |
 | a run on | ~에 대한 대규모 인출 사태(뱅크런) · 신뢰가 흔들려 한꺼번에 빠져나가는 상황. "a run on it looks exactly like a money-market-fund run" |
 | by virtue of | ~라는 이유만으로, ~함으로써 · 법률 문구에서 원인을 나타낼 때. "interest or other returns by virtue of holding" |
+| MAS | 싱가포르 통화청(Monetary Authority of Singapore) · 이번 카드가 다루는 스테이블코인 초안 규정을 낸 싱가포르 금융규제기관. "MAS's draft stablecoin rules require 100% segregated reserves" |
+| GENIUS Act | 미국의 스테이블코인 규제법(Guiding and Establishing National Innovation for U.S. Stablecoins Act) · 미국 달러 페그 스테이블코인을 규율하는 연방법. "across GENIUS, MiCA, and this MAS draft" |
+| MiCA | EU 가상자산시장 규정(Markets in Crypto-Assets) · EU의 스테이블코인·가상자산 포괄 규제 프레임워크. "across GENIUS, MiCA, and this MAS draft" |
+| EMT | 전자화폐토큰(E-Money Token) · MiCA에서 법정화폐에 연동된 스테이블코인을 부르는 분류. "100%+, EMT rules" |
+| ART | 자산연계토큰(Asset-Referenced Token) · MiCA에서 다중 자산에 연동된 토큰을 부르는 분류. "EU-offered EMTs/ARTs" |
+| SGD | 싱가포르 달러(Singapore Dollar) · MAS 초안이 적용되는 통화 범위. "SGD + G10 single-currency, issued in SG" |
+| Ethena Pay | 스테이블코인 잔액에 이자성 수익을 주는 앱 상품명 · 발행자가 아닌 '한 단계 위' 계층에서 수익률을 주는 실사례. "app-level rates like Ethena Pay's 6%" |
+<!-- acronyms 2026-09-18 -->

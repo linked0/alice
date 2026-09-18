@@ -10,3 +10,7 @@
 | pay out | (경제적으로) 성과를 내다, 보상으로 돌아오다 · 예측/투자가 실제 이득을 낼 때. "they only pay out if the warning arrives" |
 | convert X into Y | X를 Y로 바꿔놓다 · 여기서는 반어적으로 '더 나아진 게 없음'을 표현. "converted an unplanned stop into a... documented... stop" |
 | credibility budget | 신뢰 예산 · 반복 경보로 서서히 소진되는 사람들의 신뢰. "the binding constraint is usually the credibility budget" |
+| F1 | F1 점수(정밀도와 재현율의 조화평균) · 오탐과 미탐을 동일 가중치로 취급한다는 가정을 깔고 있는 지표. "F1 assumes k = 1" |
+| base rate | 기저율 · 특정 사건이 전체에서 실제로 발생하는 비율, 경보의 진짜 가치를 결정. "The base rate of" |
+| residual | 잔차 · 예측값과 실제값의 차이, 이상 탐지 스코어의 기본 재료. "a residual from a moving average on one sensor" |
+<!-- acronyms 2026-09-18 -->

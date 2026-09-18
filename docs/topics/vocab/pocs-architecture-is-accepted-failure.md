@@ -10,3 +10,5 @@
 | cascading | 연쇄적으로 번지는 · 한 의존성의 장애가 전체로 퍼지는 것 · "One slow dependency cascading" |
 | worth memorising | 외워둘 만한 · 예측력 있는 두 가지 공식을 가리킴 · "the part that is worth memorising" |
 | transfers between systems | 시스템 간에 그대로 옮겨간다 · 실패 목록은 이식되지만 패턴 이름은 아니라는 대비 · "the failure is the part that transfers between systems" |
+| Little's Law | 리틀의 법칙(Little's Law) · 대기행렬 이론에서 동시성 = 도착률 × 지연시간을 계산하는 공식. "Little's Law says concurrency equals arrival rate times latency" |
+<!-- acronyms 2026-09-18 -->

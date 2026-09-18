@@ -5,3 +5,5 @@
 | hosted (service) | (외부에서) 호스팅되는, 운영해주는 · 직접 운영하지 않고 맡기는 서비스를 말할 때. "a hosted indexing API like Moralis" |
 | render (verb) | (화면을) 렌더링하다, 그려주다 · 데이터를 화면에 표시할 때. "rendering a simple portfolio snapshot" |
 | server-held | 서버가 보관하는 · 민감한 키를 클라이언트가 아닌 서버가 쥘 때. "a server-held API key" |
+| Moralis | 모랄리스 · 지갑 잔액·순자산을 API 한 번으로 조회해주는 호스팅형 인덱싱 서비스. "Moralis's Wallet API (net-worth and token-balance endpoints)" |
+<!-- acronyms 2026-09-18 -->

@@ -11,3 +11,8 @@
 | bearer instrument | 무기명 증권·자산 · 보유 자체가 권리가 되는 금융상품. "fiat currencies as bearer instruments on the same ledger" |
 | load-bearing | 핵심을 떠받치는, 구조상 진짜 중요한 · 세 주장 중 검증 가능한 것이 핵심이라는 뜻. "the checkable one happens to be the load-bearing one" |
 | quoted depth | 호가 물량, 시장 깊이 · 특정 가격에 거래 가능한 규모. "record quoted depth at several sizes" |
+| e-money token | EU 전자화폐 토큰(e-money token) · EU 전자화폐 규제 체계에 속하는 스테이블코인 분류. "an EU-regulated e-money token that a euro-denominated" |
+| interbank | 은행간 시장(interbank market) · 은행끼리 직접 거래하는 FX 기준 시장, 온체인 스프레드와 비교 대상. "against the interbank EUR/USD spread" |
+| front end | 단기물 구간(front end, 수익률 곡선의 단기 구간) · 단기 국채 금리가 매겨지는 구간을 가리킴. "short-dated Treasuries at whatever the front end pays" |
+| denominate | 통화로 표시하다, 액면가를 매기다 · 상품의 기준통화를 정하는 동작을 가리킴. "must denominate in its customers' currency" |
+<!-- acronyms 2026-09-18 -->

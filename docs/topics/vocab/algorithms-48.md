@@ -7,3 +7,5 @@
 | cut off partway through | 도중에 끊기다 · "whether a given trace cuts off partway through" |
 | reconstruct without bias | 편향 없이 재구성하다 · "aggregate metrics can be reconstructed without bias" |
 | asynchronous | 비동기적인 · "long, asynchronous spans because of chain confirmation latency" |
+| OpenTelemetry | 오픈텔레메트리(OpenTelemetry) · 분산 추적·관측성을 위한 오픈소스 계측 표준, trace context 전파에 사용. "propagate trace context with OpenTelemetry" |
+<!-- acronyms 2026-09-18 -->

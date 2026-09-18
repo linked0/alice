@@ -5,3 +5,5 @@
 | bounded by | ~에 의해 상한이 정해지다, 제한받다 · 전체 품질이 한 요소의 한계를 못 넘을 때. "bounded by the quality of the embedding model" |
 | diverge from | ~에서 벗어나다, 갈라지다 · 결과가 원래 의도했던 것과 어긋날 때. "diverges from what a user actually meant" |
 | nearest-neighbor search | 최근접 이웃 검색 · 벡터 공간에서 가장 가까운 항목들을 찾는 검색 방식. "runs nearest-neighbor search" |
+| RAG | 검색 증강 생성(Retrieval-Augmented Generation) · 임베딩으로 관련 문서를 검색해 LLM 답변에 활용하는 방식, 임베딩의 대표적 활용처. "the substrate under semantic search and RAG" |
+<!-- acronyms 2026-09-18 -->

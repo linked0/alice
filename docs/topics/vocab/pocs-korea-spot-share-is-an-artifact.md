@@ -10,3 +10,6 @@
 | route through | ~을 거쳐서 처리하다·우회 경로로 보내다 · 국내가 아닌 역외 법인을 통해 진행할 때. "route through offshore entities" |
 | in the ordinary course | 통상적인 업무 과정에서 · 예외가 아니라 일상적인 절차로 이루어질 때 쓰는 법률·비즈니스 표현. "hold digital assets in the ordinary course" |
 | concentrate ... into | ~로 몰리다·집중되다 · 여러 활동이 한 채널로만 쏠릴 때. "concentrates all of its activity into the one channel" |
+| Circle | 스테이블코인 발행사 서클(Circle) · USDC 발행사로, 이 글이 인용하는 리서치(Circle Current)의 발행처. "a Circle post promoting a Circle Current piece" |
+| kimchi premium | 김치 프리미엄 · 한국 거래소의 암호화폐 가격이 해외보다 높게 형성되는 현상, 자본 이동성 지표로 쓰임. "the kimchi premium — the last being a capital-mobility readout" |
+<!-- acronyms 2026-09-18 -->

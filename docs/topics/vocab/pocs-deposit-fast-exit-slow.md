@@ -10,3 +10,8 @@
 | inert | 작동하지 않는, 무력한 · 프로토콜은 준비됐지만 실제로 안 쓰이는 상태. "the fast rule is inert until those providers ship it" |
 | trending lower | 점차 낮아지는 추세인 · 수치가 계속 감소하고 있을 때. "block time 12s → 10s, trending lower" |
 | structural, not an implementation gap | 구현의 흠이 아니라 설계상 근본적인 문제다 · 근본 원인을 짚을 때. "That asymmetry is structural, not an implementation gap" |
+| FCR | 빠른 확인 규칙(Fast Confirmation Rule) · 파이널리티보다 약하지만 가격을 매길 수 있는 보증으로 입금을 12~24초 만에 확정. "the Fast Confirmation Rule (FCR) lets bridges confirm" |
+| AA | 계정추상화(Account Abstraction) · EIP-8130과 8141을 통합하는 검증 로직 표준화 작업의 맥락. "unifying Base's EIP-8130 with Frames (EIP-8141)" |
+| Ethlabs | 이스랩스 · 'Fast Ethereum' 작업을 수행하는 연구팀, 이 카드의 출처. "Ethlabs' 'Fast Ethereum' work makes the L1→L2 deposit fast" |
+| Lighter, Derive | 라이터·데리브 · 애플리케이션 특화 L2들, 인출 지연을 최대 고충으로 꼽음. "the app-L2s (Lighter, Derive) named as their top pain" |
+<!-- acronyms 2026-09-18 -->

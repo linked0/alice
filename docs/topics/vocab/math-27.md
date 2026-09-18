@@ -7,3 +7,6 @@
 | painfully slow | 답답할 정도로 느린 · 학습률이 너무 작을 때의 수렴 속도를 표현. "makes convergence painfully slow" |
 | reuse intermediate results | 중간 계산 결과를 재사용하다 · 역전파가 계산 비용을 줄이는 방식을 설명. "reusing intermediate results so that gradients" |
 | sensitivity to slippage | 슬리피지(가격 변동)에 대한 민감도 · 가격 곡선이 입력 변화에 얼마나 민감한지 가리킴. "its sensitivity to slippage" |
+| LMSR | 로그 마켓 스코어링 규칙(Logarithmic Market Scoring Rule) · Verex 가격이 이 비용함수의 편미분으로 정의됨. "An LMSR market maker's price is defined as" |
+| Jacobian matrix | 야코비 행렬 · 다변수 함수의 모든 편미분을 모은 행렬, 체인룰의 다변수 확장에 등장. "generalizes to a product of Jacobian matrices" |
+<!-- acronyms 2026-09-18 -->

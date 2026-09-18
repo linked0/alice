@@ -9,3 +9,8 @@
 | cede | (통제권을) 넘겨주다, 양도하다 · 전체를 내주지 않고 일부만 내줄 때. "without ceding the catalogue" |
 | topology-independent | 구조(배치)에 좌우되지 않는 · 시스템이 특정 배치와 무관하게 작동할 때. "restore is topology-independent" |
 | never in the room | 그 자리에 없었던, 직접 관여하지 않은 · 검증해야 할 낯선 제3자를 가리킬 때. "a counterparty who was never in the room" |
+| ERC-7812 | 이더리움 표준 제안 번호 7812 · 여러 프로토콜이 공유하는 단일 온체인 신원 증명 레지스트리 제안, Vitalik이 공동 저자. "ERC-7812 proposes one on-chain registry where any protocol can store" |
+| EAS | 이더리움 어테스테이션 서비스(Ethereum Attestation Service) · 온체인 증명 등록 프로토콜, 신원 레지스트리가 파편화된 예시 중 하나. "Privado ID, EAS, Rarimo each carry their own registry" |
+| Rarimo | 신원 증명 레지스트리 프로젝트 · ERC-7812의 참조 구현체(rarimo/evidence-registry)를 제공. "The reference implementation (rarimo/evidence-registry) is where to check" |
+| CGO | Go 언어의 C 상호운용 빌드 모드(cgo) · Docbank를 소스에서 빌드할 때 필요한 요구사항. "Go 1.26+ with CGO and Node 24+ to build" |
+<!-- acronyms 2026-09-18 -->

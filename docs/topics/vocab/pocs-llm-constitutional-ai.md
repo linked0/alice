@@ -5,3 +5,5 @@
 | auditable document | 감사(검토) 가능한 문서 · 가치판단의 근거가 문서로 남아 누구나 검토할 수 있다는 뜻 · "moving the value judgment into an auditable document" |
 | self-critique loop | 자기비판 루프 · 모델이 스스로 출력을 검토하고 고치는 반복 과정 · "studies the self-critique loop and where" |
 | the reviewable seat of | (가치판단이 담긴) 검토 가능한 근거지 · 판단 기준이 숨겨지지 않고 문서 형태로 존재한다는 비유 · "framing the constitution as the reviewable seat" |
+| Constitutional AI | 헌법적 AI(Anthropic이 제안한 정렬 기법) · 사람의 라벨 대신 성문화된 원칙 문서로 모델이 스스로 출력을 비판·수정하게 하는 방식. "Constitutional AI has a model critique and revise its own outputs" |
+<!-- acronyms 2026-09-18 -->

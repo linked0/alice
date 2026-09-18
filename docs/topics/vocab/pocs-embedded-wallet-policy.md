@@ -11,3 +11,9 @@
 | reveal itself | (숨어 있던 정체가) 드러나다 · "the real custodian reveals itself" |
 | gate exposure | 노출·접근 범위를 제한하다 · "Can gate exposure — verify" |
 | quietly concentrates | 눈에 안 띄게 한쪽으로 쏠리다 · "authority quietly concentrates in the app stack" |
+| MFA | 다중 인증(Multi-Factor Authentication) · 로그인 시 추가 인증 수단, 복구 실패 시나리오에서 언급. "test device loss, key export, MFA recovery" |
+| MPC | 다자간 연산(Multi-Party Computation) · 키를 한 곳에 두지 않고 여러 당사자가 공동 서명하는 방식. "the key never exists in one piece" |
+| TEE | 신뢰 실행 환경(Trusted Execution Environment) · 서버 쪽에서 키 연산을 격리 실행하는 하드웨어 보안 영역. "a TEE on a server" |
+| MetaMask | 메타마스크 · 브라우저 확장형 외부 지갑, 임베디드 지갑과 대비되는 전통적 지갑의 예시. "A conventional wallet (MetaMask) is external" |
+| Shamir key sharding | 샤미르 비밀 분산 · 개인키를 조각으로 나눠 서명 시점에만 잠시 재조합하는 기법. "split into shares, reassembled briefly at signing time" |
+<!-- acronyms 2026-09-18 -->

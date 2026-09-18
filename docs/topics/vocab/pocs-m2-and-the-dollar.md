@@ -9,3 +9,5 @@
 | leads or follows | (다른 지표를) 선행하다 또는 후행하다 · 상관관계보다 시차가 중요하다는 문맥 · "note whether it leads or follows the macro pair" |
 | risk appetite | 위험선호도 · 투자자가 얼마나 위험을 감수하려 하는지를 가리키는 용어 · "Through risk appetite" |
 | re-estimate | (계수·관계를) 다시 추정하다 · 과거 사이클의 값을 그대로 믿지 말라는 경고 · "re-estimate rather than assuming last cycle's coefficients" |
+| M2 | 광의통화(M2, broad money supply) · 가계·기업이 실제로 지출에 쓰는 범위까지 포함한 통화량 지표, 유동성의 수량 쪽 지표. "M2 is the quantity side" |
+<!-- acronyms 2026-09-18 -->

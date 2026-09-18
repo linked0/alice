@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recover (causal effects)</strong></td><td>(인과효과를) 복원하다, 추정해내다 · 관찰 데이터에서 인과관계를 뽑아내는 것. "recover causal effects from observational data"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인(없으면 무너지는) · 결론 전체가 기대고 있는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>identification</strong></td><td>식별(인과관계를 추정 가능하게 만드는 조건) · 인과추론에서 핵심이 되는 개념. "buying identification with an assumption"</td></tr><tr><td><strong>graded by</strong></td><td>~을 기준으로 평가되다 · 정책 주장의 타당성을 판단하는 기준을 가리킴. "graded by whether its assumption is plausible"</td></tr><tr><td><strong>untestable</strong></td><td>검증(테스트) 불가능한 · 직접 확인할 수 없는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Number: name the identification assumption behind any causal claim.</strong> If Number ever states that an event moved a rate or a market, say whether it rests on parallel trends, exclusion, or continuity, and grade the claim on that assumption&#39;s plausibility, not on a p-value.</li><li><strong>Auditor: add "what untestable assumption does this causal claim rest on" as a standing review question.</strong> Apply it before any Jayverse research note is allowed to assert causation rather than correlation.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recover (causal effects)</strong></td><td>(인과효과를) 복원하다, 추정해내다 · 관찰 데이터에서 인과관계를 뽑아내는 것. "recover causal effects from observational data"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인(없으면 무너지는) · 결론 전체가 기대고 있는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>identification</strong></td><td>식별(인과관계를 추정 가능하게 만드는 조건) · 인과추론에서 핵심이 되는 개념. "buying identification with an assumption"</td></tr><tr><td><strong>graded by</strong></td><td>~을 기준으로 평가되다 · 정책 주장의 타당성을 판단하는 기준을 가리킴. "graded by whether its assumption is plausible"</td></tr><tr><td><strong>untestable</strong></td><td>검증(테스트) 불가능한 · 직접 확인할 수 없는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>DiD</strong></td><td>이중차분법(Difference-in-Differences) · 처치군·대조군의 시간 전후 변화 차이로 인과효과를 추정, &#39;평행추세&#39; 가정에 의존. "Difference-in-differences, instrumental variables, and regression discontinuity"</td></tr><tr><td><strong>IV</strong></td><td>도구변수(Instrumental Variables) · 처치에는 영향을 주지만 결과에는 직접 영향이 없는 변수로 인과효과를 식별. "instrumental variables, and regression discontinuity recover causal effects"</td></tr><tr><td><strong>RDD</strong></td><td>회귀불연속설계(Regression Discontinuity Design) · 특정 기준점 전후로 처치가 갈리는 상황을 이용해 인과효과를 추정. "regression discontinuity recover causal effects from observational data"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recover (causal effects)</strong></td><td>(인과효과를) 복원하다, 추정해내다 · 관찰 데이터에서 인과관계를 뽑아내는 것. "recover causal effects from observational data"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인(없으면 무너지는) · 결론 전체가 기대고 있는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>identification</strong></td><td>식별(인과관계를 추정 가능하게 만드는 조건) · 인과추론에서 핵심이 되는 개념. "buying identification with an assumption"</td></tr><tr><td><strong>graded by</strong></td><td>~을 기준으로 평가되다 · 정책 주장의 타당성을 판단하는 기준을 가리킴. "graded by whether its assumption is plausible"</td></tr><tr><td><strong>untestable</strong></td><td>검증(테스트) 불가능한 · 직접 확인할 수 없는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Number: 인과관계를 주장할 때는 그 식별 가정을 명시한다.</strong> Number가 어떤 사건이 금리나 마켓을 움직였다고 말한다면, 그것이 평행추세, 배제 제약, 연속성 중 무엇에 기대는지 밝히고, p-value가 아니라 그 가정의 타당성으로 주장을 평가한다.</li><li><strong>Auditor: "이 인과 주장은 어떤 검증 불가능한 가정에 기대는가"를 상시 리뷰 질문으로 추가한다.</strong> Jayverse의 리서치 노트가 상관관계가 아니라 인과관계를 주장하기 전에 이를 먼저 적용한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recover (causal effects)</strong></td><td>(인과효과를) 복원하다, 추정해내다 · 관찰 데이터에서 인과관계를 뽑아내는 것. "recover causal effects from observational data"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인(없으면 무너지는) · 결론 전체가 기대고 있는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>identification</strong></td><td>식별(인과관계를 추정 가능하게 만드는 조건) · 인과추론에서 핵심이 되는 개념. "buying identification with an assumption"</td></tr><tr><td><strong>graded by</strong></td><td>~을 기준으로 평가되다 · 정책 주장의 타당성을 판단하는 기준을 가리킴. "graded by whether its assumption is plausible"</td></tr><tr><td><strong>untestable</strong></td><td>검증(테스트) 불가능한 · 직접 확인할 수 없는 가정을 가리킴. "an assumption that is untestable and load-bearing"</td></tr><tr><td><strong>DiD</strong></td><td>이중차분법(Difference-in-Differences) · 처치군·대조군의 시간 전후 변화 차이로 인과효과를 추정, &#39;평행추세&#39; 가정에 의존. "Difference-in-differences, instrumental variables, and regression discontinuity"</td></tr><tr><td><strong>IV</strong></td><td>도구변수(Instrumental Variables) · 처치에는 영향을 주지만 결과에는 직접 영향이 없는 변수로 인과효과를 식별. "instrumental variables, and regression discontinuity recover causal effects"</td></tr><tr><td><strong>RDD</strong></td><td>회귀불연속설계(Regression Discontinuity Design) · 특정 기준점 전후로 처치가 갈리는 상황을 이용해 인과효과를 추정. "regression discontinuity recover causal effects from observational data"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

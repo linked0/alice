@@ -10,3 +10,6 @@
 | third into | (시장에) 세 번째로 진입한 · 경쟁에서 몇 번째 주자인지 말할 때. "Coinbase is third into a market" |
 | blind to | ~을 보지 못하는, ~에 눈감은 · 특정 지표가 놓치는 맹점을 말할 때. "Blind to whether anything ever moves" |
 | settled by | ~로 판가름 나다/결정되다 · 논쟁의 결론이 어떤 근거로 나는지 말할 때. "settled by a different number" |
+| AMM | 자동화 시장조성자(Automated Market Maker) · 토큰이 담보·대출로 쓰이는 온체인 유동성 풀 메커니즘. "collateral, lending, AMMs" |
+| KYC | 고객확인제도(Know Your Customer) · 체인이 아니라 앱 레벨에서 적용되는 규제 절차임을 설명할 때. "No chain-level KYC" |
+<!-- acronyms 2026-09-18 -->

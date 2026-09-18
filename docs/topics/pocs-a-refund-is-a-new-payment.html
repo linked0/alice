@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A refund is a new payment — support flows on irreversible rails</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#85</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#89</span><span>PoC</span></p>
       <h1>A refund is a new payment — support flows on irreversible rails</h1>
       <p class="lead">Settlement finality does not delete refunds from your product — it moves them from reverse-the-charge to issue-a-linked-counter-payment. The refund becomes a first-class payment with its own receipt, policy and budget.</p>
       <p class="meta">Implement a refund flow where the refund transaction carries a reference to the original payment, gate it behind an approval policy and a funded refund budget, and reconcile the pair in one ledger view.</p>
@@ -416,7 +416,11 @@
 <h3>What it proves</h3>
 <p>Irreversibility is a property of the rail, not of the business. The product re-creates reversal as composition — new payment plus reference plus policy — and the hard parts are the ones card networks hid: funding the refund pool and defining who may say yes. This card is the support-desk face of receipt-is-not-settlement.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: model a refund as its own payment, not a chargeback, in the Stripe-onboarding path.</strong> Give it a reference to the original paymentId, an approval policy (window, cap, approver role) and a funded refund-budget wallet, since settlement on Verex&#39;s rails can&#39;t be reversed the way a card network reverses a charge.</li><li><strong>Wallet: add a reconciliation ledger view that joins a payment and its refund into one net event.</strong> Test double-refund blocked and partial refunds sum-capped before a real refund request happens, the same way the card&#39;s PoC does.</li><li><strong>Auditor: write down who may approve a refund and from which balance, before it&#39;s needed.</strong> The same authority-matrix question card networks answered internally has to be answered explicitly for any Jayverse product that takes payments on irreversible rails.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bake in</strong></td><td>(특징을) 처음부터 내장시키다 · 프로토콜 설계에 기능이 포함되어 있을 때. "Card rails bake refunds into the protocol"</td></tr><tr><td><strong>reverse the charge</strong></td><td>결제를 취소·역행시키다 · 카드망의 환불 처리 방식을 설명할 때. "reverse the charge, the network handles the money"</td></tr><tr><td><strong>sweep (verb)</strong></td><td>(자금을) 쓸어가다, 이체해 비우다 · 원래 결제금이 이미 옮겨졌을 때. "the original payment may already be swept"</td></tr><tr><td><strong>relocation</strong></td><td>(문제·책임의) 위치 이동 · 환불 책임이 다른 계층으로 옮겨갔을 때. "That relocation raises exactly the questions"</td></tr><tr><td><strong>sum-capped</strong></td><td>합계에 상한이 걸린 · 부분 환불 총액을 제한할 때. "partial refunds sum-capped"</td></tr><tr><td><strong>fail loudly</strong></td><td>조용히 묻히지 않고 명확하게 실패를 알리다 · 잔액 부족을 즉시 드러낼 때. "an empty refund budget fails loudly"</td></tr><tr><td><strong>cumulative</strong></td><td>누적된 · 여러 번의 환불을 합산해서 볼 때. "amount... cumulative across partial refunds"</td></tr><tr><td><strong>support-desk face of</strong></td><td>~의 고객지원 창구 버전(같은 원리의 다른 적용) · 앞선 개념이 다른 맥락에 적용될 때. "the support-desk face of receipt-is-not-settlement"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -438,12 +442,16 @@
 <h3>무엇을 증명하나</h3>
 <p>비가역성은 레일의 성질이지 사업의 성질이 아닙니다. 제품은 되돌림을 <strong>합성</strong>으로 재창조합니다 — 새 결제 + 참조 + 정책 — 그리고 어려운 부분은 카드 네트워크가 숨겨 왔던 것들입니다: 환불 풀에 자금을 대는 것과 누가 예라고 말할 수 있는지 정의하는 것. 이 카드는 receipt-is-not-settlement 의 <strong>CS 데스크 면</strong>입니다.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: Stripe 온보딩 경로에서 환불을 차지백이 아니라 그 자체의 결제로 모델링한다.</strong> 원래 paymentId에 대한 참조, 승인 정책(기간, 한도, 승인자 역할), 자금이 채워진 환불 예산 지갑을 부여한다. Verex의 레일 위 정산은 카드 네트워크가 청구를 되돌리는 방식으로는 되돌릴 수 없기 때문이다.</li><li><strong>Wallet: 결제와 그 환불을 하나의 순 이벤트로 묶어 보여주는 정산 원장 뷰를 추가한다.</strong> 실제 환불 요청이 일어나기 전에, 이 카드의 PoC처럼 이중 환불 차단과 부분 환불 합계 상한을 테스트한다.</li><li><strong>Auditor: 누가 어떤 잔액에서 환불을 승인할 수 있는지 필요해지기 전에 적어둔다.</strong> 카드 네트워크가 내부적으로 답해온 것과 같은 권한 행렬 질문을, 되돌릴 수 없는 레일 위에서 결제를 받는 모든 Jayverse 상품에 대해 명시적으로 답해야 한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bake in</strong></td><td>(특징을) 처음부터 내장시키다 · 프로토콜 설계에 기능이 포함되어 있을 때. "Card rails bake refunds into the protocol"</td></tr><tr><td><strong>reverse the charge</strong></td><td>결제를 취소·역행시키다 · 카드망의 환불 처리 방식을 설명할 때. "reverse the charge, the network handles the money"</td></tr><tr><td><strong>sweep (verb)</strong></td><td>(자금을) 쓸어가다, 이체해 비우다 · 원래 결제금이 이미 옮겨졌을 때. "the original payment may already be swept"</td></tr><tr><td><strong>relocation</strong></td><td>(문제·책임의) 위치 이동 · 환불 책임이 다른 계층으로 옮겨갔을 때. "That relocation raises exactly the questions"</td></tr><tr><td><strong>sum-capped</strong></td><td>합계에 상한이 걸린 · 부분 환불 총액을 제한할 때. "partial refunds sum-capped"</td></tr><tr><td><strong>fail loudly</strong></td><td>조용히 묻히지 않고 명확하게 실패를 알리다 · 잔액 부족을 즉시 드러낼 때. "an empty refund budget fails loudly"</td></tr><tr><td><strong>cumulative</strong></td><td>누적된 · 여러 번의 환불을 합산해서 볼 때. "amount... cumulative across partial refunds"</td></tr><tr><td><strong>support-desk face of</strong></td><td>~의 고객지원 창구 버전(같은 원리의 다른 적용) · 앞선 개념이 다른 맥락에 적용될 때. "the support-desk face of receipt-is-not-settlement"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-wallet-is-not-the-user.html">&larr; 84. The wallet is not the user</a><a href="pocs-the-chain-never-calls-back.html">86. The chain never calls you back — notifications are your job &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-wallet-is-not-the-user.html">&larr; 88. The wallet is not the user</a><a href="pocs-the-chain-never-calls-back.html">90. The chain never calls you back — notifications are your job &rarr;</a></div>
   </div>
   </main>
 </div>

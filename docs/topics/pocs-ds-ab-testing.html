@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit/Verex: fix the test horizon before running any web-app A/B test.</strong> Use a fixed sample size or an explicit sequential design — no stopping early because a metric looks good, since peeking silently inflates the false-positive rate.</li><li><strong>gitboard: note which design backed each reported experiment win.</strong> Fixed-horizon vs sequential, since a peeked result changes the true false-positive rate behind any number gitboard displays.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>peeking</strong></td><td>중간에 몰래 들여다보기 · 실험 결과를 정해진 종료 전에 미리 확인하는 행위. "stopping early when the result looks good"</td></tr><tr><td><strong>silently multiply</strong></td><td>소리 없이(티 안 나게) 배가시키다 · 오류율이 알아채지 못하는 사이 커질 때. "silently multiplies the false-positive rate"</td></tr><tr><td><strong>a clean causal read</strong></td><td>깔끔한 인과적 해석 · 무작위 배정 덕에 원인과 결과를 명확히 볼 수 있을 때. "a clean causal read from randomization"</td></tr><tr><td><strong>replay</strong></td><td>(같은 상황을) 재현하다 · 실험을 다시 시뮬레이션해볼 때. "replays a null experiment with daily peeking"</td></tr><tr><td><strong>hold the error rate</strong></td><td>오류율을 (목표 수준으로) 유지하다 · 통계적 방법이 원래 약속한 오류 수준을 지킬 때. "designs that actually hold the error rate"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,7 +432,11 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit/Verex: 웹앱 A/B 테스트를 시작하기 전에 테스트 기간을 고정한다.</strong> 고정 표본 크기나 명시적 순차 설계를 쓰고, 지표가 좋아 보인다고 일찍 멈추지 않는다. 피킹은 오탐률을 조용히 부풀리기 때문이다.</li><li><strong>gitboard: 보고된 실험 승리마다 어떤 설계였는지 기록한다.</strong> 고정 기간인지 순차 설계인지를, gitboard가 보여주는 숫자 뒤의 실제 오탐률이 피킹 여부로 달라지기 때문에 남긴다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>peeking</strong></td><td>중간에 몰래 들여다보기 · 실험 결과를 정해진 종료 전에 미리 확인하는 행위. "stopping early when the result looks good"</td></tr><tr><td><strong>silently multiply</strong></td><td>소리 없이(티 안 나게) 배가시키다 · 오류율이 알아채지 못하는 사이 커질 때. "silently multiplies the false-positive rate"</td></tr><tr><td><strong>a clean causal read</strong></td><td>깔끔한 인과적 해석 · 무작위 배정 덕에 원인과 결과를 명확히 볼 수 있을 때. "a clean causal read from randomization"</td></tr><tr><td><strong>replay</strong></td><td>(같은 상황을) 재현하다 · 실험을 다시 시뮬레이션해볼 때. "replays a null experiment with daily peeking"</td></tr><tr><td><strong>hold the error rate</strong></td><td>오류율을 (목표 수준으로) 유지하다 · 통계적 방법이 원래 약속한 오류 수준을 지킬 때. "designs that actually hold the error rate"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>

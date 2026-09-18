@@ -7,3 +7,6 @@
 | trusted setup | 신뢰된 설정(초기값 생성 과정) · 특정 비밀값이 안전하게 폐기되어야 하는 암호 설정. "requires a trusted setup that produces" |
 | forged proofs | 위조된 증명 · 비밀이 유출되면 가짜 증명을 만들 수 있을 때. "would allow forged proofs" |
 | trust boundary | 신뢰 경계 · 무너지면 시스템 전체 신뢰가 깨지는 지점. "the system's actual trust boundary" |
+| BLS | BLS 서명(Boneh–Lynn–Shacham) · 페어링 기반 서명 방식, 여러 서명을 압축해 집계할 수 있음. "the basis for BLS signatures and the verification equations" |
+| KZG | KZG 커밋먼트(Kate–Zaverucha–Goldberg) · 다항식을 상수 크기 원소 하나로 커밋하고 임의의 점에서 여는 증명 스킴. "A KZG commitment commits a single polynomial to one" |
+<!-- acronyms 2026-09-18 -->

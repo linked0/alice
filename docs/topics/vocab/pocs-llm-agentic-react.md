@@ -5,3 +5,5 @@
 | guardrails | (안전) 가드레일·안전장치 · 에이전트 폭주를 막는 제약 장치를 가리킬 때 · "treating termination and guardrails as the hard part" |
 | termination | (실행) 종료 조건 · 에이전트가 언제 멈출지 정하는 것이 어려운 부분임을 강조 · "treating termination and guardrails as the hard part" |
 | step and cost budget | 단계 수·비용 상한선 · 에이전트 실행을 제한하는 예산 개념 · "a multi-step task with a step and cost budget" |
+| ReAct | Reasoning + Acting · 모델이 추론과 행동을 번갈아 수행하며 도구를 쓰는 에이전트 기법의 명칭 · "Agentic loops — ReAct, and the cost of letting a model iterate" |
+<!-- acronyms 2026-09-18 -->

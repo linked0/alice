@@ -10,3 +10,6 @@
 | correlate with | ~와 상관관계가 있다 · 두 변수가 같이 움직이는 경향을 말할 때. "which correlates with the very volatility that costs you" |
 | without bound | 한계 없이·무한정 · 손실이나 값이 상한 없이 커질 수 있을 때. "without bound for large ones" |
 | goes away if you wait | 기다리면 사라진다(는 착각) · impermanent라는 이름이 주는 잘못된 안심을 지적할 때. "something that goes away if you wait" |
+| APY | 연 환산 수익률(Annual Percentage Yield) · 유동성 공급 보상률을 나타내지만 변동성 위험을 가리는 숫자로 비판됨. "not 'what is the APY' but 'what volatility does this price imply'" |
+| LMSR | 로그마켓스코어링룰(Logarithmic Market Scoring Rule) · 예측시장 자동화 마켓메이커의 보조금 메커니즘, LP 포지션과 같은 구조로 비교됨. "An LMSR subsidy is a market maker's expected loss" |
+<!-- acronyms 2026-09-18 -->

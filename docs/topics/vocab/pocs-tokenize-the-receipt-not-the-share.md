@@ -10,3 +10,11 @@
 | small print | 작은 글씨, 세부 약관 · 본문보다 세부 조항이 실제 판도를 정할 때. "the small print sets the market before the law does" |
 | institutional-only | 기관투자자 전용의 · 개인 투자자는 배제하고 기관만 참여 가능한 단계. "institutional-only in stage 1" |
 | rationed | 배급되다, 제한적으로만 허용되다 · 위험·복잡성을 한꺼번에 풀지 않고 통제해서 내줄 때. "complexity is being rationed, not just risk" |
+| FSC | 금융위원회(Financial Services Commission, 한국 금융 규제기관) · 이번 토큰증권 파일럿 정책을 발표한 당국. "FSC token-securities policy direction" |
+| KRX | 한국거래소(Korea Exchange) · 상장주식 토큰화 파일럿이 실제로 거쳐 가는 거래소 인프라. "Korea's FSC will pilot listed-stock tokenization through KRX" |
+| DTC | 미국 예탁결제기관(Depository Trust Company) · 기존 주식을 예탁하고 그 위에 원장 표상을 발행하는 미국 파일럿의 모델로, 한국 설계가 비교 기준으로 삼는 대상. "That is the DTC model" |
+| LSE × Payward | 런던증권거래소(London Stock Exchange)와 Payward(Kraken 모회사)의 토큰화 협력 · 구조가 아직 정해지지 않은 또 다른 비교 사례. "LSE × Payward" |
+| IOU | 차용증(I Owe You) · 토큰이 등록부 항목·신탁 지분·단순 채무증서 중 무엇인지 가르는 분류 축에서 세 번째 범주로 등장. "a trust interest, or an IOU?" |
+| MMF | 머니마켓펀드(Money Market Fund) · 1단계에서 토큰화 대상이 되는 상품 중 하나. "Private MMF, plain private bonds, unlisted shares" |
+| trust beneficiary certificate | 신탁수익증권 · 주식 자체가 아니라 신탁에 대한 수익권만 토큰화한다는 이 설계의 핵심 구조. "The token is a trust beneficiary certificate" |
+<!-- acronyms 2026-09-18 -->

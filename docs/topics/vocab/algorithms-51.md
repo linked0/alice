@@ -6,3 +6,5 @@
 | defensible | (근거가 있어) 방어할 수 있는, 타당한 · 임의로 정한 수치보다 정당화하기 쉬운 기준. "more defensible than picking arbitrary numbers" |
 | carry real force | 실질적인 구속력을 갖다 · 초과 시 조치까지 명시해야 문서가 힘을 갖는다는 뜻. "only carries real force once it also states what happens on a budget overrun" |
 | pile up | (문제가) 쌓이다, 누적되다 · 회귀(regression)가 쌓인 뒤에야 발견되는 상황. "regressions only get discovered once they've piled up" |
+| p95/p99 | 95, 99번째 백분위수 지연시간(tail latency percentile) · 평균이 아니라 꼬리 지연을 측정 지표로 삼아야 한다는 맥락. "tail latency like p95/p99 rather than average" |
+<!-- acronyms 2026-09-18 -->

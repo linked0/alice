@@ -10,3 +10,5 @@
 | hammer (an action) | ~을 무차별적으로 연타하다 · 같은 요청을 계속 반복해서 공격할 때. "hammering the cheapest sponsored action against the unmetered build" |
 | flatline | 그래프가 평평해지다, 멈추다 · 지출이나 활동이 완전히 멎을 때. "the caps hold and the burn flatlines" |
 | a slow leak | 서서히 새는 손실 · 눈에 띄지 않게 계속 손해가 누적될 때. "a growth cost or a slow leak" |
+| UserOp | 사용자 오퍼레이션(ERC-4337의 User Operation, 계정 추상화 트랜잭션 단위) · 페이마스터가 대신 가스비를 내는 단위 요청. "Attribution on every UserOp, a budget with a kill line" |
+<!-- acronyms 2026-09-18 -->

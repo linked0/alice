@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#60</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span></p>
+      <h1>Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</h1>
+      <p class="lead">On 2026-09-15, the day the Senate&#39;s cloture vote on the Digital Asset Market Clarity Act fell short, Ethereum co-founder and MetaMask chairman and CEO Joe Lubin went on Fox Business&#39;s Varney &amp; Co. and argued that market-structure clarity, whether it comes from the Act or from SEC and CFTC rulemaking, would "open the floodgates" for U.S. businesses. The argument has three parts. Crypto is moving from a speculative asset class into financial infrastructure, with the growth coming from on-chain activity: institutional stablecoins, tokenized securities, real-world-asset perpetuals and DeFi. Clarity works as explicit permission: banks and enterprises that already know how to build wait for a rule that says they may deploy on permissionless networks. And self-custody has to grow up with it: MetaMask is positioning as a self-custodial financial super-app with proactive, contextual security, real-time warnings for address poisoning, malicious approvals and bad contracts. The item comes from the 2026-09-18 Gemini YouTube briefing; the date, show and headline were verified on Fox Business, the detailed claims are from the briefing&#39;s summary of the clip.</p>
+      <p class="meta">For Jayverse the sentence to keep is "clarity is permission". It reframes the Clarity Act item (#66, the failed cloture) from a price event into a gating event: the question is not whether the bill moves the market but which builders are allowed in when a rule exists. Lubin&#39;s list of growth drivers is also a checklist of what our services touch, stablecoin rails, tokenized claims, perpetual-style markets, DeFi, and his security point is the wallet&#39;s job description. Status on 2026-09-18: the Act did not advance on 09-15; regulatory rulemaking continues in parallel; the interview is a position statement by an interested party, not news of a decision.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Clarity is permission — Lubin's \"open the floodgates\" is a claim about who is allowed to deploy, not about price\n\nOn 2026-09-15, the day the Senate's cloture vote on the Digital Asset Market Clarity Act fell short, Ethereum co-founder and MetaMask chairman and CEO Joe Lubin went on Fox Business's Varney & Co. and argued that market-structure clarity, whether it comes from the Act or from SEC and CFTC rulemaking, would \"open the floodgates\" for U.S. businesses. The argument has three parts. Crypto is moving from a speculative asset class into financial infrastructure, with the growth coming from on-chain activity: institutional stablecoins, tokenized securities, real-world-asset perpetuals and DeFi. Clarity works as explicit permission: banks and enterprises that already know how to build wait for a rule that says they may deploy on permissionless networks. And self-custody has to grow up with it: MetaMask is positioning as a self-custodial financial super-app with proactive, contextual security, real-time warnings for address poisoning, malicious approvals and bad contracts. The item comes from the 2026-09-18 Gemini YouTube briefing; the date, show and headline were verified on Fox Business, the detailed claims are from the briefing's summary of the clip.\n\nFor Jayverse the sentence to keep is \"clarity is permission\". It reframes the Clarity Act item (#66, the failed cloture) from a price event into a gating event: the question is not whether the bill moves the market but which builders are allowed in when a rule exists. Lubin's list of growth drivers is also a checklist of what our services touch, stablecoin rails, tokenized claims, perpetual-style markets, DeFi, and his security point is the wallet's job description. Status on 2026-09-18: the Act did not advance on 09-15; regulatory rulemaking continues in parallel; the interview is a position statement by an interested party, not news of a decision.\n\n## Why\n\nAn enterprise does not need a law to build on a public chain; it needs a document it can show its regulator and its board. That is what \"permission\" means here, and why clarity from any source, statute or rule, has the same effect: it converts a legal question into a compliance checklist, and compliance checklists are things large organisations know how to complete. The floodgates image is about the backlog behind that gate, the teams that have prototypes ready and a legal hold on shipping them. Whether the backlog is as large as Lubin says is unverifiable from the outside, but the mechanism is right: the S&P, Kaiko, Bottomline and Toss items in these notes are all institutions moving as soon as their own permission question was answered.\n\nThe self-custody point is the less obvious half. If clarity brings mainstream users onto permissionless networks, the wallet becomes the place where consumer protection either exists or does not, because there is no bank to reverse the transaction. Contextual security, warning at the moment of signing about a poisoned address or an unlimited approval, is how a self-custodial product answers the regulator's question about consumer harm without giving up custody. That is the same design MetaMask is selling and the same one the Jayverse Wallet's simulate-before-sign is built around.\n\n## How it works\n\n### The three claims and what would verify them\n\n| Claim | Kind | What would confirm it |\n|---|---|---|\n| Crypto is becoming infrastructure; growth is on-chain activity | trend | stablecoin settlement volume, tokenized-security issuance, perpetual open interest over time |\n| Clarity is permission; banks and enterprises are waiting | mechanism | deployments announced within months of a rule; the S&P and Swift items are early examples |\n| Self-custody needs proactive contextual security | product | wallet warning rates, prevented-loss figures, which MetaMask has not published in this clip |\n\n### Statute versus rulemaking\n\nThe Act failed cloture on 2026-09-15, with reported tallies of 49–50 or 50–49 and several Democratic negotiators voting no. Lubin's framing treats SEC and CFTC rulemaking as an equivalent source of clarity; it is slower to become durable and easier to reverse, but it does not need sixty votes. For a builder the difference is how long the permission lasts, not whether it exists.\n\n### Where it lands in Jayverse\n\n- **Verex: read regulatory items as gates, not prices.** For a market on a bill, the resolution question and the trading question differ; the Clarity Act market resolved on a roll call, while the real effect is which institutions deploy next quarter. Add a \"who is now permitted\" note to the resolution summary of any regulatory market.\n- **Wallet: contextual warnings are the compliance story.** Simulate-before-sign already shows the effect of a transaction; add the three warnings Lubin named, address poisoning, unlimited or unknown approvals, flagged contracts, as explicit checks with their own test cases, so the wallet can say what it protects against.\n- **Rabbit and Token: map the growth-driver list to our rails.** Stablecoin settlement, tokenized claims and perpetual-style markets each have a Jayverse counterpart; keep a one-line status of each against what the institutions are shipping, so the alice-tech items land on a service rather than in a reading list.\n- **Auditor: \"permission\" is a field.** For every external rail we integrate, record the document that permits it, statute, rule, licence or none, and its date; a rail with none is a risk row, not a blocker.\n\n### Verified and unverified\n\nVerified on 2026-09-18: the clip's date (2026-09-15), show (Varney & Co.), Lubin's titles and the headline claim of a \"large positive impact\" on crypto and the global economy (Fox Business video page); the cloture failure and reported tallies (this site's #66 item and its sources). From the Gemini briefing's summary, not checked against a transcript: the \"open the floodgates\" phrasing, the list of growth drivers, the dot-com analogy and the MetaMask security features named. Not available: any numbers behind the claims. Lubin runs MetaMask and Consensys, so the interview is advocacy by a party that benefits from the outcome.\nSources: [Fox Business — Clarity Act will have 'large positive impact' on crypto and global economy, Ethereum co-founder says, 2026-09-15](https://www.foxbusiness.com/video/6405095552112) · [Fox Business — 'OPEN THE FLOODGATES', YouTube clip](http://www.youtube.com/watch?v=25VBaErxoQY) · Gemini YouTube briefing 2026-09-18 · related item: The Clarity Act failed cloture (#66)\n"</script>
+<h2>Why</h2>
+<p>An enterprise does not need a law to build on a public chain; it needs a document it can show its regulator and its board. That is what "permission" means here, and why clarity from any source, statute or rule, has the same effect: it converts a legal question into a compliance checklist, and compliance checklists are things large organisations know how to complete. The floodgates image is about the backlog behind that gate, the teams that have prototypes ready and a legal hold on shipping them. Whether the backlog is as large as Lubin says is unverifiable from the outside, but the mechanism is right: the S&amp;P, Kaiko, Bottomline and Toss items in these notes are all institutions moving as soon as their own permission question was answered.</p>
+<p>The self-custody point is the less obvious half. If clarity brings mainstream users onto permissionless networks, the wallet becomes the place where consumer protection either exists or does not, because there is no bank to reverse the transaction. Contextual security, warning at the moment of signing about a poisoned address or an unlimited approval, is how a self-custodial product answers the regulator&#39;s question about consumer harm without giving up custody. That is the same design MetaMask is selling and the same one the Jayverse Wallet&#39;s simulate-before-sign is built around.</p>
+<h2>How it works</h2>
+<h3>The three claims and what would verify them</h3>
+<table><thead><tr><th>Claim</th><th>Kind</th><th>What would confirm it</th></tr></thead><tbody><tr><td>Crypto is becoming infrastructure; growth is on-chain activity</td><td>trend</td><td>stablecoin settlement volume, tokenized-security issuance, perpetual open interest over time</td></tr><tr><td>Clarity is permission; banks and enterprises are waiting</td><td>mechanism</td><td>deployments announced within months of a rule; the S&amp;P and Swift items are early examples</td></tr><tr><td>Self-custody needs proactive contextual security</td><td>product</td><td>wallet warning rates, prevented-loss figures, which MetaMask has not published in this clip</td></tr></tbody></table>
+<h3>Statute versus rulemaking</h3>
+<p>The Act failed cloture on 2026-09-15, with reported tallies of 49–50 or 50–49 and several Democratic negotiators voting no. Lubin&#39;s framing treats SEC and CFTC rulemaking as an equivalent source of clarity; it is slower to become durable and easier to reverse, but it does not need sixty votes. For a builder the difference is how long the permission lasts, not whether it exists.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: read regulatory items as gates, not prices.</strong> For a market on a bill, the resolution question and the trading question differ; the Clarity Act market resolved on a roll call, while the real effect is which institutions deploy next quarter. Add a "who is now permitted" note to the resolution summary of any regulatory market.</li><li><strong>Wallet: contextual warnings are the compliance story.</strong> Simulate-before-sign already shows the effect of a transaction; add the three warnings Lubin named, address poisoning, unlimited or unknown approvals, flagged contracts, as explicit checks with their own test cases, so the wallet can say what it protects against.</li><li><strong>Rabbit and Token: map the growth-driver list to our rails.</strong> Stablecoin settlement, tokenized claims and perpetual-style markets each have a Jayverse counterpart; keep a one-line status of each against what the institutions are shipping, so the alice-tech items land on a service rather than in a reading list.</li><li><strong>Auditor: "permission" is a field.</strong> For every external rail we integrate, record the document that permits it, statute, rule, licence or none, and its date; a rail with none is a risk row, not a blocker.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18: the clip&#39;s date (2026-09-15), show (Varney &amp; Co.), Lubin&#39;s titles and the headline claim of a "large positive impact" on crypto and the global economy (Fox Business video page); the cloture failure and reported tallies (this site&#39;s #66 item and its sources). From the Gemini briefing&#39;s summary, not checked against a transcript: the "open the floodgates" phrasing, the list of growth drivers, the dot-com analogy and the MetaMask security features named. Not available: any numbers behind the claims. Lubin runs MetaMask and Consensys, so the interview is advocacy by a party that benefits from the outcome.</p>
+<p>Sources: <a href="https://www.foxbusiness.com/video/6405095552112">Fox Business — Clarity Act will have &#39;large positive impact&#39; on crypto and global economy, Ethereum co-founder says, 2026-09-15</a> · <a href="http://www.youtube.com/watch?v=25VBaErxoQY">Fox Business — &#39;OPEN THE FLOODGATES&#39;, YouTube clip</a> · Gemini YouTube briefing 2026-09-18 · related item: The Clarity Act failed cloture (#66)</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>open the floodgates</strong></td><td>수문을 열다(막혀 있던 것이 한꺼번에 쏟아지게 하다) · 규제 완화나 허가 뒤 밀려드는 수요를 말하는 관용구. "would &#39;open the floodgates&#39; for U.S. businesses"</td></tr><tr><td><strong>cloture</strong></td><td>토론종결(미 상원에서 필리버스터를 끝내는 절차, 60표 필요) · 법안이 표결로 가는지 결정하는 문턱. "the Senate&#39;s cloture vote … fell short"</td></tr><tr><td><strong>fell short</strong></td><td>부족했다(목표에 못 미쳤다) · 표수·목표·기대에 미달할 때. "fell short"</td></tr><tr><td><strong>market structure</strong></td><td>시장구조(누가 어떤 자산을 어느 규제기관 아래 거래하는가의 규칙) · Clarity Act가 다루는 주제. "market-structure clarity"</td></tr><tr><td><strong>SEC</strong></td><td>미 증권거래위원회(Securities and Exchange Commission) · 증권 규제기관. "SEC and CFTC rulemaking"</td></tr><tr><td><strong>CFTC</strong></td><td>미 상품선물거래위원회(Commodity Futures Trading Commission) · 파생상품·상품 규제기관. "SEC and CFTC rulemaking"</td></tr><tr><td><strong>rulemaking</strong></td><td>규칙 제정(행정기관이 규정을 만드는 절차) · 법령(statute)과 대비. "Statute versus rulemaking"</td></tr><tr><td><strong>RWA</strong></td><td>실물자산(Real-World Asset) · 토큰화된 오프체인 자산. "real-world-asset perpetuals"</td></tr><tr><td><strong>perpetuals</strong></td><td>무기한 선물(만기 없는 파생상품) · 크립토 파생의 주력 상품. "real-world-asset perpetuals and DeFi"</td></tr><tr><td><strong>self-custody</strong></td><td>셀프 커스터디(사용자가 직접 키를 보관) · 은행 없는 소비자 보호 문제의 출발점. "self-custody has to grow up with it"</td></tr><tr><td><strong>address poisoning</strong></td><td>주소 포이즈닝(비슷한 주소를 거래 이력에 심어 잘못 복사하게 하는 사기) · 지갑 경고 항목. "real-time warnings for address poisoning"</td></tr><tr><td><strong>gating event</strong></td><td>관문 이벤트(누가 통과하는지 정하는 사건) · 가격 이벤트와 대비. "from a price event into a gating event"</td></tr><tr><td><strong>advocacy</strong></td><td>옹호(이해당사자의 주장) · 출처의 성격을 표시할 때. "the interview is advocacy by a party that benefits"</td></tr><tr><td><strong>super-app</strong></td><td>슈퍼앱(한 앱 안에 금융 기능을 모두 담은 것) · MetaMask의 포지셔닝. "a self-custodial financial super-app"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 명확성은 허가다 — 루빈의 \"수문을 열다\"는 가격이 아니라 누가 배포할 수 있는가에 대한 주장이다\n\n상원의 디지털자산 시장구조 명확성법(Clarity Act) 토론종결 표결이 부족했던 2026-09-15, 이더리움 공동창업자이자 MetaMask 회장 겸 CEO Joe Lubin이 Fox Business의 Varney & Co.에 나와, 법이든 SEC·CFTC 규칙 제정이든 시장구조의 명확성이 미국 기업들에게 \"수문을 열\" 것이라고 주장했습니다. 주장은 세 부분입니다. 크립토는 투기적 자산군에서 금융 인프라로 옮겨가고 있고, 성장은 온체인 활동에서 옵니다. 기관 스테이블코인, 토큰화 증권, 실물자산 무기한 선물, DeFi. 명확성은 명시적 허가로 작동합니다. 이미 만들 줄 아는 은행과 기업은 퍼미션리스 네트워크에 배포해도 된다는 규칙을 기다립니다. 그리고 셀프 커스터디가 함께 성숙해야 합니다. MetaMask는 선제적·맥락적 보안, 즉 주소 포이즈닝, 악성 승인, 나쁜 컨트랙트에 대한 실시간 경고를 갖춘 셀프 커스터디 금융 슈퍼앱으로 자리를 잡고 있습니다. 항목은 2026-09-18 Gemini YouTube 브리핑에서 왔고, 날짜·프로그램·헤드라인은 Fox Business에서 확인했으며 세부 주장은 브리핑의 클립 요약에서 가져왔습니다.\n\nJayverse에 남길 문장은 \"명확성은 허가다\"입니다. Clarity Act 항목(#66, 부결된 토론종결)을 가격 이벤트에서 관문 이벤트로 다시 틀 짓습니다. 질문은 법안이 시장을 움직이느냐가 아니라 규칙이 생겼을 때 어느 빌더가 들어올 수 있느냐입니다. 루빈의 성장 동인 목록은 우리 서비스가 닿는 것들의 체크리스트이기도 합니다. 스테이블코인 레일, 토큰화 청구권, 무기한 선물식 마켓, DeFi. 그리고 그의 보안 지점은 지갑의 직무 기술서입니다. 2026-09-18 기준 상태: 법안은 09-15에 진전되지 않았고, 규칙 제정은 병행 중이며, 인터뷰는 이해당사자의 입장 표명이고 결정의 뉴스가 아닙니다.\n\n## 왜\n\n기업이 퍼블릭 체인에 만들기 위해 법이 필요한 것은 아닙니다. 규제기관과 이사회에 보여줄 문서가 필요합니다. 여기서 \"허가\"가 뜻하는 것이 그것이고, 법령이든 규칙이든 어느 출처의 명확성이 같은 효과를 내는 이유입니다. 법적 질문을 컴플라이언스 체크리스트로 바꾸고, 체크리스트는 큰 조직이 완성할 줄 아는 것입니다. 수문 이미지는 그 관문 뒤의 적체, 프로토타입은 준비됐지만 출시에 법적 보류가 걸린 팀들에 대한 것입니다. 적체가 루빈의 말만큼 큰지는 밖에서 검증할 수 없지만 메커니즘은 맞습니다. 이 노트의 S&P, Kaiko, Bottomline, Toss 항목은 모두 자기 허가 질문에 답이 나오자 곧바로 움직인 기관들입니다.\n\n셀프 커스터디 지점이 덜 분명한 절반입니다. 명확성이 주류 사용자를 퍼미션리스 네트워크로 데려오면, 지갑이 소비자 보호가 존재하거나 존재하지 않는 자리가 됩니다. 거래를 되돌려줄 은행이 없으니까요. 맥락적 보안, 서명 순간에 포이즈닝된 주소나 무제한 승인을 경고하는 것이 셀프 커스터디 상품이 커스터디를 포기하지 않고 소비자 피해에 대한 규제기관의 질문에 답하는 방법입니다. MetaMask가 파는 설계이고 Jayverse Wallet의 서명 전 시뮬레이션이 세워진 설계입니다.\n\n## 동작 방식\n\n### 세 주장과 검증 방법\n\n| 주장 | 종류 | 무엇이 확인해 주나 |\n|---|---|---|\n| 크립토는 인프라가 되고 성장은 온체인 활동에서 | 추세 | 스테이블코인 정산량, 토큰화 증권 발행, 무기한 선물 미결제약정의 시계열 |\n| 명확성은 허가다, 은행·기업이 기다린다 | 메커니즘 | 규칙 뒤 몇 달 안의 배포 발표. S&P와 Swift 항목이 초기 사례 |\n| 셀프 커스터디에는 선제적 맥락 보안이 필요 | 상품 | 지갑 경고율, 방지된 손실 수치. 이 클립에서 MetaMask는 발표하지 않음 |\n\n### 법령 대 규칙 제정\n\n법안은 2026-09-15 토론종결에 실패했고, 49–50 또는 50–49로 보고되었으며 민주당 협상자 여럿이 반대했습니다. 루빈의 틀은 SEC·CFTC 규칙 제정을 동등한 명확성 출처로 봅니다. 내구성을 갖기는 더 느리고 뒤집기는 더 쉽지만 60표가 필요하지 않습니다. 빌더에게 차이는 허가가 있느냐가 아니라 얼마나 오래가느냐입니다.\n\n### Jayverse에서의 위치\n\n- **Verex: 규제 항목을 가격이 아니라 관문으로 읽는다.** 법안 마켓에서 정산 질문과 트레이딩 질문은 다르다. Clarity Act 마켓은 표결로 정산됐지만 진짜 효과는 다음 분기에 어느 기관이 배포하느냐다. 모든 규제 마켓의 정산 요약에 \"이제 누가 허가되었나\" 메모를 더한다.\n- **Wallet: 맥락적 경고가 컴플라이언스 스토리다.** 서명 전 시뮬레이션은 이미 거래의 효과를 보여준다. 루빈이 이름 붙인 세 경고, 주소 포이즈닝, 무제한·미확인 승인, 플래그된 컨트랙트를 각자 테스트 케이스가 있는 명시적 검사로 더해서 지갑이 무엇으로부터 보호하는지 말할 수 있게 한다.\n- **Rabbit과 Token: 성장 동인 목록을 우리 레일에 매핑한다.** 스테이블코인 정산, 토큰화 청구권, 무기한 선물식 마켓에는 각각 Jayverse 대응물이 있다. 기관들이 출시하는 것과 대비한 한 줄 상태를 유지해서 alice-tech 항목이 읽기 목록이 아니라 서비스에 착지하게 한다.\n- **Auditor: \"허가\"는 필드다.** 통합하는 모든 외부 레일에 대해 그것을 허가하는 문서, 법령·규칙·라이선스·없음과 날짜를 기록한다. 없음인 레일은 차단이 아니라 리스크 행이다.\n\n### 확인된 것과 미확인\n\n2026-09-18에 확인한 것: 클립 날짜(2026-09-15), 프로그램(Varney & Co.), 루빈의 직함, 크립토와 세계 경제에 \"큰 긍정적 영향\"이라는 헤드라인 주장(Fox Business 영상 페이지); 토론종결 실패와 보고된 표수(이 사이트의 #66 항목과 그 출처). Gemini 브리핑 요약에서 온 것으로 대본 대조하지 않은 것: \"수문을 열다\" 표현, 성장 동인 목록, 닷컴 비유, 이름 붙은 MetaMask 보안 기능. 없는 것: 주장 뒤의 숫자. 루빈은 MetaMask와 Consensys를 운영하므로 인터뷰는 결과에서 이익을 얻는 당사자의 옹호다.\n출처: [Fox Business — Clarity Act will have 'large positive impact' on crypto and global economy, Ethereum co-founder says, 2026-09-15](https://www.foxbusiness.com/video/6405095552112) · [Fox Business — 'OPEN THE FLOODGATES', YouTube clip](http://www.youtube.com/watch?v=25VBaErxoQY) · Gemini YouTube 브리핑 2026-09-18 · 관련 항목: Clarity Act 토론종결 실패(#66)\n"</script>
+      <h1>명확성은 허가다 — 루빈의 "수문을 열다"는 가격이 아니라 누가 배포할 수 있는가에 대한 주장이다</h1>
+      <p class="lead">상원의 디지털자산 시장구조 명확성법(Clarity Act) 토론종결 표결이 부족했던 2026-09-15, 이더리움 공동창업자이자 MetaMask 회장 겸 CEO Joe Lubin이 Fox Business의 Varney &amp; Co.에 나와, 법이든 SEC·CFTC 규칙 제정이든 시장구조의 명확성이 미국 기업들에게 "수문을 열" 것이라고 주장했습니다. 주장은 세 부분입니다. 크립토는 투기적 자산군에서 금융 인프라로 옮겨가고 있고, 성장은 온체인 활동에서 옵니다. 기관 스테이블코인, 토큰화 증권, 실물자산 무기한 선물, DeFi. 명확성은 명시적 허가로 작동합니다. 이미 만들 줄 아는 은행과 기업은 퍼미션리스 네트워크에 배포해도 된다는 규칙을 기다립니다. 그리고 셀프 커스터디가 함께 성숙해야 합니다. MetaMask는 선제적·맥락적 보안, 즉 주소 포이즈닝, 악성 승인, 나쁜 컨트랙트에 대한 실시간 경고를 갖춘 셀프 커스터디 금융 슈퍼앱으로 자리를 잡고 있습니다. 항목은 2026-09-18 Gemini YouTube 브리핑에서 왔고, 날짜·프로그램·헤드라인은 Fox Business에서 확인했으며 세부 주장은 브리핑의 클립 요약에서 가져왔습니다.</p>
+      <p class="meta">Jayverse에 남길 문장은 "명확성은 허가다"입니다. Clarity Act 항목(#66, 부결된 토론종결)을 가격 이벤트에서 관문 이벤트로 다시 틀 짓습니다. 질문은 법안이 시장을 움직이느냐가 아니라 규칙이 생겼을 때 어느 빌더가 들어올 수 있느냐입니다. 루빈의 성장 동인 목록은 우리 서비스가 닿는 것들의 체크리스트이기도 합니다. 스테이블코인 레일, 토큰화 청구권, 무기한 선물식 마켓, DeFi. 그리고 그의 보안 지점은 지갑의 직무 기술서입니다. 2026-09-18 기준 상태: 법안은 09-15에 진전되지 않았고, 규칙 제정은 병행 중이며, 인터뷰는 이해당사자의 입장 표명이고 결정의 뉴스가 아닙니다.</p>
+<h2>왜</h2>
+<p>기업이 퍼블릭 체인에 만들기 위해 법이 필요한 것은 아닙니다. 규제기관과 이사회에 보여줄 문서가 필요합니다. 여기서 "허가"가 뜻하는 것이 그것이고, 법령이든 규칙이든 어느 출처의 명확성이 같은 효과를 내는 이유입니다. 법적 질문을 컴플라이언스 체크리스트로 바꾸고, 체크리스트는 큰 조직이 완성할 줄 아는 것입니다. 수문 이미지는 그 관문 뒤의 적체, 프로토타입은 준비됐지만 출시에 법적 보류가 걸린 팀들에 대한 것입니다. 적체가 루빈의 말만큼 큰지는 밖에서 검증할 수 없지만 메커니즘은 맞습니다. 이 노트의 S&amp;P, Kaiko, Bottomline, Toss 항목은 모두 자기 허가 질문에 답이 나오자 곧바로 움직인 기관들입니다.</p>
+<p>셀프 커스터디 지점이 덜 분명한 절반입니다. 명확성이 주류 사용자를 퍼미션리스 네트워크로 데려오면, 지갑이 소비자 보호가 존재하거나 존재하지 않는 자리가 됩니다. 거래를 되돌려줄 은행이 없으니까요. 맥락적 보안, 서명 순간에 포이즈닝된 주소나 무제한 승인을 경고하는 것이 셀프 커스터디 상품이 커스터디를 포기하지 않고 소비자 피해에 대한 규제기관의 질문에 답하는 방법입니다. MetaMask가 파는 설계이고 Jayverse Wallet의 서명 전 시뮬레이션이 세워진 설계입니다.</p>
+<h2>동작 방식</h2>
+<h3>세 주장과 검증 방법</h3>
+<table><thead><tr><th>주장</th><th>종류</th><th>무엇이 확인해 주나</th></tr></thead><tbody><tr><td>크립토는 인프라가 되고 성장은 온체인 활동에서</td><td>추세</td><td>스테이블코인 정산량, 토큰화 증권 발행, 무기한 선물 미결제약정의 시계열</td></tr><tr><td>명확성은 허가다, 은행·기업이 기다린다</td><td>메커니즘</td><td>규칙 뒤 몇 달 안의 배포 발표. S&amp;P와 Swift 항목이 초기 사례</td></tr><tr><td>셀프 커스터디에는 선제적 맥락 보안이 필요</td><td>상품</td><td>지갑 경고율, 방지된 손실 수치. 이 클립에서 MetaMask는 발표하지 않음</td></tr></tbody></table>
+<h3>법령 대 규칙 제정</h3>
+<p>법안은 2026-09-15 토론종결에 실패했고, 49–50 또는 50–49로 보고되었으며 민주당 협상자 여럿이 반대했습니다. 루빈의 틀은 SEC·CFTC 규칙 제정을 동등한 명확성 출처로 봅니다. 내구성을 갖기는 더 느리고 뒤집기는 더 쉽지만 60표가 필요하지 않습니다. 빌더에게 차이는 허가가 있느냐가 아니라 얼마나 오래가느냐입니다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 규제 항목을 가격이 아니라 관문으로 읽는다.</strong> 법안 마켓에서 정산 질문과 트레이딩 질문은 다르다. Clarity Act 마켓은 표결로 정산됐지만 진짜 효과는 다음 분기에 어느 기관이 배포하느냐다. 모든 규제 마켓의 정산 요약에 "이제 누가 허가되었나" 메모를 더한다.</li><li><strong>Wallet: 맥락적 경고가 컴플라이언스 스토리다.</strong> 서명 전 시뮬레이션은 이미 거래의 효과를 보여준다. 루빈이 이름 붙인 세 경고, 주소 포이즈닝, 무제한·미확인 승인, 플래그된 컨트랙트를 각자 테스트 케이스가 있는 명시적 검사로 더해서 지갑이 무엇으로부터 보호하는지 말할 수 있게 한다.</li><li><strong>Rabbit과 Token: 성장 동인 목록을 우리 레일에 매핑한다.</strong> 스테이블코인 정산, 토큰화 청구권, 무기한 선물식 마켓에는 각각 Jayverse 대응물이 있다. 기관들이 출시하는 것과 대비한 한 줄 상태를 유지해서 alice-tech 항목이 읽기 목록이 아니라 서비스에 착지하게 한다.</li><li><strong>Auditor: "허가"는 필드다.</strong> 통합하는 모든 외부 레일에 대해 그것을 허가하는 문서, 법령·규칙·라이선스·없음과 날짜를 기록한다. 없음인 레일은 차단이 아니라 리스크 행이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 확인한 것: 클립 날짜(2026-09-15), 프로그램(Varney &amp; Co.), 루빈의 직함, 크립토와 세계 경제에 "큰 긍정적 영향"이라는 헤드라인 주장(Fox Business 영상 페이지); 토론종결 실패와 보고된 표수(이 사이트의 #66 항목과 그 출처). Gemini 브리핑 요약에서 온 것으로 대본 대조하지 않은 것: "수문을 열다" 표현, 성장 동인 목록, 닷컴 비유, 이름 붙은 MetaMask 보안 기능. 없는 것: 주장 뒤의 숫자. 루빈은 MetaMask와 Consensys를 운영하므로 인터뷰는 결과에서 이익을 얻는 당사자의 옹호다.</p>
+<p>출처: <a href="https://www.foxbusiness.com/video/6405095552112">Fox Business — Clarity Act will have &#39;large positive impact&#39; on crypto and global economy, Ethereum co-founder says, 2026-09-15</a> · <a href="http://www.youtube.com/watch?v=25VBaErxoQY">Fox Business — &#39;OPEN THE FLOODGATES&#39;, YouTube clip</a> · Gemini YouTube 브리핑 2026-09-18 · 관련 항목: Clarity Act 토론종결 실패(#66)</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>open the floodgates</strong></td><td>수문을 열다(막혀 있던 것이 한꺼번에 쏟아지게 하다) · 규제 완화나 허가 뒤 밀려드는 수요를 말하는 관용구. "would &#39;open the floodgates&#39; for U.S. businesses"</td></tr><tr><td><strong>cloture</strong></td><td>토론종결(미 상원에서 필리버스터를 끝내는 절차, 60표 필요) · 법안이 표결로 가는지 결정하는 문턱. "the Senate&#39;s cloture vote … fell short"</td></tr><tr><td><strong>fell short</strong></td><td>부족했다(목표에 못 미쳤다) · 표수·목표·기대에 미달할 때. "fell short"</td></tr><tr><td><strong>market structure</strong></td><td>시장구조(누가 어떤 자산을 어느 규제기관 아래 거래하는가의 규칙) · Clarity Act가 다루는 주제. "market-structure clarity"</td></tr><tr><td><strong>SEC</strong></td><td>미 증권거래위원회(Securities and Exchange Commission) · 증권 규제기관. "SEC and CFTC rulemaking"</td></tr><tr><td><strong>CFTC</strong></td><td>미 상품선물거래위원회(Commodity Futures Trading Commission) · 파생상품·상품 규제기관. "SEC and CFTC rulemaking"</td></tr><tr><td><strong>rulemaking</strong></td><td>규칙 제정(행정기관이 규정을 만드는 절차) · 법령(statute)과 대비. "Statute versus rulemaking"</td></tr><tr><td><strong>RWA</strong></td><td>실물자산(Real-World Asset) · 토큰화된 오프체인 자산. "real-world-asset perpetuals"</td></tr><tr><td><strong>perpetuals</strong></td><td>무기한 선물(만기 없는 파생상품) · 크립토 파생의 주력 상품. "real-world-asset perpetuals and DeFi"</td></tr><tr><td><strong>self-custody</strong></td><td>셀프 커스터디(사용자가 직접 키를 보관) · 은행 없는 소비자 보호 문제의 출발점. "self-custody has to grow up with it"</td></tr><tr><td><strong>address poisoning</strong></td><td>주소 포이즈닝(비슷한 주소를 거래 이력에 심어 잘못 복사하게 하는 사기) · 지갑 경고 항목. "real-time warnings for address poisoning"</td></tr><tr><td><strong>gating event</strong></td><td>관문 이벤트(누가 통과하는지 정하는 사건) · 가격 이벤트와 대비. "from a price event into a gating event"</td></tr><tr><td><strong>advocacy</strong></td><td>옹호(이해당사자의 주장) · 출처의 성격을 표시할 때. "the interview is advocacy by a party that benefits"</td></tr><tr><td><strong>super-app</strong></td><td>슈퍼앱(한 앱 안에 금융 기능을 모두 담은 것) · MetaMask의 포지셔닝. "a self-custodial financial super-app"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-sp-global-buys-openzeppelin.html">&larr; 59. S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</a><a href="pocs-agentic-engineering-writes-boundaries.html">61. Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="clarity-is-permission-lubin-floodgates";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

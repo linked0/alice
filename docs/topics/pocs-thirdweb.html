@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Thirdweb — platform survey</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#138</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#142</span><span>PoC</span></p>
       <h1>Thirdweb — platform survey</h1>
       <p class="lead">Contracts, wallets/AA, backend tx, Unity SDK — breadth bought with best-in-class parts.</p>
       <p class="meta">Reference — docs/features/thirdweb.md. Already used in the AA card&#39;s pillars ②③.</p>
@@ -472,8 +472,12 @@ if __name__ == &quot;__main__&quot;:
         print(f&quot;  - {gap}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/thirdweb.py">docs/code/pocs/thirdweb.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>breadth</strong></td><td>폭, 다양성 · 여러 기능을 두루 갖춘 넓은 범위를 말할 때. "Breadth bought with best-in-class parts"</td></tr><tr><td><strong>not neutral</strong></td><td>중립적이지 않은 · 평가자가 이미 이해관계가 얽혀 있을 때. "Not a neutral survey"</td></tr><tr><td><strong>turn on (a tradeoff)</strong></td><td>바로 그 트레이드오프에 달려 있다 · 결정이 특정 하나의 맞교환 조건에 좌우될 때. "turns on exactly the tradeoff this note names"</td></tr><tr><td><strong>rated against</strong></td><td>~에 견주어 평가되다 · 비교 대상 기준으로 점수를 매길 때. "each rated against doing it directly"</td></tr><tr><td><strong>touchpoint</strong></td><td>접점 · 두 시스템이나 프로젝트가 실제로 맞닿는 지점. "The touchpoints that matter here are named"</td></tr><tr><td><strong>right up to the point where</strong></td><td>~하기 직전까지는 · 어떤 상태가 특정 시점 전까지는 유효할 때. "Breadth is convenient right up to the point where one part has to be the best one"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: thirdweb&#39;s paymaster only sponsors gas for 4337 accounts.</strong> Since Rabbit&#39;s mandate story is built on 7702/7715 accounts, record that switching account types drops thirdweb&#39;s sponsored-gas pillar and needs its own paymaster.</li><li><strong>Rabbit: tie the agent PoC&#39;s D1 gas decision to this exact tradeoff.</strong> Document the 4337-vs-7702 account-type mismatch as the named reason for whichever paymaster path the agent PoC chooses, not just a footnote.</li><li><strong>Game: evaluate thirdweb&#39;s Unity SDK against a direct chain integration before committing.</strong> The Unity SDK is one candidate for the game&#39;s chain bridge; treat it as a benchmarked option, not the default, given the breadth-vs-best-in-class pattern this note names.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>breadth</strong></td><td>폭, 다양성 · 여러 기능을 두루 갖춘 넓은 범위를 말할 때. "Breadth bought with best-in-class parts"</td></tr><tr><td><strong>not neutral</strong></td><td>중립적이지 않은 · 평가자가 이미 이해관계가 얽혀 있을 때. "Not a neutral survey"</td></tr><tr><td><strong>turn on (a tradeoff)</strong></td><td>바로 그 트레이드오프에 달려 있다 · 결정이 특정 하나의 맞교환 조건에 좌우될 때. "turns on exactly the tradeoff this note names"</td></tr><tr><td><strong>rated against</strong></td><td>~에 견주어 평가되다 · 비교 대상 기준으로 점수를 매길 때. "each rated against doing it directly"</td></tr><tr><td><strong>touchpoint</strong></td><td>접점 · 두 시스템이나 프로젝트가 실제로 맞닿는 지점. "The touchpoints that matter here are named"</td></tr><tr><td><strong>right up to the point where</strong></td><td>~하기 직전까지는 · 어떤 상태가 특정 시점 전까지는 유효할 때. "Breadth is convenient right up to the point where one part has to be the best one"</td></tr><tr><td><strong>AA</strong></td><td>계정 추상화(Account Abstraction) · 스마트 지갑이 트랜잭션 검증 로직을 프로그래머블하게 만드는 방식, 이 카드에서는 다른 카드("AA card")를 가리키는 약칭으로도 쓰임. "The AA card&#39;s sponsored-gas and atomic-batch pillars"</td></tr><tr><td><strong>AP2</strong></td><td>에이전트 결제 프로토콜(Agent Payments Protocol) · 에이전트가 대신 결제를 수행할 때 쓰는 표준 경로. "backend transactions for the AP2 path"</td></tr><tr><td><strong>ERC-4337</strong></td><td>계정 추상화 표준(ERC-4337) · 번들러·페이마스터로 유저오퍼레이션을 처리하는 스마트 지갑 표준, thirdweb 스택의 기반. "thirdweb&#39;s 4337 stack, and the D1 gas decision"</td></tr><tr><td><strong>EIP-7702/ERC-7710</strong></td><td>위임형 계정 표준(EIP-7702 / ERC-7710) · EOA에 위임 코드를 붙이는 다른 계정 유형, 만다이트(mandate) 구조의 기반. "a different account type from the 7702/7710 one"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -550,12 +554,16 @@ if __name__ == &quot;__main__&quot;:
         print(f&quot;  - {gap}&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/thirdweb.py">docs/code/pocs/thirdweb.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>breadth</strong></td><td>폭, 다양성 · 여러 기능을 두루 갖춘 넓은 범위를 말할 때. "Breadth bought with best-in-class parts"</td></tr><tr><td><strong>not neutral</strong></td><td>중립적이지 않은 · 평가자가 이미 이해관계가 얽혀 있을 때. "Not a neutral survey"</td></tr><tr><td><strong>turn on (a tradeoff)</strong></td><td>바로 그 트레이드오프에 달려 있다 · 결정이 특정 하나의 맞교환 조건에 좌우될 때. "turns on exactly the tradeoff this note names"</td></tr><tr><td><strong>rated against</strong></td><td>~에 견주어 평가되다 · 비교 대상 기준으로 점수를 매길 때. "each rated against doing it directly"</td></tr><tr><td><strong>touchpoint</strong></td><td>접점 · 두 시스템이나 프로젝트가 실제로 맞닿는 지점. "The touchpoints that matter here are named"</td></tr><tr><td><strong>right up to the point where</strong></td><td>~하기 직전까지는 · 어떤 상태가 특정 시점 전까지는 유효할 때. "Breadth is convenient right up to the point where one part has to be the best one"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: thirdweb의 paymaster는 4337 계정에만 가스를 후원한다.</strong> Rabbit의 mandate 구조는 7702/7715 계정 위에 있으므로, 계정 타입을 바꾸면 thirdweb의 가스 후원 축이 빠지고 별도 paymaster가 필요하다는 것을 기록해 둔다.</li><li><strong>Rabbit: 에이전트 PoC의 D1 가스 결정을 이 트레이드오프와 명시적으로 연결한다.</strong> 4337 대 7702 계정 타입 불일치를 에이전트 PoC가 어떤 paymaster 경로를 택하든 그 이유로 문서화한다.</li><li><strong>Game: thirdweb Unity SDK를 직접 체인 연동과 비교 평가한 뒤 채택한다.</strong> Unity SDK는 게임의 체인 브리지 후보 중 하나다. 이 글이 말하는 범용성 대 최상 파트 패턴을 감안해 기본값이 아니라 벤치마크 대상으로 다룬다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>breadth</strong></td><td>폭, 다양성 · 여러 기능을 두루 갖춘 넓은 범위를 말할 때. "Breadth bought with best-in-class parts"</td></tr><tr><td><strong>not neutral</strong></td><td>중립적이지 않은 · 평가자가 이미 이해관계가 얽혀 있을 때. "Not a neutral survey"</td></tr><tr><td><strong>turn on (a tradeoff)</strong></td><td>바로 그 트레이드오프에 달려 있다 · 결정이 특정 하나의 맞교환 조건에 좌우될 때. "turns on exactly the tradeoff this note names"</td></tr><tr><td><strong>rated against</strong></td><td>~에 견주어 평가되다 · 비교 대상 기준으로 점수를 매길 때. "each rated against doing it directly"</td></tr><tr><td><strong>touchpoint</strong></td><td>접점 · 두 시스템이나 프로젝트가 실제로 맞닿는 지점. "The touchpoints that matter here are named"</td></tr><tr><td><strong>right up to the point where</strong></td><td>~하기 직전까지는 · 어떤 상태가 특정 시점 전까지는 유효할 때. "Breadth is convenient right up to the point where one part has to be the best one"</td></tr><tr><td><strong>AA</strong></td><td>계정 추상화(Account Abstraction) · 스마트 지갑이 트랜잭션 검증 로직을 프로그래머블하게 만드는 방식, 이 카드에서는 다른 카드("AA card")를 가리키는 약칭으로도 쓰임. "The AA card&#39;s sponsored-gas and atomic-batch pillars"</td></tr><tr><td><strong>AP2</strong></td><td>에이전트 결제 프로토콜(Agent Payments Protocol) · 에이전트가 대신 결제를 수행할 때 쓰는 표준 경로. "backend transactions for the AP2 path"</td></tr><tr><td><strong>ERC-4337</strong></td><td>계정 추상화 표준(ERC-4337) · 번들러·페이마스터로 유저오퍼레이션을 처리하는 스마트 지갑 표준, thirdweb 스택의 기반. "thirdweb&#39;s 4337 stack, and the D1 gas decision"</td></tr><tr><td><strong>EIP-7702/ERC-7710</strong></td><td>위임형 계정 표준(EIP-7702 / ERC-7710) · EOA에 위임 코드를 붙이는 다른 계정 유형, 만다이트(mandate) 구조의 기반. "a different account type from the 7702/7710 one"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-linera-microchains.html">&larr; 137. Linera microchains</a><a href="pocs-procedural-not-generated.html">139. Procedural, not generated — when the model is a program &rarr;</a></div>
+    <div class="pager"><a href="pocs-linera-microchains.html">&larr; 141. Linera microchains</a><a href="pocs-procedural-not-generated.html">143. Procedural, not generated — when the model is a program &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time-to-event</strong></td><td>사건 발생까지 걸리는 시간(으로 보는 관점) · 이탈을 예/아니오가 아니라 시점 문제로 보는 방식 · "churn is a time-to-event, not a yes/no"</td></tr><tr><td><strong>censoring</strong></td><td>중도절단 · 아직 이탈하지 않은 대상을 올바르게 처리하는 통계적 개념 · "correctly handling subjects who have not churned yet (censoring)"</td></tr><tr><td><strong>throw away</strong></td><td>내다버리다, 무시하다 · 일반 분류기가 아직 이탈 안 한 대상 정보를 버림 · "the thing a plain classifier throws away"</td></tr><tr><td><strong>bias itself</strong></td><td>스스로를 편향시키다 · 정보를 버림으로써 결과가 왜곡됨 · "biases itself by discarding"</td></tr><tr><td><strong>naive</strong></td><td>순진한, 단순한 · 중도절단을 무시한 이탈률 계산을 가리킴 · "why the naive churn rate wrong"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Wallet: model inactivity as time-to-event, not a 30-day flag.</strong> Fit a Kaplan-Meier curve to embedded-wallet activity so wallets that simply haven&#39;t churned yet aren&#39;t counted as retained or lost by a fixed cutoff.</li><li><strong>Verex: censor active traders instead of assuming they&#39;ve left.</strong> When measuring trader or market-maker retention, treat still-active accounts as censored observations rather than folding them into a naive churn rate.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time-to-event</strong></td><td>사건 발생까지 걸리는 시간(으로 보는 관점) · 이탈을 예/아니오가 아니라 시점 문제로 보는 방식 · "churn is a time-to-event, not a yes/no"</td></tr><tr><td><strong>censoring</strong></td><td>중도절단 · 아직 이탈하지 않은 대상을 올바르게 처리하는 통계적 개념 · "correctly handling subjects who have not churned yet (censoring)"</td></tr><tr><td><strong>throw away</strong></td><td>내다버리다, 무시하다 · 일반 분류기가 아직 이탈 안 한 대상 정보를 버림 · "the thing a plain classifier throws away"</td></tr><tr><td><strong>bias itself</strong></td><td>스스로를 편향시키다 · 정보를 버림으로써 결과가 왜곡됨 · "biases itself by discarding"</td></tr><tr><td><strong>naive</strong></td><td>순진한, 단순한 · 중도절단을 무시한 이탈률 계산을 가리킴 · "why the naive churn rate wrong"</td></tr><tr><td><strong>Kaplan-Meier curve</strong></td><td>카플란-마이어 곡선(Kaplan-Meier curve) · 중도절단을 반영해 생존확률을 추정하는 비모수 통계 기법. "fits a Kaplan-Meier curve and a Cox model"</td></tr><tr><td><strong>Cox model</strong></td><td>콕스 비례위험모형(Cox proportional hazards model) · 생존분석에서 여러 변수가 사건 발생 위험에 미치는 영향을 추정하는 회귀모형. "fits a Kaplan-Meier curve and a Cox model"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time-to-event</strong></td><td>사건 발생까지 걸리는 시간(으로 보는 관점) · 이탈을 예/아니오가 아니라 시점 문제로 보는 방식 · "churn is a time-to-event, not a yes/no"</td></tr><tr><td><strong>censoring</strong></td><td>중도절단 · 아직 이탈하지 않은 대상을 올바르게 처리하는 통계적 개념 · "correctly handling subjects who have not churned yet (censoring)"</td></tr><tr><td><strong>throw away</strong></td><td>내다버리다, 무시하다 · 일반 분류기가 아직 이탈 안 한 대상 정보를 버림 · "the thing a plain classifier throws away"</td></tr><tr><td><strong>bias itself</strong></td><td>스스로를 편향시키다 · 정보를 버림으로써 결과가 왜곡됨 · "biases itself by discarding"</td></tr><tr><td><strong>naive</strong></td><td>순진한, 단순한 · 중도절단을 무시한 이탈률 계산을 가리킴 · "why the naive churn rate wrong"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Wallet: 비활성을 30일 플래그가 아니라 사건까지의 시간으로 모델링한다.</strong> 임베디드 지갑 활동에 Kaplan-Meier 곡선을 적용해, 아직 이탈하지 않은 지갑을 고정 기준으로 유지/이탈로 잘못 분류하지 않게 한다.</li><li><strong>Verex: 여전히 활성인 트레이더는 단순 이탈로 넣지 않고 중도절단으로 처리한다.</strong> 트레이더나 마켓 메이커 리텐션을 측정할 때 활성 계정을 중도절단 관측치로 다뤄야 순진한 이탈률의 편향을 피한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time-to-event</strong></td><td>사건 발생까지 걸리는 시간(으로 보는 관점) · 이탈을 예/아니오가 아니라 시점 문제로 보는 방식 · "churn is a time-to-event, not a yes/no"</td></tr><tr><td><strong>censoring</strong></td><td>중도절단 · 아직 이탈하지 않은 대상을 올바르게 처리하는 통계적 개념 · "correctly handling subjects who have not churned yet (censoring)"</td></tr><tr><td><strong>throw away</strong></td><td>내다버리다, 무시하다 · 일반 분류기가 아직 이탈 안 한 대상 정보를 버림 · "the thing a plain classifier throws away"</td></tr><tr><td><strong>bias itself</strong></td><td>스스로를 편향시키다 · 정보를 버림으로써 결과가 왜곡됨 · "biases itself by discarding"</td></tr><tr><td><strong>naive</strong></td><td>순진한, 단순한 · 중도절단을 무시한 이탈률 계산을 가리킴 · "why the naive churn rate wrong"</td></tr><tr><td><strong>Kaplan-Meier curve</strong></td><td>카플란-마이어 곡선(Kaplan-Meier curve) · 중도절단을 반영해 생존확률을 추정하는 비모수 통계 기법. "fits a Kaplan-Meier curve and a Cox model"</td></tr><tr><td><strong>Cox model</strong></td><td>콕스 비례위험모형(Cox proportional hazards model) · 생존분석에서 여러 변수가 사건 발생 위험에 미치는 영향을 추정하는 회귀모형. "fits a Kaplan-Meier curve and a Cox model"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

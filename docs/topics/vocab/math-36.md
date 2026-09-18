@@ -7,3 +7,5 @@
 | backed out of | (가격 등에서 역산하여) 도출하다 · 옵션 가격에서 내재변동성을 거꾸로 계산해낸다는 뜻 · "the implied volatility backed out of option prices" |
 | underestimates | 과소평가하다 · 특정 가정이 실제 위험을 실제보다 낮게 잡는다는 뜻 · "systematically underestimates tail risk" |
 | rest on | ~에 근거하다, ~을 전제로 하다 · 어떤 수치가 어떤 가정 위에 서 있는지를 물을 때 · "which assumptions a given number rests on" |
+| LMSR | 로그시장점수규칙(Logarithmic Market Scoring Rule) · 예측시장 가격이 보유량에 선형으로 반응하도록 설계된 자동화 가격결정 메커니즘. "the way LMSR prices respond linearly to holdings" |
+<!-- acronyms 2026-09-18 -->

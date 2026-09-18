@@ -12,3 +12,9 @@
 | closing conditions | 거래 종결 조건 · M&A에서 딜이 완료되기 위한 선행 조건. "subject to closing conditions, no date" |
 | moves the opinion one layer down | 의견(평가)을 한 층 아래로 내린다 · 평가 대상이 더 깊은 층으로 옮겨감을 그림처럼 말하는 표현. "Each step moves the opinion one layer down" |
 | two majors behind | 메이저 버전 두 개 뒤처진 · 의존성 버전을 말할 때 major를 명사로 쓴다. "v4.7.0 is two majors behind" |
+| FT Partners | 핀테크 전문 M&A 자문사(Financial Technology Partners) · Financial Times와 무관, 이번 인수에서 OpenZeppelin 측 재무자문을 맡음. "FT Partners and Cooley for OpenZeppelin" |
+| Kaiko | 크립토 시장 데이터 제공업체 · S&P가 iBoxx 국채 인덱스를 토큰화하며 협력하고 전략적 투자까지 한 데이터 기업. "a tokenized iBoxx Treasuries index with Kaiko" |
+| Sky | DeFi 프로토콜(구 MakerDAO 계열) · S&P가 2025년 8월 최초로 신용등급을 매긴 DeFi 프로토콜. "the first credit rating of a DeFi protocol (Sky, August 2025)" |
+| iBoxx | Markit/S&P의 채권 인덱스 브랜드 · 이번에 Kaiko와 함께 토큰화된 국채 인덱스 상품명. "tokenized its iBoxx Treasuries index with Kaiko" |
+| ctf-exchange | Polymarket의 조건부토큰(CTF) 거래 컨트랙트 · Verex가 구버전 OpenZeppelin을 상속받는 원인이 되는 외부 서브모듈. "through the Polymarket ctf-exchange submodule" |
+<!-- acronyms 2026-09-18 -->

@@ -12,3 +12,10 @@
 | dominate the bill | 비용의 대부분을 차지하다 · 여러 항목 중 한 항목이 지출을 압도할 때. "Which tool dominates the bill" |
 | outrun | ~을 앞지르다, 능가하다 · 속도나 규모가 다른 것을 추월할 때. "A rate outruns a fixed capacity by default" |
 | chokepoint vs checkpoint | 병목 지점 대 검문소 · 사람 수 기반 통제와 트래픽 기반 통제를 대비할 때. "a chokepoint that scales with traffic does not" |
+| MCP | 모델 컨텍스트 프로토콜(Model Context Protocol) · AI 에이전트가 도구를 호출하는 표준, 이 글의 거버넌스 논의 전제. "the MCP SDK is reported at roughly 195.9 million monthly" |
+| SOC 2 | 보안 준수 인증 표준(Service Organization Control 2) · 키 보관·감사 등 보안 신뢰성을 증명하는 인증. "secure enclaves with SOC 2 and three external audits" |
+| TP/SL | 이익실현/손절매(Take-Profit/Stop-Loss) · 레버리지 거래에서 마진 기준이라 실제 가격 변동률과 다르다는 지적. "take-profit and stop-loss are margin-relative, not price-relative" |
+| PagedAttention | vLLM이 쓰는 GPU 메모리 관리 기법 · 고처리량 모델 서빙 인프라 문맥에서 언급. "High-throughput serving on PagedAttention" |
+| notional | 명목 원금(계약 규모) · 레버리지 거래에서 실제 증거금과 구분되는 계약 총액. "margin, notional and leverage limits reject any signal" |
+| cross-margined | 교차 마진 방식 · 한 지갑 내 포지션끼리 증거금을 공유해 헤지 가능하게 하는 방식. "cross-margined internally so positions can hedge, isolated externally" |
+<!-- acronyms 2026-09-18 -->

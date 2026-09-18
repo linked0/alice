@@ -7,3 +7,6 @@
 | stack too deep | (솔리디티) 스택 깊이 초과 오류 · EVM 스택 제한 때문에 발생하는 컴파일 에러 · "stack too deep error is isomorphic to a spill" |
 | Chaitin-style heuristics | 채이틴 방식의 휴리스틱(그래프 색칠 근사 알고리즘) · NP-완전 문제를 실용적으로 푸는 방법 · "compilers use Chaitin-style heuristics" |
 | at the source level | 소스 코드 수준에서 · 문제에 대응하는 위치를 가리킬 때 · "respond at the source level" |
+| SSA | 정적 단일 할당(Static Single Assignment) · 각 변수가 한 번만 대입되는 중간표현 형태, 다항시간 채색이 가능해지는 조건 · "In SSA form the interference graph is chordal" |
+| JITs | 즉시 컴파일러(Just-In-Time compilers) · 실행 시점에 즉석 컴파일하는 방식, 선형 스캔 레지스터 할당과 함께 언급 · "linear scan for JITs" |
+<!-- acronyms 2026-09-18 -->

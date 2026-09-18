@@ -10,3 +10,9 @@
 | drifting | (통제 없이) 흐트러지는, 제각각이 되는 · 엔드포인트마다 로직이 달라질 때. "One per endpoint, drifting" |
 | preserved by construction | 설계상 원래부터 보장되는 · 별도 조치 없이도 성질이 유지될 때. "Settlement neutrality... preserved by construction" |
 | evadable | 회피 가능한 · 우회 수단이 있는 보안 조치를 말할 때. "IP-based country is cheap, fast — and evadable by any VPN" |
+| PoPs | 접속거점(Points of Presence) · 엣지 네트워크의 물리적 거점, 이것 없이는 '백엔드 이전 차단'이 불가능. "without edge PoPs there is no 'before the backend'" |
+| Status 451 | HTTP 451 상태코드(법적 사유로 이용 불가) · 차단이 법적 조치임을 명시하는 정직한 코드. "Unavailable For Legal Reasons is the honest status code" |
+| isolate | (V8) 아이솔레이트 · TLS를 종료하던 바로 그 실행 단위에서 국가 분기가 함께 도는 구조. "the isolate that was already terminating TLS" |
+| R2 | 알투(Cloudflare R2) · S3 호환 오브젝트 스토리지, 이그레스 요금이 없는 것이 핵심 차별점. "R2 removes S3's biggest hidden cost (egress fees)" |
+| Fastly Compute | 패스틀리 컴퓨트 · CloudFront Functions, Deno Deploy와 나란히 같은 축에서 경쟁하는 대안 엣지 플랫폼. "Fastly Compute, CloudFront Functions + paid-egress S3, Deno Deploy" |
+<!-- acronyms 2026-09-18 -->

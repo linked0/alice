@@ -10,3 +10,8 @@
 | reconciliation | 대사(잔고 확인) 작업 · 기록과 실제 보유량이 일치하는지 맞춰보는 절차. "there is one reserve to attest, one reconciliation" |
 | describe a photograph | (감사 결과가) 스냅샷 한 장을 보여줄 뿐이다 · 실시간이 아니라 한순간만 담은 기록이라는 비유. "the audit describes a photograph" |
 | trade away from | (가치가) ~에서 벗어나 거래되다, 괴리되다 · 가격이 기초자산에서 멀어지는 것. "the wrapped token trades away from the thing it wraps" |
+| cbBTC | 코인베이스가 발행하는 랩드 비트코인(Coinbase Wrapped BTC) · 이 카드의 사례가 되는 특정 토큰. "cbBTC is expanding to another chain" |
+| CCIP | 크로스체인 상호운용 프로토콜(Cross-Chain Interoperability Protocol) · Chainlink이 제공하는 메시징 레이어, 이 사례의 배타적 인프라로 지정됨. "CCIP named as exclusive cross-chain infrastructure" |
+| CCT | 크로스체인 토큰 표준(Cross-Chain Token standard) · 토큰이 네이티브하게 여러 체인과 상호운용되게 만드는 표준. "how mint authority is delegated under CCT" |
+| Chainlink Labs | 체인링크 랩스 · CCIP를 만든 회사, 이 글의 출처(벤더 콘텐츠)가 되는 기업. "Facts here come from a Chainlink Labs post" |
+<!-- acronyms 2026-09-18 -->

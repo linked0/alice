@@ -5,3 +5,5 @@
 | reward model | 선호를 점수로 평가하는 보상 모델 · "the reward-model-plus-policy loop" |
 | inject bias | 편향을 주입하다, 끼워넣다 · "where preference data injects bias" |
 | data-provenance problem | 데이터 출처·이력에서 비롯되는 문제 · "framing alignment as a data-provenance problem" |
+| RLHF | 인간 피드백 기반 강화학습(Reinforcement Learning from Human Feedback) · 모델을 평가자가 선호하는 방향으로 미세조정하는 기법. "Reinforcement learning from human feedback tunes a model toward what raters prefer" |
+<!-- acronyms 2026-09-18 -->

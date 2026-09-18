@@ -8,3 +8,6 @@
 | proof indigestion | 증명 소화불량(저자의 조어) · 생성 속도는 빨라졌는데 이해·정리가 못 따라가는 병목 상태. "leaves a backlog he calls proof indigestion" |
 | hit rate | 적중률, 성공 비율 · 시도한 것 중 성공한 비율을 말할 때. "a 5 percent hit rate is fifty results" |
 | overfit | 과적합(데이터에만 맞춰져 일반성을 잃은 모델) · 눈앞의 데이터에만 잘 맞는 모델을 비판할 때. "the overfit model that matches today's data" |
+| epicycles | 주전원(천동설에서 행성 궤도를 설명하려고 쓴 보조 원) · 정교하게 다듬은 낡은 모델이 한동안 새 모델보다 예측이 더 잘 맞았다는 비유. "predicted worse than the tuned epicycles for decades" |
+| Big Think | 빅씽크(대중 지식·인터뷰 콘텐츠 매체) · 이 글이 근거로 삼은 인터뷰가 실린 온라인 매체, 학술지가 아님을 알려줌. "In a Big Think interview, Terence Tao describes research" |
+<!-- acronyms 2026-09-18 -->

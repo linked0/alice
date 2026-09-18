@@ -8,3 +8,7 @@
 | dark horse | 의외의 복병, 숨은 강자 · "the data-science dark horse" |
 | finish line | 최종 목표 지점 · "Finish line: the closing neural-network chapter" |
 | code-backed | 코드로 뒷받침된 · "worked, code-backed examples" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 블록 생성자가 순서를 조작해 얻는 이익, 여기서는 번들 포함 확률의 예측 대상. "probability on MEV bundle inclusion" |
+| Dune | 듄 애널리틱스(Dune Analytics) · 온체인 데이터를 SQL로 조회·분석하는 대시보드 플랫폼. "every Dune query, index-quality rule" |
+| The Graph | 더 그래프(The Graph) · 온체인 데이터를 인덱싱해 GraphQL로 조회하게 하는 인덱싱 프로토콜. "pandas/numpy, Dune/The Graph" |
+<!-- acronyms 2026-09-18 -->

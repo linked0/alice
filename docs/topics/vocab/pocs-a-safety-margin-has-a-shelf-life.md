@@ -9,3 +9,6 @@
 | scattered across | 여기저기 흩어져 있는 · "scattered across many functions" |
 | diverge | 같았던 것이 서로 갈라지다, 달라지다 · "the scattered copies have already diverged" |
 | on a calendar | 정기적으로 일정에 잡혀 있는 · "the review becomes a scheduled event" |
+| EF | 이더리움 재단(Ethereum Foundation) · post-quantum 대응 팀을 운영하는 주체. "The Ethereum Foundation has a Jan-2026 post-quantum team" |
+| Shor's algorithm | 양자컴퓨터로 정수를 소인수분해하는 알고리즘 · RSA·ECDSA 같은 공개키 암호를 위협하는 핵심 알고리즘. "beating Google's March result on Shor's core computation" |
+<!-- acronyms 2026-09-18 -->

@@ -7,3 +7,8 @@
 | quietly turns X into | 어느새 X를 ~로 바꿔버리다 · 눈에 띄지 않게 상황이 나빠질 때. "quietly turns a 20 tok/s figure into something else" |
 | cheap to produce | 만들기 비용이 적게 드는 · 제작 과정의 저비용을 표현할 때. "which is exactly what makes them cheap to produce" |
 | picked so that | 그렇게 되도록 일부러 고른/정해진 · 의도적으로 이름이나 조건을 맞췄을 때. "names picked so the Hugging Face repo lists them at all" |
+| VRAM | 그래픽 메모리(Video RAM) · GPU 메모리 용량, 로컬 구동 가능 여부를 가르는 기준. "RAM+VRAM ≈ quant size" |
+| PPL | 퍼플렉시티(Perplexity), 언어모델의 예측 성능 지표 · 값이 낮을수록 다음 토큰 예측이 정확함을 뜻함. "reproduce the PPL/KLD/top-p curve myself" |
+| KLD | KL 발산(Kullback-Leibler Divergence) · 압축 전후 모델 출력 분포 차이를 재는 지표. "reproduce the PPL/KLD/top-p curve myself" |
+| bpw | 가중치당 비트 수(bits per weight) · 양자화 압축률을 나타내는 단위. "1.4375, 1.3125 and 1.1875 bpw" |
+<!-- acronyms 2026-09-18 -->

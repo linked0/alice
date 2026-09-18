@@ -6,3 +6,6 @@
 | hierarchically compress | 계층적으로 압축하다 · 데이터를 단계별 구조로 줄여 나갈 때. "hierarchically compress the samples" |
 | tabulate | 표로 정리하다 · 결과 값을 표 형태로 깔끔히 정리할 때. "tabulate how the overestimation error shrinks" |
 | proven lower bound | 증명된 하한 · 이론적으로 이 이하로는 절대 못 줄인다고 밝혀진 한계. "a proven lower bound" |
+| KLL | KLL 스케치(Karnin-Lang-Liberty sketch) · 근사 분위수를 계층적으로 압축해 추정하는 스트리밍 자료구조, 저자 이니셜을 딴 이름. "structures like t-digest or KLL" |
+| Count-Min Sketch | 카운트민 스케치(Count-Min Sketch) · 여러 해시함수로 2차원 카운터 격자에 더해 빈발 원소를 추정하는 자료구조. "Count-Min Sketch style, adding into a 2D grid" |
+<!-- acronyms 2026-09-18 -->

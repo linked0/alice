@@ -9,3 +9,9 @@
 | conjure | 마법처럼(아무것도 없는 데서) 만들어내다 · "What in the product could NOT be conjured" |
 | remainder | 다 빼고 남는 부분 · "That remainder is the business" |
 | UI polish | UI를 다듬는 마무리 작업 · "Where value defends" |
+| BodyParts3D | 일본에서 만든 오픈 인체 해부 3D 메쉬 데이터셋 · 이 카드의 에이전트가 그대로 가져다 쓴 원본 데이터. "the pieces come from BodyParts3D, an open dataset" |
+| FMA | 해부학 기초 모델 온톨로지(Foundational Model of Anatomy) · 메쉬마다 부여된 ID 체계로 검색·isolate 기능의 기반이 된다. "keyed to the FMA anatomy ontology" |
+| GBIF | 지구 생물다양성 정보기구(Global Biodiversity Information Facility) · 복제 대상 후보로 언급된 오픈 데이터셋. "GBIF species records" |
+| OpenStreetMap | 오픈소스 지도 데이터 프로젝트 · 복제 대상 후보로 언급된 오픈 데이터셋. "OpenStreetMap extracts" |
+| PDB | 단백질 구조 데이터베이스(Protein Data Bank) · 복제 대상 후보로 언급된 오픈 데이터셋. "PDB proteins (molecular structures)" |
+<!-- acronyms 2026-09-18 -->

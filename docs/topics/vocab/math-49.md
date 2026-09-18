@@ -6,3 +6,6 @@
 | hinge on | ~에 달려 있다, 좌우되다 · 여러 문제가 결국 한 가지 개념에 근거할 때. "all hinge on this" |
 | overestimate | 과대평가하다 · 실제보다 크게 잘못 판단할 때. "overestimating entropy leads to using randomness" |
 | feels secure but isn't | 안전해 보이지만 실제로는 아닌 · 겉보기와 실제가 다를 때 쓰는 경고성 표현. "randomness that feels secure but isn't" |
+| KL divergence | KL 발산(Kullback-Leibler divergence) · 잘못된 분포를 가정했을 때 추가로 드는 인코딩 비용을 재는 상대 엔트로피. "Relative entropy (KL divergence) is the extra cost" |
+| mnemonic | 니모닉(연상 기억) 구문 · 개인키 복구용 단어 나열(시드 구문), 12단어짜리의 엔트로피를 계산하는 대상. "the entropy in bits carried by a 12-word mnemonic" |
+<!-- acronyms 2026-09-18 -->

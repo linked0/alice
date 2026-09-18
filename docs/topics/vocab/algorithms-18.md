@@ -7,3 +7,5 @@
 | incrementally | 점진적으로, 조금씩 누적하며 · "computed incrementally from the previous one" |
 | with no duplicates and none missed | 중복도 누락도 없이 · "one at a time, with no duplicates and none missed" |
 | gives ... a stronger guarantee than | ~보다 더 강한 보장을 준다 · "exhaustive enumeration gives a stronger guarantee than random fuzzing" |
+| TAOCP | 커누스의 저서 이름(The Art of Computer Programming) · 이 주제(조합 생성·그레이 코드)의 출처로 언급된 고전. "Permutation Enumeration (TAOCP Vol. 4)" |
+<!-- acronyms 2026-09-18 -->

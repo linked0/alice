@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert or update one Tech (or, with --section, Fundamentals / Mindset) item in Knowledge Notes from two markdown files.
+"""Insert or update one Tech (or, with --section, Foundations / Mindset) item in Knowledge Notes from two markdown files.
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
         [--status new|important|planned|recent|done] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
@@ -28,9 +28,9 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int)
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
 ap.add_argument("--status", default="new"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
-ap.add_argument("--source", default="chat", choices=["chat", "file"], help="where the subject came from: jay in chat, or the alice-tech file")
+ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "mindset"], help="which Knowledge Notes section the item belongs to")
-ap.add_argument("--tag", default="Economics", help="Fundamentals only: the topic-tag chip (Math | Algorithms | Economics)")
+ap.add_argument("--tag", default="Economics", help="Foundations only: the topic-tag chip (Math | Algorithms | Economics)")
 ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
@@ -38,11 +38,11 @@ COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recen
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")
-# Section constants. Blockchain has no tag chip; Fundamentals cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
-# right after the number (jay, 2026-09-18: first Fundamentals item added through this script).
+# Section constants. Blockchain has no tag chip; Foundations cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
+# right after the number (jay, 2026-09-18: first Foundations item added through this script).
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
-    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Fundamentals",      next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Foundations",      next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
     "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Mindset",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
@@ -88,6 +88,9 @@ def load(p):
     md = pathlib.Path(p).read_text().rstrip("\n") + "\n"; parts = md.split("\n\n")
     return md, parts[0][2:].strip(), parts[1].strip(), parts[2].strip(), "\n\n".join(parts[3:])
 en_md, TITLE, SUMMARY, META, en_body = load(A.en); ko_md, TITLE_KO, SUMMARY_KO, META_KO, ko_body = load(A.ko)
+# Every item closes with "Where it lands in Jayverse" (jay, 2026-09-18: all detail pages have this section).
+assert "### Where it lands in Jayverse" in en_body or "## Where it lands in Jayverse" in en_body, "en.md needs a 'Where it lands in Jayverse' section"
+assert "Jayverse에서의 위치" in ko_body, "ko.md needs a 'Jayverse에서의 위치' section"
 WHY = re.search(r'## Why\n\n(.*?)(\n\n|$)', en_body, re.S).group(1)
 HOW = " · ".join(h[4:].split(" — ")[0] for h in re.findall(r'^### .*$', en_body, re.M))
 DATE_SPAN = f'<span class="topic-date" title="added" style="margin-left:auto;flex:0 0 auto;font-size:.72rem;color:var(--text2);font-variant-numeric:tabular-nums">{DATE}</span>'

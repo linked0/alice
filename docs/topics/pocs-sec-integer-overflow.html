@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Integer overflow — arithmetic that wraps past zero</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#182</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#186</span><span>PoC</span></p>
       <h1>Integer overflow — arithmetic that wraps past zero</h1>
       <p class="lead">Before Solidity 0.8 made checks default, unchecked arithmetic could wrap a balance from near-zero to near-max, and the pattern survives today in <code>unchecked</code> blocks and other languages.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wrap (past zero)</strong></td><td>(숫자가 한계를 넘어) 순환해 되돌아가다 · 정수가 최대값을 넘으면 0 근처로 되돌아가는 현상. "arithmetic that wraps past zero"</td></tr><tr><td><strong>unchecked block</strong></td><td>(오버플로우) 검사를 생략한 블록 · Solidity에서 의도적으로 검사를 끄는 코드 구간. "demonstrates an overflow in an unchecked block"</td></tr><tr><td><strong>survive (the pattern survives)</strong></td><td>(문제·관행이) 여전히 남아있다 · 옛 취약점 패턴이 오늘날에도 존재함을 가리키는 동사. "the pattern survives today in unchecked blocks"</td></tr><tr><td><strong>contrast with</strong></td><td>~와 대조하다·대비시키다 · 취약한 코드와 안전한 코드를 나란히 비교할 때. "contrasts it with SafeMath and native"</td></tr><tr><td><strong>make explicit</strong></td><td>(눈에 안 보이던 것을) 명시적으로 드러내다 · 조용히 일어나는 오버플로우를 눈에 보이게 만든다는 뜻. "making the invisible wrap explicit"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex/contracts: add a CI grep check for <code>unchecked</code> blocks that requires an explicit comment justifying safety.</strong> Solidity 0.8&#39;s default checks don&#39;t cover intentional unchecked math, and that&#39;s exactly where this PoC&#39;s wrap lives.</li><li><strong>Devnet: add the overflow-wrap PoC (unchecked vs SafeMath vs native 0.8 checks) as a regression test in the contracts test suite,</strong> so the fix is demonstrated in CI rather than assumed from the compiler version alone.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wrap (past zero)</strong></td><td>(숫자가 한계를 넘어) 순환해 되돌아가다 · 정수가 최대값을 넘으면 0 근처로 되돌아가는 현상. "arithmetic that wraps past zero"</td></tr><tr><td><strong>unchecked block</strong></td><td>(오버플로우) 검사를 생략한 블록 · Solidity에서 의도적으로 검사를 끄는 코드 구간. "demonstrates an overflow in an unchecked block"</td></tr><tr><td><strong>survive (the pattern survives)</strong></td><td>(문제·관행이) 여전히 남아있다 · 옛 취약점 패턴이 오늘날에도 존재함을 가리키는 동사. "the pattern survives today in unchecked blocks"</td></tr><tr><td><strong>contrast with</strong></td><td>~와 대조하다·대비시키다 · 취약한 코드와 안전한 코드를 나란히 비교할 때. "contrasts it with SafeMath and native"</td></tr><tr><td><strong>make explicit</strong></td><td>(눈에 안 보이던 것을) 명시적으로 드러내다 · 조용히 일어나는 오버플로우를 눈에 보이게 만든다는 뜻. "making the invisible wrap explicit"</td></tr><tr><td><strong>SafeMath</strong></td><td>오버플로우를 검사하는 산술 라이브러리(a checked-arithmetic library) · Solidity 0.8 이전에 오버플로우를 막던 방식, 네이티브 검사와 대조군으로 언급됨. "contrasts it with SafeMath and native 0.8 checks"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wrap (past zero)</strong></td><td>(숫자가 한계를 넘어) 순환해 되돌아가다 · 정수가 최대값을 넘으면 0 근처로 되돌아가는 현상. "arithmetic that wraps past zero"</td></tr><tr><td><strong>unchecked block</strong></td><td>(오버플로우) 검사를 생략한 블록 · Solidity에서 의도적으로 검사를 끄는 코드 구간. "demonstrates an overflow in an unchecked block"</td></tr><tr><td><strong>survive (the pattern survives)</strong></td><td>(문제·관행이) 여전히 남아있다 · 옛 취약점 패턴이 오늘날에도 존재함을 가리키는 동사. "the pattern survives today in unchecked blocks"</td></tr><tr><td><strong>contrast with</strong></td><td>~와 대조하다·대비시키다 · 취약한 코드와 안전한 코드를 나란히 비교할 때. "contrasts it with SafeMath and native"</td></tr><tr><td><strong>make explicit</strong></td><td>(눈에 안 보이던 것을) 명시적으로 드러내다 · 조용히 일어나는 오버플로우를 눈에 보이게 만든다는 뜻. "making the invisible wrap explicit"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex/contracts: <code>unchecked</code> 블록에 대해 안전성을 정당화하는 명시적 주석을 요구하는 CI grep 체크를 추가한다.</strong> Solidity 0.8의 기본 체크는 의도적인 unchecked 연산을 커버하지 않으며, 이 PoC의 wrap이 바로 거기서 일어난다.</li><li><strong>Devnet: overflow-wrap PoC(unchecked 대 SafeMath 대 네이티브 0.8 체크)를 컨트랙트 테스트 스위트의 회귀 테스트로 추가한다.</strong> 컴파일러 버전만으로 가정하지 않고 CI에서 고침이 실증되게 한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wrap (past zero)</strong></td><td>(숫자가 한계를 넘어) 순환해 되돌아가다 · 정수가 최대값을 넘으면 0 근처로 되돌아가는 현상. "arithmetic that wraps past zero"</td></tr><tr><td><strong>unchecked block</strong></td><td>(오버플로우) 검사를 생략한 블록 · Solidity에서 의도적으로 검사를 끄는 코드 구간. "demonstrates an overflow in an unchecked block"</td></tr><tr><td><strong>survive (the pattern survives)</strong></td><td>(문제·관행이) 여전히 남아있다 · 옛 취약점 패턴이 오늘날에도 존재함을 가리키는 동사. "the pattern survives today in unchecked blocks"</td></tr><tr><td><strong>contrast with</strong></td><td>~와 대조하다·대비시키다 · 취약한 코드와 안전한 코드를 나란히 비교할 때. "contrasts it with SafeMath and native"</td></tr><tr><td><strong>make explicit</strong></td><td>(눈에 안 보이던 것을) 명시적으로 드러내다 · 조용히 일어나는 오버플로우를 눈에 보이게 만든다는 뜻. "making the invisible wrap explicit"</td></tr><tr><td><strong>SafeMath</strong></td><td>오버플로우를 검사하는 산술 라이브러리(a checked-arithmetic library) · Solidity 0.8 이전에 오버플로우를 막던 방식, 네이티브 검사와 대조군으로 언급됨. "contrasts it with SafeMath and native 0.8 checks"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-reentrancy.html">&larr; 181. Reentrancy — the withdraw that calls back before the balance drops</a><a href="pocs-sec-access-control.html">183. Broken access control — the function that forgot its modifier &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-reentrancy.html">&larr; 185. Reentrancy — the withdraw that calls back before the balance drops</a><a href="pocs-sec-access-control.html">187. Broken access control — the function that forgot its modifier &rarr;</a></div>
   </div>
   </main>
 </div>

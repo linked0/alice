@@ -8,3 +8,5 @@
 | latent assumption | 겉으로 드러나지 않은 전제 · "the list of latent assumptions" |
 | wall clock | 실제로 흐른 시간(체감 시간) · "about a sixth of its wall-clock budget" |
 | quietly assuming | 별말 없이 당연하게 전제하다 · "quietly assuming" |
+| TTL | 캐시 유효 시간(Time To Live) · 값이 만료되기까지의 설정 시간, 슬롯 시간에 암묵적으로 엮여 있을 수 있는 상수의 예. "poll intervals, confirmation counts, signature deadlines, cache TTLs" |
+<!-- acronyms 2026-09-18 -->

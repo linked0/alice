@@ -9,3 +9,9 @@
 | preferred bidder | 우선협상대상자 · 입찰에서 선정된 업체를 가리키는 비즈니스 용어. "picked in July 2026 as preferred bidder" |
 | acquirer batch | 카드 매입사의 일괄 정산 묶음 · 정산 지연의 원인이 되는 카드업계 용어. "acquirer batches, operator reconciliation, fee deduction" |
 | reconciliation | (장부·시스템 간) 대사·조정 작업 · 두 시스템의 기록을 맞추는 회계·정산 과정. "the reconciliation between two systems, the operator's float" |
+| KOMSCO | 한국조폐공사(Korea Minting and Security Printing Corporation) · 지역화폐·모바일상품권 결제 인프라를 운영하는 공공기관. "KOMSCO, the Korea Minting and Security Printing Corporation" |
+| MOU | 양해각서(Memorandum of Understanding) · 정식 계약 전에 협력 의향을 문서화한 것. "the April 2026 MOU with KOMSCO" |
+| OP Stack | 옵티미즘의 L2 체인 구축 프레임워크(Optimism's chain-building framework) · 이 PoC의 체인이 기반한 인프라. "on an Optimism-based (OP Stack) chain" |
+| CBO | 최고사업책임자(Chief Business Officer) · 이 PoC를 언급한 두 회사 임원의 직함. "Kyle Jenke (Optimism, CBO), Gyuha Kim (Toss, CBO)" |
+| KISA | 한국인터넷진흥원(Korea Internet & Security Agency) · 예금토큰 결제 인프라 사업의 발주 기관 중 하나. "Ministry of Science and ICT / KISA deposit-token" |
+<!-- acronyms 2026-09-18 -->

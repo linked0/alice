@@ -10,3 +10,5 @@
 | TTL (cache) | 캐시 유효 시간 · 캐시된 데이터가 살아있는 기간을 뜻하는 표준 용어. "inside the cache TTL" |
 | re-pay the write | 쓰기 비용을 다시 치르다 · 캐시가 만료돼 처음부터 다시 비용을 내야 할 때. "a nightly batch job re-pays the write" |
 | gated for | ~자격을 갖춰야만 접근 가능한 · 특정 조건을 충족해야 쓸 수 있게 제한된 상태. "gated for verified cybersecurity and life-science organizations" |
+| LiteLLM | 여러 LLM API를 하나의 인터페이스로 통합해 호출하는 오픈소스 게이트웨이·라우터 계층 · 벤더의 가격 변동이 그대로 전가되는 중간 계층의 예시로 언급. "Gateways and routers (the LiteLLM layer) inherit the same shift" |
+<!-- acronyms 2026-09-18 -->

@@ -9,3 +9,6 @@
 | a booth | 전시 부스(통제된 시연 환경을 뜻하는 비유) · 진짜 성능은 안 보여주는 곳. "what a booth hides" |
 | hard gate | 넘어야만 하는 필수 관문 · 기술 전체가 걸려 넘어지는 결정적 제약. "whose only hard gate is the network" |
 | rhyme with | ~와 통하다, 일맥상통하다 · 다른 사례와 같은 교훈을 담고 있을 때. "it rhymes with lerobot-the-format-outlives-the-framework" |
+| CCTV | 중국 국영방송(China Central Television) · 이 굴착기 원격조종 시연을 보도한 매체. "A showcased demo (CCTV)" |
+| 5G-Advanced | 5G 발전판 표준(3GPP 5G-Advanced) · 완전한 6G가 아직 없는 상태에서 실제로 쓰이는 통신 규격. "5G-Advanced or fiber dressed as 6G" |
+<!-- acronyms 2026-09-18 -->

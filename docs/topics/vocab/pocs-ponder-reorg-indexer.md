@@ -10,3 +10,6 @@
 | smoke test | 기본 동작 확인용 간단 테스트 · 본격 테스트 전에 큰 결함부터 걸러내는 최소 테스트. "the cheapest determinism smoke test" |
 | gold standard | 최고 기준·모범 사례 · 비교 대상 중 가장 신뢰할 만한 기준을 가리킬 때. "The gold standard: the DB is a pure function" |
 | earned by, not assumed | 당연시된 게 아니라 검증으로 얻어낸 것 · 결론을 증명 없이 전제하지 않았음을 강조. "is earned by the test, not assumed" |
+| The Graph | 더 그래프 · 서브그래프로 체인 데이터를 인덱싱하는 대표적 인덱싱 프로토콜, Ponder의 경쟁 상대로 언급. "its pitch against The Graph's subgraphs and Subsquid" |
+| Subsquid | 서브스쿼드 · 블록체인 데이터 인덱싱 프레임워크, Ponder와 비교되는 경쟁 제품. "and Subsquid is local-first TypeScript with reorg handling" |
+<!-- acronyms 2026-09-18 -->

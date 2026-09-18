@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>curated</strong></td><td>선별·정제된 · 가공되지 않은 원본이 아니라 다듬어진 데이터를 가리킬 때 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>ad-hoc</strong></td><td>그때그때 즉흥적인(임시방편의) · 일회성 쿼리를 가리킬 때 · "turns ad-hoc queries into versioned, tested data models"</td></tr><tr><td><strong>versioned</strong></td><td>버전 관리되는 · 변경 이력이 추적되는 데이터 모델을 가리킬 때 · "versioned, tested data models"</td></tr><tr><td><strong>a metric a team can trust twice</strong></td><td>두 번 봐도(재현해도) 믿을 수 있는 지표 · 재현성을 강조하는 표현 · "a metric a team can trust twice"</td></tr><tr><td><strong>staging → marts</strong></td><td>스테이징에서 마트로 이어지는 dbt 데이터 모델링 단계 · 원본을 정제해 최종 분석용 테이블로 만드는 흐름 · "a small dbt project (staging → marts)"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>gitboard: model the metrics it displays as a small staging -&gt; marts dbt-style project with row-count/uniqueness tests.</strong> A metric gitboard shows twice should be a tested model, not a re-run ad hoc query each time.</li><li><strong>Number: run any on-chain data behind a distributed reading through the same staging -&gt; marts -&gt; tested pattern before publishing.</strong> Otherwise a Number reading is a one-off chart wearing a research site.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>curated</strong></td><td>선별·정제된 · 가공되지 않은 원본이 아니라 다듬어진 데이터를 가리킬 때 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>ad-hoc</strong></td><td>그때그때 즉흥적인(임시방편의) · 일회성 쿼리를 가리킬 때 · "turns ad-hoc queries into versioned, tested data models"</td></tr><tr><td><strong>versioned</strong></td><td>버전 관리되는 · 변경 이력이 추적되는 데이터 모델을 가리킬 때 · "versioned, tested data models"</td></tr><tr><td><strong>a metric a team can trust twice</strong></td><td>두 번 봐도(재현해도) 믿을 수 있는 지표 · 재현성을 강조하는 표현 · "a metric a team can trust twice"</td></tr><tr><td><strong>staging → marts</strong></td><td>스테이징에서 마트로 이어지는 dbt 데이터 모델링 단계 · 원본을 정제해 최종 분석용 테이블로 만드는 흐름 · "a small dbt project (staging → marts)"</td></tr><tr><td><strong>Flipside</strong></td><td>온체인 데이터를 큐레이션해 제공하는 데이터 플랫폼 · 가공된 체인 테이블을 노출하는 서비스 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>dbt</strong></td><td>data build tool · SQL 쿼리를 버전관리되는 테스트 가능한 데이터 모델로 바꾸는 데이터 엔지니어링 도구 · "dbt turns ad-hoc queries into versioned, tested data models"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>curated</strong></td><td>선별·정제된 · 가공되지 않은 원본이 아니라 다듬어진 데이터를 가리킬 때 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>ad-hoc</strong></td><td>그때그때 즉흥적인(임시방편의) · 일회성 쿼리를 가리킬 때 · "turns ad-hoc queries into versioned, tested data models"</td></tr><tr><td><strong>versioned</strong></td><td>버전 관리되는 · 변경 이력이 추적되는 데이터 모델을 가리킬 때 · "versioned, tested data models"</td></tr><tr><td><strong>a metric a team can trust twice</strong></td><td>두 번 봐도(재현해도) 믿을 수 있는 지표 · 재현성을 강조하는 표현 · "a metric a team can trust twice"</td></tr><tr><td><strong>staging → marts</strong></td><td>스테이징에서 마트로 이어지는 dbt 데이터 모델링 단계 · 원본을 정제해 최종 분석용 테이블로 만드는 흐름 · "a small dbt project (staging → marts)"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>gitboard: 화면에 보여주는 지표를 행 수/유일성 테스트가 있는 작은 staging -&gt; marts dbt 스타일 프로젝트로 모델링한다.</strong> gitboard가 두 번 보여주는 지표는 매번 다시 돌리는 임시 쿼리가 아니라 테스트된 모델이어야 한다.</li><li><strong>Number: 배포되는 읽기 뒤의 온체인 데이터도 발행 전에 같은 staging -&gt; marts -&gt; 테스트 패턴을 거치게 한다.</strong> 그렇지 않으면 Number의 읽기는 리서치 사이트 탈을 쓴 일회성 차트에 불과하다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>curated</strong></td><td>선별·정제된 · 가공되지 않은 원본이 아니라 다듬어진 데이터를 가리킬 때 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>ad-hoc</strong></td><td>그때그때 즉흥적인(임시방편의) · 일회성 쿼리를 가리킬 때 · "turns ad-hoc queries into versioned, tested data models"</td></tr><tr><td><strong>versioned</strong></td><td>버전 관리되는 · 변경 이력이 추적되는 데이터 모델을 가리킬 때 · "versioned, tested data models"</td></tr><tr><td><strong>a metric a team can trust twice</strong></td><td>두 번 봐도(재현해도) 믿을 수 있는 지표 · 재현성을 강조하는 표현 · "a metric a team can trust twice"</td></tr><tr><td><strong>staging → marts</strong></td><td>스테이징에서 마트로 이어지는 dbt 데이터 모델링 단계 · 원본을 정제해 최종 분석용 테이블로 만드는 흐름 · "a small dbt project (staging → marts)"</td></tr><tr><td><strong>Flipside</strong></td><td>온체인 데이터를 큐레이션해 제공하는 데이터 플랫폼 · 가공된 체인 테이블을 노출하는 서비스 · "Flipside exposes curated chain tables"</td></tr><tr><td><strong>dbt</strong></td><td>data build tool · SQL 쿼리를 버전관리되는 테스트 가능한 데이터 모델로 바꾸는 데이터 엔지니어링 도구 · "dbt turns ad-hoc queries into versioned, tested data models"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

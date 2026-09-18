@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Geometric series → DCF valuation</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#235</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#239</span><span>PoC</span></p>
       <h1>Geometric series → DCF valuation</h1>
       <p class="lead">Sum of a geometric series, applied to perpetuity/Gordon-formula valuation.</p>
       <p class="meta">Math — from 2026-08-03&#39;s daily math track (Day 7/50: sequences &amp; series).</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Planned: a small derivation-to-code page showing the geometric series sum formula S = a / (1 − r) for |r| &lt; 1, then substituting cash-flow growth into it to derive the Gordon Growth perpetuity formula, with an interactive calculator comparing the closed-form result against a brute-force sum of many discounted future cash flows — to visually confirm the two converge. Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underpin</strong></td><td>~의 근거·토대가 되다 · 한 공식이 다른 계산 전체를 뒷받침할 때. "underpins terminal-value calculations in discounted cash flow"</td></tr><tr><td><strong>closed-form</strong></td><td>닫힌 형태의(수식으로 딱 떨어지는) · 무한 합을 간단한 수식 하나로 표현한 결과. "the closed-form sum of a geometric series"</td></tr><tr><td><strong>brute-force</strong></td><td>무식하게 다 계산하는·전수 계산 방식의 · 공식 없이 항을 일일이 다 더해보는 방법. "a brute-force sum of many discounted future cash flows"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다 · 두 계산 방식의 결과가 결국 같은 값으로 모일 때. "to visually confirm the two converge"</td></tr><tr><td><strong>perpetuity</strong></td><td>영구연금 · 끝없이 이어지는 현금흐름의 현재가치를 구하는 금융 개념. "the Gordon Growth Model for valuing a perpetuity"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Number: add a Gordon Growth / DCF calculator as an indicator.</strong> Publish the closed-form perpetuity valuation next to a brute-force discounted-sum check, so a valuation reading can cite which formula and convergence check backs it.</li><li><strong>Number: require growth-rate and discount-rate assumptions on every published valuation.</strong> The closed form only holds for the growth rate inside the discount rate&#39;s radius, so state both before the number is trusted.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underpin</strong></td><td>~의 근거·토대가 되다 · 한 공식이 다른 계산 전체를 뒷받침할 때. "underpins terminal-value calculations in discounted cash flow"</td></tr><tr><td><strong>closed-form</strong></td><td>닫힌 형태의(수식으로 딱 떨어지는) · 무한 합을 간단한 수식 하나로 표현한 결과. "the closed-form sum of a geometric series"</td></tr><tr><td><strong>brute-force</strong></td><td>무식하게 다 계산하는·전수 계산 방식의 · 공식 없이 항을 일일이 다 더해보는 방법. "a brute-force sum of many discounted future cash flows"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다 · 두 계산 방식의 결과가 결국 같은 값으로 모일 때. "to visually confirm the two converge"</td></tr><tr><td><strong>perpetuity</strong></td><td>영구연금 · 끝없이 이어지는 현금흐름의 현재가치를 구하는 금융 개념. "the Gordon Growth Model for valuing a perpetuity"</td></tr><tr><td><strong>DCF</strong></td><td>현금흐름할인법(Discounted Cash Flow) · 미래 현금흐름을 현재가치로 환산해 기업가치를 구하는 밸류에이션 기법. "terminal-value calculations in discounted cash flow (DCF) analysis"</td></tr><tr><td><strong>Gordon Growth Model</strong></td><td>고든 성장 모형 · 일정하게 계속 성장하는 현금흐름의 현재가치를 구하는 공식, 등비급수 합에서 유도됨. "the Gordon Growth Model for valuing a perpetuity"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>계획: |r| &lt; 1일 때 등비급수 합 공식 S = a / (1 − r)을 보여주는 작은 유도 페이지를 만들고, 여기에 현금흐름 성장률을 대입해 고든 성장 영구채 공식을 유도합니다. 닫힌 형태 공식의 결과와, 수십 년치 할인된 미래 현금흐름을 직접 합산한 결과를 비교하는 인터랙티브 계산기로 두 값이 실제로 수렴함을 시각적으로 확인시킵니다. 아직 미구현.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underpin</strong></td><td>~의 근거·토대가 되다 · 한 공식이 다른 계산 전체를 뒷받침할 때. "underpins terminal-value calculations in discounted cash flow"</td></tr><tr><td><strong>closed-form</strong></td><td>닫힌 형태의(수식으로 딱 떨어지는) · 무한 합을 간단한 수식 하나로 표현한 결과. "the closed-form sum of a geometric series"</td></tr><tr><td><strong>brute-force</strong></td><td>무식하게 다 계산하는·전수 계산 방식의 · 공식 없이 항을 일일이 다 더해보는 방법. "a brute-force sum of many discounted future cash flows"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다 · 두 계산 방식의 결과가 결국 같은 값으로 모일 때. "to visually confirm the two converge"</td></tr><tr><td><strong>perpetuity</strong></td><td>영구연금 · 끝없이 이어지는 현금흐름의 현재가치를 구하는 금융 개념. "the Gordon Growth Model for valuing a perpetuity"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Number: Gordon 성장모형/DCF 계산기를 지표로 추가한다.</strong> 닫힌 형태의 영구채 밸류에이션을 무차별 대입 할인합 검증과 나란히 공개해, 밸류에이션 읽기가 어떤 공식과 수렴 검증에 근거하는지 인용할 수 있게 한다.</li><li><strong>Number: 모든 공개 밸류에이션에 성장률과 할인율 가정을 요구한다.</strong> 닫힌 형태 공식은 성장률이 할인율의 수렴 범위 안에 있을 때만 성립하므로, 숫자를 신뢰하기 전에 둘 다 명시한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underpin</strong></td><td>~의 근거·토대가 되다 · 한 공식이 다른 계산 전체를 뒷받침할 때. "underpins terminal-value calculations in discounted cash flow"</td></tr><tr><td><strong>closed-form</strong></td><td>닫힌 형태의(수식으로 딱 떨어지는) · 무한 합을 간단한 수식 하나로 표현한 결과. "the closed-form sum of a geometric series"</td></tr><tr><td><strong>brute-force</strong></td><td>무식하게 다 계산하는·전수 계산 방식의 · 공식 없이 항을 일일이 다 더해보는 방법. "a brute-force sum of many discounted future cash flows"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다 · 두 계산 방식의 결과가 결국 같은 값으로 모일 때. "to visually confirm the two converge"</td></tr><tr><td><strong>perpetuity</strong></td><td>영구연금 · 끝없이 이어지는 현금흐름의 현재가치를 구하는 금융 개념. "the Gordon Growth Model for valuing a perpetuity"</td></tr><tr><td><strong>DCF</strong></td><td>현금흐름할인법(Discounted Cash Flow) · 미래 현금흐름을 현재가치로 환산해 기업가치를 구하는 밸류에이션 기법. "terminal-value calculations in discounted cash flow (DCF) analysis"</td></tr><tr><td><strong>Gordon Growth Model</strong></td><td>고든 성장 모형 · 일정하게 계속 성장하는 현금흐름의 현재가치를 구하는 공식, 등비급수 합에서 유도됨. "the Gordon Growth Model for valuing a perpetuity"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sft-the-shape-of-thinking.html">&larr; 234. You can SFT the shape of thinking, not the thinking</a><a href="pocs-amortized-potential-function.html">236. Amortized analysis via potential functions &rarr;</a></div>
+    <div class="pager"><a href="pocs-sft-the-shape-of-thinking.html">&larr; 238. You can SFT the shape of thinking, not the thinking</a><a href="pocs-amortized-potential-function.html">240. Amortized analysis via potential functions &rarr;</a></div>
   </div>
   </main>
 </div>

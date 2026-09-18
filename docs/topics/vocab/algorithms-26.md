@@ -7,3 +7,5 @@
 | fold into | ~에 녹여 넣다·포함시키다 · 세부 요소까지 가격 모델에 반영할 때. "even cache locality being folded into the pricing model" |
 | stall ... for pennies | 푼돈으로 (시스템을) 멈춰 세우다 · 아주 적은 비용으로 큰 피해를 입히는 공격. "an attacker can stall a node for pennies" |
 | priced out | 비용 부담으로 밀려나다·못 쓰게 되다 · 가격이 너무 비싸 정상 사용자가 배제될 때. "honest users get priced out" |
+| EIP-2929 | 이더리움 개선제안 2929번(콜드/웜 접근에 따라 가스비를 다르게 책정) · 캐시 지역성을 가스 모델에 반영한 표준. "EIP-2929, which charges differently for a first (cold) access" |
+<!-- acronyms 2026-09-18 -->

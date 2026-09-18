@@ -10,3 +10,6 @@
 | loss-versus-rebalancing (LVR) | 리밸런싱 대비 발생하는 LP 손실(도메인 용어) · "the loss-versus-rebalancing (LVR) problem" |
 | toxic flow | LP에게 불리한 유해 주문 흐름 · "toxic flow during a depeg" |
 | lives in two regimes | (한 대상이) 서로 다른 두 국면을 오가며 존재한다 · "A stable-stable pool lives in two regimes" |
+| FastLane / Atlas | LVR에 강한(LVR-resistant) AMM 인프라를 표방하는 프로젝트 이름 · 이 카드가 말하는 '위험을 동적으로 가격에 반영'하는 다른 사례. "FastLane's Atlas advertises LVR-resistant AMMs" |
+| v4 hook | Uniswap v4에서 스왑 시점에 커스텀 로직을 실행하는 확장 장치 · 고정 수수료 대신 상태 기반 수수료를 계산하게 해주는 메커니즘. "v4 hooks run custom logic at swap time" |
+<!-- acronyms 2026-09-18 -->

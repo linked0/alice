@@ -10,3 +10,6 @@
 | surrender | 포기하다, 내주다 · 무언가를 얻는 대가로 잃는 것을 말할 때. "what it surrenders is the block space" |
 | at machine scale and speed | 기계 수준의 규모와 속도로 · 인간이 아닌 자동화된 공격이 대량·고속으로 이뤄질 때. "Attackers at machine scale and speed" |
 | worth its cost | 그 대가를 치를 가치가 있는 · 무언가를 유지하는 비용이 감수할 만한지 말할 때. "worth its cost while you can defend it" |
+| MEV | 최대 추출 가능 가치(Maximal Extractable Value) · 블록 생성자가 거래 순서 조작 등으로 얻는 추가 수익. "fee capture / MEV" |
+| Horizon bridge | 2022년 해킹당한 하모니의 크로스체인 브리지 · Harmony의 과거 보안 사고 전례로 언급됨. "Harmony has history here (the 2022 Horizon bridge)" |
+<!-- acronyms 2026-09-18 -->

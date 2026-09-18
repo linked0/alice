@@ -7,3 +7,6 @@
 | at the door | 들어오기 전 초입에서(비유) · 과부하 요청을 아예 받지 않고 거절할 때. "rejects them quickly at the door" |
 | pile on top | 위에 겹쳐 쌓이다, 가중되다 · 재시도가 겹쳐 상황이 더 악화될 때. "collapses further once retries pile on top" |
 | building blocks | 기본 구성 요소, 토대 · 가용성 설계의 핵심 기법들을 가리킬 때. "basic building blocks of availability design" |
+| p99/p999 | 응답시간 분포의 99번째/99.9번째 백분위수 · 평균이 아니라 최악에 가까운 사용자 경험을 나타내는 표기. "the tail of the distribution — p99, p999" |
+| adaptive concurrency limits | 적응형 동시성 제한 · 부하 상황에 맞춰 자동으로 처리 가능한 요청 수를 조절하는 기법. "discarding requests past their deadline or adaptive concurrency limits" |
+<!-- acronyms 2026-09-18 -->

@@ -7,3 +7,5 @@
 | wobble wildly | 심하게 요동치다·크게 흔들리다 · 값이 작은 변화에도 크게 튈 때. "regression or optimization results wobble wildly" |
 | blow up | 값이 폭발적으로 커지다·발산하다 · 수식의 항이 감당 못할 만큼 커질 때. "exponential and logarithmic terms can blow up" |
 | bound the input range | 입력 범위를 제한하다 · 수치 안정성을 위해 값의 범위를 미리 제한할 때. "fixed-point implementations need to bound the input range" |
+| LMSR | 로그마켓 스코어링 규칙(Logarithmic Market Scoring Rule) · 예측시장에서 유동성 파라미터로 가격을 정하는 방식. "In AMM curves or LMSR price calculations" |
+<!-- acronyms 2026-09-18 -->

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Institutional custody study</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#133</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#137</span><span>PoC</span></p>
       <h1>Institutional custody study</h1>
       <p class="lead">MPC · approval flows · AA · AML — and which parts are buildable without a VASP licence.</p>
       <p class="meta">Not yet scoped — a reading study first, then whichever PoC items survive the licence question.</p>
@@ -458,8 +458,12 @@ if __name__ == &quot;__main__&quot;:
         print(&quot;  execute?&quot;, quorum.execute(tx))
 </code></pre>
       <p class="code-link"><a href="../code/pocs/dsrv-portal.py">docs/code/pocs/dsrv-portal.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>gated by</strong></td><td>~에 의해 통제·제한되는 · "transactions gated by an approval workflow"</td></tr><tr><td><strong>quorum caveats</strong></td><td>정족수 관련 제약 조건 · "an AA policy contract with quorum caveats"</td></tr><tr><td><strong>compliance surface</strong></td><td>컴플라이언스가 걸리는 영역 · "a compliance surface that is legal rather than technical"</td></tr><tr><td><strong>survive (a filter)</strong></td><td>걸러내는 과정에서 살아남다 · "whichever PoC items survive the licence question"</td></tr><tr><td><strong>opposite shape</strong></td><td>정반대의 형태·구조 · "Institutional custody is the opposite shape"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 맞물리다 · "where account abstraction&#39;s policy layer overlaps custody policy"</td></tr><tr><td><strong>key-splitting</strong></td><td>키를 여러 조각으로 나누어 분산 보관하는 방식 · "threshold schemes vs. the key-splitting DVT"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Wallet: build the AA-policy-with-quorum-caveats contract this PoC names as licence-free.</strong> Jayverse Wallet&#39;s simulate-before-sign already overlaps custody policy — add quorum caveats to the policy layer as the concrete PoC output.</li><li><strong>Rabbit: build the approval-flow state machine on ERC-4337/7702 session keys and mandates.</strong> That is explicitly one of the no-VASP-licence-needed candidates this PoC lists, and Rabbit already has the session-key primitive to build it on.</li><li><strong>Auditor: run the engineering-vs-licence separation before any custody-adjacent feature.</strong> Before Verex holds user funds or Number distributes licensed readings, list which parts are buildable now and which require a licence, per this PoC&#39;s method.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>gated by</strong></td><td>~에 의해 통제·제한되는 · "transactions gated by an approval workflow"</td></tr><tr><td><strong>quorum caveats</strong></td><td>정족수 관련 제약 조건 · "an AA policy contract with quorum caveats"</td></tr><tr><td><strong>compliance surface</strong></td><td>컴플라이언스가 걸리는 영역 · "a compliance surface that is legal rather than technical"</td></tr><tr><td><strong>survive (a filter)</strong></td><td>걸러내는 과정에서 살아남다 · "whichever PoC items survive the licence question"</td></tr><tr><td><strong>opposite shape</strong></td><td>정반대의 형태·구조 · "Institutional custody is the opposite shape"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 맞물리다 · "where account abstraction&#39;s policy layer overlaps custody policy"</td></tr><tr><td><strong>key-splitting</strong></td><td>키를 여러 조각으로 나누어 분산 보관하는 방식 · "threshold schemes vs. the key-splitting DVT"</td></tr><tr><td><strong>MPC</strong></td><td>다자간 계산(Multi-Party Computation) · 키를 분할해 여러 참여자가 공동 서명하는 방식. "keys split across an MPC quorum"</td></tr><tr><td><strong>VASP</strong></td><td>가상자산서비스제공자(Virtual Asset Service Provider) · 이 라이선스 유무로 엔지니어링 가능 범위가 갈린다. "which parts are buildable without a VASP licence"</td></tr><tr><td><strong>AML</strong></td><td>자금세탁방지(Anti-Money Laundering) · 트래블룰 등 컴플라이언스 의무 문맥에서 언급된다. "AML/travel-rule obligations"</td></tr><tr><td><strong>DVT</strong></td><td>분산 검증자 기술(Distributed Validator Technology) · 키 분할 방식의 비교 대상으로 언급된다. "threshold schemes vs. the key-splitting DVT"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -522,12 +526,16 @@ if __name__ == &quot;__main__&quot;:
         print(&quot;  execute?&quot;, quorum.execute(tx))
 </code></pre>
       <p class="code-link"><a href="../code/pocs/dsrv-portal.py">docs/code/pocs/dsrv-portal.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>gated by</strong></td><td>~에 의해 통제·제한되는 · "transactions gated by an approval workflow"</td></tr><tr><td><strong>quorum caveats</strong></td><td>정족수 관련 제약 조건 · "an AA policy contract with quorum caveats"</td></tr><tr><td><strong>compliance surface</strong></td><td>컴플라이언스가 걸리는 영역 · "a compliance surface that is legal rather than technical"</td></tr><tr><td><strong>survive (a filter)</strong></td><td>걸러내는 과정에서 살아남다 · "whichever PoC items survive the licence question"</td></tr><tr><td><strong>opposite shape</strong></td><td>정반대의 형태·구조 · "Institutional custody is the opposite shape"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 맞물리다 · "where account abstraction&#39;s policy layer overlaps custody policy"</td></tr><tr><td><strong>key-splitting</strong></td><td>키를 여러 조각으로 나누어 분산 보관하는 방식 · "threshold schemes vs. the key-splitting DVT"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Wallet: 이 PoC가 라이선스 없이 가능하다고 명명한 쿼럼 제약이 있는 AA 정책 컨트랙트를 만든다.</strong> Jayverse Wallet의 simulate-before-sign은 이미 커스터디 정책과 겹치므로, 정책 레이어에 쿼럼 제약을 추가하는 것을 구체적인 PoC 산출물로 삼는다.</li><li><strong>Rabbit: ERC-4337/7702 세션 키와 맨데이트 위에 승인 플로우 상태 머신을 만든다.</strong> 이는 이 PoC가 나열한 VASP 라이선스가 필요 없는 후보 중 하나이며, Rabbit은 이미 그 위에 만들 세션 키 기본 요소를 갖고 있다.</li><li><strong>Auditor: 커스터디 인접 기능을 만들기 전에 엔지니어링 대 라이선스 분리를 먼저 한다.</strong> Verex가 사용자 자금을 보유하거나 Number가 라이선스된 읽기를 배포하기 전에, 이 PoC의 방법대로 지금 만들 수 있는 부분과 라이선스가 필요한 부분을 나눠 적는다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>gated by</strong></td><td>~에 의해 통제·제한되는 · "transactions gated by an approval workflow"</td></tr><tr><td><strong>quorum caveats</strong></td><td>정족수 관련 제약 조건 · "an AA policy contract with quorum caveats"</td></tr><tr><td><strong>compliance surface</strong></td><td>컴플라이언스가 걸리는 영역 · "a compliance surface that is legal rather than technical"</td></tr><tr><td><strong>survive (a filter)</strong></td><td>걸러내는 과정에서 살아남다 · "whichever PoC items survive the licence question"</td></tr><tr><td><strong>opposite shape</strong></td><td>정반대의 형태·구조 · "Institutional custody is the opposite shape"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 맞물리다 · "where account abstraction&#39;s policy layer overlaps custody policy"</td></tr><tr><td><strong>key-splitting</strong></td><td>키를 여러 조각으로 나누어 분산 보관하는 방식 · "threshold schemes vs. the key-splitting DVT"</td></tr><tr><td><strong>MPC</strong></td><td>다자간 계산(Multi-Party Computation) · 키를 분할해 여러 참여자가 공동 서명하는 방식. "keys split across an MPC quorum"</td></tr><tr><td><strong>VASP</strong></td><td>가상자산서비스제공자(Virtual Asset Service Provider) · 이 라이선스 유무로 엔지니어링 가능 범위가 갈린다. "which parts are buildable without a VASP licence"</td></tr><tr><td><strong>AML</strong></td><td>자금세탁방지(Anti-Money Laundering) · 트래블룰 등 컴플라이언스 의무 문맥에서 언급된다. "AML/travel-rule obligations"</td></tr><tr><td><strong>DVT</strong></td><td>분산 검증자 기술(Distributed Validator Technology) · 키 분할 방식의 비교 대상으로 언급된다. "threshold schemes vs. the key-splitting DVT"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-fisheries-receivable-rail.html">&larr; 132. The custody was never the hard part</a><a href="pocs-priced-by-the-wrong-thing.html">134. Priced by the wrong thing — a question, an instrument, and the gap between them &rarr;</a></div>
+    <div class="pager"><a href="pocs-fisheries-receivable-rail.html">&larr; 136. The custody was never the hard part</a><a href="pocs-priced-by-the-wrong-thing.html">138. Priced by the wrong thing — a question, an instrument, and the gap between them &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -9,3 +9,8 @@
 | verbatim | 원문 그대로, 한 글자도 안 바꾸고 · 승인된 코드를 재생성 없이 그대로 실행할 때. "runs the approved artifact verbatim" |
 | degrade | (품질·판단력이) 저하되다 · 도구나 범위가 늘어날수록 에이전트의 판단이 나빠질 때. "a single agent's judgment degrades as its tools" |
 | decouple | 분리하다, 떼어놓다 · 서로 다른 성격의 두 요소를 독립적으로 만들 때. "decouples non-deterministic judgment from deterministic execution" |
+| AIOps | AI 기반 IT 운영(AI for IT Operations) · 장애 대응·인프라 운영 분석을 AI 에이전트가 돕는 시스템 범주. "built a production multi-agent AIOps system on Bedrock AgentCore" |
+| AgentCore | AWS의 에이전트 실행 플랫폼(Bedrock AgentCore) · 이 사례에서 삼성이 멀티에이전트 시스템을 구축한 기반 서비스. "on Bedrock AgentCore, and its load-bearing choice" |
+| PII | 개인식별정보(Personally Identifiable Information) · 감사 로그에 마스킹·해시 처리로만 저장되는 대상, 오케스트레이터 한 곳에서만 다뤄짐. "PII redaction, routing, and long-term memory live once" |
+| SRE | 사이트 신뢰성 엔지니어링(Site Reliability Engineering) · 이 시스템을 만든 삼성 내부 팀의 소속을 가리킴. "Samsung Account SRE, "Samsung Account AIOps" Part 1" |
+<!-- acronyms 2026-09-18 -->

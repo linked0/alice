@@ -10,3 +10,9 @@
 | disciplines the phrase | (표현을) 함부로 못 쓰게 엄밀하게 만들다 · "That distinction also disciplines the phrase 'near-instant'" |
 | escapes the gate | 관문(통제)을 빠져나가다 · "no network transfer escapes the gate" |
 | claim boundary | 주장이 어디까지만 뒷받침되는지의 경계 · "Claim boundary" |
+| BDA | 블록체인 예금계좌(Blockchain Deposit Account) · J.P. Morgan Kinexys 네트워크에서 쓰는 예금 상품 구조, 퍼블릭 스테이블코인이 아님. "Kinexys Blockchain Deposit Account network for corporate import/export" |
+| Kinexys | J.P. Morgan의 기관용 블록체인 예금 네트워크 이름 · KB국민은행이 처음으로 연동하는 대상. "first Korean financial institution announced for Kinexys BDA" |
+| SLA | 서비스수준협약(Service Level Agreement) · '거의 즉시' 정산을 문서로 보장하지는 않는다는 지적의 근거. "does not publish an end-to-end 'near-instant' SLA" |
+| AML | 자금세탁방지(Anti-Money Laundering) · 은행이 여전히 직접 통제하는 컴플라이언스 항목. "still own onboarding, sanctions and AML controls" |
+| FX | 외환(Foreign Exchange) · 결제 과정에서 별도로 측정해야 할 시계 중 하나. "FX lock, network settlement, and beneficiary availability" |
+<!-- acronyms 2026-09-18 -->

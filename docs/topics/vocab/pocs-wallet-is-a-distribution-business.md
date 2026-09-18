@@ -10,3 +10,8 @@
 | tailored to | ~에 맞춰 맞춤화된 · "tailored to each service environment" |
 | inversion | 예상과 반대로 뒤집힌 상태 · "That inversion — the hard part already owned" |
 | ride on | ~에 편승하다, ~에 얹혀가다 · "the crypto is riding on" |
+| AML | 자금세탁방지(Anti-Money Laundering) · 규제 준수 요건 문맥에서 언급된다. "bank-level KYC/AML/custody" |
+| KYC | 고객확인제도(Know Your Customer) · 규제 준수 요건 문맥에서 언급된다. "bank-level KYC/AML/custody" |
+| PYUSD | 페이팔이 발행한 달러 스테이블코인(PayPal USD) · 발행 측 가치 사례로 인용된다. "PYUSD's lasting value comes from what others build on top of it" |
+| M0 | 스테이블코인 발행 인프라를 제공하는 회사 이름 · 발행 측 사례로 인용된다. "the same claim issuance-as-a-service recorded from M0 on the issuance side" |
+<!-- acronyms 2026-09-18 -->

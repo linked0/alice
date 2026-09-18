@@ -10,3 +10,5 @@
 | runaway loop | 폭주하는 루프 · 멈추지 않고 계속 반복 실행되는 상황. "No runaway loops" |
 | smoke test | 기본 동작 확인 테스트 · 본격적인 작업 전에 간단히 되는지 확인하는 절차. "confirm with a... smoke test" |
 | collateral rework | 부수적으로 발생하는 재작업 · 한 가지를 고치다가 딴 곳까지 다시 손봐야 할 때. "without collateral rework" |
+| bpy | 블렌더의 파이썬 API(Blender's Python module) · 에이전트가 실제 명령(오브젝트 생성, 렌더링 등)을 보내는 인터페이스. "opens a socket into Blender's Python API (bpy)" |
+<!-- acronyms 2026-09-18 -->

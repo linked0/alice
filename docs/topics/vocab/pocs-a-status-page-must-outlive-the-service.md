@@ -8,3 +8,7 @@
 | interchangeable | 상호 교체 가능한 · 여러 벤더 중 어느 것을 골라도 무방하다는 뜻. "are interchangeable for this; the discipline matters" |
 | time-to-first-notice | 최초 공지까지 걸리는 시간 · 장애 발생 후 첫 공지가 나가기까지의 소요 시간 지표. "Time-to-first-notice under 10 minutes" |
 | watcher independence | 감시자의 독립성 · 감시 대상과 별도 인프라에 있어야 감시가 의미 있다는 원칙. "a watcher must be independent of what it watches" |
+| Statuspage | 상태 페이지 SaaS 제품명(a status-page SaaS product) · 장애 공지·컴포넌트별 상태를 제공하는 서비스 중 하나. "Statuspage / status.io / Better Stack are interchangeable" |
+| status.io | 상태 페이지 SaaS 제품명(a status-page SaaS product) · Statuspage와 같은 역할을 하는 대체 서비스. "status.io, Better Stack — incident notices, per-component status" |
+| Better Stack | 상태 페이지 SaaS 제품명(a status-page SaaS product) · 이 카드가 예로 든 세 번째 대체 서비스. "status.io, Better Stack — incident notices, per-component status" |
+<!-- acronyms 2026-09-18 -->

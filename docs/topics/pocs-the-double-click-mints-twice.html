@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The double-click mints twice — idempotency is the app's duty</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#82</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#86</span><span>PoC</span></p>
       <h1>The double-click mints twice — idempotency is the app's duty</h1>
       <p class="lead">The chain dedupes nonces, not intents: a user double-clicking Buy produces two valid transactions, and both settle. Payment APIs solved this decades ago with idempotency keys — on-chain apps have to rebuild that discipline themselves.</p>
       <p class="meta">Build a checkout that issues an intent ID per user action, dedupes on it client-side and server-side, and a control version without it. Double-click both, slow the RPC to widen the race, and count what settles.</p>
@@ -416,7 +416,11 @@
 <h3>What it proves</h3>
 <p>Deduplication by intent is an application responsibility, and it is cheap: one UUID, one lookup table, one disabled button. The chain&#39;s own uniqueness (nonces) protects against replay of the same signed bytes — it does nothing against the same human wish signed twice.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: give every Buy action an intent ID, deduped client- and server-side.</strong> Build the control-vs-fixed test the PoC describes — double-click under an artificially slow RPC and assert the fixed version settles exactly one order.</li><li><strong>Token: apply the same intent-ID dedupe to the JYVE mint/AMM front end.</strong> A double-click on mint is the same bug with a worse name; store id → txHash so a retry returns the existing receipt.</li><li><strong>Wallet: disable the action button on a pending intent ID.</strong> This is the cheapest layer of the fix — one UUID, one lookup table, one disabled button — and it belongs in Wallet&#39;s shared checkout component, not per-service.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>idempotency key</strong></td><td>멱등성 키(같은 요청을 여러 번 보내도 한 번만 처리되게 하는 식별자) · 결제 API의 중복 방지 표준 기법. "Payment APIs solved this decades ago with idempotency keys"</td></tr><tr><td><strong>un-charge</strong></td><td>청구를 취소하다·환불 처리하다 · 이미 확정된 결제를 되돌릴 방법이 없을 때. "finality means no one un-charges the second one"</td></tr><tr><td><strong>cannot live on</strong></td><td>~에만 맡겨둘 수 없다·~차원에서 해결될 수 없다 · 해결책이 다른 계층에 있어야 할 때. "The fix cannot live on the chain"</td></tr><tr><td><strong>refuse to act on</strong></td><td>~에 대해 처리를 거부하다 · 이미 본 ID에 대해 재처리를 막을 때. "refuses to act on an ID it has seen"</td></tr><tr><td><strong>widen on purpose</strong></td><td>일부러 (경합 조건을) 크게 벌리다 · 버그를 재현하려고 레이스 컨디션을 의도적으로 키울 때. "and a race you widen on purpose"</td></tr><tr><td><strong>settle (a transaction)</strong></td><td>거래가 확정·처리되다 · 몇 건의 트랜잭션이 실제로 체결됐는지 셀 때. "assert version A settles exactly one transaction"</td></tr><tr><td><strong>smallest possible example of a larger truth</strong></td><td>더 큰 원리를 보여주는 가장 작은 사례 · 작은 버그가 일반 원칙을 드러낼 때. "the smallest possible example of a larger truth"</td></tr><tr><td><strong>double-click (trigger duplicate action)</strong></td><td>두 번 눌러서 같은 동작이 중복 발생하는 것 · 사용자 실수로 두 개의 유효한 거래가 생길 때. "a user double-clicking Buy produces two valid transactions"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -438,12 +442,16 @@
 <h3>무엇을 증명하나</h3>
 <p>의도 기준 중복 제거는 애플리케이션의 책임이고, 쌉니다: UUID 하나, 조회 테이블 하나, 비활성화된 버튼 하나. 체인 자체의 유일성(논스)은 <strong>같은 서명 바이트의 재사용</strong>을 막을 뿐 — <strong>같은 인간의 소망이 두 번 서명되는 것</strong>은 전혀 막지 못합니다.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 모든 Buy 액션에 클라이언트·서버 양쪽에서 중복 제거되는 의도 ID를 부여한다.</strong> PoC가 설명하는 대조군 테스트를 만든다 — 인위적으로 느린 RPC에서 더블클릭하고, 고정된 버전이 정확히 하나의 주문만 정산하는지 검증한다.</li><li><strong>Token: JYVE 민트/AMM 프론트엔드에도 같은 의도 ID 중복 제거를 적용한다.</strong> 민트에서의 더블클릭은 같은 버그에 더 나쁜 이름이 붙은 것뿐이다. id → txHash를 저장해 재시도가 새 트랜잭션이 아니라 기존 영수증을 돌려주게 한다.</li><li><strong>Wallet: 대기 중인 의도 ID가 있으면 액션 버튼을 비활성화한다.</strong> UUID 하나, 조회 테이블 하나, 비활성화된 버튼 하나로 끝나는 가장 저렴한 방어층이며, 서비스마다 따로가 아니라 Wallet의 공용 체크아웃 컴포넌트에 넣어야 한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>idempotency key</strong></td><td>멱등성 키(같은 요청을 여러 번 보내도 한 번만 처리되게 하는 식별자) · 결제 API의 중복 방지 표준 기법. "Payment APIs solved this decades ago with idempotency keys"</td></tr><tr><td><strong>un-charge</strong></td><td>청구를 취소하다·환불 처리하다 · 이미 확정된 결제를 되돌릴 방법이 없을 때. "finality means no one un-charges the second one"</td></tr><tr><td><strong>cannot live on</strong></td><td>~에만 맡겨둘 수 없다·~차원에서 해결될 수 없다 · 해결책이 다른 계층에 있어야 할 때. "The fix cannot live on the chain"</td></tr><tr><td><strong>refuse to act on</strong></td><td>~에 대해 처리를 거부하다 · 이미 본 ID에 대해 재처리를 막을 때. "refuses to act on an ID it has seen"</td></tr><tr><td><strong>widen on purpose</strong></td><td>일부러 (경합 조건을) 크게 벌리다 · 버그를 재현하려고 레이스 컨디션을 의도적으로 키울 때. "and a race you widen on purpose"</td></tr><tr><td><strong>settle (a transaction)</strong></td><td>거래가 확정·처리되다 · 몇 건의 트랜잭션이 실제로 체결됐는지 셀 때. "assert version A settles exactly one transaction"</td></tr><tr><td><strong>smallest possible example of a larger truth</strong></td><td>더 큰 원리를 보여주는 가장 작은 사례 · 작은 버그가 일반 원칙을 드러낼 때. "the smallest possible example of a larger truth"</td></tr><tr><td><strong>double-click (trigger duplicate action)</strong></td><td>두 번 눌러서 같은 동작이 중복 발생하는 것 · 사용자 실수로 두 개의 유효한 거래가 생길 때. "a user double-clicking Buy produces two valid transactions"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-a-boolean-hides-a-state-machine.html">&larr; 81. A boolean hides a state machine</a><a href="pocs-the-app-reads-a-projection.html">83. Your app doesn't read the chain — it reads a projection &rarr;</a></div>
+    <div class="pager"><a href="pocs-a-boolean-hides-a-state-machine.html">&larr; 85. A boolean hides a state machine</a><a href="pocs-the-app-reads-a-projection.html">87. Your app doesn't read the chain — it reads a projection &rarr;</a></div>
   </div>
   </main>
 </div>

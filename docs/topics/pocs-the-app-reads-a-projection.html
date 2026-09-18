@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Your app doesn't read the chain — it reads a projection</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#83</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#87</span><span>PoC</span></p>
       <h1>Your app doesn't read the chain — it reads a projection</h1>
       <p class="lead">Every real product reads an indexer, not the chain — a derived read model that is always some blocks behind. The honest UI prints which block it is speaking for; the dishonest one just looks occasionally wrong.</p>
       <p class="meta">Serve the same balance screen twice — one from direct RPC, one from an indexer with injected lag — then add an as-of-block label and a pending-transaction overlay, and watch which version stops looking broken.</p>
@@ -416,8 +416,12 @@
 <h3>What it proves</h3>
 <p>The projection&#39;s lag cannot be engineered away, only labeled and bridged: the as-of label bounds what the screen claims, and the pending overlay covers the gap between the user&#39;s action and the indexer&#39;s cursor. Every serious dapp front end converges on these two elements — this PoC derives why in fifty lines.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale past</strong></td><td>(그 이상으로) 확장되지 않다 · 방법이 규모가 커지면 한계에 부딪힐 때. "does not scale past one widget"</td></tr><tr><td><strong>import (a cost)</strong></td><td>(문제·비용을) 함께 들여오다 · 한 설계를 채택하면 그 단점도 같이 따라올 때. "imports CQRS&#39;s one cost"</td></tr><tr><td><strong>lag (verb)</strong></td><td>뒤처지다, 시차를 두고 따라가다 · 읽기 모델이 쓰기 모델보다 늦을 때. "the read model lags the write model"</td></tr><tr><td><strong>repair trust</strong></td><td>신뢰를 회복시키다 · UI 요소가 사용자 불신을 해소할 때. "the two UI elements that repair trust"</td></tr><tr><td><strong>cover the gap</strong></td><td>간극을 메우다, 이어주다 · 대기 중 항목이 지연을 감춰줄 때. "the pending overlay covers the gap"</td></tr><tr><td><strong>engineer away</strong></td><td>(기술로) 없애버리다, 제거하다 · 근본적으로 해결 불가능한 지연을 말할 때. "cannot be engineered away"</td></tr><tr><td><strong>derive (verb)</strong></td><td>(논리적으로) 이끌어내다, 도출하다 · 짧은 코드로 원리를 증명할 때. "this PoC derives why in fifty lines"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: label every balance or wallet screen with the indexer&#39;s as-of block, plus a pending-transaction overlay.</strong> The portal&#39;s balance view is a projection, not a live read; showing which block it speaks for and overlaying the user&#39;s just-submitted transaction is what stops "silently wrong" after every send.</li><li><strong>Verex: apply the same as-of label to order-book and market-state reads.</strong> The CLOB UI reads an indexer or cache, not the chain directly, so a resolved market or a filled order needs the same cursor label and an optimistic row for the user&#39;s own just-placed order.</li><li><strong>gitboard: show the as-of block or timestamp on any aggregated number.</strong> TVL, volume or the recycling-multiple figures gitboard reports are themselves projections; the dashboard should carry the same honesty device this page derives, not just the headline number.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale past</strong></td><td>(그 이상으로) 확장되지 않다 · 방법이 규모가 커지면 한계에 부딪힐 때. "does not scale past one widget"</td></tr><tr><td><strong>import (a cost)</strong></td><td>(문제·비용을) 함께 들여오다 · 한 설계를 채택하면 그 단점도 같이 따라올 때. "imports CQRS&#39;s one cost"</td></tr><tr><td><strong>lag (verb)</strong></td><td>뒤처지다, 시차를 두고 따라가다 · 읽기 모델이 쓰기 모델보다 늦을 때. "the read model lags the write model"</td></tr><tr><td><strong>repair trust</strong></td><td>신뢰를 회복시키다 · UI 요소가 사용자 불신을 해소할 때. "the two UI elements that repair trust"</td></tr><tr><td><strong>cover the gap</strong></td><td>간극을 메우다, 이어주다 · 대기 중 항목이 지연을 감춰줄 때. "the pending overlay covers the gap"</td></tr><tr><td><strong>engineer away</strong></td><td>(기술로) 없애버리다, 제거하다 · 근본적으로 해결 불가능한 지연을 말할 때. "cannot be engineered away"</td></tr><tr><td><strong>derive (verb)</strong></td><td>(논리적으로) 이끌어내다, 도출하다 · 짧은 코드로 원리를 증명할 때. "this PoC derives why in fifty lines"</td></tr><tr><td><strong>CQRS</strong></td><td>명령과 조회 책임 분리(Command Query Responsibility Segregation) · 쓰기 모델과 읽기(프로젝션) 모델을 분리하는 아키텍처 패턴, 읽기 지연이 그 대가. "That is CQRS by necessity"</td></tr><tr><td><strong>Ponder</strong></td><td>폰더 · 이더리움 이벤트를 색인하는 오픈소스 인덱서 프레임워크, PoC의 예시 도구. "a tiny indexer (Ponder or a hand-rolled event loop)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -438,12 +442,16 @@
 <h3>무엇을 증명하나</h3>
 <p>프로젝션의 지연은 공학으로 없앨 수 없고, <strong>라벨을 붙이고 다리를 놓을 수만</strong> 있습니다: 기준 라벨은 화면의 주장 범위를 한정하고, 대기 오버레이는 사용자 행동과 인덱서 커서 사이의 틈을 덮습니다. 진지한 dapp 프런트엔드는 전부 이 두 요소로 수렴합니다 — 이 PoC 는 그 이유를 50줄로 유도합니다.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale past</strong></td><td>(그 이상으로) 확장되지 않다 · 방법이 규모가 커지면 한계에 부딪힐 때. "does not scale past one widget"</td></tr><tr><td><strong>import (a cost)</strong></td><td>(문제·비용을) 함께 들여오다 · 한 설계를 채택하면 그 단점도 같이 따라올 때. "imports CQRS&#39;s one cost"</td></tr><tr><td><strong>lag (verb)</strong></td><td>뒤처지다, 시차를 두고 따라가다 · 읽기 모델이 쓰기 모델보다 늦을 때. "the read model lags the write model"</td></tr><tr><td><strong>repair trust</strong></td><td>신뢰를 회복시키다 · UI 요소가 사용자 불신을 해소할 때. "the two UI elements that repair trust"</td></tr><tr><td><strong>cover the gap</strong></td><td>간극을 메우다, 이어주다 · 대기 중 항목이 지연을 감춰줄 때. "the pending overlay covers the gap"</td></tr><tr><td><strong>engineer away</strong></td><td>(기술로) 없애버리다, 제거하다 · 근본적으로 해결 불가능한 지연을 말할 때. "cannot be engineered away"</td></tr><tr><td><strong>derive (verb)</strong></td><td>(논리적으로) 이끌어내다, 도출하다 · 짧은 코드로 원리를 증명할 때. "this PoC derives why in fifty lines"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 모든 잔액/월렛 화면에 인덱서의 as-of 블록과 대기중 트랜잭션 오버레이를 표시한다.</strong> 포털의 잔액 화면은 실시간 읽기가 아니라 프로젝션이다. 어느 블록을 대변하는지 보여주고 사용자가 방금 제출한 트랜잭션을 오버레이하는 것이, 전송 직후 &#39;조용히 틀린&#39; 상태를 막는다.</li><li><strong>Verex: 오더북·마켓 상태 읽기에도 같은 as-of 라벨을 적용한다.</strong> CLOB UI는 체인을 직접 읽지 않고 인덱서나 캐시를 읽는다. 정산된 마켓이나 체결된 주문에도 같은 커서 라벨과 사용자가 방금 낸 주문에 대한 낙관적 행이 필요하다.</li><li><strong>gitboard: 집계된 숫자마다 as-of 블록이나 타임스탬프를 보여준다.</strong> gitboard가 보고하는 TVL, 거래량, 재순환 배수 수치도 그 자체가 프로젝션이다. 헤드라인 숫자만이 아니라 이 페이지가 도출한 것과 같은 정직성 장치를 대시보드에 넣는다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale past</strong></td><td>(그 이상으로) 확장되지 않다 · 방법이 규모가 커지면 한계에 부딪힐 때. "does not scale past one widget"</td></tr><tr><td><strong>import (a cost)</strong></td><td>(문제·비용을) 함께 들여오다 · 한 설계를 채택하면 그 단점도 같이 따라올 때. "imports CQRS&#39;s one cost"</td></tr><tr><td><strong>lag (verb)</strong></td><td>뒤처지다, 시차를 두고 따라가다 · 읽기 모델이 쓰기 모델보다 늦을 때. "the read model lags the write model"</td></tr><tr><td><strong>repair trust</strong></td><td>신뢰를 회복시키다 · UI 요소가 사용자 불신을 해소할 때. "the two UI elements that repair trust"</td></tr><tr><td><strong>cover the gap</strong></td><td>간극을 메우다, 이어주다 · 대기 중 항목이 지연을 감춰줄 때. "the pending overlay covers the gap"</td></tr><tr><td><strong>engineer away</strong></td><td>(기술로) 없애버리다, 제거하다 · 근본적으로 해결 불가능한 지연을 말할 때. "cannot be engineered away"</td></tr><tr><td><strong>derive (verb)</strong></td><td>(논리적으로) 이끌어내다, 도출하다 · 짧은 코드로 원리를 증명할 때. "this PoC derives why in fifty lines"</td></tr><tr><td><strong>CQRS</strong></td><td>명령과 조회 책임 분리(Command Query Responsibility Segregation) · 쓰기 모델과 읽기(프로젝션) 모델을 분리하는 아키텍처 패턴, 읽기 지연이 그 대가. "That is CQRS by necessity"</td></tr><tr><td><strong>Ponder</strong></td><td>폰더 · 이더리움 이벤트를 색인하는 오픈소스 인덱서 프레임워크, PoC의 예시 도구. "a tiny indexer (Ponder or a hand-rolled event loop)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-double-click-mints-twice.html">&larr; 82. The double-click mints twice — idempotency is the app's duty</a><a href="pocs-the-wallet-is-not-the-user.html">84. The wallet is not the user &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-double-click-mints-twice.html">&larr; 86. The double-click mints twice — idempotency is the app's duty</a><a href="pocs-the-wallet-is-not-the-user.html">88. The wallet is not the user &rarr;</a></div>
   </div>
   </main>
 </div>

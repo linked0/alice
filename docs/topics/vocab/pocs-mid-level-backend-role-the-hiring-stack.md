@@ -7,3 +7,7 @@
 | skills diff | 스킬 차이표(보유·부족을 비교한 목록) · 채용 공고를 자기 역량과 비교한 체크리스트를 가리키는 조어. "the JD turns into a two-column skills diff" |
 | performance tuning | 성능 튜닝(최적화) · API 응답 속도 등을 개선하는 작업을 가리키는 표준 용어. "front-end data exchange; performance tuning" |
 | stable, scalable | 안정적이고 확장 가능한 · 시스템 아키텍처가 갖춰야 할 두 가지 목표를 가리키는 상투구. "into a stable, scalable backend architecture" |
+| JD | 채용공고(Job Description) · 이 카드가 체크리스트로 읽은 원본 문서 종류. "A mid-level backend JD, read as a stack checklist" |
+| JPA | 자바 퍼시스턴스 API(Java Persistence API) · 자바 진영의 ORM 표준, 이 공고가 요구하는 데이터 계층 기술. "JPA, Querydsl to optimize DB design" |
+| ORM | 객체-관계 매핑(Object-Relational Mapping) · 관계형 DB와 객체를 연결하는 계층, JPA/Querydsl이 속하는 범주. "an ORM over a relational database, HTTP APIs" |
+<!-- acronyms 2026-09-18 -->

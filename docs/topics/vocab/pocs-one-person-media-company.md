@@ -9,3 +9,6 @@
 | discount | 숫자·주장을 에누리해서 듣다, 걸러 듣다 · 마케팅용 수치는 그대로 믿지 말라는 뜻. "discount the numbers as promotion" |
 | generalize | 다른 분야에도 두루 적용되다, 일반화되다 · 이 패턴이 콘텐츠 밖에서도 쓸모 있다는 뜻. "that generalizes well past content" |
 | flagship | 대표작, 주력 콘텐츠 · 한 가지 핵심 포맷을 먼저 성공시킨다는 뜻. "add distribution after one flagship format works" |
+| Hermes | 이 글에서 언급된 멀티에이전트 봇 벤더(Hermes) · 하나의 구현 예시일 뿐 필수 요건은 아님. "the vendor 'Hermes' is one implementation, not the requirement" |
+| Obsidian | 마크다운 기반 개인 지식 관리 도구(Obsidian) · 여섯 봇이 공유하는 '콘텐츠 브레인' 저장소로 쓰임. "a shared Obsidian 'content brain' gives them compatible judgment" |
+<!-- acronyms 2026-09-18 -->

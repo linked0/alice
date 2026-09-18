@@ -5,3 +5,5 @@
 | half-open | (회로차단기의) 반개방 상태 · "probe recovery half-open after a cooldown" |
 | compensating transaction | 앞선 작업을 되돌리는 보상 트랜잭션 · "local-transaction chains plus compensations" |
 | eventual consistency | 즉시는 아니지만 결국 맞춰지는 일관성 · "eventual consistency without 2PC" |
+| 2PC | 2단계 커밋(Two-Phase Commit) · 분산 트랜잭션을 원자적으로 확정하는 전통적 합의 프로토콜, Saga가 대신하는 대상. "eventual consistency without 2PC" |
+<!-- acronyms 2026-09-18 -->

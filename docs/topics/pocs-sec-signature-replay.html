@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Signature replay — a valid signature used twice, or on the wrong chain</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#185</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#189</span><span>PoC</span></p>
       <h1>Signature replay — a valid signature used twice, or on the wrong chain</h1>
       <p class="lead">Signatures without a nonce, domain separator, or chain id can be replayed against the same contract twice or against its twin on another chain — the class EIP-712 exists to close.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>replay (a signature)</strong></td><td>서명을 재사용(재전송)하다 · 유효한 서명을 다시 써서 두 번 실행시키는 공격을 가리킴. "can be replayed against the same contract twice"</td></tr><tr><td><strong>domain separator</strong></td><td>도메인 구분자 · 서명을 특정 컨트랙트·체인에만 유효하도록 묶는 EIP-712 요소. "adds the domain separator that binds the signature"</td></tr><tr><td><strong>close the class (of bugs)</strong></td><td>(버그·공격) 부류를 아예 막아버리다 · 특정 표준이 존재하는 이유를 설명할 때. "the class EIP-712 exists to close"</td></tr><tr><td><strong>bind (to one contract)</strong></td><td>(서명을 특정 대상에) 묶다·결속시키다 · 서명이 다른 컨트랙트에서는 무효가 되게 하는 동사. "binds the signature to one contract and chain"</td></tr><tr><td><strong>twin (on another chain)</strong></td><td>(동일한 구조의) 쌍둥이(복제본) · 다른 체인에 배포된 같은 컨트랙트를 가리키는 비유. "against its twin on another chain"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Wallet: bind every signed message to one contract and one chain id.</strong> Session-key grants and permits the embedded wallet produces need an EIP-712 domain separator, checked in simulate-before-sign so a replay attempt is visible before signing.</li><li><strong>Bridge/Token: test cross-deployment replay across Devnet and Sepolia.</strong> Add a test that replays a signed permit across the bridge&#39;s two chains to confirm the domain separator actually blocks it.</li><li><strong>Auditor: check every Rabbit and Wallet signing path for nonce, domain separator and chain id.</strong> Make it a standing checklist item rather than a one-time review, since this is the exact class EIP-712 exists to close.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>replay (a signature)</strong></td><td>서명을 재사용(재전송)하다 · 유효한 서명을 다시 써서 두 번 실행시키는 공격을 가리킴. "can be replayed against the same contract twice"</td></tr><tr><td><strong>domain separator</strong></td><td>도메인 구분자 · 서명을 특정 컨트랙트·체인에만 유효하도록 묶는 EIP-712 요소. "adds the domain separator that binds the signature"</td></tr><tr><td><strong>close the class (of bugs)</strong></td><td>(버그·공격) 부류를 아예 막아버리다 · 특정 표준이 존재하는 이유를 설명할 때. "the class EIP-712 exists to close"</td></tr><tr><td><strong>bind (to one contract)</strong></td><td>(서명을 특정 대상에) 묶다·결속시키다 · 서명이 다른 컨트랙트에서는 무효가 되게 하는 동사. "binds the signature to one contract and chain"</td></tr><tr><td><strong>twin (on another chain)</strong></td><td>(동일한 구조의) 쌍둥이(복제본) · 다른 체인에 배포된 같은 컨트랙트를 가리키는 비유. "against its twin on another chain"</td></tr><tr><td><strong>EIP-712</strong></td><td>구조화 데이터 서명 표준(Ethereum typed structured-data signing standard) · 도메인 구분자로 서명을 특정 컨트랙트·체인에 묶어 재사용 공격을 막는 표준. "the class EIP-712 exists to close"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>replay (a signature)</strong></td><td>서명을 재사용(재전송)하다 · 유효한 서명을 다시 써서 두 번 실행시키는 공격을 가리킴. "can be replayed against the same contract twice"</td></tr><tr><td><strong>domain separator</strong></td><td>도메인 구분자 · 서명을 특정 컨트랙트·체인에만 유효하도록 묶는 EIP-712 요소. "adds the domain separator that binds the signature"</td></tr><tr><td><strong>close the class (of bugs)</strong></td><td>(버그·공격) 부류를 아예 막아버리다 · 특정 표준이 존재하는 이유를 설명할 때. "the class EIP-712 exists to close"</td></tr><tr><td><strong>bind (to one contract)</strong></td><td>(서명을 특정 대상에) 묶다·결속시키다 · 서명이 다른 컨트랙트에서는 무효가 되게 하는 동사. "binds the signature to one contract and chain"</td></tr><tr><td><strong>twin (on another chain)</strong></td><td>(동일한 구조의) 쌍둥이(복제본) · 다른 체인에 배포된 같은 컨트랙트를 가리키는 비유. "against its twin on another chain"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Wallet: 모든 서명 메시지를 하나의 컨트랙트와 체인 ID에 묶는다.</strong> 임베디드 월렛이 만드는 세션키 승인과 permit에는 EIP-712 도메인 분리자가 필요하며, simulate-before-sign에서 이를 확인해 서명 전에 리플레이 시도가 보이게 한다.</li><li><strong>Bridge/Token: Devnet과 Sepolia 간 교차 배포 리플레이를 테스트한다.</strong> 브리지가 걸쳐 있는 두 체인에서 서명된 permit을 리플레이하는 테스트를 추가해 도메인 분리자가 실제로 이를 막는지 확인한다.</li><li><strong>Auditor: Rabbit과 Wallet의 모든 서명 경로에서 논스, 도메인 분리자, 체인 ID를 점검한다.</strong> 일회성 리뷰가 아니라 상시 체크리스트 항목으로 만든다. EIP-712가 막기 위해 존재하는 바로 그 부류의 버그이기 때문이다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>replay (a signature)</strong></td><td>서명을 재사용(재전송)하다 · 유효한 서명을 다시 써서 두 번 실행시키는 공격을 가리킴. "can be replayed against the same contract twice"</td></tr><tr><td><strong>domain separator</strong></td><td>도메인 구분자 · 서명을 특정 컨트랙트·체인에만 유효하도록 묶는 EIP-712 요소. "adds the domain separator that binds the signature"</td></tr><tr><td><strong>close the class (of bugs)</strong></td><td>(버그·공격) 부류를 아예 막아버리다 · 특정 표준이 존재하는 이유를 설명할 때. "the class EIP-712 exists to close"</td></tr><tr><td><strong>bind (to one contract)</strong></td><td>(서명을 특정 대상에) 묶다·결속시키다 · 서명이 다른 컨트랙트에서는 무효가 되게 하는 동사. "binds the signature to one contract and chain"</td></tr><tr><td><strong>twin (on another chain)</strong></td><td>(동일한 구조의) 쌍둥이(복제본) · 다른 체인에 배포된 같은 컨트랙트를 가리키는 비유. "against its twin on another chain"</td></tr><tr><td><strong>EIP-712</strong></td><td>구조화 데이터 서명 표준(Ethereum typed structured-data signing standard) · 도메인 구분자로 서명을 특정 컨트랙트·체인에 묶어 재사용 공격을 막는 표준. "the class EIP-712 exists to close"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-oracle-flashloan.html">&larr; 184. Oracle manipulation — a flash loan rewrites the price for one block</a><a href="pocs-sec-log4shell.html">186. Log4Shell — a logging line that executes attacker code &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-oracle-flashloan.html">&larr; 188. Oracle manipulation — a flash loan rewrites the price for one block</a><a href="pocs-sec-log4shell.html">190. Log4Shell — a logging line that executes attacker code &rarr;</a></div>
   </div>
   </main>
 </div>

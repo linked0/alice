@@ -7,3 +7,7 @@
 | disjoint | 서로 겹치지 않는 · 집합들이 공통 원소 없이 나뉠 때. "disjoint equivalence classes" |
 | canonical | 전형적인, 대표적인 · 해당 개념을 가장 잘 보여주는 표준 사례를 가리킬 때. "the canonical equivalence relation" |
 | essence of | ~의 본질 · 어떤 실무 문제의 핵심이 사실 이 개념이라고 짚을 때. "the essence of deduplication, cache keys, and replay protection" |
+| Cartesian product | 데카르트 곱(Cartesian product) · 두 집합의 모든 순서쌍을 모은 집합, 이진관계는 이 곱집합의 부분집합으로 정의됨. "a subset of the Cartesian product" |
+| quotient set | 몫집합(quotient set) · 한 집합을 동치관계로 나눴을 때 생기는 모든 동치류들의 집합. "is called the quotient set" |
+| residue class | 잉여류(residue class) · 정수를 n으로 나눈 나머지가 같은 원소들의 동치류, congruence modulo n의 구체적 예. "its equivalence classes are the residue classes" |
+<!-- acronyms 2026-09-18 -->

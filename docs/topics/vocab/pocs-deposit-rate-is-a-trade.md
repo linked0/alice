@@ -9,3 +9,6 @@
 | redemption pauses | 상환(환매)이 중단되다 · 인출 요청이 일시 정지되는 상황 · "which jurisdiction's rules apply when redemption pauses" |
 | delta-neutral | 델타중립의 · 가격 방향에 노출되지 않도록 헤지된 포지션을 가리키는 금융 용어 · "Ethena's engine is the delta-neutral trade" |
 | volume cap | 거래량 상한 · 프로모션이 적용되는 한도를 가리킴 · "5% cashback at what volume cap" |
+| APY | 연환산수익률(Annual Percentage Yield) · 복리를 반영한 연간 수익률, sUSDe 실현 수익률을 추적할 때 쓰는 지표. "sUSDe's realized APY history" |
+| MAS | 싱가포르통화청(Monetary Authority of Singapore) · 스테이블코인 발행자의 이자 지급을 금지하려 한 규제기관. "MAS proposed banning stablecoin issuers" |
+<!-- acronyms 2026-09-18 -->

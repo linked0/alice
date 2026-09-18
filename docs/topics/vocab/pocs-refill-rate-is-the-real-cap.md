@@ -10,3 +10,5 @@
 | rounded up to | ~로 올림 처리하다 · "rounded up to whole refills" |
 | clears a loss | 감당 가능한 손실 범위 안에 들어오다 · "see which bridges still clear a loss you can survive" |
 | quoted without | ~을 언급하지 않은 채 제시된 · "A rate limit quoted without its refill period" |
+| xERC20 (ERC-7281) | 크로스체인 확장 ERC-20 표준 이름 · 브리지별 민트·번 한도를 온체인에 명시하는 표준, 이 카드가 다루는 대상. "xERC20 (ERC-7281) puts a per-bridge mint/burn rate limit" |
+<!-- acronyms 2026-09-18 -->

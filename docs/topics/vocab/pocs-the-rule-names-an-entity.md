@@ -10,3 +10,7 @@
 | generalise past | ~을 넘어 일반화되다 · 어떤 원리가 원래 분야 밖에서도 성립할 때. "generalises past code" |
 | checkable from | ~로부터 검증 가능한 · 공개 자료만으로 주장을 확인할 수 있을 때. "checkable from an ownership diagram" |
 | vertical integration | 수직 계열화 · 한 그룹이 공급망의 여러 단계를 함께 소유할 때. "Why vertical integration is the specific harm" |
+| BIS | 국제결제은행(Bank for International Settlements) · 은행 규제·감독 리서치를 내는 국제기구, 이 카드의 출처. "A BIS brief points out that activity restrictions reach" |
+| FSI | 금융안정연구원(Financial Stability Institute) · BIS 산하 조직, 출처 문서를 발행한 곳. "Source: BIS FSI Briefs no. 33" |
+| perimeter | 규제 경계(관할 범위) · 특정 규제 체계가 적용되는 범위의 경계선을 가리킬 때. "mark which entities sit inside the stablecoin regime's perimeter" |
+<!-- acronyms 2026-09-18 -->

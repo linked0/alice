@@ -7,3 +7,7 @@
 | break-even point | 손익분기점 · 어느 지점부터 이득이 되는지를 가리킬 때. "judge the break-even point against doing the computation on-chain" |
 | flatten (into) | ~로 풀어 헤치다, 단순화하여 펼치다 · 복잡한 식을 기본 제약식으로 분해할 때. "flatten it into R1CS constraints by hand" |
 | comparable (expressive power) | 비슷한 수준의 표현력 · 서로 대등하게 견줄 만할 때. "The three approaches have comparable expressive power" |
+| R1CS | 순위-1 제약 시스템(Rank-1 Constraint System) · A·z∘B·z=C·z 형태로 계산을 표현하는 ZK 산술화 방식. "R1CS expresses a computation as a set of constraints" |
+| AIR | 대수적 중간 표현(Algebraic Intermediate Representation) · 실행 트레이스 테이블로 계산을 표현, VM 실행에 특히 적합. "AIR views the computation as an execution trace table" |
+| PLONKish | PLONK 계열 산술화(테이블 기반 커스텀 게이트·룩업 지원 방식) · 비트 연산 등을 룩업 테이블로 대체 가능. "PLONKish is an arithmetization built on a table" |
+<!-- acronyms 2026-09-18 -->

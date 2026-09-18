@@ -5,3 +5,5 @@
 | a long list of | 길게 늘어선·수많은 · 비슷한 사례가 아주 많을 때. "a long list of DeFi drains" |
 | resist (manipulation) | (조작에) 저항하다·버텨내다 · 안전한 오라클이 공격을 견뎌낼 때. "a TWAP or Chainlink feed resisting it" |
 | spot read | 즉시 시세 조회(순간 가격을 그대로 읽는 방식) · 조작에 취약한 가격 참조 방식. "the difference between a spot read and a manipulation-resistant one" |
+| TWAP | 시간가중평균가격(Time-Weighted Average Price) · 단발성 스팟 가격 대신 조작에 강한 오라클 정산 방식. "a TWAP or Chainlink feed resisting it" |
+<!-- acronyms 2026-09-18 -->

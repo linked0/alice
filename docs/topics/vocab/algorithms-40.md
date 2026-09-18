@@ -7,3 +7,6 @@
 | send ... in the wrong direction | ~을 엉뚱한 방향으로 이끌다 · 잘못된 원인 파악이 최적화를 그르칠 때. "sends hot-loop optimization in the wrong direction" |
 | live in the same territory | 같은 부류에 속하다 · 비슷한 성격의 기법들을 묶어 말할 때. "live in the same territory" |
 | governed more by | ~에 의해 더 좌우되다 · 두 요인을 비교하며 어느 쪽 영향이 더 큰지 말할 때. "performance is governed more by memory access pattern" |
+| SoA | 구조체의 배열이 아닌 필드의 배열(Structure of Arrays) · 데이터지향설계에서 캐시 활용을 높이기 위한 레이아웃 방식. "using an array of fields (SoA) instead of an array of objects (AoS)" |
+| AoS | 객체(구조체)의 배열(Array of Structures) · 일반적인 객체지향 데이터 배치 방식, SoA와 대비되는 개념. "instead of an array of objects (AoS)" |
+<!-- acronyms 2026-09-18 -->

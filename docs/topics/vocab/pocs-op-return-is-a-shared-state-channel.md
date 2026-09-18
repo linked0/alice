@@ -9,3 +9,7 @@
 | rode alongside | ~와 함께 동반되다·같이 따라오다 · 서명이 메시지와 함께 첨부되었음을 말할 때 · "PGP signatures rode alongside to bind" |
 | compelling an action | 행동을 강제하는 것 · 약속을 지키게 만드는 힘이 없음을 지적할 때 · "agreeing on a fact is not compelling an action" |
 | irreversible | 되돌릴 수 없는 · 온체인 기록의 특성을 나열할 때 · "the record could not be quietly edited afterward" |
+| PGP | Pretty Good Privacy · 공개키 암호로 메시지에 서명해 신원을 증명하는 방식, 두 당사자 간 신원 바인딩에 사용 · "PGP signatures rode alongside to bind each message to an identity" |
+| OP_RETURN | 비트코인 스크립트 opcode · 송금 없이 최대 80바이트 데이터를 트랜잭션에 기록해 온체인에 메시지를 남기는 명령어 · "OP_RETURN became a negotiation channel" |
+| Liquid | Blockstream이 운영하는 비트코인 사이드체인 · 이 사건에서 공격당한 브리지 네트워크 · "The Liquid attacker and Blockstream settled a return" |
+<!-- acronyms 2026-09-18 -->

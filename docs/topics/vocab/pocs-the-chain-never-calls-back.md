@@ -9,3 +9,5 @@
 | revert and re-mine | 되돌리고 다시 채굴하다(체인 상태를 재구성) · 리오그 테스트 절차를 설명할 때. "revert and re-mine without it" |
 | dedupe | 중복을 제거하다 · 같은 이벤트를 두 번 처리하지 않도록 걸러낼 때. "deduplicate across retries and websocket reconnects" |
 | outbound truthfulness | 밖으로 내보내는 정보의 정직성(사용자에게 알리는 내용의 진실성) · 알림 시스템 설계의 핵심 원칙. "Outbound truthfulness is a state machine" |
+| Ponder | 이더리움 이벤트 인덱싱 프레임워크(온체인 이벤트를 감시·저장) · 이 카드가 예로 드는 워처 구현 도구. "the Ponder pipeline" |
+<!-- acronyms 2026-09-18 -->

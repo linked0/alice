@@ -10,3 +10,6 @@
 | propagation luck | (네트워크) 전파 운·타이밍 운 · 지연 때문에 정직한 블록이 불이익받는 상황 · "rejected over propagation luck" |
 | hands the attacker the condition | 조건 자체를 공격 지점으로 내주다 · 조건부 규칙이 악용 여지를 만들 때 · "hands the attacker the condition" |
 | the watchman and the watched | 감시자와 감시 대상이 같은 존재 · 검열자가 스스로를 감시하는 구조적 결함을 가리키는 비유 · "the watchman and the watched were the same seat" |
+| FOCIL | 포크초이스 강제 포함목록(Fork-Choice enforced Inclusion Lists) · 검열저항을 프로토콜 규칙으로 강제하는 이더리움 제안 · "FOCIL moves inclusion-list authorship from one proposer" |
+| EIP-7805 | 이더리움 개선제안 7805번 · FOCIL 메커니즘을 정의하는 스펙 문서 · "In EIP-7805 read only the Rationale and the parameters" |
+<!-- acronyms 2026-09-18 -->

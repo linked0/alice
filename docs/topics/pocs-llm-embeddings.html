@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Embeddings — meaning as a vector you can search</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#209</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#213</span><span>PoC</span></p>
       <h1>Embeddings — meaning as a vector you can search</h1>
       <p class="lead">Embeddings map text to vectors where nearby means similar, the substrate under semantic search and RAG — and the quality of every retrieval is bounded by the quality of the embedding model.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>map ... to</strong></td><td>~을 ~로 매핑하다, 대응시키다 · 한 형태의 데이터를 다른 형태로 변환해 연결할 때. "Embeddings map text to vectors"</td></tr><tr><td><strong>the substrate under</strong></td><td>~의 밑바탕이 되는 기반 · 여러 기능이 그 위에서 돌아가는 근본 토대. "the substrate under semantic search and RAG"</td></tr><tr><td><strong>bounded by</strong></td><td>~에 의해 상한이 정해지다, 제한받다 · 전체 품질이 한 요소의 한계를 못 넘을 때. "bounded by the quality of the embedding model"</td></tr><tr><td><strong>diverge from</strong></td><td>~에서 벗어나다, 갈라지다 · 결과가 원래 의도했던 것과 어긋날 때. "diverges from what a user actually meant"</td></tr><tr><td><strong>nearest-neighbor search</strong></td><td>최근접 이웃 검색 · 벡터 공간에서 가장 가까운 항목들을 찾는 검색 방식. "runs nearest-neighbor search"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit/Personas: if semantic search over skills, personas, or mandate lookups is ever added, budget for the embedding model&#39;s quality as the retrieval ceiling, and test where similarity diverges from intended meaning before shipping.</strong></li><li><strong>Number: any RAG-style lookup over Number&#39;s readings should log retrieval misses — semantically similar but wrong-intent matches — as a metric, not assume nearest-neighbor equals correct.</strong></li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>map ... to</strong></td><td>~을 ~로 매핑하다, 대응시키다 · 한 형태의 데이터를 다른 형태로 변환해 연결할 때. "Embeddings map text to vectors"</td></tr><tr><td><strong>the substrate under</strong></td><td>~의 밑바탕이 되는 기반 · 여러 기능이 그 위에서 돌아가는 근본 토대. "the substrate under semantic search and RAG"</td></tr><tr><td><strong>bounded by</strong></td><td>~에 의해 상한이 정해지다, 제한받다 · 전체 품질이 한 요소의 한계를 못 넘을 때. "bounded by the quality of the embedding model"</td></tr><tr><td><strong>diverge from</strong></td><td>~에서 벗어나다, 갈라지다 · 결과가 원래 의도했던 것과 어긋날 때. "diverges from what a user actually meant"</td></tr><tr><td><strong>nearest-neighbor search</strong></td><td>최근접 이웃 검색 · 벡터 공간에서 가장 가까운 항목들을 찾는 검색 방식. "runs nearest-neighbor search"</td></tr><tr><td><strong>RAG</strong></td><td>검색 증강 생성(Retrieval-Augmented Generation) · 임베딩으로 관련 문서를 검색해 LLM 답변에 활용하는 방식, 임베딩의 대표적 활용처. "the substrate under semantic search and RAG"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>map ... to</strong></td><td>~을 ~로 매핑하다, 대응시키다 · 한 형태의 데이터를 다른 형태로 변환해 연결할 때. "Embeddings map text to vectors"</td></tr><tr><td><strong>the substrate under</strong></td><td>~의 밑바탕이 되는 기반 · 여러 기능이 그 위에서 돌아가는 근본 토대. "the substrate under semantic search and RAG"</td></tr><tr><td><strong>bounded by</strong></td><td>~에 의해 상한이 정해지다, 제한받다 · 전체 품질이 한 요소의 한계를 못 넘을 때. "bounded by the quality of the embedding model"</td></tr><tr><td><strong>diverge from</strong></td><td>~에서 벗어나다, 갈라지다 · 결과가 원래 의도했던 것과 어긋날 때. "diverges from what a user actually meant"</td></tr><tr><td><strong>nearest-neighbor search</strong></td><td>최근접 이웃 검색 · 벡터 공간에서 가장 가까운 항목들을 찾는 검색 방식. "runs nearest-neighbor search"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit/Personas: 스킬, 페르소나, 위임 조회에 시맨틱 검색을 추가한다면 임베딩 모델의 품질이 검색 성능의 상한임을 전제하고, 출시 전에 유사도가 의도한 의미와 갈리는 지점을 테스트한다.</strong></li><li><strong>Number: Number 리딩에 RAG 방식 조회를 쓴다면, 최근접 이웃이 곧 정답이라고 가정하지 말고 의미상 비슷하지만 의도가 틀린 매칭을 지표로 로깅한다.</strong></li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>map ... to</strong></td><td>~을 ~로 매핑하다, 대응시키다 · 한 형태의 데이터를 다른 형태로 변환해 연결할 때. "Embeddings map text to vectors"</td></tr><tr><td><strong>the substrate under</strong></td><td>~의 밑바탕이 되는 기반 · 여러 기능이 그 위에서 돌아가는 근본 토대. "the substrate under semantic search and RAG"</td></tr><tr><td><strong>bounded by</strong></td><td>~에 의해 상한이 정해지다, 제한받다 · 전체 품질이 한 요소의 한계를 못 넘을 때. "bounded by the quality of the embedding model"</td></tr><tr><td><strong>diverge from</strong></td><td>~에서 벗어나다, 갈라지다 · 결과가 원래 의도했던 것과 어긋날 때. "diverges from what a user actually meant"</td></tr><tr><td><strong>nearest-neighbor search</strong></td><td>최근접 이웃 검색 · 벡터 공간에서 가장 가까운 항목들을 찾는 검색 방식. "runs nearest-neighbor search"</td></tr><tr><td><strong>RAG</strong></td><td>검색 증강 생성(Retrieval-Augmented Generation) · 임베딩으로 관련 문서를 검색해 LLM 답변에 활용하는 방식, 임베딩의 대표적 활용처. "the substrate under semantic search and RAG"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-tokenization.html">&larr; 208. Tokenization — the model does not see characters</a><a href="pocs-llm-moe.html">210. Mixture of Experts — a big model that only runs part of itself &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-tokenization.html">&larr; 212. Tokenization — the model does not see characters</a><a href="pocs-llm-moe.html">214. Mixture of Experts — a big model that only runs part of itself &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -7,3 +7,8 @@
 | trap ... in | ~에 가두다, 몰아넣다 · 잘못된 이해가 엉성한 해결책만 쓰게 만드는 것. "traps you in the blunt remedy" |
 | blunt remedy | 투박한(정교하지 못한) 해결책 · 근본 원인을 안 보고 쓰는 임시방편. "the blunt remedy of just growing the heap" |
 | pay off | 이득이 되다, 보람이 있다 · 어떤 조치가 다른 것보다 효과적이라는 뜻. "pays off more than GC tuning does" |
+| GC | 가비지 컬렉션(Garbage Collection) · 더 이상 쓰지 않는 메모리를 자동 회수하는 런타임 기능, 이 카드 전체의 주제. "Region-based GC divides the heap into uniformly sized regions" |
+| GOGC | Go 런타임의 GC 목표치 환경변수 · 힙 증가율 대비 마킹 속도를 조절하는 튜닝 파라미터. "paces its marking rate to hit a GOGC target" |
+| ZGC | Z 가비지 컬렉터(Java용) · 컬러드 포인터와 로드 배리어로 압축까지 동시에 수행하는 저지연 GC. "ZGC uses colored pointers and load barriers" |
+| GODEBUG | Go 런타임 디버그 환경변수 · gctrace=1로 설정해 GC 동작을 로그로 확인하는 옵션. "Turn on GODEBUG=gctrace=1 for a Go service" |
+<!-- acronyms 2026-09-18 -->

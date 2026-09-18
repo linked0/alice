@@ -10,3 +10,7 @@
 | underpin | 뒷받침하다, 근거를 마련해주다 · 법이 규정을 지탱해준다는 뜻. "durable without a law underpinning them" |
 | on the record | 공식적으로 기록에 남은 · 연합이 공개적으로 깨졌다는 뜻. "produced 600 pages dissolved on the record" |
 | write off | 더 이상 기대하지 않고 포기하다, 손절하다 · 재시도 가능성을 접을 때. "write it off for a year" |
+| CFTC | 상품선물거래위원회(Commodity Futures Trading Commission) · 법안에서 현물시장 규제 기관으로 지정된 기관. "the CFTC as spot-market regulator" |
+| SEC | 증권거래위원회(Securities and Exchange Commission) · 증권성 판단과 규제 경계를 정하는 미국 기관. "the SEC's boundary, registration paths for exchanges" |
+| Regulation Crypto Assets | SEC의 암호자산 규정안(Regulation Crypto Assets) · 법안 부재 시 SEC가 대신 추진 중인 규칙제정안. "the SEC's proposed Regulation Crypto Assets continues" |
+<!-- acronyms 2026-09-18 -->

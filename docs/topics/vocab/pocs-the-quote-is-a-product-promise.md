@@ -10,3 +10,5 @@
 | bound (verb) | 상한을 씌워 제한하다 · "C bounds both" |
 | drift cost | 가격 변동으로 인한 손실 비용 · "drift cost as a product decision made visible" |
 | silently running | 아무도 모르게 뒤에서 운영되고 있는 · "silently running a tiny FX desk" |
+| TTL | 유효시간(Time To Live) · 견적이 유효한 시간 길이, 이 카드가 다루는 첫 번째 설계 변수. "needs a quote TTL, a re-quote flow" |
+<!-- acronyms 2026-09-18 -->

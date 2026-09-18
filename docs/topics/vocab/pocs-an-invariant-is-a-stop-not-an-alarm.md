@@ -9,3 +9,6 @@
 | the reflex objection | 반사적으로 나오는(깊이 생각 안 한) 반론 · 바로 튀어나오는 흔한 반박을 가리킬 때. "The reflex objection is false positives" |
 | asymmetry | 비대칭 · 두 결과의 비용·영향이 크게 다를 때. "The asymmetry is the whole argument." |
 | off-path | (주 실행 경로에서) 벗어난, 별도의 · 감시 시스템이 실행 경로와 분리되어 있을 때. "stand the first one up off-path" |
+| Liquid | 블록스트림의 비트코인 사이드체인(Liquid Network) · 이 카드가 다루는 사고 사례의 무대가 된 실제 프로젝트. "Confirm the Liquid specifics against Blockstream's notes before citing" |
+| Tenderly | 온체인 모니터링·시뮬레이션 플랫폼(제품명) · 감시자를 실행 경로와 분리해 빠르게 구축할 때 쓰는 도구. "is one fast way to stand the first one up" |
+<!-- acronyms 2026-09-18 -->

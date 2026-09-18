@@ -10,3 +10,9 @@
 | close the loop | 구조적 허점을 막다, 고리를 닫다 · 발행자와 이행 책임자가 같아 문제가 해결된다는 뜻. "That closes the loop that kills most..." |
 | a stranger to | ~에게 낯선(무관한) 존재 · 두 당사자가 서로 남남인 관계를 표현. "a stranger to the party who issued it" |
 | noted and parked | 일단 언급만 하고 보류하다 · 지금 다루지 않고 나중으로 미룬다는 뜻. "Stablecoin — noted and parked" |
+| VASP | 가상자산사업자(Virtual Asset Service Provider) · 디지털자산 수탁업 등을 영위하는 인가받은 사업자 지위. "a licensed Korean VASP whose business is digital-asset custody" |
+| Banking Act | 은행법 · 은행의 타사 지분 보유 한도(15%)를 규정하는 한국 법률. "Under the Banking Act a bank may not hold more than 15%" |
+| Pre-A round | 프리A 투자 라운드 · 시드 다음, 시리즈 A 이전 단계의 초기 투자 유치. "the closed Pre-A round names Sh Suhyup Bank" |
+| HFR | 에이치에프알(KOSDAQ 230240 상장사) · 이번 라운드에 전략적 투자자로 참여한 코스닥 상장 기업. "iM Bank and HFR (KOSDAQ 230240) as strategic investors" |
+| T+1 | 거래일 익일 결제(Trade date plus 1 day) · 낙찰 후 결제까지 걸리는 기간을 나타내는 결제 주기 표기. "If settlement is already T+1" |
+<!-- acronyms 2026-09-18 -->

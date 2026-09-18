@@ -9,3 +9,5 @@
 | re-pledged | (같은 담보를) 다시 맡기다 · "re-pledged collateral overnight" |
 | move superlinearly | 증가율이 선형보다 가파르게 움직이다 · "fee revenue moves superlinearly with the multiple" |
 | both legs | 거래의 양쪽 다리(양방향) · "counts both legs of a round trip" |
+| TVL | 총예치자산(Total Value Locked) · 프로토콜에 예치된 자산의 총액, 이 카드가 gross·net을 구분해 비판하는 대상 지표. "the protocol's own reporting calls the gross number TVL" |
+<!-- acronyms 2026-09-18 -->

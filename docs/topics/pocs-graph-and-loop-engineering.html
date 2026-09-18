@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Graph &amp; Loop Engineering — route, check, repeat instead of stuffing one prompt</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#73</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#77</span><span>PoC</span></p>
       <h1>Graph &amp; Loop Engineering — route, check, repeat instead of stuffing one prompt</h1>
       <p class="lead">Google&#39;s free two-hour course maps the progression from one prompt to agent graphs, hundred-agent parallel fan-out, control loops, and self-improving workflows. The durable technique is not &#39;more agents&#39;: make routing, checking, retrying, and rebuilding explicit runtime control flow.</p>
       <p class="meta">Follow the course in five checkpoints, but ship one small graph rather than copying the hundred-agent headline: 0:35 graph engineering from scratch; 31:17 first agent graph; 43:40 hundreds of agents in parallel; 1:04:58 loop engineering (route, check, repeat); 1:30:09 self-improving graphs. Build a three-node workflow — planner → worker → checker — with one typed handoff, one bounded retry, and one recorded failure reason. Only add parallel fan-out after the checker can reject bad work and the merge step can reconcile conflicting results. Course link was not supplied with the note; attach and verify the official Google source before treating the outline as a citation.</p>
@@ -490,7 +490,11 @@
 <h3>The runtime rule</h3>
 <p>Do not encode recovery as another paragraph in one agent&#39;s prompt. Encode it as an edge that can be traced, counted, bounded, and tested: <strong>route → check → repeat or rebuild</strong>. Related: <code>the-harness-not-the-model</code> (the deterministic control layer) and <code>agentic-intent-veto</code> (bounds remain outside the agent).</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI: replace any single do-everything agent prompt with a planner-worker-checker graph.</strong> Before adding parallel agents to any Jayverse repo, require one typed handoff and one bounded retry per task, not a single prompt asked to plan, execute and verify at once.</li><li><strong>Auditor: keep the evaluator and budget outside the graph being improved.</strong> If agent workflows for Rabbit or Verex are ever allowed to propose their own changes, gate promotion through a fixed Auditor-run evaluation; never let the graph grade itself.</li><li><strong>gitboard: surface retry counts and terminal-failure reasons per agent task.</strong> A stuck or looping build should show up as a traced, bounded state on the dashboard, not silent spend.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fan-out / fan-in</strong></td><td>하나에서 여럿으로 분산·다시 합류 · 병렬 에이전트 구조를 설명할 때. "fan-out and fan-in"</td></tr><tr><td><strong>stuff (a prompt)</strong></td><td>(프롬프트 하나에) 다 욱여넣다 · 계획·실행·검증을 한 프롬프트에 몰아넣는 잘못된 방식. "instead of stuffing one prompt"</td></tr><tr><td><strong>grade its own homework</strong></td><td>자기 숙제를 자기가 채점하다 · 그래프가 스스로를 평가하는 위험한 자기평가 구조. "the graph grades its own homework"</td></tr><tr><td><strong>as a slogan</strong></td><td>구호에 그치는, 말뿐인 · 진짜 개선이 아니라 겉으로만 내세우는 &#39;자율성&#39;을 비판할 때. "autonomy as a slogan"</td></tr><tr><td><strong>premise</strong></td><td>(다음 판단의) 전제, 근거 · 계획 단계의 실수가 검증 단계의 전제가 되어버리는 상황. "can quietly become the premise of verification"</td></tr><tr><td><strong>gate (명사)</strong></td><td>(통과 여부를 가르는) 관문, 승인 절차 · 개선안이 검증을 거쳐야만 적용되는 장치. "promotes it only through a gate"</td></tr><tr><td><strong>in disguise</strong></td><td>~로 위장한, 실은 ~인 · 겉으로만 다른 형태일 뿐 실제로는 검증 안 되는 프롬프트. "an uninspectable prompt in disguise"</td></tr><tr><td><strong>work while you sleep</strong></td><td>자는 동안에도 알아서 돌아가다 · 자가 개선 그래프의 매력을 표현할 때. "Self-improving graphs that work while you sleep"</td></tr><tr><td><strong>remain outside</strong></td><td>(관여하지 않고) 바깥에 머물다 · 평가자와 예산이 개선 대상 그래프 밖에 있어야 한다는 원칙. "The evaluator and budget remain outside the graph being improved"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -586,12 +590,16 @@
 <h3>런타임 규칙</h3>
 <p>복구를 한 에이전트 프롬프트의 문단 하나로 넣지 않습니다. 추적·계수·제한·테스트할 수 있는 edge로 만듭니다: <strong>route → check → repeat 또는 rebuild</strong>. 관련: <code>the-harness-not-the-model</code>(결정론적 제어 계층), <code>agentic-intent-veto</code>(경계는 에이전트 바깥에 둠).</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI: 모든 걸 한 프롬프트에 맡기는 에이전트를 planner-worker-checker 그래프로 바꾼다.</strong> Jayverse 저장소 어디든 병렬 에이전트를 추가하기 전에, 계획·실행·검증을 한 프롬프트에 몰아넣지 말고 타입이 있는 핸드오프 하나와 상한이 있는 재시도 하나를 요구한다.</li><li><strong>Auditor: 평가자와 예산을 개선 대상 그래프 바깥에 둔다.</strong> Rabbit이나 Verex의 에이전트 워크플로우가 스스로 변경을 제안하게 하더라도, 승격은 고정된 Auditor 평가를 거치게 한다. 그래프가 자기 숙제를 채점하게 두지 않는다.</li><li><strong>gitboard: 에이전트 작업별 재시도 횟수와 종료 실패 사유를 노출한다.</strong> 멈추거나 도는 빌드가 조용한 지출이 아니라 추적 가능한, 범위가 정해진 상태로 대시보드에 나타나야 한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fan-out / fan-in</strong></td><td>하나에서 여럿으로 분산·다시 합류 · 병렬 에이전트 구조를 설명할 때. "fan-out and fan-in"</td></tr><tr><td><strong>stuff (a prompt)</strong></td><td>(프롬프트 하나에) 다 욱여넣다 · 계획·실행·검증을 한 프롬프트에 몰아넣는 잘못된 방식. "instead of stuffing one prompt"</td></tr><tr><td><strong>grade its own homework</strong></td><td>자기 숙제를 자기가 채점하다 · 그래프가 스스로를 평가하는 위험한 자기평가 구조. "the graph grades its own homework"</td></tr><tr><td><strong>as a slogan</strong></td><td>구호에 그치는, 말뿐인 · 진짜 개선이 아니라 겉으로만 내세우는 &#39;자율성&#39;을 비판할 때. "autonomy as a slogan"</td></tr><tr><td><strong>premise</strong></td><td>(다음 판단의) 전제, 근거 · 계획 단계의 실수가 검증 단계의 전제가 되어버리는 상황. "can quietly become the premise of verification"</td></tr><tr><td><strong>gate (명사)</strong></td><td>(통과 여부를 가르는) 관문, 승인 절차 · 개선안이 검증을 거쳐야만 적용되는 장치. "promotes it only through a gate"</td></tr><tr><td><strong>in disguise</strong></td><td>~로 위장한, 실은 ~인 · 겉으로만 다른 형태일 뿐 실제로는 검증 안 되는 프롬프트. "an uninspectable prompt in disguise"</td></tr><tr><td><strong>work while you sleep</strong></td><td>자는 동안에도 알아서 돌아가다 · 자가 개선 그래프의 매력을 표현할 때. "Self-improving graphs that work while you sleep"</td></tr><tr><td><strong>remain outside</strong></td><td>(관여하지 않고) 바깥에 머물다 · 평가자와 예산이 개선 대상 그래프 밖에 있어야 한다는 원칙. "The evaluator and budget remain outside the graph being improved"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-agent-payments-korea-control-plane.html">&larr; 72. AI agent payments in Korea — the payment rail is ready before the permission rail</a><a href="pocs-an-invariant-is-a-stop-not-an-alarm.html">74. An invariant is a stop, not an alarm — how to price a false positive &rarr;</a></div>
+    <div class="pager"><a href="pocs-agent-payments-korea-control-plane.html">&larr; 76. AI agent payments in Korea — the payment rail is ready before the permission rail</a><a href="pocs-an-invariant-is-a-stop-not-an-alarm.html">78. An invariant is a stop, not an alarm — how to price a false positive &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>closed form</strong></td><td>닫힌 형태, 해석적 해 · 수식으로 정확히 풀리는 답이 없을 때. "When a payoff has no closed form"</td></tr><tr><td><strong>read off</strong></td><td>그래프나 분포에서 값을 읽어내다 · 결과를 분포에서 직접 확인할 때. "reads the answer off the distribution"</td></tr><tr><td><strong>underprice</strong></td><td>실제보다 낮게 가격을 매기다, 과소평가하다 · 위험을 실제보다 작게 잡을 때. "will systematically underprice the disaster"</td></tr><tr><td><strong>instructive case</strong></td><td>시사하는 바가 큰 사례 · 교훈을 주는 대표적 예시를 말할 때. "The instructive case is tail risk"</td></tr><tr><td><strong>pair X and Y</strong></td><td>X와 Y를 짝지어 비교하다 · 두 대상을 나란히 놓고 실험할 때. "pairs a Gaussian and a fat-tailed generator"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: stress-test market maker exposure with a fat-tailed generator, not just Gaussian.</strong> LMSR inventory risk under a simulated crash should be modeled with a fat-tailed path generator, since a thin-tailed simulation will systematically underprice the disaster scenario that actually threatens the maker&#39;s collateral.</li><li><strong>DeFi: run the same paired-generator test on liquid-staking slashing risk.</strong> Simulate validator slashing paths with both a Gaussian and a fat-tailed generator on the same staked position, and compare the tail loss estimates before sizing any buffer.</li><li><strong>OFA: use Monte Carlo to price solver default risk.</strong> Simulate thousands of auction paths with a fat-tailed model for solver failure, since a closed-form estimate of default risk is unlikely to exist for an ATLAS-style auction.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>closed form</strong></td><td>닫힌 형태, 해석적 해 · 수식으로 정확히 풀리는 답이 없을 때. "When a payoff has no closed form"</td></tr><tr><td><strong>read off</strong></td><td>그래프나 분포에서 값을 읽어내다 · 결과를 분포에서 직접 확인할 때. "reads the answer off the distribution"</td></tr><tr><td><strong>underprice</strong></td><td>실제보다 낮게 가격을 매기다, 과소평가하다 · 위험을 실제보다 작게 잡을 때. "will systematically underprice the disaster"</td></tr><tr><td><strong>instructive case</strong></td><td>시사하는 바가 큰 사례 · 교훈을 주는 대표적 예시를 말할 때. "The instructive case is tail risk"</td></tr><tr><td><strong>pair X and Y</strong></td><td>X와 Y를 짝지어 비교하다 · 두 대상을 나란히 놓고 실험할 때. "pairs a Gaussian and a fat-tailed generator"</td></tr><tr><td><strong>Gaussian</strong></td><td>가우스분포, 정규분포(Gaussian distribution) · 종형 정규분포를 지칭하는 통계 용어, 여기선 정규분포 난수 생성기를 의미. "the PoC pairs a Gaussian and a fat-tailed generator"</td></tr><tr><td><strong>thin-tailed</strong></td><td>얇은 꼬리 분포(극단값 발생 확률이 낮은 분포) · 정규분포처럼 꼬리가 얇아 위험을 과소평가하게 만드는 입력. "a simulation with thin-tailed inputs will systematically underprice"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>closed form</strong></td><td>닫힌 형태, 해석적 해 · 수식으로 정확히 풀리는 답이 없을 때. "When a payoff has no closed form"</td></tr><tr><td><strong>read off</strong></td><td>그래프나 분포에서 값을 읽어내다 · 결과를 분포에서 직접 확인할 때. "reads the answer off the distribution"</td></tr><tr><td><strong>underprice</strong></td><td>실제보다 낮게 가격을 매기다, 과소평가하다 · 위험을 실제보다 작게 잡을 때. "will systematically underprice the disaster"</td></tr><tr><td><strong>instructive case</strong></td><td>시사하는 바가 큰 사례 · 교훈을 주는 대표적 예시를 말할 때. "The instructive case is tail risk"</td></tr><tr><td><strong>pair X and Y</strong></td><td>X와 Y를 짝지어 비교하다 · 두 대상을 나란히 놓고 실험할 때. "pairs a Gaussian and a fat-tailed generator"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 마켓 메이커 노출을 가우시안이 아니라 팻테일 생성기로 스트레스 테스트한다.</strong> LMSR 재고 위험을 시뮬레이션한 폭락 아래서 팻테일 경로 생성기로 모델링해야 한다. 씬테일 시뮬레이션은 메이커의 담보를 실제로 위협하는 재난 시나리오를 체계적으로 저평가하기 때문이다.</li><li><strong>DeFi: 같은 페어 생성기 테스트를 유동성 스테이킹 슬래싱 위험에 돌린다.</strong> 스테이킹된 포지션 하나에 대해 가우시안과 팻테일 생성기 양쪽으로 밸리데이터 슬래싱 경로를 시뮬레이션하고, 버퍼를 정하기 전에 꼬리 손실 추정치를 비교한다.</li><li><strong>OFA: 몬테카를로로 솔버 디폴트 위험 가격을 매긴다.</strong> 솔버 실패에 대한 팻테일 모델로 경매 경로 수천 개를 시뮬레이션한다. ATLAS식 경매의 디폴트 위험에 닫힌 형태 추정치는 존재하지 않을 가능성이 높다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>closed form</strong></td><td>닫힌 형태, 해석적 해 · 수식으로 정확히 풀리는 답이 없을 때. "When a payoff has no closed form"</td></tr><tr><td><strong>read off</strong></td><td>그래프나 분포에서 값을 읽어내다 · 결과를 분포에서 직접 확인할 때. "reads the answer off the distribution"</td></tr><tr><td><strong>underprice</strong></td><td>실제보다 낮게 가격을 매기다, 과소평가하다 · 위험을 실제보다 작게 잡을 때. "will systematically underprice the disaster"</td></tr><tr><td><strong>instructive case</strong></td><td>시사하는 바가 큰 사례 · 교훈을 주는 대표적 예시를 말할 때. "The instructive case is tail risk"</td></tr><tr><td><strong>pair X and Y</strong></td><td>X와 Y를 짝지어 비교하다 · 두 대상을 나란히 놓고 실험할 때. "pairs a Gaussian and a fat-tailed generator"</td></tr><tr><td><strong>Gaussian</strong></td><td>가우스분포, 정규분포(Gaussian distribution) · 종형 정규분포를 지칭하는 통계 용어, 여기선 정규분포 난수 생성기를 의미. "the PoC pairs a Gaussian and a fat-tailed generator"</td></tr><tr><td><strong>thin-tailed</strong></td><td>얇은 꼬리 분포(극단값 발생 확률이 낮은 분포) · 정규분포처럼 꼬리가 얇아 위험을 과소평가하게 만드는 입력. "a simulation with thin-tailed inputs will systematically underprice"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

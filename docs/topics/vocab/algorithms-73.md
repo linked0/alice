@@ -6,3 +6,6 @@
 | underneath | (겉으로 안 보이지만) 근본적으로, 저변에는 · 논의의 진짜 원인이 무엇인지 가리킬 때. "infrastructure-cost discussions are, underneath, actually about this" |
 | fought on top of | ~을 기반으로 다투어지다, 그 전제 위에서 벌어지다 · 문제 해결이 특정 선택을 전제로 이루어짐을 표현. "the state-growth problem is fought on top of exactly this... choice" |
 | rollback journal | 롤백 저널(되돌리기 기록) · 과거 상태 조회를 위해 변경 이력을 따로 남기는 장치. "needs a separate rollback journal to support querying historical state" |
+| Merkle Patricia Trie | 머클 패트리샤 트라이(MPT) · 이더리움 상태를 저장하는 해시 기반 트리 자료구조. "Ethereum state is logically a Merkle Patricia Trie" |
+| archive node | 아카이브 노드 · 과거 모든 블록의 상태를 보존해 과거 시점 조회를 가능하게 하는 풀노드. "whether to depend on an archive node or reconstruct state" |
+<!-- acronyms 2026-09-18 -->

@@ -10,3 +10,8 @@
 | load-bearing (claim) | 핵심을 지탱하는 (주장) · 전체 논지가 그것에 달려 있을 때. "This is the load-bearing claim and it is the first" |
 | restated ten times | 같은 내용이 열 번 반복된 것 · 형태만 다르고 본질은 같은 반복. "one or two disagreements restated ten times" |
 | expressible in | ~로 표현 가능한 · 추상적 차이를 구체적 단위로 나타낼 때. "the difference is expressible in days and in pages" |
+| BOK | 한국은행(Bank of Korea) · 스테이블코인 발행을 은행 중심 컨소시엄으로 제한하자는 입장의 주체. "The Bank of Korea wants a bank-led consortium holding" |
+| FSC | 금융위원회(Financial Services Commission) · 이 법안 추진을 주도하는 한국 금융규제 당국. "the FSC chair said talks would accelerate with September" |
+| MiCA | EU 암호자산시장규정(Markets in Crypto-Assets) · 은행 중심 발행 규제 주장에 대한 비교 사례로 인용. "The FSC points at MiCA, where most licensed issuers" |
+| MoGL | 법제처(Ministry of Government Legislation) · 정부입법 시에만 의무적으로 거치는 법령 심사 기관. "MoGL review (법제처)" |
+<!-- acronyms 2026-09-18 -->

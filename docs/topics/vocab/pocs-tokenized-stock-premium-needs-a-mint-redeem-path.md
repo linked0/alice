@@ -11,3 +11,9 @@
 | special-purpose vehicle (SPV) | 특수목적법인 · 실물 자산을 보유하고 파생상품을 발행하는 별도 법인. "A special-purpose vehicle (SPV) holds real shares" |
 | short squeeze | 숏스퀴즈 · 공매도 세력이 손실을 줄이려 매수에 몰리며 가격이 급등하는 현상. "GameStop was a short squeeze in the real stock" |
 | meet in the middle | 양쪽이 조정되어 중간에서 만나다 · 차익거래로 두 가격이 서로 수렴할 때. "they meet in the middle" |
+| ADR | 주식예탁증서(American Depositary Receipt) · 외국 주식을 해외 시장에서 거래 가능하게 만든 증권, 같은 페그 메커니즘의 예로 언급. "an ADR to its foreign share, futures to spot" |
+| AP | 공인참가자(Authorized Participant) · ETF의 신주 발행/환매를 담당하는 기관, 토큰 mint/redeem과 같은 구조로 비교됨. "authorized-participant creation/redemption" |
+| NAV | 순자산가치(Net Asset Value) · 차익거래가 ETF 가격을 수렴시키는 기준값. "the same arbitrage keeps ETFs at NAV" |
+| RWA | 실물자산(Real-World Asset) · 토큰화된 실물자산을 가리키는 용어, 프리미엄이 붙어도 좋은 신호가 아님. "a premium on a tokenized RWA is usually" |
+| NETs | 나스닥의 발행자 주도 토큰화 플랫폼 · 로빈후드의 제3자 합성 구조와 대비되는 사례로 언급. "which is what Nasdaq's NETs is building" |
+<!-- acronyms 2026-09-18 -->

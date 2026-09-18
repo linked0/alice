@@ -10,3 +10,8 @@
 | settled on | ~로 결론짓다·정착하다 · 업계가 특정 방식을 택했다고 할 때 · "the trade the industry actually settled on" |
 | reversal from | ~로부터의 방향 전환 · 예전과 반대되는 결정을 설명할 때 · "a reversal from a few years ago" |
 | bound the study | (범위를) 한정하다·좁히다 · 공부 범위를 제한하는 전략을 말할 때 · "Bound the study by listing the surface first" |
+| StrongBox | 안드로이드 전용 하드웨어 보안 키 저장소 · Keystore와 짝을 이뤄 키·생체인증을 지키는 하드웨어 모듈, iOS Secure Enclave와 대비 · "Keystore with StrongBox on the other" |
+| Secure Enclave | iOS 하드웨어 보안 모듈 · Keychain과 함께 키 저장·생체인증을 담당하는 전용 칩, StrongBox의 iOS 대응물 · "Keychain with the Secure Enclave on one platform" |
+| Keychain | iOS 시스템 보안 저장소 · 비밀키·인증정보를 저장하는 iOS API, Secure Enclave와 결합해 동작 · "Secure storage is Keychain with the Secure Enclave on one platform" |
+| Keystore | 안드로이드 시스템 보안 저장소 · 비밀키·인증정보를 저장하는 안드로이드 API, StrongBox와 결합해 동작 · "and Keystore with StrongBox on the other" |
+<!-- acronyms 2026-09-18 -->

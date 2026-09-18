@@ -9,3 +9,5 @@
 | infer from | ~로부터 추측하다, 판단하다 · 체인 이름만 보고 지원 여부를 짐작하면 안 된다는 뜻. "never infer from branding" |
 | direction, not proof of | 방향성일 뿐 확정된 증거는 아니다 · 아직 초안(Draft) 상태인 제안을 신중히 다룰 때. "is direction, not proof of final deployment" |
 | compile X through | X를 거쳐서 변환·구현하다 · 사용자 의도를 특정 어댑터를 통해 실제 트랜잭션으로 만드는 과정. "Compile the intent through an 8141 Frames adapter" |
+| AA | 계정 추상화(Account Abstraction) · 지갑이 스마트컨트랙트처럼 동작하도록 하는 표준군을 가리킴. "Two native AA standards" |
+<!-- acronyms 2026-09-18 -->

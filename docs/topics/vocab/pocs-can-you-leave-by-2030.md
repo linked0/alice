@@ -10,3 +10,9 @@
 | invariant | 불변량 · 조건이 바뀌어도 항상 지켜져야 하는 핵심 규칙. "state the invariant, not the implementation" |
 | closed end-state | 더 이상 바뀌지 않는 고정된 최종 상태 · 초기 설계와 대비되는 개념. "building a closed end-state are entirely different" |
 | convert into | ~으로 바뀌다, 전환되다 · 투자한 비용이 반대 의견으로 둔갑한다는 뜻. "the stage-1 investment converts into a vote against" |
+| KSD | 한국예탁결제원(Korea Securities Depository) · 증권 예탁·결제를 담당하며 이번 정책의 중심 기관. "Brokerages will sink billions of won into KSD-specific contracts" |
+| FSC | 금융위원회(Financial Services Commission) · 토큰증권 로드맵을 발표한 한국 금융 규제기관. "follow-up to the FSC token-securities policy direction" |
+| DvP | 동시결제(Delivery versus Payment) · 자산과 대금을 동시에 주고받아 결제 리스크를 없애는 방식. "cross-ledger DvP and collateral movement" |
+| RFP | 제안요청서(Request for Proposal) · 발주 문서에 KSD 종속 구조가 굳어지는지 확인하는 대상. "appear in brokerages' actual RFPs and vendor specs" |
+| Canton | 기관용 프라이빗 블록체인 네트워크(Canton Network) · 기술중립 기준을 충족할 수 있는 대안 원장 후보. "under which Canton/Stellar/Ethereum could later qualify" |
+<!-- acronyms 2026-09-18 -->

@@ -9,3 +9,7 @@
 | commoditize | 상품화하다, 흔한 것으로 만들다 · 에이전트가 구현 작업의 가치를 떨어뜨리는 것을 가리킴. "agents commoditize the build; value is" |
 | governable | 통제·관리 가능한 · 비결정적 과정을 감사하고 다스릴 수 있게 만든 상태. "auditable and governable" |
 | worth reading as advocacy | 옹호 논리로 읽을 가치가 있다 · 저자의 이해관계를 감안하고 읽으라는 뜻. "useful, and worth reading as advocacy" |
+| DeepLearning.AI | 앤드류 응이 세운 AI 교육 회사(Andrew Ng's AI education company) · 이 스킬 맵의 출처. "Andrew Ng (DeepLearning.AI) on X, 2026-08-15" |
+| SE | 소프트웨어공학(Software Engineering)의 약어 · 트레이드오프 지식을 가리키는 반복 표현. "the SE knowledge is what lets you see" |
+| SW | 소프트웨어(Software)의 약어 · 네 가지 스킬 중 하나를 가리키는 표현. "SW engineering fundamentals" |
+<!-- acronyms 2026-09-18 -->

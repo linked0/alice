@@ -10,3 +10,8 @@
 | sit near zero | (수치가) 거의 0에 머물다 · 수요가 기준선 아래일 때 요금이 거의 없는 상태. "Blob fees sit near zero below target" |
 | headliner | (뉴스·발표의) 대표 항목, 주요 표제 · 가장 눈에 띄는 항목이 아니라 진짜 봐야 할 것을 대조할 때. "not the headliner but how many teams" |
 | demand shortfall | 수요 부족 · 가격이 낮았던 이유가 정책적 배려가 아니라 수요 미달이었음을 밝힐 때. "they were demand shortfall" |
+| FOCIL | 강제 포함 리스트(Fork-Choice enforced Inclusion List) · 검열 저항을 위해 논의되는 이더리움 프로토콜 제안. "the FOCIL / 8141-vs-8130 headliners" |
+| EIP-4844 | 블롭(blob) 트랜잭션에 별도 수수료 시장을 부여한 이더리움 개선안 · proto-danksharding으로 불리는 업그레이드. "EIP-4844 gave blob data its own market" |
+| blob target | 블록당 블롭 개수의 기준치(blob target) · 이 기준을 넘으면 수수료가 지수적으로 오르는 파라미터. "whether to raise the blob target" |
+| EIP-8131 / EIP-8279 | 실행·데이터·상태 등 자원별로 가스를 따로 매기자는 이더리움 개선안들 · 이 글이 다루는 핵심 제안. "EIP-8131 and EIP-8279 point at charging separately" |
+<!-- acronyms 2026-09-18 -->

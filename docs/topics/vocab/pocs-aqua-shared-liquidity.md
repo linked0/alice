@@ -11,3 +11,11 @@
 | bears | (위험을) 떠안다·부담하다 · 손실 위험의 주체를 말할 때 자주 쓰는 동사 · "who bears adverse-selection risk" |
 | capital efficiency | 자본 효율성 · 같은 자본으로 더 많은 포지션을 커버하는 정도 · "Aqua's capital efficiency is paid for by selling exactly that" |
 | walking up the book | 호가창을 순서대로 체결하며 위로 올라가는 것 · 큰 주문이 슬리피지를 만드는 과정 · "after walking up the book" |
+| AMM | 자동시장조성자(Automated Market Maker) · 유동성 풀로 가격을 정하는 방식, LMSR·CPMM과 대비할 때 · "AMM (LMSR, CPMM)" |
+| CLOB | 중앙집중형 지정가 주문장(Central Limit Order Book) · 호가창 기반 거래 구조, LMSR과 대비되는 방식 · "LMSR versus CLOB is not a technology preference" |
+| CPMM | 정률곱 시장조성자(Constant Product Market Maker) · Uniswap류 AMM의 대표적 가격결정 공식 · "AMM (LMSR, CPMM)" |
+| LMSR | 로그시장 스코어링 규칙(Logarithmic Market Scoring Rule) · Hanson의 예측시장 조성 알고리즘, 손실 상한 b로 유동성을 매입 · "That is why LMSR exists: Hanson's scoring rule" |
+| LVR | 리밸런싱 대비 손실(Loss-Versus-Rebalancing) · AMM LP가 가격변동에 저격당해 입는 손실 지표 · "the pool is picked off, which is LVR" |
+| HFT | 초단타매매(High-Frequency Trading) · 스테일 호가를 피하려 즉시 취소하는 주식시장 관행 · "What equity HFT did about it — cancellation" |
+| SwapVM | Aqua의 스왑 실행 엔진 · 지갑에서 바로 토큰을 당겨와 원자적 트랜잭션으로 처리하는 엔진 · "the SwapVM engine pulls tokens straight from the wallet" |
+<!-- acronyms 2026-09-18 -->

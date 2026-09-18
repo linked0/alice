@@ -10,3 +10,6 @@
 | a marketing channel with extra steps | 단계만 더 늘어난 마케팅 채널(냉소적 표현) · 플랫폼이 기대만큼 도움 안 될 때. "a marketing channel with extra steps" |
 | revenue share | 수익 배분(매출을 나눠 갖는 계약) · 플랫폼과의 정산 구조를 물을 때. "whether there is any revenue share or fee" |
 | geofencing | 지역 기반 접근 제한(위치로 서비스 차단) · 이벤트 계약의 규제 대응 설계. "the eligibility and geofencing design has to exist" |
+| MiniKit | Base의 Mini App 개발용 SDK 이름 · 클라이언트 안에서 동작하는 웹앱을 만들 때 참조하는 공식 SDK. "Base's current Mini App and MiniKit documentation" |
+| trade intents | 거래 의도 전달 방식(사용자가 직접 트랜잭션을 짜지 않고 원하는 결과만 선언) · 호스트가 대신 실행을 처리하는 구조. "whether swap or trade intents are exposed to Mini Apps" |
+<!-- acronyms 2026-09-18 -->

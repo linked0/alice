@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spurious structure</strong></td><td>가짜(허위) 구조 · 실제로는 없는 패턴인데 군집화 알고리즘이 억지로 만들어낸 것 · "clusters random noise to show spurious structure"</td></tr><tr><td><strong>silhouette check</strong></td><td>실루엣 검증 · 각 데이터가 자기 군집에 얼마나 잘 맞는지 재는 지표 검사 · "uses silhouette and stability checks to separate"</td></tr><tr><td><strong>stability check</strong></td><td>안정성 검증 · 조건을 조금씩 바꿔도 같은 군집이 재현되는지 확인하는 절차 · "and stability checks to separate a real"</td></tr><tr><td><strong>artifact of</strong></td><td>~로 인해 생긴 인위적 산물 · 실제 신호가 아니라 설정값(k) 때문에 생긴 결과라는 뜻 · "an artifact of the chosen k"</td></tr><tr><td><strong>partition into</strong></td><td>~로 나누다, 분할하다 · 데이터를 여러 그룹으로 쪼갠다는 뜻 · "partition data into groups"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Personas: validate before treating a cluster as a real segment.</strong> Wallet or collector clustering must ship with a silhouette or stability check against the chosen k, not just a reported cluster count.</li><li><strong>Number: don&#39;t publish a "market regime" without the same check.</strong> Any reading that clusters market or wallet data needs a validation section, since an unvalidated cluster reads as insight but may just be k-means finding structure in noise.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spurious structure</strong></td><td>가짜(허위) 구조 · 실제로는 없는 패턴인데 군집화 알고리즘이 억지로 만들어낸 것 · "clusters random noise to show spurious structure"</td></tr><tr><td><strong>silhouette check</strong></td><td>실루엣 검증 · 각 데이터가 자기 군집에 얼마나 잘 맞는지 재는 지표 검사 · "uses silhouette and stability checks to separate"</td></tr><tr><td><strong>stability check</strong></td><td>안정성 검증 · 조건을 조금씩 바꿔도 같은 군집이 재현되는지 확인하는 절차 · "and stability checks to separate a real"</td></tr><tr><td><strong>artifact of</strong></td><td>~로 인해 생긴 인위적 산물 · 실제 신호가 아니라 설정값(k) 때문에 생긴 결과라는 뜻 · "an artifact of the chosen k"</td></tr><tr><td><strong>partition into</strong></td><td>~로 나누다, 분할하다 · 데이터를 여러 그룹으로 쪼갠다는 뜻 · "partition data into groups"</td></tr><tr><td><strong>k-means</strong></td><td>k-평균 군집화 · 데이터를 k개의 중심점 기준으로 나누는 대표적 클러스터링 알고리즘, 데이터에 구조가 없어도 항상 군집을 반환함. "k-means and friends partition data into groups"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spurious structure</strong></td><td>가짜(허위) 구조 · 실제로는 없는 패턴인데 군집화 알고리즘이 억지로 만들어낸 것 · "clusters random noise to show spurious structure"</td></tr><tr><td><strong>silhouette check</strong></td><td>실루엣 검증 · 각 데이터가 자기 군집에 얼마나 잘 맞는지 재는 지표 검사 · "uses silhouette and stability checks to separate"</td></tr><tr><td><strong>stability check</strong></td><td>안정성 검증 · 조건을 조금씩 바꿔도 같은 군집이 재현되는지 확인하는 절차 · "and stability checks to separate a real"</td></tr><tr><td><strong>artifact of</strong></td><td>~로 인해 생긴 인위적 산물 · 실제 신호가 아니라 설정값(k) 때문에 생긴 결과라는 뜻 · "an artifact of the chosen k"</td></tr><tr><td><strong>partition into</strong></td><td>~로 나누다, 분할하다 · 데이터를 여러 그룹으로 쪼갠다는 뜻 · "partition data into groups"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Personas: 클러스터를 실제 세그먼트로 다루기 전에 검증한다.</strong> 지갑이나 컬렉터 클러스터링은 클러스터 개수만 보고하지 말고, 선택한 k에 대한 실루엣이나 안정성 체크를 함께 내놓아야 한다.</li><li><strong>Number: 같은 점검 없이 "마켓 레짐"을 발행하지 않는다.</strong> 마켓이나 지갑 데이터를 클러스터링하는 리딩은 검증 섹션이 필요하다. 검증되지 않은 클러스터는 통찰처럼 보이지만 k-means가 노이즈에서 구조를 찾아낸 것일 수 있다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spurious structure</strong></td><td>가짜(허위) 구조 · 실제로는 없는 패턴인데 군집화 알고리즘이 억지로 만들어낸 것 · "clusters random noise to show spurious structure"</td></tr><tr><td><strong>silhouette check</strong></td><td>실루엣 검증 · 각 데이터가 자기 군집에 얼마나 잘 맞는지 재는 지표 검사 · "uses silhouette and stability checks to separate"</td></tr><tr><td><strong>stability check</strong></td><td>안정성 검증 · 조건을 조금씩 바꿔도 같은 군집이 재현되는지 확인하는 절차 · "and stability checks to separate a real"</td></tr><tr><td><strong>artifact of</strong></td><td>~로 인해 생긴 인위적 산물 · 실제 신호가 아니라 설정값(k) 때문에 생긴 결과라는 뜻 · "an artifact of the chosen k"</td></tr><tr><td><strong>partition into</strong></td><td>~로 나누다, 분할하다 · 데이터를 여러 그룹으로 쪼갠다는 뜻 · "partition data into groups"</td></tr><tr><td><strong>k-means</strong></td><td>k-평균 군집화 · 데이터를 k개의 중심점 기준으로 나누는 대표적 클러스터링 알고리즘, 데이터에 구조가 없어도 항상 군집을 반환함. "k-means and friends partition data into groups"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

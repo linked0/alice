@@ -6,3 +6,5 @@
 | come up constantly in practice | 실무에서 끊임없이 등장하다 · 이론이 아니라 실제로 자주 부딪히는 상황임을 강조할 때. "Sorts that exceed memory come up constantly in practice" |
 | built on ... not | ~을 기준으로 세워진 것이지 ~이 아니다 · 비용 모델을 무엇 위에 세워야 하는지 말할 때. "should be built on blocks and bytes transferred, not comparison count" |
 | cuts ... outright | ~을 아예 줄여버리다 · 부분적이 아니라 근본적으로 개수를 줄이는 효과. "which cuts the number of runs outright" |
+| TAOCP | 도널드 크누스의 저서(The Art of Computer Programming) · 이 외부 정렬·병합 전략이 참고하는 알고리즘 고전 교과서. "External Sorting, Merge Strategies, and Parallel Sort (TAOCP Vol. 3)" |
+<!-- acronyms 2026-09-18 -->

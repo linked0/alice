@@ -10,3 +10,11 @@
 | headroom | 한도까지 남은 여유분 · 할당량 감소 가능 범위를 말할 때. "reduced only down to unminted headroom" |
 | go stale | (사실이) 낡아서 더 이상 유효하지 않게 되다 · 과거 시점 서술의 성질을 말할 때. "and only ever goes stale" |
 | tie up capital | 자본을 묶어 놓다(다른 데 못 쓰게) · 이중 담보의 비효율을 지적할 때. "paying for both ties up capital twice" |
+| RWA | 실물자산(Real World Asset) · 오프체인 실물자산을 온체인에 나타낸 토큰, 이 글 전체가 다루는 대상. "RWA across chains — the invariant nobody enforces" |
+| VC | 검증 가능한 자격증명(Verifiable Credential) · 벤처캐피탈이 아니라 신원·사실 증명 표준, 제안 스택의 구성요소. "Private Registry + VC + per-chain adapters" |
+| NAV | 순자산가치(Net Asset Value) · 레지스트리가 보유하는 권위 있는 상태값 중 하나. "custody balances, NAV, investor eligibility" |
+| T+1 | 거래일 다음 영업일 결제 · 상환이 즉시가 아니라 하루 뒤에 정산됨을 나타내는 결제 주기 표기. "redemption settles T+1" |
+| CRE | 체인링크 런타임 환경(Chainlink Runtime Environment) · 오프체인 사실을 온체인에 전달하는 인프라, 다른 카드의 주제. "the CRE × Cloud card arrives at" |
+| EAS | 이더리움 어테스테이션 서비스(Ethereum Attestation Service) · 온체인 증명 표준, 이 스택에서 한 어댑터로 격하됨. "reduces EAS to one EVM execution adapter" |
+| Canton | 캔튼 · 기관용 프라이빗 블록체인 플랫폼, 레지스트리 후보 인프라로 한 번 언급됨. "Canton named as candidate infrastructure" |
+<!-- acronyms 2026-09-18 -->

@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Prompt engineering — the few-shot examples do most of the work</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#203</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#207</span><span>PoC</span></p>
       <h1>Prompt engineering — the few-shot examples do most of the work</h1>
       <p class="lead">How you phrase and exemplify a task often changes accuracy more than which model you pick, and the discipline is measuring that rather than trusting intuition about wording.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,7 +411,11 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor / gitboard: run agent-driven checks under a fixed eval set before trusting them.</strong> Compare zero-shot, few-shot and formatted prompts for authority audits and invariant reviews rather than tuning wording by intuition.</li><li><strong>alice-tech: apply the same measured comparison to the daily tech-report summarization prompt.</strong> A fixed eval set catches drift before it silently degrades what gets logged.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>do most of the work</strong></td><td>대부분의 역할을 하다·핵심 요인이다 · 결과를 좌우하는 가장 큰 요인을 가리킬 때. "the few-shot examples do most of the work"</td></tr><tr><td><strong>trust intuition about</strong></td><td>~에 대한 직감을 그냥 믿다 · 검증 없이 감각적 판단에 의존하는 것. "rather than trusting intuition about wording"</td></tr><tr><td><strong>a fixed eval set</strong></td><td>고정된 평가 데이터셋 · 여러 방식을 같은 기준으로 비교할 때 쓰는 세트. "against a fixed eval set"</td></tr><tr><td><strong>a measured comparison</strong></td><td>실측으로 비교한 것(감이 아니라 수치로) · 직관 대신 데이터로 판단하는 방식. "turning prompt choices into a measured comparison"</td></tr><tr><td><strong>zero-shot / few-shot</strong></td><td>예시 없이 / 몇 개의 예시로 하는 프롬프트 방식 · 모델에게 과제를 지시하는 서로 다른 방법. "under zero-shot, few-shot and formatted prompts"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor / gitboard: 에이전트 기반 체크를 신뢰하기 전에 고정된 평가셋으로 돌린다.</strong> 권한 감사와 불변식 리뷰에는 직관으로 문구를 조율하는 대신 zero-shot, few-shot, 포맷된 프롬프트를 비교한다.</li><li><strong>alice-tech: 같은 측정 비교를 일일 테크 리포트 요약 프롬프트에도 적용한다.</strong> 고정된 평가셋은 기록되는 내용이 조용히 저하되기 전에 드리프트를 잡아낸다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>do most of the work</strong></td><td>대부분의 역할을 하다·핵심 요인이다 · 결과를 좌우하는 가장 큰 요인을 가리킬 때. "the few-shot examples do most of the work"</td></tr><tr><td><strong>trust intuition about</strong></td><td>~에 대한 직감을 그냥 믿다 · 검증 없이 감각적 판단에 의존하는 것. "rather than trusting intuition about wording"</td></tr><tr><td><strong>a fixed eval set</strong></td><td>고정된 평가 데이터셋 · 여러 방식을 같은 기준으로 비교할 때 쓰는 세트. "against a fixed eval set"</td></tr><tr><td><strong>a measured comparison</strong></td><td>실측으로 비교한 것(감이 아니라 수치로) · 직관 대신 데이터로 판단하는 방식. "turning prompt choices into a measured comparison"</td></tr><tr><td><strong>zero-shot / few-shot</strong></td><td>예시 없이 / 몇 개의 예시로 하는 프롬프트 방식 · 모델에게 과제를 지시하는 서로 다른 방법. "under zero-shot, few-shot and formatted prompts"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-llm-fine-tuning-lora.html">&larr; 202. Fine-tuning and LoRA — teaching a model style without retraining it</a><a href="pocs-llm-chain-of-thought.html">204. Chain-of-thought — reasoning out loud buys accuracy and tokens &rarr;</a></div>
+    <div class="pager"><a href="pocs-llm-fine-tuning-lora.html">&larr; 206. Fine-tuning and LoRA — teaching a model style without retraining it</a><a href="pocs-llm-chain-of-thought.html">208. Chain-of-thought — reasoning out loud buys accuracy and tokens &rarr;</a></div>
   </div>
   </main>
 </div>

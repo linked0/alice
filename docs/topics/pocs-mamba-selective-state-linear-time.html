@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#62</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span></p>
+      <h1>Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs</h1>
+      <p class="lead">Mamba is a sequence model from Albert Gu (Carnegie Mellon) and Tri Dao (Princeton), published on arXiv in December 2023 as "Mamba: Linear-Time Sequence Modeling with Selective State Spaces". It removes the attention block that makes a Transformer compare every token with every other token, and replaces it with a selective state-space model: a compressed hidden state that is updated once per token, with the update rule itself depending on the input. Compute and memory grow linearly with sequence length instead of quadratically, the paper reports about five times the inference throughput of a same-size Transformer, and a 3-billion-parameter Mamba matches Transformers of twice its size on language benchmarks. The SaM Solutions explainer in the 2026-09-18 Gemini briefing is the source of this item; the numbers were checked against the paper and later summaries.</p>
+      <p class="meta">For Jayverse the useful part is the shape of the trade, not the architecture. Attention keeps the whole context and pays for it every step; a state-space model keeps a fixed-size summary and pays nothing extra for length, but it has to decide, token by token, what to forget. That is the same design choice as an indexer that keeps a rolling aggregate instead of replaying the log, or a rail that keeps a running balance instead of the ledger. Where the summary is enough, the linear model wins on cost; where an exact lookup far back is required, it loses. The industry answer since 2024 has been hybrids, such as AI21&#39;s Jamba, that interleave a few attention layers into a mostly state-space stack. Status on 2026-09-18: Mamba and Mamba-2 are open source under the state-spaces GitHub organisation; the hybrid pattern is what ships in production long-context models.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs\n\nMamba is a sequence model from Albert Gu (Carnegie Mellon) and Tri Dao (Princeton), published on arXiv in December 2023 as \"Mamba: Linear-Time Sequence Modeling with Selective State Spaces\". It removes the attention block that makes a Transformer compare every token with every other token, and replaces it with a selective state-space model: a compressed hidden state that is updated once per token, with the update rule itself depending on the input. Compute and memory grow linearly with sequence length instead of quadratically, the paper reports about five times the inference throughput of a same-size Transformer, and a 3-billion-parameter Mamba matches Transformers of twice its size on language benchmarks. The SaM Solutions explainer in the 2026-09-18 Gemini briefing is the source of this item; the numbers were checked against the paper and later summaries.\n\nFor Jayverse the useful part is the shape of the trade, not the architecture. Attention keeps the whole context and pays for it every step; a state-space model keeps a fixed-size summary and pays nothing extra for length, but it has to decide, token by token, what to forget. That is the same design choice as an indexer that keeps a rolling aggregate instead of replaying the log, or a rail that keeps a running balance instead of the ledger. Where the summary is enough, the linear model wins on cost; where an exact lookup far back is required, it loses. The industry answer since 2024 has been hybrids, such as AI21's Jamba, that interleave a few attention layers into a mostly state-space stack. Status on 2026-09-18: Mamba and Mamba-2 are open source under the state-spaces GitHub organisation; the hybrid pattern is what ships in production long-context models.\n\n## Why\n\nContext length is priced in the attention block. Doubling the context of a Transformer quadruples the compute of that block and doubles the key-value cache it must hold per token, which is why long documents, contracts and streams are expensive and why \"context engineering\" exists as a discipline. Mamba's argument is that most of that work is wasted: a model that reads left to right and keeps a well-chosen compressed state can do the job of attention for many tasks at a fraction of the cost, the way a human reader carries a summary rather than re-reading every earlier sentence. The word selective is the contribution. Earlier state-space models had fixed update rules and could not decide what to keep; Mamba makes the update parameters functions of the current token, so the model can hold on to a name and let go of filler.\n\nThe cost is recall. A fixed-size state cannot store an arbitrary number of exact facts, and tasks that need a precise copy of something far back, such as retrieving a key from a long list, are where pure state-space models fall behind. That is why the practical outcome is not \"Mamba replaces Transformers\" but \"a few attention layers buy back exact recall inside a cheap linear stack\".\n\n## How it works\n\n### The two blocks side by side\n\n| | Attention (Transformer) | Selective state space (Mamba) |\n|---|---|---|\n| Per-token work | compare with every previous token | one state update |\n| Cost in sequence length N | O(N²) compute, cache grows with N | O(N) compute, fixed-size state |\n| What it keeps | everything, addressable | a learned compressed summary |\n| Weakness | long contexts are expensive | exact recall of distant detail |\n| Typical fix | sparse or windowed attention, KV-cache tricks | hybrid stacks with some attention layers |\n\n### The numbers in the paper\n\nFive times higher inference throughput than a Transformer of the same size; linear scaling in sequence length on real data up to a million tokens; Mamba-3B outperforming same-size Transformers and matching ones twice its size on downstream language evaluations; strong results on audio and genomics as well as text. Mamba-2 (2024) reframed the state-space update as a form of structured attention and made it faster on GPUs.\n\n### Where it lands in Jayverse\n\n- **Rabbit and the agent stack: choose context strategy by recall need, not by fashion.** Where an agent needs exact recall of a specific earlier tool result, keep it in the prompt or in retrieval; where it needs a running summary of a long session, a compressed state is the right tool and cheaper. Write the distinction into the context-engineering notes.\n- **Number: long streams are a state-space problem.** A reading computed over a long price or flow series is a rolling aggregate, which is exactly what a selective state does well; the Number pipeline should store the rolling state and the rule that updates it, and replay the raw series only when an exact past value is disputed.\n- **Devnet indexer: summary versus log is the same trade.** Ponder-style indexers keep aggregates and replay on reorg; document which queries need exact history so the aggregate is never asked for something it forgot.\n- **Foundations: link this item from the attention and KV-cache curriculum stubs.** It is the counter-example those pages need: what a model looks like when the quadratic block is removed and what it gives up.\n\n### Verified and unverified\n\nVerified on 2026-09-18: authors, title and December 2023 arXiv posting (arXiv 2312.00752); the five-times throughput, linear scaling and Mamba-3B-versus-twice-its-size claims (paper abstract, later summaries); open-source repository under state-spaces; hybrid designs such as Jamba. From the SaM Solutions video via the Gemini briefing, not independently checked: the \"fixed memory footprint\" phrasing and the claim about edge execution and cloud cost reductions, which are inferences from the architecture rather than measurements in the paper. Not covered here: Mamba-3 or later variants.\nSources: [Gu and Dao — Mamba: Linear-Time Sequence Modeling with Selective State Spaces, arXiv 2312.00752](https://arxiv.org/abs/2312.00752) · [state-spaces/mamba on GitHub](https://github.com/state-spaces/mamba) · [AI21 — Attention was never enough: the rise of hybrid LLMs](https://www.ai21.com/blog/rise-of-hybrid-llms/) · [SaM Solutions — Mamba LLM Architecture, YouTube](http://www.youtube.com/watch?v=VsT5OZtSNwI) · Gemini YouTube briefing 2026-09-18\n"</script>
+<h2>Why</h2>
+<p>Context length is priced in the attention block. Doubling the context of a Transformer quadruples the compute of that block and doubles the key-value cache it must hold per token, which is why long documents, contracts and streams are expensive and why "context engineering" exists as a discipline. Mamba&#39;s argument is that most of that work is wasted: a model that reads left to right and keeps a well-chosen compressed state can do the job of attention for many tasks at a fraction of the cost, the way a human reader carries a summary rather than re-reading every earlier sentence. The word selective is the contribution. Earlier state-space models had fixed update rules and could not decide what to keep; Mamba makes the update parameters functions of the current token, so the model can hold on to a name and let go of filler.</p>
+<p>The cost is recall. A fixed-size state cannot store an arbitrary number of exact facts, and tasks that need a precise copy of something far back, such as retrieving a key from a long list, are where pure state-space models fall behind. That is why the practical outcome is not "Mamba replaces Transformers" but "a few attention layers buy back exact recall inside a cheap linear stack".</p>
+<h2>How it works</h2>
+<h3>The two blocks side by side</h3>
+<table><thead><tr><th></th><th>Attention (Transformer)</th><th>Selective state space (Mamba)</th></tr></thead><tbody><tr><td>Per-token work</td><td>compare with every previous token</td><td>one state update</td></tr><tr><td>Cost in sequence length N</td><td>O(N²) compute, cache grows with N</td><td>O(N) compute, fixed-size state</td></tr><tr><td>What it keeps</td><td>everything, addressable</td><td>a learned compressed summary</td></tr><tr><td>Weakness</td><td>long contexts are expensive</td><td>exact recall of distant detail</td></tr><tr><td>Typical fix</td><td>sparse or windowed attention, KV-cache tricks</td><td>hybrid stacks with some attention layers</td></tr></tbody></table>
+<h3>The numbers in the paper</h3>
+<p>Five times higher inference throughput than a Transformer of the same size; linear scaling in sequence length on real data up to a million tokens; Mamba-3B outperforming same-size Transformers and matching ones twice its size on downstream language evaluations; strong results on audio and genomics as well as text. Mamba-2 (2024) reframed the state-space update as a form of structured attention and made it faster on GPUs.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit and the agent stack: choose context strategy by recall need, not by fashion.</strong> Where an agent needs exact recall of a specific earlier tool result, keep it in the prompt or in retrieval; where it needs a running summary of a long session, a compressed state is the right tool and cheaper. Write the distinction into the context-engineering notes.</li><li><strong>Number: long streams are a state-space problem.</strong> A reading computed over a long price or flow series is a rolling aggregate, which is exactly what a selective state does well; the Number pipeline should store the rolling state and the rule that updates it, and replay the raw series only when an exact past value is disputed.</li><li><strong>Devnet indexer: summary versus log is the same trade.</strong> Ponder-style indexers keep aggregates and replay on reorg; document which queries need exact history so the aggregate is never asked for something it forgot.</li><li><strong>Foundations: link this item from the attention and KV-cache curriculum stubs.</strong> It is the counter-example those pages need: what a model looks like when the quadratic block is removed and what it gives up.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18: authors, title and December 2023 arXiv posting (arXiv 2312.00752); the five-times throughput, linear scaling and Mamba-3B-versus-twice-its-size claims (paper abstract, later summaries); open-source repository under state-spaces; hybrid designs such as Jamba. From the SaM Solutions video via the Gemini briefing, not independently checked: the "fixed memory footprint" phrasing and the claim about edge execution and cloud cost reductions, which are inferences from the architecture rather than measurements in the paper. Not covered here: Mamba-3 or later variants.</p>
+<p>Sources: <a href="https://arxiv.org/abs/2312.00752">Gu and Dao — Mamba: Linear-Time Sequence Modeling with Selective State Spaces, arXiv 2312.00752</a> · <a href="https://github.com/state-spaces/mamba">state-spaces/mamba on GitHub</a> · <a href="https://www.ai21.com/blog/rise-of-hybrid-llms/">AI21 — Attention was never enough: the rise of hybrid LLMs</a> · <a href="http://www.youtube.com/watch?v=VsT5OZtSNwI">SaM Solutions — Mamba LLM Architecture, YouTube</a> · Gemini YouTube briefing 2026-09-18</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>SSM</strong></td><td>상태공간 모델(State Space Model) · 시퀀스를 고정 크기 은닉 상태의 갱신으로 처리하는 모델 계열. "replaces it with a selective state-space model"</td></tr><tr><td><strong>selective</strong></td><td>선택적인(입력에 따라 무엇을 남길지 고르는) · Mamba의 핵심 기여를 한 단어로. "The word selective is the contribution"</td></tr><tr><td><strong>quadratic</strong></td><td>이차의(N²로 커지는) · 비용이 길이의 제곱으로 느는 것을 말할 때. "instead of quadratically"</td></tr><tr><td><strong>KV cache</strong></td><td>키-값 캐시(key-value cache) · 트랜스포머가 토큰마다 보관하는 어텐션용 메모리. "the key-value cache it must hold per token"</td></tr><tr><td><strong>throughput</strong></td><td>처리량 · 단위 시간에 처리하는 토큰 수, 추론 성능의 척도. "five times the inference throughput"</td></tr><tr><td><strong>pays for it every step</strong></td><td>매 단계 그 값을 치른다 · 비용이 반복해서 발생함을 말하는 관용 표현. "keeps the whole context and pays for it every step"</td></tr><tr><td><strong>buy back</strong></td><td>되사오다(포기한 것을 비용을 내고 되찾다) · 하이브리드 설계의 논리. "buy back exact recall inside a cheap linear stack"</td></tr><tr><td><strong>rolling aggregate</strong></td><td>롤링 집계(흐르면서 갱신되는 누적값) · 로그 재생 없이 유지하는 요약. "keeps a rolling aggregate instead of replaying the log"</td></tr><tr><td><strong>recall</strong></td><td>회상(먼 과거의 정확한 값을 다시 꺼내는 능력) · 상태공간 모델의 약점을 부르는 말. "The cost is recall"</td></tr><tr><td><strong>hybrid stack</strong></td><td>하이브리드 스택 · 상태공간 층과 어텐션 층을 섞은 모델 구조. "hybrid stacks with some attention layers"</td></tr><tr><td><strong>genomics</strong></td><td>유전체학 · DNA 서열도 긴 시퀀스라 벤치마크로 쓰임. "strong results on audio and genomics"</td></tr><tr><td><strong>fall behind</strong></td><td>뒤처지다 · 비교에서 성능이 밀릴 때. "are where pure state-space models fall behind"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# Mamba는 어텐션을 선택적 상태로 바꾼다 — 선형 시간, 고정 메모리, 그리고 그 교환의 비용\n\nMamba는 Albert Gu(카네기멜런)와 Tri Dao(프린스턴)가 2023년 12월 arXiv에 \"Mamba: Linear-Time Sequence Modeling with Selective State Spaces\"로 발표한 시퀀스 모델입니다. 트랜스포머가 모든 토큰을 다른 모든 토큰과 비교하게 만드는 어텐션 블록을 없애고, 선택적 상태공간 모델로 대체합니다. 토큰마다 한 번 갱신되는 압축된 은닉 상태이고, 갱신 규칙 자체가 입력에 따라 달라집니다. 계산과 메모리가 시퀀스 길이에 대해 이차가 아니라 선형으로 늘고, 논문은 같은 크기 트랜스포머의 약 5배 추론 처리량을 보고하며, 30억 파라미터 Mamba가 언어 벤치마크에서 두 배 크기의 트랜스포머와 맞먹습니다. 2026-09-18 Gemini 브리핑의 SaM Solutions 설명 영상이 이 항목의 출처이고, 숫자는 논문과 이후 요약들로 확인했습니다.\n\nJayverse에 유용한 부분은 아키텍처가 아니라 교환의 형태입니다. 어텐션은 전체 문맥을 보관하고 매 단계 그 값을 치릅니다. 상태공간 모델은 고정 크기 요약을 보관하고 길이에 대해 추가 비용을 내지 않지만, 토큰마다 무엇을 잊을지 결정해야 합니다. 로그를 재생하는 대신 롤링 집계를 유지하는 인덱서, 원장 대신 잔고를 유지하는 레일과 같은 설계 선택입니다. 요약으로 충분한 곳에서는 선형 모델이 비용에서 이기고, 멀리 뒤의 정확한 조회가 필요한 곳에서는 집니다. 2024년 이후 업계의 답은 AI21의 Jamba처럼 대부분 상태공간인 스택에 어텐션 층 몇 개를 끼워 넣는 하이브리드였습니다. 2026-09-18 기준 상태: Mamba와 Mamba-2는 state-spaces GitHub 조직에서 오픈소스이고, 프로덕션 장문맥 모델에 실리는 것은 하이브리드 패턴입니다.\n\n## 왜\n\n문맥 길이의 가격은 어텐션 블록에 매겨집니다. 트랜스포머의 문맥을 두 배로 늘리면 그 블록의 계산은 네 배, 토큰마다 들고 있어야 하는 키-값 캐시는 두 배가 됩니다. 긴 문서, 계약서, 스트림이 비싼 이유이고 \"컨텍스트 엔지니어링\"이 하나의 분야로 존재하는 이유입니다. Mamba의 주장은 그 작업 대부분이 낭비라는 것입니다. 왼쪽에서 오른쪽으로 읽으며 잘 고른 압축 상태를 유지하는 모델은, 앞 문장을 전부 다시 읽는 대신 요약을 들고 가는 사람처럼, 많은 과제에서 어텐션의 일을 훨씬 낮은 비용으로 할 수 있습니다. 선택적이라는 단어가 기여입니다. 이전 상태공간 모델은 갱신 규칙이 고정되어 무엇을 남길지 결정할 수 없었고, Mamba는 갱신 파라미터를 현재 토큰의 함수로 만들어 이름은 붙잡고 군말은 흘려보낼 수 있게 했습니다.\n\n비용은 회상입니다. 고정 크기 상태는 임의 개수의 정확한 사실을 저장할 수 없고, 긴 목록에서 키를 찾는 것처럼 멀리 뒤의 것을 정확히 복사해야 하는 과제가 순수 상태공간 모델이 뒤처지는 곳입니다. 그래서 실제 결과는 \"Mamba가 트랜스포머를 대체한다\"가 아니라 \"어텐션 층 몇 개가 싼 선형 스택 안에서 정확한 회상을 되사온다\"입니다.\n\n## 동작 방식\n\n### 두 블록 나란히\n\n| | 어텐션(트랜스포머) | 선택적 상태공간(Mamba) |\n|---|---|---|\n| 토큰당 작업 | 이전 모든 토큰과 비교 | 상태 갱신 한 번 |\n| 길이 N에 대한 비용 | O(N²) 계산, 캐시가 N에 비례 | O(N) 계산, 고정 크기 상태 |\n| 보관하는 것 | 전부, 주소 지정 가능 | 학습된 압축 요약 |\n| 약점 | 긴 문맥이 비쌈 | 먼 세부의 정확한 회상 |\n| 흔한 해법 | 희소·윈도 어텐션, KV 캐시 기법 | 어텐션 층을 일부 넣은 하이브리드 |\n\n### 논문의 숫자\n\n같은 크기 트랜스포머 대비 5배 높은 추론 처리량. 실제 데이터에서 백만 토큰까지 시퀀스 길이에 선형. Mamba-3B가 같은 크기 트랜스포머를 앞서고 두 배 크기와 맞먹음. 텍스트뿐 아니라 오디오와 유전체에서도 강한 결과. Mamba-2(2024)는 상태공간 갱신을 구조화된 어텐션의 한 형태로 재정식화해 GPU에서 더 빨라졌습니다.\n\n### Jayverse에서의 위치\n\n- **Rabbit과 에이전트 스택: 문맥 전략은 유행이 아니라 회상 필요로 고른다.** 에이전트가 특정 이전 도구 결과를 정확히 회상해야 하면 프롬프트나 검색에 두고, 긴 세션의 흐르는 요약이 필요하면 압축 상태가 맞는 도구이고 더 싸다. 이 구분을 컨텍스트 엔지니어링 노트에 적는다.\n- **Number: 긴 스트림은 상태공간 문제다.** 긴 가격·흐름 시계열에서 계산되는 읽기는 롤링 집계이고, 그것이 선택적 상태가 잘하는 일이다. Number 파이프라인은 롤링 상태와 그 갱신 규칙을 저장하고, 과거의 정확한 값이 다툼이 될 때만 원시 시계열을 재생한다.\n- **Devnet 인덱서: 요약 대 로그는 같은 교환이다.** Ponder식 인덱서는 집계를 유지하고 재구성 때 재생한다. 어떤 질의가 정확한 이력을 필요로 하는지 문서화해서 집계에 잊어버린 것을 묻지 않게 한다.\n- **Foundations: 어텐션과 KV 캐시 커리큘럼 스텁에서 이 항목을 링크한다.** 그 페이지들에 필요한 반례다. 이차 블록을 뺀 모델이 어떤 모습이고 무엇을 포기하는가.\n\n### 확인된 것과 미확인\n\n2026-09-18에 확인한 것: 저자, 제목, 2023년 12월 arXiv 게재(arXiv 2312.00752); 5배 처리량, 선형 확장, Mamba-3B 대 두 배 크기 주장(논문 초록, 이후 요약); state-spaces의 오픈소스 저장소; Jamba 같은 하이브리드 설계. Gemini 브리핑의 SaM Solutions 영상에서 온 것으로 독립 확인하지 않은 것: \"고정 메모리 풋프린트\" 표현, 엣지 실행과 클라우드 비용 절감 주장. 논문의 측정이 아니라 아키텍처에서의 추론이다. 다루지 않은 것: Mamba-3 이후 변형.\n출처: [Gu and Dao — Mamba: Linear-Time Sequence Modeling with Selective State Spaces, arXiv 2312.00752](https://arxiv.org/abs/2312.00752) · [state-spaces/mamba on GitHub](https://github.com/state-spaces/mamba) · [AI21 — Attention was never enough: the rise of hybrid LLMs](https://www.ai21.com/blog/rise-of-hybrid-llms/) · [SaM Solutions — Mamba LLM Architecture, YouTube](http://www.youtube.com/watch?v=VsT5OZtSNwI) · Gemini YouTube 브리핑 2026-09-18\n"</script>
+      <h1>Mamba는 어텐션을 선택적 상태로 바꾼다 — 선형 시간, 고정 메모리, 그리고 그 교환의 비용</h1>
+      <p class="lead">Mamba는 Albert Gu(카네기멜런)와 Tri Dao(프린스턴)가 2023년 12월 arXiv에 "Mamba: Linear-Time Sequence Modeling with Selective State Spaces"로 발표한 시퀀스 모델입니다. 트랜스포머가 모든 토큰을 다른 모든 토큰과 비교하게 만드는 어텐션 블록을 없애고, 선택적 상태공간 모델로 대체합니다. 토큰마다 한 번 갱신되는 압축된 은닉 상태이고, 갱신 규칙 자체가 입력에 따라 달라집니다. 계산과 메모리가 시퀀스 길이에 대해 이차가 아니라 선형으로 늘고, 논문은 같은 크기 트랜스포머의 약 5배 추론 처리량을 보고하며, 30억 파라미터 Mamba가 언어 벤치마크에서 두 배 크기의 트랜스포머와 맞먹습니다. 2026-09-18 Gemini 브리핑의 SaM Solutions 설명 영상이 이 항목의 출처이고, 숫자는 논문과 이후 요약들로 확인했습니다.</p>
+      <p class="meta">Jayverse에 유용한 부분은 아키텍처가 아니라 교환의 형태입니다. 어텐션은 전체 문맥을 보관하고 매 단계 그 값을 치릅니다. 상태공간 모델은 고정 크기 요약을 보관하고 길이에 대해 추가 비용을 내지 않지만, 토큰마다 무엇을 잊을지 결정해야 합니다. 로그를 재생하는 대신 롤링 집계를 유지하는 인덱서, 원장 대신 잔고를 유지하는 레일과 같은 설계 선택입니다. 요약으로 충분한 곳에서는 선형 모델이 비용에서 이기고, 멀리 뒤의 정확한 조회가 필요한 곳에서는 집니다. 2024년 이후 업계의 답은 AI21의 Jamba처럼 대부분 상태공간인 스택에 어텐션 층 몇 개를 끼워 넣는 하이브리드였습니다. 2026-09-18 기준 상태: Mamba와 Mamba-2는 state-spaces GitHub 조직에서 오픈소스이고, 프로덕션 장문맥 모델에 실리는 것은 하이브리드 패턴입니다.</p>
+<h2>왜</h2>
+<p>문맥 길이의 가격은 어텐션 블록에 매겨집니다. 트랜스포머의 문맥을 두 배로 늘리면 그 블록의 계산은 네 배, 토큰마다 들고 있어야 하는 키-값 캐시는 두 배가 됩니다. 긴 문서, 계약서, 스트림이 비싼 이유이고 "컨텍스트 엔지니어링"이 하나의 분야로 존재하는 이유입니다. Mamba의 주장은 그 작업 대부분이 낭비라는 것입니다. 왼쪽에서 오른쪽으로 읽으며 잘 고른 압축 상태를 유지하는 모델은, 앞 문장을 전부 다시 읽는 대신 요약을 들고 가는 사람처럼, 많은 과제에서 어텐션의 일을 훨씬 낮은 비용으로 할 수 있습니다. 선택적이라는 단어가 기여입니다. 이전 상태공간 모델은 갱신 규칙이 고정되어 무엇을 남길지 결정할 수 없었고, Mamba는 갱신 파라미터를 현재 토큰의 함수로 만들어 이름은 붙잡고 군말은 흘려보낼 수 있게 했습니다.</p>
+<p>비용은 회상입니다. 고정 크기 상태는 임의 개수의 정확한 사실을 저장할 수 없고, 긴 목록에서 키를 찾는 것처럼 멀리 뒤의 것을 정확히 복사해야 하는 과제가 순수 상태공간 모델이 뒤처지는 곳입니다. 그래서 실제 결과는 "Mamba가 트랜스포머를 대체한다"가 아니라 "어텐션 층 몇 개가 싼 선형 스택 안에서 정확한 회상을 되사온다"입니다.</p>
+<h2>동작 방식</h2>
+<h3>두 블록 나란히</h3>
+<table><thead><tr><th></th><th>어텐션(트랜스포머)</th><th>선택적 상태공간(Mamba)</th></tr></thead><tbody><tr><td>토큰당 작업</td><td>이전 모든 토큰과 비교</td><td>상태 갱신 한 번</td></tr><tr><td>길이 N에 대한 비용</td><td>O(N²) 계산, 캐시가 N에 비례</td><td>O(N) 계산, 고정 크기 상태</td></tr><tr><td>보관하는 것</td><td>전부, 주소 지정 가능</td><td>학습된 압축 요약</td></tr><tr><td>약점</td><td>긴 문맥이 비쌈</td><td>먼 세부의 정확한 회상</td></tr><tr><td>흔한 해법</td><td>희소·윈도 어텐션, KV 캐시 기법</td><td>어텐션 층을 일부 넣은 하이브리드</td></tr></tbody></table>
+<h3>논문의 숫자</h3>
+<p>같은 크기 트랜스포머 대비 5배 높은 추론 처리량. 실제 데이터에서 백만 토큰까지 시퀀스 길이에 선형. Mamba-3B가 같은 크기 트랜스포머를 앞서고 두 배 크기와 맞먹음. 텍스트뿐 아니라 오디오와 유전체에서도 강한 결과. Mamba-2(2024)는 상태공간 갱신을 구조화된 어텐션의 한 형태로 재정식화해 GPU에서 더 빨라졌습니다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit과 에이전트 스택: 문맥 전략은 유행이 아니라 회상 필요로 고른다.</strong> 에이전트가 특정 이전 도구 결과를 정확히 회상해야 하면 프롬프트나 검색에 두고, 긴 세션의 흐르는 요약이 필요하면 압축 상태가 맞는 도구이고 더 싸다. 이 구분을 컨텍스트 엔지니어링 노트에 적는다.</li><li><strong>Number: 긴 스트림은 상태공간 문제다.</strong> 긴 가격·흐름 시계열에서 계산되는 읽기는 롤링 집계이고, 그것이 선택적 상태가 잘하는 일이다. Number 파이프라인은 롤링 상태와 그 갱신 규칙을 저장하고, 과거의 정확한 값이 다툼이 될 때만 원시 시계열을 재생한다.</li><li><strong>Devnet 인덱서: 요약 대 로그는 같은 교환이다.</strong> Ponder식 인덱서는 집계를 유지하고 재구성 때 재생한다. 어떤 질의가 정확한 이력을 필요로 하는지 문서화해서 집계에 잊어버린 것을 묻지 않게 한다.</li><li><strong>Foundations: 어텐션과 KV 캐시 커리큘럼 스텁에서 이 항목을 링크한다.</strong> 그 페이지들에 필요한 반례다. 이차 블록을 뺀 모델이 어떤 모습이고 무엇을 포기하는가.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 확인한 것: 저자, 제목, 2023년 12월 arXiv 게재(arXiv 2312.00752); 5배 처리량, 선형 확장, Mamba-3B 대 두 배 크기 주장(논문 초록, 이후 요약); state-spaces의 오픈소스 저장소; Jamba 같은 하이브리드 설계. Gemini 브리핑의 SaM Solutions 영상에서 온 것으로 독립 확인하지 않은 것: "고정 메모리 풋프린트" 표현, 엣지 실행과 클라우드 비용 절감 주장. 논문의 측정이 아니라 아키텍처에서의 추론이다. 다루지 않은 것: Mamba-3 이후 변형.</p>
+<p>출처: <a href="https://arxiv.org/abs/2312.00752">Gu and Dao — Mamba: Linear-Time Sequence Modeling with Selective State Spaces, arXiv 2312.00752</a> · <a href="https://github.com/state-spaces/mamba">state-spaces/mamba on GitHub</a> · <a href="https://www.ai21.com/blog/rise-of-hybrid-llms/">AI21 — Attention was never enough: the rise of hybrid LLMs</a> · <a href="http://www.youtube.com/watch?v=VsT5OZtSNwI">SaM Solutions — Mamba LLM Architecture, YouTube</a> · Gemini YouTube 브리핑 2026-09-18</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>SSM</strong></td><td>상태공간 모델(State Space Model) · 시퀀스를 고정 크기 은닉 상태의 갱신으로 처리하는 모델 계열. "replaces it with a selective state-space model"</td></tr><tr><td><strong>selective</strong></td><td>선택적인(입력에 따라 무엇을 남길지 고르는) · Mamba의 핵심 기여를 한 단어로. "The word selective is the contribution"</td></tr><tr><td><strong>quadratic</strong></td><td>이차의(N²로 커지는) · 비용이 길이의 제곱으로 느는 것을 말할 때. "instead of quadratically"</td></tr><tr><td><strong>KV cache</strong></td><td>키-값 캐시(key-value cache) · 트랜스포머가 토큰마다 보관하는 어텐션용 메모리. "the key-value cache it must hold per token"</td></tr><tr><td><strong>throughput</strong></td><td>처리량 · 단위 시간에 처리하는 토큰 수, 추론 성능의 척도. "five times the inference throughput"</td></tr><tr><td><strong>pays for it every step</strong></td><td>매 단계 그 값을 치른다 · 비용이 반복해서 발생함을 말하는 관용 표현. "keeps the whole context and pays for it every step"</td></tr><tr><td><strong>buy back</strong></td><td>되사오다(포기한 것을 비용을 내고 되찾다) · 하이브리드 설계의 논리. "buy back exact recall inside a cheap linear stack"</td></tr><tr><td><strong>rolling aggregate</strong></td><td>롤링 집계(흐르면서 갱신되는 누적값) · 로그 재생 없이 유지하는 요약. "keeps a rolling aggregate instead of replaying the log"</td></tr><tr><td><strong>recall</strong></td><td>회상(먼 과거의 정확한 값을 다시 꺼내는 능력) · 상태공간 모델의 약점을 부르는 말. "The cost is recall"</td></tr><tr><td><strong>hybrid stack</strong></td><td>하이브리드 스택 · 상태공간 층과 어텐션 층을 섞은 모델 구조. "hybrid stacks with some attention layers"</td></tr><tr><td><strong>genomics</strong></td><td>유전체학 · DNA 서열도 긴 시퀀스라 벤치마크로 쓰임. "strong results on audio and genomics"</td></tr><tr><td><strong>fall behind</strong></td><td>뒤처지다 · 비교에서 성능이 밀릴 때. "are where pure state-space models fall behind"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-agentic-engineering-writes-boundaries.html">&larr; 61. Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them</a><a href="pocs-model-is-weights-plus-objective.html">63. A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="mamba-selective-state-linear-time";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

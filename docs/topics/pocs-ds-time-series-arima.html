@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~에 달려있다 · 방법론 전체가 의존하는 전제를 가리킴. "the whole method rests on stationarity"</td></tr><tr><td><strong>differencing</strong></td><td>차분(연속값의 차이를 구해 시계열을 안정화하는 기법) · 통계·시계열 용어. "almost never have without differencing"</td></tr><tr><td><strong>diagnostic before predictive</strong></td><td>예측보다 진단이 먼저다 · 검증 절차가 예측 작업보다 우선한다는 원칙. "The lesson is diagnostic before predictive"</td></tr><tr><td><strong>manufacture confidence</strong></td><td>근거 없는 확신을 만들어내다(조작하다) · 추세가 있는 시계열이 과신을 유발하는 것을 비판. "manufactures confidence it has not earned"</td></tr><tr><td><strong>relatives (그 계열 기법들)</strong></td><td>유사 기법들, 같은 계열의 방법 · ARIMA와 비슷한 방법론군을 가리킴. "ARIMA and its relatives"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: test stationarity before forecasting any price series.</strong> Run an ADF test and difference the CLOB price or resolution-source history before fitting anything ARIMA-style, since a naive trend forecast on a non-stationary series manufactures false confidence.</li><li><strong>Number: log the stationarity check as part of a reading&#39;s methodology.</strong> Any Number reading built on ARIMA-style forecasting should record its stationarity test and differencing order alongside the reading, tying into the "reading as a licensed, versioned object" rule.</li><li><strong>DeFi: check staking-APY series for stationarity before modeling them.</strong> The liquid-staking study build should not fit a predictive model on raw APY history without first testing and differencing it.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~에 달려있다 · 방법론 전체가 의존하는 전제를 가리킴. "the whole method rests on stationarity"</td></tr><tr><td><strong>differencing</strong></td><td>차분(연속값의 차이를 구해 시계열을 안정화하는 기법) · 통계·시계열 용어. "almost never have without differencing"</td></tr><tr><td><strong>diagnostic before predictive</strong></td><td>예측보다 진단이 먼저다 · 검증 절차가 예측 작업보다 우선한다는 원칙. "The lesson is diagnostic before predictive"</td></tr><tr><td><strong>manufacture confidence</strong></td><td>근거 없는 확신을 만들어내다(조작하다) · 추세가 있는 시계열이 과신을 유발하는 것을 비판. "manufactures confidence it has not earned"</td></tr><tr><td><strong>relatives (그 계열 기법들)</strong></td><td>유사 기법들, 같은 계열의 방법 · ARIMA와 비슷한 방법론군을 가리킴. "ARIMA and its relatives"</td></tr><tr><td><strong>ARIMA</strong></td><td>자기회귀누적이동평균(AutoRegressive Integrated Moving Average) · 시계열을 자신의 과거값으로 예측하는 대표적 통계 모델. "ARIMA and its relatives forecast a series from its own past"</td></tr><tr><td><strong>stationarity</strong></td><td>정상성 · 시계열의 평균·분산이 시간에 따라 변하지 않는 성질, ARIMA가 전제하는 핵심 조건. "the whole method rests on stationarity"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,8 +432,12 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~에 달려있다 · 방법론 전체가 의존하는 전제를 가리킴. "the whole method rests on stationarity"</td></tr><tr><td><strong>differencing</strong></td><td>차분(연속값의 차이를 구해 시계열을 안정화하는 기법) · 통계·시계열 용어. "almost never have without differencing"</td></tr><tr><td><strong>diagnostic before predictive</strong></td><td>예측보다 진단이 먼저다 · 검증 절차가 예측 작업보다 우선한다는 원칙. "The lesson is diagnostic before predictive"</td></tr><tr><td><strong>manufacture confidence</strong></td><td>근거 없는 확신을 만들어내다(조작하다) · 추세가 있는 시계열이 과신을 유발하는 것을 비판. "manufactures confidence it has not earned"</td></tr><tr><td><strong>relatives (그 계열 기법들)</strong></td><td>유사 기법들, 같은 계열의 방법 · ARIMA와 비슷한 방법론군을 가리킴. "ARIMA and its relatives"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 어떤 가격 시계열도 예측 전에 정상성부터 검정한다.</strong> ARIMA류 모델을 적합하기 전에 CLOB 가격이나 정산 소스 히스토리에 ADF 검정과 차분을 적용한다. 비정상 시계열에 대한 단순 추세 예측은 근거 없는 확신을 만들어낼 뿐이다.</li><li><strong>Number: 정상성 검정을 읽기의 방법론에 기록한다.</strong> ARIMA류 예측에 기반한 Number 읽기는 정상성 검정 결과와 차분 차수를 읽기와 함께 남겨야 한다. 이는 "라이선스되고 버전 관리되는 객체로서의 읽기" 규칙과 이어진다.</li><li><strong>DeFi: 스테이킹 APY 시계열도 모델링 전에 정상성을 확인한다.</strong> 유동성 스테이킹 스터디 빌드는 원시 APY 히스토리에 검정과 차분 없이 예측 모델을 바로 적합해서는 안 된다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~에 달려있다 · 방법론 전체가 의존하는 전제를 가리킴. "the whole method rests on stationarity"</td></tr><tr><td><strong>differencing</strong></td><td>차분(연속값의 차이를 구해 시계열을 안정화하는 기법) · 통계·시계열 용어. "almost never have without differencing"</td></tr><tr><td><strong>diagnostic before predictive</strong></td><td>예측보다 진단이 먼저다 · 검증 절차가 예측 작업보다 우선한다는 원칙. "The lesson is diagnostic before predictive"</td></tr><tr><td><strong>manufacture confidence</strong></td><td>근거 없는 확신을 만들어내다(조작하다) · 추세가 있는 시계열이 과신을 유발하는 것을 비판. "manufactures confidence it has not earned"</td></tr><tr><td><strong>relatives (그 계열 기법들)</strong></td><td>유사 기법들, 같은 계열의 방법 · ARIMA와 비슷한 방법론군을 가리킴. "ARIMA and its relatives"</td></tr><tr><td><strong>ARIMA</strong></td><td>자기회귀누적이동평균(AutoRegressive Integrated Moving Average) · 시계열을 자신의 과거값으로 예측하는 대표적 통계 모델. "ARIMA and its relatives forecast a series from its own past"</td></tr><tr><td><strong>stationarity</strong></td><td>정상성 · 시계열의 평균·분산이 시간에 따라 변하지 않는 성질, ARIMA가 전제하는 핵심 조건. "the whole method rests on stationarity"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>

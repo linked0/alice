@@ -10,3 +10,7 @@
 | first-class, not edge cases | 예외가 아니라 핵심으로 다뤄야 할 사항 · 설계에서 반드시 고려해야 할 요소. "Expiry and revocation are first-class, not edge cases" |
 | ground truth | 실제 정답·근거가 되는 사실 · 캐시된 값과 실제 상태를 구분할 때. "one party's cached view is not ground truth" |
 | lingering capability | 계속 남아있는(방치된) 권한 · 회수되지 않고 남아있는 위험한 접근 권한. "is a lingering capability — the forgotten-OAuth-grant failure mode" |
+| WalletConnect | 지갑-앱 연결 프로토콜(월렛커넥트) · 세션 기반으로 권한을 부여하는, 이 카드가 다루는 프로토콜. "A WalletConnect connection is not merely an address exchange" |
+| Reown AppKit | WalletConnect 진영이 리브랜딩한 지갑 연결 SDK · 세션 생성에 쓰는 클라이언트 라이브러리. "the WalletConnect Sign client (or Reown AppKit)" |
+| CAIP | 체인 애그노스틱 개선안(Chain Agnostic Improvement Proposals) · 계정·체인을 표준 표기로 식별하는 규격. "EIP-155 / CAIP-2 / CAIP-10" |
+<!-- acronyms 2026-09-18 -->

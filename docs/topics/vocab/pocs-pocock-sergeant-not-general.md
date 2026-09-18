@@ -9,3 +9,6 @@
 | grill me | 나를 꼬치꼬치 캐묻게 하라(면밀히 질문하게 하기) · 에이전트가 요구사항을 확실히 파악하도록 유도하는 프롬프트. "his "grill me" prompt" |
 | a promotion, not a demotion | 강등이 아니라 승격 · 역할 변화를 부정적이 아니라 긍정적으로 재해석할 때. "a promotion in responsibility, not a demotion" |
 | compounds | (문제 등이) 누적되어 커지다 · 검토 없는 코드가 쌓여 악화되는 과정을 가리키는 동사. "each recompile compounds garbage until the codebase" |
+| TDD | 테스트 주도 개발(Test-Driven Development) · 실패하는 테스트 하나, 구현 하나, 통과, 리팩터 순으로 진행하는 방법론. "impose test-driven development as a speed limit" |
+| AI Engineer | AI 엔지니어 컨퍼런스(AI Engineer conference) · 매트 포콕이 이 발표를 한 행사. "At the AI Engineer conference Matt Pocock argued" |
+<!-- acronyms 2026-09-18 -->

@@ -10,3 +10,9 @@
 | re-derive | 다시 유도하다, 처음부터 다시 추론하다 · 매번 논리를 재구성할 필요가 없다는 뜻. "no one has to re-derive the reasoning" |
 | at runtime | 실행 시점에, 런타임에 · 코드가 동작하는 순간을 가리킴. "Engineering reads it at runtime for eligibility" |
 | keyed (the same way) | ~을 기준으로 색인된, 같은 방식으로 구성된 · 정책이 테이블과 같은 단위를 쓴다는 뜻. "an eligibility policy keyed the same way" |
+| CFTC | 상품선물거래위원회(Commodity Futures Trading Commission) · 예측시장을 연방 차원에서 지정·규제하는 미국 기관. "a US state blocked a CFTC-designated venue" |
+| Kalshi | CFTC 규제를 받는 미국 예측시장 플랫폼 · 주 정부가 개별적으로 차단한 대상. "Washington becoming the fourth US state to block Kalshi" |
+| Polymarket | 탈중앙 예측시장 플랫폼 · 한국에서 접속이 차단된 대상으로 언급. "Korea's access block of Polymarket 2026-08-18" |
+| Apex Fintech | 미국 청산·브로커 인프라 회사 · Gemini Titan의 독점 거래 파트너로 언급. "Gemini Titan becoming Apex Fintech's exclusive venue" |
+| geofencing | 지리적 위치 기반 접근 제한(geofencing) · 국가 단위로 서비스 접근을 막는 방식. "Country-level geofencing is already insufficient" |
+<!-- acronyms 2026-09-18 -->

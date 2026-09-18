@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -493,7 +493,11 @@
 <p>Allow low-risk reads to degrade with a stale warning. Pause collateral release, expensive fulfillment, or other irreversible actions when the required confidence or agreement cannot be established. A practical default is primary-plus-fallback for ordinary UI reads and explicit finalized-hash agreement for selected high-value actions.</p>
 <p>Reference: <a href="https://ethereum.org/developers/docs/apis/json-rpc/">Ethereum JSON-RPC API</a>.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Devnet: treat every read as unverified by definition.</strong> A single-node hosted Anvil fork has no second independent view, so any finality-confidence logic must actually be tested against Sepolia, or later the OP-Stack L2, where a second provider exists.</li><li><strong>Bridge: gate mint or release on a confidence tag, not "latest."</strong> Lock-and-mint should require a finalized (or explicit safe) block hash from at least two independent providers before releasing funds; failing to reach that tag should pause release, not retry against a fresh latest.</li><li><strong>Verex: define per-action risk explicitly.</strong> Cheap, reversible reads can use failover; market resolution and payout should require agreement-by-hash across independent RPC providers before being treated as final.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stale</strong></td><td>오래되어 더는 최신이 아닌, 신뢰하기 힘든 · "It may be unavailable, stale, following a temporary fork"</td></tr><tr><td><strong>amplify</strong></td><td>증폭시키다, 문제를 더 키우다 · "can amplify disagreement unless responses are compared"</td></tr><tr><td><strong>failure independence</strong></td><td>장애가 서로 독립적으로 발생하는 성질 · "The goal is failure independence, not endpoint count"</td></tr><tr><td><strong>tail latency</strong></td><td>드물게 발생하는 아주 느린 응답(꼬리 지연) · "Ask B when A is slow"</td></tr><tr><td><strong>hedge (a request)</strong></td><td>위험 분산을 위해 예비로 같이 요청하다 · "Ask B when A is slow"</td></tr><tr><td><strong>degrade</strong></td><td>성능·신뢰도가 한 단계 낮은 수준으로 떨어지다 · "Allow low-risk reads to degrade with a stale warning"</td></tr><tr><td><strong>irreversible action</strong></td><td>되돌릴 수 없는 행동 · "Pause collateral release, expensive fulfillment, or other irreversible actions"</td></tr><tr><td><strong>confidence tag</strong></td><td>신뢰도를 나타내는 표식 · "compared by block hash and confidence tag"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -592,7 +596,11 @@
 <p>저위험 읽기는 오래된 데이터 경고와 함께 계속할 수 있습니다. 담보 해제, 고가 상품 제공 등 비가역 작업은 필요한 신뢰도나 일치를 확인할 수 없으면 중단합니다. 현실적인 기본값은 일반 UI 읽기에 primary + fallback, 선택된 고가치 작업에만 finalized 해시 일치를 명시적으로 확인하는 것입니다.</p>
 <p>참고: <a href="https://ethereum.org/developers/docs/apis/json-rpc/">Ethereum JSON-RPC API</a>.</p>
       
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Devnet: 모든 읽기를 정의상 미검증으로 취급한다.</strong> 호스팅된 단일 노드 Anvil 포크에는 독립된 두 번째 시야가 없으므로, 파이널리티 신뢰도 로직은 실제로 두 번째 프로바이더가 존재하는 Sepolia나 이후의 OP-Stack L2에서 검증해야 한다.</li><li><strong>Bridge: "latest"가 아니라 신뢰도 태그로 민팅/방출을 통제한다.</strong> lock-and-mint은 자금을 방출하기 전 최소 두 독립 프로바이더로부터 finalized(또는 명시적 safe) 블록 해시를 요구해야 한다. 그 태그에 도달하지 못하면 새 latest로 재시도하지 말고 방출을 멈춘다.</li><li><strong>Verex: 액션별 위험도를 명시적으로 정의한다.</strong> 저렴하고 가역적인 읽기는 페일오버를 써도 되지만, 마켓 정산과 정산금 지급은 독립 RPC 프로바이더 간 해시 일치를 확인한 뒤에야 확정으로 취급한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stale</strong></td><td>오래되어 더는 최신이 아닌, 신뢰하기 힘든 · "It may be unavailable, stale, following a temporary fork"</td></tr><tr><td><strong>amplify</strong></td><td>증폭시키다, 문제를 더 키우다 · "can amplify disagreement unless responses are compared"</td></tr><tr><td><strong>failure independence</strong></td><td>장애가 서로 독립적으로 발생하는 성질 · "The goal is failure independence, not endpoint count"</td></tr><tr><td><strong>tail latency</strong></td><td>드물게 발생하는 아주 느린 응답(꼬리 지연) · "Ask B when A is slow"</td></tr><tr><td><strong>hedge (a request)</strong></td><td>위험 분산을 위해 예비로 같이 요청하다 · "Ask B when A is slow"</td></tr><tr><td><strong>degrade</strong></td><td>성능·신뢰도가 한 단계 낮은 수준으로 떨어지다 · "Allow low-risk reads to degrade with a stale warning"</td></tr><tr><td><strong>irreversible action</strong></td><td>되돌릴 수 없는 행동 · "Pause collateral release, expensive fulfillment, or other irreversible actions"</td></tr><tr><td><strong>confidence tag</strong></td><td>신뢰도를 나타내는 표식 · "compared by block hash and confidence tag"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>

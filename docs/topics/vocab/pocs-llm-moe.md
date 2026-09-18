@@ -4,3 +4,5 @@
 | modest | 수치가 적당한, 크지 않은 · 파라미터는 많아도 실제 연산량은 크지 않다는 뜻. "compute per token stays modest" |
 | capacity-versus-compute tradeoff | 용량과 연산량 사이의 상충 관계 · 모델이 크면서도 가벼울 수 있는 이유. "the capacity-versus-compute tradeoff" |
 | frontier models | 최전선 모델 · 현재 가장 앞선 최신 대형 모델들을 가리킴. "the architecture behind several frontier models" |
+| MoE | 전문가 혼합 모델(Mixture of Experts) · 토큰마다 일부 전문가 서브네트워크만 작동시켜 총 파라미터는 크지만 연산량은 적게 유지하는 구조. "MoE models route each token to a few of many expert sub-networks" |
+<!-- acronyms 2026-09-18 -->

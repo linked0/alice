@@ -8,3 +8,7 @@
 | diffusion of responsibility | 책임 분산(다들 남이 확인했겠지 하는 심리) · 인기 많은 패키지라서 아무도 안 읽고 넘어갈 때. "the diffusion of responsibility for defenders" |
 | fail the build | 빌드를 실패시키다 · CI에서 조건 불일치 시 배포를 막을 때. "a mismatch fails the build" |
 | a relationship in time | 시간에 걸친 관계 · 의존성을 한번 고정된 것이 아니라 계속 변하는 관계로 볼 때. "A dependency is a relationship in time" |
+| BCH | 비트코인캐시(Bitcoin Cash) · 비트코인에서 하드포크된 알트코인 티커, 대량 보유 지갑이 탈취 표적이 된 자산 중 하나. "wallets holding more than 100 BTC or 1,000 BCH" |
+| S&P | S&P 글로벌(S&P Global) · 신용평가·금융데이터 대기업, OpenZeppelin을 인수해 감사 주체가 바뀌었음을 보여주는 사례로 언급됨. "the S&P acquisition of OpenZeppelin belongs next to these two cases" |
+| Copay | 비트코인 지갑 앱(Bitcoin wallet application) · event-stream 악성코드가 실제로 표적으로 삼은 지갑 소프트웨어, 대형 지갑의 시드구문이 탈취됨. "activated only inside Copay, a Bitcoin wallet app" |
+<!-- acronyms 2026-09-18 -->

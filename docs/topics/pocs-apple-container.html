@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Apple container</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#157</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#161</span><span>PoC</span></p>
       <h1>Apple container</h1>
       <p class="lead">Apple&#39;s official open-source tool for running Linux containers as lightweight VMs on Apple Silicon — a Docker Desktop alternative candidate.</p>
       <p class="meta">Not yet scoped. github.com/apple/container</p>
@@ -455,8 +455,12 @@ for ref in [&quot;nginx:1.27&quot;, &quot;alpine&quot;]:
     print(f&quot;  exit_code={result['exit_code']} stdout={result['stdout']!r}\n&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/apple-container.py">docs/code/pocs/apple-container.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lightweight</strong></td><td>경량의 · 가상머신을 가볍게 구현했다는 의미 · "running Linux containers as lightweight VMs"</td></tr><tr><td><strong>OCI-compatible</strong></td><td>OCI 표준 호환(컨테이너 이미지 규격 호환) · 도커 이미지를 그대로 쓸 수 있음을 뜻함 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr><tr><td><strong>as-is</strong></td><td>있는 그대로·수정 없이 · 기존 도커 이미지를 변환 없이 쓸 수 있다는 뜻 · "pulls/pushes Docker images as-is"</td></tr><tr><td><strong>alternative candidate</strong></td><td>대안 후보 · 기존 도구를 대체할 수 있는 유력한 선택지를 가리킬 때 · "a Docker Desktop alternative candidate"</td></tr><tr><td><strong>official open source</strong></td><td>회사가 직접 공개·관리하는 공식 오픈소스 · 신뢰성을 강조할 때 · "Apple&#39;s official open source"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI/Devnet: evaluate Apple container as a Docker Desktop replacement for local Anvil runs and midnight automated jobs on the two-PC setup.</strong> Check OCI compatibility with existing pinned images before switching either machine.</li><li><strong>gitboard: if adopted, add container runtime (Docker vs Apple container) as a per-machine dashboard field.</strong> macOS 26 is a hard requirement, so mixed-runtime machines need to be visible, not assumed.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lightweight</strong></td><td>경량의 · 가상머신을 가볍게 구현했다는 의미 · "running Linux containers as lightweight VMs"</td></tr><tr><td><strong>OCI-compatible</strong></td><td>OCI 표준 호환(컨테이너 이미지 규격 호환) · 도커 이미지를 그대로 쓸 수 있음을 뜻함 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr><tr><td><strong>as-is</strong></td><td>있는 그대로·수정 없이 · 기존 도커 이미지를 변환 없이 쓸 수 있다는 뜻 · "pulls/pushes Docker images as-is"</td></tr><tr><td><strong>alternative candidate</strong></td><td>대안 후보 · 기존 도구를 대체할 수 있는 유력한 선택지를 가리킬 때 · "a Docker Desktop alternative candidate"</td></tr><tr><td><strong>official open source</strong></td><td>회사가 직접 공개·관리하는 공식 오픈소스 · 신뢰성을 강조할 때 · "Apple&#39;s official open source"</td></tr><tr><td><strong>OCI</strong></td><td>개방형 컨테이너 이니셔티브(Open Container Initiative) · 컨테이너 이미지·런타임 표준을 정의하는 규격 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -516,12 +520,16 @@ for ref in [&quot;nginx:1.27&quot;, &quot;alpine&quot;]:
     print(f&quot;  exit_code={result['exit_code']} stdout={result['stdout']!r}\n&quot;)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/apple-container.py">docs/code/pocs/apple-container.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lightweight</strong></td><td>경량의 · 가상머신을 가볍게 구현했다는 의미 · "running Linux containers as lightweight VMs"</td></tr><tr><td><strong>OCI-compatible</strong></td><td>OCI 표준 호환(컨테이너 이미지 규격 호환) · 도커 이미지를 그대로 쓸 수 있음을 뜻함 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr><tr><td><strong>as-is</strong></td><td>있는 그대로·수정 없이 · 기존 도커 이미지를 변환 없이 쓸 수 있다는 뜻 · "pulls/pushes Docker images as-is"</td></tr><tr><td><strong>alternative candidate</strong></td><td>대안 후보 · 기존 도구를 대체할 수 있는 유력한 선택지를 가리킬 때 · "a Docker Desktop alternative candidate"</td></tr><tr><td><strong>official open source</strong></td><td>회사가 직접 공개·관리하는 공식 오픈소스 · 신뢰성을 강조할 때 · "Apple&#39;s official open source"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI/Devnet: 두 대의 PC에서 로컬 Anvil 실행과 자정 자동 작업을 위한 Docker Desktop 대체재로 Apple container를 평가한다.</strong> 어느 쪽이든 전환하기 전에 기존에 고정된 이미지들과의 OCI 호환성을 확인한다.</li><li><strong>gitboard: 채택한다면 머신별 대시보드 필드로 컨테이너 런타임(Docker vs Apple container)을 추가한다.</strong> macOS 26이 필수 조건이므로, 런타임이 혼재된 머신을 가정이 아니라 눈에 보이게 만든다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lightweight</strong></td><td>경량의 · 가상머신을 가볍게 구현했다는 의미 · "running Linux containers as lightweight VMs"</td></tr><tr><td><strong>OCI-compatible</strong></td><td>OCI 표준 호환(컨테이너 이미지 규격 호환) · 도커 이미지를 그대로 쓸 수 있음을 뜻함 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr><tr><td><strong>as-is</strong></td><td>있는 그대로·수정 없이 · 기존 도커 이미지를 변환 없이 쓸 수 있다는 뜻 · "pulls/pushes Docker images as-is"</td></tr><tr><td><strong>alternative candidate</strong></td><td>대안 후보 · 기존 도구를 대체할 수 있는 유력한 선택지를 가리킬 때 · "a Docker Desktop alternative candidate"</td></tr><tr><td><strong>official open source</strong></td><td>회사가 직접 공개·관리하는 공식 오픈소스 · 신뢰성을 강조할 때 · "Apple&#39;s official open source"</td></tr><tr><td><strong>OCI</strong></td><td>개방형 컨테이너 이니셔티브(Open Container Initiative) · 컨테이너 이미지·런타임 표준을 정의하는 규격 · "OCI-compatible (pulls/pushes Docker images as-is)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-publish-by-default-rule.html">&larr; 156. The draft already exists — a selection rule, not a new channel</a><a href="pocs-google-glass-stitch.html">158. Google Glass form factor &amp; Stitch &rarr;</a></div>
+    <div class="pager"><a href="pocs-publish-by-default-rule.html">&larr; 160. The draft already exists — a selection rule, not a new channel</a><a href="pocs-google-glass-stitch.html">162. Google Glass form factor &amp; Stitch &rarr;</a></div>
   </div>
   </main>
 </div>

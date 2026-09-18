@@ -9,3 +9,9 @@
 | versioned | 버전이 매겨진 · 신뢰 계약에 버전 관리와 마이그레이션이 필요함을 강조 · "a versioned confidence contract from client to RPC" |
 | boundary timestamps | 경계 지점 타임스탬프 · 각 구간이 넘어가는 순간마다 기록하는 시각 · "Instrument... with boundary timestamps" |
 | advocate | (전치사 없이) ~을 주장하다, 지지하다 · "advocate for"로 쓰지 않도록 주의 · "Ethlabs advocates an initial ten-second Hegotá move" |
+| FCR | 빠른 확정 규칙(Fast Confirmation Rule, FCR) · 합의 클라이언트가 어테스테이션으로 더 빠른 초기 신뢰도를 도출하는 규칙. "FCR can derive a stronger early view from attestations" |
+| EIP-8198 | 퀵 슬롯 제안(EIP-8198, Quick Slots) · 슬롯 길이를 런타임에 설정 가능하게 만드는 이더리움 개선안. "EIP-8198 makes slot duration runtime-configurable" |
+| Ethlabs | 이스랩스(Ethlabs) · 이 카드의 인터롭 스프린트와 Hegotá 제안을 주도한 이더리움 리서치 조직. "Ethlabs' interop sprint makes the adoption gap concrete" |
+| Prysm | 프리즘(Prysm) · FCR을 구현 중인 이더리움 합의 클라이언트 중 하나. "multi-client implementation work including Prysm" |
+| Hegotá | 헤고타 안(Hegotá view/move) · Ethlabs가 제시한 10초 슬롯 전환안의 코드네임. "Ethlabs advocates an initial ten-second Hegotá move" |
+<!-- acronyms 2026-09-18 -->

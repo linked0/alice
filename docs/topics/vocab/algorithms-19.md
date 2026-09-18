@@ -6,3 +6,6 @@
 | on equal footing | 동등한 조건에서, 같은 기준으로 · 여러 대안을 같은 조건에서 비교하라는 지시. "compare them on equal footing" |
 | dominate (a constraint) | (어떤 제약이) 지배적·결정적 요인이 되다 · 가장 우선해야 할 제약을 먼저 파악하라는 뜻. "identify which constraint dominates" |
 | misidentify | (원인·대상을) 잘못 짚다 · 성능 문제의 원인을 잘못 진단하는 실수. "comes not from a wrong algorithm but from misidentifying the constraint" |
+| p99 | 99번째 백분위수 지연시간(tail latency percentile) · 평균이 아니라 최악에 가까운 꼬리 지연을 기준으로 삼아야 한다는 맥락. "If tail latency (p99) matters, avoid amortized algorithms" |
+| log-structured | 로그 구조 저장 방식(log-structured storage) · 쓰기 위주 워크로드에 유리한 자료구조를 가리킬 때. "a log-structured or amortization-friendly structure wins" |
+<!-- acronyms 2026-09-18 -->

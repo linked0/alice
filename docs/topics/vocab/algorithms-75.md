@@ -7,3 +7,5 @@
 | byte-for-byte | 한 바이트도 다르지 않게, 완전히 동일하게 · 완벽히 일치하는지 검증할 때. "the final tables are byte-for-byte identical" |
 | buy (freedom) | 대가를 치르고 확보하다 · 설계로 얻어내는 이점을 말할 때. "replayability is a design that buys an operational freedom" |
 | left wrong | 잘못된 채로 방치되다 · 수정되지 않고 오류 상태로 남을 때. "past balances are left wrong" |
+| P&L | 손익(Profit and Loss) · 사용자의 포지션과 손익을 계산해 보여주는 지표, 재구성 시 정확해야 함. "to show users their positions and P&L, without replayability" |
+<!-- acronyms 2026-09-18 -->

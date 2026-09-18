@@ -10,3 +10,9 @@
 | walking into | (위험한 곳에) 발을 들이다 · 강력한 기존 세력과 정면으로 부딪힐 때 · "walking into the most licensing-fortified cartel" |
 | daily fixing | (매일 정해지는) 기준가·픽싱 가격 · 펀드·파생상품 정산 기준이 되는 값 · "removes the daily fixing that funds" |
 | widened confidence | 신뢰구간이 넓어진 상태 · 가격의 불확실성이 커졌음을 나타낼 때 · "last print, widened confidence, or silence" |
+| ADRs | 미국예탁증권(American Depositary Receipts) · 해외 주식을 미국 거래소에서 거래하도록 만든 증서, 주말 합성지수 산출 입력값 중 하나 · "Weekend continuity (ADRs, futures, FX)" |
+| TradFi | 전통 금융(Traditional Finance) · 크립토 오라클이 새로 진입하는 주식·선물 등 기존 금융 시장을 가리킬 때 · "its move into TradFi symbols imports a concept" |
+| LSE | 런던증권거래소(London Stock Exchange) · 일일 픽싱을 없앤 24시간 거래 사례로 언급되는 거래소 · "LSE 24 removes the daily fixing that funds" |
+| PDZ6 | 팔라듐 선물 계약 코드 · Pyth가 서빙하는 Regular Hours 심볼의 구체적 예시 · "palladium PDZ6" |
+| Pyth Pro | Pyth의 유료 시장데이터 상품 티어 · "모든 것의 가격"을 표방하며 전통 금융데이터 시장에 진출하는 상품 · "Pyth Pro ("the price of everything")" |
+<!-- acronyms 2026-09-18 -->

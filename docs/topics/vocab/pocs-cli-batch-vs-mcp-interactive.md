@@ -10,3 +10,6 @@
 | one more face of | ~의 또 다른 모습, 변형 · 같은 원리가 다른 형태로 나타날 때. "one more face of the a-boolean-hides-a-state-machine cluster" |
 | the stable instruction shape | 안정적으로 유지되는 지시문의 형태 · 여러 상황에서 재사용 가능한 지시 방식. "the stable instruction shape is the task plus its verification" |
 | optimize different things | 서로 다른 것을 최적화하다 · 두 방식 중 어느 게 낫다가 아니라 목적이 다름을 말할 때. "Neither is better; they optimize different things" |
+| GLB | GL 전송 포맷 바이너리(GL Transmission Format Binary) · 3D 모델을 내보내는 표준 파일 포맷, 렌더링 파이프라인의 산출물. "multi-camera renders, GLB export, poly-count check" |
+| poly-count | 폴리곤 수(3D 모델을 구성하는 다각형 개수) · 내보내기 전 모델 복잡도를 검사하는 항목. "GLB export, poly-count check" |
+<!-- acronyms 2026-09-18 -->

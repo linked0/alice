@@ -10,3 +10,5 @@
 | swap out for | ~로 갈아끼우다·교체하다 · 모듈처럼 대상만 바꿔 끼울 수 있을 때. "the tank can be swapped out for anything else" |
 | a direction problem | 방향(인과관계)이 뒤바뀐 문제 · 입력과 출력이 실제론 반대일 수 있다는 의심. "the claim has a direction problem worth catching" |
 | roughly right | 대략 맞는(정확하진 않아도 얼추 맞는) · 결과가 완벽하진 않지만 방향이 맞을 때. "A model appears and is roughly right" |
+| Kimi K3 | 문숏AI(Moonshot AI)의 LLM 모델명 · 이 글이 검증하려는 주장의 근거가 된 AI 모델. "A post claims Kimi K3 built an app" |
+<!-- acronyms 2026-09-18 -->

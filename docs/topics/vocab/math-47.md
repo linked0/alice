@@ -7,3 +7,7 @@
 | at a much lower cost | 훨씬 낮은 비용으로 · 같은 효과를 더 저렴하게 얻을 때. "durability at a much lower storage cost" |
 | directly relevant to | ~와 직접적으로 관련 있는 · 배경지식이 실제 설계와 바로 연결될 때. "directly relevant background for designing Verex's oracle trust model" |
 | erasure | 소실, 삭제(데이터 유실) · 일부 조각이 사라진 상황을 가리킬 때. "recover from up to n-k erasures" |
+| KZG | 케이트 다항식 커밋먼트(Kate–Zaverucha–Goldberg) · 이더리움 블롭 데이터가용성 등에 쓰이는 다항식 커밋먼트 기법. "blob data availability, KZG polynomial commitments, and threshold signatures" |
+| MDS | 최대거리분리부호(Maximum Distance Separable code) · n-k+1의 최소거리를 갖는 부호, 손실 복구 능력을 규정. "That makes it an MDS code with minimum distance n-k+1" |
+| Shamir's secret sharing | 샤미르 비밀분산 · 비밀을 상수항에 넣고 다항식 값을 나눠주는 구조, 리드-솔로몬과 같은 원리. "The same structure underlies Shamir's secret sharing" |
+<!-- acronyms 2026-09-18 -->

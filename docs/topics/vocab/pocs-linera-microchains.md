@@ -6,3 +6,5 @@
 | extend (a chain) | 체인을 이어나가다, 확장하다 · 사용자가 자기 체인에 블록을 계속 추가할 때. "a chain they alone extend" |
 | the whole point | 핵심, 가장 중요한 요지 · 논의에서 진짜 중요한 부분이 무엇인지 짚을 때. "an application whose whole point is that many users touch the same state" |
 | contend for | ~을 놓고 다투다, 경합하다 · 공유 자원을 두고 여러 참여자가 겨룰 때. "there is nothing to contend for" |
+| PBS | 제안자-빌더 분리(Proposer-Builder Separation) · 블록 생성 권한을 경매로 분리해 컨텐션을 가격 매기는 구조의 예. "PBS auctions it, gas prices it" |
+<!-- acronyms 2026-09-18 -->

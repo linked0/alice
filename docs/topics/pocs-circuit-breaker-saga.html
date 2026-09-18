@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Microservice patterns — Circuit Breaker &amp; Saga</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#153</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#157</span><span>PoC</span></p>
       <h1>Microservice patterns — Circuit Breaker &amp; Saga</h1>
       <p class="lead">Circuit Breaker (fail fast on inter-service calls, probe recovery half-open) and Saga (distributed transactions as local-transaction chains plus compensations) — verex&#39;s settlement pipeline is a Saga; its RPC/indexer calls want a breaker.</p>
       <p class="meta">Not yet scoped — a reading note. (Notion queue, added 2026-08-07.)</p>
@@ -494,8 +494,12 @@ except Exception as e:
     print(&quot;ledger after rollback:&quot;, ledger)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/circuit-breaker-saga.py">docs/code/pocs/circuit-breaker-saga.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fail fast</strong></td><td>장애를 조기에 감지해 빠르게 실패 처리하다 · "fail fast on inter-service calls"</td></tr><tr><td><strong>probe recovery</strong></td><td>회복됐는지 시험적으로 확인해보다 · "probe recovery half-open"</td></tr><tr><td><strong>half-open</strong></td><td>(회로차단기의) 반개방 상태 · "probe recovery half-open after a cooldown"</td></tr><tr><td><strong>compensating transaction</strong></td><td>앞선 작업을 되돌리는 보상 트랜잭션 · "local-transaction chains plus compensations"</td></tr><tr><td><strong>eventual consistency</strong></td><td>즉시는 아니지만 결국 맞춰지는 일관성 · "eventual consistency without 2PC"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: write the settlement pipeline as an explicit Saga with a compensating transaction for each step.</strong> Oracle lookup, settlement and payout each need a defined rollback action, not just a sequence that assumes every step succeeds.</li><li><strong>Rabbit/Devnet: wrap every RPC and indexer call behind a circuit breaker with a stated half-open probe interval.</strong> Fail fast once a threshold trips and probe recovery on a schedule, rather than retrying indefinitely against a degraded RPC endpoint.</li><li><strong>gitboard: surface each service&#39;s breaker state — closed, open, half-open — as a visible metric.</strong> A tripped circuit is operational state worth showing on the dashboard, not something only discoverable in logs after the fact.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fail fast</strong></td><td>장애를 조기에 감지해 빠르게 실패 처리하다 · "fail fast on inter-service calls"</td></tr><tr><td><strong>probe recovery</strong></td><td>회복됐는지 시험적으로 확인해보다 · "probe recovery half-open"</td></tr><tr><td><strong>half-open</strong></td><td>(회로차단기의) 반개방 상태 · "probe recovery half-open after a cooldown"</td></tr><tr><td><strong>compensating transaction</strong></td><td>앞선 작업을 되돌리는 보상 트랜잭션 · "local-transaction chains plus compensations"</td></tr><tr><td><strong>eventual consistency</strong></td><td>즉시는 아니지만 결국 맞춰지는 일관성 · "eventual consistency without 2PC"</td></tr><tr><td><strong>2PC</strong></td><td>2단계 커밋(Two-Phase Commit) · 분산 트랜잭션을 원자적으로 확정하는 전통적 합의 프로토콜, Saga가 대신하는 대상. "eventual consistency without 2PC"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -594,12 +598,16 @@ except Exception as e:
     print(&quot;ledger after rollback:&quot;, ledger)
 </code></pre>
       <p class="code-link"><a href="../code/pocs/circuit-breaker-saga.py">docs/code/pocs/circuit-breaker-saga.py</a></p>
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fail fast</strong></td><td>장애를 조기에 감지해 빠르게 실패 처리하다 · "fail fast on inter-service calls"</td></tr><tr><td><strong>probe recovery</strong></td><td>회복됐는지 시험적으로 확인해보다 · "probe recovery half-open"</td></tr><tr><td><strong>half-open</strong></td><td>(회로차단기의) 반개방 상태 · "probe recovery half-open after a cooldown"</td></tr><tr><td><strong>compensating transaction</strong></td><td>앞선 작업을 되돌리는 보상 트랜잭션 · "local-transaction chains plus compensations"</td></tr><tr><td><strong>eventual consistency</strong></td><td>즉시는 아니지만 결국 맞춰지는 일관성 · "eventual consistency without 2PC"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 정산 파이프라인을 각 단계마다 보상 트랜잭션이 있는 명시적 Saga로 작성한다.</strong> 오라클 조회, 정산, 지급 각각에 정의된 롤백 동작이 필요하다. 모든 단계가 성공한다고 가정한 순차 흐름만으로는 부족하다.</li><li><strong>Rabbit/Devnet: 모든 RPC·인덱서 호출을 명시적인 half-open 프로브 간격을 가진 회로 차단기로 감싼다.</strong> 임계값을 넘으면 빠르게 실패하고 일정에 따라 복구를 프로브한다. 저하된 RPC 엔드포인트에 무한정 재시도하지 않는다.</li><li><strong>gitboard: 각 서비스의 차단기 상태 — closed, open, half-open — 를 눈에 보이는 지표로 노출한다.</strong> 트립된 회로는 나중에 로그에서만 발견되는 것이 아니라 대시보드에 보여줄 만한 운영 상태다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fail fast</strong></td><td>장애를 조기에 감지해 빠르게 실패 처리하다 · "fail fast on inter-service calls"</td></tr><tr><td><strong>probe recovery</strong></td><td>회복됐는지 시험적으로 확인해보다 · "probe recovery half-open"</td></tr><tr><td><strong>half-open</strong></td><td>(회로차단기의) 반개방 상태 · "probe recovery half-open after a cooldown"</td></tr><tr><td><strong>compensating transaction</strong></td><td>앞선 작업을 되돌리는 보상 트랜잭션 · "local-transaction chains plus compensations"</td></tr><tr><td><strong>eventual consistency</strong></td><td>즉시는 아니지만 결국 맞춰지는 일관성 · "eventual consistency without 2PC"</td></tr><tr><td><strong>2PC</strong></td><td>2단계 커밋(Two-Phase Commit) · 분산 트랜잭션을 원자적으로 확정하는 전통적 합의 프로토콜, Saga가 대신하는 대상. "eventual consistency without 2PC"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-product-is-resume-not-schedule.html">&larr; 152. What you are buying is resume, not scheduling</a><a href="pocs-web-stack-layers.html">154. Web stack layers &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-product-is-resume-not-schedule.html">&larr; 156. What you are buying is resume, not scheduling</a><a href="pocs-web-stack-layers.html">158. Web stack layers &rarr;</a></div>
   </div>
   </main>
 </div>

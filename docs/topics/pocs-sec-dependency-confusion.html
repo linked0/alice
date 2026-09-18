@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Dependency confusion — the package manager pulls the wrong registry</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#194</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#198</span><span>PoC</span></p>
       <h1>Dependency confusion — the package manager pulls the wrong registry</h1>
       <p class="lead">Publishing a public package with an internal package&#39;s name can make a build fetch the attacker&#39;s version, a supply-chain class that hit major companies via npm and PyPI defaults.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>name-resolution mismatch</strong></td><td>이름 해석(매칭)이 어긋나는 것 · "reproduces the name-resolution mismatch in a sandbox"</td></tr><tr><td><strong>supply-chain class</strong></td><td>공급망 공격 유형 · "a supply-chain class that hit major companies"</td></tr><tr><td><strong>trusted input</strong></td><td>신뢰할 수 있다고 가정된 입력값 · "framing the registry as trusted input that is not"</td></tr><tr><td><strong>scoping</strong></td><td>패키지 이름에 네임스페이스를 지정하는 것 · "the scoping/lockfile defenses"</td></tr><tr><td><strong>fetch</strong></td><td>(패키지를) 가져오다, 당겨오다 · "can make a build fetch the attacker&#39;s version"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI: add a scoped-registry check across every Jayverse repo.</strong> On top of the existing frozen-lockfile policy, confirm every internal-looking package name across rabbit, verex, jayverse-wallet, jayverse-token, jayverse-personas and jayverse-number is either scoped to a private registry or intentionally public, so a public namesquat can&#39;t win resolution.</li><li><strong>gitboard: surface the last dependency-confusion audit date per repo.</strong> This class stays silent until exploited and won&#39;t show up in ordinary CI green checks — track the audit date on the dashboard so it&#39;s visibly stale rather than invisibly skipped.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>name-resolution mismatch</strong></td><td>이름 해석(매칭)이 어긋나는 것 · "reproduces the name-resolution mismatch in a sandbox"</td></tr><tr><td><strong>supply-chain class</strong></td><td>공급망 공격 유형 · "a supply-chain class that hit major companies"</td></tr><tr><td><strong>trusted input</strong></td><td>신뢰할 수 있다고 가정된 입력값 · "framing the registry as trusted input that is not"</td></tr><tr><td><strong>scoping</strong></td><td>패키지 이름에 네임스페이스를 지정하는 것 · "the scoping/lockfile defenses"</td></tr><tr><td><strong>fetch</strong></td><td>(패키지를) 가져오다, 당겨오다 · "can make a build fetch the attacker&#39;s version"</td></tr><tr><td><strong>PyPI</strong></td><td>파이파이(Python Package Index) · 파이썬 패키지 레지스트리, npm과 함께 디펜던시 컨퓨전 공격의 표적이 된 기본 저장소. "a supply-chain class that hit major companies via npm and PyPI defaults"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>name-resolution mismatch</strong></td><td>이름 해석(매칭)이 어긋나는 것 · "reproduces the name-resolution mismatch in a sandbox"</td></tr><tr><td><strong>supply-chain class</strong></td><td>공급망 공격 유형 · "a supply-chain class that hit major companies"</td></tr><tr><td><strong>trusted input</strong></td><td>신뢰할 수 있다고 가정된 입력값 · "framing the registry as trusted input that is not"</td></tr><tr><td><strong>scoping</strong></td><td>패키지 이름에 네임스페이스를 지정하는 것 · "the scoping/lockfile defenses"</td></tr><tr><td><strong>fetch</strong></td><td>(패키지를) 가져오다, 당겨오다 · "can make a build fetch the attacker&#39;s version"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI: 모든 Jayverse 저장소에 스코프 레지스트리 체크를 추가한다.</strong> 기존 락파일 고정 정책에 더해, rabbit, verex, jayverse-wallet, jayverse-token, jayverse-personas, jayverse-number 전체에서 내부용처럼 보이는 패키지명이 프라이빗 레지스트리에 스코프되어 있거나 의도적으로 공개된 것인지 확인해, 공개 네임스쿼팅이 해석에서 이기지 못하게 한다.</li><li><strong>gitboard: 저장소별 마지막 dependency-confusion 감사 날짜를 노출한다.</strong> 이 취약점 클래스는 악용되기 전까지 조용하며 일반 CI 초록불로는 드러나지 않는다. 감사 날짜를 대시보드에 추적해 보이지 않게 건너뛰는 대신 눈에 띄게 오래된 상태로 만든다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>name-resolution mismatch</strong></td><td>이름 해석(매칭)이 어긋나는 것 · "reproduces the name-resolution mismatch in a sandbox"</td></tr><tr><td><strong>supply-chain class</strong></td><td>공급망 공격 유형 · "a supply-chain class that hit major companies"</td></tr><tr><td><strong>trusted input</strong></td><td>신뢰할 수 있다고 가정된 입력값 · "framing the registry as trusted input that is not"</td></tr><tr><td><strong>scoping</strong></td><td>패키지 이름에 네임스페이스를 지정하는 것 · "the scoping/lockfile defenses"</td></tr><tr><td><strong>fetch</strong></td><td>(패키지를) 가져오다, 당겨오다 · "can make a build fetch the attacker&#39;s version"</td></tr><tr><td><strong>PyPI</strong></td><td>파이파이(Python Package Index) · 파이썬 패키지 레지스트리, npm과 함께 디펜던시 컨퓨전 공격의 표적이 된 기본 저장소. "a supply-chain class that hit major companies via npm and PyPI defaults"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-ssrf.html">&larr; 193. SSRF — making the server fetch the URL you chose</a><a href="pocs-sec-ransomware-colonial.html">195. Ransomware — one password shut a pipeline &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-ssrf.html">&larr; 197. SSRF — making the server fetch the URL you chose</a><a href="pocs-sec-ransomware-colonial.html">199. Ransomware — one password shut a pipeline &rarr;</a></div>
   </div>
   </main>
 </div>

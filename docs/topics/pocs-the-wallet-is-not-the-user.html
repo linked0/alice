@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The wallet is not the user</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#84</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#88</span><span>PoC</span></p>
       <h1>The wallet is not the user</h1>
       <p class="lead">One person holds five wallets; one wallet is shared by a team; SIWE proves control of a key, not identity of a person. An account model that assumes wallet = user breaks linking, history and support the moment real users arrive.</p>
       <p class="meta">Build an app account that links two wallets via SIWE, then answer the questions that immediately appear in code: which wallet may unlink the other, what happens to history on unlink, and what a shared wallet does to the model.</p>
@@ -416,8 +416,12 @@
 <h3>What it proves</h3>
 <p>Account linking looks like a convenience feature and is actually an authorization system: every link is a granted capability, every unlink a revocation, and the timing rules between them are the account-takeover surface. The chain gives you a permissionless key graph; the product must decide, explicitly, what a person is.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the worst of both worlds</strong></td><td>양쪽의 단점만 모은 최악의 조합 · "the worst of both identity worlds"</td></tr><tr><td><strong>sticky / loose</strong></td><td>딱 붙어 안 떨어지는 / 헐겁게 걸쳐진 · "too sticky to be anonymous, too loose to be an account"</td></tr><tr><td><strong>land on</strong></td><td>(문제가 결국) ~로 귀결되다 · "lands on a mapping the chain does not provide"</td></tr><tr><td><strong>narrow ... but not close</strong></td><td>범위는 좁히지만 완전히 없애지는 못하다 · "narrows this but does not close it"</td></tr><tr><td><strong>authorization graph</strong></td><td>누가 무엇을 할 수 있는지 보여주는 권한 관계도 · "wallet linking is an authorization graph"</td></tr><tr><td><strong>account-takeover</strong></td><td>계정 탈취 · "the unlink operation is where account-takeover hides"</td></tr><tr><td><strong>evict</strong></td><td>(강제로) 쫓아내다, 내보내다 · "cannot immediately evict yours"</td></tr><tr><td><strong>grace period</strong></td><td>유예 기간 · "add a time-locked grace period"</td></tr><tr><td><strong>granted capability</strong></td><td>부여된 권한 · "every link is a granted capability"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Wallet: model wallet-linking as an authorization graph.</strong> Require the remaining wallet&#39;s signature to unlink another, add a time-locked grace period, and keep purchase/settlement history with the account rather than the wallet.</li><li><strong>Rabbit: apply the same three policy rows to session keys.</strong> A valid ERC-4337/7702 session proves control of a key, not identity, so Rabbit&#39;s account and support model needs the same unlink-authority, history-ownership and shared-wallet tests as any linked-wallet account.</li><li><strong>Personas: decide the shared-wallet policy before the market ships.</strong> Reject, allow-many, or transfer-with-consent for a persona NFT tied to a wallet a team or multiple people control — pick one and test it, not after the first support ticket.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the worst of both worlds</strong></td><td>양쪽의 단점만 모은 최악의 조합 · "the worst of both identity worlds"</td></tr><tr><td><strong>sticky / loose</strong></td><td>딱 붙어 안 떨어지는 / 헐겁게 걸쳐진 · "too sticky to be anonymous, too loose to be an account"</td></tr><tr><td><strong>land on</strong></td><td>(문제가 결국) ~로 귀결되다 · "lands on a mapping the chain does not provide"</td></tr><tr><td><strong>narrow ... but not close</strong></td><td>범위는 좁히지만 완전히 없애지는 못하다 · "narrows this but does not close it"</td></tr><tr><td><strong>authorization graph</strong></td><td>누가 무엇을 할 수 있는지 보여주는 권한 관계도 · "wallet linking is an authorization graph"</td></tr><tr><td><strong>account-takeover</strong></td><td>계정 탈취 · "the unlink operation is where account-takeover hides"</td></tr><tr><td><strong>evict</strong></td><td>(강제로) 쫓아내다, 내보내다 · "cannot immediately evict yours"</td></tr><tr><td><strong>grace period</strong></td><td>유예 기간 · "add a time-locked grace period"</td></tr><tr><td><strong>granted capability</strong></td><td>부여된 권한 · "every link is a granted capability"</td></tr><tr><td><strong>SIWE</strong></td><td>이더리움으로 로그인(Sign-In With Ethereum) · 서명으로 키 통제권만 증명하는 인증 표준, 사람의 신원까지 증명하진 않음. "proves control of a key, not identity"</td></tr><tr><td><strong>SQLite</strong></td><td>SQLite · 별도 서버 없이 파일 하나로 동작하는 경량 임베디드 데이터베이스, 이 PoC의 계정 저장소로 쓰임. "SIWE via viem, SQLite accounts"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -438,12 +442,16 @@
 <h3>무엇을 증명하나</h3>
 <p>계정 연결은 편의 기능처럼 보이지만 실제로는 <strong>권한 시스템</strong>입니다: 모든 연결은 부여된 능력이고, 모든 해제는 취소이며, 그 사이의 타이밍 규칙이 계정 탈취 표면입니다. 체인은 무허가 키 그래프를 줄 뿐 — <strong>사람이 무엇인지는 제품이 명시적으로 결정해야 합니다.</strong></p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the worst of both worlds</strong></td><td>양쪽의 단점만 모은 최악의 조합 · "the worst of both identity worlds"</td></tr><tr><td><strong>sticky / loose</strong></td><td>딱 붙어 안 떨어지는 / 헐겁게 걸쳐진 · "too sticky to be anonymous, too loose to be an account"</td></tr><tr><td><strong>land on</strong></td><td>(문제가 결국) ~로 귀결되다 · "lands on a mapping the chain does not provide"</td></tr><tr><td><strong>narrow ... but not close</strong></td><td>범위는 좁히지만 완전히 없애지는 못하다 · "narrows this but does not close it"</td></tr><tr><td><strong>authorization graph</strong></td><td>누가 무엇을 할 수 있는지 보여주는 권한 관계도 · "wallet linking is an authorization graph"</td></tr><tr><td><strong>account-takeover</strong></td><td>계정 탈취 · "the unlink operation is where account-takeover hides"</td></tr><tr><td><strong>evict</strong></td><td>(강제로) 쫓아내다, 내보내다 · "cannot immediately evict yours"</td></tr><tr><td><strong>grace period</strong></td><td>유예 기간 · "add a time-locked grace period"</td></tr><tr><td><strong>granted capability</strong></td><td>부여된 권한 · "every link is a granted capability"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Wallet: 지갑 연결을 권한 그래프로 모델링한다.</strong> 다른 지갑을 연결 해제하려면 남는 지갑의 서명을 요구하고, 시간 잠금 유예기간을 두며, 구매/정산 이력은 지갑이 아니라 계정에 귀속시킨다.</li><li><strong>Rabbit: 같은 세 가지 정책 행을 세션 키에도 적용한다.</strong> 유효한 ERC-4337/7702 세션은 키를 통제한다는 증명일 뿐 신원 증명이 아니므로, Rabbit의 계정 및 지원 모델도 연결된 지갑 계정과 동일한 연결해제 권한, 이력 소유권, 공유 지갑 테스트를 갖춰야 한다.</li><li><strong>Personas: 마켓 출시 전에 공유 지갑 정책을 정한다.</strong> 팀이나 여러 사람이 통제하는 지갑에 묶인 페르소나 NFT에 대해 거부, 다중 허용, 동의 기반 이전 중 하나를 고르고 테스트한다, 첫 지원 티켓이 들어온 뒤가 아니라.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the worst of both worlds</strong></td><td>양쪽의 단점만 모은 최악의 조합 · "the worst of both identity worlds"</td></tr><tr><td><strong>sticky / loose</strong></td><td>딱 붙어 안 떨어지는 / 헐겁게 걸쳐진 · "too sticky to be anonymous, too loose to be an account"</td></tr><tr><td><strong>land on</strong></td><td>(문제가 결국) ~로 귀결되다 · "lands on a mapping the chain does not provide"</td></tr><tr><td><strong>narrow ... but not close</strong></td><td>범위는 좁히지만 완전히 없애지는 못하다 · "narrows this but does not close it"</td></tr><tr><td><strong>authorization graph</strong></td><td>누가 무엇을 할 수 있는지 보여주는 권한 관계도 · "wallet linking is an authorization graph"</td></tr><tr><td><strong>account-takeover</strong></td><td>계정 탈취 · "the unlink operation is where account-takeover hides"</td></tr><tr><td><strong>evict</strong></td><td>(강제로) 쫓아내다, 내보내다 · "cannot immediately evict yours"</td></tr><tr><td><strong>grace period</strong></td><td>유예 기간 · "add a time-locked grace period"</td></tr><tr><td><strong>granted capability</strong></td><td>부여된 권한 · "every link is a granted capability"</td></tr><tr><td><strong>SIWE</strong></td><td>이더리움으로 로그인(Sign-In With Ethereum) · 서명으로 키 통제권만 증명하는 인증 표준, 사람의 신원까지 증명하진 않음. "proves control of a key, not identity"</td></tr><tr><td><strong>SQLite</strong></td><td>SQLite · 별도 서버 없이 파일 하나로 동작하는 경량 임베디드 데이터베이스, 이 PoC의 계정 저장소로 쓰임. "SIWE via viem, SQLite accounts"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-app-reads-a-projection.html">&larr; 83. Your app doesn't read the chain — it reads a projection</a><a href="pocs-a-refund-is-a-new-payment.html">85. A refund is a new payment — support flows on irreversible rails &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-app-reads-a-projection.html">&larr; 87. Your app doesn't read the chain — it reads a projection</a><a href="pocs-a-refund-is-a-new-payment.html">89. A refund is a new payment — support flows on irreversible rails &rarr;</a></div>
   </div>
   </main>
 </div>

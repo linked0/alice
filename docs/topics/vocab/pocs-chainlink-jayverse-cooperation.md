@@ -8,3 +8,7 @@
 | faithfully honored | (규칙대로) 충실히 이행되다·인정되다 · 시스템이 틀린 값도 규칙대로 그대로 처리해버림을 가리킴. "peg-out faithfully honored" |
 | boring dependency | 지루하지만 꼭 필요한 의존 요소 · 화려하지 않지만 반드시 기대야 하는 인프라를 가리킴. "the boring dependency several Jayverse products lean on" |
 | stop the drain | 자금 유출을 막다 · 부정하게 빠져나가는 자산 흐름을 저지하는 것을 가리킴. "it stops the drain from being honored" |
+| AMM | 자동화 마켓메이커(Automated Market Maker) · 준비금 비율로 가격이 정해지는 유동성 풀 방식. "a constant-product mini-AMM (price = reserve ratio)" |
+| LMSR | 로그 마켓 스코어링 규칙(Logarithmic Market Scoring Rule) · 오라클 대신 마켓메이커가 가격을 정하는 예측시장 방식. "Verex prices YES/NO with LMSR, not an oracle" |
+| PoR | 준비금 증명(Proof of Reserve)의 약어 · 상환 경로가 준비금 부족분을 거부할 근거가 되는 외부 증명. "A mint-invariant test (conservation) plus a PoR read" |
+<!-- acronyms 2026-09-18 -->

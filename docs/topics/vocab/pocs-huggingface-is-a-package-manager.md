@@ -10,3 +10,7 @@
 | switching cost | 전환 비용 · 다른 도구·프레임워크로 바꿀 때 드는 비용을 가리키는 경제 용어. "the switching cost accumulates" |
 | piping a URL into a shell | URL을 그대로 셸에 흘려 넣어 실행하기 · 검증 없이 외부 코드를 실행하는 위험한 관행의 비유. "the same act as piping a URL into a shell" |
 | at the point where | ~하는 시점에 가서야 · 문제가 미리 안 보이다가 나중에 불거지는 상황을 말할 때. "expensive at the point where someone asks" |
+| LFS | 대용량 파일 저장소(Git Large File Storage) · 모델 가중치 같은 큰 바이너리 파일을 git으로 관리하는 확장 기능. "Every repo is a git repository with LFS" |
+| PyPI | 파이썬 패키지 색인(Python Package Index) · npm과 함께 언급되는 파이썬 생태계의 표준 패키지 레지스트리. "invented all of that vocabulary a decade ago for npm and PyPI" |
+| model card | 모델 카드 · 모델의 용도·한계·학습 데이터를 설명하는 허깅페이스 표준 문서 양식. "Model cards, when filled in, are the most honest artifact" |
+<!-- acronyms 2026-09-18 -->

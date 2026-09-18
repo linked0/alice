@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Static analysis — Slither and Semgrep read the code you skimmed</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#197</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#201</span><span>PoC</span></p>
       <h1>Static analysis — Slither and Semgrep read the code you skimmed</h1>
       <p class="lead">Static analyzers like Slither (Solidity) and Semgrep (general) flag known-bad patterns before deployment, cheap and fast but drowning in false positives that only judgment filters.</p>
       <p class="meta">Not yet scoped.</p>
@@ -411,8 +411,12 @@
       <h2>How it works</h2>
       <p>Not yet built.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag (v.)</strong></td><td>(문제를) 표시하다, 짚어내다 · 정적 분석 도구가 의심스러운 패턴을 찾아 알려줄 때. "flag known-bad patterns before deployment"</td></tr><tr><td><strong>drown in</strong></td><td>~에 파묻히다, 넘쳐나서 헤어나지 못하다 · 오탐(false positive)이 너무 많아 진짜 문제를 놓치기 쉬울 때. "drowning in false positives"</td></tr><tr><td><strong>triage (v.)</strong></td><td>(우선순위를 매겨) 선별하다 · 쏟아진 경고들 중 중요한 것부터 걸러낼 때. "triages the output"</td></tr><tr><td><strong>deliberately buggy</strong></td><td>일부러 결함을 심은 · 도구 성능을 테스트하려고 의도적으로 취약하게 만든 코드. "a deliberately buggy contract"</td></tr><tr><td><strong>the honest measure of</strong></td><td>~에 대한 정직한(과장 없는) 척도 · 도구의 실제 성능을 있는 그대로 평가하는 기준. "the honest measure of the tool"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI: run Slither as a required check on every contracts PR across Verex, Token, Wallet and DeFi.</strong> Track its true-positive rate over time so a run of noisy findings gets triaged as "read the finding," not "disable the tool."</li><li><strong>Auditor: record which static-analysis findings were triaged as false positives, and why.</strong> The methodology (what was checked, by which rule) should include the judgment calls made on top of Slither/Semgrep output, not just the raw tool report.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag (v.)</strong></td><td>(문제를) 표시하다, 짚어내다 · 정적 분석 도구가 의심스러운 패턴을 찾아 알려줄 때. "flag known-bad patterns before deployment"</td></tr><tr><td><strong>drown in</strong></td><td>~에 파묻히다, 넘쳐나서 헤어나지 못하다 · 오탐(false positive)이 너무 많아 진짜 문제를 놓치기 쉬울 때. "drowning in false positives"</td></tr><tr><td><strong>triage (v.)</strong></td><td>(우선순위를 매겨) 선별하다 · 쏟아진 경고들 중 중요한 것부터 걸러낼 때. "triages the output"</td></tr><tr><td><strong>deliberately buggy</strong></td><td>일부러 결함을 심은 · 도구 성능을 테스트하려고 의도적으로 취약하게 만든 코드. "a deliberately buggy contract"</td></tr><tr><td><strong>the honest measure of</strong></td><td>~에 대한 정직한(과장 없는) 척도 · 도구의 실제 성능을 있는 그대로 평가하는 기준. "the honest measure of the tool"</td></tr><tr><td><strong>Slither</strong></td><td>Solidity 전용 정적분석 도구 · 스마트 컨트랙트 코드에서 알려진 취약 패턴을 자동으로 찾아주는 오픈소스 분석기. "Static analyzers like Slither (Solidity) and Semgrep (general)"</td></tr><tr><td><strong>Semgrep</strong></td><td>범용 정적분석 도구 · 여러 언어에 쓸 수 있는 패턴 기반 코드 스캐너, 배포 전 알려진 위험 패턴을 표시. "flag known-bad patterns before deployment"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -428,12 +432,16 @@
       <h2>동작 방식</h2>
       <p>아직 만들지 않음.</p>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag (v.)</strong></td><td>(문제를) 표시하다, 짚어내다 · 정적 분석 도구가 의심스러운 패턴을 찾아 알려줄 때. "flag known-bad patterns before deployment"</td></tr><tr><td><strong>drown in</strong></td><td>~에 파묻히다, 넘쳐나서 헤어나지 못하다 · 오탐(false positive)이 너무 많아 진짜 문제를 놓치기 쉬울 때. "drowning in false positives"</td></tr><tr><td><strong>triage (v.)</strong></td><td>(우선순위를 매겨) 선별하다 · 쏟아진 경고들 중 중요한 것부터 걸러낼 때. "triages the output"</td></tr><tr><td><strong>deliberately buggy</strong></td><td>일부러 결함을 심은 · 도구 성능을 테스트하려고 의도적으로 취약하게 만든 코드. "a deliberately buggy contract"</td></tr><tr><td><strong>the honest measure of</strong></td><td>~에 대한 정직한(과장 없는) 척도 · 도구의 실제 성능을 있는 그대로 평가하는 기준. "the honest measure of the tool"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI: Verex, Token, Wallet, DeFi 전체의 모든 컨트랙트 PR에 Slither를 필수 체크로 돌린다.</strong> 참양성률을 시간에 따라 추적해서, 잡음 섞인 결과가 나오면 "도구를 끈다"가 아니라 "결과를 읽는다"로 대응하게 한다.</li><li><strong>Auditor: 어떤 정적 분석 결과를 오탐으로 판단했는지, 왜 그런지 기록한다.</strong> 방법론(무엇을 어떤 규칙으로 확인했는지)에는 Slither·Semgrep 원시 출력뿐 아니라 그 위에서 내린 판단도 포함되어야 한다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flag (v.)</strong></td><td>(문제를) 표시하다, 짚어내다 · 정적 분석 도구가 의심스러운 패턴을 찾아 알려줄 때. "flag known-bad patterns before deployment"</td></tr><tr><td><strong>drown in</strong></td><td>~에 파묻히다, 넘쳐나서 헤어나지 못하다 · 오탐(false positive)이 너무 많아 진짜 문제를 놓치기 쉬울 때. "drowning in false positives"</td></tr><tr><td><strong>triage (v.)</strong></td><td>(우선순위를 매겨) 선별하다 · 쏟아진 경고들 중 중요한 것부터 걸러낼 때. "triages the output"</td></tr><tr><td><strong>deliberately buggy</strong></td><td>일부러 결함을 심은 · 도구 성능을 테스트하려고 의도적으로 취약하게 만든 코드. "a deliberately buggy contract"</td></tr><tr><td><strong>the honest measure of</strong></td><td>~에 대한 정직한(과장 없는) 척도 · 도구의 실제 성능을 있는 그대로 평가하는 기준. "the honest measure of the tool"</td></tr><tr><td><strong>Slither</strong></td><td>Solidity 전용 정적분석 도구 · 스마트 컨트랙트 코드에서 알려진 취약 패턴을 자동으로 찾아주는 오픈소스 분석기. "Static analyzers like Slither (Solidity) and Semgrep (general)"</td></tr><tr><td><strong>Semgrep</strong></td><td>범용 정적분석 도구 · 여러 언어에 쓸 수 있는 패턴 기반 코드 스캐너, 배포 전 알려진 위험 패턴을 표시. "flag known-bad patterns before deployment"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-prompt-injection.html">&larr; 196. Prompt injection — untrusted text becomes an instruction</a><a href="pocs-sec-bug-bounty.html">198. Bug bounty platforms — pricing a vulnerability before an attacker does &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-prompt-injection.html">&larr; 200. Prompt injection — untrusted text becomes an instruction</a><a href="pocs-sec-bug-bounty.html">202. Bug bounty platforms — pricing a vulnerability before an attacker does &rarr;</a></div>
   </div>
   </main>
 </div>

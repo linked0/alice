@@ -10,3 +10,8 @@
 | intermediated | 중개를 거친(직접이 아닌) · 소매 직접 접근과 대비되는 접근 방식 · "retail direct versus intermediated or institution-only" |
 | differ more in timing than in substance | 시기보다는 본질에서 덜 다르다(타이밍 차이가 더 크다) · 두 시나리오를 비교할 때 쓰는 구문 · "the two differ more in timing than in substance" |
 | subject matter | (규제·계약의) 대상·주제 · 어떤 사건을 다루는 상품인지 규정할 때 · "Subject matter — exogenous events versus outcomes" |
+| CFTC | 미국 상품선물거래위원회(Commodity Futures Trading Commission) · 파생상품·예측시장을 규제하는 미국 연방기관, 벤치마크 규제 지정 기관으로 등장 · "A CFTC designation, obtained in December 2025" |
+| Jackson Hole symposium | 잭슨홀 심포지엄 · 미 캔자스시티 연준이 매년 여는 통화정책 회의, 2026년 주제는 결제·금융혁신 · "the announced Jackson Hole 2026 theme" |
+| Gemini Titan | Gemini의 CFTC 지정 예측시장 거래 플랫폼 · Apex Fintech와 독점 제휴한 벤처로 언급 · "Gemini Titan becomes Apex Fintech's exclusive venue" |
+| Apex Fintech | 미국의 대형 브로커리지 인프라 기업 · Gemini Titan과 독점 제휴한 브로커 네트워크 · "the exclusive regulated partner of a large US brokerage network" |
+<!-- acronyms 2026-09-18 -->

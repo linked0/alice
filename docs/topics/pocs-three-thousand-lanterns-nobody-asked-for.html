@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; 3,500 lanterns nobody asked for — Blender agents and the underspecification benchmark</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#179</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#183</span><span>PoC</span></p>
       <h1>3,500 lanterns nobody asked for — Blender agents and the underspecification benchmark</h1>
       <p class="lead">Two frontier agents were given Blender: one built 3,500 lanterns nobody requested (&quot;see how far I can go unprompted&quot;), the other finished fast and showed something presentable first. Both reasoned well — which is exactly why capability wasn&#39;t the interesting axis. An open-ended creative tool makes every spec incomplete, and what an agent does with that slack — over-build, show early, or ask — is a design temperament you can measure.</p>
       <p class="meta">Directly runnable — the setup is an evening, the experiment is a prompt.
@@ -512,8 +512,12 @@ Source: shared SNS review of Astra vs. Fable 5.1 driving Blender, 2026-09-06.</p
 </tr>
 </tbody></table></div>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underspecification</strong></td><td>명세 부족, 스펙이 불완전한 상태 · 요청이 애매해서 해석의 여지가 클 때. "the underspecification benchmark"</td></tr><tr><td><strong>fill slack with</strong></td><td>여유(미확정 영역)를 ~로 채우다 · 애매한 부분을 어떻게 메울지 설명할 때. "fills slack with initiative"</td></tr><tr><td><strong>over-build</strong></td><td>필요 이상으로 만들다, 과도하게 구현하다 · 요청받지 않은 것까지 잔뜩 만들 때. "did it ask, show early, or over-build"</td></tr><tr><td><strong>show early</strong></td><td>초반에 결과물을 보여주다 · 완성 전에 일단 보여주고 피드백 받는 전략. "did it ask, show early, or over-build"</td></tr><tr><td><strong>hand back</strong></td><td>(몫·결정권을) 다시 돌려주다 · 애매한 부분을 사용자에게 다시 넘길 때. "hands the slack back to you"</td></tr><tr><td><strong>temperament</strong></td><td>기질, 성향 · 에이전트가 애매함을 다루는 고유한 방식. "a design temperament you can measure"</td></tr><tr><td><strong>manufacture spec</strong></td><td>없는 스펙을 지어내다(비유) · 애매한 요청을 자기 마음대로 해석해 확장할 때. "is manufacturing spec where none was given"</td></tr><tr><td><strong>runaway loop</strong></td><td>폭주하는 루프 · 멈추지 않고 계속 반복 실행되는 상황. "No runaway loops"</td></tr><tr><td><strong>smoke test</strong></td><td>기본 동작 확인 테스트 · 본격적인 작업 전에 간단히 되는지 확인하는 절차. "confirm with a... smoke test"</td></tr><tr><td><strong>collateral rework</strong></td><td>부수적으로 발생하는 재작업 · 한 가지를 고치다가 딴 곳까지 다시 손봐야 할 때. "without collateral rework"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>CI: score agent temperament on real PRs, not just passing tests.</strong> Log time-to-first-diff, unrequested-file or object count, and token cost per agent-authored PR across Rabbit, Verex and Wallet, so a show-early habit can be preferred over an over-builder before it burns budget.</li><li><strong>gitboard: add an "unrequested scope" counter per service.</strong> When an agent task touches more files or objects than the prompt asked for, surface it on the dashboard the same way the card counts unrequested lanterns.</li><li><strong>Auditor: require a feedback-round check before merging agent-authored contract or infra changes.</strong> Did the correction land without collateral rework — the same rubric the card scores Blender agents on.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underspecification</strong></td><td>명세 부족, 스펙이 불완전한 상태 · 요청이 애매해서 해석의 여지가 클 때. "the underspecification benchmark"</td></tr><tr><td><strong>fill slack with</strong></td><td>여유(미확정 영역)를 ~로 채우다 · 애매한 부분을 어떻게 메울지 설명할 때. "fills slack with initiative"</td></tr><tr><td><strong>over-build</strong></td><td>필요 이상으로 만들다, 과도하게 구현하다 · 요청받지 않은 것까지 잔뜩 만들 때. "did it ask, show early, or over-build"</td></tr><tr><td><strong>show early</strong></td><td>초반에 결과물을 보여주다 · 완성 전에 일단 보여주고 피드백 받는 전략. "did it ask, show early, or over-build"</td></tr><tr><td><strong>hand back</strong></td><td>(몫·결정권을) 다시 돌려주다 · 애매한 부분을 사용자에게 다시 넘길 때. "hands the slack back to you"</td></tr><tr><td><strong>temperament</strong></td><td>기질, 성향 · 에이전트가 애매함을 다루는 고유한 방식. "a design temperament you can measure"</td></tr><tr><td><strong>manufacture spec</strong></td><td>없는 스펙을 지어내다(비유) · 애매한 요청을 자기 마음대로 해석해 확장할 때. "is manufacturing spec where none was given"</td></tr><tr><td><strong>runaway loop</strong></td><td>폭주하는 루프 · 멈추지 않고 계속 반복 실행되는 상황. "No runaway loops"</td></tr><tr><td><strong>smoke test</strong></td><td>기본 동작 확인 테스트 · 본격적인 작업 전에 간단히 되는지 확인하는 절차. "confirm with a... smoke test"</td></tr><tr><td><strong>collateral rework</strong></td><td>부수적으로 발생하는 재작업 · 한 가지를 고치다가 딴 곳까지 다시 손봐야 할 때. "without collateral rework"</td></tr><tr><td><strong>bpy</strong></td><td>블렌더의 파이썬 API(Blender&#39;s Python module) · 에이전트가 실제 명령(오브젝트 생성, 렌더링 등)을 보내는 인터페이스. "opens a socket into Blender&#39;s Python API (bpy)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -630,12 +634,16 @@ Source: shared SNS review of Astra vs. Fable 5.1 driving Blender, 2026-09-06.</p
 </tr>
 </tbody></table></div>
       
-      <!-- vocab:start -->
-<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underspecification</strong></td><td>명세 부족, 스펙이 불완전한 상태 · 요청이 애매해서 해석의 여지가 클 때. "the underspecification benchmark"</td></tr><tr><td><strong>fill slack with</strong></td><td>여유(미확정 영역)를 ~로 채우다 · 애매한 부분을 어떻게 메울지 설명할 때. "fills slack with initiative"</td></tr><tr><td><strong>over-build</strong></td><td>필요 이상으로 만들다, 과도하게 구현하다 · 요청받지 않은 것까지 잔뜩 만들 때. "did it ask, show early, or over-build"</td></tr><tr><td><strong>show early</strong></td><td>초반에 결과물을 보여주다 · 완성 전에 일단 보여주고 피드백 받는 전략. "did it ask, show early, or over-build"</td></tr><tr><td><strong>hand back</strong></td><td>(몫·결정권을) 다시 돌려주다 · 애매한 부분을 사용자에게 다시 넘길 때. "hands the slack back to you"</td></tr><tr><td><strong>temperament</strong></td><td>기질, 성향 · 에이전트가 애매함을 다루는 고유한 방식. "a design temperament you can measure"</td></tr><tr><td><strong>manufacture spec</strong></td><td>없는 스펙을 지어내다(비유) · 애매한 요청을 자기 마음대로 해석해 확장할 때. "is manufacturing spec where none was given"</td></tr><tr><td><strong>runaway loop</strong></td><td>폭주하는 루프 · 멈추지 않고 계속 반복 실행되는 상황. "No runaway loops"</td></tr><tr><td><strong>smoke test</strong></td><td>기본 동작 확인 테스트 · 본격적인 작업 전에 간단히 되는지 확인하는 절차. "confirm with a... smoke test"</td></tr><tr><td><strong>collateral rework</strong></td><td>부수적으로 발생하는 재작업 · 한 가지를 고치다가 딴 곳까지 다시 손봐야 할 때. "without collateral rework"</td></tr></tbody></table></div></section>
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>CI: 테스트 통과가 아니라 실제 PR로 에이전트 성향을 평가한다.</strong> Rabbit, Verex, Wallet 전반에서 에이전트가 작성한 PR마다 첫 diff까지 걸린 시간, 요청하지 않은 파일/객체 수, 토큰 비용을 기록해, 예산을 태우기 전에 과잉 구현형보다 조기 공개형을 선호할 수 있게 한다.</li><li><strong>gitboard: 서비스별 "요청하지 않은 범위" 카운터를 추가한다.</strong> 에이전트 작업이 프롬프트가 요구한 것보다 더 많은 파일이나 객체를 건드리면, 이 카드가 요청하지 않은 랜턴 수를 세듯 대시보드에 드러낸다.</li><li><strong>Auditor: 에이전트가 작성한 컨트랙트나 인프라 변경을 머지하기 전 피드백 라운드 체크를 요구한다.</strong> 부수 작업 없이 수정 사항이 반영됐는지, 이 카드가 Blender 에이전트를 평가하는 것과 같은 기준으로 본다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>underspecification</strong></td><td>명세 부족, 스펙이 불완전한 상태 · 요청이 애매해서 해석의 여지가 클 때. "the underspecification benchmark"</td></tr><tr><td><strong>fill slack with</strong></td><td>여유(미확정 영역)를 ~로 채우다 · 애매한 부분을 어떻게 메울지 설명할 때. "fills slack with initiative"</td></tr><tr><td><strong>over-build</strong></td><td>필요 이상으로 만들다, 과도하게 구현하다 · 요청받지 않은 것까지 잔뜩 만들 때. "did it ask, show early, or over-build"</td></tr><tr><td><strong>show early</strong></td><td>초반에 결과물을 보여주다 · 완성 전에 일단 보여주고 피드백 받는 전략. "did it ask, show early, or over-build"</td></tr><tr><td><strong>hand back</strong></td><td>(몫·결정권을) 다시 돌려주다 · 애매한 부분을 사용자에게 다시 넘길 때. "hands the slack back to you"</td></tr><tr><td><strong>temperament</strong></td><td>기질, 성향 · 에이전트가 애매함을 다루는 고유한 방식. "a design temperament you can measure"</td></tr><tr><td><strong>manufacture spec</strong></td><td>없는 스펙을 지어내다(비유) · 애매한 요청을 자기 마음대로 해석해 확장할 때. "is manufacturing spec where none was given"</td></tr><tr><td><strong>runaway loop</strong></td><td>폭주하는 루프 · 멈추지 않고 계속 반복 실행되는 상황. "No runaway loops"</td></tr><tr><td><strong>smoke test</strong></td><td>기본 동작 확인 테스트 · 본격적인 작업 전에 간단히 되는지 확인하는 절차. "confirm with a... smoke test"</td></tr><tr><td><strong>collateral rework</strong></td><td>부수적으로 발생하는 재작업 · 한 가지를 고치다가 딴 곳까지 다시 손봐야 할 때. "without collateral rework"</td></tr><tr><td><strong>bpy</strong></td><td>블렌더의 파이썬 API(Blender&#39;s Python module) · 에이전트가 실제 명령(오브젝트 생성, 렌더링 등)을 보내는 인터페이스. "opens a socket into Blender&#39;s Python API (bpy)"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-can-you-leave-by-2030.html">&larr; 178. The 2027 question is easy — the 2030 question is whether you can leave</a><a href="pocs-the-interface-premium-collapses.html">180. The 2,234 pieces were already there — the agent collapsed the interface premium &rarr;</a></div>
+    <div class="pager"><a href="pocs-can-you-leave-by-2030.html">&larr; 182. The 2027 question is easy — the 2030 question is whether you can leave</a><a href="pocs-the-interface-premium-collapses.html">184. The 2,234 pieces were already there — the agent collapsed the interface premium &rarr;</a></div>
   </div>
   </main>
 </div>

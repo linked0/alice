@@ -177,7 +177,7 @@
   .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
   article h1 .topic-no { font-size:0.72em; }
   .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
-  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  /* 출처 태그 칩 — Foundations(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
@@ -373,7 +373,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 65/471</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -396,7 +396,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Web stack layers</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#154</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#158</span><span>PoC</span></p>
       <h1>Web stack layers</h1>
       <p class="lead">A five-layer map of the stack, with this project overlaid on it.</p>
       <p class="meta">Reference — docs/knowledge/web-stack-layers.html.</p>
@@ -470,7 +470,11 @@ if __name__ == &quot;__main__&quot;:
     stack({&quot;path&quot;: &quot;/profile&quot;})
 </code></pre>
       <p class="code-link"><a href="../code/pocs/web-stack-layers.py">docs/code/pocs/web-stack-layers.py</a></p>
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>gitboard: build the same five-layer map for Jayverse&#39;s own services.</strong> Placing Rabbit, Verex, Wallet, Bridge, Number, and Devnet on one stack diagram the way this page does for its own project would surface which layers have nothing built on them yet.</li><li><strong>Devnet: use the map to spot the layer with the fewest services depending on it.</strong> An orientation diagram is cheap to build, and it would show whether Devnet is actually load-bearing for every service or just some of them.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>overlaid on</strong></td><td>~ 위에 겹쳐 놓인 · 프로젝트 구성요소를 기존 지도 위에 포개어 표시할 때. "with this project overlaid on it"</td></tr><tr><td><strong>orientation map</strong></td><td>방향을 잡아주는 지도, 개요도 · 깊이 있는 학습 자료가 아니라 전체 구조를 훑어보는 자료임을 밝힐 때. "An orientation map rather than a study"</td></tr><tr><td><strong>sit at the same layer</strong></td><td>같은 계층에 위치하다 · 겉으로 다른 문제처럼 보이는 것들이 실은 같은 층에 속할 때. "turn out to sit at the same layer"</td></tr><tr><td><strong>have nothing on</strong></td><td>~에 아무것도 없다, 해당 항목이 비어 있다 · 지도의 특정 칸이 채워지지 않은 것을 가리킬 때. "one or two layers have nothing on them at all"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
@@ -546,12 +550,16 @@ if __name__ == &quot;__main__&quot;:
     stack({&quot;path&quot;: &quot;/profile&quot;})
 </code></pre>
       <p class="code-link"><a href="../code/pocs/web-stack-layers.py">docs/code/pocs/web-stack-layers.py</a></p>
-      <!-- vocab:start -->
+      <!-- landing:start -->
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>gitboard: Jayverse 자체 서비스로 같은 5계층 지도를 만든다.</strong> Rabbit, Verex, Wallet, Bridge, Number, Devnet을 이 글이 자기 프로젝트에 하듯 하나의 스택 다이어그램에 배치하면 아직 아무것도 없는 계층이 드러난다.</li><li><strong>Devnet: 이 지도로 의존하는 서비스가 가장 적은 계층을 찾는다.</strong> 오리엔테이션 다이어그램은 만들기 싸고, Devnet이 모든 서비스에 실제로 짐을 지는지 일부에만 그런지 보여준다.</li></ul>
+<!-- landing:end -->
+<!-- vocab:start -->
 <section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>overlaid on</strong></td><td>~ 위에 겹쳐 놓인 · 프로젝트 구성요소를 기존 지도 위에 포개어 표시할 때. "with this project overlaid on it"</td></tr><tr><td><strong>orientation map</strong></td><td>방향을 잡아주는 지도, 개요도 · 깊이 있는 학습 자료가 아니라 전체 구조를 훑어보는 자료임을 밝힐 때. "An orientation map rather than a study"</td></tr><tr><td><strong>sit at the same layer</strong></td><td>같은 계층에 위치하다 · 겉으로 다른 문제처럼 보이는 것들이 실은 같은 층에 속할 때. "turn out to sit at the same layer"</td></tr><tr><td><strong>have nothing on</strong></td><td>~에 아무것도 없다, 해당 항목이 비어 있다 · 지도의 특정 칸이 채워지지 않은 것을 가리킬 때. "one or two layers have nothing on them at all"</td></tr></tbody></table></div></section>
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-circuit-breaker-saga.html">&larr; 153. Microservice patterns — Circuit Breaker &amp; Saga</a><a href="pocs-one-page-not-the-curriculum.html">155. Pull the page you are stuck on, not the next one in order &rarr;</a></div>
+    <div class="pager"><a href="pocs-circuit-breaker-saga.html">&larr; 157. Microservice patterns — Circuit Breaker &amp; Saga</a><a href="pocs-one-page-not-the-curriculum.html">159. Pull the page you are stuck on, not the next one in order &rarr;</a></div>
   </div>
   </main>
 </div>

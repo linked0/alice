@@ -7,3 +7,5 @@
 | centered near | ~을 중심으로 한 · 근사가 기준점 근처에서만 유효할 때. "which point it's centered near" |
 | stand on | ~위에 기반을 두다 · 다른 방법론의 토대가 될 때. "the foundation that optimization... stand on" |
 | tolerable | 감내할 수 있는, 허용 가능한 · 오차의 허용 범위를 말할 때. "how much error is tolerable" |
+| LMSR | 로그마켓스코어링룰(Logarithmic Market Scoring Rule) · 예측시장 AMM의 가격함수, 1차 테일러 전개로 슬리피지를 근사할 때 대상이 됨. "Expanding LMSR's price function to first order" |
+<!-- acronyms 2026-09-18 -->

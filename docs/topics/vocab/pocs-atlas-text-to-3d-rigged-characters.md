@@ -8,3 +8,7 @@
 | conflate | 혼동하다, 서로 다른 것을 섞어 착각하다 · 이름이 같은 두 제품을 헷갈릴 때. "the two never get conflated in notes" |
 | collision (naming collision) | (이름이) 충돌하다, 겹치다 · 같은 단어가 다른 대상을 가리킬 때. "mind the naming collision with FastLane's Atlas" |
 | the day it is generated | 생성되는 그 즉시(지연 없이) · 결과물이 바로 쓸 수 있음을 강조. "animatable the day it is generated" |
+| FastLane | 솔라나의 실행 추상화/MEV 제품 · 이름이 같은 다른 Atlas와 혼동하지 않도록 언급됨. "unrelated to FastLane's Atlas / execution abstraction" |
+| IK | 역운동학(Inverse Kinematics) · 관절 구조로부터 자세를 계산해 캐릭터가 바로 움직일 수 있게 하는 기술. "the character is IK-ready and animatable" |
+| MEV | 최대추출가능가치(Maximal Extractable Value) · 블록 생성자가 트랜잭션 순서로 얻는 이익, FastLane이 다루는 영역. "FastLane's Atlas (execution-abstraction / MEV)" |
+<!-- acronyms 2026-09-18 -->
