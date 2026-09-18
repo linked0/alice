@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows — Tech Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% done &middot; 61/454</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#56</span><span>PoC</span><span title="added">2026-09-18</span></p>
+      <h1>Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows</h1>
+      <p class="lead">Bloomberg reported on 2026-08-16 that Stripe would buy OpenRouter for more than $7 billion; Stripe confirmed the agreement on 2026-08-19 without a price, and the New York Times put it at $7.5 billion, roughly $1.5 billion of it to the founders, five to six times the $1.3 billion Series B valuation of May 2026, Stripe&#39;s largest acquisition since 2010. OpenRouter is a single API in front of 400-plus models from 80-plus providers. Developers connect once, switch models per request, and pay the providers&#39; listed token prices plus a platform fee of about 5.5 percent on credit purchases. Sacra puts it at about $160 million annualised revenue in August 2026, from $50 million at the end of 2025, on roughly 250 trillion tokens a month. Stripe&#39;s stated reason is "both sides of profitability in the AI era": it already bills for AI usage (Token Billing) and now owns the meter on the cost side. Patrick Collison: "Tokens are the central currency for companies building with AI." OpenRouter&#39;s own note promises neutrality that "doesn&#39;t bend to any model, any provider, or any parent company", and said the deal would close "in the coming weeks"; whether it has closed is not confirmed as of 2026-09-18.</p>
+      <p class="meta">Two facts underneath the headline matter more than the price. First, OpenRouter&#39;s per-token revenue fell about 60 percent over the year because Chinese open-weight models (DeepSeek, Tencent, Xiaomi, Z.ai) went from about 2 percent to more than half of its traffic and are far cheaper per token; a flat percentage fee on cheaper tokens means the router&#39;s economics push toward volume, which is exactly the business Stripe knows. Second, OpenRouter&#39;s public usage rankings were the industry&#39;s only open gauge of which labs&#39; models developers actually run, and that gauge now belongs to a US payments company with its own stake in the answer. For Jayverse: our agents and services call model APIs with per-provider keys and no shared budget or fallback, which is the "app key is a budget" problem from the Alchemy item with more zeros; a router with a spend cap, a fallback chain, and per-request model choice is worth a PoC. And the gauge problem is ours too: a dashboard is only trusted if the data behind it can be checked, which is the Auditor argument applied to someone else&#39;s numbers.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows\n\nBloomberg reported on 2026-08-16 that Stripe would buy OpenRouter for more than $7 billion; Stripe confirmed the agreement on 2026-08-19 without a price, and the New York Times put it at $7.5 billion, roughly $1.5 billion of it to the founders, five to six times the $1.3 billion Series B valuation of May 2026, Stripe's largest acquisition since 2010. OpenRouter is a single API in front of 400-plus models from 80-plus providers. Developers connect once, switch models per request, and pay the providers' listed token prices plus a platform fee of about 5.5 percent on credit purchases. Sacra puts it at about $160 million annualised revenue in August 2026, from $50 million at the end of 2025, on roughly 250 trillion tokens a month. Stripe's stated reason is \"both sides of profitability in the AI era\": it already bills for AI usage (Token Billing) and now owns the meter on the cost side. Patrick Collison: \"Tokens are the central currency for companies building with AI.\" OpenRouter's own note promises neutrality that \"doesn't bend to any model, any provider, or any parent company\", and said the deal would close \"in the coming weeks\"; whether it has closed is not confirmed as of 2026-09-18.\n\nTwo facts underneath the headline matter more than the price. First, OpenRouter's per-token revenue fell about 60 percent over the year because Chinese open-weight models (DeepSeek, Tencent, Xiaomi, Z.ai) went from about 2 percent to more than half of its traffic and are far cheaper per token; a flat percentage fee on cheaper tokens means the router's economics push toward volume, which is exactly the business Stripe knows. Second, OpenRouter's public usage rankings were the industry's only open gauge of which labs' models developers actually run, and that gauge now belongs to a US payments company with its own stake in the answer. For Jayverse: our agents and services call model APIs with per-provider keys and no shared budget or fallback, which is the \"app key is a budget\" problem from the Alchemy item with more zeros; a router with a spend cap, a fallback chain, and per-request model choice is worth a PoC. And the gauge problem is ours too: a dashboard is only trusted if the data behind it can be checked, which is the Auditor argument applied to someone else's numbers.\n\n## Why\n\nStripe's business is a toll on money in motion, about 0.36 percent of $1.9 trillion in 2025. OpenRouter's is a toll on tokens in motion, about 5.5 percent of a much smaller but faster-growing flow. Stripe has spent two years buying the adjacent tolls: Bridge for stablecoin settlement, Privy for wallets, and now OpenRouter for AI inference spend. The pattern is that whenever a new kind of value starts moving through developers' code, Stripe wants to be the pipe it moves through and the meter that counts it. Buying a router rather than a model is the tell: Stripe is betting that models commoditise and the switching layer does not, which is also the bet OpenRouter's own traffic data supports, since the models winning share are the cheap ones.\n\nThat same data is why the price looks strange and is not. A 5.5 percent fee on a flow whose unit price is collapsing is a bad standalone business and a good acquisition: Stripe does not need the fee, it needs the position. Every AI company already using Stripe to bill customers can now see cost per request next to revenue per request in one ledger, and the router can be the place where budgets, fallbacks, and vendor negotiations happen. That is a finance product wearing an infrastructure costume, and it is worth more to a payments company than to anyone else, which is why Databricks reportedly lost the bidding.\n\n## How it works\n\n### The numbers, and where each comes from\n\n| Fact | Value | Source |\n|---|---|---|\n| Report | more than $7 billion | Bloomberg, 2026-08-16 |\n| Announcement | agreement, price undisclosed | Stripe newsroom, 2026-08-19 |\n| Reported price | $7.5 billion; founders about $1.5 billion | New York Times via TechCrunch |\n| Prior valuation | $1.3 billion, Series B, May 2026 | TechCrunch |\n| Catalogue | 400-plus models, 80-plus providers | Stripe, OpenRouter |\n| Fee | about 5.5 percent on credit purchases; provider token prices passed through | Sacra, OpenRouter pricing |\n| Revenue | about $160 million annualised (Aug 2026), from $50 million (end 2025) | Sacra |\n| Volume | about 250 trillion tokens a month; OpenRouter's own blog says 10-plus trillion a day | Sacra; OpenRouter |\n| Traffic mix | Chinese open-weight models above 50 percent of usage, from about 2 percent in mid-2025; per-token monetisation down about 60 percent | Sacra |\n| Named customers | NVIDIA, Zoom, Lovable | Stripe |\n| Team | about 90 people | OpenRouter |\n| Close | \"in the coming weeks\" as of 2026-08-19; not confirmed since | OpenRouter |\n\n### What a router actually does\n\nOne API key, one OpenAI-compatible endpoint. Per request the developer names a model or a routing policy (cheapest, fastest, fallback order); the router holds the provider accounts, translates the request, meters tokens, applies its fee, and returns the response with provider and cost attached. The value is not the routing logic, which is a weekend of work, but the aggregated account: one budget across 80 vendors, one invoice, one place to cap spend, and one dataset of what every model costs and how it behaves on real traffic. That dataset is what makes the rankings page credible and what makes the company worth buying.\n\n### The two things to watch\n\n1. **Neutrality of the gauge.** OpenRouter's rankings showed US closed models losing share to Chinese open ones; the Korean coverage calls it \"the only dashboard\" for that question. OpenRouter pledged neutrality to any parent company. The test is whether the ranking methodology and raw usage data stay published; a pledge without the data is not checkable.\n2. **Fee against falling prices.** If the fee stays a flat percentage while tokens get cheaper, revenue per token keeps falling and the router's incentive is volume and enterprise features, not the cheapest route for the user. Watch for tiered fees, enterprise contracts, or bundling with Stripe Billing.\n\n### Where it lands in Jayverse\n\n- **One key with a budget for our agents.** Jayverse agents and the morning-report pipeline call providers directly with per-provider keys. A router in front, with a monthly cap, a fallback chain, and per-request model choice, is the same fix the Alchemy item proposed for RPC keys. A PoC is a day: one key, one endpoint, a spend limit.\n- **Cost next to revenue.** Verex and Rails will have per-request AI cost the moment an agent grades or routes anything. Stripe's thesis, cost per request beside revenue per request in one ledger, is the right shape for our accounting too, even at toy scale.\n- **A dashboard is only as good as its published data.** The Auditor row publishes what it checks. If Number ever cites a \"usage share\" from a private gauge, cite the methodology or mark it unverifiable, as this item does for OpenRouter's own numbers.\n\n### Verified and unverified\n\nVerified on 2026-09-18: Stripe's 2026-08-19 announcement (agreement, undisclosed terms, 400-plus models, 80-plus providers, Token Billing, Collison and Atallah quotes); OpenRouter's blog (neutrality pledge, \"coming weeks\" close, 10-plus trillion tokens a day, 90 people); TechCrunch 2026-08-19 (NYT $7.5 billion, founder share, $1.3 billion May valuation, Databricks interest); Sacra (fee, revenue, token volume, Chinese-model share, per-token decline). From the Chosun article of 2026-08-17 provided by jay, not independently verified: \"about 5 percent fee\", 10 million users, 200 trillion tokens a month, $50 million annual revenue (Sacra's older figure), Stripe's $1.9 trillion 2025 volume, LM Arena's $0.6 to $1.7 billion valuation, Artificial Analysis background. Not confirmed: whether the deal has closed; the Bloomberg text itself was not read.\nSources: [Stripe newsroom — Stripe agrees to acquire OpenRouter, 2026-08-19](https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter) · [OpenRouter — OpenRouter is joining Stripe](https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/) · [TechCrunch — Stripe didn't really buy OpenRouter because of the 'singularity', 2026-08-19](https://techcrunch.com/2026/08/19/stripe-didnt-really-buy-openrouter-because-of-the-singularity/) · [Sacra — OpenRouter revenue, valuation and funding](https://sacra.com/c/openrouter/) · [Bloomberg — Stripe nears deal to buy OpenRouter for over $7 billion, 2026-08-16](https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion)\n"</script>
+<h2>Why</h2>
+<p>Stripe&#39;s business is a toll on money in motion, about 0.36 percent of $1.9 trillion in 2025. OpenRouter&#39;s is a toll on tokens in motion, about 5.5 percent of a much smaller but faster-growing flow. Stripe has spent two years buying the adjacent tolls: Bridge for stablecoin settlement, Privy for wallets, and now OpenRouter for AI inference spend. The pattern is that whenever a new kind of value starts moving through developers&#39; code, Stripe wants to be the pipe it moves through and the meter that counts it. Buying a router rather than a model is the tell: Stripe is betting that models commoditise and the switching layer does not, which is also the bet OpenRouter&#39;s own traffic data supports, since the models winning share are the cheap ones.</p>
+<p>That same data is why the price looks strange and is not. A 5.5 percent fee on a flow whose unit price is collapsing is a bad standalone business and a good acquisition: Stripe does not need the fee, it needs the position. Every AI company already using Stripe to bill customers can now see cost per request next to revenue per request in one ledger, and the router can be the place where budgets, fallbacks, and vendor negotiations happen. That is a finance product wearing an infrastructure costume, and it is worth more to a payments company than to anyone else, which is why Databricks reportedly lost the bidding.</p>
+<h2>How it works</h2>
+<h3>The numbers, and where each comes from</h3>
+<table><thead><tr><th>Fact</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Report</td><td>more than $7 billion</td><td>Bloomberg, 2026-08-16</td></tr><tr><td>Announcement</td><td>agreement, price undisclosed</td><td>Stripe newsroom, 2026-08-19</td></tr><tr><td>Reported price</td><td>$7.5 billion; founders about $1.5 billion</td><td>New York Times via TechCrunch</td></tr><tr><td>Prior valuation</td><td>$1.3 billion, Series B, May 2026</td><td>TechCrunch</td></tr><tr><td>Catalogue</td><td>400-plus models, 80-plus providers</td><td>Stripe, OpenRouter</td></tr><tr><td>Fee</td><td>about 5.5 percent on credit purchases; provider token prices passed through</td><td>Sacra, OpenRouter pricing</td></tr><tr><td>Revenue</td><td>about $160 million annualised (Aug 2026), from $50 million (end 2025)</td><td>Sacra</td></tr><tr><td>Volume</td><td>about 250 trillion tokens a month; OpenRouter&#39;s own blog says 10-plus trillion a day</td><td>Sacra; OpenRouter</td></tr><tr><td>Traffic mix</td><td>Chinese open-weight models above 50 percent of usage, from about 2 percent in mid-2025; per-token monetisation down about 60 percent</td><td>Sacra</td></tr><tr><td>Named customers</td><td>NVIDIA, Zoom, Lovable</td><td>Stripe</td></tr><tr><td>Team</td><td>about 90 people</td><td>OpenRouter</td></tr><tr><td>Close</td><td>"in the coming weeks" as of 2026-08-19; not confirmed since</td><td>OpenRouter</td></tr></tbody></table>
+<h3>What a router actually does</h3>
+<p>One API key, one OpenAI-compatible endpoint. Per request the developer names a model or a routing policy (cheapest, fastest, fallback order); the router holds the provider accounts, translates the request, meters tokens, applies its fee, and returns the response with provider and cost attached. The value is not the routing logic, which is a weekend of work, but the aggregated account: one budget across 80 vendors, one invoice, one place to cap spend, and one dataset of what every model costs and how it behaves on real traffic. That dataset is what makes the rankings page credible and what makes the company worth buying.</p>
+<h3>The two things to watch</h3>
+<ol><li><strong>Neutrality of the gauge.</strong> OpenRouter&#39;s rankings showed US closed models losing share to Chinese open ones; the Korean coverage calls it "the only dashboard" for that question. OpenRouter pledged neutrality to any parent company. The test is whether the ranking methodology and raw usage data stay published; a pledge without the data is not checkable.</li><li><strong>Fee against falling prices.</strong> If the fee stays a flat percentage while tokens get cheaper, revenue per token keeps falling and the router&#39;s incentive is volume and enterprise features, not the cheapest route for the user. Watch for tiered fees, enterprise contracts, or bundling with Stripe Billing.</li></ol>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>One key with a budget for our agents.</strong> Jayverse agents and the morning-report pipeline call providers directly with per-provider keys. A router in front, with a monthly cap, a fallback chain, and per-request model choice, is the same fix the Alchemy item proposed for RPC keys. A PoC is a day: one key, one endpoint, a spend limit.</li><li><strong>Cost next to revenue.</strong> Verex and Rails will have per-request AI cost the moment an agent grades or routes anything. Stripe&#39;s thesis, cost per request beside revenue per request in one ledger, is the right shape for our accounting too, even at toy scale.</li><li><strong>A dashboard is only as good as its published data.</strong> The Auditor row publishes what it checks. If Number ever cites a "usage share" from a private gauge, cite the methodology or mark it unverifiable, as this item does for OpenRouter&#39;s own numbers.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18: Stripe&#39;s 2026-08-19 announcement (agreement, undisclosed terms, 400-plus models, 80-plus providers, Token Billing, Collison and Atallah quotes); OpenRouter&#39;s blog (neutrality pledge, "coming weeks" close, 10-plus trillion tokens a day, 90 people); TechCrunch 2026-08-19 (NYT $7.5 billion, founder share, $1.3 billion May valuation, Databricks interest); Sacra (fee, revenue, token volume, Chinese-model share, per-token decline). From the Chosun article of 2026-08-17 provided by jay, not independently verified: "about 5 percent fee", 10 million users, 200 trillion tokens a month, $50 million annual revenue (Sacra&#39;s older figure), Stripe&#39;s $1.9 trillion 2025 volume, LM Arena&#39;s $0.6 to $1.7 billion valuation, Artificial Analysis background. Not confirmed: whether the deal has closed; the Bloomberg text itself was not read.</p>
+<p>Sources: <a href="https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter">Stripe newsroom — Stripe agrees to acquire OpenRouter, 2026-08-19</a> · <a href="https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/">OpenRouter — OpenRouter is joining Stripe</a> · <a href="https://techcrunch.com/2026/08/19/stripe-didnt-really-buy-openrouter-because-of-the-singularity/">TechCrunch — Stripe didn&#39;t really buy OpenRouter because of the &#39;singularity&#39;, 2026-08-19</a> · <a href="https://sacra.com/c/openrouter/">Sacra — OpenRouter revenue, valuation and funding</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion">Bloomberg — Stripe nears deal to buy OpenRouter for over $7 billion, 2026-08-16</a></p>
+      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 스트라이프는 모델이 아니라 계량기를 샀다 — 5퍼센트 수수료에 75억 달러라는 가격이 AI 돈의 흐름에 대해 말하는 것\n\n블룸버그는 2026-08-16 스트라이프가 오픈라우터를 70억 달러 이상에 인수한다고 보도했고, 스트라이프는 2026-08-19 가격 없이 합의를 확인했으며, 뉴욕타임스는 75억 달러, 그중 약 15억 달러가 창업자 몫이라고 전했습니다. 2026년 5월 시리즈 B 기업가치 13억 달러의 5~6배이고, 2010년 창업 이후 스트라이프 최대 인수입니다. 오픈라우터는 80개 이상 제공사의 400개 이상 모델 앞에 놓인 단일 API입니다. 개발자는 한 번 연결하고, 요청마다 모델을 바꾸고, 제공사의 공시 토큰 가격에 크레딧 구매 시 약 5.5퍼센트의 플랫폼 수수료를 더해 냅니다. Sacra는 2026년 8월 연환산 매출을 약 1.6억 달러로 보며(2025년 말 5천만 달러에서), 월 약 250조 토큰 위에서입니다. 스트라이프가 밝힌 이유는 \"AI 시대 수익성의 양면\"입니다. 이미 AI 사용량 과금(Token Billing)을 하고 있고, 이제 비용 쪽 계량기를 소유합니다. 패트릭 콜리슨: \"토큰은 AI로 만드는 회사들의 중심 통화다.\" 오픈라우터 자체 공지는 \"어떤 모델, 어떤 제공사, 어떤 모회사에도 굽히지 않는\" 중립성을 약속하고 \"몇 주 안에\" 거래 종결을 예고했습니다. 2026-09-18 기준 종결 여부는 확인되지 않았습니다.\n\n헤드라인 아래의 두 사실이 가격보다 중요합니다. 첫째, 오픈라우터의 토큰당 매출은 1년 사이 약 60퍼센트 떨어졌습니다. 중국 오픈웨이트 모델(DeepSeek, 텐센트, 샤오미, Z.ai)이 트래픽의 약 2퍼센트에서 절반 이상으로 커졌고 토큰당 훨씬 싸기 때문입니다. 더 싼 토큰에 붙는 고정 비율 수수료는 라우터의 경제를 물량 쪽으로 밀고, 그것은 정확히 스트라이프가 아는 사업입니다. 둘째, 오픈라우터의 공개 사용량 순위는 개발자가 실제로 어느 연구소의 모델을 돌리는지 보여주는 업계 유일의 공개 계기판이었고, 그 계기판이 이제 그 답에 이해관계가 있는 미국 결제 회사의 것이 됩니다. Jayverse에는: 우리 에이전트와 서비스는 제공사별 키로 모델 API를 직접 호출하고 공유 예산도 폴백도 없습니다. Alchemy 항목의 \"앱 키는 예산이다\" 문제에 0이 몇 개 더 붙은 것입니다. 지출 상한, 폴백 체인, 요청별 모델 선택이 있는 라우터는 PoC 가치가 있습니다. 그리고 계기판 문제도 우리 것입니다. 대시보드는 뒤의 데이터를 확인할 수 있을 때만 신뢰받고, 그것은 Auditor 논리를 남의 숫자에 적용한 것입니다.\n\n## 왜\n\n스트라이프의 사업은 움직이는 돈에 대한 통행료입니다. 2025년 1조 9천억 달러의 약 0.36퍼센트. 오픈라우터의 사업은 움직이는 토큰에 대한 통행료입니다. 훨씬 작지만 훨씬 빨리 커지는 흐름의 약 5.5퍼센트. 스트라이프는 2년 동안 인접한 통행료를 사 모았습니다. 스테이블코인 정산의 Bridge, 지갑의 Privy, 이제 AI 추론 지출의 오픈라우터. 패턴은 새로운 종류의 가치가 개발자의 코드를 통해 움직이기 시작할 때마다 스트라이프가 그것이 지나가는 파이프이자 세는 계량기가 되려 한다는 것입니다. 모델이 아니라 라우터를 산 것이 단서입니다. 스트라이프는 모델은 범용화되고 전환 계층은 그렇지 않다는 데 베팅하고, 오픈라우터 자체 트래픽 데이터가 그 베팅을 뒷받침합니다. 점유율을 얻는 모델이 싼 모델들이니까요.\n\n같은 데이터가 가격이 이상해 보이지만 이상하지 않은 이유입니다. 단가가 붕괴하는 흐름에 대한 5.5퍼센트 수수료는 독립 사업으로는 나쁘고 인수 대상으로는 좋습니다. 스트라이프는 수수료가 아니라 위치가 필요합니다. 이미 스트라이프로 고객에게 과금하는 모든 AI 회사가 이제 요청당 비용을 요청당 매출 옆에서 한 장부로 볼 수 있고, 라우터는 예산·폴백·벤더 협상이 일어나는 자리가 될 수 있습니다. 인프라 옷을 입은 금융 제품이고, 다른 누구보다 결제 회사에 더 가치가 있습니다. 그래서 데이터브릭스가 입찰에서 졌다고 전해집니다.\n\n## 동작 방식\n\n### 숫자와 각 출처\n\n| 사실 | 값 | 출처 |\n|---|---|---|\n| 보도 | 70억 달러 이상 | 블룸버그, 2026-08-16 |\n| 발표 | 합의, 가격 비공개 | 스트라이프 뉴스룸, 2026-08-19 |\n| 보도된 가격 | 75억 달러; 창업자 약 15억 달러 | 뉴욕타임스, TechCrunch 경유 |\n| 직전 기업가치 | 13억 달러, 시리즈 B, 2026년 5월 | TechCrunch |\n| 카탈로그 | 400개 이상 모델, 80개 이상 제공사 | 스트라이프, 오픈라우터 |\n| 수수료 | 크레딧 구매 시 약 5.5퍼센트; 제공사 토큰 가격은 그대로 통과 | Sacra, 오픈라우터 가격 페이지 |\n| 매출 | 연환산 약 1.6억 달러(2026-08), 5천만 달러(2025년 말)에서 | Sacra |\n| 물량 | 월 약 250조 토큰; 오픈라우터 블로그는 하루 10조 이상 | Sacra; 오픈라우터 |\n| 트래픽 구성 | 중국 오픈웨이트 모델 사용량 50퍼센트 이상, 2025년 중반 약 2퍼센트에서; 토큰당 수익 약 60퍼센트 하락 | Sacra |\n| 이름 나온 고객 | NVIDIA, Zoom, Lovable | 스트라이프 |\n| 팀 | 약 90명 | 오픈라우터 |\n| 종결 | 2026-08-19 기준 \"몇 주 안에\"; 이후 확인 없음 | 오픈라우터 |\n\n### 라우터가 실제로 하는 일\n\nAPI 키 하나, OpenAI 호환 엔드포인트 하나. 요청마다 개발자가 모델이나 라우팅 정책(최저가, 최고속, 폴백 순서)을 지정하고, 라우터는 제공사 계정을 보유하고, 요청을 변환하고, 토큰을 계량하고, 수수료를 붙이고, 제공사와 비용을 첨부해 응답을 돌려줍니다. 가치는 주말 하나면 만드는 라우팅 로직이 아니라 집계된 계정에 있습니다. 80개 벤더에 걸친 하나의 예산, 하나의 청구서, 지출을 막는 한 자리, 그리고 모든 모델이 실제 트래픽에서 얼마가 들고 어떻게 행동하는지의 데이터셋 하나. 그 데이터셋이 순위 페이지를 신뢰할 수 있게 만들고 회사를 살 가치가 있게 만듭니다.\n\n### 지켜볼 두 가지\n\n1. **계기판의 중립성.** 오픈라우터 순위는 미국 폐쇄형 모델이 중국 개방형에 점유율을 잃는 것을 보여줬고, 한국 보도는 그 질문의 \"유일한 계기판\"이라 부릅니다. 오픈라우터는 어떤 모회사에도 중립을 약속했습니다. 시험은 순위 방법론과 원 사용량 데이터가 계속 공개되는가입니다. 데이터 없는 약속은 확인할 수 없습니다.\n2. **떨어지는 가격에 맞선 수수료.** 토큰이 싸지는데 수수료가 고정 비율이면 토큰당 매출은 계속 떨어지고 라우터의 인센티브는 사용자에게 가장 싼 경로가 아니라 물량과 엔터프라이즈 기능입니다. 계층형 수수료, 엔터프라이즈 계약, Stripe Billing과의 번들을 지켜볼 것.\n\n### Jayverse에서의 위치\n\n- **우리 에이전트를 위한 예산 있는 키 하나.** Jayverse 에이전트와 모닝 리포트 파이프라인은 제공사별 키로 직접 호출합니다. 월 상한, 폴백 체인, 요청별 모델 선택이 있는 라우터를 앞에 두는 것은 Alchemy 항목이 RPC 키에 제안한 것과 같은 수정입니다. PoC는 하루입니다. 키 하나, 엔드포인트 하나, 지출 한도.\n- **매출 옆의 비용.** Verex와 Rails는 에이전트가 무엇이든 채점하거나 라우팅하는 순간 요청당 AI 비용이 생깁니다. 요청당 비용을 요청당 매출 옆 한 장부에 두는 스트라이프의 논지는 장난감 규모에서도 우리 회계에 맞는 모양입니다.\n- **대시보드는 공개된 데이터만큼만 좋다.** Auditor 행은 자기가 확인하는 것을 공개합니다. Number가 비공개 계기판의 \"사용 점유율\"을 인용한다면 방법론을 인용하거나 확인 불가로 표시할 것. 이 항목이 오픈라우터 자체 숫자에 하는 것처럼.\n\n### 확인된 것과 미확인\n\n2026-09-18에 확인한 것: 스트라이프 2026-08-19 발표(합의, 조건 비공개, 400개 이상 모델, 80개 이상 제공사, Token Billing, 콜리슨·아탈라 인용); 오픈라우터 블로그(중립 약속, \"몇 주 안에\" 종결, 하루 10조 이상 토큰, 90명); TechCrunch 2026-08-19(NYT 75억 달러, 창업자 몫, 5월 13억 달러 기업가치, 데이터브릭스 관심); Sacra(수수료, 매출, 토큰 물량, 중국 모델 비중, 토큰당 하락). jay가 제공한 2026-08-17 조선일보 기사에서 가져와 독립 검증하지 않은 것: \"약 5퍼센트 수수료\", 사용자 1천만 명, 월 200조 토큰, 연매출 5천만 달러(Sacra의 이전 수치), 스트라이프 2025년 1조 9천억 달러 처리액, LM Arena 6억→17억 달러 기업가치, Artificial Analysis 배경. 미확인: 거래 종결 여부; 블룸버그 원문은 읽지 않음.\n출처: [스트라이프 뉴스룸 — Stripe agrees to acquire OpenRouter, 2026-08-19](https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter) · [오픈라우터 — OpenRouter is joining Stripe](https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/) · [TechCrunch — Stripe didn't really buy OpenRouter because of the 'singularity', 2026-08-19](https://techcrunch.com/2026/08/19/stripe-didnt-really-buy-openrouter-because-of-the-singularity/) · [Sacra — OpenRouter revenue, valuation and funding](https://sacra.com/c/openrouter/) · [블룸버그 — Stripe nears deal to buy OpenRouter for over $7 billion, 2026-08-16](https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion)\n"</script>
+      <h1>스트라이프는 모델이 아니라 계량기를 샀다 — 5퍼센트 수수료에 75억 달러라는 가격이 AI 돈의 흐름에 대해 말하는 것</h1>
+      <p class="lead">블룸버그는 2026-08-16 스트라이프가 오픈라우터를 70억 달러 이상에 인수한다고 보도했고, 스트라이프는 2026-08-19 가격 없이 합의를 확인했으며, 뉴욕타임스는 75억 달러, 그중 약 15억 달러가 창업자 몫이라고 전했습니다. 2026년 5월 시리즈 B 기업가치 13억 달러의 5~6배이고, 2010년 창업 이후 스트라이프 최대 인수입니다. 오픈라우터는 80개 이상 제공사의 400개 이상 모델 앞에 놓인 단일 API입니다. 개발자는 한 번 연결하고, 요청마다 모델을 바꾸고, 제공사의 공시 토큰 가격에 크레딧 구매 시 약 5.5퍼센트의 플랫폼 수수료를 더해 냅니다. Sacra는 2026년 8월 연환산 매출을 약 1.6억 달러로 보며(2025년 말 5천만 달러에서), 월 약 250조 토큰 위에서입니다. 스트라이프가 밝힌 이유는 "AI 시대 수익성의 양면"입니다. 이미 AI 사용량 과금(Token Billing)을 하고 있고, 이제 비용 쪽 계량기를 소유합니다. 패트릭 콜리슨: "토큰은 AI로 만드는 회사들의 중심 통화다." 오픈라우터 자체 공지는 "어떤 모델, 어떤 제공사, 어떤 모회사에도 굽히지 않는" 중립성을 약속하고 "몇 주 안에" 거래 종결을 예고했습니다. 2026-09-18 기준 종결 여부는 확인되지 않았습니다.</p>
+      <p class="meta">헤드라인 아래의 두 사실이 가격보다 중요합니다. 첫째, 오픈라우터의 토큰당 매출은 1년 사이 약 60퍼센트 떨어졌습니다. 중국 오픈웨이트 모델(DeepSeek, 텐센트, 샤오미, Z.ai)이 트래픽의 약 2퍼센트에서 절반 이상으로 커졌고 토큰당 훨씬 싸기 때문입니다. 더 싼 토큰에 붙는 고정 비율 수수료는 라우터의 경제를 물량 쪽으로 밀고, 그것은 정확히 스트라이프가 아는 사업입니다. 둘째, 오픈라우터의 공개 사용량 순위는 개발자가 실제로 어느 연구소의 모델을 돌리는지 보여주는 업계 유일의 공개 계기판이었고, 그 계기판이 이제 그 답에 이해관계가 있는 미국 결제 회사의 것이 됩니다. Jayverse에는: 우리 에이전트와 서비스는 제공사별 키로 모델 API를 직접 호출하고 공유 예산도 폴백도 없습니다. Alchemy 항목의 "앱 키는 예산이다" 문제에 0이 몇 개 더 붙은 것입니다. 지출 상한, 폴백 체인, 요청별 모델 선택이 있는 라우터는 PoC 가치가 있습니다. 그리고 계기판 문제도 우리 것입니다. 대시보드는 뒤의 데이터를 확인할 수 있을 때만 신뢰받고, 그것은 Auditor 논리를 남의 숫자에 적용한 것입니다.</p>
+<h2>왜</h2>
+<p>스트라이프의 사업은 움직이는 돈에 대한 통행료입니다. 2025년 1조 9천억 달러의 약 0.36퍼센트. 오픈라우터의 사업은 움직이는 토큰에 대한 통행료입니다. 훨씬 작지만 훨씬 빨리 커지는 흐름의 약 5.5퍼센트. 스트라이프는 2년 동안 인접한 통행료를 사 모았습니다. 스테이블코인 정산의 Bridge, 지갑의 Privy, 이제 AI 추론 지출의 오픈라우터. 패턴은 새로운 종류의 가치가 개발자의 코드를 통해 움직이기 시작할 때마다 스트라이프가 그것이 지나가는 파이프이자 세는 계량기가 되려 한다는 것입니다. 모델이 아니라 라우터를 산 것이 단서입니다. 스트라이프는 모델은 범용화되고 전환 계층은 그렇지 않다는 데 베팅하고, 오픈라우터 자체 트래픽 데이터가 그 베팅을 뒷받침합니다. 점유율을 얻는 모델이 싼 모델들이니까요.</p>
+<p>같은 데이터가 가격이 이상해 보이지만 이상하지 않은 이유입니다. 단가가 붕괴하는 흐름에 대한 5.5퍼센트 수수료는 독립 사업으로는 나쁘고 인수 대상으로는 좋습니다. 스트라이프는 수수료가 아니라 위치가 필요합니다. 이미 스트라이프로 고객에게 과금하는 모든 AI 회사가 이제 요청당 비용을 요청당 매출 옆에서 한 장부로 볼 수 있고, 라우터는 예산·폴백·벤더 협상이 일어나는 자리가 될 수 있습니다. 인프라 옷을 입은 금융 제품이고, 다른 누구보다 결제 회사에 더 가치가 있습니다. 그래서 데이터브릭스가 입찰에서 졌다고 전해집니다.</p>
+<h2>동작 방식</h2>
+<h3>숫자와 각 출처</h3>
+<table><thead><tr><th>사실</th><th>값</th><th>출처</th></tr></thead><tbody><tr><td>보도</td><td>70억 달러 이상</td><td>블룸버그, 2026-08-16</td></tr><tr><td>발표</td><td>합의, 가격 비공개</td><td>스트라이프 뉴스룸, 2026-08-19</td></tr><tr><td>보도된 가격</td><td>75억 달러; 창업자 약 15억 달러</td><td>뉴욕타임스, TechCrunch 경유</td></tr><tr><td>직전 기업가치</td><td>13억 달러, 시리즈 B, 2026년 5월</td><td>TechCrunch</td></tr><tr><td>카탈로그</td><td>400개 이상 모델, 80개 이상 제공사</td><td>스트라이프, 오픈라우터</td></tr><tr><td>수수료</td><td>크레딧 구매 시 약 5.5퍼센트; 제공사 토큰 가격은 그대로 통과</td><td>Sacra, 오픈라우터 가격 페이지</td></tr><tr><td>매출</td><td>연환산 약 1.6억 달러(2026-08), 5천만 달러(2025년 말)에서</td><td>Sacra</td></tr><tr><td>물량</td><td>월 약 250조 토큰; 오픈라우터 블로그는 하루 10조 이상</td><td>Sacra; 오픈라우터</td></tr><tr><td>트래픽 구성</td><td>중국 오픈웨이트 모델 사용량 50퍼센트 이상, 2025년 중반 약 2퍼센트에서; 토큰당 수익 약 60퍼센트 하락</td><td>Sacra</td></tr><tr><td>이름 나온 고객</td><td>NVIDIA, Zoom, Lovable</td><td>스트라이프</td></tr><tr><td>팀</td><td>약 90명</td><td>오픈라우터</td></tr><tr><td>종결</td><td>2026-08-19 기준 "몇 주 안에"; 이후 확인 없음</td><td>오픈라우터</td></tr></tbody></table>
+<h3>라우터가 실제로 하는 일</h3>
+<p>API 키 하나, OpenAI 호환 엔드포인트 하나. 요청마다 개발자가 모델이나 라우팅 정책(최저가, 최고속, 폴백 순서)을 지정하고, 라우터는 제공사 계정을 보유하고, 요청을 변환하고, 토큰을 계량하고, 수수료를 붙이고, 제공사와 비용을 첨부해 응답을 돌려줍니다. 가치는 주말 하나면 만드는 라우팅 로직이 아니라 집계된 계정에 있습니다. 80개 벤더에 걸친 하나의 예산, 하나의 청구서, 지출을 막는 한 자리, 그리고 모든 모델이 실제 트래픽에서 얼마가 들고 어떻게 행동하는지의 데이터셋 하나. 그 데이터셋이 순위 페이지를 신뢰할 수 있게 만들고 회사를 살 가치가 있게 만듭니다.</p>
+<h3>지켜볼 두 가지</h3>
+<ol><li><strong>계기판의 중립성.</strong> 오픈라우터 순위는 미국 폐쇄형 모델이 중국 개방형에 점유율을 잃는 것을 보여줬고, 한국 보도는 그 질문의 "유일한 계기판"이라 부릅니다. 오픈라우터는 어떤 모회사에도 중립을 약속했습니다. 시험은 순위 방법론과 원 사용량 데이터가 계속 공개되는가입니다. 데이터 없는 약속은 확인할 수 없습니다.</li><li><strong>떨어지는 가격에 맞선 수수료.</strong> 토큰이 싸지는데 수수료가 고정 비율이면 토큰당 매출은 계속 떨어지고 라우터의 인센티브는 사용자에게 가장 싼 경로가 아니라 물량과 엔터프라이즈 기능입니다. 계층형 수수료, 엔터프라이즈 계약, Stripe Billing과의 번들을 지켜볼 것.</li></ol>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>우리 에이전트를 위한 예산 있는 키 하나.</strong> Jayverse 에이전트와 모닝 리포트 파이프라인은 제공사별 키로 직접 호출합니다. 월 상한, 폴백 체인, 요청별 모델 선택이 있는 라우터를 앞에 두는 것은 Alchemy 항목이 RPC 키에 제안한 것과 같은 수정입니다. PoC는 하루입니다. 키 하나, 엔드포인트 하나, 지출 한도.</li><li><strong>매출 옆의 비용.</strong> Verex와 Rails는 에이전트가 무엇이든 채점하거나 라우팅하는 순간 요청당 AI 비용이 생깁니다. 요청당 비용을 요청당 매출 옆 한 장부에 두는 스트라이프의 논지는 장난감 규모에서도 우리 회계에 맞는 모양입니다.</li><li><strong>대시보드는 공개된 데이터만큼만 좋다.</strong> Auditor 행은 자기가 확인하는 것을 공개합니다. Number가 비공개 계기판의 "사용 점유율"을 인용한다면 방법론을 인용하거나 확인 불가로 표시할 것. 이 항목이 오픈라우터 자체 숫자에 하는 것처럼.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 확인한 것: 스트라이프 2026-08-19 발표(합의, 조건 비공개, 400개 이상 모델, 80개 이상 제공사, Token Billing, 콜리슨·아탈라 인용); 오픈라우터 블로그(중립 약속, "몇 주 안에" 종결, 하루 10조 이상 토큰, 90명); TechCrunch 2026-08-19(NYT 75억 달러, 창업자 몫, 5월 13억 달러 기업가치, 데이터브릭스 관심); Sacra(수수료, 매출, 토큰 물량, 중국 모델 비중, 토큰당 하락). jay가 제공한 2026-08-17 조선일보 기사에서 가져와 독립 검증하지 않은 것: "약 5퍼센트 수수료", 사용자 1천만 명, 월 200조 토큰, 연매출 5천만 달러(Sacra의 이전 수치), 스트라이프 2025년 1조 9천억 달러 처리액, LM Arena 6억→17억 달러 기업가치, Artificial Analysis 배경. 미확인: 거래 종결 여부; 블룸버그 원문은 읽지 않음.</p>
+<p>출처: <a href="https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter">스트라이프 뉴스룸 — Stripe agrees to acquire OpenRouter, 2026-08-19</a> · <a href="https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/">오픈라우터 — OpenRouter is joining Stripe</a> · <a href="https://techcrunch.com/2026/08/19/stripe-didnt-really-buy-openrouter-because-of-the-singularity/">TechCrunch — Stripe didn&#39;t really buy OpenRouter because of the &#39;singularity&#39;, 2026-08-19</a> · <a href="https://sacra.com/c/openrouter/">Sacra — OpenRouter revenue, valuation and funding</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion">블룸버그 — Stripe nears deal to buy OpenRouter for over $7 billion, 2026-08-16</a></p>
+      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-alchemy-app-is-a-budget.html">&larr; 55. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</a><a href="pocs-etf-outflows-sign-depends-on-window.html">57. Two days of ETF outflows after the hike — the sign of the number depends on the unit you read it in &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="stripe-bought-the-meter-openrouter";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
