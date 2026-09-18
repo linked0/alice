@@ -58,6 +58,9 @@ verification starts. Content jay pastes directly wins for that item.</li>
 <h2 id="blockchain--tech-conventions">Blockchain &amp; Tech conventions</h2>
 <ul>
 <li><p><strong>Tooling:</strong> <code>python3 scripts/add-tech-item.py --key &lt;key&gt; --slot &lt;N&gt; --en en.md --ko ko.md [--status new] [--date] [--source chat|file]</code>
+Fundamentals items use the same script with <code>--section fundamentals --tag Math|Algorithms|Economics</code>;
+they append at the end of the section (numbering there is curriculum order, not done-first) and get
+the same date and source tag (jay, 2026-09-18, first item #193).
 does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
 Re-run with the same key to replace an item in place.</p>
 </li>
@@ -73,7 +76,8 @@ the detail page kicker after the type (<code>#N · PoC · YYYY-MM-DD</code>). Ol
 </li>
 <li><p><strong>Source tag (jay, 2026-09-18):</strong> next to the date, a small pill says where the subject came from:
 <code>chat</code> when jay pasted or pointed at the content, <code>file</code> when it was taken from the alice-tech
-file. Card: <code>&lt;span class=&quot;topic-src&quot;&gt;</code>; kicker: <code>#N · PoC · YYYY-MM-DD · chat</code>. Pass <code>--source</code>.</p>
+file. Content jay pastes that is itself a candidate from that day&#39;s alice-tech file is tagged
+<code>file</code> (its subject came from the file; the paste is how it was pointed at). Card: <code>&lt;span class=&quot;topic-src&quot;&gt;</code>; kicker: <code>#N · PoC · YYYY-MM-DD · chat</code>. Pass <code>--source</code>.</p>
 </li>
 <li><p>Every item: English and Korean copy text as JSON on the card and the page; page body generated
 from the copy text so they cannot diverge; a &quot;Verified and unverified&quot; closing section with

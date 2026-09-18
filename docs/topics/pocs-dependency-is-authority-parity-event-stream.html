@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018 — Tech Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#59</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
+      <h1>A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018</h1>
+      <p class="lead">Two incidents a year apart broke no cryptography and still cost more than most exploits. On 2017-11-06 a GitHub user, devops199, called an initialisation function on the shared library behind every Parity multisig wallet, became its owner because the library had never been initialised, and ran `selfdestruct`. About 587 wallets that delegated their logic to that address were left pointing at empty code; roughly 513,774 ETH were frozen permanently, not stolen, because the code they needed no longer existed. On 2018-09-09 a new maintainer of event-stream, an npm package with about two million weekly downloads, added a dependency called flatmap-stream; version 0.1.1 of it carried an encrypted payload that activated only inside Copay, a Bitcoin wallet app, and exfiltrated seed phrases from wallets holding more than 100 BTC or 1,000 BCH. It was found on 2018-11-20, after Copay had shipped it in versions 5.0.2 to 5.1.0. The original maintainer had handed the package over because he no longer used it and someone offered to help.</p>
+      <p class="meta">The common surface is not a vulnerability class. It is that code you depend on is maintained by someone else, and maintenance includes the right to change it. Parity&#39;s wallets trusted a library address; event-stream&#39;s users trusted a name on a registry. In both cases the trust was to a party, not to a file, and the party changed, by accident in one case and by handover in the other. Three mistakes repeat: treating a dependency as a fixed object; equating "widely used" with "reviewed"; and auditing once without pinning, which means the audit described one commit and the deployment ran another. For Jayverse the checklist is short and applies today because of the S&amp;P and OpenZeppelin news: exact version pins and committed lockfiles, everywhere; count the dependencies that can move money and read at least those; and keep "the code is safe" and "the supply chain is safe" as two separate statements that fail for different reasons. Status on 2026-09-18: our Solidity pins are submodule commits, which is exact; one CI workflow freezes its lockfile; the rest is unverified.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018\n\nTwo incidents a year apart broke no cryptography and still cost more than most exploits. On 2017-11-06 a GitHub user, devops199, called an initialisation function on the shared library behind every Parity multisig wallet, became its owner because the library had never been initialised, and ran `selfdestruct`. About 587 wallets that delegated their logic to that address were left pointing at empty code; roughly 513,774 ETH were frozen permanently, not stolen, because the code they needed no longer existed. On 2018-09-09 a new maintainer of event-stream, an npm package with about two million weekly downloads, added a dependency called flatmap-stream; version 0.1.1 of it carried an encrypted payload that activated only inside Copay, a Bitcoin wallet app, and exfiltrated seed phrases from wallets holding more than 100 BTC or 1,000 BCH. It was found on 2018-11-20, after Copay had shipped it in versions 5.0.2 to 5.1.0. The original maintainer had handed the package over because he no longer used it and someone offered to help.\n\nThe common surface is not a vulnerability class. It is that code you depend on is maintained by someone else, and maintenance includes the right to change it. Parity's wallets trusted a library address; event-stream's users trusted a name on a registry. In both cases the trust was to a party, not to a file, and the party changed, by accident in one case and by handover in the other. Three mistakes repeat: treating a dependency as a fixed object; equating \"widely used\" with \"reviewed\"; and auditing once without pinning, which means the audit described one commit and the deployment ran another. For Jayverse the checklist is short and applies today because of the S&P and OpenZeppelin news: exact version pins and committed lockfiles, everywhere; count the dependencies that can move money and read at least those; and keep \"the code is safe\" and \"the supply chain is safe\" as two separate statements that fail for different reasons. Status on 2026-09-18: our Solidity pins are submodule commits, which is exact; one CI workflow freezes its lockfile; the rest is unverified.\n\n## Why\n\nAuditors and reviewers look at code. Both of these failures were invisible in the code at review time. Parity's library was fine as written; the failure was that a deployment step, initialising the library, had not happened, and the library's authority over hundreds of wallets was therefore unclaimed. event-stream was fine when Copay's engineers reviewed it; the failure arrived later through a version bump nobody read, because the package was popular and popularity felt like review. A dependency is a relationship in time. What you audited is a snapshot; what you run is whatever the relationship delivers next.\n\nThis is why the S&P acquisition of OpenZeppelin belongs next to these two cases even though nothing bad happened. Every Jayverse contract that imports OpenZeppelin has a relationship with whoever maintains it, and on 2026-09-17 that party changed. The code did not. The right response is the same as it would have been the day before: know exactly which commit you run, know who can change what you will run next, and make the change a decision rather than an event.\n\n## How it works\n\n### The two cases side by side\n\n| | Parity multisig, 2017-11 | event-stream, 2018-09 to 11 |\n|---|---|---|\n| What was depended on | a shared library contract at one address, reached by delegatecall | an npm package by name, resolved by semver at install |\n| What changed | anyone could call `initWallet` on the uninitialised library, become owner, and `selfdestruct` it | ownership of the package passed to a new maintainer who added a malicious dependency |\n| Who did it | devops199, apparently by accident: \"I accidentally killed it\" | right9ctrl, deliberately, targeting one wallet app |\n| Damage | about 587 wallets bricked; about 513,774 ETH frozen (roughly $150 million then), never recovered | Copay 5.0.2 to 5.1.0 shipped a seed-phrase stealer for large wallets; scale of theft unclear |\n| Cryptography broken | none | none |\n| Would an audit have caught it | of the library code, no; of the deployment, yes | of event-stream 3.3.5, no; of the 3.3.6 bump, only if someone read it |\n\n### The three mistakes\n\n1. **A dependency is a fixed object.** It is an address or a name that resolves to different code over time. Pin the resolution: a commit hash, an exact version, a lockfile committed and enforced.\n2. **Widely used means reviewed.** Two million downloads a week is a measure of trust, not of reading. Popularity increases the payoff for an attacker and the diffusion of responsibility for defenders.\n3. **Audit once, pin never.** An audit is a statement about one commit. If the deployment can drift from that commit without a decision, the audit is decoration.\n\n### What \"pinned\" means in each stack\n\n| Stack | Loose | Exact |\n|---|---|---|\n| Foundry / Solidity | remapping to a branch; `forge install` without a tag | git submodule at a commit, recorded in `.gitmodules` and the superproject |\n| npm / pnpm | `^5.1.0` in package.json and no lockfile in CI | lockfile committed and `pnpm install --frozen-lockfile` in CI, so a mismatch fails the build |\n| Contracts on chain | delegatecall to an upgradeable or uninitialised library | immutable library address, initialisation checked in the constructor or deployment script, ownership asserted in a test |\n\n### Where it lands in Jayverse\n\n- **Solidity: already exact, keep it so.** jayverse-token and jayverse-personas pin OpenZeppelin v5.1.0 as submodule commits; Verex inherits v4.7.0 through ctf-exchange. A bump is a PR that names the release notes it read.\n- **JavaScript: enforce the lockfile.** One CI workflow uses `--frozen-lockfile` today. Every app that touches keys or money, wallet, rabbit, verex api, should fail its build on a lockfile mismatch. Five minutes each.\n- **Count the money-moving dependencies.** For each repo, list the packages and libraries on the path between a user action and a transfer. It is usually four or five. Read those, and only those, at every bump.\n- **Two statements, two owners.** \"The code is safe\" is the auditor's statement about a commit. \"The supply chain is safe\" is ours about pins, CI, and who has publish rights. Write both into the permission table the S&P item asks for.\n\n### Verified and unverified\n\nVerified on 2026-09-18 from the incident record (Parity post-mortem coverage, TechCrunch 2017-11-07; npm's and Snyk's event-stream post-mortems): dates, the uninitialised library and `selfdestruct` mechanism, the flatmap-stream payload and Copay targeting, the affected Copay versions, the maintainer handover. Figures reported with small variance across sources: 584 to 587 wallets; 513,774 ETH; \"about two million\" weekly downloads. Jayverse state from the repos on this machine: submodule versions, import counts, one workflow with `--frozen-lockfile`. Not verified: how much was stolen through the Copay backdoor; whether any Jayverse app other than that one workflow enforces its lockfile.\nSources: [TechCrunch — A major vulnerability has frozen hundreds of millions of dollars of Ethereum, 2017-11-07](https://techcrunch.com/2017/11/07/a-major-vulnerability-has-frozen-hundreds-of-millions-of-dollars-of-ethereum) · [Parity post-mortem coverage — Coin Bureau](https://coinbureau.com/news/parity-issues-post-mortem-kill-froze-millions/) · [npm blog — Details about the event-stream incident, 2018-11](https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident) · [Snyk — A post-mortem of the malicious event-stream backdoor](https://snyk.io/blog/a-post-mortem-of-the-malicious-event-stream-backdoor/)\n"</script>
+<h2>Why</h2>
+<p>Auditors and reviewers look at code. Both of these failures were invisible in the code at review time. Parity&#39;s library was fine as written; the failure was that a deployment step, initialising the library, had not happened, and the library&#39;s authority over hundreds of wallets was therefore unclaimed. event-stream was fine when Copay&#39;s engineers reviewed it; the failure arrived later through a version bump nobody read, because the package was popular and popularity felt like review. A dependency is a relationship in time. What you audited is a snapshot; what you run is whatever the relationship delivers next.</p>
+<p>This is why the S&amp;P acquisition of OpenZeppelin belongs next to these two cases even though nothing bad happened. Every Jayverse contract that imports OpenZeppelin has a relationship with whoever maintains it, and on 2026-09-17 that party changed. The code did not. The right response is the same as it would have been the day before: know exactly which commit you run, know who can change what you will run next, and make the change a decision rather than an event.</p>
+<h2>How it works</h2>
+<h3>The two cases side by side</h3>
+<table><thead><tr><th></th><th>Parity multisig, 2017-11</th><th>event-stream, 2018-09 to 11</th></tr></thead><tbody><tr><td>What was depended on</td><td>a shared library contract at one address, reached by delegatecall</td><td>an npm package by name, resolved by semver at install</td></tr><tr><td>What changed</td><td>anyone could call <code>initWallet</code> on the uninitialised library, become owner, and <code>selfdestruct</code> it</td><td>ownership of the package passed to a new maintainer who added a malicious dependency</td></tr><tr><td>Who did it</td><td>devops199, apparently by accident: "I accidentally killed it"</td><td>right9ctrl, deliberately, targeting one wallet app</td></tr><tr><td>Damage</td><td>about 587 wallets bricked; about 513,774 ETH frozen (roughly $150 million then), never recovered</td><td>Copay 5.0.2 to 5.1.0 shipped a seed-phrase stealer for large wallets; scale of theft unclear</td></tr><tr><td>Cryptography broken</td><td>none</td><td>none</td></tr><tr><td>Would an audit have caught it</td><td>of the library code, no; of the deployment, yes</td><td>of event-stream 3.3.5, no; of the 3.3.6 bump, only if someone read it</td></tr></tbody></table>
+<h3>The three mistakes</h3>
+<ol><li><strong>A dependency is a fixed object.</strong> It is an address or a name that resolves to different code over time. Pin the resolution: a commit hash, an exact version, a lockfile committed and enforced.</li><li><strong>Widely used means reviewed.</strong> Two million downloads a week is a measure of trust, not of reading. Popularity increases the payoff for an attacker and the diffusion of responsibility for defenders.</li><li><strong>Audit once, pin never.</strong> An audit is a statement about one commit. If the deployment can drift from that commit without a decision, the audit is decoration.</li></ol>
+<h3>What "pinned" means in each stack</h3>
+<table><thead><tr><th>Stack</th><th>Loose</th><th>Exact</th></tr></thead><tbody><tr><td>Foundry / Solidity</td><td>remapping to a branch; <code>forge install</code> without a tag</td><td>git submodule at a commit, recorded in <code>.gitmodules</code> and the superproject</td></tr><tr><td>npm / pnpm</td><td><code>^5.1.0</code> in package.json and no lockfile in CI</td><td>lockfile committed and <code>pnpm install --frozen-lockfile</code> in CI, so a mismatch fails the build</td></tr><tr><td>Contracts on chain</td><td>delegatecall to an upgradeable or uninitialised library</td><td>immutable library address, initialisation checked in the constructor or deployment script, ownership asserted in a test</td></tr></tbody></table>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Solidity: already exact, keep it so.</strong> jayverse-token and jayverse-personas pin OpenZeppelin v5.1.0 as submodule commits; Verex inherits v4.7.0 through ctf-exchange. A bump is a PR that names the release notes it read.</li><li><strong>JavaScript: enforce the lockfile.</strong> One CI workflow uses <code>--frozen-lockfile</code> today. Every app that touches keys or money, wallet, rabbit, verex api, should fail its build on a lockfile mismatch. Five minutes each.</li><li><strong>Count the money-moving dependencies.</strong> For each repo, list the packages and libraries on the path between a user action and a transfer. It is usually four or five. Read those, and only those, at every bump.</li><li><strong>Two statements, two owners.</strong> "The code is safe" is the auditor&#39;s statement about a commit. "The supply chain is safe" is ours about pins, CI, and who has publish rights. Write both into the permission table the S&amp;P item asks for.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18 from the incident record (Parity post-mortem coverage, TechCrunch 2017-11-07; npm&#39;s and Snyk&#39;s event-stream post-mortems): dates, the uninitialised library and <code>selfdestruct</code> mechanism, the flatmap-stream payload and Copay targeting, the affected Copay versions, the maintainer handover. Figures reported with small variance across sources: 584 to 587 wallets; 513,774 ETH; "about two million" weekly downloads. Jayverse state from the repos on this machine: submodule versions, import counts, one workflow with <code>--frozen-lockfile</code>. Not verified: how much was stolen through the Copay backdoor; whether any Jayverse app other than that one workflow enforces its lockfile.</p>
+<p>Sources: <a href="https://techcrunch.com/2017/11/07/a-major-vulnerability-has-frozen-hundreds-of-millions-of-dollars-of-ethereum">TechCrunch — A major vulnerability has frozen hundreds of millions of dollars of Ethereum, 2017-11-07</a> · <a href="https://coinbureau.com/news/parity-issues-post-mortem-kill-froze-millions/">Parity post-mortem coverage — Coin Bureau</a> · <a href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident">npm blog — Details about the event-stream incident, 2018-11</a> · <a href="https://snyk.io/blog/a-post-mortem-of-the-malicious-event-stream-backdoor/">Snyk — A post-mortem of the malicious event-stream backdoor</a></p>
+      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 의존성은 파일이 아니라 남에게 준 권한이다 — Parity 2017과 event-stream 2018\n\n1년 간격의 두 사고는 암호를 하나도 깨지 않았고 그래도 대부분의 익스플로잇보다 큰 비용을 냈습니다. 2017-11-06 GitHub 사용자 devops199가 모든 Parity 멀티시그 지갑 뒤의 공용 라이브러리에서 초기화 함수를 호출해, 라이브러리가 초기화된 적이 없었기 때문에 소유자가 되고, `selfdestruct`를 실행했습니다. 그 주소에 로직을 위임하던 약 587개 지갑이 빈 코드를 가리키게 됐고, 약 513,774 ETH가 영구 동결됐습니다. 도난이 아니라, 필요한 코드가 더는 존재하지 않게 된 것입니다. 2018-09-09 주간 약 2백만 다운로드의 npm 패키지 event-stream의 새 유지자가 flatmap-stream이라는 의존성을 추가했습니다. 그 0.1.1 버전은 비트코인 지갑 앱 Copay 안에서만 활성화되는 암호화된 페이로드를 담고 있었고, 100 BTC 또는 1,000 BCH 이상을 보유한 지갑의 시드 문구를 빼냈습니다. 2018-11-20에 발견됐고, 그 전에 Copay가 5.0.2에서 5.1.0 버전으로 배포했습니다. 원 유지자는 더는 쓰지 않는 패키지였고 누군가 돕겠다고 해서 넘겼습니다.\n\n공통 표면은 취약점 부류가 아닙니다. 내가 의존하는 코드를 남이 유지하고, 유지에는 바꿀 권리가 포함된다는 것입니다. Parity 지갑은 라이브러리 주소를 신뢰했고, event-stream 사용자는 레지스트리의 이름을 신뢰했습니다. 두 경우 모두 신뢰는 파일이 아니라 상대에게 준 것이었고, 상대가 바뀌었습니다. 하나는 사고로, 하나는 이관으로. 세 실수가 반복됩니다. 의존성을 고정된 물체로 취급하는 것, \"널리 쓰임\"을 \"검토됨\"과 동일시하는 것, 핀 없이 한 번 감사하는 것. 마지막은 감사가 커밋 하나를 서술했는데 배포는 다른 커밋을 돌렸다는 뜻입니다. Jayverse의 체크리스트는 짧고, S&P와 OpenZeppelin 뉴스 때문에 오늘 적용됩니다. 정확한 버전 핀과 커밋된 락파일, 모든 곳에; 돈을 움직일 수 있는 의존성을 세고 최소한 그것들은 읽기; \"코드가 안전\"과 \"공급망이 안전\"을 다른 이유로 깨지는 두 개의 별도 진술로 유지하기. 2026-09-18 기준 상태: 우리 Solidity 핀은 서브모듈 커밋이라 정확함; CI 워크플로 하나가 락파일을 고정; 나머지는 미확인.\n\n## 왜\n\n감사자와 리뷰어는 코드를 봅니다. 두 실패 모두 리뷰 시점의 코드에서는 보이지 않았습니다. Parity 라이브러리는 쓰인 대로는 괜찮았고, 실패는 배포 단계, 라이브러리 초기화가 일어나지 않았다는 것이었으며, 따라서 수백 개 지갑에 대한 라이브러리의 권한이 주인 없이 남아 있었습니다. event-stream은 Copay 엔지니어가 검토했을 때 괜찮았고, 실패는 나중에 아무도 읽지 않은 버전 올림으로 도착했습니다. 패키지가 인기 있었고 인기가 검토처럼 느껴졌기 때문입니다. 의존성은 시간 속의 관계입니다. 감사한 것은 스냅샷이고, 돌리는 것은 그 관계가 다음에 전달하는 무엇입니다.\n\n그래서 나쁜 일이 아무것도 일어나지 않았는데도 S&P의 OpenZeppelin 인수가 이 두 사례 옆에 놓입니다. OpenZeppelin을 임포트하는 모든 Jayverse 컨트랙트는 그것을 유지하는 누군가와 관계가 있고, 2026-09-17에 그 상대가 바뀌었습니다. 코드는 바뀌지 않았습니다. 올바른 대응은 전날에도 같았을 것입니다. 정확히 어느 커밋을 돌리는지 알고, 다음에 돌릴 것을 누가 바꿀 수 있는지 알고, 그 변경을 사건이 아니라 결정으로 만드는 것.\n\n## 동작 방식\n\n### 두 사례 나란히\n\n| | Parity 멀티시그, 2017-11 | event-stream, 2018-09~11 |\n|---|---|---|\n| 의존한 것 | delegatecall로 닿는 한 주소의 공용 라이브러리 컨트랙트 | 설치 시 semver로 해석되는 이름의 npm 패키지 |\n| 바뀐 것 | 누구나 초기화되지 않은 라이브러리의 `initWallet`을 호출해 소유자가 되고 `selfdestruct`할 수 있었음 | 패키지 소유권이 새 유지자로 넘어가 악성 의존성이 추가됨 |\n| 누가 | devops199, 사고로 보임: \"I accidentally killed it\" | right9ctrl, 의도적으로, 지갑 앱 하나를 겨냥 |\n| 피해 | 약 587개 지갑 벽돌; 약 513,774 ETH 동결(당시 약 1.5억 달러), 복구 없음 | Copay 5.0.2~5.1.0이 대형 지갑용 시드 탈취기를 배포; 도난 규모 불명 |\n| 깨진 암호 | 없음 | 없음 |\n| 감사가 잡았을까 | 라이브러리 코드는 아니오; 배포는 예 | event-stream 3.3.5는 아니오; 3.3.6 올림은 누가 읽었다면 |\n\n### 세 실수\n\n1. **의존성은 고정된 물체다.** 사실은 시간에 따라 다른 코드로 해석되는 주소나 이름이다. 해석을 고정할 것: 커밋 해시, 정확한 버전, 커밋되고 강제되는 락파일.\n2. **널리 쓰이면 검토됐다.** 주간 2백만 다운로드는 신뢰의 척도이지 읽음의 척도가 아니다. 인기는 공격자의 보수를 키우고 방어자의 책임을 분산시킨다.\n3. **한 번 감사, 핀은 없음.** 감사는 커밋 하나에 대한 진술이다. 배포가 결정 없이 그 커밋에서 벗어날 수 있으면 감사는 장식이다.\n\n### 각 스택에서 \"핀됨\"의 뜻\n\n| 스택 | 느슨함 | 정확함 |\n|---|---|---|\n| Foundry / Solidity | 브랜치로의 리매핑; 태그 없는 `forge install` | `.gitmodules`와 상위 프로젝트에 기록된 커밋의 git 서브모듈 |\n| npm / pnpm | package.json의 `^5.1.0`과 CI에 락파일 없음 | 락파일 커밋과 CI의 `pnpm install --frozen-lockfile`, 불일치 시 빌드 실패 |\n| 온체인 컨트랙트 | 업그레이드 가능하거나 초기화되지 않은 라이브러리로의 delegatecall | 불변 라이브러리 주소, 생성자나 배포 스크립트에서 초기화 확인, 테스트에서 소유권 검증 |\n\n### Jayverse에서의 위치\n\n- **Solidity: 이미 정확함, 그대로 유지.** jayverse-token과 jayverse-personas는 OpenZeppelin v5.1.0을 서브모듈 커밋으로 핀; Verex는 ctf-exchange를 통해 v4.7.0을 물려받음. 버전 올림은 읽은 릴리스 노트를 명시하는 PR.\n- **JavaScript: 락파일을 강제한다.** 오늘 CI 워크플로 하나가 `--frozen-lockfile`을 씀. 키나 돈을 건드리는 모든 앱, wallet, rabbit, verex api는 락파일 불일치에 빌드가 실패해야 함. 각 5분.\n- **돈을 움직이는 의존성을 센다.** 레포마다 사용자 행동과 이전 사이 경로에 있는 패키지와 라이브러리를 나열. 보통 네댓 개. 매 올림마다 그것들만, 그것들은 반드시 읽기.\n- **두 진술, 두 주인.** \"코드가 안전\"은 커밋에 대한 감사자의 진술. \"공급망이 안전\"은 핀, CI, 게시 권한이 누구에게 있는가에 대한 우리의 진술. 둘 모두 S&P 항목이 요구하는 권한 표에 적을 것.\n\n### 확인된 것과 미확인\n\n2026-09-18에 사고 기록(Parity 사후 분석 보도, TechCrunch 2017-11-07; npm과 Snyk의 event-stream 사후 분석)에서 확인한 것: 날짜, 초기화되지 않은 라이브러리와 `selfdestruct` 메커니즘, flatmap-stream 페이로드와 Copay 표적, 영향 받은 Copay 버전, 유지자 이관. 출처마다 약간 다르게 보도된 수치: 지갑 584~587개; 513,774 ETH; 주간 \"약 2백만\" 다운로드. 이 머신의 레포에서 확인한 Jayverse 상태: 서브모듈 버전, 임포트 개수, `--frozen-lockfile`이 있는 워크플로 하나. 미확인: Copay 백도어로 도난된 규모; 그 워크플로 외의 Jayverse 앱이 락파일을 강제하는지.\n출처: [TechCrunch — A major vulnerability has frozen hundreds of millions of dollars of Ethereum, 2017-11-07](https://techcrunch.com/2017/11/07/a-major-vulnerability-has-frozen-hundreds-of-millions-of-dollars-of-ethereum) · [Parity 사후 분석 보도 — Coin Bureau](https://coinbureau.com/news/parity-issues-post-mortem-kill-froze-millions/) · [npm 블로그 — Details about the event-stream incident, 2018-11](https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident) · [Snyk — A post-mortem of the malicious event-stream backdoor](https://snyk.io/blog/a-post-mortem-of-the-malicious-event-stream-backdoor/)\n"</script>
+      <h1>의존성은 파일이 아니라 남에게 준 권한이다 — Parity 2017과 event-stream 2018</h1>
+      <p class="lead">1년 간격의 두 사고는 암호를 하나도 깨지 않았고 그래도 대부분의 익스플로잇보다 큰 비용을 냈습니다. 2017-11-06 GitHub 사용자 devops199가 모든 Parity 멀티시그 지갑 뒤의 공용 라이브러리에서 초기화 함수를 호출해, 라이브러리가 초기화된 적이 없었기 때문에 소유자가 되고, `selfdestruct`를 실행했습니다. 그 주소에 로직을 위임하던 약 587개 지갑이 빈 코드를 가리키게 됐고, 약 513,774 ETH가 영구 동결됐습니다. 도난이 아니라, 필요한 코드가 더는 존재하지 않게 된 것입니다. 2018-09-09 주간 약 2백만 다운로드의 npm 패키지 event-stream의 새 유지자가 flatmap-stream이라는 의존성을 추가했습니다. 그 0.1.1 버전은 비트코인 지갑 앱 Copay 안에서만 활성화되는 암호화된 페이로드를 담고 있었고, 100 BTC 또는 1,000 BCH 이상을 보유한 지갑의 시드 문구를 빼냈습니다. 2018-11-20에 발견됐고, 그 전에 Copay가 5.0.2에서 5.1.0 버전으로 배포했습니다. 원 유지자는 더는 쓰지 않는 패키지였고 누군가 돕겠다고 해서 넘겼습니다.</p>
+      <p class="meta">공통 표면은 취약점 부류가 아닙니다. 내가 의존하는 코드를 남이 유지하고, 유지에는 바꿀 권리가 포함된다는 것입니다. Parity 지갑은 라이브러리 주소를 신뢰했고, event-stream 사용자는 레지스트리의 이름을 신뢰했습니다. 두 경우 모두 신뢰는 파일이 아니라 상대에게 준 것이었고, 상대가 바뀌었습니다. 하나는 사고로, 하나는 이관으로. 세 실수가 반복됩니다. 의존성을 고정된 물체로 취급하는 것, "널리 쓰임"을 "검토됨"과 동일시하는 것, 핀 없이 한 번 감사하는 것. 마지막은 감사가 커밋 하나를 서술했는데 배포는 다른 커밋을 돌렸다는 뜻입니다. Jayverse의 체크리스트는 짧고, S&amp;P와 OpenZeppelin 뉴스 때문에 오늘 적용됩니다. 정확한 버전 핀과 커밋된 락파일, 모든 곳에; 돈을 움직일 수 있는 의존성을 세고 최소한 그것들은 읽기; "코드가 안전"과 "공급망이 안전"을 다른 이유로 깨지는 두 개의 별도 진술로 유지하기. 2026-09-18 기준 상태: 우리 Solidity 핀은 서브모듈 커밋이라 정확함; CI 워크플로 하나가 락파일을 고정; 나머지는 미확인.</p>
+<h2>왜</h2>
+<p>감사자와 리뷰어는 코드를 봅니다. 두 실패 모두 리뷰 시점의 코드에서는 보이지 않았습니다. Parity 라이브러리는 쓰인 대로는 괜찮았고, 실패는 배포 단계, 라이브러리 초기화가 일어나지 않았다는 것이었으며, 따라서 수백 개 지갑에 대한 라이브러리의 권한이 주인 없이 남아 있었습니다. event-stream은 Copay 엔지니어가 검토했을 때 괜찮았고, 실패는 나중에 아무도 읽지 않은 버전 올림으로 도착했습니다. 패키지가 인기 있었고 인기가 검토처럼 느껴졌기 때문입니다. 의존성은 시간 속의 관계입니다. 감사한 것은 스냅샷이고, 돌리는 것은 그 관계가 다음에 전달하는 무엇입니다.</p>
+<p>그래서 나쁜 일이 아무것도 일어나지 않았는데도 S&amp;P의 OpenZeppelin 인수가 이 두 사례 옆에 놓입니다. OpenZeppelin을 임포트하는 모든 Jayverse 컨트랙트는 그것을 유지하는 누군가와 관계가 있고, 2026-09-17에 그 상대가 바뀌었습니다. 코드는 바뀌지 않았습니다. 올바른 대응은 전날에도 같았을 것입니다. 정확히 어느 커밋을 돌리는지 알고, 다음에 돌릴 것을 누가 바꿀 수 있는지 알고, 그 변경을 사건이 아니라 결정으로 만드는 것.</p>
+<h2>동작 방식</h2>
+<h3>두 사례 나란히</h3>
+<table><thead><tr><th></th><th>Parity 멀티시그, 2017-11</th><th>event-stream, 2018-09~11</th></tr></thead><tbody><tr><td>의존한 것</td><td>delegatecall로 닿는 한 주소의 공용 라이브러리 컨트랙트</td><td>설치 시 semver로 해석되는 이름의 npm 패키지</td></tr><tr><td>바뀐 것</td><td>누구나 초기화되지 않은 라이브러리의 <code>initWallet</code>을 호출해 소유자가 되고 <code>selfdestruct</code>할 수 있었음</td><td>패키지 소유권이 새 유지자로 넘어가 악성 의존성이 추가됨</td></tr><tr><td>누가</td><td>devops199, 사고로 보임: "I accidentally killed it"</td><td>right9ctrl, 의도적으로, 지갑 앱 하나를 겨냥</td></tr><tr><td>피해</td><td>약 587개 지갑 벽돌; 약 513,774 ETH 동결(당시 약 1.5억 달러), 복구 없음</td><td>Copay 5.0.2~5.1.0이 대형 지갑용 시드 탈취기를 배포; 도난 규모 불명</td></tr><tr><td>깨진 암호</td><td>없음</td><td>없음</td></tr><tr><td>감사가 잡았을까</td><td>라이브러리 코드는 아니오; 배포는 예</td><td>event-stream 3.3.5는 아니오; 3.3.6 올림은 누가 읽었다면</td></tr></tbody></table>
+<h3>세 실수</h3>
+<ol><li><strong>의존성은 고정된 물체다.</strong> 사실은 시간에 따라 다른 코드로 해석되는 주소나 이름이다. 해석을 고정할 것: 커밋 해시, 정확한 버전, 커밋되고 강제되는 락파일.</li><li><strong>널리 쓰이면 검토됐다.</strong> 주간 2백만 다운로드는 신뢰의 척도이지 읽음의 척도가 아니다. 인기는 공격자의 보수를 키우고 방어자의 책임을 분산시킨다.</li><li><strong>한 번 감사, 핀은 없음.</strong> 감사는 커밋 하나에 대한 진술이다. 배포가 결정 없이 그 커밋에서 벗어날 수 있으면 감사는 장식이다.</li></ol>
+<h3>각 스택에서 "핀됨"의 뜻</h3>
+<table><thead><tr><th>스택</th><th>느슨함</th><th>정확함</th></tr></thead><tbody><tr><td>Foundry / Solidity</td><td>브랜치로의 리매핑; 태그 없는 <code>forge install</code></td><td><code>.gitmodules</code>와 상위 프로젝트에 기록된 커밋의 git 서브모듈</td></tr><tr><td>npm / pnpm</td><td>package.json의 <code>^5.1.0</code>과 CI에 락파일 없음</td><td>락파일 커밋과 CI의 <code>pnpm install --frozen-lockfile</code>, 불일치 시 빌드 실패</td></tr><tr><td>온체인 컨트랙트</td><td>업그레이드 가능하거나 초기화되지 않은 라이브러리로의 delegatecall</td><td>불변 라이브러리 주소, 생성자나 배포 스크립트에서 초기화 확인, 테스트에서 소유권 검증</td></tr></tbody></table>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Solidity: 이미 정확함, 그대로 유지.</strong> jayverse-token과 jayverse-personas는 OpenZeppelin v5.1.0을 서브모듈 커밋으로 핀; Verex는 ctf-exchange를 통해 v4.7.0을 물려받음. 버전 올림은 읽은 릴리스 노트를 명시하는 PR.</li><li><strong>JavaScript: 락파일을 강제한다.</strong> 오늘 CI 워크플로 하나가 <code>--frozen-lockfile</code>을 씀. 키나 돈을 건드리는 모든 앱, wallet, rabbit, verex api는 락파일 불일치에 빌드가 실패해야 함. 각 5분.</li><li><strong>돈을 움직이는 의존성을 센다.</strong> 레포마다 사용자 행동과 이전 사이 경로에 있는 패키지와 라이브러리를 나열. 보통 네댓 개. 매 올림마다 그것들만, 그것들은 반드시 읽기.</li><li><strong>두 진술, 두 주인.</strong> "코드가 안전"은 커밋에 대한 감사자의 진술. "공급망이 안전"은 핀, CI, 게시 권한이 누구에게 있는가에 대한 우리의 진술. 둘 모두 S&amp;P 항목이 요구하는 권한 표에 적을 것.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 사고 기록(Parity 사후 분석 보도, TechCrunch 2017-11-07; npm과 Snyk의 event-stream 사후 분석)에서 확인한 것: 날짜, 초기화되지 않은 라이브러리와 <code>selfdestruct</code> 메커니즘, flatmap-stream 페이로드와 Copay 표적, 영향 받은 Copay 버전, 유지자 이관. 출처마다 약간 다르게 보도된 수치: 지갑 584~587개; 513,774 ETH; 주간 "약 2백만" 다운로드. 이 머신의 레포에서 확인한 Jayverse 상태: 서브모듈 버전, 임포트 개수, <code>--frozen-lockfile</code>이 있는 워크플로 하나. 미확인: Copay 백도어로 도난된 규모; 그 워크플로 외의 Jayverse 앱이 락파일을 강제하는지.</p>
+<p>출처: <a href="https://techcrunch.com/2017/11/07/a-major-vulnerability-has-frozen-hundreds-of-millions-of-dollars-of-ethereum">TechCrunch — A major vulnerability has frozen hundreds of millions of dollars of Ethereum, 2017-11-07</a> · <a href="https://coinbureau.com/news/parity-issues-post-mortem-kill-froze-millions/">Parity 사후 분석 보도 — Coin Bureau</a> · <a href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident">npm 블로그 — Details about the event-stream incident, 2018-11</a> · <a href="https://snyk.io/blog/a-post-mortem-of-the-malicious-event-stream-backdoor/">Snyk — A post-mortem of the malicious event-stream backdoor</a></p>
+      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-sp-global-buys-openzeppelin.html">&larr; 58. S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</a><a href="pocs-toss-komsco-voucher-settlement-on-optimism.html">60. Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="dependency-is-authority-parity-event-stream";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

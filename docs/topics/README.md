@@ -23,6 +23,9 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 ## Blockchain & Tech conventions
 
 - **Tooling:** `python3 scripts/add-tech-item.py --key <key> --slot <N> --en en.md --ko ko.md [--status new] [--date] [--source chat|file]`
+  Fundamentals items use the same script with `--section fundamentals --tag Math|Algorithms|Economics`;
+  they append at the end of the section (numbering there is curriculum order, not done-first) and get
+  the same date and source tag (jay, 2026-09-18, first item #193).
   does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
   Re-run with the same key to replace an item in place.
 
@@ -35,7 +38,8 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
   the detail page kicker after the type (`#N · PoC · YYYY-MM-DD`). Older items carry no date.
 - **Source tag (jay, 2026-09-18):** next to the date, a small pill says where the subject came from:
   `chat` when jay pasted or pointed at the content, `file` when it was taken from the alice-tech
-  file. Card: `<span class="topic-src">`; kicker: `#N · PoC · YYYY-MM-DD · chat`. Pass `--source`.
+  file. Content jay pastes that is itself a candidate from that day's alice-tech file is tagged
+  `file` (its subject came from the file; the paste is how it was pointed at). Card: `<span class="topic-src">`; kicker: `#N · PoC · YYYY-MM-DD · chat`. Pass `--source`.
 - Every item: English and Korean copy text as JSON on the card and the page; page body generated
   from the copy text so they cannot diverge; a "Verified and unverified" closing section with
   sources.

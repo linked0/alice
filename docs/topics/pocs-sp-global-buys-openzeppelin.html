@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency — Tech Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Fundamentals(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#58</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
+      <h1>S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</h1>
+      <p class="lead">On 2026-09-17 S&amp;P Global announced an agreement to acquire OpenZeppelin, founded 2015, whose Contracts library underpins more than $37 trillion in cumulative value transferred, including most of the largest stablecoins and tokenized funds, and whose team has run more than 900 security engagements. Terms are undisclosed and S&amp;P says the deal is not material to its results. OpenZeppelin keeps its name as a business unit; CEO Demian Brener reports to Yann Le Pallec, President of S&amp;P Global Ratings, which is the sentence that says what this is. S&amp;P&#39;s stated purpose is "the next generation of onchain security assessments, benchmarks", and it already publishes stablecoin stability assessments, issued the first credit rating of a DeFi protocol (Sky, August 2025), and tokenized its iBoxx Treasuries index with Kaiko. The library itself does not change: OpenZeppelin states every released version stays MIT-licensed and cannot be withdrawn. What changes is the relationship. The organisation that ships patches to the code under your contracts is now part of the organisation whose business is grading you.</p>
+      <p class="meta">For Jayverse this is the most direct item of the week. Three of our contract repos import OpenZeppelin: jayverse-token and jayverse-personas pin Contracts v5.1.0 as a git submodule, and Verex inherits v4.7.0 from 2022 through the Polymarket ctf-exchange submodule, two majors behind. Nothing about that is riskier today than yesterday, and the file&#39;s own caution is right: MIT code is not recalled, and vendoring a copy is worse, because OpenZeppelin ships vulnerability patches and isolation from them is exposure. The practical moves are small and specific: keep the submodule pins exact and reviewed, subscribe to the release feed, count the money-moving code paths that touch the library (about seven files, with ERC20, Ownable, and ERC721 as the imports), and decide how Verex&#39;s 4.7.0 gets upgraded when ctf-exchange does not. The strategic reading follows the 09-16 line: Clarity failed, so rules do not arrive as law, they arrive as contracts and ratings. "Assessments and benchmarks" need comparable fields, and the three things this month kept asking for, a permission table, a total-supply invariant, and dated parameters, are exactly what a benchmark would score. Status on 2026-09-18: agreement signed, closing conditions pending, no date; methodology for any onchain benchmark unpublished.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# S&P Global is buying OpenZeppelin — the library under Jayverse's contracts now belongs to a ratings agency\n\nOn 2026-09-17 S&P Global announced an agreement to acquire OpenZeppelin, founded 2015, whose Contracts library underpins more than $37 trillion in cumulative value transferred, including most of the largest stablecoins and tokenized funds, and whose team has run more than 900 security engagements. Terms are undisclosed and S&P says the deal is not material to its results. OpenZeppelin keeps its name as a business unit; CEO Demian Brener reports to Yann Le Pallec, President of S&P Global Ratings, which is the sentence that says what this is. S&P's stated purpose is \"the next generation of onchain security assessments, benchmarks\", and it already publishes stablecoin stability assessments, issued the first credit rating of a DeFi protocol (Sky, August 2025), and tokenized its iBoxx Treasuries index with Kaiko. The library itself does not change: OpenZeppelin states every released version stays MIT-licensed and cannot be withdrawn. What changes is the relationship. The organisation that ships patches to the code under your contracts is now part of the organisation whose business is grading you.\n\nFor Jayverse this is the most direct item of the week. Three of our contract repos import OpenZeppelin: jayverse-token and jayverse-personas pin Contracts v5.1.0 as a git submodule, and Verex inherits v4.7.0 from 2022 through the Polymarket ctf-exchange submodule, two majors behind. Nothing about that is riskier today than yesterday, and the file's own caution is right: MIT code is not recalled, and vendoring a copy is worse, because OpenZeppelin ships vulnerability patches and isolation from them is exposure. The practical moves are small and specific: keep the submodule pins exact and reviewed, subscribe to the release feed, count the money-moving code paths that touch the library (about seven files, with ERC20, Ownable, and ERC721 as the imports), and decide how Verex's 4.7.0 gets upgraded when ctf-exchange does not. The strategic reading follows the 09-16 line: Clarity failed, so rules do not arrive as law, they arrive as contracts and ratings. \"Assessments and benchmarks\" need comparable fields, and the three things this month kept asking for, a permission table, a total-supply invariant, and dated parameters, are exactly what a benchmark would score. Status on 2026-09-18: agreement signed, closing conditions pending, no date; methodology for any onchain benchmark unpublished.\n\n## Why\n\nA ratings agency sells a comparable opinion about risk to people who cannot read the underlying. In bonds that opinion is about the issuer's ability to pay; in tokenized finance the issuer can be solvent and the instrument can still fail because a contract has a bug, which is the gap S&P names. Buying the auditor that wrote most of the code is the shortest route to an opinion about code: OpenZeppelin knows which patterns are safe because it published them, and it has 900 engagements' worth of what goes wrong. The obvious tension is that the same house now writes the standard, audits against it, and rates the result. S&P will say the business unit is separate; that is the standard sentence and it is also what the rating agencies said about issuer-paid ratings before 2008. Whether it holds is a question of published methodology, not of intent.\n\nFor a builder the interesting consequence is not the conflict but the comparability. A rating exists to be compared, and comparison forces fields. Once an onchain benchmark exists, \"does the protocol have a pause, who holds it, is the total-supply invariant enforced, when were the parameters last set\" stop being design hygiene and become a score that a treasury desk reads before it deposits. That is the mechanism by which rules arrive without a law, and it is faster than legislation because a bank can require a rating tomorrow.\n\n## How it works\n\n### The deal\n\n| Fact | Value | Source |\n|---|---|---|\n| Announced | 2026-09-17 | S&P Global press release |\n| Target | OpenZeppelin, founded 2015; Contracts library, security assessments, secure development | S&P, OpenZeppelin |\n| Scale claimed | more than $37 trillion in cumulative value transferred over Contracts; 900+ security engagements, 10,000+ vulnerabilities surfaced | S&P, CoinDesk |\n| Terms | undisclosed; \"not expected to have a material impact\" on S&P results | S&P |\n| Structure | separate business unit under the OpenZeppelin name; Brener reports to Le Pallec, President, S&P Global Ratings | S&P |\n| Purpose | \"next generation of onchain security assessments, benchmarks\" | S&P |\n| Library | remains open source, MIT, on GitHub; released versions cannot be withdrawn | OpenZeppelin |\n| Advisers | Jefferies and Clifford Chance for S&P; FT Partners and Cooley for OpenZeppelin | S&P |\n| Close | subject to closing conditions, no date | S&P |\n\n### S&P's path into onchain risk\n\nStablecoin stability assessments since 2023; the first DeFi protocol credit rating (Sky) in August 2025; a digital-asset index suite and a tokenized iBoxx Treasuries index with Kaiko in March 2026; a strategic investment in Kaiko this month; and now the company whose code the rated instruments run on. Each step moves the opinion one layer down: from reserves, to protocol, to index, to the contract itself.\n\n### What is under Jayverse today\n\n| Repo | How OpenZeppelin arrives | Version | Imports |\n|---|---|---|---|\n| jayverse-token | git submodule `contracts/lib/openzeppelin-contracts` | v5.1.0 | ERC20, IERC20, Ownable |\n| jayverse-personas | git submodule | v5.1.0 | ERC721, ERC721URIStorage, ERC2981, Ownable |\n| verex (packages/contracts) | nested through the Polymarket `ctf-exchange` submodule | v4.7.0 (2022-09) | whatever ctf-exchange uses |\n| jayverse-defi, rails, wallet | no OpenZeppelin import found | | |\n\nA submodule commit is an exact pin, which is the right state. The gap is Verex: it does not choose its OpenZeppelin version, ctf-exchange does, and ctf-exchange is a fork we do not control. One CI workflow exists across the repos, and it does freeze the lockfile.\n\n### Where it lands in Jayverse\n\n- **Keep the pins, read the release feed.** Both v5.1.0 submodules are exact. Subscribe to OpenZeppelin Contracts releases and security advisories, and treat a bump as a reviewed PR, never an automatic merge. The alice-tech note's 30-minute checklist is the right size.\n- **Decide Verex's upgrade path.** v4.7.0 is two majors behind. Either pin a newer OpenZeppelin alongside ctf-exchange for our own contracts, or accept the inherited version explicitly and write down why. Not deciding is the only wrong option.\n- **Build the fields a benchmark will ask for.** Permission table with three columns, total-supply invariant with a stop, dated parameters. These were design hygiene on 09-16; after this deal they are the likely shape of a score.\n- **Separate \"code is safe\" from \"supply chain is safe\".** The dependency item that follows this one is the mechanism; this item is the relationship change. Nothing in the code moved on 2026-09-17.\n\n### Verified and unverified\n\nVerified on 2026-09-18: the S&P press release (date, target, $37 trillion and 900+ figures, purpose wording, reporting line, undisclosed terms, non-material impact, advisers, closing conditions); OpenZeppelin's post (MIT, cannot be withdrawn, services unchanged, Brener and Le Pallec quotes); CoinDesk (10,000+ vulnerabilities, S&P's Sky rating, Kaiko investment and index work); the Jayverse dependency table from the repos on this machine (submodule package.json versions and Solidity imports). Not verified: whether any S&P onchain benchmark methodology exists yet; the deal's expected close; how ctf-exchange upstream handles its OpenZeppelin version. From the alice-tech note of 2026-09-18: the framing \"audits become ratings\" and the checklist; both used as reasoning, not as fact.\nSources: [S&P Global — Announces agreement to acquire OpenZeppelin, 2026-09-17](https://press.spglobal.com/2026-09-17-S-P-Global-Announces-Agreement-to-Acquire-OpenZeppelin) · [OpenZeppelin — S&P Global enters agreement to acquire OpenZeppelin](https://www.openzeppelin.com/news/spglobal-enters-agreement-to-acquire-openzeppelin) · [CoinDesk — Ratings giant S&P Global acquires OpenZeppelin in tokenized-finance risk push](https://www.coindesk.com/business/2026/09/17/ratings-giant-s-and-p-global-acquires-openzeppelin-in-tokenized-finance-risk-push) · [Decrypt — S&P Global moves deeper into crypto with OpenZeppelin deal](https://decrypt.co/378505/sp-global-acquire-crypto-openzeppelin)\n"</script>
+<h2>Why</h2>
+<p>A ratings agency sells a comparable opinion about risk to people who cannot read the underlying. In bonds that opinion is about the issuer&#39;s ability to pay; in tokenized finance the issuer can be solvent and the instrument can still fail because a contract has a bug, which is the gap S&amp;P names. Buying the auditor that wrote most of the code is the shortest route to an opinion about code: OpenZeppelin knows which patterns are safe because it published them, and it has 900 engagements&#39; worth of what goes wrong. The obvious tension is that the same house now writes the standard, audits against it, and rates the result. S&amp;P will say the business unit is separate; that is the standard sentence and it is also what the rating agencies said about issuer-paid ratings before 2008. Whether it holds is a question of published methodology, not of intent.</p>
+<p>For a builder the interesting consequence is not the conflict but the comparability. A rating exists to be compared, and comparison forces fields. Once an onchain benchmark exists, "does the protocol have a pause, who holds it, is the total-supply invariant enforced, when were the parameters last set" stop being design hygiene and become a score that a treasury desk reads before it deposits. That is the mechanism by which rules arrive without a law, and it is faster than legislation because a bank can require a rating tomorrow.</p>
+<h2>How it works</h2>
+<h3>The deal</h3>
+<table><thead><tr><th>Fact</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Announced</td><td>2026-09-17</td><td>S&amp;P Global press release</td></tr><tr><td>Target</td><td>OpenZeppelin, founded 2015; Contracts library, security assessments, secure development</td><td>S&amp;P, OpenZeppelin</td></tr><tr><td>Scale claimed</td><td>more than $37 trillion in cumulative value transferred over Contracts; 900+ security engagements, 10,000+ vulnerabilities surfaced</td><td>S&amp;P, CoinDesk</td></tr><tr><td>Terms</td><td>undisclosed; "not expected to have a material impact" on S&amp;P results</td><td>S&amp;P</td></tr><tr><td>Structure</td><td>separate business unit under the OpenZeppelin name; Brener reports to Le Pallec, President, S&amp;P Global Ratings</td><td>S&amp;P</td></tr><tr><td>Purpose</td><td>"next generation of onchain security assessments, benchmarks"</td><td>S&amp;P</td></tr><tr><td>Library</td><td>remains open source, MIT, on GitHub; released versions cannot be withdrawn</td><td>OpenZeppelin</td></tr><tr><td>Advisers</td><td>Jefferies and Clifford Chance for S&amp;P; FT Partners and Cooley for OpenZeppelin</td><td>S&amp;P</td></tr><tr><td>Close</td><td>subject to closing conditions, no date</td><td>S&amp;P</td></tr></tbody></table>
+<h3>S&amp;P&#39;s path into onchain risk</h3>
+<p>Stablecoin stability assessments since 2023; the first DeFi protocol credit rating (Sky) in August 2025; a digital-asset index suite and a tokenized iBoxx Treasuries index with Kaiko in March 2026; a strategic investment in Kaiko this month; and now the company whose code the rated instruments run on. Each step moves the opinion one layer down: from reserves, to protocol, to index, to the contract itself.</p>
+<h3>What is under Jayverse today</h3>
+<table><thead><tr><th>Repo</th><th>How OpenZeppelin arrives</th><th>Version</th><th>Imports</th></tr></thead><tbody><tr><td>jayverse-token</td><td>git submodule <code>contracts/lib/openzeppelin-contracts</code></td><td>v5.1.0</td><td>ERC20, IERC20, Ownable</td></tr><tr><td>jayverse-personas</td><td>git submodule</td><td>v5.1.0</td><td>ERC721, ERC721URIStorage, ERC2981, Ownable</td></tr><tr><td>verex (packages/contracts)</td><td>nested through the Polymarket <code>ctf-exchange</code> submodule</td><td>v4.7.0 (2022-09)</td><td>whatever ctf-exchange uses</td></tr><tr><td>jayverse-defi, rails, wallet</td><td>no OpenZeppelin import found</td><td></td><td></td></tr></tbody></table>
+<p>A submodule commit is an exact pin, which is the right state. The gap is Verex: it does not choose its OpenZeppelin version, ctf-exchange does, and ctf-exchange is a fork we do not control. One CI workflow exists across the repos, and it does freeze the lockfile.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Keep the pins, read the release feed.</strong> Both v5.1.0 submodules are exact. Subscribe to OpenZeppelin Contracts releases and security advisories, and treat a bump as a reviewed PR, never an automatic merge. The alice-tech note&#39;s 30-minute checklist is the right size.</li><li><strong>Decide Verex&#39;s upgrade path.</strong> v4.7.0 is two majors behind. Either pin a newer OpenZeppelin alongside ctf-exchange for our own contracts, or accept the inherited version explicitly and write down why. Not deciding is the only wrong option.</li><li><strong>Build the fields a benchmark will ask for.</strong> Permission table with three columns, total-supply invariant with a stop, dated parameters. These were design hygiene on 09-16; after this deal they are the likely shape of a score.</li><li><strong>Separate "code is safe" from "supply chain is safe".</strong> The dependency item that follows this one is the mechanism; this item is the relationship change. Nothing in the code moved on 2026-09-17.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-18: the S&amp;P press release (date, target, $37 trillion and 900+ figures, purpose wording, reporting line, undisclosed terms, non-material impact, advisers, closing conditions); OpenZeppelin&#39;s post (MIT, cannot be withdrawn, services unchanged, Brener and Le Pallec quotes); CoinDesk (10,000+ vulnerabilities, S&amp;P&#39;s Sky rating, Kaiko investment and index work); the Jayverse dependency table from the repos on this machine (submodule package.json versions and Solidity imports). Not verified: whether any S&amp;P onchain benchmark methodology exists yet; the deal&#39;s expected close; how ctf-exchange upstream handles its OpenZeppelin version. From the alice-tech note of 2026-09-18: the framing "audits become ratings" and the checklist; both used as reasoning, not as fact.</p>
+<p>Sources: <a href="https://press.spglobal.com/2026-09-17-S-P-Global-Announces-Agreement-to-Acquire-OpenZeppelin">S&amp;P Global — Announces agreement to acquire OpenZeppelin, 2026-09-17</a> · <a href="https://www.openzeppelin.com/news/spglobal-enters-agreement-to-acquire-openzeppelin">OpenZeppelin — S&amp;P Global enters agreement to acquire OpenZeppelin</a> · <a href="https://www.coindesk.com/business/2026/09/17/ratings-giant-s-and-p-global-acquires-openzeppelin-in-tokenized-finance-risk-push">CoinDesk — Ratings giant S&amp;P Global acquires OpenZeppelin in tokenized-finance risk push</a> · <a href="https://decrypt.co/378505/sp-global-acquire-crypto-openzeppelin">Decrypt — S&amp;P Global moves deeper into crypto with OpenZeppelin deal</a></p>
+      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# S&P Global이 OpenZeppelin을 인수한다 — Jayverse 컨트랙트 아래 라이브러리의 주인이 신용평가사가 됐다\n\n2026-09-17 S&P Global이 OpenZeppelin 인수 합의를 발표했습니다. 2015년 설립, Contracts 라이브러리가 누적 37조 달러 이상의 이전 가치를 뒷받침하고, 최대 스테이블코인과 토큰화 펀드 대부분이 그 위에 있으며, 900건 이상의 보안 감사를 수행한 회사입니다. 금액은 비공개이고 S&P는 실적에 미치는 영향이 크지 않다고 밝혔습니다. OpenZeppelin은 이름을 유지한 사업부로 남고, CEO Demian Brener는 S&P Global Ratings 사장 Yann Le Pallec에게 보고합니다. 이것이 무엇인지를 말해주는 문장입니다. S&P의 명시된 목적은 \"차세대 온체인 보안 평가·벤치마크\"이고, 이미 스테이블코인 안정성 평가를 발표하고, DeFi 프로토콜 첫 신용등급(Sky, 2025년 8월)을 매기고, Kaiko와 iBoxx 국채 지수를 토큰화했습니다. 라이브러리 자체는 바뀌지 않습니다. OpenZeppelin은 모든 릴리스 버전이 MIT 라이선스로 남고 회수될 수 없다고 밝혔습니다. 바뀐 것은 관계입니다. 당신 컨트랙트 아래 코드에 패치를 내는 조직이 이제 당신을 평가하는 것이 사업인 조직의 일부입니다.\n\nJayverse에는 이번 주 가장 직접적인 항목입니다. 우리 컨트랙트 레포 셋이 OpenZeppelin을 임포트합니다. jayverse-token과 jayverse-personas는 Contracts v5.1.0을 git 서브모듈로 핀하고, Verex는 Polymarket ctf-exchange 서브모듈을 통해 2022년의 v4.7.0을 물려받아 메이저 두 개 뒤에 있습니다. 그중 어떤 것도 어제보다 오늘 더 위험하지 않고, 파일의 주의가 맞습니다. MIT 코드는 회수되지 않고, 복사본을 벤더링하는 것은 더 나쁩니다. OpenZeppelin은 취약점 패치를 내는 라이브러리라 그로부터의 격리가 곧 노출이기 때문입니다. 실질적 조치는 작고 구체적입니다. 서브모듈 핀을 정확하게 유지하고 리뷰하기, 릴리스 피드 구독, 라이브러리를 건드리는 돈 움직이는 코드 경로 세기(약 일곱 파일, 임포트는 ERC20·Ownable·ERC721), 그리고 ctf-exchange가 올리지 않을 때 Verex의 4.7.0을 어떻게 올릴지 결정하기. 전략적 독법은 09-16의 문장을 따릅니다. Clarity가 부결됐으니 규칙은 법으로 오지 않고 계약서와 등급으로 옵니다. \"평가와 벤치마크\"는 비교 가능한 항목을 요구하고, 이달 계속 요구된 세 가지, 권한 표, 총량 불변식, 날짜 붙은 파라미터가 정확히 벤치마크가 점수 매길 것들입니다. 2026-09-18 기준 상태: 합의 서명, 종결 조건 대기, 날짜 없음; 온체인 벤치마크 방법론 미공개.\n\n## 왜\n\n신용평가사는 기초를 읽을 수 없는 사람들에게 리스크에 대한 비교 가능한 의견을 팝니다. 채권에서 그 의견은 발행자의 지급 능력에 대한 것이고, 토큰화 금융에서는 발행자가 건전해도 컨트랙트 버그로 상품이 실패할 수 있으며, 그것이 S&P가 지목한 공백입니다. 코드 대부분을 쓴 감사 회사를 사는 것은 코드에 대한 의견으로 가는 가장 짧은 길입니다. OpenZeppelin은 어떤 패턴이 안전한지 알고 있습니다, 자기가 발표했으니까요. 그리고 900건의 감사만큼 무엇이 잘못되는지 알고 있습니다. 명백한 긴장은 같은 집이 이제 표준을 쓰고, 그에 대해 감사하고, 결과를 평가한다는 것입니다. S&P는 사업부가 분리됐다고 말할 것입니다. 그것은 표준 문구이고, 2008년 이전 발행자 지불 등급에 대해 평가사들이 했던 말이기도 합니다. 유지되는가는 의도가 아니라 공개된 방법론의 문제입니다.\n\n빌더에게 흥미로운 결과는 이해충돌이 아니라 비교 가능성입니다. 등급은 비교되기 위해 존재하고, 비교는 항목을 강제합니다. 온체인 벤치마크가 생기면 \"프로토콜에 일시정지가 있는가, 누가 갖는가, 총량 불변식이 강제되는가, 파라미터는 언제 마지막으로 정했는가\"가 설계 위생이기를 멈추고 자금 데스크가 예치 전에 읽는 점수가 됩니다. 그것이 법 없이 규칙이 도착하는 메커니즘이고, 은행은 내일 등급을 요구할 수 있으니 입법보다 빠릅니다.\n\n## 동작 방식\n\n### 거래\n\n| 사실 | 값 | 출처 |\n|---|---|---|\n| 발표 | 2026-09-17 | S&P Global 보도자료 |\n| 대상 | OpenZeppelin, 2015년 설립; Contracts 라이브러리, 보안 평가, 안전한 개발 서비스 | S&P, OpenZeppelin |\n| 주장된 규모 | Contracts 위로 누적 37조 달러 이상 이전; 보안 감사 900건 이상, 취약점 1만 건 이상 발견 | S&P, CoinDesk |\n| 조건 | 비공개; S&P 실적에 \"중대한 영향 없을 것\" | S&P |\n| 구조 | OpenZeppelin 이름의 별도 사업부; Brener가 S&P Global Ratings 사장 Le Pallec에게 보고 | S&P |\n| 목적 | \"차세대 온체인 보안 평가·벤치마크\" | S&P |\n| 라이브러리 | 오픈소스·MIT·GitHub 유지; 릴리스된 버전은 회수 불가 | OpenZeppelin |\n| 자문 | S&P는 Jefferies와 Clifford Chance; OpenZeppelin은 FT Partners와 Cooley | S&P |\n| 종결 | 종결 조건 대상, 날짜 없음 | S&P |\n\n### S&P의 온체인 리스크 진입 경로\n\n2023년부터 스테이블코인 안정성 평가; 2025년 8월 첫 DeFi 프로토콜 신용등급(Sky); 2026년 3월 Kaiko와 디지털자산 지수 스위트와 토큰화 iBoxx 국채 지수; 이달 Kaiko 전략 투자; 그리고 이제 평가 대상 상품이 돌아가는 코드를 만든 회사. 각 단계가 의견을 한 층 아래로 옮깁니다. 준비금에서 프로토콜로, 지수로, 컨트랙트 자체로.\n\n### 오늘 Jayverse 아래에 있는 것\n\n| 레포 | OpenZeppelin이 들어오는 경로 | 버전 | 임포트 |\n|---|---|---|---|\n| jayverse-token | git 서브모듈 `contracts/lib/openzeppelin-contracts` | v5.1.0 | ERC20, IERC20, Ownable |\n| jayverse-personas | git 서브모듈 | v5.1.0 | ERC721, ERC721URIStorage, ERC2981, Ownable |\n| verex (packages/contracts) | Polymarket `ctf-exchange` 서브모듈을 통해 중첩 | v4.7.0 (2022-09) | ctf-exchange가 쓰는 것 |\n| jayverse-defi, rails, wallet | OpenZeppelin 임포트 없음 | | |\n\n서브모듈 커밋은 정확한 핀이고, 그것이 맞는 상태입니다. 공백은 Verex입니다. 자기 OpenZeppelin 버전을 스스로 고르지 않고 ctf-exchange가 고르며, ctf-exchange는 우리가 통제하지 않는 포크입니다. 레포 전체에 CI 워크플로가 하나 있고, 그것은 락파일을 고정합니다.\n\n### Jayverse에서의 위치\n\n- **핀은 유지하고, 릴리스 피드를 읽는다.** v5.1.0 서브모듈 둘은 정확합니다. OpenZeppelin Contracts 릴리스와 보안 권고를 구독하고, 버전 올림은 리뷰되는 PR로 취급하며 자동 머지는 절대 하지 않습니다. alice-tech 노트의 30분 체크리스트가 맞는 크기입니다.\n- **Verex의 업그레이드 경로를 결정한다.** v4.7.0은 메이저 두 개 뒤입니다. 우리 컨트랙트용으로 ctf-exchange 옆에 더 새 OpenZeppelin을 핀하거나, 물려받은 버전을 명시적으로 받아들이고 이유를 적습니다. 결정하지 않는 것만이 틀린 선택입니다.\n- **벤치마크가 물을 항목을 만든다.** 세 열의 권한 표, 멈춤이 있는 총량 불변식, 날짜 붙은 파라미터. 09-16에는 설계 위생이었고, 이 거래 뒤에는 점수의 유력한 형태입니다.\n- **\"코드가 안전\"과 \"공급망이 안전\"을 분리한다.** 이 항목 다음의 의존성 항목이 메커니즘이고, 이 항목은 관계의 변화입니다. 2026-09-17에 코드는 아무것도 움직이지 않았습니다.\n\n### 확인된 것과 미확인\n\n2026-09-18에 확인한 것: S&P 보도자료(날짜, 대상, 37조 달러와 900건 수치, 목적 문구, 보고 라인, 비공개 조건, 비중대 영향, 자문, 종결 조건); OpenZeppelin 포스트(MIT, 회수 불가, 서비스 불변, Brener와 Le Pallec 인용); CoinDesk(취약점 1만 건 이상, S&P의 Sky 등급, Kaiko 투자와 지수 작업); 이 머신의 레포에서 확인한 Jayverse 의존성 표(서브모듈 package.json 버전과 Solidity 임포트). 미확인: S&P 온체인 벤치마크 방법론이 존재하는지; 예상 종결 시점; ctf-exchange 업스트림이 OpenZeppelin 버전을 어떻게 다루는지. 2026-09-18 alice-tech 노트에서: \"감사가 등급이 된다\"는 프레임과 체크리스트. 둘 다 사실이 아니라 추론으로 사용.\n출처: [S&P Global — Announces agreement to acquire OpenZeppelin, 2026-09-17](https://press.spglobal.com/2026-09-17-S-P-Global-Announces-Agreement-to-Acquire-OpenZeppelin) · [OpenZeppelin — S&P Global enters agreement to acquire OpenZeppelin](https://www.openzeppelin.com/news/spglobal-enters-agreement-to-acquire-openzeppelin) · [CoinDesk — Ratings giant S&P Global acquires OpenZeppelin in tokenized-finance risk push](https://www.coindesk.com/business/2026/09/17/ratings-giant-s-and-p-global-acquires-openzeppelin-in-tokenized-finance-risk-push) · [Decrypt — S&P Global moves deeper into crypto with OpenZeppelin deal](https://decrypt.co/378505/sp-global-acquire-crypto-openzeppelin)\n"</script>
+      <h1>S&amp;P Global이 OpenZeppelin을 인수한다 — Jayverse 컨트랙트 아래 라이브러리의 주인이 신용평가사가 됐다</h1>
+      <p class="lead">2026-09-17 S&amp;P Global이 OpenZeppelin 인수 합의를 발표했습니다. 2015년 설립, Contracts 라이브러리가 누적 37조 달러 이상의 이전 가치를 뒷받침하고, 최대 스테이블코인과 토큰화 펀드 대부분이 그 위에 있으며, 900건 이상의 보안 감사를 수행한 회사입니다. 금액은 비공개이고 S&amp;P는 실적에 미치는 영향이 크지 않다고 밝혔습니다. OpenZeppelin은 이름을 유지한 사업부로 남고, CEO Demian Brener는 S&amp;P Global Ratings 사장 Yann Le Pallec에게 보고합니다. 이것이 무엇인지를 말해주는 문장입니다. S&amp;P의 명시된 목적은 "차세대 온체인 보안 평가·벤치마크"이고, 이미 스테이블코인 안정성 평가를 발표하고, DeFi 프로토콜 첫 신용등급(Sky, 2025년 8월)을 매기고, Kaiko와 iBoxx 국채 지수를 토큰화했습니다. 라이브러리 자체는 바뀌지 않습니다. OpenZeppelin은 모든 릴리스 버전이 MIT 라이선스로 남고 회수될 수 없다고 밝혔습니다. 바뀐 것은 관계입니다. 당신 컨트랙트 아래 코드에 패치를 내는 조직이 이제 당신을 평가하는 것이 사업인 조직의 일부입니다.</p>
+      <p class="meta">Jayverse에는 이번 주 가장 직접적인 항목입니다. 우리 컨트랙트 레포 셋이 OpenZeppelin을 임포트합니다. jayverse-token과 jayverse-personas는 Contracts v5.1.0을 git 서브모듈로 핀하고, Verex는 Polymarket ctf-exchange 서브모듈을 통해 2022년의 v4.7.0을 물려받아 메이저 두 개 뒤에 있습니다. 그중 어떤 것도 어제보다 오늘 더 위험하지 않고, 파일의 주의가 맞습니다. MIT 코드는 회수되지 않고, 복사본을 벤더링하는 것은 더 나쁩니다. OpenZeppelin은 취약점 패치를 내는 라이브러리라 그로부터의 격리가 곧 노출이기 때문입니다. 실질적 조치는 작고 구체적입니다. 서브모듈 핀을 정확하게 유지하고 리뷰하기, 릴리스 피드 구독, 라이브러리를 건드리는 돈 움직이는 코드 경로 세기(약 일곱 파일, 임포트는 ERC20·Ownable·ERC721), 그리고 ctf-exchange가 올리지 않을 때 Verex의 4.7.0을 어떻게 올릴지 결정하기. 전략적 독법은 09-16의 문장을 따릅니다. Clarity가 부결됐으니 규칙은 법으로 오지 않고 계약서와 등급으로 옵니다. "평가와 벤치마크"는 비교 가능한 항목을 요구하고, 이달 계속 요구된 세 가지, 권한 표, 총량 불변식, 날짜 붙은 파라미터가 정확히 벤치마크가 점수 매길 것들입니다. 2026-09-18 기준 상태: 합의 서명, 종결 조건 대기, 날짜 없음; 온체인 벤치마크 방법론 미공개.</p>
+<h2>왜</h2>
+<p>신용평가사는 기초를 읽을 수 없는 사람들에게 리스크에 대한 비교 가능한 의견을 팝니다. 채권에서 그 의견은 발행자의 지급 능력에 대한 것이고, 토큰화 금융에서는 발행자가 건전해도 컨트랙트 버그로 상품이 실패할 수 있으며, 그것이 S&amp;P가 지목한 공백입니다. 코드 대부분을 쓴 감사 회사를 사는 것은 코드에 대한 의견으로 가는 가장 짧은 길입니다. OpenZeppelin은 어떤 패턴이 안전한지 알고 있습니다, 자기가 발표했으니까요. 그리고 900건의 감사만큼 무엇이 잘못되는지 알고 있습니다. 명백한 긴장은 같은 집이 이제 표준을 쓰고, 그에 대해 감사하고, 결과를 평가한다는 것입니다. S&amp;P는 사업부가 분리됐다고 말할 것입니다. 그것은 표준 문구이고, 2008년 이전 발행자 지불 등급에 대해 평가사들이 했던 말이기도 합니다. 유지되는가는 의도가 아니라 공개된 방법론의 문제입니다.</p>
+<p>빌더에게 흥미로운 결과는 이해충돌이 아니라 비교 가능성입니다. 등급은 비교되기 위해 존재하고, 비교는 항목을 강제합니다. 온체인 벤치마크가 생기면 "프로토콜에 일시정지가 있는가, 누가 갖는가, 총량 불변식이 강제되는가, 파라미터는 언제 마지막으로 정했는가"가 설계 위생이기를 멈추고 자금 데스크가 예치 전에 읽는 점수가 됩니다. 그것이 법 없이 규칙이 도착하는 메커니즘이고, 은행은 내일 등급을 요구할 수 있으니 입법보다 빠릅니다.</p>
+<h2>동작 방식</h2>
+<h3>거래</h3>
+<table><thead><tr><th>사실</th><th>값</th><th>출처</th></tr></thead><tbody><tr><td>발표</td><td>2026-09-17</td><td>S&amp;P Global 보도자료</td></tr><tr><td>대상</td><td>OpenZeppelin, 2015년 설립; Contracts 라이브러리, 보안 평가, 안전한 개발 서비스</td><td>S&amp;P, OpenZeppelin</td></tr><tr><td>주장된 규모</td><td>Contracts 위로 누적 37조 달러 이상 이전; 보안 감사 900건 이상, 취약점 1만 건 이상 발견</td><td>S&amp;P, CoinDesk</td></tr><tr><td>조건</td><td>비공개; S&amp;P 실적에 "중대한 영향 없을 것"</td><td>S&amp;P</td></tr><tr><td>구조</td><td>OpenZeppelin 이름의 별도 사업부; Brener가 S&amp;P Global Ratings 사장 Le Pallec에게 보고</td><td>S&amp;P</td></tr><tr><td>목적</td><td>"차세대 온체인 보안 평가·벤치마크"</td><td>S&amp;P</td></tr><tr><td>라이브러리</td><td>오픈소스·MIT·GitHub 유지; 릴리스된 버전은 회수 불가</td><td>OpenZeppelin</td></tr><tr><td>자문</td><td>S&amp;P는 Jefferies와 Clifford Chance; OpenZeppelin은 FT Partners와 Cooley</td><td>S&amp;P</td></tr><tr><td>종결</td><td>종결 조건 대상, 날짜 없음</td><td>S&amp;P</td></tr></tbody></table>
+<h3>S&amp;P의 온체인 리스크 진입 경로</h3>
+<p>2023년부터 스테이블코인 안정성 평가; 2025년 8월 첫 DeFi 프로토콜 신용등급(Sky); 2026년 3월 Kaiko와 디지털자산 지수 스위트와 토큰화 iBoxx 국채 지수; 이달 Kaiko 전략 투자; 그리고 이제 평가 대상 상품이 돌아가는 코드를 만든 회사. 각 단계가 의견을 한 층 아래로 옮깁니다. 준비금에서 프로토콜로, 지수로, 컨트랙트 자체로.</p>
+<h3>오늘 Jayverse 아래에 있는 것</h3>
+<table><thead><tr><th>레포</th><th>OpenZeppelin이 들어오는 경로</th><th>버전</th><th>임포트</th></tr></thead><tbody><tr><td>jayverse-token</td><td>git 서브모듈 <code>contracts/lib/openzeppelin-contracts</code></td><td>v5.1.0</td><td>ERC20, IERC20, Ownable</td></tr><tr><td>jayverse-personas</td><td>git 서브모듈</td><td>v5.1.0</td><td>ERC721, ERC721URIStorage, ERC2981, Ownable</td></tr><tr><td>verex (packages/contracts)</td><td>Polymarket <code>ctf-exchange</code> 서브모듈을 통해 중첩</td><td>v4.7.0 (2022-09)</td><td>ctf-exchange가 쓰는 것</td></tr><tr><td>jayverse-defi, rails, wallet</td><td>OpenZeppelin 임포트 없음</td><td></td><td></td></tr></tbody></table>
+<p>서브모듈 커밋은 정확한 핀이고, 그것이 맞는 상태입니다. 공백은 Verex입니다. 자기 OpenZeppelin 버전을 스스로 고르지 않고 ctf-exchange가 고르며, ctf-exchange는 우리가 통제하지 않는 포크입니다. 레포 전체에 CI 워크플로가 하나 있고, 그것은 락파일을 고정합니다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>핀은 유지하고, 릴리스 피드를 읽는다.</strong> v5.1.0 서브모듈 둘은 정확합니다. OpenZeppelin Contracts 릴리스와 보안 권고를 구독하고, 버전 올림은 리뷰되는 PR로 취급하며 자동 머지는 절대 하지 않습니다. alice-tech 노트의 30분 체크리스트가 맞는 크기입니다.</li><li><strong>Verex의 업그레이드 경로를 결정한다.</strong> v4.7.0은 메이저 두 개 뒤입니다. 우리 컨트랙트용으로 ctf-exchange 옆에 더 새 OpenZeppelin을 핀하거나, 물려받은 버전을 명시적으로 받아들이고 이유를 적습니다. 결정하지 않는 것만이 틀린 선택입니다.</li><li><strong>벤치마크가 물을 항목을 만든다.</strong> 세 열의 권한 표, 멈춤이 있는 총량 불변식, 날짜 붙은 파라미터. 09-16에는 설계 위생이었고, 이 거래 뒤에는 점수의 유력한 형태입니다.</li><li><strong>"코드가 안전"과 "공급망이 안전"을 분리한다.</strong> 이 항목 다음의 의존성 항목이 메커니즘이고, 이 항목은 관계의 변화입니다. 2026-09-17에 코드는 아무것도 움직이지 않았습니다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-18에 확인한 것: S&amp;P 보도자료(날짜, 대상, 37조 달러와 900건 수치, 목적 문구, 보고 라인, 비공개 조건, 비중대 영향, 자문, 종결 조건); OpenZeppelin 포스트(MIT, 회수 불가, 서비스 불변, Brener와 Le Pallec 인용); CoinDesk(취약점 1만 건 이상, S&amp;P의 Sky 등급, Kaiko 투자와 지수 작업); 이 머신의 레포에서 확인한 Jayverse 의존성 표(서브모듈 package.json 버전과 Solidity 임포트). 미확인: S&amp;P 온체인 벤치마크 방법론이 존재하는지; 예상 종결 시점; ctf-exchange 업스트림이 OpenZeppelin 버전을 어떻게 다루는지. 2026-09-18 alice-tech 노트에서: "감사가 등급이 된다"는 프레임과 체크리스트. 둘 다 사실이 아니라 추론으로 사용.</p>
+<p>출처: <a href="https://press.spglobal.com/2026-09-17-S-P-Global-Announces-Agreement-to-Acquire-OpenZeppelin">S&amp;P Global — Announces agreement to acquire OpenZeppelin, 2026-09-17</a> · <a href="https://www.openzeppelin.com/news/spglobal-enters-agreement-to-acquire-openzeppelin">OpenZeppelin — S&amp;P Global enters agreement to acquire OpenZeppelin</a> · <a href="https://www.coindesk.com/business/2026/09/17/ratings-giant-s-and-p-global-acquires-openzeppelin-in-tokenized-finance-risk-push">CoinDesk — Ratings giant S&amp;P Global acquires OpenZeppelin in tokenized-finance risk push</a> · <a href="https://decrypt.co/378505/sp-global-acquire-crypto-openzeppelin">Decrypt — S&amp;P Global moves deeper into crypto with OpenZeppelin deal</a></p>
+      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-etf-outflows-sign-depends-on-window.html">&larr; 57. Two days of ETF outflows after the hike — the sign of the number depends on the unit you read it in</a><a href="pocs-dependency-is-authority-parity-event-stream.html">59. A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018 &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="sp-global-buys-openzeppelin";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    var lis = sec.items.map(function (it) {
+      var active = it.key === cur ? ' active' : '';
+      return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+    }).join('');
+    var group = document.createElement('div');
+    group.className = 'nav-group';
+    group.id = sec.navId;
+    group.setAttribute('data-group', '');
+    group.innerHTML = '<p class="nav-group-label">' + sec.label + '</p><ul>' + lis + '</ul>';
+    navEl.insertBefore(group, navEl.firstChild);
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
+  // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
+  // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
+  // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
