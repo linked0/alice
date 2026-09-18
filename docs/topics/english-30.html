@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; Explain your architecture to someone who won&#39;t read the diagram</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#30</span><span>Interview</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1029</span><span>Interview</span></p>
       <h1>Explain your architecture to someone who won&#39;t read the diagram</h1>
       <p class="lead">Final interview for a team lead role at a London payments company. The last interviewer is the COO, Priya, not an engineer. She asks Jay to explain the settlement system he built, and she will judge whether he can talk to the board. Jay has three minutes and no whiteboard.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -444,7 +444,7 @@
 <ol><li><strong>길이를 먼저 약속하고 지킨다.</strong> "Three sentences, then you steer." 비기술 청자가 가장 두려워하는 것은 끝나지 않는 설명이다. 길이를 선언하면 처음 세 문장에 집중해 준다.</li><li><strong>명사 대신 결과.</strong> "checks that the money we owe never exceeds the money we hold… stops everything and pages a human." 불변식·서킷브레이커·온콜 같은 단어 없이 같은 내용. 청자가 소유한 단어만 쓴다.</li><li><strong>비용 질문에는 보호하는 숫자를 붙인다.</strong> "Two engineers and… the number that matters more is the one it protects." 비용은 항상 그것이 막는 손실 옆에 놓아야 읽힌다. 그리고 "one slide and nothing else"로 이사회 커뮤니케이션 감각을 보여준다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-29.html">&larr; 29. Telling the CTO the dependency was ours to check</a><a href="english-31.html">31. Your report wants to leave for a competitor &rarr;</a></div>
+    <div class="pager"><a href="english-29.html">&larr; 1028. Telling the CTO the dependency was ours to check</a><a href="english-31.html">1030. Your report wants to leave for a competitor &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -510,7 +510,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -522,6 +522,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

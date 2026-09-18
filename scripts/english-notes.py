@@ -22,6 +22,8 @@ the item. From #21 on, conversations target landing a developer / team-lead job 
 interviews, negotiation, leading a team in English — critical and concrete.
 """
 import re, json, html, pathlib, glob, sys
+from notes_numbering import display
+shown = lambda x: display("nav-sec-english", x["n"])   # English numbers start at 1000 (jay, 2026-09-18); files stay english-N.md
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 SRC = ROOT / "topics" / "english"
@@ -79,13 +81,13 @@ for idx, it in enumerate(items):
     expr = ('<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody>'
             + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td>{inline(b)}</td></tr>" for a, b in it["expressions"]) + "</tbody></table>")
     prev = items[idx - 1] if idx > 0 else None; nxt = items[idx + 1] if idx + 1 < N else None
-    pager = ('<div class="pager">' + (f'<a href="{href(prev)}">&larr; {prev["n"]}. {E(prev["title"])}</a>' if prev else '')
-             + (f'<a href="{href(nxt)}">{nxt["n"]}. {E(nxt["title"])} &rarr;</a>' if nxt else '') + '</div>')
+    pager = ('<div class="pager">' + (f'<a href="{href(prev)}">&larr; {shown(prev)}. {E(prev["title"])}</a>' if prev else '')
+             + (f'<a href="{href(nxt)}">{shown(nxt)}. {E(nxt["title"])} &rarr;</a>' if nxt else '') + '</div>')
     page_head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(it["title"])} — {LABEL} — Knowledge Notes</title>')
     page_tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', tail)
     mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">{LABEL}</a> &rsaquo; {E(it["title"])}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{it["n"]}</span><span>{E(it["tag"])}</span></p>
+      <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span></p>
       <h1>{E(it["title"])}</h1>
       <p class="lead">{E(it["situation"])}</p>
       {SWITCH(None)}
@@ -127,7 +129,7 @@ s = re.sub(rf'<a href="#{SECTION_ID}" title="[^"]*">.*?</a>', '', s, flags=re.S)
 
 nav_lis = "".join(
     f'        <li><a class="nav-link" href="topics/{href(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
-    f'<span class="nav-text"><span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
+    f'<span class="nav-text"><span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
 nav_group = f'      <div class="nav-group" id="{NAV_ID}" data-group>\n        <p class="nav-group-label">{LABEL} ({N})</p>\n        <ul>\n{nav_lis}        </ul>\n      </div>\n'
 anchor = '      <p class="no-results" id="no-results">'
 assert s.count(anchor) == 1; s = s.replace(anchor, nav_group + anchor)
@@ -136,7 +138,7 @@ def card(x):
     tech_titles = " · ".join(re.sub(r'\*\*(.+?)\*\*.*', r'\1', t).rstrip(".") for t in x["techniques"])
     first = x["dialogue"][0]
     return f'''        <li id="{key(x)}">
-          <div class="topic-head"><span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span><span class="topic-title">{E(x["title"])}</span></div>
+          <div class="topic-head"><span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span><span class="topic-title">{E(x["title"])}</span></div>
           <p class="topic-summary">{E(x["situation"])} <span style="opacity:.7">— {E(x["situation_ko"])}</span></p>
           <p class="topic-how"><strong>Opens with</strong>{E(first["who"])}: &ldquo;{inline(first["en"])}&rdquo; &middot; {len(x["dialogue"])} lines &middot; {E(tech_titles)}</p>
           <p class="topic-why"><strong>Why</strong>{inline(x["why"])}</p>
@@ -171,7 +173,7 @@ nav["jump"] = [j for j in nav["jump"] if j["id"] != SECTION_ID] + [{"id": SECTIO
 nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID] + [{
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
-               "text": f'<span class="topic-no">{x["n"]}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
+               "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
                **({"done": x["done"]} if x.get("done") else {})} for x in items]}]
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; Your report wants to leave for a competitor</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#31</span><span>One-on-one</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1030</span><span>One-on-one</span></p>
       <h1>Your report wants to leave for a competitor</h1>
       <p class="lead">Jay is four months into leading a team in Amsterdam. Lucas, his strongest engineer, opens their one-on-one with "I&#39;ve had an offer." It is from a competitor, 20 percent more, and Lucas has not decided. Jay has no budget approval, no time to think, and one conversation.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -446,7 +446,7 @@
 <ol><li><strong>돈보다 먼저 이유를 묻는다.</strong> "what is the offer buying you that this job isn&#39;t? If it&#39;s only the twenty percent… If it&#39;s something else, the twenty percent is a symptom." 역제안 전에 진단. 대부분의 이직은 돈이 이유가 아니라 핑계다.</li><li><strong>할 수 없는 것을 먼저 말한다.</strong> "I can&#39;t match twenty percent today, and I won&#39;t pretend I can." 지킬 수 없는 약속 하나가 남은 신뢰를 다 쓴다. 그리고 기한을 붙인다("by Friday, including if the answer is no").</li><li><strong>떠나는 경우를 미리 좋게 만든다.</strong> "you go with a good reference and a handover we plan together." 붙잡기가 아니라 관계 유지. 이 문장이 역설적으로 남을 확률을 높인다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-30.html">&larr; 30. Explain your architecture to someone who won&#39;t read the diagram</a><a href="english-32.html">32. How do you use AI, and what do you refuse to hand it? &rarr;</a></div>
+    <div class="pager"><a href="english-30.html">&larr; 1029. Explain your architecture to someone who won&#39;t read the diagram</a><a href="english-32.html">1031. How do you use AI, and what do you refuse to hand it? &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -512,7 +512,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -524,6 +524,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

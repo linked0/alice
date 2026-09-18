@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; Fast settlement is not fast payment</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#17</span><span>BD</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1016</span><span>BD</span></p>
       <h1>Fast settlement is not fast payment</h1>
       <p class="lead">A bank&#39;s innovation team says their new deposit-token rail "settles in seconds" and asks whether Jayverse would build on it. Jay has read the fine print: the rail is open six hours a day.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -444,7 +444,7 @@
 <ol><li><strong>조건절을 붙여 주장을 정확히 만든다.</strong> "Five seconds when the rail is open." 반박이 아니라 문장을 완성해 주는 형태의 교정.</li><li><strong>두 주장을 분리해 달라고 요청한다.</strong> "Separate the two claims for me" 상대가 스스로 구분하게 하면 홍보가 사실로 바뀐다.</li><li><strong>거절 대신 조건을 제시한다.</strong> "If those exist, we pilot. If not, we wait." 관계를 닫지 않고 기준을 남긴다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-16.html">&larr; 16. The popup won&#39;t show on our chain</a><a href="english-18.html">18. The PR is wrong and the person is fine &rarr;</a></div>
+    <div class="pager"><a href="english-16.html">&larr; 1015. The popup won&#39;t show on our chain</a><a href="english-18.html">1017. The PR is wrong and the person is fine &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -510,7 +510,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -522,6 +522,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

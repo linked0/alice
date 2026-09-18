@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The risk-free rate is the floor under every yield</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#163</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#862</span><span>PoC</span></p>
       <h1>The risk-free rate is the floor under every yield</h1>
       <p class="lead">A short-dated government bill pays something for taking almost no risk. Any yield that takes real risk has to beat it before it is interesting at all — which means the entire on-chain yield landscape is priced relative to a number set by a central bank, not by crypto.</p>
       <p class="meta">Ten minutes and a spreadsheet with two columns: the current three-month government bill yield, and the yield on whatever on-chain position you are considering, stripped of emissions per <code>where-yield-comes-from</code>. The difference is the risk premium you are being paid. Then ask the only question that matters — is that premium enough for smart-contract risk, oracle risk, counterparty risk and exit risk combined? Repeat the exercise at a few points in the last three years and the crypto cycle starts looking like a function of one line.</p>
@@ -606,7 +606,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-gross-over-net.html">&larr; 162. Gross over net — the recycling multiple</a><a href="pocs-m2-and-the-dollar.html">164. M2, the dollar, and why crypto is a liquidity trade &rarr;</a></div>
+    <div class="pager"><a href="pocs-gross-over-net.html">&larr; 861. Gross over net — the recycling multiple</a><a href="pocs-m2-and-the-dollar.html">863. M2, the dollar, and why crypto is a liquidity trade &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -672,7 +672,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -684,6 +684,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

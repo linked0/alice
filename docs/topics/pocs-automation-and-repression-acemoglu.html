@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Automation and Repression — when control gets cheaper than sharing</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#17</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#716</span><span>PoC</span></p>
       <h1>Automation and Repression — when control gets cheaper than sharing</h1>
       <p class="lead">Acemoglu, Gitmez &amp; Shadmehr (NBER w35336, June 2026) model automation inside a polity: decentralized automation raises capital&#39;s income share and the odds of a successful revolt, so an owner-state chooses among regulating automation, redistributing via taxes, or repressing. The result is a complementarity — unless the revolt threat is weak or capital low, the state prefers repression. (A viral post overstated this as &#39;proof AI will destroy democracy&#39; to sell a guide; the paper is a conditional model, not a prophecy.)</p>
       <p class="meta">Not a build — read the actual paper, not the viral summary. The mechanism: automation raises capital&#39;s income share, which raises inequality, which raises revolt risk; the owner-state then weighs redistribution (give some back via tax) against repression (spend on control), and as capital accumulates, control gets cheaper relative to sharing, so the equilibrium drifts toward repression — &#39;not because anyone is evil but because it costs less.&#39; Verify against the primary source (NBER w35336 / MIT Economics / SSRN), and note the gap between the paper&#39;s conditional complementarity result and the viral post&#39;s deterministic framing plus its guide-selling close.</p>
@@ -500,7 +500,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="math-13.html">&larr; 16. 메커니즘 디자인(VCG 개념)</a><a href="pocs-investing-for-programmers-book.html">18. Investing for Programmers — understanding markets through data and code &rarr;</a></div>
+    <div class="pager"><a href="math-13.html">&larr; 715. 메커니즘 디자인(VCG 개념)</a><a href="pocs-investing-for-programmers-book.html">717. Investing for Programmers — understanding markets through data and code &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -566,7 +566,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -578,6 +578,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

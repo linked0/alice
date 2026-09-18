@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; When a chain can't defend itself, it becomes a token on one that can</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#191</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#890</span><span>PoC</span></p>
       <h1>When a chain can't defend itself, it becomes a token on one that can</h1>
       <p class="lead">Harmony announced it will sunset its mainnet and migrate its native token ONE to Ethereum (via The Block, 2026-09-07), citing threats from state actors and AI agents — a month after an exploit that minted 4 billion ONE without authorization. This is <code>fees-over-security-budget</code> playing out to its endgame: when the cost to attack a chain drops below the value it secures, staying sovereign is negative EV, and the honest move is to stop paying for your own security and rent Ethereum&#39;s by becoming an ERC-20.</p>
       <p class="meta">Not yet scoped — a valuation exercise, not a build. Compute a chain&#39;s <strong>defense affordability</strong> as a single comparison: the value it currently secures (market cap of the native asset plus TVL) against the cheapest cost to break it — the smaller of (a) acquiring 33% / 51% of stake and (b) compromising a privileged path such as mint authority or a bridge. Harmony already ran the experiment for you: last month&#39;s 4-billion-ONE unauthorized mint is direct evidence that path (b) was cheaper than the value it guarded, which is the definition of insolvency as a security provider. Then price the migration itself: is ONE worth more as an ERC-20 secured by Ethereum but stripped of sovereignty, or as the gas token of a chain nobody can afford to defend? Model both sides — the migration keeps the token and the community and gives up the block space, the fee capture, and the self-custody of consensus. Facts: The Block, 2026-09-07 — Harmony to sunset mainnet, propose migrating ONE to Ethereum, citing state actors and AI agents; ~4B ONE minted in a prior-month exploit. Confirm the proposal&#39;s terms against Harmony&#39;s own governance post before treating any number as final.</p>
@@ -596,7 +596,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-revision-is-the-fourth-column.html">&larr; 190. The fourth column: the −23,000 that a dozen notes cited never existed</a><a href="pocs-eth-money-or-fuel.html">192. When nobody needs to hold ETH, is ETH money or fuel? &rarr;</a></div>
+    <div class="pager"><a href="pocs-revision-is-the-fourth-column.html">&larr; 889. The fourth column: the −23,000 that a dozen notes cited never existed</a><a href="pocs-eth-money-or-fuel.html">891. When nobody needs to hold ETH, is ETH money or fuel? &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -662,7 +662,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -674,6 +674,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

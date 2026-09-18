@@ -9,7 +9,9 @@ pages are rewritten whole (stale health-N.html beyond the tile count are removed
 scripts/health-encrypt.mjs runs this after every re-encryption. Health pages are exempt from the
 Key-expressions / "Where it lands in Jayverse" rules: their text is not in the repo.
 """
-import json, pathlib, re, html, glob, os
+import json, pathlib, re, html, glob, os, sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent)); from notes_numbering import display
+HN = lambda i: display("health", i + 1)   # Health numbers start at 1400 (jay, 2026-09-18)
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 TOPICS = ROOT / "topics"
 P = json.loads(re.match(r'window\.__HEALTH__=(.*);\s*$', (TOPICS / "_health.js").read_text(), re.S).group(1))
@@ -20,9 +22,9 @@ LOCKED = "&#128274; Opens with the password. The text is encrypted in the page d
 # ---------------- notes.html: rail links + cards ----------------
 nav = "".join(
     f'        <li><a class="nav-link" href="topics/health-{i+1}.html" data-key="health-{i+1}"><span class="nav-dot" style="background:#94a3b8;" title="LOCKED"></span>'
-    f'<span class="nav-text"><span class="topic-no">{i+1}</span>{E(l)}</span></a></li>\n' for i, l in enumerate(labels))
+    f'<span class="nav-text"><span class="topic-no">{HN(i)}</span>{E(l)}</span></a></li>\n' for i, l in enumerate(labels))
 cards = "".join(f'''        <li id="health-{i+1}" class="health-item">
-          <div class="topic-head"><span class="topic-no">{i+1}</span><span class="topic-tag">Locked</span><span class="topic-title">{E(l)}</span></div>
+          <div class="topic-head"><span class="topic-no">{HN(i)}</span><span class="topic-tag">Locked</span><span class="topic-title">{E(l)}</span></div>
           <p class="topic-summary health-summary">{LOCKED}</p>
           <div class="health-slot"></div>
           <p class="topic-link"><a href="topics/health-{i+1}.html">Detail &rarr;</a> &middot; <button type="button" class="copy-btn copy-inline health-open">Open here</button> &middot; <a href="#top">Top &uarr;</a> &middot; <a href="#sec-mindset">Section top &uarr;</a></p>
@@ -66,7 +68,7 @@ NAV_PATCH = '''<script src="_health.js"></script>
   var s = null; for (var i = 0; i < d.sections.length; i++) if (d.sections[i].navId === 'nav-sec-mindset') s = d.sections[i];
   if (!s || s.items.some(function (it) { return it.key === 'health-1'; })) return;
   var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (i + 1) + '</span>' + esc(l) }); });
+  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (1400 + i) + '</span>' + esc(l) }); });
 })();
 </script>
 '''
@@ -115,11 +117,11 @@ PAGE_JS = r'''<script>
 '''
 n_pages = 0
 for i, l in enumerate(labels):
-    no = i + 1; key = f"health-{i+1}"; title = E(l)
+    no = HN(i); key = f"health-{i+1}"; title = E(l)
     h = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{title} — Knowledge Notes</title>')
     h = h.replace('</style>', CSS + '</style>', 1)
-    prev_ = f'<a href="health-{i}.html">&larr; {i}. {E(labels[i-1])}</a>' if i > 0 else '<a href="../notes.html#sec-mindset">&larr; Life</a>'
-    next_ = f'<a href="health-{i+2}.html">{i+2}. {E(labels[i+1])} &rarr;</a>' if i + 1 < len(labels) else '<a href="../notes.html#sec-mindset">Life &rarr;</a>'
+    prev_ = f'<a href="health-{i}.html">&larr; {HN(i-1)}. {E(labels[i-1])}</a>' if i > 0 else '<a href="../notes.html#sec-mindset">&larr; Life</a>'
+    next_ = f'<a href="health-{i+2}.html">{HN(i+1)}. {E(labels[i+1])} &rarr;</a>' if i + 1 < len(labels) else '<a href="../notes.html#sec-mindset">Life &rarr;</a>'
     body = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html?list">Knowledge Notes</a> &rsaquo; {title}</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#{no}</span><span>Locked</span><span title="section">Life</span></p>

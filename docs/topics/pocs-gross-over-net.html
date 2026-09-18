@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Gross over net — the recycling multiple</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#162</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#861</span><span>PoC</span></p>
       <h1>Gross over net — the recycling multiple</h1>
       <p class="lead">When a protocol pays incentives on both deposits and borrows, the same capital loops. Total deposits inflate, outside money does not — and net TVL turns out to equal external capital exactly. The ratio between the headline and the net is a number you can compute today.</p>
       <p class="meta">Pick any lending market running a deposit-and-borrow incentive programme and take two figures it already publishes: total deposits and total borrows. Net is the difference. Gross divided by net is the recycling multiple. It needs no waiting, no modelling and no market-beta correction, and it applies to a live programme today. Then check whether the protocol&#39;s own reporting calls the gross number TVL.</p>
@@ -720,7 +720,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-where-yield-comes-from.html">&larr; 161. Every yield is somebody's cost — the three places it can come from</a><a href="pocs-risk-free-rate-is-the-floor.html">163. The risk-free rate is the floor under every yield &rarr;</a></div>
+    <div class="pager"><a href="pocs-where-yield-comes-from.html">&larr; 860. Every yield is somebody's cost — the three places it can come from</a><a href="pocs-risk-free-rate-is-the-floor.html">862. The risk-free rate is the floor under every yield &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -786,7 +786,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -798,6 +798,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

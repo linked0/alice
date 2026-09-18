@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; One fact, one home</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#20</span><span>Design</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1019</span><span>Design</span></p>
       <h1>One fact, one home</h1>
       <p class="lead">The devnet&#39;s RPC URL is written in six places across four repos, and two of them disagree. Marek proposes a shared config package; Priya thinks that&#39;s overkill for a URL.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -446,7 +446,7 @@
 <ol><li><strong>크기를 다시 센다.</strong> "That&#39;s fifteen facts, and today they have six homes each." "URL 하나"라는 프레임을 숫자로 교정한다.</li><li><strong>비용을 편집이 아니라 디버깅으로 말한다.</strong> "the day we edit five and debug the sixth" 중복의 진짜 비용은 작업량이 아니라 불일치다.</li><li><strong>반론을 설계에 흡수한다.</strong> "Good catch. Then rabbit copies the file and says… rails is canonical." 배포 제약을 인정하고 원칙을 지키는 형태를 찾는다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-19.html">&larr; 19. Who can reach that port?</a><a href="english-21.html">21. Don&#39;t draw yet. Ask what the box is for. &rarr;</a></div>
+    <div class="pager"><a href="english-19.html">&larr; 1018. Who can reach that port?</a><a href="english-21.html">1020. Don&#39;t draw yet. Ask what the box is for. &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -512,7 +512,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -524,6 +524,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

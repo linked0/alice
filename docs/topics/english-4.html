@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; Does Quick Slots make finality faster?</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#4</span><span>EIP</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1003</span><span>EIP</span></p>
       <h1>Does Quick Slots make finality faster?</h1>
       <p class="lead">Sun-woo read the EIP-8198 thread and wants to tell the team "Ethereum is getting fast finality." Jay has to correct the claim without killing the enthusiasm.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -444,7 +444,7 @@
 <ol><li><strong>정도와 종류를 갈라 답한다.</strong> "Faster, yes. Fast, no." 비교급과 원급을 나누는 네 단어가 과장을 정확히 잘라낸다.</li><li><strong>틀린 문장 대신 맞는 문장을 준다.</strong> "So what should I say instead?" 에 답을 준비해 두면 교정이 거절이 아니라 도움이 된다.</li><li><strong>우리에게의 결과로 닫는다.</strong> "if anyone asks what changes for us" 기술 논의를 팀의 행동 하나로 끝내면 대화가 남는다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-3.html">&larr; 3. Every transaction passed. The total was wrong.</a><a href="english-5.html">5. Make it easy for them to say no &rarr;</a></div>
+    <div class="pager"><a href="english-3.html">&larr; 1002. Every transaction passed. The total was wrong.</a><a href="english-5.html">1004. Make it easy for them to say no &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -510,7 +510,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -522,6 +522,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

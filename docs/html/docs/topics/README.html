@@ -224,6 +224,23 @@ chronological numbering (2026-09-16).</li>
 cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
 promote a new item, demote one first.</li>
 </ul>
+<h2 id="section-numbering-goals-and-the-red-badge-jay-2026-09-18">Section numbering, goals, and the red badge (jay, 2026-09-18)</h2>
+<ul>
+<li><strong>Numbers start per section:</strong> Tech <strong>1</strong>, Foundations <strong>700</strong>, English <strong>1000</strong>, Life <strong>1300</strong>, Health <strong>1400</strong>
+(jay: &quot;make the Items from 1, Foundations from 700, English 1000, Life 1300, Health 1400&quot;). One table in
+<code>scripts/notes_numbering.py</code> (<code>BASE</code>, <code>display(navid, k)</code>, <code>position(navid, shown)</code>); <code>add-tech-item.py</code>,
+<code>reorder-by-status.py</code>, <code>english-notes.py</code> and <code>health-cards.py</code> all read it, so a number alone tells the section.
+<code>--slot</code> in <code>add-tech-item.py</code> is still the 1-based position inside the section. Keys and file names do not change
+(<code>english-1.md</code> shows as 1000; <code>health-1.html</code> as 1400).</li>
+<li><strong>Goals:</strong> 1,000 items done is the first turning point and 2,000 the final goal (<code>GOALS</code> in the same module, mirrored
+in <code>_progress.js</code>). The rail shows a grey chip <code>→ 1,000 · 6.8%</code> next to the red badge; when the done count reaches a
+goal, every page shows a one-time congratulation (confetti + card, dismissed with &quot;Thanks&quot;, remembered per browser in
+<code>localStorage</code> <code>milestone-1000</code> / <code>milestone-2000</code>).</li>
+<li><strong>The red badge is a button.</strong> Clicking it toggles <code>body.rail-all</code> (kept in <code>sessionStorage</code>): the detail-page rail
+then lists every section for whichever mode button is on, and the badge reads <code>All · 14% · 68/472</code> (jay: &quot;make it
+clickable and make the clicking shows all the categories … I mean All to the status red area&quot;). Without the toggle,
+Important / New / All show the current section only and Done / Yesterday / Today search every section.</li>
+</ul>
 
   </article>
 </div>

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">English</a> &rsaquo; Which price are we settling on?</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#34</span><span>Design</span></p>
+      <p class="topic-kicker"><span class="topic-no">#1033</span><span>Design</span></p>
       <h1>Which price are we settling on?</h1>
       <p class="lead">Design review at a Paris fintech, Jay&#39;s sixth week as lead. The new market type resolves on "the ETH price at 16:00 UTC". Camille, the product manager, thinks that sentence is the spec. Jay knows it is the start of a dispute, and he has to say so without sounding like the engineer who blocks everything.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -446,7 +446,7 @@
 <ol><li><strong>우려의 주인을 바꾼다.</strong> "Not an engineering concern, a customer one." 엔지니어의 반대를 고객의 결과로 재프레임하면 PM이 방어하지 않고 듣는다.</li><li><strong>싼 대안이 실제로 사는 것을 말한다.</strong> "The licence buys us the sentence… on the day somebody does." 비용을 정당화할 때 기능이 아니라 나쁜 날의 문장을 판다.</li><li><strong>결정을 스펙 세 줄로 돌려준다.</strong> "Three lines in the spec, and they&#39;re yours to write, not mine." 리뷰가 지적으로 끝나지 않고 PM이 소유하는 산출물로 끝난다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-33.html">&larr; 33. Grill me before you plan</a></div>
+    <div class="pager"><a href="english-33.html">&larr; 1032. Grill me before you plan</a></div>
   </div>
   </main>
 </div>
@@ -512,7 +512,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -524,6 +524,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

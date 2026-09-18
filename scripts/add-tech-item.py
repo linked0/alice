@@ -23,9 +23,10 @@ the added date (KST) shows on the card head and in the page kicker (jay, 2026-09
 Re-running with an existing key replaces that item in place (slot argument ignored).
 """
 import re, json, pathlib, html, argparse, datetime, glob, sys, subprocess
+from notes_numbering import display, position  # section bases: Tech 1, Foundations 700, Life 1300 (jay, 2026-09-18)
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int)
+ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Foundations 700, Life 1300)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
 ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
@@ -104,7 +105,7 @@ sec = next(x for x in nav["sections"] if x["navId"] == SEC["nav"])
 items = sec["items"]
 existing = next((x for x in items if x["key"] == KEY), None)
 if existing:
-    slot = int(re.search(r'topic-no">(\d+)<', existing["text"]).group(1)); items[:] = [x for x in items if x["key"] != KEY]
+    slot = position(SEC["nav"], int(re.search(r'topic-no">(\d+)<', existing["text"]).group(1))); items[:] = [x for x in items if x["key"] != KEY]
 else:
     assert A.slot, "--slot is required for a new item"; slot = A.slot
 new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE)}
@@ -112,8 +113,8 @@ if LABEL == "TODAY DONE": new_item["done"] = A.done_at or datetime.datetime.now(
 elif existing and existing.get("done") and LABEL == "DONE": new_item["done"] = existing["done"]
 items.insert(slot - 1, new_item)
 for k, x in enumerate(items, 1):
-    x["text"] = f'<span class="topic-no">{k}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
-    x["n"] = str(k); x["title"] = re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
+    x["text"] = f'<span class="topic-no">{display(SEC["nav"], k)}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
+    x["n"] = str(display(SEC["nav"], k)); x["title"] = re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
 N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE"))
 sec["label"] = f"{SEC['label']} ({N})"
 for j in nav["jump"]:
@@ -121,7 +122,7 @@ for j in nav["jump"]:
 for x in items: x.pop("n", None); x.pop("title", None)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 # convenience view used below: [key, href, color, label, n, title-html]
-items = [[x["key"], x["href"], x["color"], x["label"], str(k), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag">[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
+items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k)), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag">[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
 
 # ---------------- notes.html ----------------
 p = ROOT / "notes.html"; s = p.read_text()
@@ -133,12 +134,13 @@ nav = re.sub(rf'        <li><a class="nav-link" href="[^"]*" data-key="{re.escap
 cards = re.sub(rf'        <li id="{KEY}">.*?\n        </li>\n', '', cards, flags=re.S)
 # renumber nav links and cards by key from the nav.js order
 num = {x[0]: x[4] for x in items}
+SHOWN = display(SEC["nav"], slot)  # the number the reader sees for this slot
 nav = re.sub(r'(data-key="([^"]+)".*?<span class="topic-no">)(\d+)(<)', lambda m: m.group(1) + num.get(m.group(2), m.group(3)) + m.group(4), nav)
 cards = re.sub(r'(<li id="([^"]+)">\s*<div class="topic-head"><span class="topic-no">)(\d+)(<)', lambda m: m.group(1) + num.get(m.group(2), m.group(3)) + m.group(4), cards)
 navli = (f'        <li><a class="nav-link" href="topics/{HREF}" data-key="{KEY}"><span class="nav-dot" style="background:{COLOR};" title="{LABEL}"></span>'
-         f'<span class="nav-text"><span class="topic-no">{slot}</span>{TAG}{E(TITLE)}</span></a></li>\n')
+         f'<span class="nav-text"><span class="topic-no">{SHOWN}</span>{TAG}{E(TITLE)}</span></a></li>\n')
 card = f'''        <li id="{KEY}">
-          <div class="topic-head"><span class="topic-no">{slot}</span>{TAG}<span class="topic-title">{E(TITLE)}</span>{DATE_SPAN}{SRC_SPAN}</div>
+          <div class="topic-head"><span class="topic-no">{SHOWN}</span>{TAG}<span class="topic-title">{E(TITLE)}</span>{DATE_SPAN}{SRC_SPAN}</div>
           <p class="topic-summary">{E(SUMMARY)}</p>
           <p class="topic-how"><strong>How it works</strong>{E(HOW)}</p>
           <p class="topic-why"><strong>Why</strong>{inline(WHY)}</p>
@@ -178,7 +180,7 @@ tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
 tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', tail)
 mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{slot}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span></p>
+      <p class="topic-kicker"><span class="topic-no">#{SHOWN}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span></p>
       <h1>{E(TITLE)}</h1>
       <p class="lead">{E(SUMMARY)}</p>
       <p class="meta">{inline(META)}</p>
@@ -244,4 +246,4 @@ for f in glob.glob(str(ROOT / "topics" / "*.html")):
     q = pathlib.Path(f); c = q.read_text()
     c2 = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), c, count=1)
     if c2 != c: q.write_text(c2)
-print(f"#{slot} {KEY} [{LABEL}, {DATE}, {A.source}] → {SEC['label']} {DONE}/{N}, overall {badge}; pages rewritten {fixed}, missing files {missing}")
+print(f"#{SHOWN} {KEY} [{LABEL}, {DATE}, {A.source}] → {SEC['label']} {DONE}/{N}, overall {badge}; pages rewritten {fixed}, missing files {missing}")

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Anomaly detection — the alert that fires on everything or nothing</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#180</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#879</span><span>PoC</span></p>
       <h1>Anomaly detection — the alert that fires on everything or nothing</h1>
       <p class="lead">Anomaly detectors flag points that do not fit a learned normal, and the entire product is the threshold: too tight and it is noise, too loose and it misses the one event that mattered.</p>
       <p class="meta">Not yet scoped.</p>
@@ -446,7 +446,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-ds-cross-validation.html">&larr; 179. Cross-validation — the honest way to fail before you ship</a><a href="pocs-ds-survival-analysis.html">181. Survival analysis — churn is a time-to-event, not a yes/no &rarr;</a></div>
+    <div class="pager"><a href="pocs-ds-cross-validation.html">&larr; 878. Cross-validation — the honest way to fail before you ship</a><a href="pocs-ds-survival-analysis.html">880. Survival analysis — churn is a time-to-event, not a yes/no &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -512,7 +512,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -524,6 +524,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

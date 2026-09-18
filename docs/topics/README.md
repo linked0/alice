@@ -184,3 +184,20 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - **Important is capped at 10 per section** (jay: "make the amount of important items 10 for each category"). When the
   cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Foundations 39) became Planned. To
   promote a new item, demote one first.
+
+## Section numbering, goals, and the red badge (jay, 2026-09-18)
+
+- **Numbers start per section:** Tech **1**, Foundations **700**, English **1000**, Life **1300**, Health **1400**
+  (jay: "make the Items from 1, Foundations from 700, English 1000, Life 1300, Health 1400"). One table in
+  `scripts/notes_numbering.py` (`BASE`, `display(navid, k)`, `position(navid, shown)`); `add-tech-item.py`,
+  `reorder-by-status.py`, `english-notes.py` and `health-cards.py` all read it, so a number alone tells the section.
+  `--slot` in `add-tech-item.py` is still the 1-based position inside the section. Keys and file names do not change
+  (`english-1.md` shows as 1000; `health-1.html` as 1400).
+- **Goals:** 1,000 items done is the first turning point and 2,000 the final goal (`GOALS` in the same module, mirrored
+  in `_progress.js`). The rail shows a grey chip `→ 1,000 · 6.8%` next to the red badge; when the done count reaches a
+  goal, every page shows a one-time congratulation (confetti + card, dismissed with "Thanks", remembered per browser in
+  `localStorage` `milestone-1000` / `milestone-2000`).
+- **The red badge is a button.** Clicking it toggles `body.rail-all` (kept in `sessionStorage`): the detail-page rail
+  then lists every section for whichever mode button is on, and the badge reads `All · 14% · 68/472` (jay: "make it
+  clickable and make the clicking shows all the categories … I mean All to the status red area"). Without the toggle,
+  Important / New / All show the current section only and Done / Yesterday / Today search every section.

@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Cointegration — two prices that wander together are a trade</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#183</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#882</span><span>PoC</span></p>
       <h1>Cointegration — two prices that wander together are a trade</h1>
       <p class="lead">Vector autoregression and cointegration test whether two non-stationary series share a long-run equilibrium, which is the statistical basis of pairs trading and a common false-positive under spurious regression.</p>
       <p class="meta">Not yet scoped.</p>
@@ -446,7 +446,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-ds-cohort-analysis.html">&larr; 182. Cohort analysis — the retention curve a single average hides</a><a href="pocs-ds-extreme-value.html">184. Extreme value theory — the tail is a different distribution &rarr;</a></div>
+    <div class="pager"><a href="pocs-ds-cohort-analysis.html">&larr; 881. Cohort analysis — the retention curve a single average hides</a><a href="pocs-ds-extreme-value.html">883. Extreme value theory — the tail is a different distribution &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -512,7 +512,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -524,6 +524,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

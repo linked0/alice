@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A good bet that lost looks exactly like a bad bet that lost</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#160</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#859</span><span>PoC</span></p>
       <h1>A good bet that lost looks exactly like a bad bet that lost</h1>
       <p class="lead">Poker is the widely played game whose practitioners had to build a vocabulary for the gap between a good decision and a good outcome. Three ideas transfer to anything that bets on a probability — the threshold is arithmetic on costs, the objective is the bankroll rather than expected value, and a record means nothing until it is long enough. The fourth is where the analogy stops, and that is the useful half.</p>
       <p class="meta">Not a build — a measurement on work that already runs. The <code>agent</code> card logs a probability and acts on an order book, so take that log and add one derived column: the break-even probability implied by the price it traded at. That is pot odds, and it needs nothing but the cost. Then three numbers. First, what fraction of decisions actually had edge over their own break-even — not over 50%, over the number the price demanded. Second, the stake taken as a fraction of the bankroll against the Kelly fraction implied by the claimed edge; the ratio between them is the leverage being run, whether or not anyone chose it. Third, and this is the one that ends arguments: given the claimed edge and the observed variance, how many resolutions until the record separates that edge from zero. Compute the third before running the strategy, because it is the honest answer to &quot;is it working yet&quot; and it is usually a much larger number than the sample anyone has.</p>
@@ -686,7 +686,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-onchain-settlement-funding.html">&larr; 159. On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</a><a href="pocs-where-yield-comes-from.html">161. Every yield is somebody's cost — the three places it can come from &rarr;</a></div>
+    <div class="pager"><a href="pocs-onchain-settlement-funding.html">&larr; 858. On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</a><a href="pocs-where-yield-comes-from.html">860. Every yield is somebody's cost — the three places it can come from &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -752,7 +752,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -764,6 +764,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;

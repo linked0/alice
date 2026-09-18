@@ -401,7 +401,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#159</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#858</span><span>PoC</span></p>
       <h1>On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</h1>
       <p class="lead">Visa&#39;s stablecoin-card growth moved the interesting part one layer up: not users paying in stablecoins, but the card issuer borrowing stablecoins on-chain to fund Visa&#39;s daily settlement, underwritten by its own settlement history and repaid automatically as receipts arrive. Model that loop.</p>
       <p class="meta">Not a build yet — a model to build. Reproduce the funding loop on a local fork: (1) an issuer owes a daily settlement amount before its cardholder receipts land; (2) it draws stablecoin from a revolving credit line to cover the gap; (3) incoming receipts hit a smart-contract waterfall that repays principal + interest first, before the issuer keeps the rest; (4) the credit limit is a function of observed settlement throughput, not posted asset collateral. Then add the &#39;just-in-time&#39; variant — draw exactly the settlement shortfall at settlement time instead of pre-borrowing a buffer — and measure idle-capital cost against it. Confirm the real mechanics (Visa × Credit Coop, Rain, Karta) against their own writeups before citing numbers.</p>
@@ -520,7 +520,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-won-stablecoin-fee-savings.html">&larr; 158. The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money</a><a href="pocs-a-good-bet-that-lost.html">160. A good bet that lost looks exactly like a bad bet that lost &rarr;</a></div>
+    <div class="pager"><a href="pocs-won-stablecoin-fee-savings.html">&larr; 857. The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money</a><a href="pocs-a-good-bet-that-lost.html">859. A good bet that lost looks exactly like a bad bet that lost &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -586,7 +586,7 @@
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today'; // these three search every section
+      const cross = tierMode === 'done' || tierMode === 'yesterday' || tierMode === 'today' || document.body.classList.contains('rail-all'); // the three day buttons, or the red badge toggled to All, search every section
       const hit = (cross || !a.closest('[data-other-section]')) && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
@@ -598,6 +598,7 @@
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', applyFilter); // red badge clicked (_progress.js)
   for (const b of tierBtns) {
     b.addEventListener('click', () => {
       tierMode = b.dataset.tierMode;
