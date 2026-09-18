@@ -54,3 +54,64 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Change:** `scripts/add-tech-item.py` gains `--section blockchain|fundamentals` and `--tag`; Fundamentals cards and nav entries carry the `topic-tag` chip after the number, pagers strip it; README documents both. Inserts: #58, #59 (Blockchain, NEW, `file`), #193 (Fundamentals, NEW, `chat`, appended under Economics); `english-29..31.md` via `scripts/english-notes.py`.
 - **alice-tech usage:** 2026-09-18 `[오늘 · X(트위터)] S&P Global이 OpenZeppelin을 인수한다` → #58; `[오늘 · 딥다이브] 의존성은 파일이 아니라 남에게 준 권한이다` → #59. Covered by existing items: LinkedIn (미리 반영) → #61 FOMC; a16z (ETF 연간) → #57. Remaining 09-18 candidates: Four Pillars (순유동성), 서비스 (npm 공급망 위생: `--frozen-lockfile`, Dependabot). Remaining 09-17: Four Pillars (규제 공백 세 발표), 서비스 (Glamsterdam devnet, 09-28).
 - **Result:** counters Blockchain 57/236, Fundamentals 6/193, Dev English 0/31, overall 63/460 (14 percent); nav and cards verified 1–236 and 1–193; kickers `#58 · PoC · 2026-09-18 · file`, `#59 · … · file`, `#193 · PoC · 2026-09-18 · chat`. Committed on `claude/notes-source-tag`, fast-forwarded to main and pushed at jay's request.
+
+### Tech Notes: fourth section "Mindset" — #1 Terence Tao (hiker vs helicopter), #2 Matt Pocock (fundamentals with AI); Dev English #32–33
+
+- **Cause:** jay: "One more section in Tech Notes, minds or something that means the important mindset of psychological insight for life or developing something. Add these two items into the section and conjecture the proper name" — with detailed breakdowns of Tao's Big Think interview and Pocock's AI Engineer talk.
+- **Reasoning:** name chosen: **Mindset** (alternatives considered: Ways of Thinking, Mind & Method); short, parallel to "Dev English", and the lead paragraph carries the definition. Placed between Fundamentals and Dev English because `english-notes.py` removes and re-appends its own section, nav group, pill and jump entry last; a section after it would be reordered on every regen. Items reuse the Blockchain item format (EN+KO copy, Why / How / Where it lands) via the generic inserter, with kicker type `Talk`. #1 — Tao: hiker vs helicopter; depth vs breadth; Kepler as the warning that fast fit kills true ideas; four proof stages and "proof indigestion"; his allocation (errands to AI, the core problem by hand); the seed-corn warning about training. #2 — Pocock: specs-to-code compounds entropy; four failure modes paired with old disciplines (design concept → "grill me", ubiquitous language → glossary, outrunning headlights → TDD as speed limit, shallow modules → deep modules and grey-box delegation); AI as sergeant, human as strategist. Both tagged `chat` (jay's summaries are the source; videos not re-watched). Dev English #32 (interview: how do you use AI, errands vs walks) and #33 (planning: grill me before you plan) draw on the two items.
+- **Change:** `notes.html` section shell (nav group, article, rail pill) inserted before Dev English; `_nav.js` section and jump entry; `scripts/add-tech-item.py` gains `--section mindset` (Fundamentals' next-anchor now points at Mindset); two `pocs-*.html` pages; `english-32.md`, `english-33.md`; README section.
+- **Result:** sections Blockchain 57/236, Fundamentals 6/193, Mindset 0/2, Dev English 0/33; overall 63/464 (14 percent); article and nav order verified; kickers `#1 · Talk · 2026-09-18 · chat`, `#2 · …`; pagers link 1 ↔ 2. Branch `claude/notes-mindset`, uncommitted pending jay's review.
+
+### Tech Notes: section labels renamed — "Blockchain & Tech" → "Tech", "Dev English" → "English"
+
+- jay: "Change the section names". Labels only; section ids (`sec-blockchain`, `sec-english`) and page names unchanged so every link and anchor still works. Replaced in `notes.html` (rail pills, nav group labels, article h1s), `_nav.js` (section and jump labels), `scripts/add-tech-item.py` and `scripts/english-notes.py` (so regenerations keep the new names), both READMEs (old names noted once as "formerly"). Dev English pages regenerated: titles now "… — English — Tech Notes". Rail reads Tech · Fundamentals · Mindset · English. Same branch `claude/notes-mindset`, uncommitted.
+
+### Rail badges: no "done" word, current and previous-day on one line; nav group counts synced
+
+- **Cause:** jay (screenshot of the two stacked badges): "we don't need done in red and make the two in one line". Also found while renaming: the rail's group labels had drifted (Tech 225, Fundamentals 192, Mindset 0 against sections of 236 / 193 / 2) because `add-tech-item.py` never updated `nav-group-label`.
+- **Change:** badge text is now `14% · 63/464` (red) beside `14% · 61/442` (blue) on the line under the title: `.rail-sub` became an inline flex item with a 6px gap instead of a full-width block, in `notes.html` and all 310 topic pages; `_progress.js`, `add-tech-item.py` and `english-notes.py` emit the new format so regenerations keep it. `add-tech-item.py` now rewrites its section's `nav-group-label` count; labels synced to Tech (236), Fundamentals (193), Mindset (2), English (33). `english-notes.py` titles use its LABEL ("… — English — Tech Notes").
+- **Result:** verified on notes.html and english-33.html; no page still carries the old text or CSS. Branch `claude/notes-mindset`, uncommitted.
+
+### Tech Notes #58 Kaiko — a reference rate is a price with a governance wrapper; English #34
+
+- **Cause:** jay: "add a dev item related to Kaiko" (Kaiko appeared in the S&P–OpenZeppelin item as the data leg of S&P's onchain stack).
+- **Reasoning:** three announcements in one arc: tokenized iBoxx U.S. Treasuries Index on Canton as a licence-plus-data NFT (2026-03-31), S&P Kaiko Digital Asset Indices (2026-09-01), Series B extended to $110 million with S&P leading (2026-09-14). The developer distinction is price feed versus reference rate: a number versus a number plus vetted venues, published cleaning and aggregation rules, an overseen methodology, and a licence, administered under EU BMR with AMF supervision. Jayverse: Verex resolution fields name a benchmark with administrator, fixing time and methodology version, or say explicitly which raw venue; the tokenized index (data, licence, permission in one token) is a pattern for distributing Number readings. Tagged `chat`, NEW, slot 58 (first not-done). English #34: a design review turning "the ETH price at 16:00" into a named source, fixing time and fallback.
+- **Result:** Tech 57/237, English 0/34, overall 63/466. Kaiko's founding year and HQ from general knowledge; aggregation method not on the public pages; S&P stake size undisclosed.
+
+### Site renamed Tech Notes → Knowledge Notes; rule: anything jay mentions is a candidate item
+
+- **Cause:** jay: "Make it a rule to consider an item or note that I mention as items on Tech Notes. And change the name Tech Notes to Knowledge Notes or Wisdom Notes or Information Notes, of which you can choose."
+- **Reasoning:** Knowledge Notes chosen: it covers all four sections (Tech, Fundamentals, Mindset, English) where Wisdom fits only Mindset and Information undersells the Fundamentals curriculum. File names (`notes.html`, `topics/`) unchanged so links hold. The rule: default to drafting an item when jay mentions or pastes something, say so in the reply, and keep "just asking" as the only exception (answer, and offer the item in one line).
+- **Change:** "Tech Notes" → "Knowledge Notes" in `notes.html` (title, filter placeholder), both index pages (card title), both generators (page titles, crumbs, "All … Notes" links), both READMEs, and all 312 topic pages; README gains the mentions rule; memory `feedback-mentions-are-knowledge-items.md`.
+- **Result:** no remaining "Tech Notes" outside history files. Branch `claude/notes-mindset`, uncommitted.
+
+### Rule: one English conversation per day
+
+- jay: "Make it a rule: for creating an English conversation, once in a day." Replaces the one-per-item rule of 2026-09-16. From tomorrow the first item of a KST day brings one conversation and later items none; today's #23–#34 stay as written. Recorded in `docs/topics/README.md`, `english/README.md`, and memory.
+
+### Tech #59 S&P–OpenZeppelin marked RECENTLY DONE; yesterday's badge turned gray
+
+- **Cause:** jay: "Make the 59 done and a gray color for the yesterday's status" (screenshot of the red and blue badges side by side).
+- **Change:** re-ran `add-tech-item.py` for `sp-global-buys-openzeppelin` with `--status recent` (slot 59 kept, same as #56/#57). New CSS rule `.rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16) }` on `notes.html` and all 460 topic pages (inserted after `.rail-note-pink` where it exists, after the `.rail-note` block on the 145 curriculum pages, before `</style>` on the three hand-written pages); `_progress.js` untouched since it only sets text and title.
+- **Result:** Tech 58/237, overall 64/466 in red; yesterday's `14% · 61/442` now gray on every page. Branch `claude/notes-mindset`, uncommitted.
+
+### Knowledge Notes: entry and rail clicks go straight to detail pages
+
+- **Cause:** jay: "we don't need notes.html anymore because it doesn't show any important information because we see the list in the left panel … clicking an item on the left panel and entering the notes goes to the detail page directly."
+- **Reasoning:** `notes.html` cannot be deleted: `add-tech-item.py` and `english-notes.py` read its section articles as the item data. So it stays as data and list view, and every entry point bypasses it: index card → first NEW/IMPORTANT item (static link the inserter maintains), hash-less `notes.html` → same item via `location.replace` from its rail, rail links → `topics/<page>.html`. `?list` keeps the list reachable for the "All Knowledge Notes" links.
+- **Change:** 466 rail links on `notes.html` rewritten; redirect script before `<main>`; `index.html` card now `topics/pocs-kaiko-reference-rate-is-a-price-with-governance.html` (#58, NEW); tier default now read from the `.on` button; Important/New/All buttons plus `isNew` filter added to the 312 detail pages that have a rail (default All); "All Knowledge Notes / 전체 기술 노트" footer and rail-foot links → `../notes.html?list` on all pages and in both generators; inserter regexes accept both link forms.
+- **Result:** verified link counts and JS strings by grep; the 148 curriculum pages and 3 hand-written pages have no rail and were left alone. Branch `claude/notes-mindset`, uncommitted.
+
+### Dark Horse (d): Canton Network test usage
+
+- **Cause:** jay: "Add test usage of Canton network to our 'Dark horse' part of README."
+- **Reasoning:** the Kaiko and S&P items put Canton under the institutional data products; a test, not a deployment, is the cheapest way to learn what a licensed-data PoC there costs. Kept as a candidate because the core is EVM and nothing in #1–9 needs Daml.
+- **Change:** new section (d) in `docs/features/jayverse-darkhorse.md` (local Splice LocalNet → Global Synchronizer DevNet, two Daml templates, write-up against the Anvil devnet, test-networks-only guardrail); row 10 of `docs/features/README.md` and §10 of `docs/tasks/09-02-jayverse.md` list it. Source docs: those three; PoC links named in the section.
+- **Result:** documentation only, no repo or code. Branch `claude/notes-mindset`, uncommitted.
+
+### Key expressions on every Knowledge Notes detail page
+
+- **Cause:** jay: "can you add the words or phrase meaning or key expression for all the detail page that I can learn, for example treasury desk in pocs-sp-global-buys-openzeppelin.html, and make it a rule."
+- **Reasoning:** English pages already end with an expressions table, so the same shape (Expression | 뜻 · 쓰이는 자리) goes on Tech, Fundamentals and Mindset pages, in both articles. Source of truth is markdown per page so a regenerated page only needs a re-run. Backfilling 426 pages by hand was not realistic in one session, so the English text of each page was extracted to scratch and 22 sonnet subagents wrote the tables in balanced batches; the S&P page was written by hand as the model.
+- **Change:** new `scripts/add-vocab.py` (idempotent `<!-- vocab:start/end -->` block before the footer, or before the curriculum stub, table wrapped for horizontal scroll); `add-tech-item.py --vocab` copies and renders the file for new items and re-applies an existing one on re-run; `docs/topics/vocab/<page>.md` × 426 plus a README; rule in `docs/topics/README.md` and memory.
+- **Result:** 426 of 426 non-English pages carry the table (English pages skipped by design); format validated programmatically (header, two cells, no stray pipes, ≥4 rows). Row counts scale with page length: 8–12 for full items, 6–8 for curriculum pages, 4–6 for short stubs. Branch `claude/notes-mindset`.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The harness, not the model — governing agents instead of building them — Tech Notes</title>
+<title>The harness, not the model — governing agents instead of building them — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; The harness, not the model — governing agents instead of building them</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The harness, not the model — governing agents instead of building them</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#112</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#113</span><span>PoC</span></p>
       <h1>The harness, not the model — governing agents instead of building them</h1>
       <p class="lead">Once a standard stops being contested, an operations layer grows on top of it. Every card here about agents is about making one work; this one is about what happens when one misbehaves — and one company is already running that architecture against real capital, with the wrapper published as open source.</p>
       <p class="meta">Ten minutes for the infrastructure half: run LiteLLM in proxy mode from its README and stop at the point where cost tracking switches on — that single moment is the whole demonstration. Then the reading half: open <code>github.com/Senpi-ai/senpi-skills</code> and separate, line by line, what the model decides from what the deterministic layer refuses. Optional and more valuable than either: write one line on what would become visible if this project&#39;s own agent tool calls ran behind a gateway for a week. Sources to confirm, because the figures are vendor or secondary: the MCP npm SDK download count, TrueFoundry&#39;s published latency and throughput numbers, senpi.ai and resources.senpi.ai/learn.</p>
@@ -470,7 +488,10 @@
 <p><strong>The gap is structural rather than a discipline problem.</strong> Review capacity is a fixed number of people. Adoption is a <em>rate</em>, and a business team can raise that rate without asking anyone, because the tools are SaaS and the budget is a corporate card. <strong>A rate outruns a fixed capacity by default</strong> — which is why &quot;slow the teams down&quot; is not an available answer, and why an ad can safely promise not to.</p>
 <p><strong>Therefore the control cannot be a review.</strong> If approval cannot keep pace with adoption, the thing that governs has to be a runtime property rather than a checkpoint: a gateway every agent passes through whether or not anybody reviewed it, with the spend cap, the credential scope and the audit trail enforced <em>there</em>. That is this card&#39;s conclusion reached from the governance side instead of the operations side, and it sharpens into one rule — <strong>a checkpoint that scales with people loses to a rate; a chokepoint that scales with traffic does not.</strong></p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sits between</strong></td><td>~사이에 위치하다 · 두 요소 사이 중간 지점을 가리킬 때. "whatever sits between an agent and the tools it calls"</td></tr><tr><td><strong>wrap ... in ...</strong></td><td>~을 …으로 감싸다 · 기술 요소를 다른 메커니즘으로 둘러쌀 때. "wraps a market-tuned AI model in deterministic execution"</td></tr><tr><td><strong>spend ceiling</strong></td><td>지출 상한선 · 에이전트나 계정의 최대 지출 한도. "no per-agent identity, no spend ceiling"</td></tr><tr><td><strong>hallucinate a position</strong></td><td>포지션을 착각해 지어내다 · AI가 없는 거래 포지션을 있다고 오판하는 것. "without hallucinating a position or forgetting a stop"</td></tr><tr><td><strong>empty cell</strong></td><td>표의 빈 칸, 다뤄지지 않은 부분 · 아직 채워지지 않은 항목을 비유할 때. "The empty cell is specific and close to home"</td></tr><tr><td><strong>close to home</strong></td><td>남의 일 같지 않은, 자신에게도 해당되는 · 지적이 자기 자신에게도 적용될 때. "specific and close to home"</td></tr><tr><td><strong>sweep (leverage)</strong></td><td>값을 범위대로 훑으며 바꿔보다 · 변수를 여러 값으로 반복 테스트할 때. "sweep leverage, plot stated percentage against realised"</td></tr><tr><td><strong>trivially measurable</strong></td><td>측정하기 매우 쉬운 · 별다른 노력 없이 검증 가능한 대상을 말할 때. "It is trivially measurable: sweep leverage, plot"</td></tr><tr><td><strong>pull against each other</strong></td><td>서로 상충되다, 반대 방향으로 작용하다 · 두 좋은 속성이 동시에 성립하기 어려울 때. "Both are good properties and they pull against each other"</td></tr><tr><td><strong>dominate the bill</strong></td><td>비용의 대부분을 차지하다 · 여러 항목 중 한 항목이 지출을 압도할 때. "Which tool dominates the bill"</td></tr><tr><td><strong>outrun</strong></td><td>~을 앞지르다, 능가하다 · 속도나 규모가 다른 것을 추월할 때. "A rate outruns a fixed capacity by default"</td></tr><tr><td><strong>chokepoint vs checkpoint</strong></td><td>병목 지점 대 검문소 · 사람 수 기반 통제와 트래픽 기반 통제를 대비할 때. "a chokepoint that scales with traffic does not"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -561,9 +582,12 @@
 <p><strong>간극은 기강 문제가 아니라 구조입니다.</strong> <strong>검토 역량은 고정된 사람 수</strong>입니다. <strong>도입은 속도(rate)</strong> 이고, 현업 팀은 <strong>누구에게 묻지 않고도 그 속도를 올릴 수 있습니다</strong> — 도구는 SaaS 이고 예산은 법인카드니까요. <strong>속도는 고정 역량을 기본값으로 앞지릅니다.</strong> 그래서 <strong>&quot;팀을 늦춰라&quot;는 선택지가 아니고</strong>, 광고가 <strong>늦추지 않겠다고 안전하게 약속할 수 있는</strong> 이유입니다.</p>
 <p><strong>따라서 통제는 검토일 수 없습니다.</strong> 승인이 도입 속도를 따라잡지 못한다면, 다스리는 것은 <strong>관문(checkpoint)이 아니라 런타임 속성</strong>이어야 합니다 — <strong>누가 검토했든 안 했든 모든 에이전트가 지나가는 게이트웨이</strong>, 그리고 <strong>지출 한도·자격증명 범위·감사 기록이 거기서 강제</strong>되는 것. 이는 이 카드의 결론을 <strong>운영이 아니라 거버넌스 쪽에서</strong> 도달한 것이고, 한 문장으로 벼려집니다 — <strong>사람 수에 비례하는 관문은 속도에 집니다. 트래픽에 비례하는 병목은 지지 않습니다.</strong></p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sits between</strong></td><td>~사이에 위치하다 · 두 요소 사이 중간 지점을 가리킬 때. "whatever sits between an agent and the tools it calls"</td></tr><tr><td><strong>wrap ... in ...</strong></td><td>~을 …으로 감싸다 · 기술 요소를 다른 메커니즘으로 둘러쌀 때. "wraps a market-tuned AI model in deterministic execution"</td></tr><tr><td><strong>spend ceiling</strong></td><td>지출 상한선 · 에이전트나 계정의 최대 지출 한도. "no per-agent identity, no spend ceiling"</td></tr><tr><td><strong>hallucinate a position</strong></td><td>포지션을 착각해 지어내다 · AI가 없는 거래 포지션을 있다고 오판하는 것. "without hallucinating a position or forgetting a stop"</td></tr><tr><td><strong>empty cell</strong></td><td>표의 빈 칸, 다뤄지지 않은 부분 · 아직 채워지지 않은 항목을 비유할 때. "The empty cell is specific and close to home"</td></tr><tr><td><strong>close to home</strong></td><td>남의 일 같지 않은, 자신에게도 해당되는 · 지적이 자기 자신에게도 적용될 때. "specific and close to home"</td></tr><tr><td><strong>sweep (leverage)</strong></td><td>값을 범위대로 훑으며 바꿔보다 · 변수를 여러 값으로 반복 테스트할 때. "sweep leverage, plot stated percentage against realised"</td></tr><tr><td><strong>trivially measurable</strong></td><td>측정하기 매우 쉬운 · 별다른 노력 없이 검증 가능한 대상을 말할 때. "It is trivially measurable: sweep leverage, plot"</td></tr><tr><td><strong>pull against each other</strong></td><td>서로 상충되다, 반대 방향으로 작용하다 · 두 좋은 속성이 동시에 성립하기 어려울 때. "Both are good properties and they pull against each other"</td></tr><tr><td><strong>dominate the bill</strong></td><td>비용의 대부분을 차지하다 · 여러 항목 중 한 항목이 지출을 압도할 때. "Which tool dominates the bill"</td></tr><tr><td><strong>outrun</strong></td><td>~을 앞지르다, 능가하다 · 속도나 규모가 다른 것을 추월할 때. "A rate outruns a fixed capacity by default"</td></tr><tr><td><strong>chokepoint vs checkpoint</strong></td><td>병목 지점 대 검문소 · 사람 수 기반 통제와 트래픽 기반 통제를 대비할 때. "a chokepoint that scales with traffic does not"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-two-currencies-one-ledger.html">&larr; 111. Two currencies on one ledger — the spread is the claim</a><a href="pocs-agents-computer-use.html">113. Can an agent drive a computer yet — and if so, whose? &rarr;</a></div>
+    <div class="pager"><a href="pocs-two-currencies-one-ledger.html">&larr; 112. Two currencies on one ledger — the spread is the claim</a><a href="pocs-agents-computer-use.html">114. Can an agent drive a computer yet — and if so, whose? &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -609,17 +633,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

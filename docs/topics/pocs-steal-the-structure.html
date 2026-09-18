@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Two reading lists, and the same instruction — steal the structure, not the content — Tech Notes</title>
+<title>Two reading lists, and the same instruction — steal the structure, not the content — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Two reading lists, and the same instruction — steal the structure, not the content</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Two reading lists, and the same instruction — steal the structure, not the content</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#149</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#150</span><span>PoC</span></p>
       <h1>Two reading lists, and the same instruction — steal the structure, not the content</h1>
       <p class="lead">Ninety-odd distilled agent skills from Google, and a free three-hour course that runs the whole arc from agent design to revenue. Neither is worth reading for what it says. Both are worth thirty minutes for how they are shaped.</p>
       <p class="meta">Two thirty-minute skims, not two courses. For the skills repository: pick 2-3 well-written skills and steal their structure — how a trigger is described, how much context a skill assumes, where it stops. For the course: watch the design intro (00:00) and the loops-versus-graphs chapter (2:24) and skip the rest unless something in those two chapters is genuinely new. (Notion queue, added 2026-08-07 and 2026-08-08.)</p>
@@ -433,7 +451,10 @@
 <h3>Why loops versus graphs is the chapter to keep</h3>
 <p>It is the one structural decision in agent design that survives changing every other choice: <strong>a loop re-enters the same step until a condition holds; a graph moves through named states with explicit edges.</strong> The first is easier to write and harder to reason about; the second is the opposite. Everything about observability, retry behaviour and cost ceilings follows from it, which is why <code>the-harness-not-the-model</code> cares about it and a monetization chapter does not.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steal the structure</strong></td><td>형식(구조)만 따다 쓰다(내용이 아니라) · 남의 자료에서 배울 부분을 짚을 때. "steal the structure, not the content"</td></tr><tr><td><strong>distilled</strong></td><td>정제된·핵심만 추린 · 방대한 지식을 요약해 담아낸 것. "Ninety-odd distilled agent skills from Google"</td></tr><tr><td><strong>sitting at the intersection of</strong></td><td>~의 교차점에 있는 · 두 분야가 겹치는 지점에 위치할 때. "sitting at the intersection of the LLM track"</td></tr><tr><td><strong>spanning</strong></td><td>~을 아우르는·걸쳐 있는 · 강의나 자료가 여러 주제를 포괄할 때. "A free ex-Google-engineer course spanning agent design"</td></tr><tr><td><strong>end-to-end arc</strong></td><td>처음부터 끝까지 이어지는 흐름 · 단편이 아니라 전체 과정을 보여줄 때. "The value is the end-to-end arc"</td></tr><tr><td><strong>deserve more than</strong></td><td>~할 가치가 그 이상은 아니다(부정문에서) · 투입할 시간의 상한을 정할 때. "neither deserves more than thirty minutes"</td></tr><tr><td><strong>quietly assumes otherwise</strong></td><td>은근슬쩍 다르게 전제하다 · 겉으론 안 그런 척하지만 실은 다른 가정을 깔고 있을 때. "a reading list is exactly the thing that quietly assumes"</td></tr><tr><td><strong>cannot be borrowed carelessly</strong></td><td>함부로 빌려 쓸 수 없다 · 맥락 없이 그대로 가져다 쓰면 안 되는 것. "the only part that cannot be borrowed carelessly"</td></tr><tr><td><strong>encode an assumption</strong></td><td>전제를 담고 있다(내포하다) · 설계 하나에 암묵적 가정이 녹아있을 때. "it encodes an assumption about what the reader is doing"</td></tr><tr><td><strong>survive changing</strong></td><td>(다른 걸 다 바꿔도) 그대로 남다·유효하다 · 다른 선택이 바뀌어도 변치 않는 핵심 결정. "survives changing every other choice"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -487,9 +508,12 @@
 <h3>왜 루프 대 그래프가 남길 장인가</h3>
 <p><strong>다른 모든 선택을 바꿔도 살아남는 유일한 구조적 결정</strong>이기 때문입니다 — <strong>루프는 조건이 성립할 때까지 같은 단계로 다시 들어가고, 그래프는 명시적 간선을 따라 이름 붙은 상태들을 지나갑니다.</strong> 앞은 쓰기 쉽고 추론하기 어렵고, 뒤는 반대입니다. <strong>관측 가능성·재시도 동작·비용 상한이 전부 여기서 따라 나옵니다.</strong> <code>the-harness-not-the-model</code> 이 이것을 신경 쓰고 수익화 장이 신경 쓰지 않는 이유입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steal the structure</strong></td><td>형식(구조)만 따다 쓰다(내용이 아니라) · 남의 자료에서 배울 부분을 짚을 때. "steal the structure, not the content"</td></tr><tr><td><strong>distilled</strong></td><td>정제된·핵심만 추린 · 방대한 지식을 요약해 담아낸 것. "Ninety-odd distilled agent skills from Google"</td></tr><tr><td><strong>sitting at the intersection of</strong></td><td>~의 교차점에 있는 · 두 분야가 겹치는 지점에 위치할 때. "sitting at the intersection of the LLM track"</td></tr><tr><td><strong>spanning</strong></td><td>~을 아우르는·걸쳐 있는 · 강의나 자료가 여러 주제를 포괄할 때. "A free ex-Google-engineer course spanning agent design"</td></tr><tr><td><strong>end-to-end arc</strong></td><td>처음부터 끝까지 이어지는 흐름 · 단편이 아니라 전체 과정을 보여줄 때. "The value is the end-to-end arc"</td></tr><tr><td><strong>deserve more than</strong></td><td>~할 가치가 그 이상은 아니다(부정문에서) · 투입할 시간의 상한을 정할 때. "neither deserves more than thirty minutes"</td></tr><tr><td><strong>quietly assumes otherwise</strong></td><td>은근슬쩍 다르게 전제하다 · 겉으론 안 그런 척하지만 실은 다른 가정을 깔고 있을 때. "a reading list is exactly the thing that quietly assumes"</td></tr><tr><td><strong>cannot be borrowed carelessly</strong></td><td>함부로 빌려 쓸 수 없다 · 맥락 없이 그대로 가져다 쓰면 안 되는 것. "the only part that cannot be borrowed carelessly"</td></tr><tr><td><strong>encode an assumption</strong></td><td>전제를 담고 있다(내포하다) · 설계 하나에 암묵적 가정이 녹아있을 때. "it encodes an assumption about what the reader is doing"</td></tr><tr><td><strong>survive changing</strong></td><td>(다른 걸 다 바꿔도) 그대로 남다·유효하다 · 다른 선택이 바뀌어도 변치 않는 핵심 결정. "survives changing every other choice"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-gap-widens-where-wrong-is-silent.html">&larr; 148. The gap widens only where being wrong is silent</a><a href="pocs-claude-in-slack.html">150. Claude in Slack — the workflow first, the presence second &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-gap-widens-where-wrong-is-silent.html">&larr; 149. The gap widens only where being wrong is silent</a><a href="pocs-claude-in-slack.html">151. Claude in Slack — the workflow first, the presence second &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -535,17 +559,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

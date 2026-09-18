@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -400,7 +404,10 @@ except PermissionError as e:
       <p>Build a simple agent loop that separates tools into read-only and write, attach an approval gate, a call cap, and an idempotency key to the write tools, and verify that a retry doesn't cause duplicate execution.</p>
       <h2>Practical Connection</h2>
       <p>A tool that sends on-chain transactions is the textbook example of an irreversible action — without gates like pre-signing simulation, an amount cap, and nonce management, a single automatic retry becomes a duplicate transaction.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>least privilege</strong></td><td>최소 권한 원칙 · 도구마다 꼭 필요한 권한만 부여하는 보안 설계. "granting least privilege per tool"</td></tr><tr><td><strong>explicit gate</strong></td><td>명시적인 관문, 뚜렷하게 세워둔 승인 절차 · 되돌릴 수 없는 행동 앞에 반드시 두는 장치. "an explicit gate... in front of any irreversible action"</td></tr><tr><td><strong>idempotent</strong></td><td>멱등성이 있는, 몇 번을 반복해도 결과가 같은 · 자동 재시도를 허용해도 안전한 조건. "guaranteed idempotent"</td></tr><tr><td><strong>provenance</strong></td><td>출처, 이력 추적 정보 · 어떤 입력과 모델이 결정을 내렸는지 기록하는 것. "Data and model provenance"</td></tr><tr><td><strong>be undone</strong></td><td>되돌려질 수 있다, 취소될 수 있다 · 실수가 발생했을 때 복구 가능한지 여부. "whether a mistake can be undone"</td></tr><tr><td><strong>textbook example</strong></td><td>전형적인 사례, 교과서에 나올 법한 예 · 대표적인 위험 상황을 가리킬 때. "the textbook example of an irreversible action"</td></tr><tr><td><strong>irreversible</strong></td><td>되돌릴 수 없는 · 실행되면 취소가 불가능한 행동(온체인 송금 등)을 가리킬 때. "in front of any irreversible action"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -465,7 +472,10 @@ except PermissionError as e:
       <p>간단한 에이전트 루프를 만들되 도구를 읽기 전용과 쓰기로 나누고, 쓰기 도구에는 승인 게이트·호출 상한·멱등 키를 붙여 재시도가 중복 실행을 만들지 않는지 검증해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>온체인 트랜잭션을 보내는 도구는 되돌릴 수 없는 행위의 전형이라, 서명 전 시뮬레이션·금액 상한·논스 관리 같은 게이트가 없으면 자동 재시도 한 번이 곧 중복 전송이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>least privilege</strong></td><td>최소 권한 원칙 · 도구마다 꼭 필요한 권한만 부여하는 보안 설계. "granting least privilege per tool"</td></tr><tr><td><strong>explicit gate</strong></td><td>명시적인 관문, 뚜렷하게 세워둔 승인 절차 · 되돌릴 수 없는 행동 앞에 반드시 두는 장치. "an explicit gate... in front of any irreversible action"</td></tr><tr><td><strong>idempotent</strong></td><td>멱등성이 있는, 몇 번을 반복해도 결과가 같은 · 자동 재시도를 허용해도 안전한 조건. "guaranteed idempotent"</td></tr><tr><td><strong>provenance</strong></td><td>출처, 이력 추적 정보 · 어떤 입력과 모델이 결정을 내렸는지 기록하는 것. "Data and model provenance"</td></tr><tr><td><strong>be undone</strong></td><td>되돌려질 수 있다, 취소될 수 있다 · 실수가 발생했을 때 복구 가능한지 여부. "whether a mistake can be undone"</td></tr><tr><td><strong>textbook example</strong></td><td>전형적인 사례, 교과서에 나올 법한 예 · 대표적인 위험 상황을 가리킬 때. "the textbook example of an irreversible action"</td></tr><tr><td><strong>irreversible</strong></td><td>되돌릴 수 없는 · 실행되면 취소가 불가능한 행동(온체인 송금 등)을 가리킬 때. "in front of any irreversible action"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-98.html">&larr; 150. RAG 설계·리트리버 품질 지표와 평가 하네스(골든·프로퍼티·회귀)</a><a href="algorithms-100.html">152. [Final] 내 스택의 ADR + 위협 모델 한 편 쓰기 &rarr;</a></div>
 </div>

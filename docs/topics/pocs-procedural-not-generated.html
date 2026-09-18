@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Procedural, not generated — when the model is a program — Tech Notes</title>
+<title>Procedural, not generated — when the model is a program — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Procedural, not generated — when the model is a program</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Procedural, not generated — when the model is a program</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#138</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#139</span><span>PoC</span></p>
       <h1>Procedural, not generated — when the model is a program</h1>
       <p class="lead">A post claims Kimi K3 built an app turning 2D schematics into fully procedural 3D models, with a code-generated tank swappable for anything else. The load-bearing word is procedural: the output is code that makes geometry, not a mesh. Whether the arrow really points 2D → 3D is testable in one shot.</p>
       <p class="meta">Not yet scoped — and the whole first step is one falsifiable test, not a build. Feed it a schematic it has never seen: a drawing of something that is not a vehicle, from a domain the demo never showed. If the arrow points 2D → 3D, a model comes out. If nothing usable comes out, the app is a parameterized generator with a blueprint view, which is a different and still interesting thing — just not the claimed one. Source: an X post by @RoundtableSpace, 2026-08-26, showing a 55-second video of a browser app with view buttons (ISO, 3/4, SIDE, FRONT, PLAN) and action buttons (RUN, DRIVE, FIRE, EXPLODE). No repository, paper or primary link accompanies it; treat every claim here as unverified.</p>
@@ -435,7 +453,10 @@
 <h3>Honesty about the source</h3>
 <p>This is a social post with no repository, no paper and no primary link, forty-two minutes old at capture, carrying 19 likes against 16,000 views — engagement that says <em>seen</em> rather than <em>verified</em>. Nothing here should be repeated as fact. The card exists because the <strong>distinction</strong> is worth holding, not because the demo is established.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>load-bearing word</strong></td><td>핵심을 떠받치는 단어(의미상 가장 중요한 단어) · 문장 전체 주장이 걸린 단어. "The load-bearing word is procedural"</td></tr><tr><td><strong>testable in one shot</strong></td><td>단 한 번의 시도로 검증 가능한 · 실험 하나로 참·거짓이 갈릴 때. "is testable in one shot"</td></tr><tr><td><strong>a bag of vertices</strong></td><td>정점(버텍스) 덩어리(의미 없이 쌓인 데이터라는 비유) · 손으로만 편집 가능한 메시를 낮춰 부를 때. "A generated model is a mesh: a bag of vertices"</td></tr><tr><td><strong>exposed knobs</strong></td><td>겉으로 노출된 조절 손잡이(설정 가능한 매개변수) · 코드는 고정, 값만 조절 가능한 상태. "Fixed code, exposed knobs"</td></tr><tr><td><strong>consistent with</strong></td><td>~와 부합하다·일치하다 · 관찰 결과가 어떤 가설과 맞아떨어질 때. "The demo is consistent with the second"</td></tr><tr><td><strong>orthographic projections</strong></td><td>정투상도(위·앞·옆에서 본 도면) · CAD가 만들어내는 표준 뷰. "the standard orthographic projections that CAD software produces"</td></tr><tr><td><strong>seen rather than verified</strong></td><td>검증된 게 아니라 그냥 보여지기만 한 · 조회수는 높지만 사실 확인이 안 된 상태. "engagement that says seen rather than verified"</td></tr><tr><td><strong>swap out for</strong></td><td>~로 갈아끼우다·교체하다 · 모듈처럼 대상만 바꿔 끼울 수 있을 때. "the tank can be swapped out for anything else"</td></tr><tr><td><strong>a direction problem</strong></td><td>방향(인과관계)이 뒤바뀐 문제 · 입력과 출력이 실제론 반대일 수 있다는 의심. "the claim has a direction problem worth catching"</td></tr><tr><td><strong>roughly right</strong></td><td>대략 맞는(정확하진 않아도 얼추 맞는) · 결과가 완벽하진 않지만 방향이 맞을 때. "A model appears and is roughly right"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -491,9 +512,12 @@
 <h3>출처에 대한 정직함</h3>
 <p>저장소도 논문도 1차 링크도 없는 소셜 게시물이고, 캡처 시점 42분 경과, 조회 1.6만에 좋아요 19 — <strong>&quot;봤다&quot;는 말이지 &quot;검증됐다&quot;는 말이 아닌</strong> 반응입니다. <strong>여기의 어떤 것도 사실로 옮겨 적으면 안 됩니다.</strong> 이 카드가 존재하는 이유는 데모가 확립돼서가 아니라 <strong>그 구분이 들고 있을 값어치가 있기</strong> 때문입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>load-bearing word</strong></td><td>핵심을 떠받치는 단어(의미상 가장 중요한 단어) · 문장 전체 주장이 걸린 단어. "The load-bearing word is procedural"</td></tr><tr><td><strong>testable in one shot</strong></td><td>단 한 번의 시도로 검증 가능한 · 실험 하나로 참·거짓이 갈릴 때. "is testable in one shot"</td></tr><tr><td><strong>a bag of vertices</strong></td><td>정점(버텍스) 덩어리(의미 없이 쌓인 데이터라는 비유) · 손으로만 편집 가능한 메시를 낮춰 부를 때. "A generated model is a mesh: a bag of vertices"</td></tr><tr><td><strong>exposed knobs</strong></td><td>겉으로 노출된 조절 손잡이(설정 가능한 매개변수) · 코드는 고정, 값만 조절 가능한 상태. "Fixed code, exposed knobs"</td></tr><tr><td><strong>consistent with</strong></td><td>~와 부합하다·일치하다 · 관찰 결과가 어떤 가설과 맞아떨어질 때. "The demo is consistent with the second"</td></tr><tr><td><strong>orthographic projections</strong></td><td>정투상도(위·앞·옆에서 본 도면) · CAD가 만들어내는 표준 뷰. "the standard orthographic projections that CAD software produces"</td></tr><tr><td><strong>seen rather than verified</strong></td><td>검증된 게 아니라 그냥 보여지기만 한 · 조회수는 높지만 사실 확인이 안 된 상태. "engagement that says seen rather than verified"</td></tr><tr><td><strong>swap out for</strong></td><td>~로 갈아끼우다·교체하다 · 모듈처럼 대상만 바꿔 끼울 수 있을 때. "the tank can be swapped out for anything else"</td></tr><tr><td><strong>a direction problem</strong></td><td>방향(인과관계)이 뒤바뀐 문제 · 입력과 출력이 실제론 반대일 수 있다는 의심. "the claim has a direction problem worth catching"</td></tr><tr><td><strong>roughly right</strong></td><td>대략 맞는(정확하진 않아도 얼추 맞는) · 결과가 완벽하진 않지만 방향이 맞을 때. "A model appears and is roughly right"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-thirdweb.html">&larr; 137. Thirdweb — platform survey</a><a href="pocs-sub-2bit-local-llm.html">139. Sub-2-bit LLMs, locally &rarr;</a></div>
+    <div class="pager"><a href="pocs-thirdweb.html">&larr; 138. Thirdweb — platform survey</a><a href="pocs-sub-2bit-local-llm.html">140. Sub-2-bit LLMs, locally &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -539,17 +563,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

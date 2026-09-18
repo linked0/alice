@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -409,7 +413,10 @@ assert d.color == &quot;white&quot; and e.color == &quot;black&quot;
       <p>Turn on GODEBUG=gctrace=1 for a Go service and vary GOGC and the memory limit while recording how the GC cycle count, mark-assist volume, and p99 latency change.</p>
       <h2>Practical Connection</h2>
       <p>In allocation-heavy loops like block processing or order matching, reusing objects and cutting allocations pays off more than GC tuning does, and making that call requires understanding what the GC actually treats as cost.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>write barrier</strong></td><td>쓰기 배리어 · GC가 객체 그래프 변경을 추적하려고 쓰기 시점에 개입하는 장치. "a write barrier records changes to maintain the tri-color invariant"</td></tr><tr><td><strong>tri-color invariant</strong></td><td>삼색 불변식 · 동시 마킹(concurrent marking)이 지켜야 할 규칙. "maintain the tri-color invariant"</td></tr><tr><td><strong>pace (동사)</strong></td><td>(작업) 속도를 조절하다, 맞추다 · GC가 목표치에 맞춰 마킹 속도를 조정하는 것. "paces its marking rate to hit a GOGC target"</td></tr><tr><td><strong>wreck</strong></td><td>완전히 망치다, 결딴내다 · GC 혼자서도 p99 지연을 망칠 수 있다는 강한 표현. "GC is a factor that can wreck p99 all by itself"</td></tr><tr><td><strong>trap ... in</strong></td><td>~에 가두다, 몰아넣다 · 잘못된 이해가 엉성한 해결책만 쓰게 만드는 것. "traps you in the blunt remedy"</td></tr><tr><td><strong>blunt remedy</strong></td><td>투박한(정교하지 못한) 해결책 · 근본 원인을 안 보고 쓰는 임시방편. "the blunt remedy of just growing the heap"</td></tr><tr><td><strong>pay off</strong></td><td>이득이 되다, 보람이 있다 · 어떤 조치가 다른 것보다 효과적이라는 뜻. "pays off more than GC tuning does"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -483,7 +490,10 @@ assert d.color == &quot;white&quot; and e.color == &quot;black&quot;
       <p>Go 서비스 하나에 GODEBUG=gctrace=1을 켜고 GOGC와 메모리 리밋을 바꿔가며 GC 주기·마킹 보조(assist) 발생량·p99 지연 변화를 기록해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>블록 처리나 주문 매칭처럼 할당이 몰리는 루프에서는 객체 재사용과 할당 줄이기가 GC 튜닝보다 효과가 크고, 그 판단을 하려면 GC가 무엇을 비용으로 삼는지 알아야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>write barrier</strong></td><td>쓰기 배리어 · GC가 객체 그래프 변경을 추적하려고 쓰기 시점에 개입하는 장치. "a write barrier records changes to maintain the tri-color invariant"</td></tr><tr><td><strong>tri-color invariant</strong></td><td>삼색 불변식 · 동시 마킹(concurrent marking)이 지켜야 할 규칙. "maintain the tri-color invariant"</td></tr><tr><td><strong>pace (동사)</strong></td><td>(작업) 속도를 조절하다, 맞추다 · GC가 목표치에 맞춰 마킹 속도를 조정하는 것. "paces its marking rate to hit a GOGC target"</td></tr><tr><td><strong>wreck</strong></td><td>완전히 망치다, 결딴내다 · GC 혼자서도 p99 지연을 망칠 수 있다는 강한 표현. "GC is a factor that can wreck p99 all by itself"</td></tr><tr><td><strong>trap ... in</strong></td><td>~에 가두다, 몰아넣다 · 잘못된 이해가 엉성한 해결책만 쓰게 만드는 것. "traps you in the blunt remedy"</td></tr><tr><td><strong>blunt remedy</strong></td><td>투박한(정교하지 못한) 해결책 · 근본 원인을 안 보고 쓰는 임시방편. "the blunt remedy of just growing the heap"</td></tr><tr><td><strong>pay off</strong></td><td>이득이 되다, 보람이 있다 · 어떤 조치가 다른 것보다 효과적이라는 뜻. "pays off more than GC tuning does"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-28.html">&larr; 80. WASM 실행 모델과 샌드박싱 경계</a><a href="algorithms-30.html">82. Rust 소유권·차용 검사기 내부(NLL)와 우회 패턴 &rarr;</a></div>
 </div>

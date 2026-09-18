@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ print(f&quot;\n총 deopt 횟수: {fn.deopt_count}&quot;)
       <p>In Node.js, benchmark a hot function called with a single type only, versus calling it with a mix of differently-shaped objects partway through, and check the recompilation/deopt logs with <code>--trace-deopt</code> and <code>--trace-opt</code>.</p>
       <h2>Practical Connection</h2>
       <p>A hot loop written in TypeScript, like the Verex matching engine's, needs to keep order-object shapes consistent to stay in the optimized tier, and when benchmarking, the warmup period needs to be discarded for the p99 numbers to mean anything.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>warmup</strong></td><td>초반 저성능 구간, 예열 단계 · "a low-performance warmup period at the start"</td></tr><tr><td><strong>fall off a cliff</strong></td><td>성능이 급격히 곤두박질치다 · "performance fall off a cliff"</td></tr><tr><td><strong>guard (code)</strong></td><td>가정이 맞는지 검사하는 코드 조각 · "it embeds guards in the code to check them"</td></tr><tr><td><strong>deoptimization</strong></td><td>최적화를 해제하고 느린 경로로 되돌리는 것 · "deoptimization (deopt) kicks in"</td></tr><tr><td><strong>polymorphic</strong></td><td>여러 형태를 가지는, 다형적인 · "a single polymorphic object shape used at one call site"</td></tr><tr><td><strong>hot (code)</strong></td><td>자주 실행되어 최적화 대상이 되는 · "only hot code that crosses a threshold"</td></tr><tr><td><strong>discard</strong></td><td>버리다, 계산에서 제외하다 · "the warmup period needs to be discarded"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ print(f&quot;\n총 deopt 횟수: {fn.deopt_count}&quot;)
       <p>Node.js에서 hot 함수 하나를 단일 타입으로만 호출한 경우와 중간에 다른 모양의 객체를 섞어 호출한 경우를 각각 벤치마크하고, <code>--trace-deopt</code>와 <code>--trace-opt</code>로 재컴파일·deopt 로그를 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex 매칭 엔진처럼 TypeScript로 짠 hot loop는 주문 객체의 shape를 일관되게 유지해야 최적화 티어에 머무르며, 벤치마크 시 워밍업 구간을 버려야 p99 수치가 의미를 갖는다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>warmup</strong></td><td>초반 저성능 구간, 예열 단계 · "a low-performance warmup period at the start"</td></tr><tr><td><strong>fall off a cliff</strong></td><td>성능이 급격히 곤두박질치다 · "performance fall off a cliff"</td></tr><tr><td><strong>guard (code)</strong></td><td>가정이 맞는지 검사하는 코드 조각 · "it embeds guards in the code to check them"</td></tr><tr><td><strong>deoptimization</strong></td><td>최적화를 해제하고 느린 경로로 되돌리는 것 · "deoptimization (deopt) kicks in"</td></tr><tr><td><strong>polymorphic</strong></td><td>여러 형태를 가지는, 다형적인 · "a single polymorphic object shape used at one call site"</td></tr><tr><td><strong>hot (code)</strong></td><td>자주 실행되어 최적화 대상이 되는 · "only hot code that crosses a threshold"</td></tr><tr><td><strong>discard</strong></td><td>버리다, 계산에서 제외하다 · "the warmup period needs to be discarded"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-23.html">&larr; 75. 인라이닝·루프 변환·자동 벡터화</a><a href="algorithms-25.html">77. 스택 머신 vs 레지스터 머신 &rarr;</a></div>
 </div>

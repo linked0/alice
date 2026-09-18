@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -386,7 +390,10 @@ print(&quot;release/acquire happens-before held every time:&quot;, runs_correct 
       <p>Implement the classic flag/data variable pattern once with relaxed and once with release/acquire ordering, run it millions of times on an ARM-family device, and count how often the ordering appears reversed.</p>
       <h2>Practical Connection</h2>
       <p>This is the correctness basis for lock-free queues and shared-state flags in high-performance server code — for Verex's in-memory order book shared across multiple goroutines, it's the standard for judging where atomic operations suffice and where a mutex becomes necessary.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>as long as</strong></td><td>~하는 한, ~이기만 하면 · 단일 스레드 의미만 지켜지면 재배열이 허용됨 · "As long as single-thread semantics are preserved"</td></tr><tr><td><strong>pair with</strong></td><td>~과 짝을 이루다 · release store와 acquire load가 짝지어질 때 관계가 성립함 · "a release store pairs with an acquire load"</td></tr><tr><td><strong>happens-before</strong></td><td>(일어난 후에 일어남을 보장하는) 선행 관계 · 두 연산 사이의 순서 보장을 나타내는 용어 · "a happens-before relationship is established"</td></tr><tr><td><strong>go further</strong></td><td>한 단계 더 나아가다 · seq_cst가 다른 정렬 방식보다 더 강한 보장을 함 · "seq_cst goes further and guarantees a single global order"</td></tr><tr><td><strong>show up</strong></td><td>(문제가) 드러나다, 나타나다 · 약한 메모리 모델이나 고부하에서만 버그가 드러남 · "only shows up under a weaker memory model"</td></tr><tr><td><strong>hard-to-reproduce</strong></td><td>재현하기 어려운 · 순서 오류 버그가 흔히 이런 성격을 가짐 · "an extremely hard-to-reproduce bug"</td></tr><tr><td><strong>the standard for judging</strong></td><td>판단 기준 · 뮤텍스와 원자적 연산 중 어디를 써야 할지 가르는 기준 · "it&#39;s the standard for judging where atomic operations suffice"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -437,7 +444,10 @@ print(&quot;release/acquire happens-before held every time:&quot;, runs_correct 
       <p>flag/data 두 변수 패턴을 relaxed와 release/acquire로 각각 구현해 ARM 계열 기기에서 수백만 회 반복 실행하며 순서가 뒤집혀 보이는 경우를 세어보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>락 프리 큐나 공유 상태 플래그를 쓰는 고성능 서버 코드의 정확성 근거이며, Verex 인메모리 오더북을 여러 고루틴이 공유할 때 어디까지 원자 연산으로 되고 어디부터 뮤텍스가 필요한지 판단하는 기준이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>as long as</strong></td><td>~하는 한, ~이기만 하면 · 단일 스레드 의미만 지켜지면 재배열이 허용됨 · "As long as single-thread semantics are preserved"</td></tr><tr><td><strong>pair with</strong></td><td>~과 짝을 이루다 · release store와 acquire load가 짝지어질 때 관계가 성립함 · "a release store pairs with an acquire load"</td></tr><tr><td><strong>happens-before</strong></td><td>(일어난 후에 일어남을 보장하는) 선행 관계 · 두 연산 사이의 순서 보장을 나타내는 용어 · "a happens-before relationship is established"</td></tr><tr><td><strong>go further</strong></td><td>한 단계 더 나아가다 · seq_cst가 다른 정렬 방식보다 더 강한 보장을 함 · "seq_cst goes further and guarantees a single global order"</td></tr><tr><td><strong>show up</strong></td><td>(문제가) 드러나다, 나타나다 · 약한 메모리 모델이나 고부하에서만 버그가 드러남 · "only shows up under a weaker memory model"</td></tr><tr><td><strong>hard-to-reproduce</strong></td><td>재현하기 어려운 · 순서 오류 버그가 흔히 이런 성격을 가짐 · "an extremely hard-to-reproduce bug"</td></tr><tr><td><strong>the standard for judging</strong></td><td>판단 기준 · 뮤텍스와 원자적 연산 중 어디를 써야 할지 가르는 기준 · "it&#39;s the standard for judging where atomic operations suffice"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-35.html">&larr; 87. [복습] 실행 계층 지도 한 장으로</a><a href="algorithms-37.html">89. 락프리·wait-free, ABA 문제, 해저드 포인터·에포크 회수 &rarr;</a></div>
 </div>

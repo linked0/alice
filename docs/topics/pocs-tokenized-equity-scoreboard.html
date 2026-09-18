@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The token is not the product — composability is, and volume is its scoreboard — Tech Notes</title>
+<title>The token is not the product — composability is, and volume is its scoreboard — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; The token is not the product — composability is, and volume is its scoreboard</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The token is not the product — composability is, and volume is its scoreboard</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#115</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#116</span><span>PoC</span></p>
       <h1>The token is not the product — composability is, and volume is its scoreboard</h1>
       <p class="lead">Coinbase Tokenized Stocks went live on Base — Nvidia, Meta, Apple and Alphabet first, thousands promised. Coinbase is third into a ~$3B market Ondo already leads with ~$1B. The bet is not that its token is better. It is that a token which survives being used as collateral is worth more than a token that merely arrived first — and that claim is settled by a different number than the one the leaderboard currently shows.</p>
       <p class="meta">Not scoped as a build — scoped as a measurement, because the claim in the title is falsifiable and cheap to test. Pick one ticker carried by all three issuers. For four weeks, record two numbers a week: assets outstanding per issuer, and on-chain transfer plus borrow volume on Base venues. Then answer one question with the data rather than with a narrative — did the tokens move, or did they sit? A token that sits is a wrapper with a custodian attached; a token that moves through a lending market is the thing this card is actually about. Everything factual here comes from a Bankless piece dated 2026-08-24 (William M. Peaster) — the ~$3B market size, Ondo&#39;s ~$1B, Kraken&#39;s xStocks and Binance&#39;s bStocks behind it, Alpaca as broker-custodian, dividends handled at the token level under B20, and restrictions applied at the app layer rather than chain-wide. Confirm each against primary sources before quoting any of it.</p>
@@ -462,7 +480,10 @@
 <h3>What would actually settle it</h3>
 <p>One question, checkable without access to anybody&#39;s internal numbers: <strong>do the major Base lending and AMM venues list these tokens, and does open borrow against them grow?</strong> If yes, the composability bet is paying and volume is the right scoreboard. If the tokens are held and never moved, then being third into the market with a better wrapper is simply being third.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>leads on</strong></td><td>~부문에서 앞서다 · 특정 지표에서 1위인 상태를 말할 때. "Ondo leads on assets outstanding"</td></tr><tr><td><strong>parked capital</strong></td><td>놀고 있는(움직이지 않는) 자본 · 예치만 되고 실제로 쓰이지 않는 자금. "gathering parked capital"</td></tr><tr><td><strong>a wrapper</strong></td><td>(실물을 감싼) 포장 상품, 껍데기 · 실질 활용 없이 형태만 씌운 상품을 가리킬 때. "a wrapper with a custodian attached"</td></tr><tr><td><strong>survive leaving home</strong></td><td>원래 있던 곳을 떠나서도 살아남다 · 발행 앱을 벗어나도 기능이 유지될 때의 비유. "make the token survive leaving home"</td></tr><tr><td><strong>corporate action</strong></td><td>기업 행위(배당·분할 등 주주에 영향 주는 조치) · 주식 관련 이벤트를 가리키는 금융 용어. "survive a corporate action while it is gone"</td></tr><tr><td><strong>an option on X rather than X itself</strong></td><td>X 자체가 아니라 X에 대한 선택권일 뿐 · 잠재력은 있지만 아직 실현 안 된 것을 구분할 때. "an option on distribution rather than distribution itself"</td></tr><tr><td><strong>was a brochure</strong></td><td>실체 없는 홍보물에 불과했다 · 근사한 주장이 실제로는 마케팅 문구였음을 드러낼 때. "the composability claim was a brochure"</td></tr><tr><td><strong>third into</strong></td><td>(시장에) 세 번째로 진입한 · 경쟁에서 몇 번째 주자인지 말할 때. "Coinbase is third into a market"</td></tr><tr><td><strong>blind to</strong></td><td>~을 보지 못하는, ~에 눈감은 · 특정 지표가 놓치는 맹점을 말할 때. "Blind to whether anything ever moves"</td></tr><tr><td><strong>settled by</strong></td><td>~로 판가름 나다/결정되다 · 논쟁의 결론이 어떤 근거로 나는지 말할 때. "settled by a different number"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -545,9 +566,12 @@
 <h3>무엇이 실제로 판가름을 낼까</h3>
 <p>남의 내부 숫자 없이도 확인 가능한 질문 하나: <strong>Base 의 주요 대출·AMM 시장이 이 토큰들을 상장하는가, 그리고 그것을 담보로 한 미상환 차입이 늘어나는가?</strong> 그렇다면 조립 가능성 베팅이 값을 하고 있고 <strong>거래량이 옳은 점수판</strong>입니다. 토큰이 보유만 되고 움직이지 않는다면, <strong>더 나은 래퍼로 세 번째에 들어간 것은 그냥 세 번째</strong>일 뿐입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>leads on</strong></td><td>~부문에서 앞서다 · 특정 지표에서 1위인 상태를 말할 때. "Ondo leads on assets outstanding"</td></tr><tr><td><strong>parked capital</strong></td><td>놀고 있는(움직이지 않는) 자본 · 예치만 되고 실제로 쓰이지 않는 자금. "gathering parked capital"</td></tr><tr><td><strong>a wrapper</strong></td><td>(실물을 감싼) 포장 상품, 껍데기 · 실질 활용 없이 형태만 씌운 상품을 가리킬 때. "a wrapper with a custodian attached"</td></tr><tr><td><strong>survive leaving home</strong></td><td>원래 있던 곳을 떠나서도 살아남다 · 발행 앱을 벗어나도 기능이 유지될 때의 비유. "make the token survive leaving home"</td></tr><tr><td><strong>corporate action</strong></td><td>기업 행위(배당·분할 등 주주에 영향 주는 조치) · 주식 관련 이벤트를 가리키는 금융 용어. "survive a corporate action while it is gone"</td></tr><tr><td><strong>an option on X rather than X itself</strong></td><td>X 자체가 아니라 X에 대한 선택권일 뿐 · 잠재력은 있지만 아직 실현 안 된 것을 구분할 때. "an option on distribution rather than distribution itself"</td></tr><tr><td><strong>was a brochure</strong></td><td>실체 없는 홍보물에 불과했다 · 근사한 주장이 실제로는 마케팅 문구였음을 드러낼 때. "the composability claim was a brochure"</td></tr><tr><td><strong>third into</strong></td><td>(시장에) 세 번째로 진입한 · 경쟁에서 몇 번째 주자인지 말할 때. "Coinbase is third into a market"</td></tr><tr><td><strong>blind to</strong></td><td>~을 보지 못하는, ~에 눈감은 · 특정 지표가 놓치는 맹점을 말할 때. "Blind to whether anything ever moves"</td></tr><tr><td><strong>settled by</strong></td><td>~로 판가름 나다/결정되다 · 논쟁의 결론이 어떤 근거로 나는지 말할 때. "settled by a different number"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-tokenized-equity-claim-rail.html">&larr; 114. A claim, not a derivative — the three jobs a tokenized share creates</a><a href="pocs-japan-t0-settlement.html">116. T+0 removes settlement risk, and removes netting with it &rarr;</a></div>
+    <div class="pager"><a href="pocs-tokenized-equity-claim-rail.html">&larr; 115. A claim, not a derivative — the three jobs a tokenized share creates</a><a href="pocs-japan-t0-settlement.html">117. T+0 removes settlement risk, and removes netting with it &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -593,17 +617,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

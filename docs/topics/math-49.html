@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -370,7 +374,10 @@ for name, dist in [(&quot;공정한 동전&quot;, fair_coin), (&quot;치우친 �
       <p>Compute the entropy from character frequencies in a text file, compare it to its gzip compression ratio, and directly calculate the entropy in bits carried by a 12-word mnemonic.</p>
       <h2>Practical Connection</h2>
       <p>The security of private keys and seeds is ultimately defined by their entropy in bits, and the fact that LMSR's cost function takes a log-sum-exp form comes from the same mathematical root — entropy and exponential families.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reciprocal of</strong></td><td>~의 역수 · 어떤 수를 1로 나눈 값을 가리킬 때. "the log of the reciprocal of its probability"</td></tr><tr><td><strong>arbitrarily closely</strong></td><td>한없이 가깝게, 원하는 만큼 가깝게 · 극한에 얼마든지 근접시킬 수 있을 때. "approach that limit arbitrarily closely"</td></tr><tr><td><strong>the extra cost paid for</strong></td><td>~에 대해 추가로 치르는 대가 · 잘못된 가정 때문에 발생하는 손실을 말할 때. "the extra cost paid for encoding under an incorrect assumed distribution"</td></tr><tr><td><strong>hinge on</strong></td><td>~에 달려 있다, 좌우되다 · 여러 문제가 결국 한 가지 개념에 근거할 때. "all hinge on this"</td></tr><tr><td><strong>overestimate</strong></td><td>과대평가하다 · 실제보다 크게 잘못 판단할 때. "overestimating entropy leads to using randomness"</td></tr><tr><td><strong>feels secure but isn&#39;t</strong></td><td>안전해 보이지만 실제로는 아닌 · 겉보기와 실제가 다를 때 쓰는 경고성 표현. "randomness that feels secure but isn&#39;t"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -405,7 +412,10 @@ for name, dist in [(&quot;공정한 동전&quot;, fair_coin), (&quot;치우친 �
       <p>텍스트 파일의 문자 빈도로 엔트로피를 계산해 gzip 압축률과 비교하고, 니모닉 12단어가 갖는 엔트로피 비트 수를 직접 계산해보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>개인키와 시드의 안전성은 결국 엔트로피 비트 수로 정의되며, LMSR 비용함수가 log-sum-exp 형태를 갖는 것도 엔트로피와 지수족이라는 같은 수학적 뿌리에서 나온다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reciprocal of</strong></td><td>~의 역수 · 어떤 수를 1로 나눈 값을 가리킬 때. "the log of the reciprocal of its probability"</td></tr><tr><td><strong>arbitrarily closely</strong></td><td>한없이 가깝게, 원하는 만큼 가깝게 · 극한에 얼마든지 근접시킬 수 있을 때. "approach that limit arbitrarily closely"</td></tr><tr><td><strong>the extra cost paid for</strong></td><td>~에 대해 추가로 치르는 대가 · 잘못된 가정 때문에 발생하는 손실을 말할 때. "the extra cost paid for encoding under an incorrect assumed distribution"</td></tr><tr><td><strong>hinge on</strong></td><td>~에 달려 있다, 좌우되다 · 여러 문제가 결국 한 가지 개념에 근거할 때. "all hinge on this"</td></tr><tr><td><strong>overestimate</strong></td><td>과대평가하다 · 실제보다 크게 잘못 판단할 때. "overestimating entropy leads to using randomness"</td></tr><tr><td><strong>feels secure but isn&#39;t</strong></td><td>안전해 보이지만 실제로는 아닌 · 겉보기와 실제가 다를 때 쓰는 경고성 표현. "randomness that feels secure but isn&#39;t"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-48.html">&larr; 48. 페어링/KZG(개념)</a><a href="math-50.html">50. 해시함수 설계 원리(스펀지·머클-담고르) &rarr;</a></div>
 </div>

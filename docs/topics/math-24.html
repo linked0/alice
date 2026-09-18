@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -378,7 +382,10 @@ print(&quot;→ 조건수가 큰 A_bad에서 동일한 입력 오차가 훨씬 �
       <p>Solve Ax = b using increasingly large Hilbert matrices, print out both the condition number and the actual relative error together, and check whether the two grow in step with each other.</p>
       <h2>Practical Connection</h2>
       <p>In AMM curves or LMSR price calculations, when the liquidity parameter is small or probabilities approach 0/1, exponential and logarithmic terms can blow up, producing the same kind of amplification — so fixed-point implementations need to bound the input range and rearrange formulas into numerically stable forms.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>amplified into</strong></td><td>~로 증폭되어 나타나다 · 작은 입력 오차가 큰 출력 오차로 바뀔 때. "gets amplified into a relative error in the output"</td></tr><tr><td><strong>on the order of</strong></td><td>~자릿수 정도의 · 대략적인 크기를 수량적으로 말할 때. "a condition number on the order of 10^k"</td></tr><tr><td><strong>significant digits</strong></td><td>유효숫자 · 정밀도를 몇 자리 잃는지 말할 때. "you can expect to lose about k significant digits"</td></tr><tr><td><strong>ill-conditioned</strong></td><td>조건이 나쁜(민감도가 큰) · 문제 자체가 불안정한 특성을 가질 때. "the problem itself is ill-conditioned"</td></tr><tr><td><strong>wobble wildly</strong></td><td>심하게 요동치다·크게 흔들리다 · 값이 작은 변화에도 크게 튈 때. "regression or optimization results wobble wildly"</td></tr><tr><td><strong>blow up</strong></td><td>값이 폭발적으로 커지다·발산하다 · 수식의 항이 감당 못할 만큼 커질 때. "exponential and logarithmic terms can blow up"</td></tr><tr><td><strong>bound the input range</strong></td><td>입력 범위를 제한하다 · 수치 안정성을 위해 값의 범위를 미리 제한할 때. "fixed-point implementations need to bound the input range"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -421,7 +428,10 @@ print(&quot;→ 조건수가 큰 A_bad에서 동일한 입력 오차가 훨씬 �
       <p>크기를 키운 힐베르트 행렬로 Ax = b를 풀어 조건수와 실제 상대 오차를 함께 출력하고, 둘의 증가가 대응하는지 확인해 볼 것.</p>
       <h2>실무 · Verex 연결</h2>
       <p>AMM 곡선이나 LMSR 가격 계산에서 유동성 파라미터가 작거나 확률이 0/1에 가까울 때 지수·로그 항이 극단으로 가면 같은 성격의 증폭이 생기므로, 고정소수점 구현에서는 입력 범위를 제한하고 수식을 안정적 형태로 재배열해야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>amplified into</strong></td><td>~로 증폭되어 나타나다 · 작은 입력 오차가 큰 출력 오차로 바뀔 때. "gets amplified into a relative error in the output"</td></tr><tr><td><strong>on the order of</strong></td><td>~자릿수 정도의 · 대략적인 크기를 수량적으로 말할 때. "a condition number on the order of 10^k"</td></tr><tr><td><strong>significant digits</strong></td><td>유효숫자 · 정밀도를 몇 자리 잃는지 말할 때. "you can expect to lose about k significant digits"</td></tr><tr><td><strong>ill-conditioned</strong></td><td>조건이 나쁜(민감도가 큰) · 문제 자체가 불안정한 특성을 가질 때. "the problem itself is ill-conditioned"</td></tr><tr><td><strong>wobble wildly</strong></td><td>심하게 요동치다·크게 흔들리다 · 값이 작은 변화에도 크게 튈 때. "regression or optimization results wobble wildly"</td></tr><tr><td><strong>blow up</strong></td><td>값이 폭발적으로 커지다·발산하다 · 수식의 항이 감당 못할 만큼 커질 때. "exponential and logarithmic terms can blow up"</td></tr><tr><td><strong>bound the input range</strong></td><td>입력 범위를 제한하다 · 수치 안정성을 위해 값의 범위를 미리 제한할 때. "fixed-point implementations need to bound the input range"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-23.html">&larr; 23. PCA·SVD</a><a href="math-25.html">25. 행렬식과 랭크 &rarr;</a></div>
 </div>

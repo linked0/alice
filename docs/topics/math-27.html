@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -391,7 +395,10 @@ print(f&quot;h'({x0}) 연쇄법칙 계산 = {h_prime_chain_rule(x0):.6f}&quot;)
       <p>Pick a simple multivariable function, compute its gradient by hand, compare it against a numerical derivative, then run a few steps of gradient descent yourself and observe the learning-rate threshold where convergence turns into divergence.</p>
       <h2>Practical Connection</h2>
       <p>An LMSR market maker's price is defined as the partial derivative of the cost function, so derivatives and gradients feed directly into understanding Verex's price calculation and its sensitivity to slippage.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>best approximates</strong></td><td>가장 근접하게 근사하다 · 도함수가 함수를 가장 잘 근사하는 선형 함수임을 설명할 때. "the linear function that best approximates a function"</td></tr><tr><td><strong>steepest increase</strong></td><td>가장 가파른 증가(방향) · 그래디언트가 가리키는 방향을 설명하는 수학 용어. "the direction of steepest increase at that point"</td></tr><tr><td><strong>generalizes to</strong></td><td>~로 일반화되다 · 단변수 개념이 다변수·행렬 형태로 확장될 때. "this generalizes to a product of Jacobian matrices"</td></tr><tr><td><strong>crux</strong></td><td>핵심(가장 중요한 지점) · 실질적으로 중요한 문제의 본질을 가리키는 단어. "the practical crux is that too large"</td></tr><tr><td><strong>painfully slow</strong></td><td>답답할 정도로 느린 · 학습률이 너무 작을 때의 수렴 속도를 표현. "makes convergence painfully slow"</td></tr><tr><td><strong>reuse intermediate results</strong></td><td>중간 계산 결과를 재사용하다 · 역전파가 계산 비용을 줄이는 방식을 설명. "reusing intermediate results so that gradients"</td></tr><tr><td><strong>sensitivity to slippage</strong></td><td>슬리피지(가격 변동)에 대한 민감도 · 가격 곡선이 입력 변화에 얼마나 민감한지 가리킴. "its sensitivity to slippage"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -447,7 +454,10 @@ print(f&quot;h'({x0}) 연쇄법칙 계산 = {h_prime_chain_rule(x0):.6f}&quot;)
       <p>간단한 다변수 함수 하나를 골라 기울기를 손으로 구한 뒤, 수치 미분과 값을 비교하고 경사하강을 몇 스텝 직접 돌려 학습률에 따라 수렴·발산이 갈리는 지점을 관찰하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>LMSR 마켓메이커의 가격은 비용 함수의 편미분으로 정의되므로, 미분과 기울기는 Verex의 가격 계산과 슬리피지 민감도를 이해하는 데 직접 쓰인다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>best approximates</strong></td><td>가장 근접하게 근사하다 · 도함수가 함수를 가장 잘 근사하는 선형 함수임을 설명할 때. "the linear function that best approximates a function"</td></tr><tr><td><strong>steepest increase</strong></td><td>가장 가파른 증가(방향) · 그래디언트가 가리키는 방향을 설명하는 수학 용어. "the direction of steepest increase at that point"</td></tr><tr><td><strong>generalizes to</strong></td><td>~로 일반화되다 · 단변수 개념이 다변수·행렬 형태로 확장될 때. "this generalizes to a product of Jacobian matrices"</td></tr><tr><td><strong>crux</strong></td><td>핵심(가장 중요한 지점) · 실질적으로 중요한 문제의 본질을 가리키는 단어. "the practical crux is that too large"</td></tr><tr><td><strong>painfully slow</strong></td><td>답답할 정도로 느린 · 학습률이 너무 작을 때의 수렴 속도를 표현. "makes convergence painfully slow"</td></tr><tr><td><strong>reuse intermediate results</strong></td><td>중간 계산 결과를 재사용하다 · 역전파가 계산 비용을 줄이는 방식을 설명. "reusing intermediate results so that gradients"</td></tr><tr><td><strong>sensitivity to slippage</strong></td><td>슬리피지(가격 변동)에 대한 민감도 · 가격 곡선이 입력 변화에 얼마나 민감한지 가리킴. "its sensitivity to slippage"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-26.html">&larr; 26. 최소제곱법(Least Squares)</a><a href="math-28.html">28. 편미분/그래디언트 &rarr;</a></div>
 </div>

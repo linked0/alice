@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Private RPC changes visibility, not settlement — Tech Notes</title>
+<title>Private RPC changes visibility, not settlement — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Private RPC changes visibility, not settlement</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Private RPC changes visibility, not settlement</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#36</span><span>PoC</span></p>
       <h1>Private RPC changes visibility, not settlement</h1>
@@ -452,7 +470,10 @@
 <p>Private order flow reduces frontrunning — that is the point — but it routes your intent through one operator who sees it first and decides whether and when to forward it. You swapped an open-mempool threat for a trust-and-availability relationship with Flashbots. Not necessarily worse, but a <strong>different bet that should be written down as one</strong> — the same &quot;who did you end up depending on&quot; question as <code>bundler-paymaster-dependencies</code> and <code>layerzero-default-is-a-choice</code>.</p>
 <h3>One law, four faces</h3>
 <p>This card, <code>rpc-view-not-consensus</code>, <code>receipt-is-not-settlement</code>, and <code>bundler-paymaster-dependencies</code> are four faces of one law: <strong>every step from &quot;I clicked&quot; to &quot;it is final&quot; hides a different assumption about who observes and who decides</strong> — reading state, trusting a receipt, getting accepted, staying visible. This card is the <em>staying-visible</em> face.</p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>existence proof</strong></td><td>존재를 증명해주는 근거 · 트랜잭션이 살아있다는 것을 확인시켜주던 신호를 가리킬 때. "your existence proof"</td></tr><tr><td><strong>flatline</strong></td><td>(신호가) 뚝 끊겨 평평해지다 · 감시하던 신호가 사라지는 상황을 비유할 때. "that heartbeat flatlines"</td></tr><tr><td><strong>false negative</strong></td><td>실제로는 있는데 없다고 잘못 판단하는 것 · UI가 실패로 잘못 결론 내릴 때. "a false negative manufactured by a monitoring assumption"</td></tr><tr><td><strong>manufactured by</strong></td><td>~때문에 (인위적으로) 만들어진 · 진짜 문제가 아니라 잘못된 전제가 낳은 오류임을 말할 때. "manufactured by a monitoring assumption"</td></tr><tr><td><strong>rung</strong></td><td>(사다리의) 한 단, 단계 · 상태 기계에 새로 추가된 한 단계를 가리킬 때. "gains one rung and loses one observation channel"</td></tr><tr><td><strong>collapse (두 개념을)</strong></td><td>구분해야 할 것을 하나로 뭉뚱그리다 · 서로 다른 상태를 같은 것으로 착각하는 버그. "Collapsing any two of those is the exact bug"</td></tr><tr><td><strong>swap X for Y</strong></td><td>X를 Y로 맞바꾸다 · 하나의 위험을 다른 종류의 위험으로 교환했다는 뜻. "You swapped an open-mempool threat for a trust-and-availability relationship"</td></tr><tr><td><strong>price (동사, 위험을)</strong></td><td>(위험·비용을) 값으로 따져보다, 계산에 넣다 · 아무도 고려하지 않는 비용을 지적할 때. "The cost nobody prices"</td></tr><tr><td><strong>mental model</strong></td><td>머릿속에 박힌 사고방식·전제 · 더 이상 통하지 않는 관행적 가정을 가리킬 때. "the usual replace-by-fee mental model"</td></tr><tr><td><strong>gotcha</strong></td><td>예상치 못한 함정, 문제점 · 가장 까다로운 부분을 짚을 때. "Cancellation is the sharpest gotcha"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -525,7 +546,10 @@
 <p>프라이빗 오더플로는 프론트러닝을 줄입니다 — 그게 목적 — 하지만 당신의 의도를 먼저 보고 전달 여부·시점을 정하는 한 운영자를 거칩니다. 열린 멤풀 위협을 Flashbots 와의 신뢰·가용성 관계로 맞바꾼 것이죠. 반드시 더 나쁜 건 아니지만 <strong>다른 베팅이고, 베팅으로 적혀야</strong> 합니다 — <code>bundler-paymaster-dependencies</code>·<code>layerzero-default-is-a-choice</code> 와 같은 &quot;결국 누구에게 의존하게 됐나&quot; 질문.</p>
 <h3>한 법칙의 네 얼굴</h3>
 <p>이 카드와 <code>rpc-view-not-consensus</code>, <code>receipt-is-not-settlement</code>, <code>bundler-paymaster-dependencies</code> 는 한 법칙의 네 얼굴입니다 — <strong>&quot;클릭했다&quot;에서 &quot;파이널&quot;까지의 모든 단계가 <em>누가 관찰하고 누가 결정하는가</em>에 대한 서로 다른 가정을 숨긴다</strong> — 상태 읽기, receipt 신뢰, 승인 받기, 계속 보이기. 이 카드는 <em>계속 보이기</em> 얼굴입니다.</p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>existence proof</strong></td><td>존재를 증명해주는 근거 · 트랜잭션이 살아있다는 것을 확인시켜주던 신호를 가리킬 때. "your existence proof"</td></tr><tr><td><strong>flatline</strong></td><td>(신호가) 뚝 끊겨 평평해지다 · 감시하던 신호가 사라지는 상황을 비유할 때. "that heartbeat flatlines"</td></tr><tr><td><strong>false negative</strong></td><td>실제로는 있는데 없다고 잘못 판단하는 것 · UI가 실패로 잘못 결론 내릴 때. "a false negative manufactured by a monitoring assumption"</td></tr><tr><td><strong>manufactured by</strong></td><td>~때문에 (인위적으로) 만들어진 · 진짜 문제가 아니라 잘못된 전제가 낳은 오류임을 말할 때. "manufactured by a monitoring assumption"</td></tr><tr><td><strong>rung</strong></td><td>(사다리의) 한 단, 단계 · 상태 기계에 새로 추가된 한 단계를 가리킬 때. "gains one rung and loses one observation channel"</td></tr><tr><td><strong>collapse (두 개념을)</strong></td><td>구분해야 할 것을 하나로 뭉뚱그리다 · 서로 다른 상태를 같은 것으로 착각하는 버그. "Collapsing any two of those is the exact bug"</td></tr><tr><td><strong>swap X for Y</strong></td><td>X를 Y로 맞바꾸다 · 하나의 위험을 다른 종류의 위험으로 교환했다는 뜻. "You swapped an open-mempool threat for a trust-and-availability relationship"</td></tr><tr><td><strong>price (동사, 위험을)</strong></td><td>(위험·비용을) 값으로 따져보다, 계산에 넣다 · 아무도 고려하지 않는 비용을 지적할 때. "The cost nobody prices"</td></tr><tr><td><strong>mental model</strong></td><td>머릿속에 박힌 사고방식·전제 · 더 이상 통하지 않는 관행적 가정을 가리킬 때. "the usual replace-by-fee mental model"</td></tr><tr><td><strong>gotcha</strong></td><td>예상치 못한 함정, 문제점 · 가장 까다로운 부분을 짚을 때. "Cancellation is the sharpest gotcha"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-bundler-paymaster-dependencies.html">&larr; 35. Gasless is two infrastructure services</a><a href="pocs-walletconnect-session-authority.html">37. Connect once means authorize a session &rarr;</a></div>
   </div>
@@ -573,17 +597,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -416,7 +420,10 @@ print(&quot;arena 트리 합:&quot;, arena.sum_subtree(root))
       <p>Build a reference-based tree or linked list, deliberately run into a compile failure, then reimplement the same structure once with Vec-index-based references and once with Rc&lt;RefCell&lt;..&gt;&gt;, and note what moved from a compile-time check to a runtime check.</p>
       <h2>Practical Connection</h2>
       <p>Ownership and aliasing rules remain a valid design principle outside of Rust too — they're directly useful for reframing concurrency bugs caused by shared mutable state in Go or TypeScript around the question &quot;who owns this data?&quot;</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fall back to</strong></td><td>(대안으로) 물러나 ~을 쓰다 · 참조 대신 인덱스 기반 arena를 쓰는 대안. "you fall back to an arena that uses indices instead of references"</td></tr><tr><td><strong>sidestep</strong></td><td>(문제를) 정면돌파 없이 피해가다 · 설계 단계에서 borrow checker와의 싸움을 우회하는 것. "lets you sidestep that fight at the design stage"</td></tr><tr><td><strong>as a last resort</strong></td><td>최후의 수단으로 · unsafe 코드를 안전한 API 뒤에 감춰 쓰는 경우. "or, as a last resort, unsafe"</td></tr><tr><td><strong>push X to runtime</strong></td><td>X를 런타임으로 미루다(넘기다) · 컴파일 타임 검사를 실행 시점 검사로 바꾸는 것. "push the check to runtime"</td></tr><tr><td><strong>run into</strong></td><td>(문제·오류에) 부딪히다, 맞닥뜨리다 · 일부러 컴파일 실패를 유발해보는 연습. "deliberately run into a compile failure"</td></tr><tr><td><strong>reframe</strong></td><td>(문제를) 다른 틀로 다시 바라보다 · 소유권 개념을 다른 언어의 동시성 버그에 적용할 때. "directly useful for reframing concurrency bugs"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -497,7 +504,10 @@ print(&quot;arena 트리 합:&quot;, arena.sum_subtree(root))
       <p>참조 기반 트리나 연결 리스트를 만들어 일부러 컴파일 실패를 겪은 뒤, 같은 구조를 Vec 인덱스 기반과 Rc&lt;RefCell&lt;..&gt;&gt; 기반으로 각각 다시 구현하고 무엇이 컴파일 타임 검사에서 런타임 검사로 옮겨갔는지 정리하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>소유권과 aliasing 규칙은 언어를 떠나서도 유효한 설계 원칙이라, Go나 TypeScript에서 공유 가변 상태 때문에 생기는 동시성 버그를 &quot;이 데이터의 소유자는 누구인가&quot;라는 질문으로 재정리하는 데 그대로 쓰인다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fall back to</strong></td><td>(대안으로) 물러나 ~을 쓰다 · 참조 대신 인덱스 기반 arena를 쓰는 대안. "you fall back to an arena that uses indices instead of references"</td></tr><tr><td><strong>sidestep</strong></td><td>(문제를) 정면돌파 없이 피해가다 · 설계 단계에서 borrow checker와의 싸움을 우회하는 것. "lets you sidestep that fight at the design stage"</td></tr><tr><td><strong>as a last resort</strong></td><td>최후의 수단으로 · unsafe 코드를 안전한 API 뒤에 감춰 쓰는 경우. "or, as a last resort, unsafe"</td></tr><tr><td><strong>push X to runtime</strong></td><td>X를 런타임으로 미루다(넘기다) · 컴파일 타임 검사를 실행 시점 검사로 바꾸는 것. "push the check to runtime"</td></tr><tr><td><strong>run into</strong></td><td>(문제·오류에) 부딪히다, 맞닥뜨리다 · 일부러 컴파일 실패를 유발해보는 연습. "deliberately run into a compile failure"</td></tr><tr><td><strong>reframe</strong></td><td>(문제를) 다른 틀로 다시 바라보다 · 소유권 개념을 다른 언어의 동시성 버그에 적용할 때. "directly useful for reframing concurrency bugs"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-29.html">&larr; 81. GC 심화</a><a href="algorithms-31.html">83. 메모리 할당자 설계 &rarr;</a></div>
 </div>

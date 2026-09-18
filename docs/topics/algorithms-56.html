@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -383,7 +387,10 @@ print(&quot;   (PBFT: 3단계 통신, HotStuff: 서명 집계로 선형 통신�
       <p>With n=4, f=1, sketch on paper a scenario where two honest nodes commit different values, and walk through why the quorum-intersection property makes that impossible.</p>
       <h2>Practical Connection</h2>
       <p>Under instant finality, reorganization risk effectively disappears, changing what confirmation-depth policy makes sense for a settlement system like Verex — so you need to be precise about how this differs from Ethereum's probabilistic finality.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>quorum intersection</strong></td><td>정족수 교집합 · 두 정족수가 겹치는 성질로, 안전성의 근거가 됨. "the quorum-intersection property makes that impossible"</td></tr><tr><td><strong>view-change</strong></td><td>뷰 체인지, 리더 교체 절차 · 리더가 바뀔 때 필요한 합의 재조정 과정. "its view-change cost grows sharply"</td></tr><tr><td><strong>aggregate (votes)</strong></td><td>(표를) 집계하다, 취합하다 · 임계서명으로 여러 표를 하나로 모으는 것. "aggregates votes with threshold signatures"</td></tr><tr><td><strong>relay through</strong></td><td>~을 거쳐 중계하다 · 리더를 통해 메시지를 전달하는 방식. "relays them through the leader"</td></tr><tr><td><strong>grow sharply with</strong></td><td>~에 따라 가파르게 증가하다 · 노드 수가 늘수록 비용이 급증한다는 뜻. "grows sharply with the number of nodes"</td></tr><tr><td><strong>locking rule</strong></td><td>잠금 규칙 · 한 번 커밋된 블록이 절대 되돌려지지 않도록 보장하는 장치. "adds a locking rule that guarantees instant finality"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -431,7 +438,10 @@ print(&quot;   (PBFT: 3단계 통신, HotStuff: 서명 집계로 선형 통신�
       <p>n=4, f=1로 두고 정직 노드 두 개가 서로 다른 값을 커밋하는 시나리오를 종이에 그려 정족수 교집합 때문에 왜 불가능한지 직접 따라가 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>즉시 완결성 체인에서는 재구성(reorg) 위험이 사실상 사라져 Verex 같은 정산 시스템의 확정 대기 블록 수 정책이 달라지므로, 이더리움의 확률적 완결성과의 차이를 정확히 구분해야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>quorum intersection</strong></td><td>정족수 교집합 · 두 정족수가 겹치는 성질로, 안전성의 근거가 됨. "the quorum-intersection property makes that impossible"</td></tr><tr><td><strong>view-change</strong></td><td>뷰 체인지, 리더 교체 절차 · 리더가 바뀔 때 필요한 합의 재조정 과정. "its view-change cost grows sharply"</td></tr><tr><td><strong>aggregate (votes)</strong></td><td>(표를) 집계하다, 취합하다 · 임계서명으로 여러 표를 하나로 모으는 것. "aggregates votes with threshold signatures"</td></tr><tr><td><strong>relay through</strong></td><td>~을 거쳐 중계하다 · 리더를 통해 메시지를 전달하는 방식. "relays them through the leader"</td></tr><tr><td><strong>grow sharply with</strong></td><td>~에 따라 가파르게 증가하다 · 노드 수가 늘수록 비용이 급증한다는 뜻. "grows sharply with the number of nodes"</td></tr><tr><td><strong>locking rule</strong></td><td>잠금 규칙 · 한 번 커밋된 블록이 절대 되돌려지지 않도록 보장하는 장치. "adds a locking rule that guarantees instant finality"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-55.html">&larr; 107. Multi-Paxos·Flexible Paxos</a><a href="algorithms-57.html">109. DAG 합의 &rarr;</a></div>
 </div>

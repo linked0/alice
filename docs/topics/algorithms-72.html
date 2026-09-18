@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -386,7 +390,10 @@ print(&quot;→ 랜덤 쓰기 편중 워크로드일수록 LSM이 유리한 이�
       <p>Run the same key-value workload — random-write-heavy vs. range-read-heavy — against both an LSM-based store and a B+tree-based store, and compare throughput, disk usage, and latency distribution.</p>
       <h2>Practical Connection</h2>
       <p>Append-heavy data with lots of time-range queries, like prediction-market event logs and execution history, favors the LSM family; random-read-heavy data, like per-account position lookups, calls for a different index structure.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>update in place</strong></td><td>자리에서 그대로 덮어써서 갱신하다 · "updates them in place"</td></tr><tr><td><strong>come naturally</strong></td><td>자연스럽게 잘 되다 · "range scans come naturally"</td></tr><tr><td><strong>drive up</strong></td><td>(수치를) 끌어올리다 · "driving up write amplification"</td></tr><tr><td><strong>scattered across</strong></td><td>여기저기 흩어져 있다 · "scattered across multiple levels"</td></tr><tr><td><strong>mitigated with</strong></td><td>~로 완화되다 · "mitigated with Bloom filters"</td></tr><tr><td><strong>comes down to</strong></td><td>결국 ~로 귀결되다 · "the choice comes down to the workload&#39;s read/write ratio"</td></tr><tr><td><strong>restructure around</strong></td><td>~을 중심으로 다시 짜다 · "restructure state around flat key layout"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -437,7 +444,10 @@ print(&quot;→ 랜덤 쓰기 편중 워크로드일수록 LSM이 유리한 이�
       <p>동일한 키-값 워크로드(랜덤 쓰기 위주 vs 범위 읽기 위주)를 LSM 기반 저장소와 B+트리 기반 저장소에 각각 넣고 처리량·디스크 사용량·지연 분포를 비교해 볼 것.</p>
       <h2>실무 · Verex 연결</h2>
       <p>예측시장 이벤트 로그와 체결 이력처럼 append 위주에 시간 범위 조회가 많은 데이터는 LSM 계열이 유리하고, 계정별 포지션 조회처럼 랜덤 읽기 중심 데이터는 다른 인덱스 구조가 필요하다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>update in place</strong></td><td>자리에서 그대로 덮어써서 갱신하다 · "updates them in place"</td></tr><tr><td><strong>come naturally</strong></td><td>자연스럽게 잘 되다 · "range scans come naturally"</td></tr><tr><td><strong>drive up</strong></td><td>(수치를) 끌어올리다 · "driving up write amplification"</td></tr><tr><td><strong>scattered across</strong></td><td>여기저기 흩어져 있다 · "scattered across multiple levels"</td></tr><tr><td><strong>mitigated with</strong></td><td>~로 완화되다 · "mitigated with Bloom filters"</td></tr><tr><td><strong>comes down to</strong></td><td>결국 ~로 귀결되다 · "the choice comes down to the workload&#39;s read/write ratio"</td></tr><tr><td><strong>restructure around</strong></td><td>~을 중심으로 다시 짜다 · "restructure state around flat key layout"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-71.html">&larr; 123. LSM 트리 튜닝</a><a href="algorithms-73.html">125. 상태 트리 저장 문제 &rarr;</a></div>
 </div>

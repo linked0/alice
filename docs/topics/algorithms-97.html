@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -392,7 +396,10 @@ print(&quot;\n캐시가 없다면 매 decode 스텝마다 전체 시퀀스의 K/
       <p>Serving the same model, ramp up concurrent request count and prompt length, measure throughput and p95 latency, and find the point where the estimated KV cache memory hits its limit and requests start queuing.</p>
       <h2>Practical Connection</h2>
       <p>The direct blockchain connection is weak, but as a low-latency service that caches and batches per-request state, this calls for the same mindset as batching and memory-budget design in an order-book engine or an indexer.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bottleneck on</strong></td><td>~에서 병목이 걸리다 · 두 단계가 서로 다른 자원 제약에 막힐 때. "the two stages bottleneck on different things"</td></tr><tr><td><strong>grow with</strong></td><td>~에 비례해서 커지다 · 캐시 크기가 시퀀스 길이에 따라 늘어날 때. "this cache grows with sequence length"</td></tr><tr><td><strong>cut ... idle time</strong></td><td>~의 유휴 시간을 줄이다 · GPU가 노는 시간을 줄여 효율을 높일 때. "cutting GPU idle time"</td></tr><tr><td><strong>mimic</strong></td><td>흉내 내다, 모방하다 · 작은 모델이 큰 모델의 출력을 따라 하도록 학습할 때. "trains a small model to mimic a large model&#39;s outputs"</td></tr><tr><td><strong>trade-off across</strong></td><td>~ 사이의 트레이드오프(상충 관계) · 여러 기준(품질, 메모리 등) 사이에서 하나를 얻으면 다른 걸 잃을 때. "a different trade-off across quality, memory, and serving flexibility"</td></tr><tr><td><strong>the only lever you have left</strong></td><td>남은 유일한 수단 · 다른 최적화 여지가 없어 마지막으로 쓸 수 있는 방법. "the only lever you have left is buying more GPUs"</td></tr><tr><td><strong>shaped far more by ... than by</strong></td><td>~보다 ~에 의해 훨씬 더 좌우되는 · 어떤 결과의 주된 원인이 통념과 다를 때. "shaped far more by KV cache management"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -449,7 +456,10 @@ print(&quot;\n캐시가 없다면 매 decode 스텝마다 전체 시퀀스의 K/
       <p>동일 모델을 서빙하면서 동시 요청 수와 프롬프트 길이를 늘려가며 처리량과 p95 지연을 측정하고, KV 캐시 메모리 추정치가 언제 한계에 닿아 대기가 시작되는지 지점을 찾아 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>직접적인 블록체인 연결은 약하지만, 요청별 상태를 캐싱하며 배치 처리하는 저지연 서비스라는 점에서 오더북 엔진이나 인덱서의 배칭·메모리 예산 설계와 같은 사고방식을 요구한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bottleneck on</strong></td><td>~에서 병목이 걸리다 · 두 단계가 서로 다른 자원 제약에 막힐 때. "the two stages bottleneck on different things"</td></tr><tr><td><strong>grow with</strong></td><td>~에 비례해서 커지다 · 캐시 크기가 시퀀스 길이에 따라 늘어날 때. "this cache grows with sequence length"</td></tr><tr><td><strong>cut ... idle time</strong></td><td>~의 유휴 시간을 줄이다 · GPU가 노는 시간을 줄여 효율을 높일 때. "cutting GPU idle time"</td></tr><tr><td><strong>mimic</strong></td><td>흉내 내다, 모방하다 · 작은 모델이 큰 모델의 출력을 따라 하도록 학습할 때. "trains a small model to mimic a large model&#39;s outputs"</td></tr><tr><td><strong>trade-off across</strong></td><td>~ 사이의 트레이드오프(상충 관계) · 여러 기준(품질, 메모리 등) 사이에서 하나를 얻으면 다른 걸 잃을 때. "a different trade-off across quality, memory, and serving flexibility"</td></tr><tr><td><strong>the only lever you have left</strong></td><td>남은 유일한 수단 · 다른 최적화 여지가 없어 마지막으로 쓸 수 있는 방법. "the only lever you have left is buying more GPUs"</td></tr><tr><td><strong>shaped far more by ... than by</strong></td><td>~보다 ~에 의해 훨씬 더 좌우되는 · 어떤 결과의 주된 원인이 통념과 다를 때. "shaped far more by KV cache management"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-96.html">&larr; 148. [복습] 검증 가능한 시스템 설계 체크리스트</a><a href="algorithms-98.html">150. RAG 설계·리트리버 품질 지표와 평가 하네스(골든·프로퍼티·회귀) &rarr;</a></div>
 </div>

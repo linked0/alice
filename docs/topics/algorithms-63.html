@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -383,7 +387,10 @@ for b in bridges:
       <p>Pick three real bridges or messaging protocols and compare them side by side in a table: who verifies, how funds are custodied, the worst-case loss bound, and the dispute window.</p>
       <h2>Practical Connection</h2>
       <p>The moment Verex accepts another chain's collateral or an external event's outcome as settlement input, market settlement's safety can never rise above the trust assumption of that input path — settlement is only ever as safe as its weakest input.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>favorite target of</strong></td><td>~의 단골 표적 · 해커들이 가장 자주 노리는 대상이라는 뜻 · "the favorite target of large-scale hacks"</td></tr><tr><td><strong>carry (a cost)</strong></td><td>(비용·복잡성을) 수반하다, 떠안다 · 어떤 방식이 구조적으로 짊어지는 부담을 말할 때 · "carry high implementation complexity and on-chain verification cost"</td></tr><tr><td><strong>shift from ... to</strong></td><td>(신뢰의 근거가) ~에서 …로 옮겨가다 · 무엇을 믿어야 하는지가 바뀐다는 뜻 · "the trust assumption shifts from the authenticity"</td></tr><tr><td><strong>yardstick</strong></td><td>(판단) 기준, 잣대 · 여러 방식을 비교할 때 공통으로 적용하는 척도 · "The constant yardstick across all three is"</td></tr><tr><td><strong>fronts the funds</strong></td><td>자금을 선지급하다 · 나중에 정산받을 것을 전제로 먼저 돈을 내준다는 뜻 · "a solver fronts the funds from its own capital"</td></tr><tr><td><strong>dispute window</strong></td><td>이의제기 기간 · 잘못된 처리에 항의할 수 있는 정해진 시간 · "does a dispute window and recovery path"</td></tr><tr><td><strong>worst-case loss bound</strong></td><td>최악의 경우 손실 한도 · 시스템이 감수할 수 있는 최대 손실 상한 · "sets the worst-case loss bound for the whole service"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -431,7 +438,10 @@ for b in bridges:
       <p>실제 브릿지 또는 메시징 프로토콜 세 개를 골라 검증 주체, 자금 보관 방식, 최악의 경우 손실 범위, 이의 제기 기간을 하나의 표로 정리해 비교하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex가 다른 체인의 담보나 외부 이벤트 결과를 정산 입력으로 받아들이는 순간 시장 정산의 안전성은 그 입력 경로의 신뢰 가정 이상으로 올라갈 수 없다 — 정산은 가장 약한 입력만큼만 안전하다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>favorite target of</strong></td><td>~의 단골 표적 · 해커들이 가장 자주 노리는 대상이라는 뜻 · "the favorite target of large-scale hacks"</td></tr><tr><td><strong>carry (a cost)</strong></td><td>(비용·복잡성을) 수반하다, 떠안다 · 어떤 방식이 구조적으로 짊어지는 부담을 말할 때 · "carry high implementation complexity and on-chain verification cost"</td></tr><tr><td><strong>shift from ... to</strong></td><td>(신뢰의 근거가) ~에서 …로 옮겨가다 · 무엇을 믿어야 하는지가 바뀐다는 뜻 · "the trust assumption shifts from the authenticity"</td></tr><tr><td><strong>yardstick</strong></td><td>(판단) 기준, 잣대 · 여러 방식을 비교할 때 공통으로 적용하는 척도 · "The constant yardstick across all three is"</td></tr><tr><td><strong>fronts the funds</strong></td><td>자금을 선지급하다 · 나중에 정산받을 것을 전제로 먼저 돈을 내준다는 뜻 · "a solver fronts the funds from its own capital"</td></tr><tr><td><strong>dispute window</strong></td><td>이의제기 기간 · 잘못된 처리에 항의할 수 있는 정해진 시간 · "does a dispute window and recovery path"</td></tr><tr><td><strong>worst-case loss bound</strong></td><td>최악의 경우 손실 한도 · 시스템이 감수할 수 있는 최대 손실 상한 · "sets the worst-case loss bound for the whole service"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-62.html">&larr; 114. 라이트 클라이언트와 상태 없는(stateless) 검증</a><a href="algorithms-64.html">116. 시퀀서 분산화와 강제 포함(force inclusion) &rarr;</a></div>
 </div>

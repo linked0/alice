@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -377,7 +381,10 @@ print(f&quot;determinism check: H('hello world') 재계산 == 원래 값? {h1 ==
       <p>Build a naive secret-prefix MAC using a Merkle-Damgård-family hash and actually succeed at a length-extension attack against it, then try the same attack against a sponge-family hash and against HMAC and confirm they're not vulnerable.</p>
       <h2>Practical Connection</h2>
       <p>Ethereum uses Keccak-family sponge hashes, and Merkle trees, address generation, and storage keys all depend on it — so how you construct hash input encoding for Verex's condition ID or position ID is directly a question of collision safety.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>preimage resistance</strong></td><td>역상 저항성 · 출력값으로부터 원래 입력을 찾기 어려운 성질을 가리키는 암호학 용어. "aiming for preimage resistance, second-preimage resistance, and collision resistance"</td></tr><tr><td><strong>length-extension attack</strong></td><td>길이 확장 공격 · 해시 뒤에 데이터를 이어 붙여 위조할 수 있는 취약점. "it&#39;s vulnerable to length-extension attacks"</td></tr><tr><td><strong>squeeze out</strong></td><td>(결과를) 짜내다, 뽑아내다 · 스펀지 구조가 필요한 만큼 출력을 만들어낼 때 쓰는 동사. "squeezes out as much output as needed"</td></tr><tr><td><strong>capped at</strong></td><td>~로 상한이 정해지다 · 값이 특정 수준을 넘지 못하도록 제한될 때. "is capped at roughly 2^(n/2)"</td></tr><tr><td><strong>opens the door to</strong></td><td>~의 여지를 열다, ~을 가능하게 만들다 · 부주의한 선택이 공격 가능성을 만들 때. "opens the door to collision-based attacks"</td></tr><tr><td><strong>governed by</strong></td><td>~에 의해 결정되다 · 보안 수준이 어떤 요소로 정해지는지 말할 때. "The security level is governed by the size of the capacity"</td></tr><tr><td><strong>provable that</strong></td><td>~라는 것이 증명 가능하다 · 수학적으로 엄밀히 보장된 성질을 말할 때. "it&#39;s provable that if the compression function is collision resistant"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -419,7 +426,10 @@ print(f&quot;determinism check: H('hello world') 재계산 == 원래 값? {h1 ==
       <p>머클-담고르 계열 해시로 naive한 secret 접두 MAC을 만들어 길이 확장 공격을 실제로 성공시켜 보고, 같은 시도를 스펀지 계열 해시와 HMAC에 해봐서 막히는지 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>이더리움은 Keccak 계열 스펀지 해시를 쓰고 머클 트리·주소 생성·스토리지 키가 모두 여기에 의존하므로, Verex의 컨디션 ID나 포지션 ID를 다루는 코드에서 해시 입력 인코딩을 어떻게 구성하느냐가 곧 충돌 안전성 문제가 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>preimage resistance</strong></td><td>역상 저항성 · 출력값으로부터 원래 입력을 찾기 어려운 성질을 가리키는 암호학 용어. "aiming for preimage resistance, second-preimage resistance, and collision resistance"</td></tr><tr><td><strong>length-extension attack</strong></td><td>길이 확장 공격 · 해시 뒤에 데이터를 이어 붙여 위조할 수 있는 취약점. "it&#39;s vulnerable to length-extension attacks"</td></tr><tr><td><strong>squeeze out</strong></td><td>(결과를) 짜내다, 뽑아내다 · 스펀지 구조가 필요한 만큼 출력을 만들어낼 때 쓰는 동사. "squeezes out as much output as needed"</td></tr><tr><td><strong>capped at</strong></td><td>~로 상한이 정해지다 · 값이 특정 수준을 넘지 못하도록 제한될 때. "is capped at roughly 2^(n/2)"</td></tr><tr><td><strong>opens the door to</strong></td><td>~의 여지를 열다, ~을 가능하게 만들다 · 부주의한 선택이 공격 가능성을 만들 때. "opens the door to collision-based attacks"</td></tr><tr><td><strong>governed by</strong></td><td>~에 의해 결정되다 · 보안 수준이 어떤 요소로 정해지는지 말할 때. "The security level is governed by the size of the capacity"</td></tr><tr><td><strong>provable that</strong></td><td>~라는 것이 증명 가능하다 · 수학적으로 엄밀히 보장된 성질을 말할 때. "it&#39;s provable that if the compression function is collision resistant"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-49.html">&larr; 49. 엔트로피·정보·코딩</a><a href="math-51.html">51. 영지식 증명의 3성질(완전성·건전성·영지식) &rarr;</a></div>
 </div>

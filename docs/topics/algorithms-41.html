@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -410,7 +414,10 @@ print(&quot;completions:&quot;, completions)
       <p>Implement the same echo server on epoll and on io_uring, and compare p99 latency and system calls per second (via strace -c or perf) under identical load.</p>
       <h2>Practical Connection</h2>
       <p>When a chain node or RPC proxy handling huge numbers of small JSON-RPC requests shows CPU time concentrated in kernel time, batched submission and reduced copying are worth checking before adding hardware.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cross the boundary</strong></td><td>경계를 넘나들다 · 매 시스템콜마다 유저-커널 경계를 넘는 오버헤드를 설명 · "crosses the user-kernel boundary on every system call"</td></tr><tr><td><strong>dominate</strong></td><td>(비용·시간에서) 압도적 비중을 차지하다 · 오버헤드가 전체 비용의 대부분을 차지함 · "that overhead dominates the total cost"</td></tr><tr><td><strong>keep ~ from ~ing</strong></td><td>~가 ~하지 못하게 막다 · 데이터가 유저 공간을 거치지 않도록 막는 기법 · "keep data from passing through user space"</td></tr><tr><td><strong>take on</strong></td><td>(책임·역할을) 떠맡다 · 커널이 하던 프로토콜 처리를 애플리케이션이 대신 떠맡음 · "the application now has to take on the protocol handling"</td></tr><tr><td><strong>at the cost of</strong></td><td>~을 대가로, ~을 희생하고 · 복잡도와 이식성을 대가로 경계 넘나듦을 줄임 · "at the cost of complexity and portability"</td></tr><tr><td><strong>make progress</strong></td><td>진전을 이루다, 작업을 처리하다 · 시스템콜 없이도 처리를 이어갈 수 있음 · "make progress with no system calls at all"</td></tr><tr><td><strong>concentrated in</strong></td><td>~에 집중되어 있다 · CPU 시간이 커널 시간에 몰려 있는 현상 · "shows CPU time concentrated in kernel time"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -485,7 +492,10 @@ print(&quot;completions:&quot;, completions)
       <p>같은 에코 서버를 epoll 기반과 io_uring 기반으로 각각 구현해 동일 부하에서 p99 지연과 초당 시스템 콜 수(strace -c 또는 perf)를 비교해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>체인 노드나 RPC 프록시처럼 수많은 작은 JSON-RPC 요청을 처리하는 구간에서 CPU가 커널 시간에 몰려 있다면, 배치 제출과 복사 감소가 하드웨어 증설보다 먼저 검토할 카드다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cross the boundary</strong></td><td>경계를 넘나들다 · 매 시스템콜마다 유저-커널 경계를 넘는 오버헤드를 설명 · "crosses the user-kernel boundary on every system call"</td></tr><tr><td><strong>dominate</strong></td><td>(비용·시간에서) 압도적 비중을 차지하다 · 오버헤드가 전체 비용의 대부분을 차지함 · "that overhead dominates the total cost"</td></tr><tr><td><strong>keep ~ from ~ing</strong></td><td>~가 ~하지 못하게 막다 · 데이터가 유저 공간을 거치지 않도록 막는 기법 · "keep data from passing through user space"</td></tr><tr><td><strong>take on</strong></td><td>(책임·역할을) 떠맡다 · 커널이 하던 프로토콜 처리를 애플리케이션이 대신 떠맡음 · "the application now has to take on the protocol handling"</td></tr><tr><td><strong>at the cost of</strong></td><td>~을 대가로, ~을 희생하고 · 복잡도와 이식성을 대가로 경계 넘나듦을 줄임 · "at the cost of complexity and portability"</td></tr><tr><td><strong>make progress</strong></td><td>진전을 이루다, 작업을 처리하다 · 시스템콜 없이도 처리를 이어갈 수 있음 · "make progress with no system calls at all"</td></tr><tr><td><strong>concentrated in</strong></td><td>~에 집중되어 있다 · CPU 시간이 커널 시간에 몰려 있는 현상 · "shows CPU time concentrated in kernel time"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-40.html">&larr; 92. 브랜치 예측·프리페치·데이터 지향 설계</a><a href="algorithms-42.html">94. 이벤트 루프 vs 스레드 vs 액터 모델 &rarr;</a></div>
 </div>

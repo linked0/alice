@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AML — where the cryptography stops — Tech Notes</title>
+<title>AML — where the cryptography stops — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; AML — where the cryptography stops</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; AML — where the cryptography stops</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#125</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#126</span><span>PoC</span></p>
       <h1>AML — where the cryptography stops</h1>
       <p class="lead">Travel Rule, KYC reuse, sanctions screening — the layer this catalogue keeps hitting and calling &#39;not a technical problem&#39;, studied on its own terms.</p>
       <p class="meta">Not yet scoped — a reading study. Start with Korea&#39;s 특금법 (VASP registration, 트래블룰) and FATF Recommendation 16, then map which obligations a protocol can carry and which only a licensed entity can.</p>
@@ -431,7 +449,10 @@
 <h3>Where the partnership point lands</h3>
 <p>The closing argument — that information and expertise sit scattered across firms, supervisors and private specialists, so public-private partnership matters — belongs in this card&#39;s existing two-column map rather than in a new card. Sharing typologies is fact transport, which this catalogue already knows how to think about. Deciding a risk rating and signing a filing is not. Add it as a third row: <strong>obligations a consortium can carry</strong>, sitting between what a protocol can carry and what only a licensed entity can.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hit the same wall</strong></td><td>같은 벽에 부딪히다(같은 한계에 도달) · 여러 문서가 결국 같은 문제에 막힐 때. "Nearly every card since has hit the same wall"</td></tr><tr><td><strong>set aside</strong></td><td>일단 제쳐두다·보류하다 · 다루기 어려운 부분을 뒤로 미룰 때. "and then set the licence half aside"</td></tr><tr><td><strong>route around</strong></td><td>~을 우회하다 · 규칙이나 검토 절차를 피해가는 것. "not to route around it"</td></tr><tr><td><strong>rubber-stamped</strong></td><td>형식적으로 도장만 찍는(제대로 검토 없이 승인) · AI가 사람 판단을 대체해버릴 때. "An AI that is being rubber-stamped shows a collapsing"</td></tr><tr><td><strong>widen the scope</strong></td><td>범위를 넓히다 · 작게 시작한 PoC를 점차 확대할 때. "then widen the scope once effectiveness is shown"</td></tr><tr><td><strong>audit trail</strong></td><td>감사 추적(누가 언제 무엇을 했는지 기록) · 규제 대응에서 필수적인 기록. "start without an audit trail"</td></tr><tr><td><strong>conflating the two</strong></td><td>둘을 혼동하는 것 · 서로 다른 개념을 하나로 뭉뚱그릴 때. "conflating the two is how good advice becomes an excuse"</td></tr><tr><td><strong>risk-based approach</strong></td><td>위험기반 접근법(위험도에 따라 심사 강도를 달리함) · 규제 준수 전략. "and the risk-based approach that decides how much diligence"</td></tr><tr><td><strong>beneficial-ownership checks</strong></td><td>실소유자 확인(자금세탁방지 절차) · KYC의 핵심 항목 중 하나. "customer identification, beneficial-ownership checks, sanctions screening"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -483,9 +504,12 @@
 <h3>민관 파트너십 주장이 놓이는 자리</h3>
 <p>마지막 논점 — 정보와 전문성이 금융회사·감독기관·민간 전문가에게 흩어져 있으니 민관 파트너십이 중요하다 — 은 새 카드가 아니라 <strong>이 카드의 기존 2열 지도</strong>에 놓입니다. 유형(typology) 공유는 사실 전달 문제이고, 이 카탈로그가 이미 다룰 줄 아는 것입니다. 리스크 등급을 정하고 보고서에 서명하는 일은 아닙니다. 세 번째 열로 추가할 것: <strong>컨소시엄이 질 수 있는 의무</strong> — 프로토콜이 질 수 있는 것과 라이선스 보유 기관만 질 수 있는 것 사이에 놓입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hit the same wall</strong></td><td>같은 벽에 부딪히다(같은 한계에 도달) · 여러 문서가 결국 같은 문제에 막힐 때. "Nearly every card since has hit the same wall"</td></tr><tr><td><strong>set aside</strong></td><td>일단 제쳐두다·보류하다 · 다루기 어려운 부분을 뒤로 미룰 때. "and then set the licence half aside"</td></tr><tr><td><strong>route around</strong></td><td>~을 우회하다 · 규칙이나 검토 절차를 피해가는 것. "not to route around it"</td></tr><tr><td><strong>rubber-stamped</strong></td><td>형식적으로 도장만 찍는(제대로 검토 없이 승인) · AI가 사람 판단을 대체해버릴 때. "An AI that is being rubber-stamped shows a collapsing"</td></tr><tr><td><strong>widen the scope</strong></td><td>범위를 넓히다 · 작게 시작한 PoC를 점차 확대할 때. "then widen the scope once effectiveness is shown"</td></tr><tr><td><strong>audit trail</strong></td><td>감사 추적(누가 언제 무엇을 했는지 기록) · 규제 대응에서 필수적인 기록. "start without an audit trail"</td></tr><tr><td><strong>conflating the two</strong></td><td>둘을 혼동하는 것 · 서로 다른 개념을 하나로 뭉뚱그릴 때. "conflating the two is how good advice becomes an excuse"</td></tr><tr><td><strong>risk-based approach</strong></td><td>위험기반 접근법(위험도에 따라 심사 강도를 달리함) · 규제 준수 전략. "and the risk-based approach that decides how much diligence"</td></tr><tr><td><strong>beneficial-ownership checks</strong></td><td>실소유자 확인(자금세탁방지 절차) · KYC의 핵심 항목 중 하나. "customer identification, beneficial-ownership checks, sanctions screening"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-the-rule-names-an-entity.html">&larr; 124. The rule names an entity and the risk lives in the group</a><a href="pocs-address-to-identity-join.html">126. The chain gives you the graph and never the names &rarr;</a></div>
+    <div class="pager"><a href="pocs-the-rule-names-an-entity.html">&larr; 125. The rule names an entity and the risk lives in the group</a><a href="pocs-address-to-identity-join.html">127. The chain gives you the graph and never the names &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -531,17 +555,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

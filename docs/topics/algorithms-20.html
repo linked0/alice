@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -380,7 +384,10 @@ for cond in (True, False):
       <p>Hand-convert a short function containing a branch and a loop into SSA form, placing the phi nodes yourself, then compare it side by side with an actual compiler's SSA dump (e.g., Go's GOSSAFUNC output).</p>
       <h2>Practical Connection</h2>
       <p>When judging why a particular construct in solc's optimizer settings or Go runtime code ends up using more instructions and more gas, looking at what folds away and what survives at the IR level — not the source level — is the most reliable evidence.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale as</strong></td><td>(증가율이) ~형태로 커지다 · 작업량이 곱셈이 아니라 덧셈으로 늘어나는 구조적 이점을 말할 때. "scales as (languages + targets)"</td></tr><tr><td><strong>merge (control flow)</strong></td><td>합류하다, 흐름이 하나로 합쳐지다 · 여러 실행 경로가 한 지점에서 만날 때. "at points where control flow merges"</td></tr><tr><td><strong>explicit</strong></td><td>명시적인, 드러나 있는 · 굳이 따로 분석하지 않아도 표현 자체에 정보가 드러날 때. "def-use relationships are explicit in the representation itself"</td></tr><tr><td><strong>derive from</strong></td><td>~에서 도출되다, 유도되다 · 어떤 개념이 다른 개념을 바탕으로 계산되어 나올 때. "derived from the dominance relation"</td></tr><tr><td><strong>lower (into)</strong></td><td>(더 낮은 단계로) 변환하다 · 상위 표현을 하위 명령어 형태로 바꿔 내릴 때. "an out-of-SSA pass lowers phi nodes into copy instructions"</td></tr><tr><td><strong>fold away</strong></td><td>접혀서 사라지다, 소거되다 · 최적화 과정에서 불필요한 코드가 없어질 때. "what folds away and what survives at the IR level"</td></tr><tr><td><strong>optimizer settings</strong></td><td>최적화 설정 · 컴파일러가 코드를 얼마나·어떻게 최적화할지 정하는 옵션. "a change in compiler optimization settings"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -425,7 +432,10 @@ for cond in (True, False):
       <p>분기와 루프를 각각 포함한 짧은 함수를 손으로 SSA로 변환해 phi 노드를 배치하고, 같은 코드를 실제 컴파일러의 SSA 덤프(예: Go의 GOSSAFUNC 출력)와 나란히 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>solc 최적화 설정이나 Go 런타임 코드에서 특정 구문이 왜 더 많은 명령어와 가스를 쓰는지 판단할 때, 소스가 아니라 IR 수준에서 무엇이 접히고 무엇이 남았는지 보는 것이 가장 확실한 근거가 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale as</strong></td><td>(증가율이) ~형태로 커지다 · 작업량이 곱셈이 아니라 덧셈으로 늘어나는 구조적 이점을 말할 때. "scales as (languages + targets)"</td></tr><tr><td><strong>merge (control flow)</strong></td><td>합류하다, 흐름이 하나로 합쳐지다 · 여러 실행 경로가 한 지점에서 만날 때. "at points where control flow merges"</td></tr><tr><td><strong>explicit</strong></td><td>명시적인, 드러나 있는 · 굳이 따로 분석하지 않아도 표현 자체에 정보가 드러날 때. "def-use relationships are explicit in the representation itself"</td></tr><tr><td><strong>derive from</strong></td><td>~에서 도출되다, 유도되다 · 어떤 개념이 다른 개념을 바탕으로 계산되어 나올 때. "derived from the dominance relation"</td></tr><tr><td><strong>lower (into)</strong></td><td>(더 낮은 단계로) 변환하다 · 상위 표현을 하위 명령어 형태로 바꿔 내릴 때. "an out-of-SSA pass lowers phi nodes into copy instructions"</td></tr><tr><td><strong>fold away</strong></td><td>접혀서 사라지다, 소거되다 · 최적화 과정에서 불필요한 코드가 없어질 때. "what folds away and what survives at the IR level"</td></tr><tr><td><strong>optimizer settings</strong></td><td>최적화 설정 · 컴파일러가 코드를 얼마나·어떻게 최적화할지 정하는 옵션. "a change in compiler optimization settings"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-19.html">&larr; 71. [복습] 알고리즘 선택의 실전 기준표</a><a href="algorithms-21.html">73. 데이터플로 분석 &rarr;</a></div>
 </div>

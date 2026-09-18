@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pixels to millimetres — the step before the arm moves — Tech Notes</title>
+<title>Pixels to millimetres — the step before the arm moves — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Pixels to millimetres — the step before the arm moves</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Pixels to millimetres — the step before the arm moves</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#142</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#143</span><span>PoC</span></p>
       <h1>Pixels to millimetres — the step before the arm moves</h1>
       <p class="lead">Camera calibration, ArUco pose and hand-eye alignment on a built-in webcam and a sheet of A4. The output is not a demo but two error numbers.</p>
       <p class="meta">Not yet scoped — <code>pip install opencv-python opencv-contrib-python</code>, print one DICT_4X4_50 marker from chev.me/arucogen, and check that the axes render on a webcam with rough intrinsics (fx=fy=image width, cx/cy=centre). Real calibration second. docs.opencv.org</p>
@@ -393,7 +411,10 @@
       <h2>How it works</h2>
       <p>Four steps, and only the last two are optional. Intrinsics: fifteen to twenty chessboard or ChArUco shots through <code>cv2.calibrateCamera</code> yield the matrix K (fx, fy, cx, cy) and the distortion coefficients, and reprojection RMS is the first of the two numbers this card exists to produce — under one pixel is the pass mark. Pose: an ArUco marker on the object or the gripper gives full 6-DOF position and rotation relative to the camera, and there is one version trap worth knowing before it costs half an hour — <code>cv2.aruco.estimatePoseSingleMarkers</code> was deprecated in OpenCV 4.7, so the current path is <code>cv2.aruco.ArucoDetector</code> for corners followed by <code>cv2.solvePnP</code> with SOLVEPNP_IPPE_SQUARE, which is why a large share of the tutorials online no longer run as written. Hand-eye: <code>cv2.calibrateHandEye</code> aligns the camera frame with the robot base frame, and the classic first mistake is not the algorithm choice (Tsai, Park, Horaud) but the setup — a camera mounted on the arm is eye-in-hand, a camera on a tripod is eye-to-hand, and getting that backwards produces a transform that is wrong in a way that still looks plausible. Inference: <code>cv2.dnn</code> runs an ONNX detector with no second framework, which is the natural lightweight pairing for an edge board like the Jetson Orin Nano Super and the reason that item sits next in the queue. The second number is the one that actually settles what this camera can do: put the marker at a distance measured with a ruler, compare it to tvec, and record the error as a percentage. Everything above is setup for those two figures — RMS and range error — and a card that reports them is worth more than one that reports that the axes rendered.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bill of materials</strong></td><td>필요한 재료 목록, 준비물 전체 · 실험에 드는 비용이 얼마 안 됨을 강조할 때. "the entire bill of materials"</td></tr><tr><td><strong>pass mark</strong></td><td>합격 기준선 · 어느 수치 이하면 통과로 볼지 정할 때. "under one pixel is the pass mark"</td></tr><tr><td><strong>version trap</strong></td><td>버전 함정 · 구버전 예제 코드가 최신 버전에서 안 통하는 문제. "a version trap worth knowing"</td></tr><tr><td><strong>deprecated</strong></td><td>(기능이) 더 이상 지원되지 않는, 폐기 예정인 · 옛날 API를 쓰면 안 되는 이유. "was deprecated in OpenCV 4.7"</td></tr><tr><td><strong>eye-in-hand / eye-to-hand</strong></td><td>카메라가 팔에 달림 / 카메라가 고정됨 · 캘리브레이션 설정을 헷갈리면 안 되는 두 방식. "a camera mounted on the arm is eye-in-hand"</td></tr><tr><td><strong>settle (decide)</strong></td><td>결정적으로 판가름하다 · 최종적으로 성능을 확정 짓는 수치를 말할 때. "actually settles what this camera can do"</td></tr><tr><td><strong>look plausible</strong></td><td>그럴듯해 보이다(실제론 틀림) · 오차가 있어도 결과가 자연스러워 보일 때. "a transform that is wrong in a way that still looks plausible"</td></tr><tr><td><strong>ceiling</strong></td><td>상한선, 한계치(비유) · 하드웨어에 투자하기 전에 알아둘 성능 한계. "find out where the ceiling actually is"</td></tr><tr><td><strong>natural pairing</strong></td><td>자연스럽게 잘 맞는 조합 · 두 기술이 특히 궁합이 좋을 때. "the natural lightweight pairing for an edge board"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -407,9 +428,12 @@
       <h2>동작 방식</h2>
       <p>단계는 넷이고 뒤의 둘만 선택입니다. <strong>내부 파라미터</strong>: 체스보드나 ChArUco 보드를 15~20장 찍어 <code>cv2.calibrateCamera</code>에 넣으면 행렬 K(fx·fy·cx·cy)와 왜곡계수가 나오고, <strong>재투영 RMS</strong>가 이 카드가 만들려는 두 숫자 중 첫 번째입니다 — 1픽셀 미만이 합격선. <strong>자세추정</strong>: 물체나 그리퍼에 붙인 ArUco 마커가 카메라 기준 6DOF 위치와 회전을 바로 줍니다. 여기 30분을 잡아먹기 전에 알아둘 <strong>버전 함정</strong>이 하나 있습니다 — <code>cv2.aruco.estimatePoseSingleMarkers</code>는 OpenCV 4.7에서 폐기됐으므로, 현행 경로는 <code>cv2.aruco.ArucoDetector</code>로 코너를 검출하고 <code>cv2.solvePnP</code>(플래그 <code>SOLVEPNP_IPPE_SQUARE</code>)로 자세를 푸는 것입니다. 인터넷 예제 상당수가 적힌 대로 돌지 않는 이유가 이것입니다. <strong>hand-eye</strong>: <code>cv2.calibrateHandEye</code>가 카메라 좌표계와 로봇 베이스 좌표계를 정렬하는데, 초보의 첫 실수는 알고리즘 선택(Tsai·Park·Horaud)이 아니라 <strong>설정</strong>입니다 — 카메라가 팔에 붙어 있으면 eye-in-hand, 삼각대에 있으면 eye-to-hand이고, 이걸 반대로 잡으면 <strong>그럴듯해 보이면서 틀린</strong> 변환이 나옵니다. <strong>추론</strong>: <code>cv2.dnn</code>은 별도 프레임워크 없이 ONNX 검출 모델을 돌리는데, Jetson Orin Nano Super 같은 엣지 보드와 짝지을 때의 자연스러운 경량 조합이고 그 항목이 큐에서 다음 순서인 이유이기도 합니다. 이 카메라로 어디까지 할 수 있는지를 실제로 결정하는 것은 <strong>두 번째 숫자</strong>입니다: 마커를 자로 잰 거리에 놓고 <code>tvec</code>과 비교해 오차를 퍼센트로 기록합니다. 위의 전부는 그 두 수치 — <strong>RMS와 거리 오차율</strong> — 를 위한 준비이고, 그것을 보고하는 카드가 &quot;축이 그려졌다&quot;고 보고하는 카드보다 값어치가 큽니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bill of materials</strong></td><td>필요한 재료 목록, 준비물 전체 · 실험에 드는 비용이 얼마 안 됨을 강조할 때. "the entire bill of materials"</td></tr><tr><td><strong>pass mark</strong></td><td>합격 기준선 · 어느 수치 이하면 통과로 볼지 정할 때. "under one pixel is the pass mark"</td></tr><tr><td><strong>version trap</strong></td><td>버전 함정 · 구버전 예제 코드가 최신 버전에서 안 통하는 문제. "a version trap worth knowing"</td></tr><tr><td><strong>deprecated</strong></td><td>(기능이) 더 이상 지원되지 않는, 폐기 예정인 · 옛날 API를 쓰면 안 되는 이유. "was deprecated in OpenCV 4.7"</td></tr><tr><td><strong>eye-in-hand / eye-to-hand</strong></td><td>카메라가 팔에 달림 / 카메라가 고정됨 · 캘리브레이션 설정을 헷갈리면 안 되는 두 방식. "a camera mounted on the arm is eye-in-hand"</td></tr><tr><td><strong>settle (decide)</strong></td><td>결정적으로 판가름하다 · 최종적으로 성능을 확정 짓는 수치를 말할 때. "actually settles what this camera can do"</td></tr><tr><td><strong>look plausible</strong></td><td>그럴듯해 보이다(실제론 틀림) · 오차가 있어도 결과가 자연스러워 보일 때. "a transform that is wrong in a way that still looks plausible"</td></tr><tr><td><strong>ceiling</strong></td><td>상한선, 한계치(비유) · 하드웨어에 투자하기 전에 알아둘 성능 한계. "find out where the ceiling actually is"</td></tr><tr><td><strong>natural pairing</strong></td><td>자연스럽게 잘 맞는 조합 · 두 기술이 특히 궁합이 좋을 때. "the natural lightweight pairing for an edge board"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-robotics-entry-decision.html">&larr; 141. Four ways into robotics, and what each one actually buys</a><a href="pocs-the-70-has-to-be-wrong.html">143. The 70% has to be wrong three times in ten &rarr;</a></div>
+    <div class="pager"><a href="pocs-robotics-entry-decision.html">&larr; 142. Four ways into robotics, and what each one actually buys</a><a href="pocs-the-70-has-to-be-wrong.html">144. The 70% has to be wrong three times in ten &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -455,17 +479,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

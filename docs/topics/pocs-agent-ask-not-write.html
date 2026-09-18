@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Give the agent the right to ask, not the right to write — Tech Notes</title>
+<title>Give the agent the right to ask, not the right to write — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Give the agent the right to ask, not the right to write</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Give the agent the right to ask, not the right to write</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#224</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#225</span><span>PoC</span></p>
       <h1>Give the agent the right to ask, not the right to write</h1>
       <p class="lead">Samsung Account (≈2.1B users) built a production multi-agent AIOps system on Bedrock AgentCore, and its load-bearing choice is a permission boundary, not a model: agents get no write access — they only propose an exact command, and a separate deterministic scheduler executes the approved artifact verbatim after a human reviews it. Analysis can be wrong and re-checked; execution that is wrong is irreversible. It is a shipped implementation of &quot;separate deciding from acting by something that is not a prompt.&quot;</p>
       <p class="meta">Not yet scoped — a design-pattern study you can apply to any agent that touches production. First, split your agent&#39;s actions into read (analysis) and write (execution) and confirm the write path does not run through the LLM at all. Then implement the proposal/execution split: the agent registers <em>what to run</em> — the exact command or code — a human reviews that exact artifact, and a deterministic executor runs the approved artifact verbatim, nothing regenerated. Add the maturity ladder they use: Level 1 is read-only cross-domain analysis (low risk, biggest time sink), Level 2 is plan → approve → execute, and the gate sits precisely on the read/write line. Layer in the single-entry guardrail — one Orchestrator every request converges on, where PII redaction, routing, and long-term memory live once — so adding agents does not scatter the boundary. The measurable question: what share of your operational toil is read-only analysis (safe to automate today) versus write actions (gated), and does automation grow by adding <em>executor</em> procedures rather than <em>agent</em> permissions? Source: AWS blog, Samsung Account SRE, &quot;Samsung Account AIOps&quot; Part 1, 2026-09-03 — a vendor showcase for AgentCore; weight the product framing, but the pattern is the point.</p>
@@ -476,7 +494,10 @@
 <h3>Related cards</h3>
 <p><code>agentic-intent-veto</code> and <code>simulate-before-sign</code> (a check/veto outside the model, before the irreversible act), <code>constraint-was-the-product</code> (&quot;not a prompt&quot; as the boundary; fewer tools = better judgment), <code>the-boundary-is-the-unit</code> (single-point governance), <code>a-boolean-hides-a-state-machine</code> (non-determinism: one good run proves nothing), <code>what-encryption-does-not-hide</code> (a masked+hashed audit log that isn&#39;t its own leak path).</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인 · 시스템 전체를 떠받치는 결정적 설계 요소를 말할 때. "its load-bearing choice is a permission boundary"</td></tr><tr><td><strong>showcase</strong></td><td>홍보용 사례, 전시(성 발표) · 벤더가 자사 제품을 돋보이게 하려고 낸 사례를 경계할 때. "a vendor showcase for AgentCore"</td></tr><tr><td><strong>time sink</strong></td><td>시간을 많이 잡아먹는 일 · 자동화했을 때 이득이 큰, 반복적이고 시간 소모적인 업무. "biggest time sink, lowest risk"</td></tr><tr><td><strong>converge on</strong></td><td>~로 한데 모이다, 수렴하다 · 모든 요청이 하나의 지점을 거쳐가게 설계할 때. "every request converges on one Orchestrator"</td></tr><tr><td><strong>widen by</strong></td><td>~함으로써 (범위·적용 대상이) 넓어지다 · 권한을 풀어서가 아니라 다른 방식으로 자동화 범위를 넓힐 때. "Automation widens by adding verified execution paths"</td></tr><tr><td><strong>freeze (v.)</strong></td><td>(권한·상태를) 고정시키다, 동결하다 · 에이전트의 권한을 더 늘리지 않고 그대로 묶어둘 때. "they froze the agent at ask-only"</td></tr><tr><td><strong>verbatim</strong></td><td>원문 그대로, 한 글자도 안 바꾸고 · 승인된 코드를 재생성 없이 그대로 실행할 때. "runs the approved artifact verbatim"</td></tr><tr><td><strong>degrade</strong></td><td>(품질·판단력이) 저하되다 · 도구나 범위가 늘어날수록 에이전트의 판단이 나빠질 때. "a single agent&#39;s judgment degrades as its tools"</td></tr><tr><td><strong>decouple</strong></td><td>분리하다, 떼어놓다 · 서로 다른 성격의 두 요소를 독립적으로 만들 때. "decouples non-deterministic judgment from deterministic execution"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -573,9 +594,12 @@
 <h3>관련 카드</h3>
 <p><code>agentic-intent-veto</code>·<code>simulate-before-sign</code>(돌이킬 수 없는 행동 전, 모델 밖의 검사/거부권), <code>constraint-was-the-product</code>(경계로서의 &quot;프롬프트 아님&quot;; 도구 적을수록 판단 나음), <code>the-boundary-is-the-unit</code>(단일 지점 거버넌스), <code>a-boolean-hides-a-state-machine</code>(비결정성: 한 번 잘 됐다고 증명 아님), <code>what-encryption-does-not-hide</code>(자기 유출 경로가 아닌 마스킹·해시 감사 로그).</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>load-bearing</strong></td><td>하중을 지탱하는, 핵심적인 · 시스템 전체를 떠받치는 결정적 설계 요소를 말할 때. "its load-bearing choice is a permission boundary"</td></tr><tr><td><strong>showcase</strong></td><td>홍보용 사례, 전시(성 발표) · 벤더가 자사 제품을 돋보이게 하려고 낸 사례를 경계할 때. "a vendor showcase for AgentCore"</td></tr><tr><td><strong>time sink</strong></td><td>시간을 많이 잡아먹는 일 · 자동화했을 때 이득이 큰, 반복적이고 시간 소모적인 업무. "biggest time sink, lowest risk"</td></tr><tr><td><strong>converge on</strong></td><td>~로 한데 모이다, 수렴하다 · 모든 요청이 하나의 지점을 거쳐가게 설계할 때. "every request converges on one Orchestrator"</td></tr><tr><td><strong>widen by</strong></td><td>~함으로써 (범위·적용 대상이) 넓어지다 · 권한을 풀어서가 아니라 다른 방식으로 자동화 범위를 넓힐 때. "Automation widens by adding verified execution paths"</td></tr><tr><td><strong>freeze (v.)</strong></td><td>(권한·상태를) 고정시키다, 동결하다 · 에이전트의 권한을 더 늘리지 않고 그대로 묶어둘 때. "they froze the agent at ask-only"</td></tr><tr><td><strong>verbatim</strong></td><td>원문 그대로, 한 글자도 안 바꾸고 · 승인된 코드를 재생성 없이 그대로 실행할 때. "runs the approved artifact verbatim"</td></tr><tr><td><strong>degrade</strong></td><td>(품질·판단력이) 저하되다 · 도구나 범위가 늘어날수록 에이전트의 판단이 나빠질 때. "a single agent&#39;s judgment degrades as its tools"</td></tr><tr><td><strong>decouple</strong></td><td>분리하다, 떼어놓다 · 서로 다른 성격의 두 요소를 독립적으로 만들 때. "decouples non-deterministic judgment from deterministic execution"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-aa-standard-execution-split.html">&larr; 223. One AA spec, two execution models — or the EVM fragments</a><a href="pocs-cli-batch-vs-mcp-interactive.html">225. The CLI leaves an artifact; the MCP holds a conversation &rarr;</a></div>
+    <div class="pager"><a href="pocs-aa-standard-execution-split.html">&larr; 224. One AA spec, two execution models — or the EVM fragments</a><a href="pocs-cli-batch-vs-mcp-interactive.html">226. The CLI leaves an artifact; the MCP holds a conversation &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -621,17 +645,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

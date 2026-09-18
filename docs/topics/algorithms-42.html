@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -413,7 +417,10 @@ print(&quot;no locks used, no data race possible:&quot;, total == expected)
       <p>Build the same HTTP echo server in Node.js (event loop) and Go (goroutines), put a several-hundred-millisecond CPU computation into the handler, and measure with a load tool how p99 latency changes.</p>
       <h2>Practical Connection</h2>
       <p>A blockchain indexer or an order book matching engine typically confines matching state to a single actor/single thread and only runs I/O asynchronously, which gets you ordering guarantees and throughput at the same time.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>slice (concurrency) into</strong></td><td>~단위로 쪼개다, 나누다 · 동시성 모델이 작업을 어떤 단위로 분할하는지 말할 때. "what unit they slice concurrency into"</td></tr><tr><td><strong>stall everything</strong></td><td>전체를 멎게 하다 · 하나의 작업이 시스템 전체를 멈춰 세울 때. "blocking the loop stalls everything"</td></tr><tr><td><strong>guard (shared state)</strong></td><td>(공유 상태를) 보호하다, 지키다 · 락 등으로 동시 접근을 막을 때. "shared memory has to be guarded with locks"</td></tr><tr><td><strong>confine</strong></td><td>가두다, 한정하다 · 상태를 한 영역 안에만 머물게 제한할 때. "confines state inside each actor"</td></tr><tr><td><strong>backpressure</strong></td><td>백프레셔(역압), 처리 속도에 맞춘 유입 제어 · 큐가 넘치지 않도록 압박을 되돌려주는 메커니즘. "mailbox backpressure"</td></tr><tr><td><strong>multiplex</strong></td><td>다중화하다 · 적은 자원(스레드)에 많은 작업을 겹쳐 배정할 때. "multiplexes many lightweight tasks onto a small number"</td></tr><tr><td><strong>violate (an assumption)</strong></td><td>전제를 어기다, 깨뜨리다 · 모델이 기대는 규칙을 지키지 않아 문제가 생길 때. "violating the assumptions behind whichever model was chosen"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -491,7 +498,10 @@ print(&quot;no locks used, no data race possible:&quot;, total == expected)
       <p>같은 HTTP 에코 서버를 Node.js(이벤트 루프)와 Go(고루틴)로 각각 만들고, 핸들러에 수백 밀리초짜리 CPU 연산을 넣었을 때 p99 지연이 어떻게 달라지는지 부하 도구로 측정해 볼 것.</p>
       <h2>실무 · Verex 연결</h2>
       <p>블록체인 인덱서나 오더북 매칭 엔진은 보통 매칭 상태를 단일 액터/단일 스레드에 가두고 I/O만 비동기로 돌려 순서 보장과 처리량을 동시에 얻는다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>slice (concurrency) into</strong></td><td>~단위로 쪼개다, 나누다 · 동시성 모델이 작업을 어떤 단위로 분할하는지 말할 때. "what unit they slice concurrency into"</td></tr><tr><td><strong>stall everything</strong></td><td>전체를 멎게 하다 · 하나의 작업이 시스템 전체를 멈춰 세울 때. "blocking the loop stalls everything"</td></tr><tr><td><strong>guard (shared state)</strong></td><td>(공유 상태를) 보호하다, 지키다 · 락 등으로 동시 접근을 막을 때. "shared memory has to be guarded with locks"</td></tr><tr><td><strong>confine</strong></td><td>가두다, 한정하다 · 상태를 한 영역 안에만 머물게 제한할 때. "confines state inside each actor"</td></tr><tr><td><strong>backpressure</strong></td><td>백프레셔(역압), 처리 속도에 맞춘 유입 제어 · 큐가 넘치지 않도록 압박을 되돌려주는 메커니즘. "mailbox backpressure"</td></tr><tr><td><strong>multiplex</strong></td><td>다중화하다 · 적은 자원(스레드)에 많은 작업을 겹쳐 배정할 때. "multiplexes many lightweight tasks onto a small number"</td></tr><tr><td><strong>violate (an assumption)</strong></td><td>전제를 어기다, 깨뜨리다 · 모델이 기대는 규칙을 지키지 않아 문제가 생길 때. "violating the assumptions behind whichever model was chosen"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-41.html">&larr; 93. 커널 바이패스와 zero-copy</a><a href="algorithms-43.html">95. 백프레셔와 큐 이론 &rarr;</a></div>
 </div>

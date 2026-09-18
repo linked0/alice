@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulation belongs before the wallet prompt — Tech Notes</title>
+<title>Simulation belongs before the wallet prompt — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Simulation belongs before the wallet prompt</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Simulation belongs before the wallet prompt</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#34</span><span>PoC</span></p>
       <h1>Simulation belongs before the wallet prompt</h1>
@@ -416,7 +434,10 @@ const hash = await walletClient.writeContract(request)
 <p>viem decodes custom errors from the ABI it was given. A revert bubbling up from a nested third-party contract arrives as a raw selector — undecodable without that ABI. A service version needs an error-selector registry (own ABIs + a 4byte-style directory + an honest &quot;unknown reason&quot; fallback). &quot;Decoded failure&quot; quietly ranges from &quot;insufficient allowance, need 50 more&quot; to &quot;something reverted&quot; — show one of each.</p>
 <h3>The pipeline, and the KPI</h3>
 <p>This card and <code>receipt-is-not-settlement</code> are one product: the <em>monitor</em> leg of simulate → explain → sign → monitor is exactly that card&#39;s <code>detected → included → safe → finalized (+ reorged)</code> machine. Before the signature this card removes knowable failures; after it, the tier machine handles the unknowable ones. The production KPI falls out naturally: the <strong>false-promise rate</strong> — the share of transactions that passed simulation but failed on-chain, per contract and per market condition. That number is the honesty meter of the explain step, and the SLO the service should publish about itself.</p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>blind signing</strong></td><td>내용을 모른 채 서명하기 · 지갑이 트랜잭션 의미를 설명 안 해줄 때 벌어지는 문제. "Blind signing kept burning people"</td></tr><tr><td><strong>burn (money)</strong></td><td>돈이 날아가다, 소진되다 · 실패한 거래에 가스비만 날린 경우. "well over $150M burned in a gas war"</td></tr><tr><td><strong>climax with</strong></td><td>~로 절정에 달하다 · 여러 사건이 누적되다 최악의 사건으로 정점을 찍을 때. "it climaxed with the Bybit hack"</td></tr><tr><td><strong>bubble up (from)</strong></td><td>(에러 등이) 아래에서 위로 전파되어 올라오다 · 중첩된 컨트랙트에서 에러가 올라올 때. "A revert bubbling up from a nested... contract"</td></tr><tr><td><strong>gas war</strong></td><td>가스 전쟁 · 다들 먼저 처리되려고 가스비를 올려 경쟁하는 상황. "well over $150M burned in a gas war"</td></tr><tr><td><strong>patch the wrong layer</strong></td><td>엉뚱한 계층을 땜질하다 · 문제의 진짜 원인이 아닌 곳을 고칠 때. "The market voted, but patched the wrong layer"</td></tr><tr><td><strong>the seed of</strong></td><td>~의 씨앗, 출발점 · 작은 아이디어가 나중에 큰 것으로 자랄 때. "the seed of a shared service"</td></tr><tr><td><strong>honesty meter</strong></td><td>정직함을 재는 척도(비유) · 예측이 얼마나 믿을 만한지 보여주는 지표. "the honesty meter of the explain step"</td></tr><tr><td><strong>false-promise rate</strong></td><td>거짓 약속 비율 · 시뮬레이션은 통과했지만 실제로 실패한 거래의 비율. "the false-promise rate... is the honesty meter"</td></tr><tr><td><strong>front-running</strong></td><td>선행매매 · 남의 거래를 미리 알고 앞서 끼어드는 행위. "does not... eliminate front-running"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -453,7 +474,10 @@ const hash = await walletClient.writeContract(request)
 <p>viem 은 건네받은 ABI 의 커스텀 에러만 풉니다. 중첩된 서드파티 컨트랙트에서 올라온 revert 는 날 셀렉터로 도착하고, 그 ABI 없이는 못 풉니다. 서비스 버전에는 에러 셀렉터 레지스트리(자체 ABI + 4byte 류 디렉터리 + 정직한 &quot;원인 불명&quot; 폴백)가 필요합니다. &quot;디코드된 실패&quot;는 조용히 &quot;허용량 50 부족&quot;부터 &quot;무언가 revert 됨&quot;까지 폭이 있습니다 — 각각 하나씩 보여줄 것.</p>
 <h3>파이프라인, 그리고 KPI</h3>
 <p>이 카드와 <code>receipt-is-not-settlement</code> 는 한 제품입니다: simulate → explain → sign → monitor 의 <em>monitor</em> 구간이 정확히 그 카드의 <code>detected → included → safe → finalized (+ reorged)</code> 머신입니다. 서명 전에는 이 카드가 알 수 있는 실패를 제거하고, 서명 후에는 계층 머신이 알 수 없는 실패를 처리합니다. 프로덕션 KPI 도 자연히 떨어집니다: <strong>거짓 약속률(false-promise rate)</strong> — 시뮬은 통과했는데 온체인에서 실패한 트랜잭션의 비율(컨트랙트별·시장 상황별). 이 숫자가 explain 단계의 정직성 계기판이고, 서비스가 스스로에 대해 공표해야 할 SLO 입니다.</p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>blind signing</strong></td><td>내용을 모른 채 서명하기 · 지갑이 트랜잭션 의미를 설명 안 해줄 때 벌어지는 문제. "Blind signing kept burning people"</td></tr><tr><td><strong>burn (money)</strong></td><td>돈이 날아가다, 소진되다 · 실패한 거래에 가스비만 날린 경우. "well over $150M burned in a gas war"</td></tr><tr><td><strong>climax with</strong></td><td>~로 절정에 달하다 · 여러 사건이 누적되다 최악의 사건으로 정점을 찍을 때. "it climaxed with the Bybit hack"</td></tr><tr><td><strong>bubble up (from)</strong></td><td>(에러 등이) 아래에서 위로 전파되어 올라오다 · 중첩된 컨트랙트에서 에러가 올라올 때. "A revert bubbling up from a nested... contract"</td></tr><tr><td><strong>gas war</strong></td><td>가스 전쟁 · 다들 먼저 처리되려고 가스비를 올려 경쟁하는 상황. "well over $150M burned in a gas war"</td></tr><tr><td><strong>patch the wrong layer</strong></td><td>엉뚱한 계층을 땜질하다 · 문제의 진짜 원인이 아닌 곳을 고칠 때. "The market voted, but patched the wrong layer"</td></tr><tr><td><strong>the seed of</strong></td><td>~의 씨앗, 출발점 · 작은 아이디어가 나중에 큰 것으로 자랄 때. "the seed of a shared service"</td></tr><tr><td><strong>honesty meter</strong></td><td>정직함을 재는 척도(비유) · 예측이 얼마나 믿을 만한지 보여주는 지표. "the honesty meter of the explain step"</td></tr><tr><td><strong>false-promise rate</strong></td><td>거짓 약속 비율 · 시뮬레이션은 통과했지만 실제로 실패한 거래의 비율. "the false-promise rate... is the honesty meter"</td></tr><tr><td><strong>front-running</strong></td><td>선행매매 · 남의 거래를 미리 알고 앞서 끼어드는 행위. "does not... eliminate front-running"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-l2-finality-three-clocks.html">&larr; 33. L2 finality is three clocks</a><a href="pocs-bundler-paymaster-dependencies.html">35. Gasless is two infrastructure services &rarr;</a></div>
   </div>
@@ -501,17 +525,18 @@ const hash = await walletClient.writeContract(request)
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target — Tech Notes</title>
+<title>Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
 
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#193</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">chat</span></p>
       <h1>Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target</h1>
@@ -405,7 +423,10 @@
 <h3>Verified and unverified</h3>
 <p>Verified on 2026-09-18: the Deribit 2026-09-25 quarterly figures ($14.73 billion notional, 186,000 contracts, put-call 0.52, max pain $72,000, ETH max pain $2,200; crypto.news, 2026-09-15); the IBIT 2026-09-18 expiry (about $5 billion notional, max pain $40; Crypto Briefing); the August 2026 Deribit expiry as precedent ($6.44 billion, max pain $68,000 to $70,000 against spot near $79,000, and no pull; Decrypt, 2026-08-27); the research finding that max-pain predictability in index options is explained by reversal and expiry trading (Filippou, Garcia-Ares and Zapatero, as summarised by Arkham and BackQuant). From the morning report, not independently verified: the $78,000 max pain and $76,355 spot for the expiry tracked on 2026-09-18, the four relative readings, and which exchange and expiry that series followed, since Deribit&#39;s monthly and quarterly expiry is 2026-09-25 and 09-18 is a weekly.</p>
 <p>Sources: <a href="https://crypto.news/bitcoin-options-lead-16-6b-q3-crypto-expiry/">crypto.news — Bitcoin options lead $16.6B Q3 crypto expiry, 2026-09-15</a> · <a href="https://cryptobriefing.com/ibit-options-expiry-september-max-pain/">Crypto Briefing — $5B of IBIT options expire September 18, max pain $40</a> · <a href="https://decrypt.co/376752/billion-bitcoin-options-expire-what-it-means">Decrypt — $6.4 billion in Bitcoin options expire tomorrow, 2026-08-27</a> · <a href="https://info.arkm.com/research/crypto-trading-max-pain-price-theory-options-guide">Arkham — A guide to the max pain price in crypto</a> · <a href="https://www.backquant.com/learn/max-pain">BackQuant — Max pain explained</a></p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>expire worthless</strong></td><td>(옵션이) 휴지조각이 되어 만료되다 · 행사할 가치가 없이 끝날 때. "the most open options expire worthless"</td></tr><tr><td><strong>drift toward</strong></td><td>~쪽으로 서서히 움직이다 · 가격이 특정 수준으로 천천히 끌려갈 때. "price drifts toward it into expiry"</td></tr><tr><td><strong>went nowhere in particular</strong></td><td>특별히 어디로도 가지 않았다, 제자리걸음이었다 · 가격이 크게 안 움직였을 때. "the price went nowhere in particular"</td></tr><tr><td><strong>re-mark itself</strong></td><td>스스로 재평가되다, 재산정되다 · 포지션이 바뀌면서 지표 값 자체가 계속 갱신될 때. "watching the chain re-mark itself"</td></tr><tr><td><strong>pin (price)</strong></td><td>가격을 한 수준에 고정시키다 · 만기 직전 헤지 물량이 가격을 묶어둘 때. "pin price in the last hours"</td></tr><tr><td><strong>falsification condition</strong></td><td>반증 조건 · 어떤 지표가 틀렸음을 입증할 기준을 미리 정해두는 것. "a falsification condition written in advance"</td></tr><tr><td><strong>earn a place</strong></td><td>(목록·지면에) 오를 자격이 있다 · 어떤 항목이 채택될 근거가 있을 때. "earns a place in a daily reading"</td></tr><tr><td><strong>dominated by</strong></td><td>~에 의해 좌우되다 · 소수 요인이 전체 결과를 지배할 때. "dominated by the strikes with the largest interest"</td></tr><tr><td><strong>notional</strong></td><td>(파생상품의) 명목 금액 · 실제 결제액이 아니라 계약 기준 금액을 말할 때. "$14.7 billion notional"</td></tr><tr><td><strong>just met its condition</strong></td><td>방금 그 조건을 충족했다 · 미리 세운 검증 기준이 실제로 성립했을 때. "This one just met its condition"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -431,7 +452,10 @@
 <h3>확인된 것과 미확인</h3>
 <p>2026-09-18에 확인한 것: Deribit 2026-09-25 분기 수치(명목 147.3억 달러, 18.6만 계약, 풋콜 0.52, 맥스페인 72,000달러, ETH 맥스페인 2,200달러; crypto.news, 2026-09-15); IBIT 2026-09-18 만기(명목 약 50억 달러, 맥스페인 40달러; Crypto Briefing); 선례로서 2026년 8월 Deribit 만기(64.4억 달러, 맥스페인 68,000~70,000달러 대 현물 약 79,000달러, 끌림 없음; Decrypt, 2026-08-27); 지수 옵션의 맥스페인 예측력이 되돌림과 만기 거래로 설명된다는 연구(Filippou, Garcia-Ares, Zapatero, Arkham과 BackQuant 요약). 모닝 리포트에서 가져와 독립 검증하지 않은 것: 2026-09-18에 추적된 만기의 맥스페인 78,000달러와 현물 76,355달러, 네 번의 상대 읽기, 그 시리즈가 어느 거래소와 만기를 따랐는지. Deribit의 월간·분기 만기는 2026-09-25이고 09-18은 주간 만기이기 때문.</p>
 <p>출처: <a href="https://crypto.news/bitcoin-options-lead-16-6b-q3-crypto-expiry/">crypto.news — Bitcoin options lead $16.6B Q3 crypto expiry, 2026-09-15</a> · <a href="https://cryptobriefing.com/ibit-options-expiry-september-max-pain/">Crypto Briefing — $5B of IBIT options expire September 18, max pain $40</a> · <a href="https://decrypt.co/376752/billion-bitcoin-options-expire-what-it-means">Decrypt — $6.4 billion in Bitcoin options expire tomorrow, 2026-08-27</a> · <a href="https://info.arkm.com/research/crypto-trading-max-pain-price-theory-options-guide">Arkham — A guide to the max pain price in crypto</a> · <a href="https://www.backquant.com/learn/max-pain">BackQuant — Max pain explained</a></p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>expire worthless</strong></td><td>(옵션이) 휴지조각이 되어 만료되다 · 행사할 가치가 없이 끝날 때. "the most open options expire worthless"</td></tr><tr><td><strong>drift toward</strong></td><td>~쪽으로 서서히 움직이다 · 가격이 특정 수준으로 천천히 끌려갈 때. "price drifts toward it into expiry"</td></tr><tr><td><strong>went nowhere in particular</strong></td><td>특별히 어디로도 가지 않았다, 제자리걸음이었다 · 가격이 크게 안 움직였을 때. "the price went nowhere in particular"</td></tr><tr><td><strong>re-mark itself</strong></td><td>스스로 재평가되다, 재산정되다 · 포지션이 바뀌면서 지표 값 자체가 계속 갱신될 때. "watching the chain re-mark itself"</td></tr><tr><td><strong>pin (price)</strong></td><td>가격을 한 수준에 고정시키다 · 만기 직전 헤지 물량이 가격을 묶어둘 때. "pin price in the last hours"</td></tr><tr><td><strong>falsification condition</strong></td><td>반증 조건 · 어떤 지표가 틀렸음을 입증할 기준을 미리 정해두는 것. "a falsification condition written in advance"</td></tr><tr><td><strong>earn a place</strong></td><td>(목록·지면에) 오를 자격이 있다 · 어떤 항목이 채택될 근거가 있을 때. "earns a place in a daily reading"</td></tr><tr><td><strong>dominated by</strong></td><td>~에 의해 좌우되다 · 소수 요인이 전체 결과를 지배할 때. "dominated by the strikes with the largest interest"</td></tr><tr><td><strong>notional</strong></td><td>(파생상품의) 명목 금액 · 실제 결제액이 아니라 계약 기준 금액을 말할 때. "$14.7 billion notional"</td></tr><tr><td><strong>just met its condition</strong></td><td>방금 그 조건을 충족했다 · 미리 세운 검증 기준이 실제로 성립했을 때. "This one just met its condition"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-stablecoin-mcap-is-repackaged-money.html">&larr; 192. A rising stablecoin cap is repackaged M2, not new money</a></div>
   </div>
@@ -479,17 +503,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

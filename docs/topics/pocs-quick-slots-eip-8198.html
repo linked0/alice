@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter — Tech Notes</title>
+<title>Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
 
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#54</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">chat</span></p>
       <h1>Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</h1>
@@ -405,7 +423,10 @@
 <h3>Verified and unverified</h3>
 <p>Verified on 2026-09-16: the EIP text and constants (Draft, created 2026-03-17); consensus-specs PR #5592 is open, targets 10 s, and replaces the constant with a schedule whose entries must coincide with network upgrades — its description says the schedule "is simply a way to loop over historical slot durations", not a way to change slot time between upgrades; the EF Protocol post rates it tier B with the four prerequisites and reports the engineering teams&#39; D; Ethlabs&#39; writing puts it at S and proposes 10 s in Hegotá. Not verified: whether 8198 is scheduled for Hegotá (no decision as of this writing), Hegotá&#39;s date (after Glamsterdam, "waiting for post-Glamsterdam mainnet data"), and whether 8 or 10 s lands first.</p>
 <p>Sources: <a href="https://eips.ethereum.org/EIPS/eip-8198">EIP-8198</a> · <a href="https://github.com/ethereum/consensus-specs/pull/5592">consensus-specs PR #5592</a> · <a href="https://blog.ethereum.org/2026/09/07/protocol-hegota-eips">EF Protocol — Hegotá EIP opinion post and tier list (2026-09-07)</a> · <a href="https://ethlabs.org/writings/hegota-view.html">Ethlabs — Hegotá view</a> · <a href="https://forkcast.org/eips/8198/">Forkcast — EIP-8198</a></p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>denominated in</strong></td><td>~단위로 표시된 · "denominated in slots or epochs"</td></tr><tr><td><strong>compile-time vs runtime</strong></td><td>컴파일타임 대 런타임 (고정값이냐 동적 값이냐) · "a runtime schedule instead of a compile-time constant"</td></tr><tr><td><strong>take the first cut</strong></td><td>첫 번째 삭감(조정)을 단행하다 · "uses that to take the first cut"</td></tr><tr><td><strong>coincide with</strong></td><td>~과 시점이 맞아떨어지다 · "must coincide with a network upgrade"</td></tr><tr><td><strong>bookkeeping, not a lever</strong></td><td>실질적 지렛대가 아니라 장부 정리일 뿐인 · "The schedule is bookkeeping, not a lever"</td></tr><tr><td><strong>binding constraint</strong></td><td>실제로 발목을 잡는 제약 조건 · "the binding constraint was never raw speed"</td></tr><tr><td><strong>retuning cascade</strong></td><td>연쇄적으로 줄줄이 재조정해야 하는 상황 · "rated it D for the retuning cascade"</td></tr><tr><td><strong>sign-off</strong></td><td>최종 승인, 확인 도장 · "sign-off that it does not complicate decoupled consensus"</td></tr><tr><td><strong>stealth throughput increase</strong></td><td>눈에 안 띄게 처리량을 늘리는 것 · "a stealth throughput increase with the validator-hardware cost"</td></tr><tr><td><strong>hardcode</strong></td><td>값을 코드에 고정해서 박아 넣다 · "hardcodes twelve seconds is already wrong"</td></tr><tr><td><strong>readiness, not direction</strong></td><td>방향이 아니라 준비 정도(타이밍)에 대한 견해차 · "The disagreement is about readiness, not direction"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -431,7 +452,10 @@
 <h3>확인된 것과 미확인</h3>
 <p>2026-09-16에 확인한 것: EIP 본문과 상수(Draft, 2026-03-17 생성); consensus-specs PR #5592는 열려 있고 10초를 목표로 하며 상수를 항목이 네트워크 업그레이드와 일치해야 하는 스케줄로 대체 — 설명에 스케줄은 "과거 슬롯 길이들을 순회하기 위한 단순한 방법"이고 업그레이드 사이에 슬롯 시간을 바꾸는 수단이 아니라고 적혀 있음; EF Protocol 글은 네 가지 전제 조건과 함께 B 티어로 평가하고 엔지니어링 팀들의 D를 전함; Ethlabs 글은 S로 두고 Hegotá에서 10초를 제안. 확인하지 않은 것: 8198이 Hegotá에 확정되었는지(이 글 시점에 결정 없음), Hegotá 시기(Glamsterdam 이후, "Glamsterdam 이후 메인넷 데이터를 기다림"), 8초와 10초 중 무엇이 먼저 들어가는지.</p>
 <p>출처: <a href="https://eips.ethereum.org/EIPS/eip-8198">EIP-8198</a> · <a href="https://github.com/ethereum/consensus-specs/pull/5592">consensus-specs PR #5592</a> · <a href="https://blog.ethereum.org/2026/09/07/protocol-hegota-eips">EF Protocol — Hegotá EIP 의견 글과 티어 리스트 (2026-09-07)</a> · <a href="https://ethlabs.org/writings/hegota-view.html">Ethlabs — Hegotá view</a> · <a href="https://forkcast.org/eips/8198/">Forkcast — EIP-8198</a></p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>denominated in</strong></td><td>~단위로 표시된 · "denominated in slots or epochs"</td></tr><tr><td><strong>compile-time vs runtime</strong></td><td>컴파일타임 대 런타임 (고정값이냐 동적 값이냐) · "a runtime schedule instead of a compile-time constant"</td></tr><tr><td><strong>take the first cut</strong></td><td>첫 번째 삭감(조정)을 단행하다 · "uses that to take the first cut"</td></tr><tr><td><strong>coincide with</strong></td><td>~과 시점이 맞아떨어지다 · "must coincide with a network upgrade"</td></tr><tr><td><strong>bookkeeping, not a lever</strong></td><td>실질적 지렛대가 아니라 장부 정리일 뿐인 · "The schedule is bookkeeping, not a lever"</td></tr><tr><td><strong>binding constraint</strong></td><td>실제로 발목을 잡는 제약 조건 · "the binding constraint was never raw speed"</td></tr><tr><td><strong>retuning cascade</strong></td><td>연쇄적으로 줄줄이 재조정해야 하는 상황 · "rated it D for the retuning cascade"</td></tr><tr><td><strong>sign-off</strong></td><td>최종 승인, 확인 도장 · "sign-off that it does not complicate decoupled consensus"</td></tr><tr><td><strong>stealth throughput increase</strong></td><td>눈에 안 띄게 처리량을 늘리는 것 · "a stealth throughput increase with the validator-hardware cost"</td></tr><tr><td><strong>hardcode</strong></td><td>값을 코드에 고정해서 박아 넣다 · "hardcodes twelve seconds is already wrong"</td></tr><tr><td><strong>readiness, not direction</strong></td><td>방향이 아니라 준비 정도(타이밍)에 대한 견해차 · "The disagreement is about readiness, not direction"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 53. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-alchemy-app-is-a-budget.html">55. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking &rarr;</a></div>
   </div>
@@ -479,17 +503,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Priced in fiat, settled in tokens — the quote is a product promise — Tech Notes</title>
+<title>Priced in fiat, settled in tokens — the quote is a product promise — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Priced in fiat, settled in tokens — the quote is a product promise</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Priced in fiat, settled in tokens — the quote is a product promise</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#52</span><span>PoC</span></p>
       <h1>Priced in fiat, settled in tokens — the quote is a product promise</h1>
@@ -398,7 +416,10 @@
 <h3>What it proves</h3>
 <p>The quote is a short-dated option the product writes for free, and TTL is its expiry. Policy A prices the option at the merchant&#39;s expense, B at the buyer&#39;s UX, C bounds both — which is why every serious crypto checkout (and every FX-touching commerce API) converges on C. The interesting output is not the code but the table: drift cost as a product decision made visible.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wearing a ... costume</strong></td><td>겉으로만 ~인, ~의 탈을 쓴(비유) · "product design wearing an exchange-rate costume"</td></tr><tr><td><strong>leak margin</strong></td><td>마진(이윤)이 새어나가다, 손해를 보다 · "the merchant leaks margin on every dip"</td></tr><tr><td><strong>surprise-charged</strong></td><td>예상 못 한 금액을 청구당하는 · "the buyer gets surprise-charged on every spike"</td></tr><tr><td><strong>eat (a cost)</strong></td><td>(손실·비용을) 떠안다 · "who eats movement inside the window"</td></tr><tr><td><strong>short-dated option</strong></td><td>만기가 짧은 옵션(금융 용어) · "The quote is a short-dated option the product writes for free"</td></tr><tr><td><strong>write (an option)</strong></td><td>옵션을 발행하다(매도하다) · "the product writes for free"</td></tr><tr><td><strong>converges on</strong></td><td>(여러 사례가) 한 방향으로 수렴한다 · "every serious crypto checkout ... converges on C"</td></tr><tr><td><strong>bound (verb)</strong></td><td>상한을 씌워 제한하다 · "C bounds both"</td></tr><tr><td><strong>drift cost</strong></td><td>가격 변동으로 인한 손실 비용 · "drift cost as a product decision made visible"</td></tr><tr><td><strong>silently running</strong></td><td>아무도 모르게 뒤에서 운영되고 있는 · "silently running a tiny FX desk"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -417,7 +438,10 @@
 <h3>무엇을 증명하나</h3>
 <p>견적은 제품이 공짜로 써 주는 <strong>단기 옵션</strong>이고 TTL 이 그 만기입니다. 정책 A 는 그 옵션 값을 상인이, B 는 구매자 UX 가 치르고, C 는 둘 다 한정합니다 — 진지한 크립토 체크아웃(그리고 FX 를 만지는 모든 커머스 API)이 C 로 수렴하는 이유입니다. 흥미로운 산출물은 코드가 아니라 표입니다: <strong>제품 결정으로서의 변동 비용을 눈에 보이게 만든 것.</strong></p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>wearing a ... costume</strong></td><td>겉으로만 ~인, ~의 탈을 쓴(비유) · "product design wearing an exchange-rate costume"</td></tr><tr><td><strong>leak margin</strong></td><td>마진(이윤)이 새어나가다, 손해를 보다 · "the merchant leaks margin on every dip"</td></tr><tr><td><strong>surprise-charged</strong></td><td>예상 못 한 금액을 청구당하는 · "the buyer gets surprise-charged on every spike"</td></tr><tr><td><strong>eat (a cost)</strong></td><td>(손실·비용을) 떠안다 · "who eats movement inside the window"</td></tr><tr><td><strong>short-dated option</strong></td><td>만기가 짧은 옵션(금융 용어) · "The quote is a short-dated option the product writes for free"</td></tr><tr><td><strong>write (an option)</strong></td><td>옵션을 발행하다(매도하다) · "the product writes for free"</td></tr><tr><td><strong>converges on</strong></td><td>(여러 사례가) 한 방향으로 수렴한다 · "every serious crypto checkout ... converges on C"</td></tr><tr><td><strong>bound (verb)</strong></td><td>상한을 씌워 제한하다 · "C bounds both"</td></tr><tr><td><strong>drift cost</strong></td><td>가격 변동으로 인한 손실 비용 · "drift cost as a product decision made visible"</td></tr><tr><td><strong>silently running</strong></td><td>아무도 모르게 뒤에서 운영되고 있는 · "silently running a tiny FX desk"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-jayverse-build-on-the-shortlist.html">&larr; 51. What Jayverse can build on — the shortlist of rails, by need</a><a href="pocs-trading-intel-cost-needs-a-denominator.html">53. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L &rarr;</a></div>
   </div>
@@ -465,17 +489,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

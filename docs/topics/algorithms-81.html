@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -384,7 +388,10 @@ print(&quot;lesson: model B pays write-time cost to buy O(1) reads for the *actu
       <p>Pull the top three slowest queries in your current service, check their execution plans, and write down alternative key/partition designs that would turn each into a single index lookup, then compare the expected scanned-row counts.</p>
       <h2>Practical Connection</h2>
       <p>In Verex, 'all of one user's positions across every market' and 'all of one market's orders across every user' demand different access paths, so making both fast calls for separating storage structures by access pattern rather than trying to force one table design to cover both.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>set the ceiling on</strong></td><td>~의 상한선을 결정짓다 · 데이터 모델이 성능의 한계를 미리 정한다는 뜻. "A data model sets the ceiling on performance"</td></tr><tr><td><strong>write amplification</strong></td><td>쓰기 증폭 · 인덱스를 추가할 때 실제 쓰기 작업이 늘어나는 현상. "they add write amplification and storage"</td></tr><tr><td><strong>pile on</strong></td><td>계속 쌓아 올리다, 마구 추가하다 · 인덱스를 무한정 늘릴 수 없다는 뜻. "you can&#39;t pile on indexes indefinitely"</td></tr><tr><td><strong>rescue</strong></td><td>잘못된 것을 구제하다, 살려내다 · 인덱스가 근본적으로 틀린 모델을 완전히 구하지는 못한다는 뜻. "they can&#39;t fully rescue a fundamentally wrong model"</td></tr><tr><td><strong>mismatched to</strong></td><td>~와 맞지 않는, 어긋나는 · 스키마가 실제 접근 패턴과 안 맞을 때. "a schema mismatched to the access pattern"</td></tr><tr><td><strong>expensive to reverse</strong></td><td>되돌리기에 비용이 많이 드는 · 데이터가 쌓인 뒤 모델을 바꾸기 어렵다는 뜻. "the most expensive to reverse once data has accumulated"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -433,7 +440,10 @@ print(&quot;lesson: model B pays write-time cost to buy O(1) reads for the *actu
       <p>현재 서비스에서 가장 느린 상위 세 질의를 뽑아 실행 계획을 확인하고, 각각을 단일 인덱스 탐색으로 만들 수 있는 키·파티션 설계를 대안으로 적어 예상 스캔 행 수를 비교해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex에서 '한 사용자의 전 마켓 포지션'과 '한 마켓의 전 사용자 주문'은 서로 다른 접근 경로를 요구하므로, 두 질의를 모두 빠르게 하려면 하나의 테이블 설계로 버티기보다 접근 패턴별 저장 구조를 나누는 판단이 필요하다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>set the ceiling on</strong></td><td>~의 상한선을 결정짓다 · 데이터 모델이 성능의 한계를 미리 정한다는 뜻. "A data model sets the ceiling on performance"</td></tr><tr><td><strong>write amplification</strong></td><td>쓰기 증폭 · 인덱스를 추가할 때 실제 쓰기 작업이 늘어나는 현상. "they add write amplification and storage"</td></tr><tr><td><strong>pile on</strong></td><td>계속 쌓아 올리다, 마구 추가하다 · 인덱스를 무한정 늘릴 수 없다는 뜻. "you can&#39;t pile on indexes indefinitely"</td></tr><tr><td><strong>rescue</strong></td><td>잘못된 것을 구제하다, 살려내다 · 인덱스가 근본적으로 틀린 모델을 완전히 구하지는 못한다는 뜻. "they can&#39;t fully rescue a fundamentally wrong model"</td></tr><tr><td><strong>mismatched to</strong></td><td>~와 맞지 않는, 어긋나는 · 스키마가 실제 접근 패턴과 안 맞을 때. "a schema mismatched to the access pattern"</td></tr><tr><td><strong>expensive to reverse</strong></td><td>되돌리기에 비용이 많이 드는 · 데이터가 쌓인 뒤 모델을 바꾸기 어렵다는 뜻. "the most expensive to reverse once data has accumulated"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-80.html">&larr; 132. 외부 정렬·병합 전략과 병렬 정렬 (TAOCP 3권)</a><a href="algorithms-82.html">134. 랜덤 오라클·길이 연장 공격·도메인 분리 &rarr;</a></div>
 </div>

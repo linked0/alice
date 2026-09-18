@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -394,7 +398,10 @@ for name, cand in [(&quot;무해한 변경&quot;, candidate_ok), (&quot;실제 �
       <p>Run a single function many times with Go's testing.B, extract percentiles and standard deviation, and tabulate how much the numbers change with and without warm-up.</p>
       <h2>Practical Connection</h2>
       <p>Contract gas consumption is deterministic, so regressions can be pinned to an exact value, but off-chain matching-engine and API latency have to be managed as distributions — Verex's CI needs two different kinds of regression gates for these two cases.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steady state</strong></td><td>안정 상태(워밍업 이후 일정해진 상태) · 초기 변동이 끝나고 값이 일정해진 구간을 말할 때. "early runs differ from steady state"</td></tr><tr><td><strong>the noise band</strong></td><td>잡음 범위(측정 오차로 볼 수 있는 폭) · 실제 변화인지 오차인지 구분하는 기준. "exceeds the noise band"</td></tr><tr><td><strong>widen the threshold</strong></td><td>기준(허용 폭)을 넓히다 · 잡음이 많은 환경에서 판정 기준을 느슨하게 할 때. "widen the threshold generously"</td></tr><tr><td><strong>let ... through</strong></td><td>~을 걸러내지 못하고 통과시키다 · 감지해야 할 문제를 놓칠 때. "lets real performance regressions through"</td></tr><tr><td><strong>flag as</strong></td><td>~로 표시하다/판정하다 · 자동화된 시스템이 특정 항목을 문제로 분류할 때. "flagging harmless changes as regressions"</td></tr><tr><td><strong>nobody trusts the results anymore</strong></td><td>아무도 더 이상 결과를 신뢰하지 않게 되다 · 잘못된 판정이 반복되어 신뢰가 무너진 상태. "eventually nobody trusts the results anymore"</td></tr><tr><td><strong>pinned to</strong></td><td>~에 고정되다/특정 값으로 못박히다 · 결정론적 값이라 정확히 특정할 수 있을 때. "regressions can be pinned to an exact value"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -453,7 +460,10 @@ for name, cand in [(&quot;무해한 변경&quot;, candidate_ok), (&quot;실제 �
       <p>함수 하나를 Go의 testing.B로 여러 차례 돌려 분위수와 표준편차를 뽑고, 워밍업 유무에 따라 수치가 얼마나 달라지는지 표로 정리하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>컨트랙트 가스 소비는 결정적이라 정확한 값으로 회귀를 고정할 수 있는 반면 오프체인 매칭 엔진과 API 지연은 분포로 관리해야 하므로, Verex CI에서 두 종류의 회귀 게이트를 다른 방식으로 설계해야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steady state</strong></td><td>안정 상태(워밍업 이후 일정해진 상태) · 초기 변동이 끝나고 값이 일정해진 구간을 말할 때. "early runs differ from steady state"</td></tr><tr><td><strong>the noise band</strong></td><td>잡음 범위(측정 오차로 볼 수 있는 폭) · 실제 변화인지 오차인지 구분하는 기준. "exceeds the noise band"</td></tr><tr><td><strong>widen the threshold</strong></td><td>기준(허용 폭)을 넓히다 · 잡음이 많은 환경에서 판정 기준을 느슨하게 할 때. "widen the threshold generously"</td></tr><tr><td><strong>let ... through</strong></td><td>~을 걸러내지 못하고 통과시키다 · 감지해야 할 문제를 놓칠 때. "lets real performance regressions through"</td></tr><tr><td><strong>flag as</strong></td><td>~로 표시하다/판정하다 · 자동화된 시스템이 특정 항목을 문제로 분류할 때. "flagging harmless changes as regressions"</td></tr><tr><td><strong>nobody trusts the results anymore</strong></td><td>아무도 더 이상 결과를 신뢰하지 않게 되다 · 잘못된 판정이 반복되어 신뢰가 무너진 상태. "eventually nobody trusts the results anymore"</td></tr><tr><td><strong>pinned to</strong></td><td>~에 고정되다/특정 값으로 못박히다 · 결정론적 값이라 정확히 특정할 수 있을 때. "regressions can be pinned to an exact value"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-45.html">&larr; 97. 프로파일링 심화</a><a href="algorithms-47.html">99. eBPF로 프로덕션 관측 &rarr;</a></div>
 </div>

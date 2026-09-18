@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -396,7 +400,10 @@ print(f&quot;읽기 증폭(최악의 경우 확인해야 할 레벨 수) ≈ {le
       <p>Load a random-key write workload onto RocksDB or a similar engine, vary the compaction style and level fan-out, and table out actual disk bytes written against logical bytes written (write amplification) alongside lookup p99 latency.</p>
       <h2>Practical Connection</h2>
       <p>If Verex's event indexer writes logs mostly as time-ordered appends and queries them per-market by range, key design and compaction policy alone can shift query latency and disk lifetime substantially on the same hardware.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>write amplification</strong></td><td>쓰기 증폭 · 논리적으로 한 번 쓴 데이터가 디스크에 여러 번 다시 쓰이는 정도를 가리키는 스토리지 용어. "Write amplification is the multiple by which one logical write"</td></tr><tr><td><strong>read amplification</strong></td><td>읽기 증폭 · 조회 한 번에 여러 레벨·파일을 확인해야 하는 비용을 가리킬 때. "Read amplification is the cost of a single lookup"</td></tr><tr><td><strong>space amplification</strong></td><td>공간 증폭 · 실제 데이터보다 저장 공간을 얼마나 더 차지하는지 나타내는 비율. "Space amplification is the ratio by which stored data exceeds"</td></tr><tr><td><strong>fan-out</strong></td><td>팬아웃, 한 레벨이 갖는 파일 개수 비율 · 컴팩션 설정을 튜닝할 때 쓰는 용어. "vary the compaction style and level fan-out"</td></tr><tr><td><strong>at the cost of</strong></td><td>~을 대가로, ~을 희생하고 · 한쪽 장점을 얻는 대신 다른 쪽이 나빠질 때. "at the cost of high write amplification"</td></tr><tr><td><strong>table out</strong></td><td>표로 정리해서 나타내다 · 실험 결과를 비교 가능한 표로 만들 때 쓰는 구동사. "table out actual disk bytes written against logical bytes"</td></tr><tr><td><strong>piled up</strong></td><td>쌓이다, 누적되다 · 파일이나 작업이 정리되지 않고 계속 쌓일 때. "the files piled up across levels via compaction"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -457,7 +464,10 @@ print(f&quot;읽기 증폭(최악의 경우 확인해야 할 레벨 수) ≈ {le
       <p>RocksDB나 유사 엔진에 랜덤 키 쓰기 부하를 넣고 컴팩션 스타일과 레벨 배수를 바꿔가며 실제 디스크 기록량 대비 논리 쓰기량(쓰기 증폭)과 조회 p99를 표로 비교해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 이벤트 인덱서가 로그를 시간순 append 위주로 쓰고 마켓별로 범위 조회한다면, 키 설계와 컴팩션 정책만 바꿔도 같은 하드웨어에서 조회 지연과 디스크 수명이 크게 달라진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>write amplification</strong></td><td>쓰기 증폭 · 논리적으로 한 번 쓴 데이터가 디스크에 여러 번 다시 쓰이는 정도를 가리키는 스토리지 용어. "Write amplification is the multiple by which one logical write"</td></tr><tr><td><strong>read amplification</strong></td><td>읽기 증폭 · 조회 한 번에 여러 레벨·파일을 확인해야 하는 비용을 가리킬 때. "Read amplification is the cost of a single lookup"</td></tr><tr><td><strong>space amplification</strong></td><td>공간 증폭 · 실제 데이터보다 저장 공간을 얼마나 더 차지하는지 나타내는 비율. "Space amplification is the ratio by which stored data exceeds"</td></tr><tr><td><strong>fan-out</strong></td><td>팬아웃, 한 레벨이 갖는 파일 개수 비율 · 컴팩션 설정을 튜닝할 때 쓰는 용어. "vary the compaction style and level fan-out"</td></tr><tr><td><strong>at the cost of</strong></td><td>~을 대가로, ~을 희생하고 · 한쪽 장점을 얻는 대신 다른 쪽이 나빠질 때. "at the cost of high write amplification"</td></tr><tr><td><strong>table out</strong></td><td>표로 정리해서 나타내다 · 실험 결과를 비교 가능한 표로 만들 때 쓰는 구동사. "table out actual disk bytes written against logical bytes"</td></tr><tr><td><strong>piled up</strong></td><td>쌓이다, 누적되다 · 파일이나 작업이 정리되지 않고 계속 쌓일 때. "the files piled up across levels via compaction"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-70.html">&larr; 122. WAL·그룹 커밋·fsync 비용</a><a href="algorithms-72.html">124. B+트리 vs LSM &rarr;</a></div>
 </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>When a chain can't defend itself, it becomes a token on one that can — Tech Notes</title>
+<title>When a chain can't defend itself, it becomes a token on one that can — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; When a chain can't defend itself, it becomes a token on one that can</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; When a chain can't defend itself, it becomes a token on one that can</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#190</span><span>PoC</span></p>
       <h1>When a chain can't defend itself, it becomes a token on one that can</h1>
@@ -468,7 +486,10 @@
 <h3>Related cards</h3>
 <p><code>fees-over-security-budget</code> (does a chain pay for its own security — this is the terminal case), <code>choosing-a-chain-is-a-lease</code> (the same lease read from the chain&#39;s own side), <code>who-holds-the-mint</code> and <code>the-bridge-is-inside-the-token</code> (a mint-path compromise breaks the supply invariant), <code>stake-concentration</code> (the 33%/51% side of cost-to-attack), <code>sec-fcash-maturity-window</code> (the machine-scale copycat dynamic), <code>the-only-commitment-is-the-issuer</code> (what ONE becomes after migration).</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sunset</strong></td><td>단계적으로 종료하다, 서비스를 접다 · 체인이나 제품을 공식적으로 폐지할 때. "it will sunset its mainnet"</td></tr><tr><td><strong>negative EV</strong></td><td>기댓값이 마이너스인(손해가 나는) · 비용 대비 이득이 없는 선택을 가리킬 때. "staying sovereign is negative EV"</td></tr><tr><td><strong>rent</strong></td><td>(소유가 아닌) 빌려 쓰다 · 자체 구축 대신 남의 인프라를 사용할 때. "rent Ethereum&#39;s by becoming an ERC-20"</td></tr><tr><td><strong>capitulation</strong></td><td>항복, 버티던 입장을 접는 것 · 손실을 인정하고 물러서는 결정을 말할 때. "a capitulation with a sound rationale"</td></tr><tr><td><strong>clear the bar</strong></td><td>기준을 통과하다, 문턱을 넘다 · 요구 수준을 충분히 만족시킬 때. "already clears the bar"</td></tr><tr><td><strong>have history here</strong></td><td>이 분야에서 전례가 있다 · 과거에도 비슷한 일을 겪은 적이 있을 때. "Harmony has history here"</td></tr><tr><td><strong>price in</strong></td><td>(위험 등을) 평가에 반영하다 · 어떤 요소를 셈에 넣어 가치를 매길 때. "has to price in that the scarcity"</td></tr><tr><td><strong>surrender</strong></td><td>포기하다, 내주다 · 무언가를 얻는 대가로 잃는 것을 말할 때. "what it surrenders is the block space"</td></tr><tr><td><strong>at machine scale and speed</strong></td><td>기계 수준의 규모와 속도로 · 인간이 아닌 자동화된 공격이 대량·고속으로 이뤄질 때. "Attackers at machine scale and speed"</td></tr><tr><td><strong>worth its cost</strong></td><td>그 대가를 치를 가치가 있는 · 무언가를 유지하는 비용이 감수할 만한지 말할 때. "worth its cost while you can defend it"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -557,7 +578,10 @@
 <h3>관련 카드</h3>
 <p><code>fees-over-security-budget</code>(체인이 자기 보안 비용을 내는가 — 이것이 종착 사례), <code>choosing-a-chain-is-a-lease</code>(같은 임대차를 체인 자신의 관점에서), <code>who-holds-the-mint</code>·<code>the-bridge-is-inside-the-token</code>(발행 경로 침해가 공급 불변식을 깸), <code>stake-concentration</code>(공격 비용의 33%/51% 쪽), <code>sec-fcash-maturity-window</code>(기계 규모 카피캣 동학), <code>the-only-commitment-is-the-issuer</code>(이전 후 ONE 이 되는 것).</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>sunset</strong></td><td>단계적으로 종료하다, 서비스를 접다 · 체인이나 제품을 공식적으로 폐지할 때. "it will sunset its mainnet"</td></tr><tr><td><strong>negative EV</strong></td><td>기댓값이 마이너스인(손해가 나는) · 비용 대비 이득이 없는 선택을 가리킬 때. "staying sovereign is negative EV"</td></tr><tr><td><strong>rent</strong></td><td>(소유가 아닌) 빌려 쓰다 · 자체 구축 대신 남의 인프라를 사용할 때. "rent Ethereum&#39;s by becoming an ERC-20"</td></tr><tr><td><strong>capitulation</strong></td><td>항복, 버티던 입장을 접는 것 · 손실을 인정하고 물러서는 결정을 말할 때. "a capitulation with a sound rationale"</td></tr><tr><td><strong>clear the bar</strong></td><td>기준을 통과하다, 문턱을 넘다 · 요구 수준을 충분히 만족시킬 때. "already clears the bar"</td></tr><tr><td><strong>have history here</strong></td><td>이 분야에서 전례가 있다 · 과거에도 비슷한 일을 겪은 적이 있을 때. "Harmony has history here"</td></tr><tr><td><strong>price in</strong></td><td>(위험 등을) 평가에 반영하다 · 어떤 요소를 셈에 넣어 가치를 매길 때. "has to price in that the scarcity"</td></tr><tr><td><strong>surrender</strong></td><td>포기하다, 내주다 · 무언가를 얻는 대가로 잃는 것을 말할 때. "what it surrenders is the block space"</td></tr><tr><td><strong>at machine scale and speed</strong></td><td>기계 수준의 규모와 속도로 · 인간이 아닌 자동화된 공격이 대량·고속으로 이뤄질 때. "Attackers at machine scale and speed"</td></tr><tr><td><strong>worth its cost</strong></td><td>그 대가를 치를 가치가 있는 · 무언가를 유지하는 비용이 감수할 만한지 말할 때. "worth its cost while you can defend it"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-revision-is-the-fourth-column.html">&larr; 189. The fourth column: the −23,000 that a dozen notes cited never existed</a><a href="pocs-eth-money-or-fuel.html">191. When nobody needs to hold ETH, is ETH money or fuel? &rarr;</a></div>
   </div>
@@ -605,17 +629,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

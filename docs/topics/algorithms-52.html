@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -412,7 +416,10 @@ print(&quot;\n결론: 최종 일관성은 갱신이 멈추면 언젠가 수렴�
       <p>Reproduce a stale read for real by running a write-then-read scenario against a read replica with replication lag, then fix it to get read-your-writes via session pinning or reading from the leader.</p>
       <h2>Practical Connection</h2>
       <p>A blockchain's finalized chain effectively provides a global linearizable order, but pre-finality reorganization is possible, so an indexer or off-chain order book should treat pre-finality state as only eventually consistent and reflect it in settlement only after finality.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take effect</strong></td><td>효력이 발생하다, 적용되다 · 어떤 작업이 실제로 반영되는 시점을 말할 때. "appear to take effect atomically"</td></tr><tr><td><strong>respect (an order)</strong></td><td>(순서 등을) 따르다, 지키다 · 규칙이나 시간 순서를 어기지 않을 때. "in an order that respects real time"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다, 한 값으로 모이다 · 여러 복제본이 결국 같은 상태로 맞춰질 때. "replicas converge at some point"</td></tr><tr><td><strong>stale read</strong></td><td>오래돼 갱신 안 된 읽기값 · 최신 쓰기가 반영되지 않은 상태로 읽히는 현상. "reproduce a stale read for real"</td></tr><tr><td><strong>replication lag</strong></td><td>복제 지연 · 원본과 복제본 사이에 데이터 반영이 늦어지는 시간차. "a read replica with replication lag"</td></tr><tr><td><strong>session pinning</strong></td><td>세션 고정 · 한 사용자의 요청을 계속 같은 노드로 보내 일관성을 보장하는 기법. "read-your-writes via session pinning"</td></tr><tr><td><strong>wastes latency and cost for nothing</strong></td><td>괜히 지연과 비용만 낭비하다 · 불필요하게 과한 보장을 선택해서 손해만 볼 때. "wastes latency and cost for nothing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -489,7 +496,10 @@ print(&quot;\n결론: 최종 일관성은 갱신이 멈추면 언젠가 수렴�
       <p>복제 지연이 있는 읽기 전용 레플리카에 write-then-read 시나리오를 걸어 stale read를 실제로 재현하고, read-your-writes를 세션 고정이나 리더 읽기로 고쳐 볼 것.</p>
       <h2>실무 · Verex 연결</h2>
       <p>블록체인의 확정된 체인은 사실상 전역 선형화 순서를 제공하지만 파이널리티 이전 재조직 가능성이 있어, 인덱서·오프체인 오더북은 확정 전 상태를 최종 일관성으로 다루고 확정 후에만 정산에 반영해야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>take effect</strong></td><td>효력이 발생하다, 적용되다 · 어떤 작업이 실제로 반영되는 시점을 말할 때. "appear to take effect atomically"</td></tr><tr><td><strong>respect (an order)</strong></td><td>(순서 등을) 따르다, 지키다 · 규칙이나 시간 순서를 어기지 않을 때. "in an order that respects real time"</td></tr><tr><td><strong>converge</strong></td><td>수렴하다, 한 값으로 모이다 · 여러 복제본이 결국 같은 상태로 맞춰질 때. "replicas converge at some point"</td></tr><tr><td><strong>stale read</strong></td><td>오래돼 갱신 안 된 읽기값 · 최신 쓰기가 반영되지 않은 상태로 읽히는 현상. "reproduce a stale read for real"</td></tr><tr><td><strong>replication lag</strong></td><td>복제 지연 · 원본과 복제본 사이에 데이터 반영이 늦어지는 시간차. "a read replica with replication lag"</td></tr><tr><td><strong>session pinning</strong></td><td>세션 고정 · 한 사용자의 요청을 계속 같은 노드로 보내 일관성을 보장하는 기법. "read-your-writes via session pinning"</td></tr><tr><td><strong>wastes latency and cost for nothing</strong></td><td>괜히 지연과 비용만 낭비하다 · 불필요하게 과한 보장을 선택해서 손해만 볼 때. "wastes latency and cost for nothing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-51.html">&larr; 103. [복습] 성능 예산 문서 쓰기</a><a href="algorithms-53.html">105. 논리 시계·벡터 시계·하이브리드 논리 시계(HLC) &rarr;</a></div>
 </div>

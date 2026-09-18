@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -395,7 +399,10 @@ print(&quot;\ntx2 변조 후 체인 유효?&quot;, verify_chain(chain))
       <p>Implement a Merkle tree that reads a directory tree and computes each node's hash from its children's hashes, then verify that changing one byte of a file changes the root, while only the nodes on the changed path need to be recomputed.</p>
       <h2>Practical Connection</h2>
       <p>Ethereum's state tree and block linkage are both hash-linked DAGs, and the same principle underlies how Gnosis Conditional Tokens derive condition and position identifiers as hashes of their inputs.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>diverge sharply</strong></td><td>크게 갈라지다/차이 나다 · 조건에 따라 성질이 확연히 달라질 때. "diverge sharply depending on whether edges are directed"</td></tr><tr><td><strong>cascade up</strong></td><td>(변화가) 위로 연쇄적으로 퍼지다 · 하나의 변경이 상위 노드까지 줄줄이 영향을 줄 때. "cascades up through every ancestor node"</td></tr><tr><td><strong>tamper-evident</strong></td><td>조작하면 티가 나는(변조 감지 가능한) · 데이터가 변경되면 바로 드러나는 구조를 말할 때. "making the whole structure tamper-evident"</td></tr><tr><td><strong>by construction</strong></td><td>구조상 원천적으로, 설계 자체에 의해 · 별도 증명 없이 구조만으로 성립하는 성질을 말할 때. "can never contain a cycle by construction"</td></tr><tr><td><strong>point ahead to</strong></td><td>아직 존재하지 않는 대상을 미리 가리키다 · 해시 링크가 미래 값을 참조할 수 없다는 제약. "can never point ahead to a hash that doesn&#39;t exist"</td></tr><tr><td><strong>the basis for</strong></td><td>~의 토대/근거가 되다 · 어떤 개념이 다른 응용의 기반이 될 때. "the basis for dependency resolution"</td></tr><tr><td><strong>connected, acyclic</strong></td><td>연결되어 있고 순환이 없는 · 트리의 정의를 이루는 두 성질을 가리킬 때. "A tree is a connected, acyclic graph"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -455,7 +462,10 @@ print(&quot;\ntx2 변조 후 체인 유효?&quot;, verify_chain(chain))
       <p>디렉터리 트리를 읽어 각 노드의 해시를 자식 해시들로부터 계산하는 머클 트리를 구현하고, 파일 한 바이트를 바꿨을 때 루트가 바뀌는 것과 변경 경로 위의 노드만 다시 계산하면 되는 것을 확인하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>이더리움의 상태 트리와 블록 연결이 모두 해시 링크 DAG이며, Gnosis Conditional Tokens에서 condition과 position 식별자가 입력값의 해시로 결정되는 것도 같은 원리다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>diverge sharply</strong></td><td>크게 갈라지다/차이 나다 · 조건에 따라 성질이 확연히 달라질 때. "diverge sharply depending on whether edges are directed"</td></tr><tr><td><strong>cascade up</strong></td><td>(변화가) 위로 연쇄적으로 퍼지다 · 하나의 변경이 상위 노드까지 줄줄이 영향을 줄 때. "cascades up through every ancestor node"</td></tr><tr><td><strong>tamper-evident</strong></td><td>조작하면 티가 나는(변조 감지 가능한) · 데이터가 변경되면 바로 드러나는 구조를 말할 때. "making the whole structure tamper-evident"</td></tr><tr><td><strong>by construction</strong></td><td>구조상 원천적으로, 설계 자체에 의해 · 별도 증명 없이 구조만으로 성립하는 성질을 말할 때. "can never contain a cycle by construction"</td></tr><tr><td><strong>point ahead to</strong></td><td>아직 존재하지 않는 대상을 미리 가리키다 · 해시 링크가 미래 값을 참조할 수 없다는 제약. "can never point ahead to a hash that doesn&#39;t exist"</td></tr><tr><td><strong>the basis for</strong></td><td>~의 토대/근거가 되다 · 어떤 개념이 다른 응용의 기반이 될 때. "the basis for dependency resolution"</td></tr><tr><td><strong>connected, acyclic</strong></td><td>연결되어 있고 순환이 없는 · 트리의 정의를 이루는 두 성질을 가리킬 때. "A tree is a connected, acyclic graph"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-4.html">&larr; 4. 귀납법/구조적 재귀</a><a href="math-6.html">6. 비둘기집 원리 &rarr;</a></div>
 </div>

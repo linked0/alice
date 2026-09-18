@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -409,7 +413,10 @@ print(&quot;-&gt; 테일 샘플링은 저장량을 줄이면서도 중요한 트
       <p>Set up two or more services, propagate trace context with OpenTelemetry, and check directly — with the head sampling rate turned down — whether a given trace cuts off partway through.</p>
       <h2>Practical Connection</h2>
       <p>The flow of a user order from the API through the matching engine to transaction submission and receipt confirmation has long, asynchronous spans because of chain confirmation latency, so recording the transaction hash as a span attribute and preserving failed traces via tail sampling is critical for incident analysis.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>propagate</strong></td><td>(신호·값을) 전파시키다 · "must be propagated through request headers"</td></tr><tr><td><strong>fragmented</strong></td><td>조각나다, 중간에 끊기다 · "the trace doesn&#39;t get fragmented"</td></tr><tr><td><strong>buffering</strong></td><td>완료될 때까지 임시로 저장해 두는 것 · "it requires buffering until completion"</td></tr><tr><td><strong>post-mortem</strong></td><td>사후 분석, 사후 부검 · "traces you actually need for post-mortem analysis"</td></tr><tr><td><strong>cut off partway through</strong></td><td>도중에 끊기다 · "whether a given trace cuts off partway through"</td></tr><tr><td><strong>reconstruct without bias</strong></td><td>편향 없이 재구성하다 · "aggregate metrics can be reconstructed without bias"</td></tr><tr><td><strong>asynchronous</strong></td><td>비동기적인 · "long, asynchronous spans because of chain confirmation latency"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -483,7 +490,10 @@ print(&quot;-&gt; 테일 샘플링은 저장량을 줄이면서도 중요한 트
       <p>두 개 이상의 서비스를 두고 OpenTelemetry로 트레이스 컨텍스트를 전파해 보고, 헤드 샘플링 비율을 낮춘 상태에서 특정 트레이스가 중간부터 끊기는지 여부를 직접 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>사용자 주문이 API에서 매칭 엔진을 거쳐 트랜잭션 제출과 영수증 확인까지 이어지는 흐름은 체인 확정 지연 때문에 스팬이 길고 비동기라, 트랜잭션 해시를 스팬 속성으로 남기고 실패 트레이스를 테일 샘플링으로 보존하는 설계가 사고 분석에 결정적이다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>propagate</strong></td><td>(신호·값을) 전파시키다 · "must be propagated through request headers"</td></tr><tr><td><strong>fragmented</strong></td><td>조각나다, 중간에 끊기다 · "the trace doesn&#39;t get fragmented"</td></tr><tr><td><strong>buffering</strong></td><td>완료될 때까지 임시로 저장해 두는 것 · "it requires buffering until completion"</td></tr><tr><td><strong>post-mortem</strong></td><td>사후 분석, 사후 부검 · "traces you actually need for post-mortem analysis"</td></tr><tr><td><strong>cut off partway through</strong></td><td>도중에 끊기다 · "whether a given trace cuts off partway through"</td></tr><tr><td><strong>reconstruct without bias</strong></td><td>편향 없이 재구성하다 · "aggregate metrics can be reconstructed without bias"</td></tr><tr><td><strong>asynchronous</strong></td><td>비동기적인 · "long, asynchronous spans because of chain confirmation latency"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-47.html">&larr; 99. eBPF로 프로덕션 관측</a><a href="algorithms-49.html">101. 용량 계획·SLO와 에러 예산 &rarr;</a></div>
 </div>

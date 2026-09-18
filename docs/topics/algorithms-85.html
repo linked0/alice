@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -391,7 +395,10 @@ print(&quot;so the same key+message always reuses the SAME nonce safely (no acci
       <p>Produce two ECDSA signatures over different messages using the same nonce, then actually solve the resulting pair of equations to recover the private key.</p>
       <h2>Practical Connection</h2>
       <p>If Verex takes signed off-chain orders and verifies them on-chain, how you handle signature malleability, nonce reuse prevention, and domain separation (EIP-712) is exactly the defense line against order forgery and replay attacks.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>in exchange</strong></td><td>그 대가로 · 단점을 감수하는 대신 얻는 장점을 말할 때. "the property that lets you recover the public key"</td></tr><tr><td><strong>structurally eliminate</strong></td><td>구조적으로 아예 없애버리다 · 설계 자체가 문제를 원천 차단한다는 뜻. "structurally eliminating nonce-reuse incidents"</td></tr><tr><td><strong>rogue-key attack</strong></td><td>불량 키 공격 · 남의 공개키를 이용해 자기 키를 조작하는 공격. "the rogue-key attack, where an attacker crafts their own key"</td></tr><tr><td><strong>proof of possession</strong></td><td>소유 증명 · 개인키를 실제로 갖고 있음을 증명하는 절차. "needs proof of possession or a MuSig-style commitment procedure"</td></tr><tr><td><strong>translate directly into</strong></td><td>곧바로 ~로 이어지다 · 작은 버그가 큰 사고로 직결된다는 뜻. "translate directly into stolen funds or a consensus split"</td></tr><tr><td><strong>take on (a pitfall)</strong></td><td>결점·위험을 떠안다, 감수하다 · 어떤 방식을 고르면 그에 딸린 위험도 함께 진다는 뜻. "choosing which pitfall you&#39;re taking on"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -447,7 +454,10 @@ print(&quot;so the same key+message always reuses the SAME nonce safely (no acci
       <p>동일한 nonce로 서로 다른 메시지에 ECDSA 서명 두 개를 만든 뒤 두 서명식을 연립해 개인키를 실제로 복원하는 스크립트를 작성해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex에서 오프체인 주문에 서명을 받아 온체인에서 검증한다면 서명 가변성, 재사용 방지 nonce, 도메인 분리(EIP-712)를 어떻게 잡느냐가 곧 주문 위조·재생 공격의 방어선이다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>in exchange</strong></td><td>그 대가로 · 단점을 감수하는 대신 얻는 장점을 말할 때. "the property that lets you recover the public key"</td></tr><tr><td><strong>structurally eliminate</strong></td><td>구조적으로 아예 없애버리다 · 설계 자체가 문제를 원천 차단한다는 뜻. "structurally eliminating nonce-reuse incidents"</td></tr><tr><td><strong>rogue-key attack</strong></td><td>불량 키 공격 · 남의 공개키를 이용해 자기 키를 조작하는 공격. "the rogue-key attack, where an attacker crafts their own key"</td></tr><tr><td><strong>proof of possession</strong></td><td>소유 증명 · 개인키를 실제로 갖고 있음을 증명하는 절차. "needs proof of possession or a MuSig-style commitment procedure"</td></tr><tr><td><strong>translate directly into</strong></td><td>곧바로 ~로 이어지다 · 작은 버그가 큰 사고로 직결된다는 뜻. "translate directly into stolen funds or a consensus split"</td></tr><tr><td><strong>take on (a pitfall)</strong></td><td>결점·위험을 떠안다, 감수하다 · 어떤 방식을 고르면 그에 딸린 위험도 함께 진다는 뜻. "choosing which pitfall you&#39;re taking on"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-84.html">&larr; 136. 난수 생성과 CSPRNG 품질 (TAOCP 2권)</a><a href="algorithms-86.html">138. 임계 서명·MPC·분산 키 생성(DKG) &rarr;</a></div>
 </div>

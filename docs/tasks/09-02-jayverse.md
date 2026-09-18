@@ -191,6 +191,10 @@
   §9 above; listed here because it is a candidate, not a committed build.
 - **(b) 보안 취약점 연구 (Security-hole research)** — the offensive-security muscle; full writeup in
   the ETC section below.
+- **(d) Canton Network — test usage** (jay, 2026-09-18) — Daml templates for a licensed Number
+  reading and a verex market resolving on a named reference rate; Splice LocalNet first, then the
+  Global Synchronizer DevNet; test networks only, no MainNet. Writeup in
+  [`../features/jayverse-darkhorse.md`](../features/jayverse-darkhorse.md) (d).
 - (also on the radar: **데이터 과학 / data science** — pandas/numpy, Dune/The Graph; see the PoC
   "Essential Math for Data Science".)
 - PoC items feed these candidates before any one of them graduates to a numbered service.

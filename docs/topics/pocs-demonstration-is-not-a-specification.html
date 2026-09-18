@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Showing is not telling — a demonstration is an example, not a specification — Tech Notes</title>
+<title>Showing is not telling — a demonstration is an example, not a specification — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Showing is not telling — a demonstration is an example, not a specification</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Showing is not telling — a demonstration is an example, not a specification</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#122</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#123</span><span>PoC</span></p>
       <h1>Showing is not telling — a demonstration is an example, not a specification</h1>
       <p class="lead">A startup and an incumbent shipped the same interaction within weeks: stop writing the instruction, record yourself doing the task. But a recording cannot separate what mattered from what merely happened — and the cheapest way to recover that separation is to record the same task twice and diff the results.</p>
       <p class="meta">Not yet scoped, and the first build is an experiment rather than an integration. Record one real, repetitive task as a skill. Wait a day, change nothing about the task, and record it again from a different starting state — different folder, different window layout, a different row in the same table. Diff the two generated skills. <strong>Whatever differs between two recordings of the same task is incidental; whatever is stable is the specification you actually meant.</strong> That diff is the artifact worth keeping, and it costs two recordings and no code. Then a third run with one precondition deliberately broken — an expired login, a missing file, an empty result set — to see whether the skill fails visibly or produces confident wrong output. Sources are vendor coverage rather than primary docs, so read the product documentation before quoting either: Claude Cowork&#39;s &quot;Record a skill&quot; (shipped 2026-07-21, + menu of the desktop app, Pro/Max/Team) and HeyClicky (YC Spring 2026, an on-screen Mac assistant that watches the cursor and spawns background agents).</p>
@@ -465,7 +483,10 @@
 <h3>The permission being granted</h3>
 <p>Both products require continuous sight of the screen rather than a scoped credential, and screens are not scoped. The control worth prototyping is the same one <code>third-party-blast-radius</code> lands on: not <em>was this authorized</em> but <em>what can it reach</em> — which in practice means <strong>recording in a dedicated profile or workspace that contains only what the task needs</strong>, and treating &quot;the assistant can see this window&quot; as a privilege to be scoped rather than a setting to be enabled once.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>converge on</strong></td><td>서로 다른 것이 같은 결론으로 수렴하다 · 두 제품이나 팀이 같은 해법에 도달할 때. "converged on the same move: replace the written instruction"</td></tr><tr><td><strong>the moat</strong></td><td>경쟁자 진입을 막는 해자, 진입장벽 · 경쟁 우위의 지속성을 말할 때. "the interface is not the moat"</td></tr><tr><td><strong>load-bearing</strong></td><td>구조적으로 핵심을 떠받치는, 없으면 안 되는 · 세부사항 중 정말 중요한 부분을 가릴 때. "guess which parts were load-bearing"</td></tr><tr><td><strong>the tell</strong></td><td>숨은 의도를 드러내는 단서, 티가 나는 지점 · 무언가를 무심코 드러내는 신호를 말할 때. "The narration requirement is the tell"</td></tr><tr><td><strong>worth insisting on</strong></td><td>고집할 가치가 있는, 꼭 요구해야 하는 · 특정 조건을 반드시 지켜야 한다고 강조할 때. "Run 2 is the one worth insisting on"</td></tr><tr><td><strong>over-specified and under-determined</strong></td><td>과잉 명시되었으나 핵심은 불명확한 · 정보는 많지만 무엇이 중요한지 불분명한 상태. "simultaneously over-specified and under-determined"</td></tr><tr><td><strong>happy path</strong></td><td>예외 없이 잘 풀리는 정상 흐름 · 오류 없는 이상적인 실행 경로를 가리킬 때. "Only the happy path exists"</td></tr><tr><td><strong>field of view</strong></td><td>시야, 보이는 범위 · 화면 공유 등에서 노출되는 범위를 말할 때. "it is the field of view"</td></tr><tr><td><strong>scoped (credential)</strong></td><td>범위가 제한된 (권한) · 필요한 만큼만 접근을 허용하는 권한 설계. "a privilege to be scoped rather than a setting"</td></tr><tr><td><strong>the bottleneck moved to</strong></td><td>병목 지점이 ~로 옮겨갔다 · 문제의 핵심이 이동했음을 말할 때. "the bottleneck moved to how a non-programmer states a task"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -551,9 +572,12 @@
 <h3>내주고 있는 권한</h3>
 <p>두 제품 모두 범위가 정해진 자격증명이 아니라 <strong>화면에 대한 지속적 시야</strong>를 요구하고, <strong>화면에는 범위가 없습니다.</strong> 프로토타이핑할 값어치가 있는 통제는 <code>third-party-blast-radius</code> 가 도달한 것과 같습니다 — <em>인가받았는가</em>가 아니라 <em>어디까지 닿는가</em>. 실무로는 <strong>작업에 필요한 것만 들어 있는 전용 프로파일·워크스페이스에서 녹화하는 것</strong>, 그리고 <strong>&quot;어시스턴트가 이 창을 볼 수 있다&quot;를 한 번 켜는 설정이 아니라 범위를 정해야 할 권한으로 다루는 것</strong>입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>converge on</strong></td><td>서로 다른 것이 같은 결론으로 수렴하다 · 두 제품이나 팀이 같은 해법에 도달할 때. "converged on the same move: replace the written instruction"</td></tr><tr><td><strong>the moat</strong></td><td>경쟁자 진입을 막는 해자, 진입장벽 · 경쟁 우위의 지속성을 말할 때. "the interface is not the moat"</td></tr><tr><td><strong>load-bearing</strong></td><td>구조적으로 핵심을 떠받치는, 없으면 안 되는 · 세부사항 중 정말 중요한 부분을 가릴 때. "guess which parts were load-bearing"</td></tr><tr><td><strong>the tell</strong></td><td>숨은 의도를 드러내는 단서, 티가 나는 지점 · 무언가를 무심코 드러내는 신호를 말할 때. "The narration requirement is the tell"</td></tr><tr><td><strong>worth insisting on</strong></td><td>고집할 가치가 있는, 꼭 요구해야 하는 · 특정 조건을 반드시 지켜야 한다고 강조할 때. "Run 2 is the one worth insisting on"</td></tr><tr><td><strong>over-specified and under-determined</strong></td><td>과잉 명시되었으나 핵심은 불명확한 · 정보는 많지만 무엇이 중요한지 불분명한 상태. "simultaneously over-specified and under-determined"</td></tr><tr><td><strong>happy path</strong></td><td>예외 없이 잘 풀리는 정상 흐름 · 오류 없는 이상적인 실행 경로를 가리킬 때. "Only the happy path exists"</td></tr><tr><td><strong>field of view</strong></td><td>시야, 보이는 범위 · 화면 공유 등에서 노출되는 범위를 말할 때. "it is the field of view"</td></tr><tr><td><strong>scoped (credential)</strong></td><td>범위가 제한된 (권한) · 필요한 만큼만 접근을 허용하는 권한 설계. "a privilege to be scoped rather than a setting"</td></tr><tr><td><strong>the bottleneck moved to</strong></td><td>병목 지점이 ~로 옮겨갔다 · 문제의 핵심이 이동했음을 말할 때. "the bottleneck moved to how a non-programmer states a task"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-pick-a-signer-not-a-brand.html">&larr; 121. Three layers failed in a month; the fourth one fails silently</a><a href="pocs-ndf-measures-the-restriction.html">123. The NDF market is the size of the restriction, and removing it does not relocate the market &rarr;</a></div>
+    <div class="pager"><a href="pocs-pick-a-signer-not-a-brand.html">&larr; 122. Three layers failed in a month; the fourth one fails silently</a><a href="pocs-ndf-measures-the-restriction.html">124. The NDF market is the size of the restriction, and removing it does not relocate the market &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -599,17 +623,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

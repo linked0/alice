@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ for target_words in (1, 10, 100, 1000, 10000):
       <p>Compile a simple Solidity function, manually trace the bytecode to build the JUMPDEST bitmap, and measure the actual gas-usage difference between two versions that use different memory-expansion sizes to confirm the quadratic term.</p>
       <h2>Practical Connection</h2>
       <p>In Verex's settlement and order-processing contracts, just changing the memory-usage pattern can shift gas significantly, so this cost curve needs to be understood when designing an on-chain cost ceiling.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>happen to</strong></td><td>우연히 ~하다, 공교롭게 ~하다 · 의도치 않게 특정 조건과 일치할 때. "a byte position that happens to match that value"</td></tr><tr><td><strong>linear scan</strong></td><td>선형 스캔(처음부터 끝까지 한 번 훑기) · 바이트코드를 순서대로 한 번 훑는 방식을 가리킬 때. "implementations do a single linear scan of the code"</td></tr><tr><td><strong>up front</strong></td><td>미리, 사전에 · 실행 전에 필요한 작업을 먼저 해둘 때. "to build a valid-JUMPDEST bitmap up front"</td></tr><tr><td><strong>cumulatively</strong></td><td>누적으로 · 비용이 이전까지 쓴 양을 합산해 계산될 때. "Cost is charged cumulatively based on"</td></tr><tr><td><strong>rise steeply</strong></td><td>가파르게 오르다 · 비용이 완만하지 않고 급격히 증가할 때. "so costs rise steeply the more you use"</td></tr><tr><td><strong>incur</strong></td><td>(비용을) 발생시키다, 물게 되다 · 특정 동작이 추가 비용을 유발할 때. "incurs no further expansion cost"</td></tr><tr><td><strong>lead to wrong assumptions</strong></td><td>잘못된 가정으로 이어지다 · 규칙을 모르면 코드 분석에서 착오가 생길 때. "leads to wrong assumptions in assembly or code-inspection logic"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ for target_words in (1, 10, 100, 1000, 10000):
       <p>간단한 Solidity 함수를 컴파일해 바이트코드를 손으로 훑으며 JUMPDEST 비트맵을 만들어 보고, 메모리 확장 크기를 바꾼 두 버전의 실제 가스 사용량 차이를 측정해 2차 항을 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 정산·주문 처리 컨트랙트에서 메모리 사용 패턴을 바꾸는 것만으로 가스가 크게 달라질 수 있고, 온체인 비용 상한을 설계할 때 이 곡선을 알고 있어야 한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>happen to</strong></td><td>우연히 ~하다, 공교롭게 ~하다 · 의도치 않게 특정 조건과 일치할 때. "a byte position that happens to match that value"</td></tr><tr><td><strong>linear scan</strong></td><td>선형 스캔(처음부터 끝까지 한 번 훑기) · 바이트코드를 순서대로 한 번 훑는 방식을 가리킬 때. "implementations do a single linear scan of the code"</td></tr><tr><td><strong>up front</strong></td><td>미리, 사전에 · 실행 전에 필요한 작업을 먼저 해둘 때. "to build a valid-JUMPDEST bitmap up front"</td></tr><tr><td><strong>cumulatively</strong></td><td>누적으로 · 비용이 이전까지 쓴 양을 합산해 계산될 때. "Cost is charged cumulatively based on"</td></tr><tr><td><strong>rise steeply</strong></td><td>가파르게 오르다 · 비용이 완만하지 않고 급격히 증가할 때. "so costs rise steeply the more you use"</td></tr><tr><td><strong>incur</strong></td><td>(비용을) 발생시키다, 물게 되다 · 특정 동작이 추가 비용을 유발할 때. "incurs no further expansion cost"</td></tr><tr><td><strong>lead to wrong assumptions</strong></td><td>잘못된 가정으로 이어지다 · 규칙을 모르면 코드 분석에서 착오가 생길 때. "leads to wrong assumptions in assembly or code-inspection logic"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-26.html">&larr; 78. 가스 회계 설계</a><a href="algorithms-28.html">80. WASM 실행 모델과 샌드박싱 경계 &rarr;</a></div>
 </div>

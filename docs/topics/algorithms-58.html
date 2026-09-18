@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -391,7 +395,10 @@ print(&quot;   (해시파워가 정직한 쪽보다 크면(&gt;=50%) 확인 수�
       <p>Write a script that takes an attacker's hash-power share and a confirmation count as input and estimates the probability of a successful reversion via a random-walk simulation, then plot the probability curve against confirmation count.</p>
       <h2>Practical Connection</h2>
       <p>In a prediction market, deciding how many confirmations to require before crediting a deposit or finalizing settlement has to weigh the probabilistic-finality curve against the amount at stake — and the same question resurfaces, just reshaped into finality rules and reorg risk, on a proof-of-stake chain.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>canonical</strong></td><td>공인된, 정본으로 인정되는 · 가장 많은 작업량이 쌓인 체인을 공식으로 인정한다는 뜻. "treats the chain with the greatest cumulative work as canonical"</td></tr><tr><td><strong>stack up (on top of)</strong></td><td>(위로) 쌓이다, 누적되다 · 정직한 블록들이 계속 쌓이는 과정을 표현. "honest blocks get stacked on top of a given block"</td></tr><tr><td><strong>make up (a gap)</strong></td><td>(격차를) 메우다, 따라잡다 · 공격자가 따라잡아야 할 작업량 차이를 가리킴. "the bigger the gap an attacker has to make up"</td></tr><tr><td><strong>withhold</strong></td><td>(공개하지 않고) 보류하다, 숨기다 · 채굴한 블록을 바로 내놓지 않는 것. "withholds a mined block instead of publishing it immediately"</td></tr><tr><td><strong>incentive-compatibility</strong></td><td>유인 양립성 · 보상 구조가 정직한 행동을 유도하도록 설계됐는지 여부. "a protocol&#39;s incentive-compatibility is a separate question"</td></tr><tr><td><strong>convert ... into</strong></td><td>~을 ~으로 바꾸다, 전환시키다 · 안전성 파라미터가 곧 돈의 문제가 된다는 것을 표현. "converts a safety parameter into money"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -447,7 +454,10 @@ print(&quot;   (해시파워가 정직한 쪽보다 크면(&gt;=50%) 확인 수�
       <p>공격자 해시파워 비율과 확인 수를 입력받아 되돌림 성공 확률을 랜덤 워크 시뮬레이션으로 추정하는 스크립트를 짜고, 확인 수에 따른 확률 곡선을 그려 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>예측시장에서 입금 인정이나 정산 확정을 몇 확인 뒤에 할지는 확률적 최종성 곡선과 걸린 금액을 함께 놓고 정해야 하며, 지분증명 체인이라면 같은 질문이 확정성 규칙과 재구성 위험으로 형태만 바뀌어 남는다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>canonical</strong></td><td>공인된, 정본으로 인정되는 · 가장 많은 작업량이 쌓인 체인을 공식으로 인정한다는 뜻. "treats the chain with the greatest cumulative work as canonical"</td></tr><tr><td><strong>stack up (on top of)</strong></td><td>(위로) 쌓이다, 누적되다 · 정직한 블록들이 계속 쌓이는 과정을 표현. "honest blocks get stacked on top of a given block"</td></tr><tr><td><strong>make up (a gap)</strong></td><td>(격차를) 메우다, 따라잡다 · 공격자가 따라잡아야 할 작업량 차이를 가리킴. "the bigger the gap an attacker has to make up"</td></tr><tr><td><strong>withhold</strong></td><td>(공개하지 않고) 보류하다, 숨기다 · 채굴한 블록을 바로 내놓지 않는 것. "withholds a mined block instead of publishing it immediately"</td></tr><tr><td><strong>incentive-compatibility</strong></td><td>유인 양립성 · 보상 구조가 정직한 행동을 유도하도록 설계됐는지 여부. "a protocol&#39;s incentive-compatibility is a separate question"</td></tr><tr><td><strong>convert ... into</strong></td><td>~을 ~으로 바꾸다, 전환시키다 · 안전성 파라미터가 곧 돈의 문제가 된다는 것을 표현. "converts a safety parameter into money"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-57.html">&larr; 109. DAG 합의</a><a href="algorithms-59.html">111. Casper FFG + LMD-GHOST &rarr;</a></div>
 </div>

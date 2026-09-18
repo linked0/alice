@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What Jayverse can build on — the shortlist of rails, by need — Tech Notes</title>
+<title>What Jayverse can build on — the shortlist of rails, by need — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; What Jayverse can build on — the shortlist of rails, by need</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; What Jayverse can build on — the shortlist of rails, by need</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#51</span><span>PoC</span></p>
       <h1>What Jayverse can build on — the shortlist of rails, by need</h1>
@@ -477,7 +495,10 @@
 <h3>How to use this card</h3>
 <p>When a feature needs a rail, find the row, pick one, and write its failure-mode line next to the wiring. The rail is the easy half; naming what it makes you trust is the half that keeps it a protocol and not a hope.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reach for</strong></td><td>필요할 때 가져다 쓰다, 의지하다 · 직접 만들지 않고 기존 도구를 집어 쓸 때. "reach for the rail first"</td></tr><tr><td><strong>carry a failure mode</strong></td><td>특정한 실패 양상을 내포하다 · 어떤 선택이든 나름의 위험을 안고 있을 때. "Every entry is a dependency with a failure mode"</td></tr><tr><td><strong>illustrative</strong></td><td>예시일 뿐인, 예시 목적의 · 목록이 정답이 아니라 참고용임을 말할 때. "The picks below are illustrative"</td></tr><tr><td><strong>moves monthly</strong></td><td>(정보·생태계가) 매달 바뀐다 · 빠르게 변하는 분야라 항상 재확인이 필요할 때. "this space moves monthly"</td></tr><tr><td><strong>plug into</strong></td><td>~에 연결되다, 접목되다 · 외부 도구가 자사 제품의 어디에 붙는지 말할 때. "what it plugs into"</td></tr><tr><td><strong>confirm against</strong></td><td>~와 대조해서 확인하다 · 문서상의 정보를 실제 출처와 비교 검증할 때. "confirm current names, pricing, and availability... against each project&#39;s own docs"</td></tr><tr><td><strong>has an address</strong></td><td>(막연하던 원칙이) 구체적인 대상을 갖게 되다 · 추상적 조언에 실제 예시가 붙을 때. "so &#39;use the rail&#39; has an address"</td></tr><tr><td><strong>load-bearing</strong></td><td>핵심적인, 없으면 안 되는 · 지금 당장 가장 중요한 요소를 꼽을 때. "The most load-bearing today"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -575,7 +596,10 @@
 <h3>이 카드를 쓰는 법</h3>
 <p>기능에 레일이 필요하면, 줄을 찾아 하나 고르고, 연결 옆에 실패 모드 줄을 쓰세요. 레일은 쉬운 절반; 무엇을 신뢰하게 되는지 이름 붙이는 것이 그것을 희망이 아니라 프로토콜로 유지하는 절반입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>reach for</strong></td><td>필요할 때 가져다 쓰다, 의지하다 · 직접 만들지 않고 기존 도구를 집어 쓸 때. "reach for the rail first"</td></tr><tr><td><strong>carry a failure mode</strong></td><td>특정한 실패 양상을 내포하다 · 어떤 선택이든 나름의 위험을 안고 있을 때. "Every entry is a dependency with a failure mode"</td></tr><tr><td><strong>illustrative</strong></td><td>예시일 뿐인, 예시 목적의 · 목록이 정답이 아니라 참고용임을 말할 때. "The picks below are illustrative"</td></tr><tr><td><strong>moves monthly</strong></td><td>(정보·생태계가) 매달 바뀐다 · 빠르게 변하는 분야라 항상 재확인이 필요할 때. "this space moves monthly"</td></tr><tr><td><strong>plug into</strong></td><td>~에 연결되다, 접목되다 · 외부 도구가 자사 제품의 어디에 붙는지 말할 때. "what it plugs into"</td></tr><tr><td><strong>confirm against</strong></td><td>~와 대조해서 확인하다 · 문서상의 정보를 실제 출처와 비교 검증할 때. "confirm current names, pricing, and availability... against each project&#39;s own docs"</td></tr><tr><td><strong>has an address</strong></td><td>(막연하던 원칙이) 구체적인 대상을 갖게 되다 · 추상적 조언에 실제 예시가 붙을 때. "so &#39;use the rail&#39; has an address"</td></tr><tr><td><strong>load-bearing</strong></td><td>핵심적인, 없으면 안 되는 · 지금 당장 가장 중요한 요소를 꼽을 때. "The most load-bearing today"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-hyperliquid-pays-for-the-public-good.html">&larr; 50. Hyperliquid paid for a public good — the amicus brief as a regulatory moat</a><a href="pocs-the-quote-is-a-product-promise.html">52. Priced in fiat, settled in tokens — the quote is a product promise &rarr;</a></div>
   </div>
@@ -623,17 +647,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

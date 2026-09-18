@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert or update one Blockchain & Tech (or, with --section fundamentals, Fundamentals) item in Tech Notes from two markdown files.
+"""Insert or update one Tech (or, with --section, Fundamentals / Mindset) item in Knowledge Notes from two markdown files.
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
         [--status new|important|planned|recent|done] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
@@ -22,15 +22,16 @@ Rules: done items first — a new report takes the first not-done slot (pass it 
 the added date (KST) shows on the card head and in the page kicker (jay, 2026-09-16).
 Re-running with an existing key replaces that item in place (slot argument ignored).
 """
-import re, json, pathlib, html, argparse, datetime, glob
+import re, json, pathlib, html, argparse, datetime, glob, sys
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int)
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
 ap.add_argument("--status", default="new"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file"], help="where the subject came from: jay in chat, or the alice-tech file")
-ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals"], help="which Tech Notes section the item belongs to")
+ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "mindset"], help="which Knowledge Notes section the item belongs to")
 ap.add_argument("--tag", default="Economics", help="Fundamentals only: the topic-tag chip (Math | Algorithms | Economics)")
+ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#38bdf8", "RECENTLY DONE"),
@@ -40,8 +41,9 @@ DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hour
 # Section constants. Blockchain has no tag chip; Fundamentals cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
 # right after the number (jay, 2026-09-18: first Fundamentals item added through this script).
 SECTIONS = {
-    "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Blockchain & Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
-    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Fundamentals",      next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
+    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Fundamentals",      next_nav="nav-sec-mindset",      next_art="sec-mindset",       tag=f'<span class="topic-tag">{A.tag}</span>'),
+    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Mindset",           next_nav="nav-sec-english",      next_art="sec-english",       tag=""),
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"
@@ -120,13 +122,13 @@ a0 = s.index(f'id="{SEC["nav"]}"'); a1 = s.index(f'id="{SEC["next_nav"]}"')
 b0 = s.index(f'<article id="{SEC["art"]}">'); b1 = s.index(f'<article id="{SEC["next_art"]}">')
 nav, cards = s[a0:a1], s[b0:b1]
 # drop an existing copy of this item
-nav = re.sub(rf'        <li><a class="nav-link" href="#{KEY}".*?</li>\n', '', nav, flags=re.S)
+nav = re.sub(rf'        <li><a class="nav-link" href="(?:#|topics/){re.escape(KEY)}(?:\.html)?".*?</li>\n', '', nav, flags=re.S)
 cards = re.sub(rf'        <li id="{KEY}">.*?\n        </li>\n', '', cards, flags=re.S)
 # renumber nav links and cards by key from the nav.js order
 num = {x[0]: x[4] for x in items}
 nav = re.sub(r'(data-key="([^"]+)".*?<span class="topic-no">)(\d+)(<)', lambda m: m.group(1) + num.get(m.group(2), m.group(3)) + m.group(4), nav)
 cards = re.sub(r'(<li id="([^"]+)">\s*<div class="topic-head"><span class="topic-no">)(\d+)(<)', lambda m: m.group(1) + num.get(m.group(2), m.group(3)) + m.group(4), cards)
-navli = (f'        <li><a class="nav-link" href="#{KEY}" data-key="{KEY}"><span class="nav-dot" style="background:{COLOR};" title="{LABEL}"></span>'
+navli = (f'        <li><a class="nav-link" href="topics/{HREF}" data-key="{KEY}"><span class="nav-dot" style="background:{COLOR};" title="{LABEL}"></span>'
          f'<span class="nav-text"><span class="topic-no">{slot}</span>{TAG}{E(TITLE)}</span></a></li>\n')
 card = f'''        <li id="{KEY}">
           <div class="topic-head"><span class="topic-no">{slot}</span>{TAG}<span class="topic-title">{E(TITLE)}</span>{DATE_SPAN}{SRC_SPAN}</div>
@@ -141,11 +143,13 @@ if slot == 1:
     cards = re.sub(r'(<ul class="topics">\n)', r'\1' + card.replace('\\', '\\\\'), cards, count=1)
 else:
     prev_key = items[slot - 2][0]
-    m = re.search(rf'        <li><a class="nav-link" href="#{prev_key}".*?</li>\n', nav, re.S); assert m, prev_key
+    m = re.search(rf'        <li><a class="nav-link" href="(?:#|topics/)[^"]*" data-key="{re.escape(prev_key)}".*?</li>\n', nav, re.S); assert m, prev_key
     nav = nav[:m.end()] + navli + nav[m.end():]
     i = cards.index(f'<li id="{prev_key}">'); j = cards.index('        </li>\n', i) + len('        </li>\n')
     cards = cards[:j] + card + cards[j:]
 s = s[:a0] + nav + s[a1:b0] + cards + s[b1:]
+# the rail's group label carries the same count as the section label (it had drifted to 225 while the section said 236; 2026-09-18)
+s = re.sub(rf'(<div class="nav-group" id="{SEC["nav"]}" data-group>\s*<p class="nav-group-label">)[^<]*(</p>)', lambda m: m.group(1) + f"{SEC['label']} ({N})" + m.group(2), s, count=1)
 s = re.sub(re.escape(SEC['label']) + r' &mdash; done \(\d+\) / all \(\d+\)', f"{SEC['label']} &mdash; done ({DONE}) / all ({N})", s, count=1)
 s = re.sub(r'(<a href="#' + SEC['art'] + r'"[^>]*>' + re.escape(SEC['label']) + r'<b><span class="count-done">)\d+(</span><span class="count-all">/)\d+', lambda m: f'{m.group(1)}{DONE}{m.group(2)}{N}', s, count=1)
 s = re.sub(r'(<article id="' + SEC['art'] + r'">.*?<span class="count-done">done \()\d+(\)</span> <span class="count-all">/ all \()\d+', lambda m: f'{m.group(1)}{DONE}{m.group(2)}{N}', s, count=1, flags=re.S)
@@ -153,17 +157,17 @@ s = re.sub(r'(<article id="' + SEC['art'] + r'">.*?<span class="count-done">done
 jump = s[s.index('<div class="rail-jump">'):]; jump = jump[:jump.index('</div>')]
 pills = re.findall(r'<span class="count-done">(\d+)</span><span class="count-all">/(\d+)</span>', jump)
 td, ta = sum(int(a) for a, _ in pills), sum(int(b) for _, b in pills)
-badge = f'{round(td * 100 / ta)}% done &middot; {td}/{ta}'
+badge = f'{round(td * 100 / ta)}% &middot; {td}/{ta}'
 s = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), s, count=1)
 p.write_text(s)
 
 # ---------------- detail page ----------------
 tpl = (ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html").read_text()
 head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
-head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(TITLE)} — Tech Notes</title>')
+head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(TITLE)} — Knowledge Notes</title>')
 tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
 tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', tail)
-mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; {E(TITLE)}</p>
+mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#{slot}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span></p>
       <h1>{E(TITLE)}</h1>
@@ -176,7 +180,7 @@ mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaq
       <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
       <script type="application/json" id="copy-en">{json.dumps(en_md, ensure_ascii=False)}</script>
 {md_to_html(en_body)}
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -186,11 +190,34 @@ mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaq
       <p class="lead">{E(SUMMARY_KO)}</p>
       <p class="meta">{inline(META_KO)}</p>
 {md_to_html(ko_body)}
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"></div>
 '''
 (ROOT / "topics" / HREF).write_text(head + mid + tail)
+
+# ---------------- index card → first NEW/IMPORTANT item (jay, 2026-09-18) ----------------
+# "Entering the notes goes to the detail page directly": the Knowledge Notes card on index.html opens
+# the first NEW or IMPORTANT item in rail order (notes.html itself redirects the same way without a hash).
+first = next((x for x in items if x[3] in ("NEW", "IMPORTANT")), None)
+if first:
+    ip = ROOT / "index.html"; t = ip.read_text()
+    t, k = re.subn(r'(<a href=")[^"]*(" class="card" style="border-left: 4px solid #7c3aed;">\s*<span class="card-title">Knowledge Notes</span>\s*<span class="card-path"[^>]*>)[^<]*(</span>)',
+                   lambda m: f'{m.group(1)}topics/{first[1]}{m.group(2)}docs/topics/{first[1]}{m.group(3)}', t, count=1)
+    if k: ip.write_text(t); print(f"index card → topics/{first[1]} ({first[3]})")
+    else: print("WARNING: Knowledge Notes card not found on index.html")
+
+# ---------------- key expressions (jay, 2026-09-18) ----------------
+# Every detail page ends with the words and phrases worth learning from its English text. The table
+# lives in docs/topics/vocab/<page>.md; scripts/add-vocab.py renders it into both articles. Pass --vocab
+# for a new item; on a re-run without --vocab the existing file is re-applied so the block survives.
+import shutil, subprocess
+VOCAB_DIR = ROOT / "topics" / "vocab"; VOCAB_DIR.mkdir(exist_ok=True); PAGE_KEY = HREF[:-5]
+if A.vocab: shutil.copyfile(A.vocab, VOCAB_DIR / f"{PAGE_KEY}.md")
+if (VOCAB_DIR / f"{PAGE_KEY}.md").exists():
+    subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "add-vocab.py"), PAGE_KEY], check=True)
+else:
+    print(f"WARNING: no key-expressions file for {PAGE_KEY}; write docs/topics/vocab/{PAGE_KEY}.md and run scripts/add-vocab.py {PAGE_KEY}")
 
 # ---------------- kicker + pager on every Blockchain page ----------------
 fixed = missing = 0

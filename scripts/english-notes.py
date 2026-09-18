@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the "Dev English" section of Tech Notes from docs/topics/english/english-N.md.
+"""Build the "English" section of Knowledge Notes from docs/topics/english/english-N.md.
 
 Idempotent: run it after adding or editing any english-N.md and it rewrites
   - docs/notes.html      : the nav group, the section article, the rail pill, the overall badge
@@ -16,7 +16,7 @@ Source format (docs/topics/english/english-N.md):
   ## Expressions         | english | 한국어 |
 
 Rules (jay, 2026-09-16): numbering is chronological and append-only — no reordering by status.
-Every time a Tech Notes item is added, one conversation is added here too; it need not relate to
+Every time a Knowledge Notes item is added, one conversation is added here too; it need not relate to
 the item. From #21 on, conversations target landing a developer / team-lead job abroad —
 interviews, negotiation, leading a team in English — critical and concrete.
 """
@@ -27,7 +27,7 @@ SRC = ROOT / "topics" / "english"
 NOTES = ROOT / "notes.html"
 NAVJS = ROOT / "topics" / "_nav.js"
 TEMPLATE = ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html"
-SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "Dev English"
+SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "English"
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#38bdf8", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
@@ -77,9 +77,9 @@ for idx, it in enumerate(items):
     prev = items[idx - 1] if idx > 0 else None; nxt = items[idx + 1] if idx + 1 < N else None
     pager = ('<div class="pager">' + (f'<a href="{href(prev)}">&larr; {prev["n"]}. {E(prev["title"])}</a>' if prev else '')
              + (f'<a href="{href(nxt)}">{nxt["n"]}. {E(nxt["title"])} &rarr;</a>' if nxt else '') + '</div>')
-    page_head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(it["title"])} — Dev English — Tech Notes</title>')
+    page_head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(it["title"])} — {LABEL} — Knowledge Notes</title>')
     page_tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', tail)
-    mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">Dev English</a> &rsaquo; {E(it["title"])}</p>
+    mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">{LABEL}</a> &rsaquo; {E(it["title"])}</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#{it["n"]}</span><span>{E(it["tag"])}</span></p>
       <h1>{E(it["title"])}</h1>
@@ -98,7 +98,7 @@ for idx, it in enumerate(items):
 {tech}
 <h2>Key expressions</h2>
 {expr}
-      <p><a href="../notes.html#{SECTION_ID}">&larr; Dev English</a> &middot; <a href="../notes.html">All Tech Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Knowledge Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     {pager}
 '''
@@ -146,7 +146,7 @@ s = re.sub(r'(<div class="rail-jump">.*?)(</div>)', lambda m: m.group(1) + pill 
 # overall badge = sum of every rail pill
 pills = re.findall(r'<span class="count-done">(\d+)</span><span class="count-all">/(\d+)</span>', s[s.index('<div class="rail-jump">'):s.index('</div>', s.index('<div class="rail-jump">'))])
 tot_done = sum(int(a) for a, _ in pills); tot_all = sum(int(b) for _, b in pills)
-badge = f'{round(tot_done * 100 / tot_all)}% done &middot; {tot_done}/{tot_all}'
+badge = f'{round(tot_done * 100 / tot_all)}% &middot; {tot_done}/{tot_all}'
 s, n_badge = re.subn(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), s, count=1)
 assert n_badge == 1
 NOTES.write_text(s)
@@ -167,4 +167,4 @@ for f in glob.glob(str(ROOT / "topics" / "*.html")):
     c2 = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), c, count=1)
     if c2 != c: p.write_text(c2); changed += 1
 
-print(f"Dev English: {N} items ({DONE} done) → notes.html section + nav + pill; _nav.js; {N} detail pages; overall badge '{badge}' on {changed} topic pages")
+print(f"{LABEL}: {N} items ({DONE} done) → notes.html section + nav + pill; _nav.js; {N} detail pages; overall badge '{badge}' on {changed} topic pages")

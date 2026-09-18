@@ -33,7 +33,7 @@
   }
   .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
   .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   .rail-search { padding:14px 16px 8px; }
   .rail-search input {
     width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
@@ -169,6 +169,8 @@
   .kicker { font-weight:600; }
   .toc { background:var(--rail); border-radius:10px; padding:14px 18px; margin:18px 0; font-size:0.93rem; }
   .toc ol { margin:6px 0 0; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18) */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
 </style>
 </head>
 <body>
@@ -254,7 +256,10 @@ if __name__ == &quot;__main__&quot;:
 </code></pre>
       <p class="code-link"><a href="../code/pocs/dvt.py">docs/code/pocs/dvt.py</a></p>
       <p><a href="https://www.jaylabs.xyz/poc/dvt">Open on jaylabs.xyz &rarr;</a></p>
-    </article>
+    <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>absorb</strong></td><td>(외부 기능을) 흡수해서 내재화하다 · "absorbing distributed validators into the protocol"</td></tr><tr><td><strong>split a key</strong></td><td>키를 여러 조각으로 나누다 · "splits one validator key with Shamir sharing"</td></tr><tr><td><strong>reassemble</strong></td><td>(나뉜 것을) 다시 조합하다 · "reassemble a signature each time"</td></tr><tr><td><strong>leaves ... unresolved</strong></td><td>~을 미해결로 남겨두다 · "what it leaves unresolved"</td></tr><tr><td><strong>one layer up</strong></td><td>한 단계 위(응용) 계층에서 · "can be built one layer up without waiting for it"</td></tr><tr><td><strong>collusion trade-off</strong></td><td>담합 위험과의 상충관계 · "the m&lt;n collusion trade-off"</td></tr><tr><td><strong>stand up (slots)</strong></td><td>(슬롯·인프라를) 구축해서 세우다 · "32·n ETH standing up n slots"</td></tr><tr><td><strong>blur</strong></td><td>(구분을) 흐리다, 뒤섞다 · "three things people usually blur"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+</article>
     <hr class="lang-divider">
     <article lang="ko">
       <p class="lang-label">한국어</p>
@@ -337,7 +342,10 @@ if __name__ == &quot;__main__&quot;:
 </code></pre>
       <p class="code-link"><a href="../code/pocs/dvt.py">docs/code/pocs/dvt.py</a></p>
       <p><a href="https://www.jaylabs.xyz/poc/dvt">Open on jaylabs.xyz &rarr;</a></p>
-    </article>
+    <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>absorb</strong></td><td>(외부 기능을) 흡수해서 내재화하다 · "absorbing distributed validators into the protocol"</td></tr><tr><td><strong>split a key</strong></td><td>키를 여러 조각으로 나누다 · "splits one validator key with Shamir sharing"</td></tr><tr><td><strong>reassemble</strong></td><td>(나뉜 것을) 다시 조합하다 · "reassemble a signature each time"</td></tr><tr><td><strong>leaves ... unresolved</strong></td><td>~을 미해결로 남겨두다 · "what it leaves unresolved"</td></tr><tr><td><strong>one layer up</strong></td><td>한 단계 위(응용) 계층에서 · "can be built one layer up without waiting for it"</td></tr><tr><td><strong>collusion trade-off</strong></td><td>담합 위험과의 상충관계 · "the m&lt;n collusion trade-off"</td></tr><tr><td><strong>stand up (slots)</strong></td><td>(슬롯·인프라를) 구축해서 세우다 · "32·n ETH standing up n slots"</td></tr><tr><td><strong>blur</strong></td><td>(구분을) 흐리다, 뒤섞다 · "three things people usually blur"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+</article>
     <hr class="lang-divider">
     <article class="note-article" lang="en">
       <p class="lang-label">Deep-dive note &middot; thought-experiment session, 2026-08-13</p>

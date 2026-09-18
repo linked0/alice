@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>On-chain settlement funding — the card issuer's working capital, not the cardholder's payment — Tech Notes</title>
+<title>On-chain settlement funding — the card issuer's working capital, not the cardholder's payment — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#158</span><span>PoC</span></p>
       <h1>On-chain settlement funding — the card issuer's working capital, not the cardholder's payment</h1>
@@ -430,7 +448,10 @@
 <h3>The Jayverse PoC</h3>
 <p>Model the loop on a local fork, not the numbers: a mock issuer with a daily settlement obligation, a revolving credit-line contract whose limit is a function of a fed-in &#39;settlement throughput&#39; series, and a repayment waterfall on incoming receipts. Then test the invariants that actually matter — the credit line can never be drawn past its limit, the waterfall always repays before releasing, and (the just-in-time case) a draw that misses the settlement deadline is the failure mode to surface, not hide. Cross-refs: verex settlement (the receipts side), <code>receipt-is-not-settlement</code> (a payment intent is not a settled balance), and the &#39;rails we use not build&#39; thesis.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>working capital</strong></td><td>운전자금 · 매일 정산해야 하는 단기 자금 수요를 가리킴 · "it needs short-term working capital every single day"</td></tr><tr><td><strong>load-bearing move</strong></td><td>핵심을 떠받치는 결정적인 움직임 · 진짜 중요한 부분이 어디인지 짚을 때 · "The load-bearing move sits one layer up"</td></tr><tr><td><strong>earn its keep</strong></td><td>제 몫을 하다, 존재 가치를 증명하다 · 온체인 파트가 실제로 유용함을 보여줌 · "where the on-chain part earns its keep"</td></tr><tr><td><strong>track record</strong></td><td>실적, 이력 · 결제 이력이 담보 역할을 함 · "The track record is the collateral"</td></tr><tr><td><strong>posted collateral</strong></td><td>담보로 예치된 자산 · 데이터 스트림 담보와 대비되는 전통적 방식 · "not posted asset collateral"</td></tr><tr><td><strong>waterfall</strong></td><td>(상환) 워터폴 구조 · 원금·이자부터 자동으로 갚아나가는 계약 구조 · "a smart-contract waterfall"</td></tr><tr><td><strong>idle-capital carry</strong></td><td>놀리는 자본의 보유 비용 · 미리 빌려둔 완충자금을 유지하는 비용 · "The cost removed is idle-capital carry"</td></tr><tr><td><strong>stop being a trust question and become a code path</strong></td><td>신뢰의 문제가 아니라 코드로 보장되는 문제가 되다 · 상환 여부가 계약으로 강제됨을 설명 · "stops being a trust question and becomes a code path"</td></tr><tr><td><strong>draw</strong></td><td>(신용한도에서) 자금을 인출하다, 인출액 · 매일 부족분을 당겨쓰는 행위 · "it draws stablecoin from a revolving credit line"</td></tr><tr><td><strong>underwrite</strong></td><td>(신용을) 심사해 보증하다 · 담보가 아닌 데이터로 한도를 산정함 · "underwritten by its own settlement history"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -481,7 +502,10 @@
 <h3>Jayverse PoC</h3>
 <p>수치가 아니라 루프를 로컬 포크에서 모델링: 일일 정산 의무를 진 모의 사업자, 주입된 &#39;정산 처리량&#39; 시계열의 함수로 한도가 정해지는 회전 신용한도 컨트랙트, 들어오는 결제대금 위의 상환 워터폴. 그다음 진짜 중요한 불변식을 테스트 — 신용한도를 넘겨 인출될 수 없다, 워터폴은 항상 풀기 전에 먼저 상환한다, 그리고 (just-in-time) 정산 마감을 놓친 인출은 숨길 게 아니라 드러낼 실패 모드다. 교차 참조: verex 정산(결제대금 쪽), <code>receipt-is-not-settlement</code>(결제 의사는 정산된 잔액이 아니다), &#39;레일은 짓는 게 아니라 쓴다&#39; 명제.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>working capital</strong></td><td>운전자금 · 매일 정산해야 하는 단기 자금 수요를 가리킴 · "it needs short-term working capital every single day"</td></tr><tr><td><strong>load-bearing move</strong></td><td>핵심을 떠받치는 결정적인 움직임 · 진짜 중요한 부분이 어디인지 짚을 때 · "The load-bearing move sits one layer up"</td></tr><tr><td><strong>earn its keep</strong></td><td>제 몫을 하다, 존재 가치를 증명하다 · 온체인 파트가 실제로 유용함을 보여줌 · "where the on-chain part earns its keep"</td></tr><tr><td><strong>track record</strong></td><td>실적, 이력 · 결제 이력이 담보 역할을 함 · "The track record is the collateral"</td></tr><tr><td><strong>posted collateral</strong></td><td>담보로 예치된 자산 · 데이터 스트림 담보와 대비되는 전통적 방식 · "not posted asset collateral"</td></tr><tr><td><strong>waterfall</strong></td><td>(상환) 워터폴 구조 · 원금·이자부터 자동으로 갚아나가는 계약 구조 · "a smart-contract waterfall"</td></tr><tr><td><strong>idle-capital carry</strong></td><td>놀리는 자본의 보유 비용 · 미리 빌려둔 완충자금을 유지하는 비용 · "The cost removed is idle-capital carry"</td></tr><tr><td><strong>stop being a trust question and become a code path</strong></td><td>신뢰의 문제가 아니라 코드로 보장되는 문제가 되다 · 상환 여부가 계약으로 강제됨을 설명 · "stops being a trust question and becomes a code path"</td></tr><tr><td><strong>draw</strong></td><td>(신용한도에서) 자금을 인출하다, 인출액 · 매일 부족분을 당겨쓰는 행위 · "it draws stablecoin from a revolving credit line"</td></tr><tr><td><strong>underwrite</strong></td><td>(신용을) 심사해 보증하다 · 담보가 아닌 데이터로 한도를 산정함 · "underwritten by its own settlement history"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-won-stablecoin-fee-savings.html">&larr; 157. The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money</a><a href="pocs-a-good-bet-that-lost.html">159. A good bet that lost looks exactly like a bad bet that lost &rarr;</a></div>
   </div>
@@ -529,17 +553,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

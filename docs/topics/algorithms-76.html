@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -394,7 +398,10 @@ print(&quot;vectorized SUM(amount):&quot;, total_amount)      # 485
       <p>Load the same event data into Postgres and DuckDB, then compare the scanned data volume and runtime of a large-scale aggregation query to confirm the effect of column pruning.</p>
       <h2>Practical Connection</h2>
       <p>Verex's analytics backend — indexing chain event logs to compute trading volume, open interest, and per-user P&amp;L — is a textbook OLAP workload, so it's natural to separate the storage used for mirroring on-chain state from the storage used for analytics.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lay out</strong></td><td>배열하다, 배치하다 · 데이터가 저장되는 방식을 말할 때. "lays out values of the same column contiguously"</td></tr><tr><td><strong>drop sharply</strong></td><td>급격히 줄어들다 · 수치가 크게 감소할 때. "and I/O drops sharply."</td></tr><tr><td><strong>operate directly on</strong></td><td>~에 직접 연산을 수행하다 · 데이터를 별도 변환 없이 그대로 처리할 때. "operate directly on compressed data."</td></tr><tr><td><strong>in batches of</strong></td><td>~단위로 묶어서, 배치로 · 한 번에 여러 개씩 처리할 때. "processes data in batches of thousands of values"</td></tr><tr><td><strong>cache locality</strong></td><td>캐시 지역성 · 메모리 접근 패턴이 캐시 효율을 높일 때. "exploiting cache locality and SIMD."</td></tr><tr><td><strong>the tradeoff is that</strong></td><td>대가(단점)는 ~라는 것이다 · 장점과 함께 따라오는 단점을 소개할 때. "The tradeoff is that single-row lookups and frequent updates suffer"</td></tr><tr><td><strong>mismatched</strong></td><td>서로 맞지 않는, 어긋난 · 두 요소가 궁합이 안 맞을 때. "workload shape and storage layout are mismatched"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -453,7 +460,10 @@ print(&quot;vectorized SUM(amount):&quot;, total_amount)      # 485
       <p>같은 이벤트 데이터를 Postgres와 DuckDB에 각각 적재해 대규모 집계 질의의 스캔량과 소요 시간을 비교하고 컬럼 프루닝 효과를 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>체인 이벤트 로그를 인덱싱해 거래량·미결제약정·사용자별 손익을 뽑는 Verex 분석 백엔드는 전형적인 OLAP 워크로드라, 온체인 상태 미러링용 저장소와 분석용 저장소를 분리하는 편이 자연스럽다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>lay out</strong></td><td>배열하다, 배치하다 · 데이터가 저장되는 방식을 말할 때. "lays out values of the same column contiguously"</td></tr><tr><td><strong>drop sharply</strong></td><td>급격히 줄어들다 · 수치가 크게 감소할 때. "and I/O drops sharply."</td></tr><tr><td><strong>operate directly on</strong></td><td>~에 직접 연산을 수행하다 · 데이터를 별도 변환 없이 그대로 처리할 때. "operate directly on compressed data."</td></tr><tr><td><strong>in batches of</strong></td><td>~단위로 묶어서, 배치로 · 한 번에 여러 개씩 처리할 때. "processes data in batches of thousands of values"</td></tr><tr><td><strong>cache locality</strong></td><td>캐시 지역성 · 메모리 접근 패턴이 캐시 효율을 높일 때. "exploiting cache locality and SIMD."</td></tr><tr><td><strong>the tradeoff is that</strong></td><td>대가(단점)는 ~라는 것이다 · 장점과 함께 따라오는 단점을 소개할 때. "The tradeoff is that single-row lookups and frequent updates suffer"</td></tr><tr><td><strong>mismatched</strong></td><td>서로 맞지 않는, 어긋난 · 두 요소가 궁합이 안 맞을 때. "workload shape and storage layout are mismatched"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-75.html">&larr; 127. 인덱싱 파이프라인 설계</a><a href="algorithms-77.html">129. 스트리밍 처리 의미론 &rarr;</a></div>
 </div>

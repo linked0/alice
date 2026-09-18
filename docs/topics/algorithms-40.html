@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ print(&quot;branchless sum(hp) where team==0:&quot;, team0_total)
       <p>Run the same conditional-branch loop over a sorted array and a randomly-ordered array, measure the execution time difference, and confirm with a profiler like perf that the branch-miss and cache-miss counters actually differ.</p>
       <h2>Practical Connection</h2>
       <p>In code that iterates over large numbers of the same struct, like an indexer's event-processing loop or an order book matching engine, laying data out as contiguous arrays instead of a pointer graph alone can make a large difference in throughput.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>keep the pipeline full</strong></td><td>파이프라인을 계속 채워 놓다 · CPU가 쉬지 않고 명령을 처리하게 하는 목적을 말할 때. "To keep the pipeline full, modern CPUs predict a branch&#39;s direction"</td></tr><tr><td><strong>pull ... in (ahead of time)</strong></td><td>미리 끌어다 놓다 · 캐시 라인을 미리 가져오는 프리페칭 동작을 말할 때. "pull cache lines in ahead of time"</td></tr><tr><td><strong>pointer-chasing</strong></td><td>포인터를 따라가며 접근하는(비순차적) · 메모리 접근 패턴이 예측 불가능한 경우를 가리키는 조어. "than pointer-chasing ones"</td></tr><tr><td><strong>reshape ... around</strong></td><td>~에 맞춰 재구성하다 · 하드웨어 특성에 맞게 데이터 구조를 다시 짤 때. "reshapes data layout around this hardware reality"</td></tr><tr><td><strong>send ... in the wrong direction</strong></td><td>~을 엉뚱한 방향으로 이끌다 · 잘못된 원인 파악이 최적화를 그르칠 때. "sends hot-loop optimization in the wrong direction"</td></tr><tr><td><strong>live in the same territory</strong></td><td>같은 부류에 속하다 · 비슷한 성격의 기법들을 묶어 말할 때. "live in the same territory"</td></tr><tr><td><strong>governed more by</strong></td><td>~에 의해 더 좌우되다 · 두 요인을 비교하며 어느 쪽 영향이 더 큰지 말할 때. "performance is governed more by memory access pattern"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ print(&quot;branchless sum(hp) where team==0:&quot;, team0_total)
       <p>정렬된 배열과 무작위 배열에 같은 조건 분기 루프를 돌려 실행 시간 차이를 재고, perf 같은 프로파일러로 branch-miss와 cache-miss 카운터가 실제로 다른지 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>인덱서의 이벤트 처리 루프나 오더북 매칭 엔진처럼 같은 구조체를 대량 순회하는 코드에서는, 포인터 그래프 대신 연속 배열로 배치하는 것만으로 처리량이 크게 달라진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>keep the pipeline full</strong></td><td>파이프라인을 계속 채워 놓다 · CPU가 쉬지 않고 명령을 처리하게 하는 목적을 말할 때. "To keep the pipeline full, modern CPUs predict a branch&#39;s direction"</td></tr><tr><td><strong>pull ... in (ahead of time)</strong></td><td>미리 끌어다 놓다 · 캐시 라인을 미리 가져오는 프리페칭 동작을 말할 때. "pull cache lines in ahead of time"</td></tr><tr><td><strong>pointer-chasing</strong></td><td>포인터를 따라가며 접근하는(비순차적) · 메모리 접근 패턴이 예측 불가능한 경우를 가리키는 조어. "than pointer-chasing ones"</td></tr><tr><td><strong>reshape ... around</strong></td><td>~에 맞춰 재구성하다 · 하드웨어 특성에 맞게 데이터 구조를 다시 짤 때. "reshapes data layout around this hardware reality"</td></tr><tr><td><strong>send ... in the wrong direction</strong></td><td>~을 엉뚱한 방향으로 이끌다 · 잘못된 원인 파악이 최적화를 그르칠 때. "sends hot-loop optimization in the wrong direction"</td></tr><tr><td><strong>live in the same territory</strong></td><td>같은 부류에 속하다 · 비슷한 성격의 기법들을 묶어 말할 때. "live in the same territory"</td></tr><tr><td><strong>governed more by</strong></td><td>~에 의해 더 좌우되다 · 두 요인을 비교하며 어느 쪽 영향이 더 큰지 말할 때. "performance is governed more by memory access pattern"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-39.html">&larr; 91. false sharing·캐시라인 정렬·NUMA 지역성</a><a href="algorithms-41.html">93. 커널 바이패스와 zero-copy &rarr;</a></div>
 </div>

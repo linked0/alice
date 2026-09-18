@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -400,7 +404,10 @@ print(f&quot;합계={total_unrolled}: naive 반복수={len(xs)}, unrolled(factor
       <p>Write a simple array-sum loop and compile it with optimization-report flags on, then compare whether SIMD instructions appear in the assembly before and after telling the compiler the pointers don't alias.</p>
       <h2>Practical Connection</h2>
       <p>When looking at the performance of a matching engine or a signature-verification loop written in Go, this leads directly to the habit of checking the compiler's output for the inlining budget and whether bounds-check elimination happened.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the bigger payoff</strong></td><td>더 큰 이득, 진짜 효과 · 겉으로 드러난 이유보다 실제로 더 중요한 이점. "the bigger payoff isn&#39;t removing call overhead"</td></tr><tr><td><strong>call boundary</strong></td><td>함수 호출 경계 · 함수를 부르고 넘어가는 지점 자체를 말할 때. "eliminating the call boundary"</td></tr><tr><td><strong>cache pressure</strong></td><td>캐시 압박, 부담 · 캐시 공간이 부족해지며 성능에 주는 부담. "more instruction-cache pressure"</td></tr><tr><td><strong>kick in</strong></td><td>(효과가) 발동하다, 작동을 시작하다 · 어떤 최적화나 규칙이 실제로 적용되기 시작할 때. "vectorization failing to kick in"</td></tr><tr><td><strong>blocked</strong></td><td>차단되다, 막히다 · 어떤 처리가 조건 때문에 진행되지 못할 때. "inlining being blocked"</td></tr><tr><td><strong>fall through</strong></td><td>무산되다, 실패로 돌아가다 · 뒤이어 일어나야 할 일이 앞 단계 실패로 못 일어날 때. "every downstream optimization falls through"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -465,7 +472,10 @@ print(f&quot;합계={total_unrolled}: naive 반복수={len(xs)}, unrolled(factor
       <p>단순 배열 합산 루프를 작성해 최적화 리포트 옵션과 함께 컴파일하고, 포인터에 앨리어싱 없음을 알려 주기 전후로 어셈블리에 SIMD 명령이 생기는지 비교하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Go로 짠 매칭 엔진이나 서명 검증 루프의 성능을 볼 때, 인라인 비용 한도와 경계 검사 제거 여부를 컴파일러 출력으로 확인하는 습관으로 곧장 이어진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>the bigger payoff</strong></td><td>더 큰 이득, 진짜 효과 · 겉으로 드러난 이유보다 실제로 더 중요한 이점. "the bigger payoff isn&#39;t removing call overhead"</td></tr><tr><td><strong>call boundary</strong></td><td>함수 호출 경계 · 함수를 부르고 넘어가는 지점 자체를 말할 때. "eliminating the call boundary"</td></tr><tr><td><strong>cache pressure</strong></td><td>캐시 압박, 부담 · 캐시 공간이 부족해지며 성능에 주는 부담. "more instruction-cache pressure"</td></tr><tr><td><strong>kick in</strong></td><td>(효과가) 발동하다, 작동을 시작하다 · 어떤 최적화나 규칙이 실제로 적용되기 시작할 때. "vectorization failing to kick in"</td></tr><tr><td><strong>blocked</strong></td><td>차단되다, 막히다 · 어떤 처리가 조건 때문에 진행되지 못할 때. "inlining being blocked"</td></tr><tr><td><strong>fall through</strong></td><td>무산되다, 실패로 돌아가다 · 뒤이어 일어나야 할 일이 앞 단계 실패로 못 일어날 때. "every downstream optimization falls through"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-22.html">&larr; 74. 레지스터 할당(그래프 컬러링)과 스필 비용</a><a href="algorithms-24.html">76. JIT 계층화·워밍업·역최적화(deopt) &rarr;</a></div>
 </div>

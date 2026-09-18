@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -388,7 +392,10 @@ print(f&quot;\n원시 정수 a_fixed 자릿수: {len(str(price_a))} (Q64.96은 1
       <p>Implement Q64.96 multiplication and division in Solidity, deliberately find inputs that trigger intermediate overflow, then fix it with a mulDiv-style approach and verify it produces the correct value on the same inputs.</p>
       <h2>Practical Connection</h2>
       <p>LMSR price calculation and settlement amounts both need fixed-point approximations of exponentials and logarithms, so the choice of scale and rounding direction directly determines whether the protocol's balance can leak.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale back down</strong></td><td>(원래 규모로) 다시 축소하다 · 곱셈 후 늘어난 소수부 비트를 되돌려 줄이는 과정. "must be scaled back down by dividing by 2^n"</td></tr><tr><td><strong>the single biggest risk</strong></td><td>가장 큰 단일 위험 요소 · 중간 오버플로가 최대 위험임을 강조할 때. "makes intermediate overflow the single biggest risk"</td></tr><tr><td><strong>carry (an intermediate result)</strong></td><td>(계산 중간값을) 담아 처리하다 · 512비트 중간 결과를 유지하는 mulDiv 로직. "carries a 512-bit intermediate result"</td></tr><tr><td><strong>truncate</strong></td><td>(하위 비트를) 잘라내다, 버리다 · 나눗셈 과정에서 정밀도가 손실되는 이유. "division inevitably truncates low-order bits"</td></tr><tr><td><strong>favor X over Y</strong></td><td>Y보다 X에 유리하게 처리하다 · 반올림 방향이 프로토콜보다 사용자에게 유리하지 않게 한다는 원칙. "doesn&#39;t favor the user over the protocol"</td></tr><tr><td><strong>leak (balance)</strong></td><td>(자금·잔고가) 의도치 않게 새어나가다 · 반올림 실수가 프로토콜 잔고 유출로 이어지는 상황. "the protocol&#39;s balance can leak"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -441,7 +448,10 @@ print(f&quot;\n원시 정수 a_fixed 자릿수: {len(str(price_a))} (Q64.96은 1
       <p>Q64.96 곱셈과 나눗셈을 Solidity로 구현해 중간 오버플로가 발생하는 입력을 직접 찾아낸 뒤, mulDiv 방식으로 고쳐 같은 입력에서 정확한 값이 나오는지 검증하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>LMSR 가격 계산과 정산 금액 산출은 지수와 로그를 고정소수점으로 근사해야 하므로, 스케일 선택과 반올림 방향이 곧 프로토콜에서 잔액이 새는지 여부를 결정한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scale back down</strong></td><td>(원래 규모로) 다시 축소하다 · 곱셈 후 늘어난 소수부 비트를 되돌려 줄이는 과정. "must be scaled back down by dividing by 2^n"</td></tr><tr><td><strong>the single biggest risk</strong></td><td>가장 큰 단일 위험 요소 · 중간 오버플로가 최대 위험임을 강조할 때. "makes intermediate overflow the single biggest risk"</td></tr><tr><td><strong>carry (an intermediate result)</strong></td><td>(계산 중간값을) 담아 처리하다 · 512비트 중간 결과를 유지하는 mulDiv 로직. "carries a 512-bit intermediate result"</td></tr><tr><td><strong>truncate</strong></td><td>(하위 비트를) 잘라내다, 버리다 · 나눗셈 과정에서 정밀도가 손실되는 이유. "division inevitably truncates low-order bits"</td></tr><tr><td><strong>favor X over Y</strong></td><td>Y보다 X에 유리하게 처리하다 · 반올림 방향이 프로토콜보다 사용자에게 유리하지 않게 한다는 원칙. "doesn&#39;t favor the user over the protocol"</td></tr><tr><td><strong>leak (balance)</strong></td><td>(자금·잔고가) 의도치 않게 새어나가다 · 반올림 실수가 프로토콜 잔고 유출로 이어지는 상황. "the protocol&#39;s balance can leak"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-31.html">&larr; 31. 뉴턴법/고정점 반복(StableSwap 필수)</a><a href="math-33.html">33. 테일러 급수(1차 근사) &rarr;</a></div>
 </div>

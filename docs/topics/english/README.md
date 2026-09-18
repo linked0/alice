@@ -1,4 +1,4 @@
-# Dev English — the third Tech Notes section
+# English (formerly Dev English) — the language section of Knowledge Notes
 
 One markdown file per conversation, `english-N.md`, rendered by `scripts/english-notes.py` into
 the section on `docs/notes.html`, the nav data in `docs/topics/_nav.js`, and one detail page
@@ -8,7 +8,9 @@ the section on `docs/notes.html`, the nav data in `docs/topics/_nav.js`, and one
 
 - **Grows to 100.** Numbering is chronological and append-only: the newest conversation is `N+1`.
   No reordering by status, unlike the Blockchain section.
-- **One per tech item.** Every time a Tech Notes item is added, add one conversation here too. It
+- **One per day (jay, 2026-09-18; was one per tech item until then).** The first item added on a KST day
+  brings one conversation with it; further items that day do not. It does not have to relate to the
+  item. Material from the day's own discussions is fair game.
   does not have to relate to the item. Material from the day's own discussions is fair game.
 - **From #21 on: getting a job abroad.** Conversations a developer and team lead needs to be hired
   and to lead in English — interviews (system design, behavioural, take-home debrief), salary and

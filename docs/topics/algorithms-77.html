@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -389,7 +393,10 @@ print(&quot;final watermark:&quot;, watermark)
       <p>Build an event stream that's deliberately out of order with some events significantly delayed, then vary the watermark delay and the allowed lateness, and record how the windowed aggregate results and the count of late events change.</p>
       <h2>Practical Connection</h2>
       <p>Chain event indexing has its own gap between block time and receipt time, and reorgs can even flip the past, so Verex's volume and position aggregation pipeline needs exactly this kind of watermark and correction-handling design.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scramble the order</strong></td><td>순서를 뒤섞다 · 네트워크 지연으로 이벤트 도착 순서가 엉킬 때. "network delays or retries can scramble the order further"</td></tr><tr><td><strong>essentially all</strong></td><td>사실상 전부의 · 거의 다 도착했다고 추정할 때. "essentially all events earlier than this timestamp have arrived"</td></tr><tr><td><strong>allowed lateness</strong></td><td>허용 지연(윈도우가 닫힌 뒤에도 봐주는 시간) · 늦게 도착한 데이터를 처리하는 정책. "you need a policy — an allowed lateness window"</td></tr><tr><td><strong>the tradeoff between completeness and latency</strong></td><td>완전성과 지연시간 사이의 트레이드오프 · 정확함과 빠름을 동시에 가질 수 없는 딜레마. "the tradeoff between completeness and latency appears"</td></tr><tr><td><strong>pin down</strong></td><td>명확히 정해두다·못박다 · 정책이나 기준을 애매하게 두지 않는 것. "never having pinned down an event-time and watermark policy"</td></tr><tr><td><strong>slightly off</strong></td><td>살짝 어긋난·조금 맞지 않는 · 집계 결과가 미묘하게 틀릴 때. "why are my aggregates slightly off"</td></tr><tr><td><strong>flip the past</strong></td><td>과거를 뒤집다(이미 지난 사실을 바꿔놓다) · 리오그처럼 확정된 줄 알았던 게 바뀔 때. "reorgs can even flip the past"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -443,7 +450,10 @@ print(&quot;final watermark:&quot;, watermark)
       <p>의도적으로 순서가 뒤섞이고 일부는 크게 지연되는 이벤트 스트림을 만들어, 워터마크 지연값과 허용 지연 시간을 바꿔가며 윈도우 집계 결과와 late data 건수가 어떻게 달라지는지 기록하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>체인 이벤트 인덱싱은 블록 타임과 수신 시각이 다르고 재조직(reorg)으로 과거가 뒤집히기까지 하므로, Verex의 거래량·포지션 집계 파이프라인에서 워터마크와 정정 처리 설계가 그대로 필요하다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>scramble the order</strong></td><td>순서를 뒤섞다 · 네트워크 지연으로 이벤트 도착 순서가 엉킬 때. "network delays or retries can scramble the order further"</td></tr><tr><td><strong>essentially all</strong></td><td>사실상 전부의 · 거의 다 도착했다고 추정할 때. "essentially all events earlier than this timestamp have arrived"</td></tr><tr><td><strong>allowed lateness</strong></td><td>허용 지연(윈도우가 닫힌 뒤에도 봐주는 시간) · 늦게 도착한 데이터를 처리하는 정책. "you need a policy — an allowed lateness window"</td></tr><tr><td><strong>the tradeoff between completeness and latency</strong></td><td>완전성과 지연시간 사이의 트레이드오프 · 정확함과 빠름을 동시에 가질 수 없는 딜레마. "the tradeoff between completeness and latency appears"</td></tr><tr><td><strong>pin down</strong></td><td>명확히 정해두다·못박다 · 정책이나 기준을 애매하게 두지 않는 것. "never having pinned down an event-time and watermark policy"</td></tr><tr><td><strong>slightly off</strong></td><td>살짝 어긋난·조금 맞지 않는 · 집계 결과가 미묘하게 틀릴 때. "why are my aggregates slightly off"</td></tr><tr><td><strong>flip the past</strong></td><td>과거를 뒤집다(이미 지난 사실을 바꿔놓다) · 리오그처럼 확정된 줄 알았던 게 바뀔 때. "reorgs can even flip the past"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-76.html">&larr; 128. 컬럼 스토어와 벡터화 실행(OLAP)</a><a href="algorithms-78.html">130. 벡터 DB와 ANN 인덱스(HNSW·IVF-PQ) &rarr;</a></div>
 </div>

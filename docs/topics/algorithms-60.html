@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -381,7 +385,10 @@ print(f&quot;  위원회(1/100) 기반 집계: {committee_cost:.1f}ms (라운드
       <p>Using the beacon chain API, directly measure how long it takes a specific transaction's block to reach justified and then finalized status after inclusion, and compare that against the confirmation threshold your own service uses.</p>
       <h2>Practical Connection</h2>
       <p>A prediction market doing on-chain settlement, like Verex, has to decide how many confirmations out to treat a result as final — understanding finality's precise meaning and its actual latency is what lets you balance reorg risk against user wait time.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>on the order of</strong></td><td>대략 ~ 정도의 규모(수준)인 · "it takes on the order of several minutes"</td></tr><tr><td><strong>bottleneck</strong></td><td>병목(구간) · "the Signature-Aggregation Bottleneck"</td></tr><tr><td><strong>lies less in ... than in</strong></td><td>~보다는 오히려 ~에 있다 · "The bottleneck lies less in the consensus rule itself than in systems engineering"</td></tr><tr><td><strong>flows straight into</strong></td><td>곧바로 ~에 영향을 미치다 · "flows straight into service design"</td></tr><tr><td><strong>balance X against Y</strong></td><td>X와 Y 사이에서 저울질하다 · "balance reorg risk against user wait time"</td></tr><tr><td><strong>replace ... with</strong></td><td>~을 ~으로 대체하다 · "replacing aggregate verification with a proof"</td></tr><tr><td><strong>justified and then finalized</strong></td><td>(블록체인 상태가) 정당화된 후 확정된 · "reach justified and then finalized status"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -427,7 +434,10 @@ print(f&quot;  위원회(1/100) 기반 집계: {committee_cost:.1f}ms (라운드
       <p>비콘 체인 API로 특정 트랜잭션이 포함된 뒤 그 블록이 justified와 finalized 상태에 도달하기까지 걸린 시간을 직접 측정하고, 자기 서비스가 쓰는 확정 기준과 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex처럼 온체인 정산을 하는 예측시장은 결과 확정을 몇 컨펌 뒤로 볼지 정해야 하는데, 파이널리티의 정확한 의미와 실제 지연을 알아야 재조직 위험과 사용자 대기 시간 사이에서 균형을 잡을 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>on the order of</strong></td><td>대략 ~ 정도의 규모(수준)인 · "it takes on the order of several minutes"</td></tr><tr><td><strong>bottleneck</strong></td><td>병목(구간) · "the Signature-Aggregation Bottleneck"</td></tr><tr><td><strong>lies less in ... than in</strong></td><td>~보다는 오히려 ~에 있다 · "The bottleneck lies less in the consensus rule itself than in systems engineering"</td></tr><tr><td><strong>flows straight into</strong></td><td>곧바로 ~에 영향을 미치다 · "flows straight into service design"</td></tr><tr><td><strong>balance X against Y</strong></td><td>X와 Y 사이에서 저울질하다 · "balance reorg risk against user wait time"</td></tr><tr><td><strong>replace ... with</strong></td><td>~을 ~으로 대체하다 · "replacing aggregate verification with a proof"</td></tr><tr><td><strong>justified and then finalized</strong></td><td>(블록체인 상태가) 정당화된 후 확정된 · "reach justified and then finalized status"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-59.html">&larr; 111. Casper FFG + LMD-GHOST</a><a href="algorithms-61.html">113. 데이터 가용성 샘플링과 소거부호(Reed-Solomon) &rarr;</a></div>
 </div>

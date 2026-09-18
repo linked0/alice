@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -387,7 +391,10 @@ evaluate(&quot;회귀가 있는 배포&quot;, measured_regressed)
       <p>Pick one of the services you currently work on, write a one-page budget covering workload, load, per-segment latency budget, measurement method, and action-on-overrun, then fill in actual measurements next to each line to find current violations.</p>
       <h2>Practical Connection</h2>
       <p>Breaking Verex's path from order submission to fill reflected — API, matching, chain submission, confirmation wait — into per-segment budgets lets you immediately tell, when perceived latency worsens, whether it's chain congestion or a regression in your own service.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spell out</strong></td><td>(조건을) 구체적으로 명시하다 · 성능 목표를 숫자와 조건으로 적어둔다는 뜻. "spells out, in numbers and conditions"</td></tr><tr><td><strong>serve as the basis for</strong></td><td>~의 근거가 되다, 기준으로 쓰이다 · 문서가 설계·리뷰·배포 판단의 토대가 된다는 뜻. "serving as the basis for design, review, and deployment decisions"</td></tr><tr><td><strong>blow (a) budget</strong></td><td>(목표치·예산을) 초과해버리다 · 어느 구간이 지연 목표를 넘겼는지 알아볼 때. "which segment blew its budget"</td></tr><tr><td><strong>defensible</strong></td><td>(근거가 있어) 방어할 수 있는, 타당한 · 임의로 정한 수치보다 정당화하기 쉬운 기준. "more defensible than picking arbitrary numbers"</td></tr><tr><td><strong>carry real force</strong></td><td>실질적인 구속력을 갖다 · 초과 시 조치까지 명시해야 문서가 힘을 갖는다는 뜻. "only carries real force once it also states what happens on a budget overrun"</td></tr><tr><td><strong>pile up</strong></td><td>(문제가) 쌓이다, 누적되다 · 회귀(regression)가 쌓인 뒤에야 발견되는 상황. "regressions only get discovered once they&#39;ve piled up"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -439,7 +446,10 @@ evaluate(&quot;회귀가 있는 배포&quot;, measured_regressed)
       <p>지금 다루는 서비스 중 하나를 골라 워크로드·부하·구간별 지연 예산·측정 방법·초과 시 조치를 한 페이지로 적고, 실제 측정값을 옆 칸에 채워 현재 위반 항목을 찾아보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 주문 제출부터 체결 반영까지를 API·매칭·체인 제출·확정 대기로 나누어 각 구간 예산을 잡아 두면, 체감 지연이 나빠졌을 때 체인 혼잡 탓인지 자체 서비스 회귀인지 즉시 구분할 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spell out</strong></td><td>(조건을) 구체적으로 명시하다 · 성능 목표를 숫자와 조건으로 적어둔다는 뜻. "spells out, in numbers and conditions"</td></tr><tr><td><strong>serve as the basis for</strong></td><td>~의 근거가 되다, 기준으로 쓰이다 · 문서가 설계·리뷰·배포 판단의 토대가 된다는 뜻. "serving as the basis for design, review, and deployment decisions"</td></tr><tr><td><strong>blow (a) budget</strong></td><td>(목표치·예산을) 초과해버리다 · 어느 구간이 지연 목표를 넘겼는지 알아볼 때. "which segment blew its budget"</td></tr><tr><td><strong>defensible</strong></td><td>(근거가 있어) 방어할 수 있는, 타당한 · 임의로 정한 수치보다 정당화하기 쉬운 기준. "more defensible than picking arbitrary numbers"</td></tr><tr><td><strong>carry real force</strong></td><td>실질적인 구속력을 갖다 · 초과 시 조치까지 명시해야 문서가 힘을 갖는다는 뜻. "only carries real force once it also states what happens on a budget overrun"</td></tr><tr><td><strong>pile up</strong></td><td>(문제가) 쌓이다, 누적되다 · 회귀(regression)가 쌓인 뒤에야 발견되는 상황. "regressions only get discovered once they&#39;ve piled up"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-50.html">&larr; 102. 카오스 엔지니어링·장애 주입 설계</a><a href="algorithms-52.html">104. 일관성 모델 지도 &rarr;</a></div>
 </div>

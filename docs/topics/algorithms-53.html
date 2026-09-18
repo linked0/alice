@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -401,7 +405,10 @@ print(f&quot;compare(e2, e3) = {compare(e2, e3)}&quot;)  # concurrent
       <p>Write a simulation of 3 nodes exchanging messages, attach both a Lamport clock and a vector clock to the same run, and find event pairs that only the vector clock identifies as concurrent.</p>
       <h2>Practical Connection</h2>
       <p>In a matching service where multiple instances accept orders, determining which order came first by each server's physical clock gets the order reversed by skew, which is exactly why you need a single sequencer or a causal timestamp like HLC.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hurt scalability</strong></td><td>확장성을 해치다 · 노드 수가 늘수록 오버헤드가 커져 시스템이 커지기 힘들어질 때. "scales with the number of nodes, hurting scalability"</td></tr><tr><td><strong>stay close to</strong></td><td>~에 가깝게 유지되다 · 논리 시계 값이 실제 물리 시간과 크게 어긋나지 않을 때. "stays close to physical time"</td></tr><tr><td><strong>survive (clock skew)</strong></td><td>(오차·왜곡을) 견뎌내다, 살아남다 · 시계가 어긋나도 인과 순서가 무너지지 않을 때. "causal order survives clock skew"</td></tr><tr><td><strong>come down to</strong></td><td>결국 ~로 귀결되다 · 여러 요인을 정리하면 결국 하나의 선택 문제로 좁혀질 때. "ultimately comes down to which clock you use"</td></tr><tr><td><strong>look reversed</strong></td><td>(실제와 반대로) 뒤바뀐 것처럼 보이다 · 원인과 결과의 순서가 잘못 정렬되어 보일 때. "can make cause and effect look reversed"</td></tr><tr><td><strong>skew (n.)</strong></td><td>(시계·시간의) 오차, 어긋남 · 서버 간 물리 시계가 서로 안 맞는 정도. "gets the order reversed by skew"</td></tr><tr><td><strong>the converse doesn&#39;t hold</strong></td><td>그 역은 성립하지 않는다 · 한쪽 방향은 참이지만 반대 방향은 참이 아닐 때. "but the converse doesn&#39;t hold"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -467,7 +474,10 @@ print(f&quot;compare(e2, e3) = {compare(e2, e3)}&quot;)  # concurrent
       <p>노드 3개가 메시지를 주고받는 시뮬레이션을 짜서 같은 실행에 Lamport 시계와 벡터 시계를 동시에 붙이고, 벡터 시계로만 동시성이라고 판별되는 사건 쌍을 찾아보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>여러 인스턴스가 주문을 받는 매칭 서비스에서 어느 주문이 먼저인지를 각 서버의 물리 시각으로 정하면 스큐 때문에 순서가 뒤집히므로, 단일 시퀀서나 HLC 같은 인과 타임스탬프가 필요해진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hurt scalability</strong></td><td>확장성을 해치다 · 노드 수가 늘수록 오버헤드가 커져 시스템이 커지기 힘들어질 때. "scales with the number of nodes, hurting scalability"</td></tr><tr><td><strong>stay close to</strong></td><td>~에 가깝게 유지되다 · 논리 시계 값이 실제 물리 시간과 크게 어긋나지 않을 때. "stays close to physical time"</td></tr><tr><td><strong>survive (clock skew)</strong></td><td>(오차·왜곡을) 견뎌내다, 살아남다 · 시계가 어긋나도 인과 순서가 무너지지 않을 때. "causal order survives clock skew"</td></tr><tr><td><strong>come down to</strong></td><td>결국 ~로 귀결되다 · 여러 요인을 정리하면 결국 하나의 선택 문제로 좁혀질 때. "ultimately comes down to which clock you use"</td></tr><tr><td><strong>look reversed</strong></td><td>(실제와 반대로) 뒤바뀐 것처럼 보이다 · 원인과 결과의 순서가 잘못 정렬되어 보일 때. "can make cause and effect look reversed"</td></tr><tr><td><strong>skew (n.)</strong></td><td>(시계·시간의) 오차, 어긋남 · 서버 간 물리 시계가 서로 안 맞는 정도. "gets the order reversed by skew"</td></tr><tr><td><strong>the converse doesn&#39;t hold</strong></td><td>그 역은 성립하지 않는다 · 한쪽 방향은 참이지만 반대 방향은 참이 아닐 때. "but the converse doesn&#39;t hold"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-52.html">&larr; 104. 일관성 모델 지도</a><a href="algorithms-54.html">106. Raft 심화 &rarr;</a></div>
 </div>

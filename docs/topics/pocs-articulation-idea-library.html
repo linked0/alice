@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Articulation is a retrieval system — build ten ideas, then compile them into three shapes — Tech Notes</title>
+<title>Articulation is a retrieval system — build ten ideas, then compile them into three shapes — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Articulation is a retrieval system — build ten ideas, then compile them into three shapes</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Articulation is a retrieval system — build ten ideas, then compile them into three shapes</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#68</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#69</span><span>PoC</span></p>
       <h1>Articulation is a retrieval system — build ten ideas, then compile them into three shapes</h1>
       <p class="lead">Dan Koe&#39;s useful claim is that articulate speech is less about producing a brilliant new thought on demand than retrieving and refining a small library of ideas. Turn that claim into practice: keep 8–10 durable theses with evidence, stories, metaphors, and objections, then express each through a micro-story, a pyramid, and a cross-domain synthesis.</p>
       <p class="meta">Create one <code>IdeaCard</code> per core idea with a one-sentence thesis, problem, evidence, personal example, metaphor, counterargument, and practical consequence. Each day choose one card and produce three versions: Problem → Amplify → Solution; conclusion → 3 supporting reasons → evidence; and a synthesis that imports a useful pattern from another field. Speak each version without reading, record it, and revise the card from the gaps you notice. Track retrieval time, unsupported claims, structural completeness, and listener comprehension—not vocabulary complexity.</p>
@@ -451,7 +469,10 @@ objection-handling accuracy ↑
 <p>Keep a revision history so confidence grows from better evidence rather than repetition alone. Never fabricate personal stories, statistics, quotations, or sources to fill a card.</p>
 <p>Source: <a href="https://twitter.com/thedankoe/article/2011827303962329458">Dan Koe — original X article</a> · <a href="https://read.limboy.me/how-to-articulate-yourself-intelligently/">Readable mirror — How to Articulate Yourself Intelligently</a>. This report summarizes and operationalizes the article rather than reproducing it.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>on demand</strong></td><td>요구가 있을 때 즉시 · "producing a brilliant new thought on demand"</td></tr><tr><td><strong>test harness</strong></td><td>검증 체계, 테스트 장치 · "Writing is the test harness"</td></tr><tr><td><strong>integration test</strong></td><td>통합 테스트 · "Listener feedback is the integration test"</td></tr><tr><td><strong>manufactured drama</strong></td><td>인위적으로 꾸며낸 극적 요소 · "manufactured drama"</td></tr><tr><td><strong>borrowed pattern</strong></td><td>다른 분야에서 빌려온 패턴 · "problem, borrowed pattern, adapted solution"</td></tr><tr><td><strong>fabricate</strong></td><td>없는 사실을 지어내다, 날조하다 · "Never fabricate personal stories, statistics, quotations"</td></tr><tr><td><strong>versioned refinement</strong></td><td>버전을 거듭하며 다듬어지는 개선 · "repetition is versioned refinement"</td></tr><tr><td><strong>polish</strong></td><td>(표면적으로) 다듬다, 윤내다 · "do not merely polish adjectives"</td></tr><tr><td><strong>compile into</strong></td><td>여러 요소를 조합해 ~로 만들어내다 · "compile them into three shapes"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -523,9 +544,12 @@ objection-handling accuracy ↑
 <p>반복만으로 자신감을 키우지 않고 더 나은 근거에서 키우도록 revision history를 유지합니다. 카드를 채우기 위해 personal story·statistic·quotation·source를 만들어내면 안 됩니다.</p>
 <p>출처: <a href="https://twitter.com/thedankoe/article/2011827303962329458">Dan Koe — X 원문</a> · <a href="https://read.limboy.me/how-to-articulate-yourself-intelligently/">읽기 가능한 mirror — How to Articulate Yourself Intelligently</a>. 이 report는 글을 재현하지 않고 요약해 실행 시스템으로 바꿉니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>on demand</strong></td><td>요구가 있을 때 즉시 · "producing a brilliant new thought on demand"</td></tr><tr><td><strong>test harness</strong></td><td>검증 체계, 테스트 장치 · "Writing is the test harness"</td></tr><tr><td><strong>integration test</strong></td><td>통합 테스트 · "Listener feedback is the integration test"</td></tr><tr><td><strong>manufactured drama</strong></td><td>인위적으로 꾸며낸 극적 요소 · "manufactured drama"</td></tr><tr><td><strong>borrowed pattern</strong></td><td>다른 분야에서 빌려온 패턴 · "problem, borrowed pattern, adapted solution"</td></tr><tr><td><strong>fabricate</strong></td><td>없는 사실을 지어내다, 날조하다 · "Never fabricate personal stories, statistics, quotations"</td></tr><tr><td><strong>versioned refinement</strong></td><td>버전을 거듭하며 다듬어지는 개선 · "repetition is versioned refinement"</td></tr><tr><td><strong>polish</strong></td><td>(표면적으로) 다듬다, 윤내다 · "do not merely polish adjectives"</td></tr><tr><td><strong>compile into</strong></td><td>여러 요소를 조합해 ~로 만들어내다 · "compile them into three shapes"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-aa-two-standards-capability-matrix.html">&larr; 67. Two native AA standards — wallets need a capability matrix, not a chain-name switch</a><a href="pocs-kb-kookmin-kinexys-deposit-rail.html">69. KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not &rarr;</a></div>
+    <div class="pager"><a href="pocs-aa-two-standards-capability-matrix.html">&larr; 68. Two native AA standards — wallets need a capability matrix, not a chain-name switch</a><a href="pocs-kb-kookmin-kinexys-deposit-rail.html">70. KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -571,17 +595,18 @@ objection-handling accuracy ↑
   // \uB808\uC77C \uD544\uD130 = \uD14D\uC2A4\uD2B8 \uC9C8\uC758 + \uB4F1\uAE09 \uBAA8\uB4DC(Important/All)\uC758 \uD569\uC131. \uB4F1\uAE09 \uD1A0\uAE00\uC774 \uC5C6\uB294 \uD398\uC774\uC9C0\uC5D0\uC11C\uB294
   // tierMode \uAC00 'all' \uB85C \uB0A8\uC544 \uC608\uC804\uACFC \uC644\uC804\uD788 \uB3D9\uC77C\uD558\uAC8C \uB3D9\uC791\uD55C\uB2E4 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" \uD544\uD130\uB294 \uC911\uC694(\uBE68\uAC15)\uBFD0 \uC544\uB2C8\uB77C "\uCD5C\uADFC \uC644\uB8CC"(\uD558\uB298)\uC640 "\uC0C8 \uD56D\uBAA9"(\uB178\uB791)\uB3C4 \uD568\uAED8 \uBCF4\uC5EC \uC900\uB2E4
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). \uCD5C\uADFC \uC644\uB8CC\uB294 \uBC29\uAE08 \uB05D\uB0B8 \uAC15\uC870 \uD56D\uBAA9\uC774\uACE0,
   // \uC0C8 \uD56D\uBAA9\uC740 \uCD5C\uADFC \uCC3D(NEW_WINDOW) \uC548\uC5D0 \uC190\uB304 \uAC83\uC774\uB77C \uB458 \uB2E4 \uC911\uC694 \uC904\uC5D0 \uB450\uACE0 \uD544\uD130\uC5D0\uC11C \uC228\uAE30\uC9C0 \uC54A\uB294\uB2E4.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

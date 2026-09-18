@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -404,7 +408,10 @@ print(&quot;commit(f) - y*G1 == commit(q) * (tau - z)*G2 관계를 확인한다 
       <p>Pick a simple polynomial, actually divide f(X) − f(z) by (X − z) to get the quotient, explain using the factor theorem why the remainder is always zero, and write up why that quotient serves as a proof.</p>
       <h2>Practical Connection</h2>
       <p>If Verex posts data to an L2 or aggregates multiple signatures, the cost and trust assumptions of that path ultimately come from pairing-based commitment structures.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bilinear map</strong></td><td>쌍선형 사상 · 두 입력에 대해 각각 선형인 함수, 페어링의 정의. "a bilinear map that takes elements"</td></tr><tr><td><strong>just by looking at</strong></td><td>~을 살펴보기만 해도, 간접적으로 확인함으로써 · 직접 계산 없이 원소만 보고 관계를 확인할 때. "just by looking at the group elements."</td></tr><tr><td><strong>constant-size</strong></td><td>크기가 고정된(입력 크기와 무관한) · 증명·커밋먼트의 크기가 항상 동일할 때. "to one constant-size group element"</td></tr><tr><td><strong>divisible by</strong></td><td>~로 나누어떨어지는 · 다항식이 특정 인수를 약수로 가질 때. "f(X) − y is divisible by (X − z)."</td></tr><tr><td><strong>trusted setup</strong></td><td>신뢰된 설정(초기값 생성 과정) · 특정 비밀값이 안전하게 폐기되어야 하는 암호 설정. "requires a trusted setup that produces"</td></tr><tr><td><strong>forged proofs</strong></td><td>위조된 증명 · 비밀이 유출되면 가짜 증명을 만들 수 있을 때. "would allow forged proofs"</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계 · 무너지면 시스템 전체 신뢰가 깨지는 지점. "the system&#39;s actual trust boundary"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -473,7 +480,10 @@ print(&quot;commit(f) - y*G1 == commit(q) * (tau - z)*G2 관계를 확인한다 
       <p>작은 다항식 하나를 골라 f(X)−f(z)를 (X−z)로 실제로 나눠 몫을 구하고, 나머지가 항상 0이 되는 이유를 인수정리로 설명한 뒤 그 몫이 왜 증명 역할을 하는지 글로 정리하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex가 L2에 데이터를 올리거나 다수 서명을 집계하는 경로를 쓴다면 그 비용과 신뢰 가정이 결국 페어링 기반 커밋먼트 구조에서 나온다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bilinear map</strong></td><td>쌍선형 사상 · 두 입력에 대해 각각 선형인 함수, 페어링의 정의. "a bilinear map that takes elements"</td></tr><tr><td><strong>just by looking at</strong></td><td>~을 살펴보기만 해도, 간접적으로 확인함으로써 · 직접 계산 없이 원소만 보고 관계를 확인할 때. "just by looking at the group elements."</td></tr><tr><td><strong>constant-size</strong></td><td>크기가 고정된(입력 크기와 무관한) · 증명·커밋먼트의 크기가 항상 동일할 때. "to one constant-size group element"</td></tr><tr><td><strong>divisible by</strong></td><td>~로 나누어떨어지는 · 다항식이 특정 인수를 약수로 가질 때. "f(X) − y is divisible by (X − z)."</td></tr><tr><td><strong>trusted setup</strong></td><td>신뢰된 설정(초기값 생성 과정) · 특정 비밀값이 안전하게 폐기되어야 하는 암호 설정. "requires a trusted setup that produces"</td></tr><tr><td><strong>forged proofs</strong></td><td>위조된 증명 · 비밀이 유출되면 가짜 증명을 만들 수 있을 때. "would allow forged proofs"</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계 · 무너지면 시스템 전체 신뢰가 깨지는 지점. "the system&#39;s actual trust boundary"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-47.html">&larr; 47. 라그랑주 보간 + Reed-Solomon (스레드 A 수확)</a><a href="math-49.html">49. 엔트로피·정보·코딩 &rarr;</a></div>
 </div>

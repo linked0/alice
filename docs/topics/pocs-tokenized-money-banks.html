@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tokenized Money for Banks — Tech Notes</title>
+<title>Tokenized Money for Banks — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Tokenized Money for Banks</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Tokenized Money for Banks</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#10</span><span>PoC</span></p>
       <h1>Tokenized Money for Banks</h1>
@@ -490,7 +508,10 @@
 <p>&gt; <strong>The tokenized deposit is cheap but does not travel far. The first-party stablecoin is expensive but travels further. The third-party stablecoin travels furthest, but the money leaves the bank&amp;#8217;s balance sheet and its economy.</strong></p>
 <p>Which is why a bank goes toward offering <strong>all three as needed</strong> rather than picking one &amp;mdash; and that is the most important frame for reading &amp;#8220;tokenized money for banks&amp;#8221; at all.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a> &middot; <a href="https://www.jaylabs.xyz/poc/tokenized-money-banks">Open on jaylabs.xyz &rarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>treasury rebalancing</strong></td><td>회사 자금(재무) 재조정 · 기관이 보유 자산 비중을 다시 맞추는 작업을 가리킬 때. "a first-party stablecoin for treasury rebalancing"</td></tr><tr><td><strong>weigh options</strong></td><td>선택지를 검토하다·저울질하다 · 결정 전에 여러 대안을 신중히 비교할 때. "will weigh options as customer demand"</td></tr><tr><td><strong>ring-fenced</strong></td><td>다른 부분과 격리된, 담장을 친 · 자회사처럼 리스크를 본체와 분리할 때. "Ring-fenced — the most likely shape"</td></tr><tr><td><strong>hedge weekend exposure</strong></td><td>주말 리스크 노출을 헤지(상쇄)하다 · 포지션의 가격 위험을 줄이는 금융 행위. "hedge weekend exposure on Hyperliquid-style venues"</td></tr><tr><td><strong>accrue to</strong></td><td>(이익·이자 등이) ~에게 귀속되다 · 수익이 누구 몫이 되는지 말할 때 쓰는 전치사 표현. "reserves accrues to Circle"</td></tr><tr><td><strong>at the cost of</strong></td><td>~라는 대가를 치르고 · 무언가를 얻는 대신 잃는 것을 말할 때. "at the cost of the claim leaving"</td></tr><tr><td><strong>hard-code</strong></td><td>(조건 등을) 못 바꾸게 고정시키다 · 규제 비용이 구조적으로 못박혀 있음을 표현. "the Basel LCR/NSFR cost each one hard-codes"</td></tr><tr><td><strong>handed wholesale to</strong></td><td>통째로 넘겨주다 · 고객·자금을 경쟁자에게 전부 빼앗기는 상황. "handed wholesale to a third party like Circle"</td></tr><tr><td><strong>prefunded inventory</strong></td><td>미리 자금을 채워둔 재고(자산) · 제3자 스테이블코인 접근을 위해 미리 확보해두는 자산. "prefunded inventory or a deposit-secured loan"</td></tr><tr><td><strong>narrow reach</strong></td><td>좁은 도달 범위 · 특정 네트워크 안에서만 쓸 수 있어 확장성이 부족함을 표현. "but narrow reach — JPMD on Base"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a> &middot; <a href="https://www.jaylabs.xyz/poc/tokenized-money-banks">Open on jaylabs.xyz &rarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -601,7 +622,10 @@
 <p>&gt; <strong>토큰화 예금은 싸지만 멀리 가지 못한다. 자체 스테이블코인은 비싸지만 더 멀리 간다. 제3자 스테이블코인은 가장 멀리 가지만 돈이 은행의 대차대조표와 경제권을 떠난다.</strong></p>
 <p>그래서 은행은 <strong>하나를 선택하는 대신 셋을 모두 필요에 따라 제공하려는 방향</strong>으로 간다 — 그리고 <strong>그것이 “은행을 위한 토큰화된 화폐”를 이해할 때 가장 중요한 프레임</strong>이다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a> &middot; <a href="https://www.jaylabs.xyz/poc/tokenized-money-banks">Open on jaylabs.xyz &rarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>treasury rebalancing</strong></td><td>회사 자금(재무) 재조정 · 기관이 보유 자산 비중을 다시 맞추는 작업을 가리킬 때. "a first-party stablecoin for treasury rebalancing"</td></tr><tr><td><strong>weigh options</strong></td><td>선택지를 검토하다·저울질하다 · 결정 전에 여러 대안을 신중히 비교할 때. "will weigh options as customer demand"</td></tr><tr><td><strong>ring-fenced</strong></td><td>다른 부분과 격리된, 담장을 친 · 자회사처럼 리스크를 본체와 분리할 때. "Ring-fenced — the most likely shape"</td></tr><tr><td><strong>hedge weekend exposure</strong></td><td>주말 리스크 노출을 헤지(상쇄)하다 · 포지션의 가격 위험을 줄이는 금융 행위. "hedge weekend exposure on Hyperliquid-style venues"</td></tr><tr><td><strong>accrue to</strong></td><td>(이익·이자 등이) ~에게 귀속되다 · 수익이 누구 몫이 되는지 말할 때 쓰는 전치사 표현. "reserves accrues to Circle"</td></tr><tr><td><strong>at the cost of</strong></td><td>~라는 대가를 치르고 · 무언가를 얻는 대신 잃는 것을 말할 때. "at the cost of the claim leaving"</td></tr><tr><td><strong>hard-code</strong></td><td>(조건 등을) 못 바꾸게 고정시키다 · 규제 비용이 구조적으로 못박혀 있음을 표현. "the Basel LCR/NSFR cost each one hard-codes"</td></tr><tr><td><strong>handed wholesale to</strong></td><td>통째로 넘겨주다 · 고객·자금을 경쟁자에게 전부 빼앗기는 상황. "handed wholesale to a third party like Circle"</td></tr><tr><td><strong>prefunded inventory</strong></td><td>미리 자금을 채워둔 재고(자산) · 제3자 스테이블코인 접근을 위해 미리 확보해두는 자산. "prefunded inventory or a deposit-secured loan"</td></tr><tr><td><strong>narrow reach</strong></td><td>좁은 도달 범위 · 특정 네트워크 안에서만 쓸 수 있어 확장성이 부족함을 표현. "but narrow reach — JPMD on Base"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a> &middot; <a href="https://www.jaylabs.xyz/poc/tokenized-money-banks">Open on jaylabs.xyz &rarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-event-contract-plumbing.html">&larr; 9. The hiring signal is the spec — event-contract plumbing</a><a href="pocs-what-needs-a-stablecoin.html">11. Not what a stablecoin can do — what needs one &rarr;</a></div>
   </div>
@@ -649,17 +673,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

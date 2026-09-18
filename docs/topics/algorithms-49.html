@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -395,7 +399,10 @@ for rho in [0.5, 0.7, 0.9, 0.95, 0.99]:
       <p>For a service you run, define two SLIs (availability and p99 latency), compute a 30-day SLO and error budget, then plug in the last 30 days of real measurements to work out the budget burn rate.</p>
       <h2>Practical Connection</h2>
       <p>For paths mixed with external factors — RPC node dependencies, oracle response latency, settlement transaction confirmation time — pre-defining targets and budgets is what lets you judge where &quot;normal&quot; ends.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>error budget</strong></td><td>오류 예산(허용 가능한 장애 총량) · SLO에서 남은 실패 허용치를 가리킬 때 · "the error budget is the total amount of failure"</td></tr><tr><td><strong>burn rate</strong></td><td>소진 속도 · 오류 예산이 얼마나 빨리 소모되는지 측정할 때 · "work out the budget burn rate"</td></tr><tr><td><strong>headroom</strong></td><td>여유 용량 · 최대 부하 대비 시스템이 가진 여분을 가리킬 때 · "how much headroom is needed"</td></tr><tr><td><strong>tail load</strong></td><td>꼬리 부하(피크·극단적으로 몰리는 부하) · 평균이 아니라 극단치 기준으로 설계할 때 · "headroom should be sized against peak and tail load"</td></tr><tr><td><strong>diverges sharply</strong></td><td>급격히 발산하다·치솟다 · 이용률이 100%에 가까워질 때 대기시간이 폭증하는 현상 · "wait time diverges sharply as utilization approaches 1"</td></tr><tr><td><strong>halt feature releases</strong></td><td>기능 출시를 중단하다 · 오류 예산이 소진되면 취하는 정책 · "the policy is to halt feature releases"</td></tr><tr><td><strong>put the effort into</strong></td><td>~에 노력을 쏟다 · 안정성 작업으로 자원을 돌릴 때 · "put the effort into reliability work instead"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -455,7 +462,10 @@ for rho in [0.5, 0.7, 0.9, 0.95, 0.99]:
       <p>운영 중인 서비스 하나에 대해 SLI 두 개(가용성·p99 지연)를 정의하고 30일 SLO와 에러 예산을 계산한 뒤, 지난 30일 실측을 대입해 예산 소진율을 구해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>RPC 노드 의존, 오라클 응답 지연, 정산 트랜잭션 확정 시간처럼 외부 요인이 섞인 경로일수록 목표와 예산을 미리 정해 두어야 어디까지가 정상인지 판단할 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>error budget</strong></td><td>오류 예산(허용 가능한 장애 총량) · SLO에서 남은 실패 허용치를 가리킬 때 · "the error budget is the total amount of failure"</td></tr><tr><td><strong>burn rate</strong></td><td>소진 속도 · 오류 예산이 얼마나 빨리 소모되는지 측정할 때 · "work out the budget burn rate"</td></tr><tr><td><strong>headroom</strong></td><td>여유 용량 · 최대 부하 대비 시스템이 가진 여분을 가리킬 때 · "how much headroom is needed"</td></tr><tr><td><strong>tail load</strong></td><td>꼬리 부하(피크·극단적으로 몰리는 부하) · 평균이 아니라 극단치 기준으로 설계할 때 · "headroom should be sized against peak and tail load"</td></tr><tr><td><strong>diverges sharply</strong></td><td>급격히 발산하다·치솟다 · 이용률이 100%에 가까워질 때 대기시간이 폭증하는 현상 · "wait time diverges sharply as utilization approaches 1"</td></tr><tr><td><strong>halt feature releases</strong></td><td>기능 출시를 중단하다 · 오류 예산이 소진되면 취하는 정책 · "the policy is to halt feature releases"</td></tr><tr><td><strong>put the effort into</strong></td><td>~에 노력을 쏟다 · 안정성 작업으로 자원을 돌릴 때 · "put the effort into reliability work instead"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-48.html">&larr; 100. 분산 트레이싱과 샘플링 전략</a><a href="algorithms-50.html">102. 카오스 엔지니어링·장애 주입 설계 &rarr;</a></div>
 </div>

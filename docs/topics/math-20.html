@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -389,7 +393,10 @@ print(f&quot;\n예: 5의 모듈러 역원 mod {P} = {mod_inv(5)}  (검산: 5*inv
       <p>Pick a small prime p, implement Gaussian elimination and matrix inversion over GF(p) yourself, and use inverses computed via the extended Euclidean algorithm to check how rank and solution sets differ from the real-number version.</p>
       <h2>Practical Connection</h2>
       <p>Shamir secret sharing, Reed-Solomon codes, and polynomial commitments including KZG all stand on polynomial interpolation and linear algebra over finite fields — this is the basic grammar for reading blob data availability and ZK circuits.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>residue class</strong></td><td>잉여류 · 소수로 나눈 나머지에 따라 묶은 수의 집합. "formed by the residue classes modulo a prime"</td></tr><tr><td><strong>black box</strong></td><td>내부 원리를 모른 채 결과만 쓰는 대상 · 라이브러리를 이해 없이 쓴다는 비판. "you end up treating the libraries as a black box"</td></tr><tr><td><strong>partial pivoting</strong></td><td>부분 피벗팅 · 수치 안정성을 위해 계산 순서의 행을 바꾸는 기법. "partial pivoting for numerical stability is unnecessary"</td></tr><tr><td><strong>characteristic</strong></td><td>체의 표수 · 그 체에서 0이 되는 최소 반복 횟수. "the fact that the characteristic is p produces phenomena"</td></tr><tr><td><strong>basic grammar</strong></td><td>기본 문법 · 어떤 분야를 이해하는 데 필요한 기초 체계를 비유. "this is the basic grammar for reading blob data availability"</td></tr><tr><td><strong>stand on</strong></td><td>~에 기반하다, ~위에 서 있다 · 여러 개념이 같은 토대 위에 있다는 뜻. "all stand on polynomial interpolation and linear algebra"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -443,7 +450,10 @@ print(f&quot;\n예: 5의 모듈러 역원 mod {P} = {mod_inv(5)}  (검산: 5*inv
       <p>작은 소수 p를 골라 GF(p) 위 행렬의 가우스 소거와 역행렬을 직접 구현하고, 확장 유클리드로 구한 역원을 써서 랭크와 해집합이 실수 버전과 어떻게 다른지 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Shamir 비밀 분산과 리드-솔로몬 부호, 그리고 KZG를 포함한 다항식 커밋먼트가 모두 유한체 위 다항식 보간과 선형대수 위에 서 있어, 블롭 데이터 가용성과 ZK 회로를 읽을 때의 기본 문법이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>residue class</strong></td><td>잉여류 · 소수로 나눈 나머지에 따라 묶은 수의 집합. "formed by the residue classes modulo a prime"</td></tr><tr><td><strong>black box</strong></td><td>내부 원리를 모른 채 결과만 쓰는 대상 · 라이브러리를 이해 없이 쓴다는 비판. "you end up treating the libraries as a black box"</td></tr><tr><td><strong>partial pivoting</strong></td><td>부분 피벗팅 · 수치 안정성을 위해 계산 순서의 행을 바꾸는 기법. "partial pivoting for numerical stability is unnecessary"</td></tr><tr><td><strong>characteristic</strong></td><td>체의 표수 · 그 체에서 0이 되는 최소 반복 횟수. "the fact that the characteristic is p produces phenomena"</td></tr><tr><td><strong>basic grammar</strong></td><td>기본 문법 · 어떤 분야를 이해하는 데 필요한 기초 체계를 비유. "this is the basic grammar for reading blob data availability"</td></tr><tr><td><strong>stand on</strong></td><td>~에 기반하다, ~위에 서 있다 · 여러 개념이 같은 토대 위에 있다는 뜻. "all stand on polynomial interpolation and linear algebra"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-19.html">&larr; 19. 내적·노름·코사인 유사도</a><a href="math-21.html">21. 리스크·포트폴리오 행렬(공분산·상관) &rarr;</a></div>
 </div>

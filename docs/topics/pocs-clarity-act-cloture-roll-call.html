@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Clarity Act failed cloture — the probability was right, the roll call is the story — Tech Notes</title>
+<title>The Clarity Act failed cloture — the probability was right, the roll call is the story — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
 
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; The Clarity Act failed cloture — the probability was right, the roll call is the story</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The Clarity Act failed cloture — the probability was right, the roll call is the story</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#65</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">file</span></p>
+      <p class="topic-kicker"><span class="topic-no">#66</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">file</span></p>
       <h1>The Clarity Act failed cloture — the probability was right, the roll call is the story</h1>
       <p class="lead">On 2026-09-15 the Senate declined to advance the Digital Asset Market Clarity Act: the cloture vote fell about eleven short of the sixty needed, with reports of the exact tally differing (CoinDesk 49–50; others 50–49) and several Republicans among the no votes. The fact that will matter longer is who voted no: seven Democrats who had spent months negotiating the bill — Gillibrand, Warner, Booker, Warnock, Gallego, Alsobrooks, Cortez Masto — turned against it over ethics provisions on officials&#39; and relatives&#39; crypto holdings. The House passed the bill in 2025; this is the Senate&#39;s second stall; Senator Lummis said "we&#39;re done, it&#39;s over" after 120-plus changes. Prediction markets had cloture at roughly 26 percent, so the probability was right. But a probability resolves the outcome, not its character, and "the votes weren&#39;t there" and "the negotiators walked" are different facts with different half-lives. The second one does not heal with time; the next attempt moves past the election.</p>
       <p class="meta">For Jayverse: when Verex quotes a probability on legislation, the resolution record should include the roll call, not only the outcome — the same 26 percent can end two different ways, and only one of them tells you when to re-open the market. And the regulatory consequence for us is narrow: a failed bill is not a ban. The gap persists, institutional onboarding slows, existing testnet work is untouched. Status on 2026-09-16: no revival path before Congress ends 2026-12-31; the SEC&#39;s proposed Regulation Crypto Assets continues, with Chair Atkins saying it is not durable without a law. Market reaction: XRP −10 percent, about $570 million in longs liquidated, BTC through its three-times-tested $76,597 floor.</p>
@@ -404,7 +422,10 @@
 <h3>Verified and unverified</h3>
 <p>Verified on 2026-09-16 from CoinDesk and Coingape: the failure, the roughly eleven-vote shortfall, Republican no votes, the seven named Democrats and the ethics rationale with Warnock&#39;s quote, Lummis&#39;s statement, the House-passed status, the December 31 session end, the SEC and Atkins statements, and the market moves. Not resolved: the exact yes/no tally, which differs by outlet. Not verified independently: the 26 percent prediction-market figure, taken from the alice-tech note of 2026-09-16.</p>
 <p>Sources: <a href="https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote">CoinDesk — Clarity Act flames out in failed Senate vote</a> · <a href="https://coingape.com/clarity-act-live-updates-today-sept-15-crypto-bill-senate-cloture-vote/">Coingape — live updates, 2026-09-15</a> · <a href="https://www.cnbc.com/2026/09/15/senate-cloture-vote-on-clarity-act-fails-dealing-regulatory-setback-to-crypto-industry.html">CNBC — Senate cloture vote fails</a></p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cloture</strong></td><td>토론 종결 절차 · 미국 상원에서 토론을 끝내고 표결로 넘기는 절차. "cloture failed on 2026-09-15; 60 needed"</td></tr><tr><td><strong>fall short</strong></td><td>목표·기준에 못 미치다, 부족하다 · 표결이 정족수에 못 미쳤을 때. "fell about eleven short of the sixty needed"</td></tr><tr><td><strong>whip count</strong></td><td>원내 총무의 찬반 표 집계 · 표결 전 예상 득표수 파악. "the whip count was optimistic"</td></tr><tr><td><strong>half-life</strong></td><td>사실·정보의 유효 기간 · 시간이 지나도 여전히 유효한지 아닌지 비유. "different facts with different half-lives"</td></tr><tr><td><strong>walk (away)</strong></td><td>협상·합의를 저버리고 떠나다 · 협상팀이 완전히 등을 돌렸다는 뜻. "the negotiators walked"</td></tr><tr><td><strong>divestment</strong></td><td>이해충돌 회피를 위한 자산 매각 · 공직자가 보유 자산을 처분하는 절차. "mandatory divestment within 180 days"</td></tr><tr><td><strong>durable</strong></td><td>법·제도가 오래 지속될 수 있는, 견고한 · 법 없이는 규정이 흔들린다는 맥락. "won&#39;t be durable without a law underpinning them"</td></tr><tr><td><strong>underpin</strong></td><td>뒷받침하다, 근거를 마련해주다 · 법이 규정을 지탱해준다는 뜻. "durable without a law underpinning them"</td></tr><tr><td><strong>on the record</strong></td><td>공식적으로 기록에 남은 · 연합이 공개적으로 깨졌다는 뜻. "produced 600 pages dissolved on the record"</td></tr><tr><td><strong>write off</strong></td><td>더 이상 기대하지 않고 포기하다, 손절하다 · 재시도 가능성을 접을 때. "write it off for a year"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -429,9 +450,12 @@
 <h3>확인된 것과 미확인</h3>
 <p>2026-09-16에 CoinDesk와 Coingape에서 확인한 것: 부결, 약 11표 부족, 공화당 반대표, 이름이 나온 민주당 7명과 워녹 인용을 포함한 윤리 근거, 루미스 발언, 하원 통과 상태, 12월 31일 회기 종료, SEC와 앳킨스 발언, 시장 움직임. 미해결: 매체마다 다른 정확한 찬반 집계. 독립 검증하지 않은 것: 2026-09-16 alice-tech 노트에서 가져온 예측시장 26퍼센트 수치.</p>
 <p>출처: <a href="https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote">CoinDesk — Clarity Act flames out in failed Senate vote</a> · <a href="https://coingape.com/clarity-act-live-updates-today-sept-15-crypto-bill-senate-cloture-vote/">Coingape — 2026-09-15 실시간 업데이트</a> · <a href="https://www.cnbc.com/2026/09/15/senate-cloture-vote-on-clarity-act-fails-dealing-regulatory-setback-to-crypto-industry.html">CNBC — Senate cloture vote fails</a></p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cloture</strong></td><td>토론 종결 절차 · 미국 상원에서 토론을 끝내고 표결로 넘기는 절차. "cloture failed on 2026-09-15; 60 needed"</td></tr><tr><td><strong>fall short</strong></td><td>목표·기준에 못 미치다, 부족하다 · 표결이 정족수에 못 미쳤을 때. "fell about eleven short of the sixty needed"</td></tr><tr><td><strong>whip count</strong></td><td>원내 총무의 찬반 표 집계 · 표결 전 예상 득표수 파악. "the whip count was optimistic"</td></tr><tr><td><strong>half-life</strong></td><td>사실·정보의 유효 기간 · 시간이 지나도 여전히 유효한지 아닌지 비유. "different facts with different half-lives"</td></tr><tr><td><strong>walk (away)</strong></td><td>협상·합의를 저버리고 떠나다 · 협상팀이 완전히 등을 돌렸다는 뜻. "the negotiators walked"</td></tr><tr><td><strong>divestment</strong></td><td>이해충돌 회피를 위한 자산 매각 · 공직자가 보유 자산을 처분하는 절차. "mandatory divestment within 180 days"</td></tr><tr><td><strong>durable</strong></td><td>법·제도가 오래 지속될 수 있는, 견고한 · 법 없이는 규정이 흔들린다는 맥락. "won&#39;t be durable without a law underpinning them"</td></tr><tr><td><strong>underpin</strong></td><td>뒷받침하다, 근거를 마련해주다 · 법이 규정을 지탱해준다는 뜻. "durable without a law underpinning them"</td></tr><tr><td><strong>on the record</strong></td><td>공식적으로 기록에 남은 · 연합이 공개적으로 깨졌다는 뜻. "produced 600 pages dissolved on the record"</td></tr><tr><td><strong>write off</strong></td><td>더 이상 기대하지 않고 포기하다, 손절하다 · 재시도 가능성을 접을 때. "write it off for a year"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-canton-sv-seat-is-a-milestone-contract.html">&larr; 64. A Super Validator seat is a milestone contract — what Canton bought when it admitted Shinhan (CIP-0121)</a><a href="pocs-agent-team-is-a-workflow.html">66. One employee, one agent creates silos — the unit of AX is a governed workflow &rarr;</a></div>
+    <div class="pager"><a href="pocs-canton-sv-seat-is-a-milestone-contract.html">&larr; 65. A Super Validator seat is a milestone contract — what Canton bought when it admitted Shinhan (CIP-0121)</a><a href="pocs-agent-team-is-a-workflow.html">67. One employee, one agent creates silos — the unit of AX is a governed workflow &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -477,17 +501,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

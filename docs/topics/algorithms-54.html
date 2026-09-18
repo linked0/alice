@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -413,7 +417,10 @@ print(&quot;-&gt; term은 단조 증가하며, 같은 term에 한 노드만 투�
       <p>Trace the messages exchanged during node add/remove in an existing Raft implementation (etcd or hashicorp/raft), and reproduce experimentally how lease read and ReadIndex results differ during a leader partition.</p>
       <h2>Practical Connection</h2>
       <p>Blockchain consensus is a Byzantine model, unlike Raft, but the same structural fact holds — &quot;if a leader answers reads without confirming a majority, the answer is stale&quot; — and it applies directly to designing leadership for an indexer that caches the latest block or a multi-instance matching engine.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>skeleton</strong></td><td>뼈대, 기본 골격 · "Raft&#39;s basic skeleton is leader election plus log replication"</td></tr><tr><td><strong>split-brain</strong></td><td>리더가 둘로 갈라지는 장애(스플릿 브레인) · "split-brain during node replacement"</td></tr><tr><td><strong>lagging follower</strong></td><td>뒤처져서 따라잡지 못한 팔로워 노드 · "a lagging follower needs a separate RPC"</td></tr><tr><td><strong>linearizable</strong></td><td>순서가 보장되어 선형적으로 일관된 · "The standard fix for linearizable reads is ReadIndex"</td></tr><tr><td><strong>stale reads</strong></td><td>오래된(최신이 아닌) 값을 읽어오는 것 · "stale reads right after a leader change"</td></tr><tr><td><strong>show up one after another</strong></td><td>연달아 잇따라 나타나다 · "show up one after another"</td></tr><tr><td><strong>account for</strong></td><td>(원인의 상당 부분을) 차지하다, 설명하다 · "these three account for most real incidents"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -491,7 +498,10 @@ print(&quot;-&gt; term은 단조 증가하며, 같은 term에 한 노드만 투�
       <p>기존 Raft 구현체(etcd나 hashicorp/raft)에서 노드 추가·제거 시 주고받는 메시지를 로그로 추적하고, 리더 파티션 상황에서 lease read와 ReadIndex의 결과 차이를 실험으로 재현하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>블록체인 합의는 비잔틴 모델이라 Raft와 다르지만 &quot;과반 확인 없이 리더가 읽어 응답하면 stale하다&quot;는 구조는 동일해, 최신 블록 조회를 캐시하는 인덱서나 다중 인스턴스 매칭 엔진의 리더십 설계에 그대로 적용된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>skeleton</strong></td><td>뼈대, 기본 골격 · "Raft&#39;s basic skeleton is leader election plus log replication"</td></tr><tr><td><strong>split-brain</strong></td><td>리더가 둘로 갈라지는 장애(스플릿 브레인) · "split-brain during node replacement"</td></tr><tr><td><strong>lagging follower</strong></td><td>뒤처져서 따라잡지 못한 팔로워 노드 · "a lagging follower needs a separate RPC"</td></tr><tr><td><strong>linearizable</strong></td><td>순서가 보장되어 선형적으로 일관된 · "The standard fix for linearizable reads is ReadIndex"</td></tr><tr><td><strong>stale reads</strong></td><td>오래된(최신이 아닌) 값을 읽어오는 것 · "stale reads right after a leader change"</td></tr><tr><td><strong>show up one after another</strong></td><td>연달아 잇따라 나타나다 · "show up one after another"</td></tr><tr><td><strong>account for</strong></td><td>(원인의 상당 부분을) 차지하다, 설명하다 · "these three account for most real incidents"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-53.html">&larr; 105. 논리 시계·벡터 시계·하이브리드 논리 시계(HLC)</a><a href="algorithms-55.html">107. Multi-Paxos·Flexible Paxos &rarr;</a></div>
 </div>

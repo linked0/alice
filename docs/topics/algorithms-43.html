@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -394,7 +398,10 @@ print(&quot;유계 큐 덕분에 rho=0.95 에서도 무한정 쌓이지 않고 �
       <p>Put a bounded queue in front of a worker pool, raise the arrival rate to 50%, 80%, and 95% of the service rate, measure p50/p99 latency and queue length, and check whether the numbers match what Little's law predicts.</p>
       <h2>Practical Connection</h2>
       <p>In a pipeline like Verex, where order intake is fast but on-chain settlement is slow, tied to block time, without a bounded queue and load shedding up front, back-end latency directly turns into user timeouts and a storm of resubmissions.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>push back on</strong></td><td>~에 저항하다, 밀어내다 · 감당 못 하는 입력 흐름을 역으로 제한할 때. "pushes back on inflow the consumer can&#39;t keep up with"</td></tr><tr><td><strong>bounded queue</strong></td><td>크기가 제한된 큐 · 무한정 쌓이지 않도록 상한을 둔 대기열을 가리킬 때. "implemented via bounded queues, blocking, credit-based flow control"</td></tr><tr><td><strong>load shedding</strong></td><td>부하 차단(일부 요청을 의도적으로 버림) · 과부하 시 시스템을 지키기 위한 기법. "credit-based flow control, or load shedding"</td></tr><tr><td><strong>run with some slack</strong></td><td>여유를 두고 운영하다 · 시스템을 100% 가동하지 않고 여지를 남길 때. "a system should be run with some slack"</td></tr><tr><td><strong>blow up</strong></td><td>급격히 치솟다, 폭증하다 · 지연 시간 등이 걷잡을 수 없이 커질 때. "and blows up sharply"</td></tr><tr><td><strong>runaway latency</strong></td><td>걷잡을 수 없이 늘어나는 지연 시간 · 큐가 무한정 쌓여 생기는 실패 양상을 가리킬 때. "turns the failure into runaway latency and memory exhaustion"</td></tr><tr><td><strong>a storm of</strong></td><td>~이 폭주하다, 쏟아지다 · 재시도 요청 등이 한꺼번에 몰릴 때. "user timeouts and a storm of resubmissions"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -453,7 +460,10 @@ print(&quot;유계 큐 덕분에 rho=0.95 에서도 무한정 쌓이지 않고 �
       <p>워커 풀 앞에 유계 큐를 두고 도착률을 서비스율의 50%, 80%, 95%로 올려가며 p50/p99 지연과 큐 길이를 측정해 Little's law로 계산한 값과 맞는지 비교하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>주문 접수는 빠르지만 온체인 정산은 블록 시간에 묶여 느린 Verex 같은 파이프라인에서는, 앞단에 유계 큐와 부하 차단이 없으면 뒷단 지연이 그대로 사용자 타임아웃과 재제출 폭주로 번진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>push back on</strong></td><td>~에 저항하다, 밀어내다 · 감당 못 하는 입력 흐름을 역으로 제한할 때. "pushes back on inflow the consumer can&#39;t keep up with"</td></tr><tr><td><strong>bounded queue</strong></td><td>크기가 제한된 큐 · 무한정 쌓이지 않도록 상한을 둔 대기열을 가리킬 때. "implemented via bounded queues, blocking, credit-based flow control"</td></tr><tr><td><strong>load shedding</strong></td><td>부하 차단(일부 요청을 의도적으로 버림) · 과부하 시 시스템을 지키기 위한 기법. "credit-based flow control, or load shedding"</td></tr><tr><td><strong>run with some slack</strong></td><td>여유를 두고 운영하다 · 시스템을 100% 가동하지 않고 여지를 남길 때. "a system should be run with some slack"</td></tr><tr><td><strong>blow up</strong></td><td>급격히 치솟다, 폭증하다 · 지연 시간 등이 걷잡을 수 없이 커질 때. "and blows up sharply"</td></tr><tr><td><strong>runaway latency</strong></td><td>걷잡을 수 없이 늘어나는 지연 시간 · 큐가 무한정 쌓여 생기는 실패 양상을 가리킬 때. "turns the failure into runaway latency and memory exhaustion"</td></tr><tr><td><strong>a storm of</strong></td><td>~이 폭주하다, 쏟아지다 · 재시도 요청 등이 한꺼번에 몰릴 때. "user timeouts and a storm of resubmissions"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-42.html">&larr; 94. 이벤트 루프 vs 스레드 vs 액터 모델</a><a href="algorithms-44.html">96. 테일 레이턴시 &rarr;</a></div>
 </div>

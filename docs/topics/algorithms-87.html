@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ print(&quot;=&gt; lets a verifier check sums (e.g. 'inputs balance outputs') wit
       <p>Implement a Pedersen commitment with an elliptic-curve library and verify its homomorphism, then build a Merkle-tree commitment over the same values and tabulate commitment size, proof size, and verification time for comparison.</p>
       <h2>Practical Connection</h2>
       <p>When Verex compresses off-chain state or order batches onto the chain at settlement, which commitment it uses directly decides calldata/blob cost, on-chain verification gas, and the trust assumptions required.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>binding</strong></td><td>구속성(값을 나중에 바꿔치기할 수 없음) · 커밋먼트가 갖춰야 할 두 성질 중 하나. "requiring binding (the sealed value can&#39;t"</td></tr><tr><td><strong>hiding</strong></td><td>은닉성(봉인만 봐서는 값을 알 수 없음) · 커밋먼트의 또 다른 필수 성질. "hiding (the seal alone reveals nothing"</td></tr><tr><td><strong>trusted setup</strong></td><td>신뢰된 설정(초기 구조화 참조 문자열 생성 절차) · KZG가 요구하는 사전 절차. "it needs a structured reference string (a trusted setup)"</td></tr><tr><td><strong>proximity testing</strong></td><td>근접성 검증(부호와 얼마나 가까운지 테스트) · FRI가 신뢰 설정 없이 검증하는 방식. "works via hash-based proximity testing against Reed-Solomon codes"</td></tr><tr><td><strong>post-quantum</strong></td><td>양자 이후(양자컴퓨터에도 안전한) · 해시 기반 가정이 갖는 장점을 가리키는 암호학 용어. "favored from a post-quantum standpoint"</td></tr><tr><td><strong>ground (a decision)</strong></td><td>(결정을) 근거 위에 세우다·뒷받침하다 · 트레이드오프 이해 없이는 설계 결정을 뒷받침할 수 없다는 뜻. "you can&#39;t ground an architecture decision"</td></tr><tr><td><strong>additively homomorphic</strong></td><td>덧셈에 대해 동형(합을 연산해도 성질 유지)인 · 커밋먼트를 더해 합을 검증할 수 있는 성질. "additively homomorphic, so you can verify"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ print(&quot;=&gt; lets a verifier check sums (e.g. 'inputs balance outputs') wit
       <p>타원곡선 라이브러리로 Pedersen 커밋먼트를 구현해 준동형성을 검증한 뒤, 같은 값을 머클 트리 커밋먼트로도 만들어 커밋 크기·증명 크기·검증 시간을 표로 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex가 정산 시 오프체인 상태나 주문 배치를 온체인에 압축해 올릴 때, 어떤 커밋먼트를 쓰느냐가 calldata/blob 비용과 온체인 검증 가스, 그리고 필요한 신뢰 가정을 직접 결정한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>binding</strong></td><td>구속성(값을 나중에 바꿔치기할 수 없음) · 커밋먼트가 갖춰야 할 두 성질 중 하나. "requiring binding (the sealed value can&#39;t"</td></tr><tr><td><strong>hiding</strong></td><td>은닉성(봉인만 봐서는 값을 알 수 없음) · 커밋먼트의 또 다른 필수 성질. "hiding (the seal alone reveals nothing"</td></tr><tr><td><strong>trusted setup</strong></td><td>신뢰된 설정(초기 구조화 참조 문자열 생성 절차) · KZG가 요구하는 사전 절차. "it needs a structured reference string (a trusted setup)"</td></tr><tr><td><strong>proximity testing</strong></td><td>근접성 검증(부호와 얼마나 가까운지 테스트) · FRI가 신뢰 설정 없이 검증하는 방식. "works via hash-based proximity testing against Reed-Solomon codes"</td></tr><tr><td><strong>post-quantum</strong></td><td>양자 이후(양자컴퓨터에도 안전한) · 해시 기반 가정이 갖는 장점을 가리키는 암호학 용어. "favored from a post-quantum standpoint"</td></tr><tr><td><strong>ground (a decision)</strong></td><td>(결정을) 근거 위에 세우다·뒷받침하다 · 트레이드오프 이해 없이는 설계 결정을 뒷받침할 수 없다는 뜻. "you can&#39;t ground an architecture decision"</td></tr><tr><td><strong>additively homomorphic</strong></td><td>덧셈에 대해 동형(합을 연산해도 성질 유지)인 · 커밋먼트를 더해 합을 검증할 수 있는 성질. "additively homomorphic, so you can verify"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-86.html">&larr; 138. 임계 서명·MPC·분산 키 생성(DKG)</a><a href="algorithms-88.html">140. 다중정밀 산술(bignum) &rarr;</a></div>
 </div>

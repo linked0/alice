@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LayerZero — the default verifier is a trust assumption nobody wrote down — Tech Notes</title>
+<title>LayerZero — the default verifier is a trust assumption nobody wrote down — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; LayerZero — the default verifier is a trust assumption nobody wrote down</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; LayerZero — the default verifier is a trust assumption nobody wrote down</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#46</span><span>PoC</span></p>
       <h1>LayerZero — the default verifier is a trust assumption nobody wrote down</h1>
@@ -478,7 +496,10 @@ npx hardhat lz:oapp:send --dst-eid 40161 --text &amp;quot;hello&amp;quot;
 <h3>What to take for a settlement design</h3>
 <p><strong>Use the message layer, minimise the bridge.</strong> For a market whose collateral sits on several chains, the common first design is to make the collateral token omnichain — and the principle worth keeping is that <strong>settlement finality happens on exactly one chain</strong>, with everything else restricted to display and deposit paths. A message layer widens what you can reach; it does not widen where truth lives. And ATLAS&#39;s module boundary — <strong>risk separated from settlement</strong> — is worth copying independently of the product, because it is the split <code>plumbing-skills-buyback</code> argues most systems never make.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>trap</strong></td><td>함정 · 설계 안에 숨어 있는 위험 요소를 가리킴. "That is the real feature and the real trap"</td></tr><tr><td><strong>inherit</strong></td><td>(위험이나 가정을) 물려받다, 승계하다 · 기본값을 그대로 받아들이는 것. "everyone inherits it, for good and ill"</td></tr><tr><td><strong>relocate a decision onto</strong></td><td>결정을 ~에게로 떠넘기다/이전시키다 · 책임 소재가 은연중에 옮겨지는 것. "relocates a decision onto you, silently"</td></tr><tr><td><strong>under-provision</strong></td><td>(자원을) 부족하게 할당하다 · 가스비 등을 충분히 안 잡는 것. "Under-provision it and the send looks successful"</td></tr><tr><td><strong>the call site</strong></td><td>함수 호출이 일어나는 지점 · 에러가 겉으로 드러나지 않는 위치를 설명할 때. "the call site returns fine"</td></tr><tr><td><strong>residue</strong></td><td>(핵심 논의 후) 실무적으로 남는 것 · 전략 논의를 걷어내고 남는 엔지니어링적 교훈. "the engineering residue"</td></tr><tr><td><strong>module boundary</strong></td><td>모듈 경계 · 시스템을 나누는 구획 기준. "a usable module boundary"</td></tr><tr><td><strong>widen (what you can reach)</strong></td><td>(도달 범위를) 넓히다, 확장시키다 · 메시지 레이어가 닿을 수 있는 대상을 늘리는 것. "widens what you can reach"</td></tr><tr><td><strong>by omission</strong></td><td>하지 않음으로써, 누락에 의해 · 결정을 내리지 않아서 생기는 문제를 가리킴. "a decision made by omission"</td></tr><tr><td><strong>pre-pay</strong></td><td>선지급하다 · 목적지 체인의 가스비를 미리 지불하는 구조. "pre-pays destination gas by encoding it in options"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -577,7 +598,10 @@ npx hardhat lz:oapp:send --dst-eid 40161 --text &amp;quot;hello&amp;quot;
 <h3>정산 설계로 가져갈 것</h3>
 <p><strong>메시지 레이어는 쓰되 브릿지는 최소화한다.</strong> 담보가 여러 체인에 있는 마켓에서 흔한 첫 설계는 담보 토큰을 옴니체인화하는 것이고 — 지킬 원칙은 <strong>정산 확정이 정확히 한 체인에서만 일어나고</strong>, 나머지는 <strong>표시와 입금 경로로 제한</strong>하는 것입니다. <strong>메시지 레이어는 닿을 수 있는 범위를 넓히지, 진실이 사는 곳을 넓히지 않습니다.</strong> 그리고 ATLAS 의 모듈 경계 — <strong>리스크를 정산에서 분리</strong> — 는 그 제품과 무관하게 베낄 값이 있습니다. <code>plumbing-skills-buyback</code> 이 <strong>대부분의 시스템이 끝내 하지 않는다</strong>고 지적한 바로 그 분리이기 때문입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>trap</strong></td><td>함정 · 설계 안에 숨어 있는 위험 요소를 가리킴. "That is the real feature and the real trap"</td></tr><tr><td><strong>inherit</strong></td><td>(위험이나 가정을) 물려받다, 승계하다 · 기본값을 그대로 받아들이는 것. "everyone inherits it, for good and ill"</td></tr><tr><td><strong>relocate a decision onto</strong></td><td>결정을 ~에게로 떠넘기다/이전시키다 · 책임 소재가 은연중에 옮겨지는 것. "relocates a decision onto you, silently"</td></tr><tr><td><strong>under-provision</strong></td><td>(자원을) 부족하게 할당하다 · 가스비 등을 충분히 안 잡는 것. "Under-provision it and the send looks successful"</td></tr><tr><td><strong>the call site</strong></td><td>함수 호출이 일어나는 지점 · 에러가 겉으로 드러나지 않는 위치를 설명할 때. "the call site returns fine"</td></tr><tr><td><strong>residue</strong></td><td>(핵심 논의 후) 실무적으로 남는 것 · 전략 논의를 걷어내고 남는 엔지니어링적 교훈. "the engineering residue"</td></tr><tr><td><strong>module boundary</strong></td><td>모듈 경계 · 시스템을 나누는 구획 기준. "a usable module boundary"</td></tr><tr><td><strong>widen (what you can reach)</strong></td><td>(도달 범위를) 넓히다, 확장시키다 · 메시지 레이어가 닿을 수 있는 대상을 늘리는 것. "widens what you can reach"</td></tr><tr><td><strong>by omission</strong></td><td>하지 않음으로써, 누락에 의해 · 결정을 내리지 않아서 생기는 문제를 가리킴. "a decision made by omission"</td></tr><tr><td><strong>pre-pay</strong></td><td>선지급하다 · 목적지 체인의 가스비를 미리 지불하는 구조. "pre-pays destination gas by encoding it in options"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-base-app-mini-app.html">&larr; 45. Base App — what a Mini App buys, and what it rents</a><a href="pocs-refill-rate-is-the-real-cap.html">47. A bridge's rate limit is not the loss cap — its refill speed is &rarr;</a></div>
   </div>
@@ -625,17 +649,18 @@ npx hardhat lz:oapp:send --dst-eid 40161 --text &amp;quot;hello&amp;quot;
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

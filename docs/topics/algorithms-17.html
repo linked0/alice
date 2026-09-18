@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -400,7 +404,10 @@ for p in (1, 2, 4, 8):
       <p>Compute the work and span of a parallel merge sort or parallel prefix sum by hand, then in Go increase the number of goroutines from 1 up to the core count and overlay the measured speedup curve against the prediction.</p>
       <h2>Practical Connection</h2>
       <p>This is the basis for judging how far parallelization pays off in block-execution parallelism (where inter-transaction state dependencies form the DAG's edges) or in Verex's batch settlement and off-chain matching engine.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hold (something) fixed</strong></td><td>~을 고정된 값으로 두다 · 비교를 위해 한 변수를 상수로 취급할 때. "they just hold different things fixed"</td></tr><tr><td><strong>cap (the speedup)</strong></td><td>상한선을 씌우다, 제한하다 · 특정 값이 최댓값을 넘지 못하게 할 때. "a serial fraction s caps the speedup at 1/s"</td></tr><tr><td><strong>tell apart</strong></td><td>구별하다, 분간하다 · 원인이 여러 개일 때 어느 것인지 가려낼 때. "failing to tell apart whether the cause is"</td></tr><tr><td><strong>tune the wrong thing</strong></td><td>엉뚱한 것을 고치려 하다 · 원인을 잘못 짚고 튜닝할 때. "leads to tuning the wrong thing"</td></tr><tr><td><strong>comfortably larger than</strong></td><td>넉넉히 더 큰, 여유 있게 큰 · 비교 대상보다 충분히 클 때. "parallelism needs to be comfortably larger than p"</td></tr><tr><td><strong>approach (linear scaling)</strong></td><td>선형 확장에 근접하다 · 이상적인 성능 향상에 가까워질 때. "to approach linear scaling"</td></tr><tr><td><strong>pays off</strong></td><td>보람이 있다, 이득이 되다 · 투자한 노력이 결실을 맺을 때. "how far parallelization pays off in block-execution parallelism"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -465,7 +472,10 @@ for p in (1, 2, 4, 8):
       <p>병렬 머지소트나 병렬 prefix sum의 work와 span을 손으로 계산한 뒤, Go에서 goroutine 수를 1부터 코어 수까지 늘려가며 실측 속도향상 곡선을 예측치와 겹쳐 그려 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>블록 실행 병렬화(트랜잭션 간 상태 의존성이 곧 DAG의 간선)나 Verex의 배치 정산·오프체인 매칭 엔진에서 어디까지 병렬화 이득이 나는지 판단하는 기준이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hold (something) fixed</strong></td><td>~을 고정된 값으로 두다 · 비교를 위해 한 변수를 상수로 취급할 때. "they just hold different things fixed"</td></tr><tr><td><strong>cap (the speedup)</strong></td><td>상한선을 씌우다, 제한하다 · 특정 값이 최댓값을 넘지 못하게 할 때. "a serial fraction s caps the speedup at 1/s"</td></tr><tr><td><strong>tell apart</strong></td><td>구별하다, 분간하다 · 원인이 여러 개일 때 어느 것인지 가려낼 때. "failing to tell apart whether the cause is"</td></tr><tr><td><strong>tune the wrong thing</strong></td><td>엉뚱한 것을 고치려 하다 · 원인을 잘못 짚고 튜닝할 때. "leads to tuning the wrong thing"</td></tr><tr><td><strong>comfortably larger than</strong></td><td>넉넉히 더 큰, 여유 있게 큰 · 비교 대상보다 충분히 클 때. "parallelism needs to be comfortably larger than p"</td></tr><tr><td><strong>approach (linear scaling)</strong></td><td>선형 확장에 근접하다 · 이상적인 성능 향상에 가까워질 때. "to approach linear scaling"</td></tr><tr><td><strong>pays off</strong></td><td>보람이 있다, 이득이 되다 · 투자한 노력이 결실을 맺을 때. "how far parallelization pays off in block-execution parallelism"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-16.html">&larr; 68. NP-난해와 환원</a><a href="algorithms-18.html">70. 조합 생성·그레이 코드·순열 열거 (TAOCP 4권) &rarr;</a></div>
 </div>

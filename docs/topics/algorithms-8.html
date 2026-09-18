@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ print(f&quot;sorted()로 검증한 값 = {expected}, 일치 = {result == expecte
       <p>Implement Quickselect to find the k-th element of an integer array, then count comparisons on a sorted input and an all-equal-values input, and plot those against a random-pivot version.</p>
       <h2>Practical Connection</h2>
       <p>Whether you're computing the median or a quantile of gas prices or order-book fill prices on-chain or off-chain, using a selection algorithm instead of sorting cuts the work and lets you state an explicit worst-case time bound against adversarial input.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recurse into</strong></td><td>재귀적으로 ~쪽으로 파고들다 · "only recurses into the side that contains the pivot"</td></tr><tr><td><strong>degrade to</strong></td><td>(성능이) ~수준으로 떨어지다 · "degrade it to quadratic time"</td></tr><tr><td><strong>fall back to</strong></td><td>안 되면 ~으로 대체 수단을 쓰다 · "fall back to the deterministic median-of-medians selection"</td></tr><tr><td><strong>dragged into</strong></td><td>(원치 않게) ~상태로 끌려가다 · "dragged into its worst case by adversarial input"</td></tr><tr><td><strong>pay an unnecessary tax</strong></td><td>불필요한 비용 부담을 치르다 · "pays an unnecessary log-factor tax"</td></tr><tr><td><strong>eliminate at every step</strong></td><td>매 단계마다 제거하다 · "a fixed fraction of elements is eliminated at every step"</td></tr><tr><td><strong>state an explicit bound</strong></td><td>명시적인 한계치를 제시하다 · "state an explicit worst-case time bound"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ print(f&quot;sorted()로 검증한 값 = {expected}, 일치 = {result == expecte
       <p>정수 배열에서 k번째 원소를 찾는 Quickselect를 직접 구현한 뒤, 정렬된 입력과 모두 같은 값인 입력에서 비교 횟수를 세어 무작위 피벗 버전과 그래프로 비교해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>가스 가격이나 오더북 체결가의 중위수·분위수를 온체인 오프체인 어느 쪽에서 계산하든, 정렬 대신 선택 알고리즘을 쓰면 연산량이 줄고 적대적 입력에 대한 최악 시간 상한을 명시할 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>recurse into</strong></td><td>재귀적으로 ~쪽으로 파고들다 · "only recurses into the side that contains the pivot"</td></tr><tr><td><strong>degrade to</strong></td><td>(성능이) ~수준으로 떨어지다 · "degrade it to quadratic time"</td></tr><tr><td><strong>fall back to</strong></td><td>안 되면 ~으로 대체 수단을 쓰다 · "fall back to the deterministic median-of-medians selection"</td></tr><tr><td><strong>dragged into</strong></td><td>(원치 않게) ~상태로 끌려가다 · "dragged into its worst case by adversarial input"</td></tr><tr><td><strong>pay an unnecessary tax</strong></td><td>불필요한 비용 부담을 치르다 · "pays an unnecessary log-factor tax"</td></tr><tr><td><strong>eliminate at every step</strong></td><td>매 단계마다 제거하다 · "a fixed fraction of elements is eliminated at every step"</td></tr><tr><td><strong>state an explicit bound</strong></td><td>명시적인 한계치를 제시하다 · "state an explicit worst-case time bound"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-7.html">&larr; 59. 스트리밍/스케치 알고리즘</a><a href="algorithms-9.html">61. 문자열 인덱스 &rarr;</a></div>
 </div>

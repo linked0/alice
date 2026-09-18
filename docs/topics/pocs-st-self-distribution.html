@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What tokenization actually removed — Tech Notes</title>
+<title>What tokenization actually removed — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; What tokenization actually removed</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; What tokenization actually removed</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#119</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#120</span><span>PoC</span></p>
       <h1>What tokenization actually removed</h1>
       <p class="lead">Toyota Finance sold a ¥1B bond through its own payments app with no securities firm distributing it. The intermediary did not disappear — the account-opening step did.</p>
       <p class="meta">Not yet scoped — start by writing out who is still in the deal and what each one is paid for, then compare against the pre-token bond. Sources: Toyota Finance news release, 2026-08-18 issuance (self-offering, ibet for Fin); the 2025-03 first issuance for the before-picture.</p>
@@ -393,7 +411,10 @@
       <h2>How it works</h2>
       <p>Three things to work out, and the first is just bookkeeping. Write the participant list for this deal and for an ordinary retail bond side by side, and mark what each party is paid for: underwriter, distributor, transfer agent, bond administrator, custodian, financial advisor. The claim to test is not &quot;fewer parties&quot; but &quot;the same parties, different jobs&quot; — and if the fee stack is roughly unchanged while the customer experience is transformed, that is a finding about where value actually sat. Second, the funnel arithmetic, which is where the real number is. The pre-token path costs a customer a brokerage account, a KYC pass and a funding transfer before the first yen is invested; the token path costs an app they already opened. Model the conversion difference and it prices the whole exercise, because ¥1B is not the point — 10,000 investors already inside Toyota&#39;s ecosystem is. Third, and this is the part with no established answer: <strong>the coupon is not all of the return.</strong> Qualifying investors receive TOYOTA Wallet QUICPay balance, and a lottery distributes Fuji Speedway tickets and special test-drive experiences. Part of the yield is paid in ecosystem value that is only redeemable inside the issuer, which raises a question a bond desk cannot answer with a spreadsheet: what is the implied yield including perks, how do you value a non-transferable benefit, and is it a security feature or a marketing expense that happens to be attached to a security? A loyalty programme fused with a debt instrument is the actual novelty here, more than the ledger. Reads with tokenized-money-banks (the balance-sheet half of putting an asset onchain) and cross-border-rail-interop (the other case where the ledger turns out to be the replaceable part).</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>disintermediation</strong></td><td>중개 배제, 탈중개화 · 중간 유통업자 없이 직접 거래하는 구조를 말할 때. "The headline is disintermediation"</td></tr><tr><td><strong>funnel dies</strong></td><td>전환 퍼널에서 고객이 이탈하다(비유) · 가입·구매 절차 중 이탈이 가장 크게 생기는 지점. "that step is where the funnel dies"</td></tr><tr><td><strong>wearing a bond</strong></td><td>채권의 탈을 쓰다(비유) · 실제 목적은 다른데 채권 형태를 취한 상품을 말할 때. "a customer-engagement pilot wearing a bond"</td></tr><tr><td><strong>fused with</strong></td><td>~와 결합되다, 융합되다 · 서로 다른 두 요소가 하나로 합쳐졌을 때. "A loyalty programme fused with a debt instrument"</td></tr><tr><td><strong>implied yield</strong></td><td>내재 수익률 · 표면 이자 외 부가 혜택까지 포함한 실질 수익률을 가리키는 용어. "what is the implied yield including perks"</td></tr><tr><td><strong>cap the book at</strong></td><td>모집 규모를 ~로 제한하다 · 발행 총액이 투자자 수 상한선을 정할 때. "caps the book at 10,000 investors"</td></tr><tr><td><strong>price the whole exercise</strong></td><td>전체 시도의 가치를 수치로 매기다 · 계산으로 진짜 의미를 드러낼 때. "it prices the whole exercise"</td></tr><tr><td><strong>qualifying investors</strong></td><td>자격을 갖춘(요건을 충족한) 투자자 · 특정 조건을 만족해야 혜택을 받는 투자자를 가리킬 때. "Qualifying investors receive TOYOTA Wallet QUICPay balance"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -407,9 +428,12 @@
       <h2>동작 방식</h2>
       <p>따져 볼 것 셋이고, 첫째는 그냥 장부 정리입니다. <strong>이 거래의 참여자 목록과 평범한 리테일 채권의 참여자 목록을 나란히 적고</strong>, 각자가 무엇의 대가를 받는지 표시합니다 — 인수인, 판매사, 명의개서대리인, 사채관리자, 수탁자, 재무 어드바이저. 검증할 주장은 &quot;참여자가 줄었다&quot;가 아니라 <strong>&quot;같은 참여자, 다른 역할&quot;</strong>이고, <strong>수수료 스택이 거의 그대로인데 고객 경험만 바뀌었다면</strong> 그것 자체가 가치가 실제로 어디에 있었는지에 대한 발견입니다. 둘째, <strong>퍼널 산수</strong> — 진짜 숫자가 여기 있습니다. 토큰 이전 경로는 첫 1엔을 넣기 전에 고객에게 <strong>증권계좌 + KYC 통과 + 입금 이체</strong>를 요구하고, 토큰 경로는 <strong>이미 열어 둔 앱</strong>을 요구합니다. 그 전환율 차이를 모델링하면 이 실험 전체의 값이 매겨집니다. <strong>10억엔이 요점이 아니라, 이미 토요타 생태계 안에 있는 1만 명이 요점</strong>이기 때문입니다. 셋째, 정답이 정해져 있지 않은 부분: <strong>쿠폰이 수익의 전부가 아닙니다.</strong> 조건을 충족한 투자자에게 <strong>TOYOTA Wallet QUICPay 잔액</strong>을 주고, 추첨으로 <strong>후지 스피드웨이 관람권과 특별 시승 체험</strong>을 제공합니다. 수익의 일부가 <strong>발행사 안에서만 상환되는 생태계 가치</strong>로 지급되는 것이고, 이는 채권 데스크가 스프레드시트로 답할 수 없는 질문을 만듭니다: <strong>혜택을 포함한 내재 수익률은 얼마이고, 양도 불가능한 편익을 어떻게 평가하며, 이것은 증권의 특성인가 아니면 증권에 붙은 마케팅 비용인가?</strong> <strong>로열티 프로그램과 채무증권의 융합</strong>이 여기서의 진짜 새로움이지 원장이 아닙니다. <code>tokenized-money-banks</code>(자산을 온체인에 올릴 때의 대차대조표 절반), <code>cross-border-rail-interop</code>(원장이 교체 가능한 부품으로 드러나는 또 다른 사례)과 함께 읽습니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>disintermediation</strong></td><td>중개 배제, 탈중개화 · 중간 유통업자 없이 직접 거래하는 구조를 말할 때. "The headline is disintermediation"</td></tr><tr><td><strong>funnel dies</strong></td><td>전환 퍼널에서 고객이 이탈하다(비유) · 가입·구매 절차 중 이탈이 가장 크게 생기는 지점. "that step is where the funnel dies"</td></tr><tr><td><strong>wearing a bond</strong></td><td>채권의 탈을 쓰다(비유) · 실제 목적은 다른데 채권 형태를 취한 상품을 말할 때. "a customer-engagement pilot wearing a bond"</td></tr><tr><td><strong>fused with</strong></td><td>~와 결합되다, 융합되다 · 서로 다른 두 요소가 하나로 합쳐졌을 때. "A loyalty programme fused with a debt instrument"</td></tr><tr><td><strong>implied yield</strong></td><td>내재 수익률 · 표면 이자 외 부가 혜택까지 포함한 실질 수익률을 가리키는 용어. "what is the implied yield including perks"</td></tr><tr><td><strong>cap the book at</strong></td><td>모집 규모를 ~로 제한하다 · 발행 총액이 투자자 수 상한선을 정할 때. "caps the book at 10,000 investors"</td></tr><tr><td><strong>price the whole exercise</strong></td><td>전체 시도의 가치를 수치로 매기다 · 계산으로 진짜 의미를 드러낼 때. "it prices the whole exercise"</td></tr><tr><td><strong>qualifying investors</strong></td><td>자격을 갖춘(요건을 충족한) 투자자 · 특정 조건을 만족해야 혜택을 받는 투자자를 가리킬 때. "Qualifying investors receive TOYOTA Wallet QUICPay balance"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-non-reserve-currency-seat.html">&larr; 118. The seat is the point — a non-reserve currency at the standards table</a><a href="pocs-headless-exchange-engines.html">120. Headless arrives — the company that sells the engine, not the app &rarr;</a></div>
+    <div class="pager"><a href="pocs-non-reserve-currency-seat.html">&larr; 119. The seat is the point — a non-reserve currency at the standards table</a><a href="pocs-headless-exchange-engines.html">121. Headless arrives — the company that sells the engine, not the app &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -455,17 +479,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

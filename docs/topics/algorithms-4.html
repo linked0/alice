@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -420,7 +424,10 @@ print(&quot;v1 -&gt; v2 diff =&quot;, changed12, &quot;, right 서브트리 공�
       <p>Implement a hash map three ways — (1) full copy on every update, (2) HAMT-style path copying, and (3) a mutable map — and measure execution time, allocation volume, and GC time over 100,000 insertions to compare them.</p>
       <h2>Practical Connection</h2>
       <p>The EVM stacks state changes in a journal for snapshot/rollback on revert, and the state trie itself produces a new root every block via path copying — a direct on-chain instance of a copy-on-write structure. Verex's in-memory order book runs into the same trade-off when designing snapshot-based rollback or per-version diff transmission.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hide in</strong></td><td>~에 숨어 있다 · 진짜 비용이 점근 복잡도가 아니라 상수항에 숨어있음을 설명 · "the real cost hides not in the asymptotic complexity"</td></tr><tr><td><strong>scatter across</strong></td><td>~에 흩어지다, 산재하다 · 새 노드들이 힙 여기저기에 흩어져 캐시 효율을 해침 · "scatters nodes across the heap"</td></tr><tr><td><strong>pointer chasing</strong></td><td>포인터를 따라가며 메모리 접근하는 것 · 흩어진 노드 때문에 포인터 추적이 잦아짐 · "hurts cache locality due to more pointer chasing"</td></tr><tr><td><strong>on the upside</strong></td><td>반면 좋은 점은, 긍정적인 면으로는 · 구조 공유 덕분에 diff가 빨라진다는 대목 도입 · "On the upside, since the previous version stays intact"</td></tr><tr><td><strong>skip (entire subtrees)</strong></td><td>(전체 부분트리를) 건너뛰다 · 참조가 같은 부분은 비교할 필요 없이 넘어감 · "diffing two versions can skip entire subtrees"</td></tr><tr><td><strong>basically free</strong></td><td>사실상 공짜다, 거의 비용이 없다 · 로그 복잡도라 비용이 없다고 착각하는 흔한 가정 · "copying is O(log n), so it&#39;s basically free"</td></tr><tr><td><strong>bounded by</strong></td><td>~로 상한이 정해지다, ~이내로 제한되다 · 업데이트 1회가 O(log n) 복사로 제한됨 · "a single update is bounded by O(log n) node copies"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -505,7 +512,10 @@ print(&quot;v1 -&gt; v2 diff =&quot;, changed12, &quot;, right 서브트리 공�
       <p>해시맵을 (1) 매번 전체 복사, (2) HAMT식 path copying, (3) 가변 맵 세 가지로 구현해 10만 회 삽입 시 실행 시간·할당량·GC 시간을 측정해 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>EVM은 revert를 위해 상태 변경을 저널에 쌓아 스냅샷/롤백하고 상태 트라이 자체도 블록마다 경로 복사로 새 루트를 만드는데, 이는 copy-on-write 구조가 그대로 온체인에 나타난 사례다. Verex의 인메모리 오더북도 스냅샷 기반 롤백이나 버전별 diff 전송을 설계할 때 같은 트레이드오프를 만난다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hide in</strong></td><td>~에 숨어 있다 · 진짜 비용이 점근 복잡도가 아니라 상수항에 숨어있음을 설명 · "the real cost hides not in the asymptotic complexity"</td></tr><tr><td><strong>scatter across</strong></td><td>~에 흩어지다, 산재하다 · 새 노드들이 힙 여기저기에 흩어져 캐시 효율을 해침 · "scatters nodes across the heap"</td></tr><tr><td><strong>pointer chasing</strong></td><td>포인터를 따라가며 메모리 접근하는 것 · 흩어진 노드 때문에 포인터 추적이 잦아짐 · "hurts cache locality due to more pointer chasing"</td></tr><tr><td><strong>on the upside</strong></td><td>반면 좋은 점은, 긍정적인 면으로는 · 구조 공유 덕분에 diff가 빨라진다는 대목 도입 · "On the upside, since the previous version stays intact"</td></tr><tr><td><strong>skip (entire subtrees)</strong></td><td>(전체 부분트리를) 건너뛰다 · 참조가 같은 부분은 비교할 필요 없이 넘어감 · "diffing two versions can skip entire subtrees"</td></tr><tr><td><strong>basically free</strong></td><td>사실상 공짜다, 거의 비용이 없다 · 로그 복잡도라 비용이 없다고 착각하는 흔한 가정 · "copying is O(log n), so it&#39;s basically free"</td></tr><tr><td><strong>bounded by</strong></td><td>~로 상한이 정해지다, ~이내로 제한되다 · 업데이트 1회가 O(log n) 복사로 제한됨 · "a single update is bounded by O(log n) node copies"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="../html/docs/algorithms/persistent-structures-structural-sharing.html">&larr; 55. 영속(persistent) 자료구조와 구조 공유</a><a href="algorithms-5.html">57. Verkle tree &rarr;</a></div>
 </div>

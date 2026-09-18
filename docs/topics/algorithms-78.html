@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -381,7 +385,10 @@ print(&quot;exact search cost: O(N * DIM) per query — ANN indexes trade this f
       <p>Build tens of thousands of embeddings, treat brute-force results as ground truth, then vary HNSW's search-width parameter and plot the recall@10 vs. query-latency tradeoff curve.</p>
       <h2>Practical Connection</h2>
       <p>Vector search on on-chain data itself is rare, but it applies directly to text assets at the service layer — deduplicating market descriptions, recommending similar markets, or searching past dispute cases.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>degrade into</strong></td><td>질이 떨어져 ~로 전락하다 · "effectively degrades into brute-force comparison"</td></tr><tr><td><strong>tradeoff curve</strong></td><td>하나를 얻으면 다른 게 줄어드는 상충 관계 곡선 · "the tradeoff curve between recall"</td></tr><tr><td><strong>escape ... for free</strong></td><td>공짜로(대가 없이) ~을 피해가다 · "no index escapes that curve for free"</td></tr><tr><td><strong>greedily</strong></td><td>탐욕적으로, 당장 최선인 선택만 반복해서 · "greedily jumping far via sparse links"</td></tr><tr><td><strong>scan</strong></td><td>(목록을) 훑어보다, 탐색하다 · "a query only scans a handful of nearby lists"</td></tr><tr><td><strong>cut memory sharply</strong></td><td>메모리를 크게 줄이다 · "cut memory sharply while comparing with approximate distances"</td></tr><tr><td><strong>look for the cause in the wrong place</strong></td><td>엉뚱한 곳에서 원인을 찾다 · "end up looking for the cause in the wrong place"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -427,7 +434,10 @@ print(&quot;exact search cost: O(N * DIM) per query — ANN indexes trade this f
       <p>수만 건 규모의 임베딩을 만들어 brute force 결과를 정답으로 두고, HNSW의 탐색 폭 파라미터를 바꿔 가며 recall@10과 질의 지연을 측정해 트레이드오프 곡선을 그려 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>온체인 데이터 자체를 벡터 검색할 일은 드물지만, 마켓 설명문의 중복 탐지나 유사 마켓 추천, 분쟁 사례 검색처럼 서비스 계층의 텍스트 자산에는 그대로 적용된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>degrade into</strong></td><td>질이 떨어져 ~로 전락하다 · "effectively degrades into brute-force comparison"</td></tr><tr><td><strong>tradeoff curve</strong></td><td>하나를 얻으면 다른 게 줄어드는 상충 관계 곡선 · "the tradeoff curve between recall"</td></tr><tr><td><strong>escape ... for free</strong></td><td>공짜로(대가 없이) ~을 피해가다 · "no index escapes that curve for free"</td></tr><tr><td><strong>greedily</strong></td><td>탐욕적으로, 당장 최선인 선택만 반복해서 · "greedily jumping far via sparse links"</td></tr><tr><td><strong>scan</strong></td><td>(목록을) 훑어보다, 탐색하다 · "a query only scans a handful of nearby lists"</td></tr><tr><td><strong>cut memory sharply</strong></td><td>메모리를 크게 줄이다 · "cut memory sharply while comparing with approximate distances"</td></tr><tr><td><strong>look for the cause in the wrong place</strong></td><td>엉뚱한 곳에서 원인을 찾다 · "end up looking for the cause in the wrong place"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-77.html">&larr; 129. 스트리밍 처리 의미론</a><a href="algorithms-79.html">131. 캐시 일관성·무효화·스탬피드 방지 &rarr;</a></div>
 </div>

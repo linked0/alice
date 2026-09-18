@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -399,7 +403,10 @@ for label, inj_latency, inj_fail in [
       <p>In staging, inject artificial latency and intermittent errors into one external dependency (an RPC node or a database), record how the error rate and latency metrics change, then fix the timeout and retry policy and repeat the same experiment to confirm the improvement numerically.</p>
       <h2>Practical Connection</h2>
       <p>A prediction-market service depends on chain RPC, an oracle, and an indexer all at once, so experimenting in advance with whether RPC or oracle latency halts the entire settlement pipeline can substantially cut real operational risk.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>blast radius</strong></td><td>(장애의) 파급 범위·폭발 반경 · 실험이나 장애가 영향을 미치는 범위를 비유적으로 말할 때. "start with a small blast radius and widen it gradually"</td></tr><tr><td><strong>steady state</strong></td><td>정상 상태·안정 상태 · 시스템이 평소 유지하는 관측 가능한 기준 상태. "define a steady state using observable metrics"</td></tr><tr><td><strong>abort conditions</strong></td><td>중단 조건 · 실험을 즉시 멈춰야 하는 사전 정의된 기준. "define abort conditions in advance"</td></tr><tr><td><strong>latent defects</strong></td><td>잠재적 결함 · 겉으로는 안 보이지만 이미 내재해 있던 문제. "surface latent defects that were already there"</td></tr><tr><td><strong>retry storms</strong></td><td>재시도 폭주 · 실패한 요청이 한꺼번에 재시도되며 부하가 몰리는 현상. "missing timeouts, retry storms, circular dependencies"</td></tr><tr><td><strong>surface (동사)</strong></td><td>겉으로 드러나게 하다·표면화시키다 · 숨어 있던 결함을 실험으로 찾아낼 때. "to surface latent defects that were already there"</td></tr><tr><td><strong>halt</strong></td><td>완전히 멈추게 하다·정지시키다 · 지연 하나가 전체 파이프라인을 세워버리는 상황. "halts the entire settlement pipeline"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -463,7 +470,10 @@ for label, inj_latency, inj_fail in [
       <p>스테이징에서 외부 의존 하나(RPC 노드나 DB)에 인위적 지연과 간헐적 오류를 주입하고 에러율과 지연 지표 변화를 기록한 뒤, 타임아웃과 재시도 정책을 고쳐 같은 실험을 반복해 개선을 수치로 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>예측시장 서비스는 체인 RPC, 오라클, 인덱서에 동시에 의존하므로, RPC 지연이나 오라클 응답 지연이 정산 파이프라인 전체를 멈추는지 미리 실험해 두면 실제 운영 리스크를 크게 줄일 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>blast radius</strong></td><td>(장애의) 파급 범위·폭발 반경 · 실험이나 장애가 영향을 미치는 범위를 비유적으로 말할 때. "start with a small blast radius and widen it gradually"</td></tr><tr><td><strong>steady state</strong></td><td>정상 상태·안정 상태 · 시스템이 평소 유지하는 관측 가능한 기준 상태. "define a steady state using observable metrics"</td></tr><tr><td><strong>abort conditions</strong></td><td>중단 조건 · 실험을 즉시 멈춰야 하는 사전 정의된 기준. "define abort conditions in advance"</td></tr><tr><td><strong>latent defects</strong></td><td>잠재적 결함 · 겉으로는 안 보이지만 이미 내재해 있던 문제. "surface latent defects that were already there"</td></tr><tr><td><strong>retry storms</strong></td><td>재시도 폭주 · 실패한 요청이 한꺼번에 재시도되며 부하가 몰리는 현상. "missing timeouts, retry storms, circular dependencies"</td></tr><tr><td><strong>surface (동사)</strong></td><td>겉으로 드러나게 하다·표면화시키다 · 숨어 있던 결함을 실험으로 찾아낼 때. "to surface latent defects that were already there"</td></tr><tr><td><strong>halt</strong></td><td>완전히 멈추게 하다·정지시키다 · 지연 하나가 전체 파이프라인을 세워버리는 상황. "halts the entire settlement pipeline"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-49.html">&larr; 101. 용량 계획·SLO와 에러 예산</a><a href="algorithms-51.html">103. [복습] 성능 예산 문서 쓰기 &rarr;</a></div>
 </div>

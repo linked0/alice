@@ -1,5 +1,6 @@
 // Rail-head progress badges (jay, 2026-09-16): the top badge is the CURRENT status in red;
-// the line under it is the PREVIOUS DAY's closing status in blue (replacing the old pink
+// next to it, on the same line, is the PREVIOUS DAY's closing status in blue (jay, 2026-09-18:
+// no "done" word, both badges on one line) (replacing the old pink
 // "2%/day → 95% done" pace reminder). Loaded by notes.html and every topics/pocs-*.html
 // after _nav.js, so all pages show the same numbers.
 //
@@ -16,7 +17,7 @@
   var pct = function (d, a) { return a ? Math.round(d * 100 / a) : 0; };
   var cur = head.querySelector('.rail-note');
   if (cur) {
-    cur.textContent = pct(done, all) + '% done · ' + done + '/' + all;
+    cur.textContent = pct(done, all) + '% · ' + done + '/' + all;
     cur.classList.remove('rail-note-pink');
     cur.style.color = '#ef4444'; cur.style.background = 'rgba(239,68,68,0.14)';
     cur.title = 'current';

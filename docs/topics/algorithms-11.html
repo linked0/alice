@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -389,7 +393,10 @@ print(f&quot;레이어 수(=최장 경로 길이) = {len(layers)} -&gt; {len(nod
       <p>Write a program that takes an arbitrary list of transactions along with the storage keys each one reads and writes, builds the conflict DAG, and uses Kahn's algorithm to output the list of parallel layers and the longest-path length.</p>
       <h2>Practical Connection</h2>
       <p>When Verex's CLOB matching results get settled as multiple transactions, ones that only touch different markets or different position tokens are independent in the conflict graph — meaning they can be grouped into a parallel layer, with room to lower batch-processing cost.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>critical path</strong></td><td>임계 경로(전체 소요시간을 결정짓는 최장 경로) · 병렬 처리의 이론적 한계를 논할 때 · "i.e. the critical path — this is the fundamental limit"</td></tr><tr><td><strong>lower bound</strong></td><td>하한선 · 아무리 자원이 많아도 넘을 수 없는 한계치 · "the lower bound on execution time is the longest path"</td></tr><tr><td><strong>runs into</strong></td><td>(한계·문제에) 부딪히다 · 병렬 실행 설계가 결국 한계에 도달할 때 · "eventually runs into the limit set by"</td></tr><tr><td><strong>up front</strong></td><td>사전에·미리 · 접근 목록을 실행 전에 미리 선언할 때 · "if the access lists are declared up front"</td></tr><tr><td><strong>in-degree</strong></td><td>진입 차수(그래프 정점으로 들어오는 간선 수) · 위상 정렬 알고리즘의 핵심 개념 · "queuing up vertices with in-degree 0"</td></tr><tr><td><strong>conflict graph</strong></td><td>충돌 그래프(트랜잭션 간 상태 접근 충돌을 표현) · 병렬 실행 가능 여부를 판단하는 자료구조 · "the conflict graph&#39;s longest path"</td></tr><tr><td><strong>ahead of time</strong></td><td>미리·사전에 · 병렬화로 얻을 최대 이득을 미리 추정할 때 · "can actually deliver ahead of time"</td></tr><tr><td><strong>room to lower</strong></td><td>낮출 여지·개선 여지 · 배치 처리 비용을 줄일 가능성을 말할 때 · "with room to lower batch-processing cost"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -443,7 +450,10 @@ print(f&quot;레이어 수(=최장 경로 길이) = {len(layers)} -&gt; {len(nod
       <p>임의의 트랜잭션 목록과 각 트랜잭션이 읽고 쓰는 스토리지 키 집합을 입력으로 받아 충돌 DAG를 만들고, Kahn 알고리즘으로 병렬 레이어 목록과 최장 경로 길이를 출력하는 프로그램을 작성해 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 CLOB 매칭 결과를 여러 트랜잭션으로 정산할 때, 서로 다른 마켓·서로 다른 포지션 토큰만 건드리는 트랜잭션들은 충돌 그래프에서 독립적이므로 병렬 레이어로 묶여 배치 처리 비용을 낮출 여지가 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>critical path</strong></td><td>임계 경로(전체 소요시간을 결정짓는 최장 경로) · 병렬 처리의 이론적 한계를 논할 때 · "i.e. the critical path — this is the fundamental limit"</td></tr><tr><td><strong>lower bound</strong></td><td>하한선 · 아무리 자원이 많아도 넘을 수 없는 한계치 · "the lower bound on execution time is the longest path"</td></tr><tr><td><strong>runs into</strong></td><td>(한계·문제에) 부딪히다 · 병렬 실행 설계가 결국 한계에 도달할 때 · "eventually runs into the limit set by"</td></tr><tr><td><strong>up front</strong></td><td>사전에·미리 · 접근 목록을 실행 전에 미리 선언할 때 · "if the access lists are declared up front"</td></tr><tr><td><strong>in-degree</strong></td><td>진입 차수(그래프 정점으로 들어오는 간선 수) · 위상 정렬 알고리즘의 핵심 개념 · "queuing up vertices with in-degree 0"</td></tr><tr><td><strong>conflict graph</strong></td><td>충돌 그래프(트랜잭션 간 상태 접근 충돌을 표현) · 병렬 실행 가능 여부를 판단하는 자료구조 · "the conflict graph&#39;s longest path"</td></tr><tr><td><strong>ahead of time</strong></td><td>미리·사전에 · 병렬화로 얻을 최대 이득을 미리 추정할 때 · "can actually deliver ahead of time"</td></tr><tr><td><strong>room to lower</strong></td><td>낮출 여지·개선 여지 · 배치 처리 비용을 줄일 가능성을 말할 때 · "with room to lower batch-processing cost"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-10.html">&larr; 62. 세그먼트 트리 심화</a><a href="algorithms-12.html">64. 최대 유량·최소 컷과 매칭 &rarr;</a></div>
 </div>

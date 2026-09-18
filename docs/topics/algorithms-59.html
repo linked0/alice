@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -397,7 +401,10 @@ print(&quot;   미확정 헤드는 투표 가중치가 바뀌면 자연스럽게
       <p>Query the beacon chain API for the justified and finalized checkpoints of a recent epoch along with the current head slot, and convert the gap between head and finality into a time unit.</p>
       <h2>Practical Connection</h2>
       <p>A system like Verex that combines on-chain settlement with off-chain indexing needs to decide when to treat an event as final, and that threshold is exactly what bounds the scope of rollback logic when a reorg occurs.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fork-choice rule</strong></td><td>어느 체인을 따를지 정하는 규칙 · "LMD-GHOST is the fork-choice rule"</td></tr><tr><td><strong>descend into</strong></td><td>(하위 구조로) 내려가며 파고들다 · "descending into the subtree with the greatest weight"</td></tr><tr><td><strong>justified</strong></td><td>(충분한 지지를 받아) 정당화된 상태 · "that checkpoint becomes justified"</td></tr><tr><td><strong>accountable safety</strong></td><td>위반 시 책임을 물을 수 있는 안전성 · "this is what&#39;s known as accountable safety"</td></tr><tr><td><strong>show up late</strong></td><td>뒤늦게 나타나다, 늦게 도착하다 · "the majority weight shows up late"</td></tr><tr><td><strong>out of sync</strong></td><td>동기화가 어긋난, 서로 맞지 않는 · "leaves state out of sync when a reorg happens"</td></tr><tr><td><strong>bound the scope of</strong></td><td>~의 범위를 한정하다 · "bounds the scope of rollback logic"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -459,7 +466,10 @@ print(&quot;   미확정 헤드는 투표 가중치가 바뀌면 자연스럽게
       <p>비콘 체인 API로 최근 에포크의 justified·finalized 체크포인트와 현재 헤드 슬롯을 조회해, 헤드와 최종성 사이의 거리를 시간 단위로 환산해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex처럼 온체인 정산과 오프체인 인덱싱을 함께 쓰는 시스템은 이벤트를 언제 확정으로 간주할지 정해야 하고, 그 기준선이 곧 reorg 발생 시 롤백 로직의 범위가 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fork-choice rule</strong></td><td>어느 체인을 따를지 정하는 규칙 · "LMD-GHOST is the fork-choice rule"</td></tr><tr><td><strong>descend into</strong></td><td>(하위 구조로) 내려가며 파고들다 · "descending into the subtree with the greatest weight"</td></tr><tr><td><strong>justified</strong></td><td>(충분한 지지를 받아) 정당화된 상태 · "that checkpoint becomes justified"</td></tr><tr><td><strong>accountable safety</strong></td><td>위반 시 책임을 물을 수 있는 안전성 · "this is what&#39;s known as accountable safety"</td></tr><tr><td><strong>show up late</strong></td><td>뒤늦게 나타나다, 늦게 도착하다 · "the majority weight shows up late"</td></tr><tr><td><strong>out of sync</strong></td><td>동기화가 어긋난, 서로 맞지 않는 · "leaves state out of sync when a reorg happens"</td></tr><tr><td><strong>bound the scope of</strong></td><td>~의 범위를 한정하다 · "bounds the scope of rollback logic"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-58.html">&larr; 110. 나카모토 합의의 확률적 최종성과 selfish mining</a><a href="algorithms-60.html">112. 싱글슬롯 파이널리티와 서명 집계 병목 &rarr;</a></div>
 </div>

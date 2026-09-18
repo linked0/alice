@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -392,7 +396,10 @@ print(&quot;padding gives every core its own cache line:&quot;, len(padded_lines
       <p>Allocate an array of counters, one per core, have each thread increment only its own index, and compare throughput between an unpadded version and a cache-line-aligned version.</p>
       <h2>Practical Connection</h2>
       <p>When parsing/validating chain data in parallel or splitting an order book into shards per core, if per-shard state isn't separated at cache-line granularity, the gains from parallelizing evaporate.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fight over ownership</strong></td><td>소유권을 두고 다투다 · 여러 코어가 같은 자원을 서로 차지하려 경쟁할 때. "fighting over ownership of that line"</td></tr><tr><td><strong>throughput collapse</strong></td><td>처리량 붕괴 · 성능이 급격히 무너지는 현상. "shows up as a throughput collapse"</td></tr><tr><td><strong>with no ... in sight</strong></td><td>~가 전혀 안 보이는 채로 · 원인이 될 만한 것이 눈에 띄지 않을 때. "with no lock and no data race in sight"</td></tr><tr><td><strong>align on (boundaries)</strong></td><td>(경계에) 맞춰 정렬하다 · 데이터를 특정 단위 경계에 딱 맞춰 배치할 때. "align per-core counters... on cache-line boundaries"</td></tr><tr><td><strong>evaporate</strong></td><td>(이득이) 증발하다, 사라지다 · 기대했던 성능 향상이 없던 일이 될 때. "the gains from parallelizing evaporate"</td></tr><tr><td><strong>locality</strong></td><td>지역성, 근접성 · 스레드와 그 스레드가 쓰는 데이터가 가까이 있는 성질. "keeping a thread and the data it touches on the same node — matters"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -449,7 +456,10 @@ print(&quot;padding gives every core its own cache line:&quot;, len(padded_lines
       <p>코어 수만큼의 카운터를 배열로 두고 각 스레드가 자기 인덱스만 증가시키는 벤치를 만든 뒤, 패딩 없는 버전과 캐시라인 정렬 버전의 처리량을 비교해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>체인 데이터를 병렬로 파싱·검증하거나 오더북 샤드를 코어별로 나눌 때, 샤드별 상태를 캐시라인 단위로 분리하지 않으면 병렬화 이득이 그대로 증발한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>fight over ownership</strong></td><td>소유권을 두고 다투다 · 여러 코어가 같은 자원을 서로 차지하려 경쟁할 때. "fighting over ownership of that line"</td></tr><tr><td><strong>throughput collapse</strong></td><td>처리량 붕괴 · 성능이 급격히 무너지는 현상. "shows up as a throughput collapse"</td></tr><tr><td><strong>with no ... in sight</strong></td><td>~가 전혀 안 보이는 채로 · 원인이 될 만한 것이 눈에 띄지 않을 때. "with no lock and no data race in sight"</td></tr><tr><td><strong>align on (boundaries)</strong></td><td>(경계에) 맞춰 정렬하다 · 데이터를 특정 단위 경계에 딱 맞춰 배치할 때. "align per-core counters... on cache-line boundaries"</td></tr><tr><td><strong>evaporate</strong></td><td>(이득이) 증발하다, 사라지다 · 기대했던 성능 향상이 없던 일이 될 때. "the gains from parallelizing evaporate"</td></tr><tr><td><strong>locality</strong></td><td>지역성, 근접성 · 스레드와 그 스레드가 쓰는 데이터가 가까이 있는 성질. "keeping a thread and the data it touches on the same node — matters"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-38.html">&larr; 90. RCU</a><a href="algorithms-40.html">92. 브랜치 예측·프리페치·데이터 지향 설계 &rarr;</a></div>
 </div>

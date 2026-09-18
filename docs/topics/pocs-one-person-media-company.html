@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A one-person media company is six bots and one shared brain — Tech Notes</title>
+<title>A one-person media company is six bots and one shared brain — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; A one-person media company is six bots and one shared brain</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A one-person media company is six bots and one shared brain</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#79</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#80</span><span>PoC</span></p>
       <h1>A one-person media company is six bots and one shared brain</h1>
       <p class="lead">A viral how-to (&#39;build a one-person media company with six Hermes bots&#39;) buries a genuinely good multi-agent operations pattern. The claim worth keeping is not that AI writes faster — writing was never the bottleneck. The bottleneck is the loop: idea → research → angle → long-form → distribution → review → performance → updated playbooks. Six specialists each own one decision under a strict contract, a shared Obsidian &#39;content brain&#39; gives them compatible judgment, and structured handoffs on a durable board replace one fragile chat. Treat the impression numbers as marketing; steal the architecture.</p>
       <p class="meta">Not a one-day build. Order: (1) build the shared brain first — minimum voice / audience / proof / platform files in an Obsidian graph. (2) Stand up signal scout, researcher, and editor only, and run three real ideas through find → verify → review. (3) Add the strategist once evidence packets are consistently useful; add the writer when angle briefs are tight enough to constrain a draft; add distribution after one flagship format works. (4) Keep publishing approval human until the review queue is consistently boring, then move only the predictable decisions into the playbook. (5) Once a week, have the editor compare recent campaigns and return three lists — keep / test / stop — each naming the posts that support it; you approve before the shared brain updates. Tool-agnostic: any multi-agent runtime + a plain-markdown vault + a durable task board works; the vendor &#39;Hermes&#39; is one implementation, not the requirement.</p>
@@ -463,7 +481,10 @@
 <h3>The contract, and the record that travels</h3>
 <p>Every role gets <code>owns · reads · returns · must-not · done-when</code>, and one campaign record moves through the whole loop — so the next bot has predictable input and you can inspect history without reopening six chats. A missing field returns the task to the previous stage instead of being filled with a plausible guess.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bury</strong></td><td>진짜 중요한 것을 묻어버리다, 가려버리다 · 좋은 구조가 마케팅 뒤에 숨어 있다는 뜻. "buries a genuinely good multi-agent operations pattern"</td></tr><tr><td><strong>steal the architecture</strong></td><td>숫자 말고 구조·설계를 그대로 가져다 쓰다 · 마케팅은 버리고 아이디어만 취하라는 뜻. "steal the architecture"</td></tr><tr><td><strong>stand up</strong></td><td>시스템·팀을 구축해서 가동시키다 · 최소 구성으로 먼저 돌려본다는 뜻. "Stand up signal scout, researcher, and editor only"</td></tr><tr><td><strong>load-bearing</strong></td><td>핵심을 떠받치는, 구조상 진짜 중요한 · 진짜 가치가 있는 부분을 가리킬 때. "The load-bearing idea: the value is the loop"</td></tr><tr><td><strong>narrow authority</strong></td><td>제한된 권한 · 각자 하나의 결정만 책임진다는 조직 설계 원칙. "specialist roles with narrow authority"</td></tr><tr><td><strong>at the boundary</strong></td><td>경계 지점에서, 최종 승인 단계에서 · 사람이 마지막 확인을 담당한다는 뜻. "a human at the boundary"</td></tr><tr><td><strong>discount</strong></td><td>숫자·주장을 에누리해서 듣다, 걸러 듣다 · 마케팅용 수치는 그대로 믿지 말라는 뜻. "discount the numbers as promotion"</td></tr><tr><td><strong>generalize</strong></td><td>다른 분야에도 두루 적용되다, 일반화되다 · 이 패턴이 콘텐츠 밖에서도 쓸모 있다는 뜻. "that generalizes well past content"</td></tr><tr><td><strong>flagship</strong></td><td>대표작, 주력 콘텐츠 · 한 가지 핵심 포맷을 먼저 성공시킨다는 뜻. "add distribution after one flagship format works"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -547,9 +568,12 @@
 <h3>계약, 그리고 함께 도는 기록</h3>
 <p>모든 역할이 <code>owns · reads · returns · must-not · done-when</code>을 받고, 캠페인 기록 하나가 루프 전체를 돈다 — 그래서 다음 봇은 예측 가능한 입력을 받고, 여섯 대화를 다시 열지 않고도 이력을 검사할 수 있다. 빠진 필드는 그럴듯한 추측으로 채우지 않고 이전 단계로 작업을 돌려보낸다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bury</strong></td><td>진짜 중요한 것을 묻어버리다, 가려버리다 · 좋은 구조가 마케팅 뒤에 숨어 있다는 뜻. "buries a genuinely good multi-agent operations pattern"</td></tr><tr><td><strong>steal the architecture</strong></td><td>숫자 말고 구조·설계를 그대로 가져다 쓰다 · 마케팅은 버리고 아이디어만 취하라는 뜻. "steal the architecture"</td></tr><tr><td><strong>stand up</strong></td><td>시스템·팀을 구축해서 가동시키다 · 최소 구성으로 먼저 돌려본다는 뜻. "Stand up signal scout, researcher, and editor only"</td></tr><tr><td><strong>load-bearing</strong></td><td>핵심을 떠받치는, 구조상 진짜 중요한 · 진짜 가치가 있는 부분을 가리킬 때. "The load-bearing idea: the value is the loop"</td></tr><tr><td><strong>narrow authority</strong></td><td>제한된 권한 · 각자 하나의 결정만 책임진다는 조직 설계 원칙. "specialist roles with narrow authority"</td></tr><tr><td><strong>at the boundary</strong></td><td>경계 지점에서, 최종 승인 단계에서 · 사람이 마지막 확인을 담당한다는 뜻. "a human at the boundary"</td></tr><tr><td><strong>discount</strong></td><td>숫자·주장을 에누리해서 듣다, 걸러 듣다 · 마케팅용 수치는 그대로 믿지 말라는 뜻. "discount the numbers as promotion"</td></tr><tr><td><strong>generalize</strong></td><td>다른 분야에도 두루 적용되다, 일반화되다 · 이 패턴이 콘텐츠 밖에서도 쓸모 있다는 뜻. "that generalizes well past content"</td></tr><tr><td><strong>flagship</strong></td><td>대표작, 주력 콘텐츠 · 한 가지 핵심 포맷을 먼저 성공시킨다는 뜻. "add distribution after one flagship format works"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-x402-facilitator-market.html">&larr; 78. The middleman is optional in the spec — and standard in practice</a><a href="pocs-a-boolean-hides-a-state-machine.html">80. A boolean hides a state machine &rarr;</a></div>
+    <div class="pager"><a href="pocs-x402-facilitator-market.html">&larr; 79. The middleman is optional in the spec — and standard in practice</a><a href="pocs-a-boolean-hides-a-state-machine.html">81. A boolean hides a state machine &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -595,17 +619,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

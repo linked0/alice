@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -380,7 +384,10 @@ print(f&quot;최종 f(x) = {f(history[-1]):.10f} (참값 f(x*) = 0)&quot;)
       <p>Construct a 2D quadratic function with a deliberately poor condition number, run both plain and momentum-based gradient descent on it across several learning rates, and compare the iteration counts and trajectories visually.</p>
       <h2>Practical Connection</h2>
       <p>The LMSR cost function is convex, so properties like well-defined prices and a bounded loss follow directly from convexity, and this same optimization toolkit is exactly what you use when calibrating parameters against real data.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>exploit the fact that</strong></td><td>~라는 사실을 이용하다 · 경사가 가장 가파른 방향을 가리킨다는 성질을 활용함 · "exploits the fact that the gradient... points in the direction"</td></tr><tr><td><strong>steepest ascent</strong></td><td>가장 가파르게 오르는 방향(최대 상승 방향) · 경사의 방향을 설명하는 표현 · "the direction of steepest ascent"</td></tr><tr><td><strong>guarantee convergence</strong></td><td>수렴을 보장하다 · 학습률을 특정 값 이하로 두면 수렴이 보장됨 · "choosing a learning rate at or below 1/L guarantees convergence"</td></tr><tr><td><strong>zig-zagging</strong></td><td>지그재그로 왔다갔다 하는 것 · 좁고 긴 골짜기에서 최적화가 갈지자로 움직이는 현상 · "poor conditioning causes zig-zagging in narrow, elongated valleys"</td></tr><tr><td><strong>poor conditioning</strong></td><td>조건수가 나쁜 상태 · 골짜기가 좁고 길어 최적화가 어려운 상황을 가리킴 · "poor conditioning causes zig-zagging"</td></tr><tr><td><strong>mitigate</strong></td><td>완화하다, 줄이다 · 모멘텀·적응적 학습률 등으로 지그재그를 완화함 · "techniques like momentum... are used to mitigate it"</td></tr><tr><td><strong>follow directly from</strong></td><td>~로부터 바로(당연히) 도출되다 · 볼록성만으로 여러 좋은 성질이 자동으로 성립함 · "properties like well-defined prices... follow directly from convexity"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -425,7 +432,10 @@ print(f&quot;최종 f(x) = {f(history[-1]):.10f} (참값 f(x*) = 0)&quot;)
       <p>2차원 이차함수의 조건수를 크게 만들어 놓고 경사하강법을 순수 버전과 모멘텀 버전으로 돌려, 학습률을 바꿔가며 반복 횟수와 궤적을 그림으로 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>LMSR의 비용함수는 볼록이라 가격과 손실 상한 같은 성질이 볼록성에서 곧바로 따라오고, 파라미터를 데이터에 맞춰 캘리브레이션할 때 이 최적화 도구가 그대로 쓰인다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>exploit the fact that</strong></td><td>~라는 사실을 이용하다 · 경사가 가장 가파른 방향을 가리킨다는 성질을 활용함 · "exploits the fact that the gradient... points in the direction"</td></tr><tr><td><strong>steepest ascent</strong></td><td>가장 가파르게 오르는 방향(최대 상승 방향) · 경사의 방향을 설명하는 표현 · "the direction of steepest ascent"</td></tr><tr><td><strong>guarantee convergence</strong></td><td>수렴을 보장하다 · 학습률을 특정 값 이하로 두면 수렴이 보장됨 · "choosing a learning rate at or below 1/L guarantees convergence"</td></tr><tr><td><strong>zig-zagging</strong></td><td>지그재그로 왔다갔다 하는 것 · 좁고 긴 골짜기에서 최적화가 갈지자로 움직이는 현상 · "poor conditioning causes zig-zagging in narrow, elongated valleys"</td></tr><tr><td><strong>poor conditioning</strong></td><td>조건수가 나쁜 상태 · 골짜기가 좁고 길어 최적화가 어려운 상황을 가리킴 · "poor conditioning causes zig-zagging"</td></tr><tr><td><strong>mitigate</strong></td><td>완화하다, 줄이다 · 모멘텀·적응적 학습률 등으로 지그재그를 완화함 · "techniques like momentum... are used to mitigate it"</td></tr><tr><td><strong>follow directly from</strong></td><td>~로부터 바로(당연히) 도출되다 · 볼록성만으로 여러 좋은 성질이 자동으로 성립함 · "properties like well-defined prices... follow directly from convexity"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-28.html">&larr; 28. 편미분/그래디언트</a><a href="math-30.html">30. 라그랑주/KKT(개념) &rarr;</a></div>
 </div>

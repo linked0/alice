@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -394,7 +398,10 @@ print(f&quot;예시 트리: 리프={count_leaves(sample)}, 내부노드={count_i
       <p>Prove on paper, by structural induction, that a (full) binary tree always has exactly one more leaf than internal node, then write a verification function recursively following the same structure.</p>
       <h2>Practical Connection</h2>
       <p>Properties of Merkle trees like &quot;equal roots imply equal leaf sets&quot; or &quot;inclusion-proof verification is correct&quot; are all proved by induction on tree height, and the recursive structure of the verification code corresponds one-to-one with the induction step.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>grounded in</strong></td><td>~에 근거를 둔 · "a proof principle grounded in the well-ordering of the natural numbers"</td></tr><tr><td><strong>well-founded</strong></td><td>(무한 하강이 없어) 정초가 있는 · "well-founded induction over well-founded relations"</td></tr><tr><td><strong>rule out</strong></td><td>(가능성을) 배제하다 · "lets you rule out edge cases by structure instead of by testing"</td></tr><tr><td><strong>exhibit (a measure)</strong></td><td>(증명에서 특정 대상을) 제시하다, 보여주다 · "exhibiting a well-founded measure that decreases on every recursive call"</td></tr><tr><td><strong>correspond one-to-one with</strong></td><td>~와 일대일로 대응하다 · "the recursive structure of the verification code corresponds one-to-one with the induction step"</td></tr><tr><td><strong>base case</strong></td><td>귀납법의 출발점이 되는 기저 사례 · "showing a base case and a step from n to n+1"</td></tr><tr><td><strong>imply</strong></td><td>~을 함축하다, ~을 의미하다 · "equal roots imply equal leaf sets"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -453,7 +460,10 @@ print(f&quot;예시 트리: 리프={count_leaves(sample)}, 내부노드={count_i
       <p>이진 트리의 리프 개수가 (완전 이진 트리에서) 내부 노드 개수보다 정확히 하나 많다는 명제를 구조적 귀납법으로 종이에 증명하고, 같은 구조로 검증 함수를 재귀로 작성해 볼 것.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Merkle 트리의 &quot;루트가 같으면 리프 집합이 같다&quot;거나 &quot;포함 증명 검증이 정확하다&quot; 같은 성질은 모두 트리 높이에 대한 귀납으로 증명되며, 증명 검증 코드의 재귀 구조가 그 귀납 단계와 일대일 대응한다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>grounded in</strong></td><td>~에 근거를 둔 · "a proof principle grounded in the well-ordering of the natural numbers"</td></tr><tr><td><strong>well-founded</strong></td><td>(무한 하강이 없어) 정초가 있는 · "well-founded induction over well-founded relations"</td></tr><tr><td><strong>rule out</strong></td><td>(가능성을) 배제하다 · "lets you rule out edge cases by structure instead of by testing"</td></tr><tr><td><strong>exhibit (a measure)</strong></td><td>(증명에서 특정 대상을) 제시하다, 보여주다 · "exhibiting a well-founded measure that decreases on every recursive call"</td></tr><tr><td><strong>correspond one-to-one with</strong></td><td>~와 일대일로 대응하다 · "the recursive structure of the verification code corresponds one-to-one with the induction step"</td></tr><tr><td><strong>base case</strong></td><td>귀납법의 출발점이 되는 기저 사례 · "showing a base case and a step from n to n+1"</td></tr><tr><td><strong>imply</strong></td><td>~을 함축하다, ~을 의미하다 · "equal roots imply equal leaf sets"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="../topics/math-3.html">&larr; 3. 명제논리·집합·함수·관계</a><a href="math-5.html">5. 그래프 기초(DAG·트리·해시 링크) &rarr;</a></div>
 </div>

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -405,7 +409,10 @@ print(&quot;snap sync로 받은 상태(최신만):&quot;, synced_state, &quot;�
       <p>Call eth_getBalance for the same account at the latest block and at a very old block number, and directly compare the responses — including whether a pruned node returns a 'missing trie node' error — against an archive endpoint's.</p>
       <h2>Practical Connection</h2>
       <p>Since Verex's market history, position snapshots, and settlement verification may all require access to past state, reducing archive-node dependency by indexing events into your own reconstructible DB is the better path.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>in principle</strong></td><td>원칙적으로는 · "A node can in principle store both"</td></tr><tr><td><strong>diverge</strong></td><td>(방식이) 갈라지다, 달라지다 · "Sync methods also diverge"</td></tr><tr><td><strong>patch whatever changed</strong></td><td>바뀐 부분만 메꿔 넣다 · "patches whatever changed during the sync"</td></tr><tr><td><strong>healing phase</strong></td><td>동기화 뒤 어긋난 부분을 보정하는 단계 · "in a healing phase"</td></tr><tr><td><strong>arrive late</strong></td><td>뒤늦게 들어오다 · "arrives late"</td></tr><tr><td><strong>queryable range</strong></td><td>조회 가능한 범위 · "queryable range both need to be decided"</td></tr><tr><td><strong>yield (the latest state)</strong></td><td>(결과로) ~을 내놓다 · "it only yields the latest state"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -475,7 +482,10 @@ print(&quot;snap sync로 받은 상태(최신만):&quot;, synced_state, &quot;�
       <p>같은 계정에 대해 최신 블록과 아주 오래된 블록 번호로 eth_getBalance를 호출해, 프루닝된 노드와 아카이브 엔드포인트의 응답 차이(missing trie node 오류 여부)를 직접 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 시장 이력·포지션 스냅샷·정산 검증은 과거 시점 상태 접근을 요구할 수 있으므로, 아카이브 의존을 줄이려면 이벤트를 자체 DB로 인덱싱해 재구성 가능한 형태로 쌓아 두는 편이 낫다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>in principle</strong></td><td>원칙적으로는 · "A node can in principle store both"</td></tr><tr><td><strong>diverge</strong></td><td>(방식이) 갈라지다, 달라지다 · "Sync methods also diverge"</td></tr><tr><td><strong>patch whatever changed</strong></td><td>바뀐 부분만 메꿔 넣다 · "patches whatever changed during the sync"</td></tr><tr><td><strong>healing phase</strong></td><td>동기화 뒤 어긋난 부분을 보정하는 단계 · "in a healing phase"</td></tr><tr><td><strong>arrive late</strong></td><td>뒤늦게 들어오다 · "arrives late"</td></tr><tr><td><strong>queryable range</strong></td><td>조회 가능한 범위 · "queryable range both need to be decided"</td></tr><tr><td><strong>yield (the latest state)</strong></td><td>(결과로) ~을 내놓다 · "it only yields the latest state"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-73.html">&larr; 125. 상태 트리 저장 문제</a><a href="algorithms-75.html">127. 인덱싱 파이프라인 설계 &rarr;</a></div>
 </div>

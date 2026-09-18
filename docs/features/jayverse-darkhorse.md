@@ -46,6 +46,35 @@ than in the numbered list because it *could* become a service but is not one yet
 lease to make deliberately, not a committed build. Full write-up:
 [jayverse-base-app.md](jayverse-base-app.md).
 
+## (d) Canton Network — test usage (added 2026-09-18, jay)
+
+**What.** Run two Jayverse patterns on Canton as a *test*, not a deployment. Canton is Digital
+Asset's network: Daml contracts, privacy by default (a participant sees only the sub-transactions it
+is party to), permissioned participants, one Global Synchronizer with DevNet / TestNet / MainNet.
+It is where S&P Dow Jones Indices and Kaiko put the tokenized iBoxx U.S. Treasuries Index (licence,
+data feed and permissions in one token, 2026-03-31) and the ledger the Canton super-validator seat
+item describes. Test plan, cheapest first:
+
+1. **Local.** Canton sandbox or the Splice LocalNet (the open-source Canton Network repo ships a
+   local compose stack). Write two Daml templates: a **Number reading as a licensed object** — data,
+   licence, expiry and permission in one contract, the shape of the tokenized index — and a **verex
+   market that resolves on a named reference rate** (administrator, fixing time, methodology
+   version as fields, not prose).
+2. **DevNet.** Onboard one validator node to the Global Synchronizer DevNet (sponsor onboarding,
+   test Canton Coin only) and run the same templates against the shared synchronizer. Measure the
+   thing Canton sells: what the counterparty node can and cannot see of our contract.
+3. **Write-up.** Compare with the Anvil devnet (#4): where Canton's privacy model changes the
+   Auditor's "publish what you checked" rule, and what a licensed-data product would cost us to
+   operate there.
+
+**Why dark horse.** The institutions our Tech items keep landing on (S&P, Kaiko, DTCC, Broadridge)
+are choosing Canton for regulated data products. If Jayverse ever wants a licensed-data PoC that
+talks to that world, a test here is the cheapest way to learn what it costs. **Why not committed.**
+Our core is EVM; Canton is Daml, a different language, toolchain and operating model, and nothing in
+#1–9 needs it. **Guardrail:** test networks only, no Canton Coin purchase, no MainNet.
+PoC links: `canton-sv-seat-is-a-milestone-contract`, `kaiko-reference-rate-is-a-price-with-governance`,
+`sp-global-buys-openzeppelin`, `interop-os-one-network`.
+
 ---
 
 Every entry here is a **candidate for review**, not committed work. Promote one to a numbered service

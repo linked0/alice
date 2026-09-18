@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>“25× cheaper trading intel” needs a denominator — signals are not P&amp;L — Tech Notes</title>
+<title>“25× cheaper trading intel” needs a denominator — signals are not P&amp;L — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
 
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,11 +390,11 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#53</span><span>PoC</span></p>
       <h1>“25× cheaper trading intel” needs a denominator — signals are not P&amp;L</h1>
@@ -435,7 +453,10 @@
 <p>Senpi&#39;s official material supports that it offers Hyperliquid personal agents, delegated/non-custodial trading, strategy controls, signal pipelines, fee-aware execution, reconciliation, and audit logs. Hyperliquid documents trading fees and maker rebates. I found no public reproducible methodology supporting the screenshot&#39;s specific 25× comparison, so retain it only as an advertised claim.</p>
 <p>Sources: <a href="https://resources.senpi.ai/support/what-is-senpi-and-getting-started">Senpi — getting started</a> · <a href="https://www.senpi.ai/capabilities">Senpi — capabilities</a> · <a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees">Hyperliquid — fees</a></p>
 
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>denominator</strong></td><td>분모(비교의 기준값) · 비교 주장에서 무엇을 기준으로 나눴는지를 따질 때. "is meaningless until the denominator is named"</td></tr><tr><td><strong>benchmark hygiene</strong></td><td>벤치마크 위생(측정 기준을 엄격히 관리하는 태도) · 비교 실험을 신뢰성 있게 설계할 때. "The useful pattern is benchmark hygiene"</td></tr><tr><td><strong>grant execution authority</strong></td><td>실행 권한을 부여하다 · AI 에이전트에게 실제 매매 권한을 주는 것을 말할 때. "Do not grant execution authority during the intelligence benchmark"</td></tr><tr><td><strong>delegated trading authority</strong></td><td>위임된 거래 권한 · 사용자가 에이전트에게 매매를 맡기는 구조를 가리킬 때. "The trust boundary is delegated trading authority"</td></tr><tr><td><strong>reconciliation</strong></td><td>(포지션) 대사, 정합성 확인 · 기록과 실제 잔고가 일치하는지 맞춰보는 절차. "position reconciliation, and an audit trail"</td></tr><tr><td><strong>stale-position rate</strong></td><td>갱신 안 된 포지션 비율 · 데이터가 실시간이 아닐 때 발생하는 위험 지표. "stale-position rate, actionable-signal coverage"</td></tr><tr><td><strong>fee-aware execution</strong></td><td>수수료를 고려한 주문 집행 · 체결 시 수수료 비용까지 반영하는 실행 방식. "automatic risk management, fee-aware execution"</td></tr><tr><td><strong>audit trail</strong></td><td>감사 추적 기록 · 나중에 검증할 수 있도록 남기는 이력 로그. "and an audit trail"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -491,7 +512,10 @@
 <p>Senpi 공식 자료는 Hyperliquid personal agent, 위임형/non-custodial 거래, 전략 통제, signal pipeline, 수수료 인지 실행, reconciliation, audit log 제공을 뒷받침합니다. Hyperliquid는 거래 수수료와 maker rebate를 문서화합니다. 스크린샷의 구체적인 25배 비교를 뒷받침하는 공개·재현 가능한 방법론은 찾지 못했으므로 광고성 주장으로만 보관합니다.</p>
 <p>출처: <a href="https://resources.senpi.ai/support/what-is-senpi-and-getting-started">Senpi — 시작 안내</a> · <a href="https://www.senpi.ai/capabilities">Senpi — 기능</a> · <a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees">Hyperliquid — 수수료</a></p>
 
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>denominator</strong></td><td>분모(비교의 기준값) · 비교 주장에서 무엇을 기준으로 나눴는지를 따질 때. "is meaningless until the denominator is named"</td></tr><tr><td><strong>benchmark hygiene</strong></td><td>벤치마크 위생(측정 기준을 엄격히 관리하는 태도) · 비교 실험을 신뢰성 있게 설계할 때. "The useful pattern is benchmark hygiene"</td></tr><tr><td><strong>grant execution authority</strong></td><td>실행 권한을 부여하다 · AI 에이전트에게 실제 매매 권한을 주는 것을 말할 때. "Do not grant execution authority during the intelligence benchmark"</td></tr><tr><td><strong>delegated trading authority</strong></td><td>위임된 거래 권한 · 사용자가 에이전트에게 매매를 맡기는 구조를 가리킬 때. "The trust boundary is delegated trading authority"</td></tr><tr><td><strong>reconciliation</strong></td><td>(포지션) 대사, 정합성 확인 · 기록과 실제 잔고가 일치하는지 맞춰보는 절차. "position reconciliation, and an audit trail"</td></tr><tr><td><strong>stale-position rate</strong></td><td>갱신 안 된 포지션 비율 · 데이터가 실시간이 아닐 때 발생하는 위험 지표. "stale-position rate, actionable-signal coverage"</td></tr><tr><td><strong>fee-aware execution</strong></td><td>수수료를 고려한 주문 집행 · 체결 시 수수료 비용까지 반영하는 실행 방식. "automatic risk management, fee-aware execution"</td></tr><tr><td><strong>audit trail</strong></td><td>감사 추적 기록 · 나중에 검증할 수 있도록 남기는 이력 로그. "and an audit trail"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     <div class="pager"><a href="pocs-the-quote-is-a-product-promise.html">&larr; 52. Priced in fiat, settled in tokens — the quote is a product promise</a><a href="pocs-quick-slots-eip-8198.html">54. Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter &rarr;</a></div>
   </div>
@@ -539,17 +563,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

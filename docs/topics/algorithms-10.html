@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -400,7 +404,10 @@ print(&quot;구간 합 [6,9] =&quot;, tree.range_sum(1, 0, n - 1, 6, 9), &quot;(
       <p>Implement a lazy segment tree that supports range-add and range-sum, then build a persistent version of the same operations, and cross-check queries against arbitrary past versions with randomized tests against a brute-force reference.</p>
       <h2>Practical Connection</h2>
       <p>When an indexer has to roll back to the aggregated state at a specific block height due to a chain reorg, a version-sharing structure lets it maintain snapshots at O(log n) cost instead of copying everything.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>push down</strong></td><td>(보류된 연산을) 아래로 내려보내다·전파하다 · 지연 전파(lazy propagation)의 핵심 동작을 가리키는 구동사. "only pushing it down when that child"</td></tr><tr><td><strong>composable</strong></td><td>조합 가능한 · 여러 연산을 순서대로 합쳐도 문제 없이 처리될 수 있어야 함을 가리킴. "pending operations must be composable"</td></tr><tr><td><strong>collapse under</strong></td><td>~를 못 견디고 무너지다 · 순진한 구현이 비용을 감당 못 해 무너지는 상황. "a naive implementation collapses under O(n) cost"</td></tr><tr><td><strong>path copying</strong></td><td>경로 복사(변경된 경로만 새로 만드는 기법) · 영속 자료구조가 공간을 아끼는 핵심 기법. "the previous version via path copying"</td></tr><tr><td><strong>cross-check</strong></td><td>교차 검증하다 · 무작위 테스트로 결과를 다른 방식과 대조 확인할 때. "cross-check queries against arbitrary past versions"</td></tr><tr><td><strong>roll back to</strong></td><td>~로 되돌리다 · 특정 시점(블록 높이)의 상태로 복귀시키는 동작. "roll back to the aggregated state"</td></tr><tr><td><strong>point-in-time (snapshots)</strong></td><td>특정 시점 기준의 (스냅샷) · 과거 어느 시점 상태를 그대로 조회할 수 있음을 가리킴. "needs rollback or point-in-time snapshots"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -465,7 +472,10 @@ print(&quot;구간 합 [6,9] =&quot;, tree.range_sum(1, 0, n - 1, 6, 9), &quot;(
       <p>구간 덧셈과 구간 합을 지원하는 lazy 세그먼트 트리를 구현한 뒤, 같은 연산을 영속 버전으로도 만들어 임의 과거 버전 질의 결과를 무작위 테스트로 브루트포스와 대조 검증하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>인덱서가 체인 재구성으로 특정 블록 높이 시점의 집계 상태로 되돌아가야 할 때, 버전 공유형 자료구조는 전체 복사 대신 O(log n) 비용으로 스냅샷을 유지하게 해준다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>push down</strong></td><td>(보류된 연산을) 아래로 내려보내다·전파하다 · 지연 전파(lazy propagation)의 핵심 동작을 가리키는 구동사. "only pushing it down when that child"</td></tr><tr><td><strong>composable</strong></td><td>조합 가능한 · 여러 연산을 순서대로 합쳐도 문제 없이 처리될 수 있어야 함을 가리킴. "pending operations must be composable"</td></tr><tr><td><strong>collapse under</strong></td><td>~를 못 견디고 무너지다 · 순진한 구현이 비용을 감당 못 해 무너지는 상황. "a naive implementation collapses under O(n) cost"</td></tr><tr><td><strong>path copying</strong></td><td>경로 복사(변경된 경로만 새로 만드는 기법) · 영속 자료구조가 공간을 아끼는 핵심 기법. "the previous version via path copying"</td></tr><tr><td><strong>cross-check</strong></td><td>교차 검증하다 · 무작위 테스트로 결과를 다른 방식과 대조 확인할 때. "cross-check queries against arbitrary past versions"</td></tr><tr><td><strong>roll back to</strong></td><td>~로 되돌리다 · 특정 시점(블록 높이)의 상태로 복귀시키는 동작. "roll back to the aggregated state"</td></tr><tr><td><strong>point-in-time (snapshots)</strong></td><td>특정 시점 기준의 (스냅샷) · 과거 어느 시점 상태를 그대로 조회할 수 있음을 가리킴. "needs rollback or point-in-time snapshots"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-9.html">&larr; 61. 문자열 인덱스</a><a href="algorithms-11.html">63. 위상정렬·DAG 스케줄링 &rarr;</a></div>
 </div>

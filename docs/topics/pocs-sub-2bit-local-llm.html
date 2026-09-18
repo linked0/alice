@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sub-2-bit LLMs, locally — Tech Notes</title>
+<title>Sub-2-bit LLMs, locally — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Sub-2-bit LLMs, locally</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Sub-2-bit LLMs, locally</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#139</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#140</span><span>PoC</span></p>
       <h1>Sub-2-bit LLMs, locally</h1>
       <p class="lead">A 2.4T model in 397GB — shrinking the codebook below IQ1_S, and what the last half-bit costs.</p>
       <p class="meta">Not yet scoped — start with the 27B model on a 16GB machine via llama.cpp, sweep the 1-bit dtypes, and reproduce the quality curve locally.</p>
@@ -393,7 +411,10 @@
       <h2>How it works</h2>
       <p>The compression trick is narrower than the headline suggests. llama.cpp&#39;s IQ1_S spends 1.5625 bits per weight, of which 11 are index bits into a 2048-entry codebook. The Unsloth variants simply shrink that codebook — 1024, 512, then 256 entries — which drops the index to 10, 9 and 8 bits and the weight to 1.4375, 1.3125 and 1.1875 bpw (shipped as TQ2_0, TQ1_0 and Q1_0, names picked so the Hugging Face repo lists them at all). The claim that matters is that these are plain post-training quantizations: no quantization-aware training or distillation, which is exactly what makes them cheap to produce and worth verifying independently. The plan is to run the 27B model across several of these dtypes on hardware I own and reproduce the PPL/KLD/top-p curve myself rather than cite it, then check the practical rule of thumb — RAM+VRAM ≈ quant size, past which disk offloading quietly turns a 20 tok/s figure into something else entirely.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hides two different claims</strong></td><td>서로 다른 두 주장을 숨기고 있다 · 표현 하나가 실제로 여러 의미를 뭉뚱그릴 때. "hides two very different claims"</td></tr><tr><td><strong>retains a lot of accuracy</strong></td><td>정확도를 대부분 유지한다(마케팅 표현) · 압축 기술이 성능 손실을 축소해서 말할 때. "the phrase vendors use for the trade-off"</td></tr><tr><td><strong>worth taking</strong></td><td>(감수할 만큼) 가치가 있는 · 트레이드오프가 수용할 만한지 판단할 때. "Whether that trade is worth taking"</td></tr><tr><td><strong>rule of thumb</strong></td><td>대략적인 경험 법칙 · 정확한 계산 대신 쓰는 어림 기준. "the practical rule of thumb"</td></tr><tr><td><strong>quietly turns X into</strong></td><td>어느새 X를 ~로 바꿔버리다 · 눈에 띄지 않게 상황이 나빠질 때. "quietly turns a 20 tok/s figure into something else"</td></tr><tr><td><strong>cheap to produce</strong></td><td>만들기 비용이 적게 드는 · 제작 과정의 저비용을 표현할 때. "which is exactly what makes them cheap to produce"</td></tr><tr><td><strong>picked so that</strong></td><td>그렇게 되도록 일부러 고른/정해진 · 의도적으로 이름이나 조건을 맞췄을 때. "names picked so the Hugging Face repo lists them at all"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -407,9 +428,12 @@
       <h2>동작 방식</h2>
       <p>압축 기법 자체는 헤드라인보다 훨씬 좁은 이야기입니다. llama.cpp의 IQ1_S는 가중치당 1.5625비트를 쓰는데, 그중 11비트가 2048개짜리 코드북을 가리키는 인덱스입니다. Unsloth 변형은 그 코드북을 줄이기만 합니다 — 1024개, 512개, 256개 — 그러면 인덱스가 10·9·8비트로 줄고 가중치가 1.4375·1.3125·1.1875 bpw가 됩니다(각각 TQ2_0·TQ1_0·Q1_0으로 배포되며, 이름은 Hugging Face 저장소에 아예 노출되도록 고른 것입니다). 중요한 주장은 이것들이 <strong>평범한 사후 양자화(PTQ)</strong>라는 점입니다 — QAT나 증류가 없고, 바로 그 점이 생산 비용을 낮추는 동시에 독립적으로 검증할 가치를 만듭니다. 계획은 27B 모델을 이 dtype들로 제가 가진 하드웨어에서 돌려 PPL/KLD/top-p 곡선을 인용하는 대신 직접 재현하고, 실용 규칙(RAM+VRAM ≈ 양자화 크기, 그 선을 넘으면 디스크 오프로딩이 20 tok/s라는 숫자를 조용히 전혀 다른 것으로 바꿔 놓는다)을 확인하는 것입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>hides two different claims</strong></td><td>서로 다른 두 주장을 숨기고 있다 · 표현 하나가 실제로 여러 의미를 뭉뚱그릴 때. "hides two very different claims"</td></tr><tr><td><strong>retains a lot of accuracy</strong></td><td>정확도를 대부분 유지한다(마케팅 표현) · 압축 기술이 성능 손실을 축소해서 말할 때. "the phrase vendors use for the trade-off"</td></tr><tr><td><strong>worth taking</strong></td><td>(감수할 만큼) 가치가 있는 · 트레이드오프가 수용할 만한지 판단할 때. "Whether that trade is worth taking"</td></tr><tr><td><strong>rule of thumb</strong></td><td>대략적인 경험 법칙 · 정확한 계산 대신 쓰는 어림 기준. "the practical rule of thumb"</td></tr><tr><td><strong>quietly turns X into</strong></td><td>어느새 X를 ~로 바꿔버리다 · 눈에 띄지 않게 상황이 나빠질 때. "quietly turns a 20 tok/s figure into something else"</td></tr><tr><td><strong>cheap to produce</strong></td><td>만들기 비용이 적게 드는 · 제작 과정의 저비용을 표현할 때. "which is exactly what makes them cheap to produce"</td></tr><tr><td><strong>picked so that</strong></td><td>그렇게 되도록 일부러 고른/정해진 · 의도적으로 이름이나 조건을 맞췄을 때. "names picked so the Hugging Face repo lists them at all"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-procedural-not-generated.html">&larr; 138. Procedural, not generated — when the model is a program</a><a href="pocs-bandwidth-not-capacity.html">140. Capacity loads the model; bandwidth serves it &rarr;</a></div>
+    <div class="pager"><a href="pocs-procedural-not-generated.html">&larr; 139. Procedural, not generated — when the model is a program</a><a href="pocs-bandwidth-not-capacity.html">141. Capacity loads the model; bandwidth serves it &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -455,17 +479,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -395,7 +399,10 @@ print(&quot;\n다음 100일 사이클로 넘어가기 전, 실제 값으로 위 
       <p>Pick one decision from your own stack that was actually debated, write one ADR for it, then write one threat model for the same component covering assets, trust boundaries, attacker capabilities, mitigations, and residual risk.</p>
       <h2>Practical Connection</h2>
       <p>In a prediction market, trust assumptions concentrate around finalizing the oracle's result and settlement authority, so spelling out in a threat model who can change a result and under what conditions a dispute is possible makes both design discussions and audits much easier.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>residual risk</strong></td><td>잔여 위험(완화 후에도 남는 위험) · 위협 모델링에서 대응 후 남는 리스크를 가리키는 보안 용어. "the mitigations and the residual risk that remains"</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계(권한·신뢰 수준이 바뀌는 지점) · 위협 모델의 핵심 분석 대상. "the assets that need protecting and the trust boundaries"</td></tr><tr><td><strong>arbitrary constraint</strong></td><td>근거 없어 보이는(자의적인) 제약 · 이유가 기록 안 된 결정이 나중에 오해받는 상황. "treated, a few months later, as an arbitrary constraint"</td></tr><tr><td><strong>come back to life</strong></td><td>다시 살아나다·재발하다 · 막아뒀던 위협이 결정 번복과 함께 되살아남을 가리키는 비유. "the threat it was blocking comes back to life"</td></tr><tr><td><strong>quietly reversed</strong></td><td>조용히(별다른 논의 없이) 번복되다 · 기록이 없어 별 생각 없이 뒤집히는 결정을 가리킴. "gets quietly reversed"</td></tr><tr><td><strong>premise</strong></td><td>전제(논리의 출발점이 되는 가정) · ADR·위협모델이 기록해야 할 핵심 요소. "record the premises and the alternatives"</td></tr><tr><td><strong>narrow scope</strong></td><td>범위를 좁히다·한정하다 · 문서가 끝까지 읽히도록 하나의 결정·시스템으로 한정하는 원칙. "keeping the scope narrow — one decision"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -455,7 +462,10 @@ print(&quot;\n다음 100일 사이클로 넘어가기 전, 실제 값으로 위 
       <p>자기 스택에서 논쟁이 있었던 결정 하나를 골라 ADR 한 장을 쓰고, 같은 컴포넌트에 대해 자산·신뢰 경계·공격자 능력·대응책·잔여 위험을 담은 위협 모델 한 장을 이어서 작성하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>예측시장에서는 오라클 결과 확정과 정산 권한에 신뢰 가정이 집중되므로, 누가 결과를 바꿀 수 있고 어떤 조건에서 분쟁이 가능한지를 위협 모델로 명시해 두면 설계 논의와 감사 대응이 모두 수월해진다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>residual risk</strong></td><td>잔여 위험(완화 후에도 남는 위험) · 위협 모델링에서 대응 후 남는 리스크를 가리키는 보안 용어. "the mitigations and the residual risk that remains"</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계(권한·신뢰 수준이 바뀌는 지점) · 위협 모델의 핵심 분석 대상. "the assets that need protecting and the trust boundaries"</td></tr><tr><td><strong>arbitrary constraint</strong></td><td>근거 없어 보이는(자의적인) 제약 · 이유가 기록 안 된 결정이 나중에 오해받는 상황. "treated, a few months later, as an arbitrary constraint"</td></tr><tr><td><strong>come back to life</strong></td><td>다시 살아나다·재발하다 · 막아뒀던 위협이 결정 번복과 함께 되살아남을 가리키는 비유. "the threat it was blocking comes back to life"</td></tr><tr><td><strong>quietly reversed</strong></td><td>조용히(별다른 논의 없이) 번복되다 · 기록이 없어 별 생각 없이 뒤집히는 결정을 가리킴. "gets quietly reversed"</td></tr><tr><td><strong>premise</strong></td><td>전제(논리의 출발점이 되는 가정) · ADR·위협모델이 기록해야 할 핵심 요소. "record the premises and the alternatives"</td></tr><tr><td><strong>narrow scope</strong></td><td>범위를 좁히다·한정하다 · 문서가 끝까지 읽히도록 하나의 결정·시스템으로 한정하는 원칙. "keeping the scope narrow — one decision"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-99.html">&larr; 151. 에이전트 루프 설계</a><a href="pocs-automation-and-repression-acemoglu.html">153. Automation and Repression — when control gets cheaper than sharing &rarr;</a></div>
 </div>

@@ -33,7 +33,7 @@
   }
   .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
   .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   .rail-search { padding:14px 16px 8px; }
   .rail-search input {
     width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
@@ -152,6 +152,8 @@
   .kicker { font-weight:600; }
   .toc { background:var(--rail); border-radius:10px; padding:14px 18px; margin:18px 0; font-size:0.93rem; }
   .toc ol { margin:6px 0 0; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18) */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
 </style>
 </head>
 <body>
@@ -205,7 +207,10 @@ print(&quot;f_bad 는 함수?&quot;, is_function(f_bad, A))
       <p>Formalize five sentences like &quot;verification passes for every valid signature&quot; using quantifiers and logical connectives, then write out both the negation and the contrapositive of each, in symbols and in English.</p>
       <h2>Practical Connection</h2>
       <p>If you write a smart contract invariant (e.g., &quot;the sum of position tokens issued across all markets equals the collateral balance&quot;) precisely in ∀ form, you can carry it directly into a test property or a formal verification spec.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>vacuously true</strong></td><td>공허하게 참인(전제가 거짓이라 자동으로 참인) · 조건문에서 전제가 거짓일 때 결론과 무관하게 참이 되는 논리 개념. "vacuously true whenever p is false"</td></tr><tr><td><strong>contrapositive</strong></td><td>대우(명제) · 원명제와 항상 논리적으로 같은 값을 갖는 형태. "its contrapositive ¬q→¬p is always logically equivalent"</td></tr><tr><td><strong>swap when negated</strong></td><td>부정될 때 서로 자리를 바꾸다 · 전칭·존재 한정사가 부정문에서 뒤바뀔 때. "the quantifiers ∀ and ∃ swap when negated"</td></tr><tr><td><strong>disjoint</strong></td><td>서로 겹치지 않는 · 집합들이 공통 원소가 없을 때. "disjoint equivalence classes"</td></tr><tr><td><strong>the basis for</strong></td><td>~의 기반이 되다 · 어떤 개념이 다른 개념을 성립시키는 토대일 때. "the basis for comparing sizes"</td></tr><tr><td><strong>translate back into</strong></td><td>다시 옮기다(기호를 문장으로) · 수식·기호를 원래 의미로 되돌려 이해할 때. "translating symbols back into sentences"</td></tr><tr><td><strong>formalize</strong></td><td>명제를 논리 기호로 정형화하다 · 자연어 문장을 기호 논리로 표현할 때. "using quantifiers and logical connectives"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -258,7 +263,10 @@ print(&quot;f_bad 는 함수?&quot;, is_function(f_bad, A))
       <p>'모든 유효한 서명에 대해 검증이 통과한다' 같은 문장 다섯 개를 한정기호와 논리 결합자로 형식화한 뒤, 각각의 부정과 대우를 기호와 한국어 문장으로 함께 써 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>스마트 컨트랙트 불변식(예: 모든 마켓에서 발행된 포지션 토큰의 합은 담보 잔액과 같다)을 ∀ 형태로 정확히 적어 두면 그대로 테스트 속성이나 정형 검증 명세로 옮길 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>vacuously true</strong></td><td>공허하게 참인(전제가 거짓이라 자동으로 참인) · 조건문에서 전제가 거짓일 때 결론과 무관하게 참이 되는 논리 개념. "vacuously true whenever p is false"</td></tr><tr><td><strong>contrapositive</strong></td><td>대우(명제) · 원명제와 항상 논리적으로 같은 값을 갖는 형태. "its contrapositive ¬q→¬p is always logically equivalent"</td></tr><tr><td><strong>swap when negated</strong></td><td>부정될 때 서로 자리를 바꾸다 · 전칭·존재 한정사가 부정문에서 뒤바뀔 때. "the quantifiers ∀ and ∃ swap when negated"</td></tr><tr><td><strong>disjoint</strong></td><td>서로 겹치지 않는 · 집합들이 공통 원소가 없을 때. "disjoint equivalence classes"</td></tr><tr><td><strong>the basis for</strong></td><td>~의 기반이 되다 · 어떤 개념이 다른 개념을 성립시키는 토대일 때. "the basis for comparing sizes"</td></tr><tr><td><strong>translate back into</strong></td><td>다시 옮기다(기호를 문장으로) · 수식·기호를 원래 의미로 되돌려 이해할 때. "translating symbols back into sentences"</td></tr><tr><td><strong>formalize</strong></td><td>명제를 논리 기호로 정형화하다 · 자연어 문장을 기호 논리로 표현할 때. "using quantifiers and logical connectives"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
     <hr class="lang-divider">
     <article class="note-article" lang="en">

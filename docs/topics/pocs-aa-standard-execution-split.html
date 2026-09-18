@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>One AA spec, two execution models — or the EVM fragments — Tech Notes</title>
+<title>One AA spec, two execution models — or the EVM fragments — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; One AA spec, two execution models — or the EVM fragments</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; One AA spec, two execution models — or the EVM fragments</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#223</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#224</span><span>PoC</span></p>
       <h1>One AA spec, two execution models — or the EVM fragments</h1>
       <p class="lead">The Base-backed EIP-8130 and the L1-favored Frame Transactions (EIP-8141) collided over Ethereum&#39;s native account-abstraction design, acrimoniously enough that a working group formed to unify them (Ethlabs, Week 11, 2026-09). The governance drama is downstream of one technical fact: 8141 validates transactions by <em>running EVM code</em> (maximally general), while L2s validate with <em>native code</em> for speed and cannot afford EVM validation at high TPS. Every proposed fix shares one move — let the L2 recognize the validation and substitute equivalent native code, so one spec runs two ways.</p>
       <p class="meta">Not yet scoped — a comprehension and comparison exercise, not a build. Read both proposals and write, for each, exactly what it meters and how a transaction is validated; the sentence that matters is <em>what does the validator run</em> — 8141 runs EVM bytecode (a &quot;frame&quot;), an L2 wants to run native code, and that is the whole tension. Then model the three reconciliation proposals from the working group and, for each, answer one question: <strong>what can the L2 sequencer read ahead of time to know which native code to substitute?</strong> (1) Extend 7702-style delegation so an account delegates validation to named code the sequencer can swap for a native equivalent. (2) Mandate a specific account-proxy bytecode so the sequencer knows, from the frame alone, what logic will run. (3) Re-interpret a validation frame as a deterministic call to an 8130 keystore contract, which is replaceable with native code. The deliverable is a table: proposal -&gt; what the L2 recognizes -&gt; what it substitutes -&gt; what generality it loses. Facts: Ethlabs (Derek Chiang) Week 11 update, 2026-09 — a project&#39;s own framing (&quot;AA is officially solved. Actually not really&quot;), with a Base update teased; confirm 8130/8141 mechanics against the EIPs before treating any detail as settled.</p>
@@ -484,7 +502,10 @@
 <h3>Related cards</h3>
 <p><code>erc-8141</code> (the proposal itself, and the 8141/8130/Tempo field), <code>l1-zkevm-optional-proofs</code> (optional fast path over a general one), <code>the-boundary-is-the-unit</code> (a standard survives when the shared interface holds), <code>l2-finality-three-clocks</code> and <code>erc-7683-settlement-security</code> (the L2-&gt;L1 asymmetry), <code>choosing-a-chain-is-a-lease</code> (L1-vs-L2 as a governance axis).</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>downstream of</strong></td><td>~에서 비롯된, ~의 결과로 나타난 · "The acrimony is real but downstream"</td></tr><tr><td><strong>wearing a ... costume</strong></td><td>겉으로만 ~인, ~의 탈을 쓴(비유) · "a governance costume"</td></tr><tr><td><strong>acrimoniously</strong></td><td>험악하게, 감정적으로 격하게 · "collided over ... acrimoniously enough"</td></tr><tr><td><strong>shortcut (verb)</strong></td><td>우회해서 지름길로 처리하다 · "so the fast path can shortcut it"</td></tr><tr><td><strong>legible</strong></td><td>(의도·로직을) 미리 읽어낼 수 있는 · "make the EVM validation legible in advance"</td></tr><tr><td><strong>bending toward</strong></td><td>~쪽으로 방향을 트는, 맞춰가는 · "the L1 bending toward L2 needs"</td></tr><tr><td><strong>bound by</strong></td><td>~에 묶여 제약을 받는 · "optimistic rollups are bound by the challenge window"</td></tr><tr><td><strong>nearly forked</strong></td><td>(프로젝트·체인이) 거의 분열될 뻔한 · "which is why it nearly forked"</td></tr><tr><td><strong>mailing list</strong></td><td>(개발자 논의가 이뤄지는) 메일링 리스트 · "when it reaches a mailing list"</td></tr><tr><td><strong>keystore lookup</strong></td><td>키스토어 조회(계정 검증 방식 관련 용어) · "a deterministic keystore lookup"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -589,9 +610,12 @@
 <h3>관련 카드</h3>
 <p><code>erc-8141</code>(제안 자체, 그리고 8141/8130/Tempo 판), <code>l1-zkevm-optional-proofs</code>(범용 위 선택적 빠른 경로), <code>the-boundary-is-the-unit</code>(공유 인터페이스가 버틸 때 표준이 산다), <code>l2-finality-three-clocks</code>·<code>erc-7683-settlement-security</code>(L2-&gt;L1 비대칭), <code>choosing-a-chain-is-a-lease</code>(거버넌스 축으로서의 L1 대 L2).</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>downstream of</strong></td><td>~에서 비롯된, ~의 결과로 나타난 · "The acrimony is real but downstream"</td></tr><tr><td><strong>wearing a ... costume</strong></td><td>겉으로만 ~인, ~의 탈을 쓴(비유) · "a governance costume"</td></tr><tr><td><strong>acrimoniously</strong></td><td>험악하게, 감정적으로 격하게 · "collided over ... acrimoniously enough"</td></tr><tr><td><strong>shortcut (verb)</strong></td><td>우회해서 지름길로 처리하다 · "so the fast path can shortcut it"</td></tr><tr><td><strong>legible</strong></td><td>(의도·로직을) 미리 읽어낼 수 있는 · "make the EVM validation legible in advance"</td></tr><tr><td><strong>bending toward</strong></td><td>~쪽으로 방향을 트는, 맞춰가는 · "the L1 bending toward L2 needs"</td></tr><tr><td><strong>bound by</strong></td><td>~에 묶여 제약을 받는 · "optimistic rollups are bound by the challenge window"</td></tr><tr><td><strong>nearly forked</strong></td><td>(프로젝트·체인이) 거의 분열될 뻔한 · "which is why it nearly forked"</td></tr><tr><td><strong>mailing list</strong></td><td>(개발자 논의가 이뤄지는) 메일링 리스트 · "when it reaches a mailing list"</td></tr><tr><td><strong>keystore lookup</strong></td><td>키스토어 조회(계정 검증 방식 관련 용어) · "a deterministic keystore lookup"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sec-fcash-maturity-window.html">&larr; 222. A heist that has to wait is one you can still stop</a><a href="pocs-agent-ask-not-write.html">224. Give the agent the right to ask, not the right to write &rarr;</a></div>
+    <div class="pager"><a href="pocs-sec-fcash-maturity-window.html">&larr; 223. A heist that has to wait is one you can still stop</a><a href="pocs-agent-ask-not-write.html">225. Give the agent the right to ask, not the right to write &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -637,17 +661,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

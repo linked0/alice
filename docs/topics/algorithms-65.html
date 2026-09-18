@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -377,7 +381,10 @@ print(f&quot;챌린저 보상(본드의 10%)={slashed_reward_share:,.0f} vs 챌�
       <p>Set bond size, the payoff from a successful fraud attempt, challenge cost, and detection probability as variables, write out the inequality that makes attempting fraud unprofitable, and work out which parameter breaking makes the attack profitable.</p>
       <h2>Practical Connection</h2>
       <p>If Verex settles on an L2 or rollup, the challenge period sets the floor on when a winner can actually withdraw funds, so the UX design from market close to fund withdrawal is directly tied to this choice.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>provisionally</strong></td><td>잠정적으로, 일단은 · "provisionally assume a submitted state transition is valid"</td></tr><tr><td><strong>roll back</strong></td><td>(상태를) 되돌리다 · "roll it back via on-chain verification"</td></tr><tr><td><strong>verifier&#39;s dilemma</strong></td><td>검증자의 딜레마(검증 비용은 드는데 보상은 불확실한 상황) · "This creates the verifier&#39;s dilemma"</td></tr><tr><td><strong>rational</strong></td><td>이기적으로 계산해서 합리적으로 행동하는 · "a rational participant has an incentive to skip verification"</td></tr><tr><td><strong>slashing</strong></td><td>예치금을 몰수/삭감하는 벌칙 · "bonds and slashing are used to correct for that"</td></tr><tr><td><strong>shift (risk)</strong></td><td>위험이 다른 쪽으로 옮겨가다 · "the risk shifts to the cost of generating proofs"</td></tr><tr><td><strong>set the floor on</strong></td><td>~의 하한선을 정하다 · "sets the floor on when a winner can actually withdraw"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -419,7 +426,10 @@ print(f&quot;챌린저 보상(본드의 10%)={slashed_reward_share:,.0f} vs 챌�
       <p>본드 크기, 사기 성공 시 이득, 챌린지 비용, 적발 확률을 변수로 두고 '사기를 시도하는 것이 손해가 되는' 부등식을 직접 세운 뒤, 어느 파라미터가 무너질 때 공격이 이득이 되는지 계산하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex가 L2나 롤업 위에서 정산을 돌린다면 챌린지 기간이 곧 승자 출금 가능 시점의 하한이 되므로, 시장 마감부터 자금 인출까지의 UX 설계가 이 선택에 직접 묶인다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>provisionally</strong></td><td>잠정적으로, 일단은 · "provisionally assume a submitted state transition is valid"</td></tr><tr><td><strong>roll back</strong></td><td>(상태를) 되돌리다 · "roll it back via on-chain verification"</td></tr><tr><td><strong>verifier&#39;s dilemma</strong></td><td>검증자의 딜레마(검증 비용은 드는데 보상은 불확실한 상황) · "This creates the verifier&#39;s dilemma"</td></tr><tr><td><strong>rational</strong></td><td>이기적으로 계산해서 합리적으로 행동하는 · "a rational participant has an incentive to skip verification"</td></tr><tr><td><strong>slashing</strong></td><td>예치금을 몰수/삭감하는 벌칙 · "bonds and slashing are used to correct for that"</td></tr><tr><td><strong>shift (risk)</strong></td><td>위험이 다른 쪽으로 옮겨가다 · "the risk shifts to the cost of generating proofs"</td></tr><tr><td><strong>set the floor on</strong></td><td>~의 하한선을 정하다 · "sets the floor on when a winner can actually withdraw"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-64.html">&larr; 116. 시퀀서 분산화와 강제 포함(force inclusion)</a><a href="algorithms-66.html">118. PBS·MEV 경매·타이밍 게임 &rarr;</a></div>
 </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Three layers failed in a month; the fourth one fails silently — Tech Notes</title>
+<title>Three layers failed in a month; the fourth one fails silently — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; Three layers failed in a month; the fourth one fails silently</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Three layers failed in a month; the fourth one fails silently</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#121</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#122</span><span>PoC</span></p>
       <h1>Three layers failed in a month; the fourth one fails silently</h1>
       <p class="lead">Coldcard&#39;s entropy source, Trezor&#39;s fulfilment partner, Ledger&#39;s Ethereum app — three manufacturers, three different layers, one month. A brand name is four independent supply chains wearing one word, and the layer that stayed quiet is the one whose failures never announce themselves.</p>
       <p class="meta">Not yet scoped — and the deliverable is a one-page comparison table filled in before any purchase, not after. For each candidate device, find five things and write down where each answer came from: (a) the most recent independent audit of the app that signs for the chain you actually use, with its date; (b) whether signing uses deterministic nonces (RFC 6979) or hedged determinism, and whether that is verifiable rather than claimed; (c) what generates the seed and whether the entropy path has ever been audited end-to-end — plus whether the device accepts user-supplied entropy; (d) the manufacturer&#39;s fulfilment and logistics partners, whether a purchase requires an account and a shipping address, and its last incident disclosure read in full; (e) whether firmware can replace the signature algorithm or the curve is fixed in silicon. Two of the five are testable at the desk: sign the same message twice and compare bytes, and add dice entropy if the device offers it. Sources: the Coldcard Mk2/Mk3 seed-entropy defect (July 2026), Trezor&#39;s ShipMonk disclosure (2026-08-13), and the Ledger Ethereum app fix (2026-08-25, as reported — read the advisory before repeating the severity).</p>
@@ -444,7 +462,10 @@
 <p>If the four layers are independent across vendors and correlated inside one, then the strongest available control is not a better single device — it is <strong>a multisig whose signers come from different manufacturers</strong>. A quorum of two devices from one brand shares an entropy path, an app codebase, a signing implementation and a fulfilment partner; a quorum spanning two brands shares none of them. This is the same argument as <code>third-party-blast-radius</code> turned toward hardware: the question is never whether a vendor is trustworthy, it is <strong>how far the damage reaches when one turns out not to be.</strong></p>
       
       <p class="meta">1 diagram(s) on the live page.</p>
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stand in for</strong></td><td>~을 대신하다, ~을 대표하다 · 한 단어가 여러 실체를 뭉뚱그릴 때. "stands in for at least four independent supply chains"</td></tr><tr><td><strong>fulfilment partner</strong></td><td>물류·배송 대행 업체 · 제조사가 외주로 쓰는 물류 파트너를 가리킬 때. "Trezor&#39;s fulfilment partner"</td></tr><tr><td><strong>sweep (v.)</strong></td><td>(자금·코인을) 싹 쓸어가다 · 해커가 취약한 지갑의 잔액을 한 번에 가져갈 때. "was swept once someone noticed"</td></tr><tr><td><strong>fall out by arithmetic</strong></td><td>계산만으로 새어나오다 · 암호학적 결함이 별다른 이벤트 없이 수학적으로 드러날 때. "the private key falls out by arithmetic"</td></tr><tr><td><strong>at the desk</strong></td><td>(실제 배치 전) 책상에서, 시험 삼아 · 구매 전에 직접 해볼 수 있는 테스트를 말할 때. "Two of the five are testable at the desk"</td></tr><tr><td><strong>the criterion with the longest half-life</strong></td><td>가장 오래 유효한 기준 · half-life(반감기)를 비유로 써서 기준의 지속성을 말할 때. "the criterion with the longest half-life"</td></tr><tr><td><strong>at the point of sale</strong></td><td>구매 시점에 · 물건을 살 때 미리 확인해야 할 것을 말할 때. "almost nobody asks it at the point of sale"</td></tr><tr><td><strong>read end to end</strong></td><td>처음부터 끝까지 다 읽다 · 공시·보고서를 요약만 보지 않고 전문을 읽을 때. "an incident you can read end to end"</td></tr><tr><td><strong>sell ... to a wrench</strong></td><td>(신체적 위협·강도에게) 정보를 팔아넘기는 꼴이 되다 · &#39;$5 wrench attack&#39; 농담에서 온 표현, 물류 유출의 위험을 말할 때. "selling your address to a wrench"</td></tr><tr><td><strong>kill the criterion</strong></td><td>(판단 기준을) 무력화하다, 못 쓰게 만들다 · 어떤 사실이 기존 판단 기준을 무의미하게 만들 때. "kills the criterion most buyers actually use"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -509,9 +530,12 @@
 <p>네 층이 <strong>제조사 사이에서는 독립적이고 한 제조사 안에서는 상관</strong>되어 있다면, 쓸 수 있는 가장 강한 통제는 더 좋은 기기 한 대가 아니라 <strong>서명자를 서로 다른 제조사에서 가져온 멀티시그</strong>입니다. 같은 브랜드 기기 두 대로 만든 정족수는 <strong>엔트로피 경로·앱 코드베이스·서명 구현·배송 위탁사를 전부 공유</strong>하고, 두 브랜드에 걸친 정족수는 <strong>하나도 공유하지 않습니다.</strong> 이건 <code>third-party-blast-radius</code> 의 논지를 하드웨어 쪽으로 돌린 것입니다: 질문은 결코 <strong>&quot;이 공급사가 믿을 만한가&quot;</strong> 가 아니라 <strong>&quot;믿을 만하지 않은 것으로 드러났을 때 피해가 어디까지 닿는가&quot;</strong> 입니다.</p>
       
       <p class="meta">1 diagram(s) on the live page.</p>
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stand in for</strong></td><td>~을 대신하다, ~을 대표하다 · 한 단어가 여러 실체를 뭉뚱그릴 때. "stands in for at least four independent supply chains"</td></tr><tr><td><strong>fulfilment partner</strong></td><td>물류·배송 대행 업체 · 제조사가 외주로 쓰는 물류 파트너를 가리킬 때. "Trezor&#39;s fulfilment partner"</td></tr><tr><td><strong>sweep (v.)</strong></td><td>(자금·코인을) 싹 쓸어가다 · 해커가 취약한 지갑의 잔액을 한 번에 가져갈 때. "was swept once someone noticed"</td></tr><tr><td><strong>fall out by arithmetic</strong></td><td>계산만으로 새어나오다 · 암호학적 결함이 별다른 이벤트 없이 수학적으로 드러날 때. "the private key falls out by arithmetic"</td></tr><tr><td><strong>at the desk</strong></td><td>(실제 배치 전) 책상에서, 시험 삼아 · 구매 전에 직접 해볼 수 있는 테스트를 말할 때. "Two of the five are testable at the desk"</td></tr><tr><td><strong>the criterion with the longest half-life</strong></td><td>가장 오래 유효한 기준 · half-life(반감기)를 비유로 써서 기준의 지속성을 말할 때. "the criterion with the longest half-life"</td></tr><tr><td><strong>at the point of sale</strong></td><td>구매 시점에 · 물건을 살 때 미리 확인해야 할 것을 말할 때. "almost nobody asks it at the point of sale"</td></tr><tr><td><strong>read end to end</strong></td><td>처음부터 끝까지 다 읽다 · 공시·보고서를 요약만 보지 않고 전문을 읽을 때. "an incident you can read end to end"</td></tr><tr><td><strong>sell ... to a wrench</strong></td><td>(신체적 위협·강도에게) 정보를 팔아넘기는 꼴이 되다 · &#39;$5 wrench attack&#39; 농담에서 온 표현, 물류 유출의 위험을 말할 때. "selling your address to a wrench"</td></tr><tr><td><strong>kill the criterion</strong></td><td>(판단 기준을) 무력화하다, 못 쓰게 만들다 · 어떤 사실이 기존 판단 기준을 무의미하게 만들 때. "kills the criterion most buyers actually use"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-headless-exchange-engines.html">&larr; 120. Headless arrives — the company that sells the engine, not the app</a><a href="pocs-demonstration-is-not-a-specification.html">122. Showing is not telling — a demonstration is an example, not a specification &rarr;</a></div>
+    <div class="pager"><a href="pocs-headless-exchange-engines.html">&larr; 121. Headless arrives — the company that sells the engine, not the app</a><a href="pocs-demonstration-is-not-a-specification.html">123. Showing is not telling — a demonstration is an example, not a specification &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -557,17 +581,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

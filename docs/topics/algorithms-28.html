@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -396,7 +400,10 @@ except Trap as e:
       <p>Hand-write or compile a simple function into WAT, read through the text format, and observe what trap the runtime raises when you attempt a load outside the linear memory's range.</p>
       <h2>Practical Connection</h2>
       <p>Since discussions of alternative execution environments in the Ethereum ecosystem and several non-EVM chains are WASM-based, it's worth comparing where the EVM's determinism and gas-metering requirements overlap with — and diverge from — WASM's sandbox model to sharpen your sense of execution-layer design.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~위에 성립하다 · 여러 시스템이 공통 원리에 의존할 때. "all rest on this model"</td></tr><tr><td><strong>rule out</strong></td><td>~을 배제하다, 불가능하게 만들다 · 특정 취약점 유형 자체를 원천 차단할 때. "which rules out classic stack smashing"</td></tr><tr><td><strong>at the root</strong></td><td>근본적으로, 뿌리에서부터 · 가장 기초적인 수준에서 막혀 있을 때. "jumping to an arbitrary code address at the root"</td></tr><tr><td><strong>sharpen (one&#39;s sense of)</strong></td><td>감각이나 이해를 예리하게 다듬다 · 비교를 통해 판단력을 정교하게 할 때. "sharpen your sense of execution-layer design"</td></tr><tr><td><strong>diverge from</strong></td><td>~와 어긋나다, 갈라지다 · 두 설계가 어느 지점에서 달라지는지 볼 때. "diverge from WASM&#39;s sandbox model"</td></tr><tr><td><strong>raise (a trap)</strong></td><td>예외나 트랩을 발생시키다 · 잘못된 접근 시 런타임이 오류를 일으킬 때. "what trap the runtime raises when you attempt a load"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 공통되다 · 두 설계의 공통 지점을 확인할 때. "worth comparing where the EVM&#39;s determinism and gas-metering"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -457,7 +464,10 @@ except Trap as e:
       <p>간단한 함수를 WAT로 직접 작성하거나 컴파일해 텍스트 포맷을 읽어 보고, 선형 메모리 범위를 벗어나는 로드를 시도했을 때 런타임이 어떤 트랩을 내는지 관찰하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>이더리움 생태계의 대체 실행 환경 논의와 여러 비EVM 체인이 WASM 기반이므로, EVM의 결정성·가스 미터링 요구사항과 WASM의 샌드박스 모델이 어디서 겹치고 어디서 어긋나는지 비교해 두면 실행 계층 설계 감각이 는다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>rest on</strong></td><td>~에 기반하다, ~위에 성립하다 · 여러 시스템이 공통 원리에 의존할 때. "all rest on this model"</td></tr><tr><td><strong>rule out</strong></td><td>~을 배제하다, 불가능하게 만들다 · 특정 취약점 유형 자체를 원천 차단할 때. "which rules out classic stack smashing"</td></tr><tr><td><strong>at the root</strong></td><td>근본적으로, 뿌리에서부터 · 가장 기초적인 수준에서 막혀 있을 때. "jumping to an arbitrary code address at the root"</td></tr><tr><td><strong>sharpen (one&#39;s sense of)</strong></td><td>감각이나 이해를 예리하게 다듬다 · 비교를 통해 판단력을 정교하게 할 때. "sharpen your sense of execution-layer design"</td></tr><tr><td><strong>diverge from</strong></td><td>~와 어긋나다, 갈라지다 · 두 설계가 어느 지점에서 달라지는지 볼 때. "diverge from WASM&#39;s sandbox model"</td></tr><tr><td><strong>raise (a trap)</strong></td><td>예외나 트랩을 발생시키다 · 잘못된 접근 시 런타임이 오류를 일으킬 때. "what trap the runtime raises when you attempt a load"</td></tr><tr><td><strong>overlap with</strong></td><td>~와 겹치다, 공통되다 · 두 설계의 공통 지점을 확인할 때. "worth comparing where the EVM&#39;s determinism and gas-metering"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-27.html">&larr; 79. EVM 인터프리터 내부</a><a href="algorithms-29.html">81. GC 심화 &rarr;</a></div>
 </div>

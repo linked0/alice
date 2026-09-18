@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -393,7 +397,10 @@ print(&quot;forged signature rejected:&quot;, not verify_webhook(payload, now, f
       <p>Build a webhook sender and receiver that sign the request body plus a timestamp with HMAC-SHA256, then verify that a forged signature, a one-byte-tampered body, and a replay outside the time window are each rejected.</p>
       <h2>Practical Connection</h2>
       <p>If Verex receives callbacks from an external outcome provider or payment system, that callback is itself a settlement trigger, so signature verification, the timestamp window, and idempotency keys become the first gate on the path to on-chain settlement.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>catastrophic if</strong></td><td>~하면 치명적인, 회복 불가능한 결과로 이어지는 · 나온스 재사용의 위험성을 경고할 때. "catastrophic if a nonce is reused"</td></tr><tr><td><strong>cap the damage</strong></td><td>피해를 특정 수준으로 제한하다 · 최악의 상황에서도 피해가 그 이상 커지지 않게 막을 때. "cap the damage of a repeated nonce"</td></tr><tr><td><strong>constant-time</strong></td><td>입력값과 무관하게 항상 같은 시간이 걸리는 · 타이밍 공격을 막는 비교 방식. "must always be constant-time"</td></tr><tr><td><strong>side channel</strong></td><td>부채널, 의도치 않게 정보가 새는 경로 · 실행 시간 차이로 비밀값이 노출될 때. "a timing side channel lets an attacker match the tag"</td></tr><tr><td><strong>one byte at a time</strong></td><td>한 바이트씩 (차례로) · 공격자가 비밀값을 조금씩 알아낼 때. "match the tag one byte at a time"</td></tr><tr><td><strong>forge and push in</strong></td><td>위조해서 밀어넣다 · 검증 없이 가짜 이벤트를 시스템에 주입할 때. "anyone can forge and push in payment... events"</td></tr><tr><td><strong>the first gate</strong></td><td>첫 번째 관문 · 다음 단계로 넘어가기 전에 반드시 통과해야 하는 검증. "become the first gate on the path to on-chain settlement"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -451,7 +458,10 @@ print(&quot;forged signature rejected:&quot;, not verify_webhook(payload, now, f
       <p>요청 본문과 타임스탬프를 함께 HMAC-SHA256으로 서명하는 웹훅 송신기와 수신기를 구현하고, 서명 위조·본문 1바이트 변조·시간 창을 넘긴 재전송이 각각 거부되는지 테스트하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex가 외부 결과 제공자나 결제 시스템의 콜백을 받는다면 그 콜백이 곧 정산 트리거이므로, 서명 검증과 타임스탬프 창, 멱등키가 온체인 정산으로 가는 첫 관문이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>catastrophic if</strong></td><td>~하면 치명적인, 회복 불가능한 결과로 이어지는 · 나온스 재사용의 위험성을 경고할 때. "catastrophic if a nonce is reused"</td></tr><tr><td><strong>cap the damage</strong></td><td>피해를 특정 수준으로 제한하다 · 최악의 상황에서도 피해가 그 이상 커지지 않게 막을 때. "cap the damage of a repeated nonce"</td></tr><tr><td><strong>constant-time</strong></td><td>입력값과 무관하게 항상 같은 시간이 걸리는 · 타이밍 공격을 막는 비교 방식. "must always be constant-time"</td></tr><tr><td><strong>side channel</strong></td><td>부채널, 의도치 않게 정보가 새는 경로 · 실행 시간 차이로 비밀값이 노출될 때. "a timing side channel lets an attacker match the tag"</td></tr><tr><td><strong>one byte at a time</strong></td><td>한 바이트씩 (차례로) · 공격자가 비밀값을 조금씩 알아낼 때. "match the tag one byte at a time"</td></tr><tr><td><strong>forge and push in</strong></td><td>위조해서 밀어넣다 · 검증 없이 가짜 이벤트를 시스템에 주입할 때. "anyone can forge and push in payment... events"</td></tr><tr><td><strong>the first gate</strong></td><td>첫 번째 관문 · 다음 단계로 넘어가기 전에 반드시 통과해야 하는 검증. "become the first gate on the path to on-chain settlement"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-82.html">&larr; 134. 랜덤 오라클·길이 연장 공격·도메인 분리</a><a href="algorithms-84.html">136. 난수 생성과 CSPRNG 품질 (TAOCP 2권) &rarr;</a></div>
 </div>

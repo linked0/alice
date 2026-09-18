@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -385,7 +389,10 @@ print(f&quot;\n기대수익 최대화 제안 시점: t={best_t}s (기대수익={
       <p>Work out an actual sandwich scenario for your own market with real numbers, then compare whether a slippage cap, commit-reveal, or a private relay would actually be effective at mitigating it.</p>
       <h2>Practical Connection</h2>
       <p>Verex's LMSR price depends on execution order, so front-running is structurally possible, and orders placed right before an oracle result is finalized are similarly an MEV target — this ties directly into settlement timing and order-disclosure design.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>excess value</strong></td><td>초과 가치, 여분의 이익 · 정상적 거래 외에 추가로 뽑아낼 수 있는 가치를 말할 때. "the excess value that can be extracted"</td></tr><tr><td><strong>without seeing</strong></td><td>~을 보지 않고(확인하지 않고) · 위임자가 내용을 확인 없이 서명할 때 쓰는 전치사구. "signs a header without seeing the block&#39;s contents"</td></tr><tr><td><strong>route through</strong></td><td>~을 거쳐 전달되다 · 데이터나 요청이 특정 중개 경로를 통해 흐를 때. "routed through relays."</td></tr><tr><td><strong>hand back</strong></td><td>되돌려주다, 넘겨주다 · 얻은 가치의 일부를 상대에게 돌려줄 때. "hand a large share of that value back"</td></tr><tr><td><strong>eat into</strong></td><td>(자원·여유를) 갉아먹다 · 어떤 행위가 여유분을 줄어들게 만들 때. "eats into block propagation slack"</td></tr><tr><td><strong>bolt on later</strong></td><td>나중에 임시로 덧붙이다 · 처음부터 설계하지 않고 뒤늦게 추가할 때. "they can&#39;t be bolted on later"</td></tr><tr><td><strong>prime target</strong></td><td>주요 표적, 공격받기 쉬운 대상 · 특정 거래가 공격에 취약할 때. "are prime sandwich/backrun targets"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -435,7 +442,10 @@ print(f&quot;\n기대수익 최대화 제안 시점: t={best_t}s (기대수익={
       <p>자신의 시장에서 발생할 샌드위치 시나리오를 실제 수치로 계산해보고, 슬리피지 한도·커밋리빌·프라이빗 릴레이 중 어떤 완화책이 실효가 있는지 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 LMSR 가격은 체결 순서에 의존하므로 프론트런 가능성이 구조적으로 존재하고, 오라클 결과 확정 직전 주문 역시 MEV 표적이 되므로 정산 타이밍과 주문 공개 방식 설계에 직결된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>excess value</strong></td><td>초과 가치, 여분의 이익 · 정상적 거래 외에 추가로 뽑아낼 수 있는 가치를 말할 때. "the excess value that can be extracted"</td></tr><tr><td><strong>without seeing</strong></td><td>~을 보지 않고(확인하지 않고) · 위임자가 내용을 확인 없이 서명할 때 쓰는 전치사구. "signs a header without seeing the block&#39;s contents"</td></tr><tr><td><strong>route through</strong></td><td>~을 거쳐 전달되다 · 데이터나 요청이 특정 중개 경로를 통해 흐를 때. "routed through relays."</td></tr><tr><td><strong>hand back</strong></td><td>되돌려주다, 넘겨주다 · 얻은 가치의 일부를 상대에게 돌려줄 때. "hand a large share of that value back"</td></tr><tr><td><strong>eat into</strong></td><td>(자원·여유를) 갉아먹다 · 어떤 행위가 여유분을 줄어들게 만들 때. "eats into block propagation slack"</td></tr><tr><td><strong>bolt on later</strong></td><td>나중에 임시로 덧붙이다 · 처음부터 설계하지 않고 뒤늦게 추가할 때. "they can&#39;t be bolted on later"</td></tr><tr><td><strong>prime target</strong></td><td>주요 표적, 공격받기 쉬운 대상 · 특정 거래가 공격에 취약할 때. "are prime sandwich/backrun targets"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-65.html">&larr; 117. 사기 증명 vs 유효성 증명의 게임 이론</a><a href="algorithms-67.html">119. 멱등성과 &quot;정확히 한 번&quot; &rarr;</a></div>
 </div>

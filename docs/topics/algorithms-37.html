@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -393,7 +397,10 @@ print(&quot;final tagged cell state:&quot;, cell2)
       <p>Implement a Treiber stack with CAS and deliberately trigger ABA, then add a tagged-pointer version and an epoch-reclamation version, and compare throughput and how much memory ends up in delayed-free state under contention.</p>
       <h2>Practical Connection</h2>
       <p>In Verex's off-chain order book matching engine, where multiple threads update the same price-level structure on a low-latency path, trying to eliminate lock contention can walk you straight into this trap.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stall</strong></td><td>멈추다, 정체되다 · 스레드나 프로세스가 진행을 멈춘 상태. "even if some thread stalls"</td></tr><tr><td><strong>bounded (number of steps)</strong></td><td>상한이 정해진, 유한하게 제한된 · 무한정이 아니라 정해진 한도 안에서 끝남을 보장할 때. "within a bounded number of steps"</td></tr><tr><td><strong>underneath (it)</strong></td><td>(모르는 사이에) 그 아래에서, 밑에서 · 겉으로는 안 변한 것 같지만 실제로는 바뀐 상태를 가리킬 때. "the data structure&#39;s actual state has changed underneath it"</td></tr><tr><td><strong>batch up</strong></td><td>모아서 한꺼번에 처리하다 · 개별적으로 처리하지 않고 묶어서 나중에 처리할 때. "batches up freeing nodes from epochs"</td></tr><tr><td><strong>surface (in production)</strong></td><td>(문제가) 겉으로 드러나다, 표면화되다 · 숨어 있던 버그가 실제 서비스에서 터질 때. "only surface in production"</td></tr><tr><td><strong>walk straight into (a trap)</strong></td><td>함정에 그대로 걸려들다 · 조심하지 않으면 뻔히 빠지는 문제를 경고할 때. "can walk you straight into this trap"</td></tr><tr><td><strong>use-after-free</strong></td><td>해제 후 사용 오류 · 이미 반환된 메모리를 계속 참조해서 생기는 버그를 가리키는 표준 용어. "you get use-after-free and data corruption"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -451,7 +458,10 @@ print(&quot;final tagged cell state:&quot;, cell2)
       <p>Treiber 스택을 CAS로 구현해 ABA가 발생하도록 유도한 뒤, 태그드 포인터 버전과 에포크 회수 버전을 각각 붙여 경합 상황에서 처리량과 메모리 지연 해제량을 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 오프체인 오더북 매칭 엔진처럼 다수 스레드가 같은 가격 레벨 구조를 갱신하는 저지연 경로에서, 락 경합을 없애려다 이 함정에 그대로 걸릴 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>stall</strong></td><td>멈추다, 정체되다 · 스레드나 프로세스가 진행을 멈춘 상태. "even if some thread stalls"</td></tr><tr><td><strong>bounded (number of steps)</strong></td><td>상한이 정해진, 유한하게 제한된 · 무한정이 아니라 정해진 한도 안에서 끝남을 보장할 때. "within a bounded number of steps"</td></tr><tr><td><strong>underneath (it)</strong></td><td>(모르는 사이에) 그 아래에서, 밑에서 · 겉으로는 안 변한 것 같지만 실제로는 바뀐 상태를 가리킬 때. "the data structure&#39;s actual state has changed underneath it"</td></tr><tr><td><strong>batch up</strong></td><td>모아서 한꺼번에 처리하다 · 개별적으로 처리하지 않고 묶어서 나중에 처리할 때. "batches up freeing nodes from epochs"</td></tr><tr><td><strong>surface (in production)</strong></td><td>(문제가) 겉으로 드러나다, 표면화되다 · 숨어 있던 버그가 실제 서비스에서 터질 때. "only surface in production"</td></tr><tr><td><strong>walk straight into (a trap)</strong></td><td>함정에 그대로 걸려들다 · 조심하지 않으면 뻔히 빠지는 문제를 경고할 때. "can walk you straight into this trap"</td></tr><tr><td><strong>use-after-free</strong></td><td>해제 후 사용 오류 · 이미 반환된 메모리를 계속 참조해서 생기는 버그를 가리키는 표준 용어. "you get use-after-free and data corruption"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-36.html">&larr; 88. 메모리 모델과 원자성 순서</a><a href="algorithms-38.html">90. RCU &rarr;</a></div>
 </div>

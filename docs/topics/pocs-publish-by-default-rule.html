@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The draft already exists — a selection rule, not a new channel — Tech Notes</title>
+<title>The draft already exists — a selection rule, not a new channel — Knowledge Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -56,7 +56,9 @@
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:1 0 100%; }
   .rail-head > .rail-note { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-top:6px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
@@ -66,7 +68,9 @@
   /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
      패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
   .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -88,6 +92,15 @@
   }
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
@@ -360,11 +373,16 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% done &middot; 63/460</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 64/466</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
     <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>
+        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+      </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
     </div>
@@ -372,13 +390,13 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
-    <div class="rail-foot"><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
+    <div class="rail-foot"><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a></div>
   </aside>
   <main class="content content-solo">
   <div class="solo">
-    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Tech Notes</a> &rsaquo; The draft already exists — a selection rule, not a new channel</p>
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The draft already exists — a selection rule, not a new channel</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#155</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#156</span><span>PoC</span></p>
       <h1>The draft already exists — a selection rule, not a new channel</h1>
       <p class="lead">The daily report already produces publishable prose every morning and rabbit&#39;s docs hub is already a public channel. What is missing is one rule that decides, per section, publish or keep — and the scarce half is not the English original, it is the Korean reconstruction.</p>
       <p class="meta">Ten-minute version first, and it is the whole first step: pull three publishable items from the last week of reports, by title only. That list is the draft of the rule. Then write the rule down as a per-section default — publish, redact, or private — and apply it going forward, so the decision is made once instead of every morning. Channel: the rabbit docs hub, which already exists and already publishes.</p>
@@ -438,7 +456,10 @@
 <h3>The measurement, if one is wanted</h3>
 <p>One number, taken once a month: <strong>what share of the report&#39;s sections went out.</strong> Not how many readers, not how many links — the share published, because that is the only number the rule is trying to move. If it sits near zero after the rule exists, the rule is not the problem and the honest conclusion is that the route was never the chosen one.</p>
       
-      <p><a href="../notes.html">&larr; All Tech Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>paid in avoidance</strong></td><td>회피로 대가를 치르다 · 매번 결정하는 부담이 결국 아무것도 안 하는 결과로 이어짐 · "a tax that gets paid in avoidance"</td></tr><tr><td><strong>wrong frequency</strong></td><td>잘못된 빈도(주기) · 매일 결정할 필요 없는 것을 매일 결정하려는 문제 · "a decision made at the wrong frequency"</td></tr><tr><td><strong>failure mode</strong></td><td>실패 양상, 실패로 이어지는 방식 · 규칙 없이 사적 폴더에만 쌓이는 실패 패턴 · "an obvious failure mode, which is producing"</td></tr><tr><td><strong>reconstruction, not translation</strong></td><td>번역이 아니라 재구성 · 영어 원문을 그대로 옮기지 않고 한국 독자 맥락에 맞춰 다시 씀 · "The method is reconstruction, not translation"</td></tr><tr><td><strong>attach to</strong></td><td>~에 연결 짓다, 결부시키다 · 익숙한 배경 지식에 논지를 붙여 설명함 · "Attaching it to what a Korean reader already knows"</td></tr><tr><td><strong>stand between</strong></td><td>~사이를 가로막다 · 채널과 소재는 이미 있고 막는 건 문단 하나뿐 · "what stands between them is a paragraph"</td></tr><tr><td><strong>sourced opinion</strong></td><td>출처를 밝힌 의견 · 그냥 의견이 아니라 근거가 달린 의견이라 게시 가능함 · "Opinion, but sourced opinion"</td></tr><tr><td><strong>regardless of</strong></td><td>~와 상관없이 · 아무리 흥미로워도 공개하지 않는다는 원칙 · "regardless of how interesting it is"</td></tr><tr><td><strong>redact</strong></td><td>(민감한 부분을) 삭제·비공개 처리하다 · 유료·비공개 출처의 수치를 가릴 때 · "Redact or cite"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
@@ -497,9 +518,12 @@
 <h3>굳이 재겠다면, 숫자 하나</h3>
 <p>한 달에 한 번, <strong>리포트 꼭지 중 몇 퍼센트가 나갔는가.</strong> 독자 수도 링크 수도 아닙니다 — <strong>공개 비율</strong>입니다. 규칙이 움직이려는 유일한 숫자가 그것이기 때문입니다. 규칙을 만든 뒤에도 0 근처라면 <strong>문제는 규칙이 아니고</strong>, 정직한 결론은 <strong>그 노선이 애초에 선택된 적 없었다</strong>는 것입니다.</p>
       
-      <p><a href="../notes.html">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>paid in avoidance</strong></td><td>회피로 대가를 치르다 · 매번 결정하는 부담이 결국 아무것도 안 하는 결과로 이어짐 · "a tax that gets paid in avoidance"</td></tr><tr><td><strong>wrong frequency</strong></td><td>잘못된 빈도(주기) · 매일 결정할 필요 없는 것을 매일 결정하려는 문제 · "a decision made at the wrong frequency"</td></tr><tr><td><strong>failure mode</strong></td><td>실패 양상, 실패로 이어지는 방식 · 규칙 없이 사적 폴더에만 쌓이는 실패 패턴 · "an obvious failure mode, which is producing"</td></tr><tr><td><strong>reconstruction, not translation</strong></td><td>번역이 아니라 재구성 · 영어 원문을 그대로 옮기지 않고 한국 독자 맥락에 맞춰 다시 씀 · "The method is reconstruction, not translation"</td></tr><tr><td><strong>attach to</strong></td><td>~에 연결 짓다, 결부시키다 · 익숙한 배경 지식에 논지를 붙여 설명함 · "Attaching it to what a Korean reader already knows"</td></tr><tr><td><strong>stand between</strong></td><td>~사이를 가로막다 · 채널과 소재는 이미 있고 막는 건 문단 하나뿐 · "what stands between them is a paragraph"</td></tr><tr><td><strong>sourced opinion</strong></td><td>출처를 밝힌 의견 · 그냥 의견이 아니라 근거가 달린 의견이라 게시 가능함 · "Opinion, but sourced opinion"</td></tr><tr><td><strong>regardless of</strong></td><td>~와 상관없이 · 아무리 흥미로워도 공개하지 않는다는 원칙 · "regardless of how interesting it is"</td></tr><tr><td><strong>redact</strong></td><td>(민감한 부분을) 삭제·비공개 처리하다 · 유료·비공개 출처의 수치를 가릴 때 · "Redact or cite"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-one-page-not-the-curriculum.html">&larr; 154. Pull the page you are stuck on, not the next one in order</a><a href="pocs-apple-container.html">156. Apple container &rarr;</a></div>
+    <div class="pager"><a href="pocs-one-page-not-the-curriculum.html">&larr; 155. Pull the page you are stuck on, not the next one in order</a><a href="pocs-apple-container.html">157. Apple container &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -545,17 +569,18 @@
   // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
   // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
   const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
-  let tierMode = tierBtns.some((b) => b.dataset.tierMode === 'important') ? 'important' : 'all';
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
   // "Important" 필터는 중요(빨강)뿐 아니라 "최근 완료"(하늘)와 "새 항목"(노랑)도 함께 보여 준다
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). 최근 완료는 방금 끝낸 강조 항목이고,
   // 새 항목은 최근 창(NEW_WINDOW) 안에 손댄 것이라 둘 다 중요 줄에 두고 필터에서 숨기지 않는다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'RECENTLY DONE' || d.title === 'NEW'); };
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
-      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || isImportant(a));
+      const hit = (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -392,7 +396,10 @@ print(&quot;unsafe &gt; safe by:&quot;, unsafe_received - received_correct, &quo
       <p>Implement fixed-point mulDiv in both round-down and round-up versions, then simulate thousands of rapid buy-then-sell cycles and check whether the pool balance grows or shrinks.</p>
       <h2>Practical Connection</h2>
       <p>Verex's LMSR cost function and its CLOB matching/settlement path sit right at the center of this problem, and without documenting the rounding convention in one place, different modules will drift in different directions.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>dust leak</strong></td><td>(먼지처럼 아주 작은 금액이 새어나가는) 더스트 유출 · 반올림 방향을 잘못 잡으면 생기는 누수 · "a dust leak where repeated trades siphon off the remainder"</td></tr><tr><td><strong>siphon off</strong></td><td>(조금씩) 빼돌리다, 빨아가다 · 반복 거래로 잔여분을 조금씩 빼가는 것 · "repeated trades siphon off the remainder"</td></tr><tr><td><strong>in ~&#39;s favor</strong></td><td>~에 유리한 방향으로 · 반올림을 항상 프로토콜 쪽에 유리하게 하는 규칙 · "always round in the protocol&#39;s (pool/contract&#39;s) favor"</td></tr><tr><td><strong>truncation error</strong></td><td>절삭 오차 · 나눗셈으로 스케일을 되돌릴 때 생기는 오차 · "each such division introduces truncation error"</td></tr><tr><td><strong>no matter what order</strong></td><td>순서가 어떻든 상관없이 · 연산 순서와 무관하게 불변식이 지켜져야 함 · "whether the invariant holds no matter what order the operations run"</td></tr><tr><td><strong>monotonicity</strong></td><td>단조성(항상 증가하거나 항상 감소하는 성질) · 근사 오차가 이 성질을 깨는지 확인해야 함 · "breaks the cost function&#39;s monotonicity or convexity"</td></tr><tr><td><strong>drift</strong></td><td>(기준 없이 각자) 제멋대로 어긋나다 · 반올림 규칙을 안 정해두면 모듈마다 다르게 틀어짐 · "different modules will drift in different directions"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -449,7 +456,10 @@ print(&quot;unsafe &gt; safe by:&quot;, unsafe_received - received_correct, &quo
       <p>고정소수점 mulDiv를 내림·올림 두 버전으로 구현하고, 매수 후 즉시 매도를 수천 번 반복하는 시뮬레이션으로 풀 잔고가 늘어나는지 줄어드는지 확인해 보기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 LMSR 비용함수와 CLOB 체결·정산 경로는 정확히 이 문제의 중심이고, 반올림 규약을 한 곳에 문서화해 두지 않으면 모듈마다 방향이 어긋난다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>dust leak</strong></td><td>(먼지처럼 아주 작은 금액이 새어나가는) 더스트 유출 · 반올림 방향을 잘못 잡으면 생기는 누수 · "a dust leak where repeated trades siphon off the remainder"</td></tr><tr><td><strong>siphon off</strong></td><td>(조금씩) 빼돌리다, 빨아가다 · 반복 거래로 잔여분을 조금씩 빼가는 것 · "repeated trades siphon off the remainder"</td></tr><tr><td><strong>in ~&#39;s favor</strong></td><td>~에 유리한 방향으로 · 반올림을 항상 프로토콜 쪽에 유리하게 하는 규칙 · "always round in the protocol&#39;s (pool/contract&#39;s) favor"</td></tr><tr><td><strong>truncation error</strong></td><td>절삭 오차 · 나눗셈으로 스케일을 되돌릴 때 생기는 오차 · "each such division introduces truncation error"</td></tr><tr><td><strong>no matter what order</strong></td><td>순서가 어떻든 상관없이 · 연산 순서와 무관하게 불변식이 지켜져야 함 · "whether the invariant holds no matter what order the operations run"</td></tr><tr><td><strong>monotonicity</strong></td><td>단조성(항상 증가하거나 항상 감소하는 성질) · 근사 오차가 이 성질을 깨는지 확인해야 함 · "breaks the cost function&#39;s monotonicity or convexity"</td></tr><tr><td><strong>drift</strong></td><td>(기준 없이 각자) 제멋대로 어긋나다 · 반올림 규칙을 안 정해두면 모듈마다 다르게 틀어짐 · "different modules will drift in different directions"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-88.html">&larr; 140. 다중정밀 산술(bignum)</a><a href="algorithms-90.html">142. 유한체·다항식 산술과 NTT 구현 관점 &rarr;</a></div>
 </div>

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -395,7 +399,10 @@ print(f&quot;강쌍대성 확인 (원문제 최적값 == 쌍대문제 최적값)
       <p>Formulate a small allocation problem with 5 to 10 bids as an LP, solve it with a solver, extract the dual values, then slightly relax one constraint and confirm the change in the objective matches its dual value.</p>
       <h2>Practical Connection</h2>
       <p>Batching orders and matching them at a single uniform clearing price can be expressed as an LP where the dual price is exactly that clearing price — a useful exercise for re-reading Verex's CLOB matching logic through an optimization lens.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>shadow price</strong></td><td>잠재가격(그림자 가격) · 제약을 한 단위 완화했을 때 목적함수가 얼마나 개선되는지 나타내는 값 · "A dual variable represents the shadow price"</td></tr><tr><td><strong>bounds</strong></td><td>(상한·하한을) 정하다, 제한하다 · 실행가능한 해가 특정 값을 넘지 못하게 묶는다는 뜻 · "any feasible dual solution bounds the primal optimum"</td></tr><tr><td><strong>tight</strong></td><td>(제약이) 여유 없이 꽉 찬 상태 · 등호로 딱 맞아떨어져 여유가 없는 제약을 가리킴 · "any constraint with a positive price must be tight"</td></tr><tr><td><strong>settle an argument with numbers</strong></td><td>숫자로 논쟁을 매듭짓다 · 말이 아니라 계산 결과로 결론을 낸다는 뜻 · "settle an argument with numbers instead of opinions"</td></tr><tr><td><strong>relaxed by one unit</strong></td><td>(제약을) 한 단위 완화하다 · 한계값의 변화를 계산할 때 쓰는 표현 · "if that constraint is relaxed by one unit"</td></tr><tr><td><strong>coincide</strong></td><td>(두 값이) 일치하다 · 서로 다른 방식으로 구한 결과가 같아진다는 뜻 · "the two optimal values coincide"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -455,7 +462,10 @@ print(f&quot;강쌍대성 확인 (원문제 최적값 == 쌍대문제 최적값)
       <p>입찰 5~10건짜리 소규모 배분 문제를 LP로 세워 solver로 풀고 쌍대값을 뽑은 뒤, 제약 하나를 아주 조금 완화했을 때 목적값 변화가 그 쌍대값과 일치하는지 확인하기.</p>
       <h2>실무 · Verex 연결</h2>
       <p>배치 방식으로 주문을 모아 균일 청산가로 체결하는 문제는 LP로 표현할 수 있고 쌍대가격이 곧 청산가에 해당하므로, Verex의 CLOB 체결 로직을 최적화 관점에서 다시 읽어 보는 훈련이 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>shadow price</strong></td><td>잠재가격(그림자 가격) · 제약을 한 단위 완화했을 때 목적함수가 얼마나 개선되는지 나타내는 값 · "A dual variable represents the shadow price"</td></tr><tr><td><strong>bounds</strong></td><td>(상한·하한을) 정하다, 제한하다 · 실행가능한 해가 특정 값을 넘지 못하게 묶는다는 뜻 · "any feasible dual solution bounds the primal optimum"</td></tr><tr><td><strong>tight</strong></td><td>(제약이) 여유 없이 꽉 찬 상태 · 등호로 딱 맞아떨어져 여유가 없는 제약을 가리킴 · "any constraint with a positive price must be tight"</td></tr><tr><td><strong>settle an argument with numbers</strong></td><td>숫자로 논쟁을 매듭짓다 · 말이 아니라 계산 결과로 결론을 낸다는 뜻 · "settle an argument with numbers instead of opinions"</td></tr><tr><td><strong>relaxed by one unit</strong></td><td>(제약을) 한 단위 완화하다 · 한계값의 변화를 계산할 때 쓰는 표현 · "if that constraint is relaxed by one unit"</td></tr><tr><td><strong>coincide</strong></td><td>(두 값이) 일치하다 · 서로 다른 방식으로 구한 결과가 같아진다는 뜻 · "the two optimal values coincide"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-12.html">&larr; 64. 최대 유량·최소 컷과 매칭</a><a href="algorithms-14.html">66. 랜덤화·근사 알고리즘 &rarr;</a></div>
 </div>

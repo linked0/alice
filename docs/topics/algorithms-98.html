@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -407,7 +411,10 @@ print(f&quot;recall@3 = {recall_at_k(eval_set, 3):.2f}&quot;)
       <p>Build a golden set of thirty queries with expected evidence documents from your own corpus, measure recall@5 across two or three different chunk sizes, and record the results in a table.</p>
       <h2>Practical Connection</h2>
       <p>This applies directly to building an internal query tool over codebase docs or market-rules docs, and the habit of setting up metrics and regression tests first is the same engineering discipline used to manage performance regressions in a matching engine or settlement logic.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>grounded in</strong></td><td>~에 근거를 둔 · 답변이 실제 증거에 기반할 때. "an answer grounded in that evidence"</td></tr><tr><td><strong>by feel</strong></td><td>감으로, 직감으로 · 정량적 근거 없이 판단할 때. "only judge the effect of a parameter change by feel"</td></tr><tr><td><strong>degrade quietly</strong></td><td>조용히, 티 안 나게 성능이 떨어지다 · 문제가 서서히 나빠지는데 알아채지 못할 때. "RAG systems tend to degrade quietly"</td></tr><tr><td><strong>pile up</strong></td><td>쌓이다, 누적되다 · 불만이나 문제가 점점 쌓여갈 때. "until user complaints have piled up"</td></tr><tr><td><strong>golden set</strong></td><td>정답이 정해진 기준 데이터셋 · 평가 기준으로 삼는 검증된 데이터 모음. "a golden dataset of fixed queries with expected evidence"</td></tr><tr><td><strong>regression (test)</strong></td><td>회귀 테스트 · 이전엔 통과했던 케이스가 계속 통과하는지 재확인하는 절차. "regression tests that rerun previously passing cases"</td></tr><tr><td><strong>invariant</strong></td><td>불변 조건, 항상 성립해야 하는 규칙 · 시스템이 절대 어겨선 안 되는 규칙. "property tests that check invariants like"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -479,7 +486,10 @@ print(f&quot;recall@3 = {recall_at_k(eval_set, 3):.2f}&quot;)
       <p>자신의 문서 모음에서 질의 서른 개와 기대 근거 문서를 골든셋으로 만들고, 청킹 크기를 두세 가지로 바꿔 가며 recall@5를 측정해 결과를 표로 남겨라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>코드베이스 문서나 마켓 규칙 문서에 대한 내부 질의 도구를 만들 때 그대로 쓰이며, 지표와 회귀 테스트를 먼저 세우는 태도 자체는 매칭 엔진이나 정산 로직의 성능 회귀 관리와 동일한 엔지니어링 습관이다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>grounded in</strong></td><td>~에 근거를 둔 · 답변이 실제 증거에 기반할 때. "an answer grounded in that evidence"</td></tr><tr><td><strong>by feel</strong></td><td>감으로, 직감으로 · 정량적 근거 없이 판단할 때. "only judge the effect of a parameter change by feel"</td></tr><tr><td><strong>degrade quietly</strong></td><td>조용히, 티 안 나게 성능이 떨어지다 · 문제가 서서히 나빠지는데 알아채지 못할 때. "RAG systems tend to degrade quietly"</td></tr><tr><td><strong>pile up</strong></td><td>쌓이다, 누적되다 · 불만이나 문제가 점점 쌓여갈 때. "until user complaints have piled up"</td></tr><tr><td><strong>golden set</strong></td><td>정답이 정해진 기준 데이터셋 · 평가 기준으로 삼는 검증된 데이터 모음. "a golden dataset of fixed queries with expected evidence"</td></tr><tr><td><strong>regression (test)</strong></td><td>회귀 테스트 · 이전엔 통과했던 케이스가 계속 통과하는지 재확인하는 절차. "regression tests that rerun previously passing cases"</td></tr><tr><td><strong>invariant</strong></td><td>불변 조건, 항상 성립해야 하는 규칙 · 시스템이 절대 어겨선 안 되는 규칙. "property tests that check invariants like"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-97.html">&larr; 149. 트랜스포머 계산 구조·KV 캐시·추론 서빙(연속 배칭·PagedAttention)…</a><a href="algorithms-99.html">151. 에이전트 루프 설계 &rarr;</a></div>
 </div>

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -386,7 +390,10 @@ print(f&quot;이 트랜잭션을 블록 하나에 최대 {max_repeats}번 담을
       <p>Implement the same logic in two versions — one centered on storage writes, one centered on calldata and events — pull a gas report for each, and break down which opcodes dominate the cost.</p>
       <h2>Practical Connection</h2>
       <p>Verex's settlement and order processing need to finish within the block gas limit no matter how many participants there are, so avoiding unbounded array iteration and shifting cost to users via a pull-based claim design is necessary.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>DoS vector</strong></td><td>서비스 거부 공격의 통로(취약점) · 잘못 책정된 비용이 공격 수단이 될 때. "even one underpriced operation becomes a DoS vector"</td></tr><tr><td><strong>repriced</strong></td><td>가격(비용)이 재산정된 · 과거 책정이 잘못돼 나중에 다시 조정될 때. "have been repriced several times in the past"</td></tr><tr><td><strong>shape the incentives around</strong></td><td>~을 둘러싼 유인 구조를 설계하다 · 비용 정책이 행동을 유도하는 방식. "shaping the incentives around state growth"</td></tr><tr><td><strong>cold / warm access</strong></td><td>최초 접근(cold)과 재접근(warm)을 구분하는 것 · 캐시 지역성을 요금에 반영하는 개념. "charges differently for a first (cold) access versus"</td></tr><tr><td><strong>fold into</strong></td><td>~에 녹여 넣다·포함시키다 · 세부 요소까지 가격 모델에 반영할 때. "even cache locality being folded into the pricing model"</td></tr><tr><td><strong>stall ... for pennies</strong></td><td>푼돈으로 (시스템을) 멈춰 세우다 · 아주 적은 비용으로 큰 피해를 입히는 공격. "an attacker can stall a node for pennies"</td></tr><tr><td><strong>priced out</strong></td><td>비용 부담으로 밀려나다·못 쓰게 되다 · 가격이 너무 비싸 정상 사용자가 배제될 때. "honest users get priced out"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -437,7 +444,10 @@ print(f&quot;이 트랜잭션을 블록 하나에 최대 {max_repeats}번 담을
       <p>같은 로직을 storage 쓰기 중심과 calldata·event 중심 두 버전으로 구현해 gas 리포트를 뽑고, 어떤 opcode가 비용을 지배하는지 분해하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 정산과 주문 처리는 참여자 수가 늘어도 블록 가스 한도 안에서 끝나야 하므로, 무제한 배열 순회를 피하고 pull 방식 청구로 비용을 사용자 쪽에 분산시키는 설계가 필요하다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>DoS vector</strong></td><td>서비스 거부 공격의 통로(취약점) · 잘못 책정된 비용이 공격 수단이 될 때. "even one underpriced operation becomes a DoS vector"</td></tr><tr><td><strong>repriced</strong></td><td>가격(비용)이 재산정된 · 과거 책정이 잘못돼 나중에 다시 조정될 때. "have been repriced several times in the past"</td></tr><tr><td><strong>shape the incentives around</strong></td><td>~을 둘러싼 유인 구조를 설계하다 · 비용 정책이 행동을 유도하는 방식. "shaping the incentives around state growth"</td></tr><tr><td><strong>cold / warm access</strong></td><td>최초 접근(cold)과 재접근(warm)을 구분하는 것 · 캐시 지역성을 요금에 반영하는 개념. "charges differently for a first (cold) access versus"</td></tr><tr><td><strong>fold into</strong></td><td>~에 녹여 넣다·포함시키다 · 세부 요소까지 가격 모델에 반영할 때. "even cache locality being folded into the pricing model"</td></tr><tr><td><strong>stall ... for pennies</strong></td><td>푼돈으로 (시스템을) 멈춰 세우다 · 아주 적은 비용으로 큰 피해를 입히는 공격. "an attacker can stall a node for pennies"</td></tr><tr><td><strong>priced out</strong></td><td>비용 부담으로 밀려나다·못 쓰게 되다 · 가격이 너무 비싸 정상 사용자가 배제될 때. "honest users get priced out"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-25.html">&larr; 77. 스택 머신 vs 레지스터 머신</a><a href="algorithms-27.html">79. EVM 인터프리터 내부 &rarr;</a></div>
 </div>

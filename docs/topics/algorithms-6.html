@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -390,7 +394,10 @@ print(f&quot;거짓 양성 {false_positives} / {checked}회 (비율 {false_posit
       <p>Implement a Bloom filter and, by varying the bit count m and the number of hash functions k, compare the measured false-positive rate against the theoretical value.</p>
       <h2>Practical Connection</h2>
       <p>Bloom-style filters are used in P2P gossip to avoid re-propagating transaction or block hashes that have already been seen, and Verex could apply the same idea as a cheap first-pass filter for event logs or order IDs it has already processed.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>trade X for Y</strong></td><td>X를 Y와 맞바꾸다 · 정확도를 포기하고 다른 이득을 얻을 때. "trade an exact answer for a bounded error"</td></tr><tr><td><strong>in exchange for</strong></td><td>~의 대가로 · 무엇을 포기하고 무엇을 얻는지 말할 때. "in exchange for a large reduction in memory"</td></tr><tr><td><strong>blow the budget</strong></td><td>예산(한도)을 초과해버리다 · 메모리 한도를 넘어설 때. "blows the memory budget before anything else fails"</td></tr><tr><td><strong>run into (a number)</strong></td><td>(수치가) ~에 달하다, 이르다 · 원소 개수가 매우 커질 때. "the element count runs into the hundreds of millions"</td></tr><tr><td><strong>first-pass filter</strong></td><td>1차 거름망(초벌 필터링) · 값싼 사전 필터링 용도로 쓰일 때. "a cheap first-pass filter for event logs"</td></tr><tr><td><strong>re-propagate</strong></td><td>다시 전파하다 · 이미 본 데이터를 또 퍼뜨리는 낭비를 막을 때. "to avoid re-propagating transaction or block hashes"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -445,7 +452,10 @@ print(f&quot;거짓 양성 {false_positives} / {checked}회 (비율 {false_posit
       <p>Bloom filter를 직접 구현해 비트 수 m과 해시 개수 k를 바꿔가며 실측 거짓 양성률을 이론값과 비교하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>P2P 가십에서 이미 본 트랜잭션·블록 해시를 중복 전파하지 않도록 거르는 데 Bloom류 필터가 쓰이며, Verex에서도 이미 처리한 이벤트 로그나 주문 ID를 저렴하게 걸러내는 1차 필터로 응용할 수 있다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>trade X for Y</strong></td><td>X를 Y와 맞바꾸다 · 정확도를 포기하고 다른 이득을 얻을 때. "trade an exact answer for a bounded error"</td></tr><tr><td><strong>in exchange for</strong></td><td>~의 대가로 · 무엇을 포기하고 무엇을 얻는지 말할 때. "in exchange for a large reduction in memory"</td></tr><tr><td><strong>blow the budget</strong></td><td>예산(한도)을 초과해버리다 · 메모리 한도를 넘어설 때. "blows the memory budget before anything else fails"</td></tr><tr><td><strong>run into (a number)</strong></td><td>(수치가) ~에 달하다, 이르다 · 원소 개수가 매우 커질 때. "the element count runs into the hundreds of millions"</td></tr><tr><td><strong>first-pass filter</strong></td><td>1차 거름망(초벌 필터링) · 값싼 사전 필터링 용도로 쓰일 때. "a cheap first-pass filter for event logs"</td></tr><tr><td><strong>re-propagate</strong></td><td>다시 전파하다 · 이미 본 데이터를 또 퍼뜨리는 낭비를 막을 때. "to avoid re-propagating transaction or block hashes"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-5.html">&larr; 57. Verkle tree</a><a href="algorithms-7.html">59. 스트리밍/스케치 알고리즘 &rarr;</a></div>
 </div>

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -374,7 +378,10 @@ for c in components:
       <p>Pick one component of the system you're currently working on and write one line each for its failure model, timing model, trusted parties, and quorum assumptions, then table out which of safety or liveness breaks first when each assumption is violated.</p>
       <h2>Practical Connection</h2>
       <p>A prediction market has the chain, the oracle, the sequencer, and its own backend each carrying a different failure model and trust level, so writing this out on one page makes it immediately clear what needs defending during a settlement dispute or an oracle delay.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>crash-stop</strong></td><td>정지 후 고장(크래시-스탑) 모델 · 한 번 멈추면 영원히 멈추는 장애 모델. "crash-stop (a node halts and stays halted)"</td></tr><tr><td><strong>attribute ... to</strong></td><td>(원인을) ~탓으로 돌리다, 귀속시키다 · 장애 원인을 특정 가정 위반으로 지목하는 것. "attribute an incident&#39;s cause to a violated assumption"</td></tr><tr><td><strong>quietly breaking</strong></td><td>조용히(눈에 안 띄게) 깨지다 · 아무도 모르는 사이에 가정이 위반되는 상황. "an undocumented assumption quietly breaking"</td></tr><tr><td><strong>the first line of</strong></td><td>~에서 가장 먼저 적어야 할 것 · 설계 문서에서 최우선으로 명시할 항목을 강조. "the first line of a design doc should be"</td></tr><tr><td><strong>sacrifice (동사)</strong></td><td>(안전성·생존성을) 희생시키다, 포기하다 · 트레이드오프에서 어느 속성을 내주는지 가리킴. "what safety or liveness gets sacrificed"</td></tr><tr><td><strong>known result</strong></td><td>이미 증명된 사실, 정설 · 학계에서 입증되어 통용되는 결론을 가리킴. "it&#39;s a known result that deterministic consensus is impossible"</td></tr><tr><td><strong>carry (a failure model)</strong></td><td>(장애 모델·신뢰 수준을) 지니다, 내포하다 · 시스템 구성요소마다 서로 다른 전제를 갖고 있음을 표현. "carrying a different failure model and trust level"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -413,7 +420,10 @@ for c in components:
       <p>지금 다루는 시스템의 컴포넌트 하나를 골라 장애 모델, 타이밍 모델, 신뢰 주체, 정족수 가정을 각각 한 줄로 적고, 각 가정이 깨졌을 때 안전성과 활성 중 무엇이 먼저 무너지는지 표로 정리하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>예측시장은 체인, 오라클, 시퀀서, 자체 백엔드가 각기 다른 장애 모델과 신뢰 수준을 가지므로 이를 한 장에 명시해 두면 정산 분쟁이나 오라클 지연 상황에서 어디를 방어해야 하는지가 즉시 드러난다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>crash-stop</strong></td><td>정지 후 고장(크래시-스탑) 모델 · 한 번 멈추면 영원히 멈추는 장애 모델. "crash-stop (a node halts and stays halted)"</td></tr><tr><td><strong>attribute ... to</strong></td><td>(원인을) ~탓으로 돌리다, 귀속시키다 · 장애 원인을 특정 가정 위반으로 지목하는 것. "attribute an incident&#39;s cause to a violated assumption"</td></tr><tr><td><strong>quietly breaking</strong></td><td>조용히(눈에 안 띄게) 깨지다 · 아무도 모르는 사이에 가정이 위반되는 상황. "an undocumented assumption quietly breaking"</td></tr><tr><td><strong>the first line of</strong></td><td>~에서 가장 먼저 적어야 할 것 · 설계 문서에서 최우선으로 명시할 항목을 강조. "the first line of a design doc should be"</td></tr><tr><td><strong>sacrifice (동사)</strong></td><td>(안전성·생존성을) 희생시키다, 포기하다 · 트레이드오프에서 어느 속성을 내주는지 가리킴. "what safety or liveness gets sacrificed"</td></tr><tr><td><strong>known result</strong></td><td>이미 증명된 사실, 정설 · 학계에서 입증되어 통용되는 결론을 가리킴. "it&#39;s a known result that deterministic consensus is impossible"</td></tr><tr><td><strong>carry (a failure model)</strong></td><td>(장애 모델·신뢰 수준을) 지니다, 내포하다 · 시스템 구성요소마다 서로 다른 전제를 갖고 있음을 표현. "carrying a different failure model and trust level"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-67.html">&larr; 119. 멱등성과 &quot;정확히 한 번&quot;</a><a href="algorithms-69.html">121. MVCC 내부와 스냅샷 격리의 이상현상(write skew) &rarr;</a></div>
 </div>

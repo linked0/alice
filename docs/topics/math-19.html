@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -379,7 +383,10 @@ print(f&quot;\nw = 10*u 의 코사인 유사도(u,w) = {np.dot(u, w) / (np.linal
       <p>For the same dataset, implement Euclidean-distance nearest neighbors and cosine-similarity nearest neighbors separately, and check how the results change before and after normalizing vectors to unit norm.</p>
       <h2>Practical Connection</h2>
       <p>This is used directly when clustering similar wallets by on-chain address behavior vectors or wiring up log/document search, and more generally it underlies predictive models like least squares and regression.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>well-defined</strong></td><td>(수학적으로) 명확히 정의된 · 코사인 유사도 값이 항상 -1~1 사이로 보장될 때 · "making cosine similarity well-defined"</td></tr><tr><td><strong>come down to</strong></td><td>결국 ~로 귀결되다 · 실제 문제들이 결국 어떤 노름을 쓰는지로 좁혀질 때 · "ultimately come down to which norm you&#39;re measuring with"</td></tr><tr><td><strong>starting point for</strong></td><td>~의 출발점 · 내적이 0이면 직교라는 사실이 다른 개념으로 이어질 때 · "the starting point for concepts like projection and least squares"</td></tr><tr><td><strong>orthogonality</strong></td><td>직교성(벡터 간 내적이 0인 상태) · 두 벡터가 전혀 상관없는 방향일 때 · "A dot product of zero means orthogonality"</td></tr><tr><td><strong>unit norm</strong></td><td>단위 노름(크기를 1로 정규화한 상태) · 벡터를 정규화할 때 기준이 되는 크기 · "normalizing vectors to unit norm"</td></tr><tr><td><strong>ignores vector magnitude</strong></td><td>벡터의 크기(스케일)를 무시하다 · 코사인 유사도가 방향만 비교하는 이유를 설명할 때 · "Cosine similarity ignores vector magnitude"</td></tr><tr><td><strong>Cauchy-Schwarz inequality</strong></td><td>코시-슈바르츠 부등식 · 내적이 두 노름의 곱을 넘지 않음을 보장하는 정리 · "The Cauchy-Schwarz inequality says the absolute value"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -423,7 +430,10 @@ print(f&quot;\nw = 10*u 의 코사인 유사도(u,w) = {np.dot(u, w) / (np.linal
       <p>같은 데이터에 대해 유클리드 거리 기반 최근접 이웃과 코사인 유사도 기반 최근접 이웃을 각각 구현해, 벡터를 단위 노름으로 정규화하기 전후로 결과가 어떻게 바뀌는지 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>온체인 주소 행동 벡터로 유사 지갑을 묶거나 로그·문서 검색을 붙일 때 직접 쓰이고, 더 일반적으로는 최소제곱·회귀 같은 예측 모델의 기반 연산이다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>well-defined</strong></td><td>(수학적으로) 명확히 정의된 · 코사인 유사도 값이 항상 -1~1 사이로 보장될 때 · "making cosine similarity well-defined"</td></tr><tr><td><strong>come down to</strong></td><td>결국 ~로 귀결되다 · 실제 문제들이 결국 어떤 노름을 쓰는지로 좁혀질 때 · "ultimately come down to which norm you&#39;re measuring with"</td></tr><tr><td><strong>starting point for</strong></td><td>~의 출발점 · 내적이 0이면 직교라는 사실이 다른 개념으로 이어질 때 · "the starting point for concepts like projection and least squares"</td></tr><tr><td><strong>orthogonality</strong></td><td>직교성(벡터 간 내적이 0인 상태) · 두 벡터가 전혀 상관없는 방향일 때 · "A dot product of zero means orthogonality"</td></tr><tr><td><strong>unit norm</strong></td><td>단위 노름(크기를 1로 정규화한 상태) · 벡터를 정규화할 때 기준이 되는 크기 · "normalizing vectors to unit norm"</td></tr><tr><td><strong>ignores vector magnitude</strong></td><td>벡터의 크기(스케일)를 무시하다 · 코사인 유사도가 방향만 비교하는 이유를 설명할 때 · "Cosine similarity ignores vector magnitude"</td></tr><tr><td><strong>Cauchy-Schwarz inequality</strong></td><td>코시-슈바르츠 부등식 · 내적이 두 노름의 곱을 넘지 않음을 보장하는 정리 · "The Cauchy-Schwarz inequality says the absolute value"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-18.html">&larr; 18. 벡터·행렬·행렬곱·역행렬</a><a href="math-20.html">20. 유한체 GF(p) 위 선형대수 (12월 다리, 스레드 A) &rarr;</a></div>
 </div>

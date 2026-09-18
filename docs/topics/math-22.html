@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -382,7 +386,10 @@ print(f&quot;일치? {np.allclose(A_power_direct, A_power_via_diag)}&quot;)
       <p>Take a small transition matrix, repeatedly apply it, and observe the distribution converging — then check whether that limit matches the normalized eigenvector corresponding to eigenvalue 1.</p>
       <h2>Practical Connection</h2>
       <p>Eigendecomposing a covariance matrix built from multiple markets' prices or asset returns reveals that a small number of common factors explain most of the variation, which is used directly when aggregating the risk of correlated positions.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spectral radius</strong></td><td>스펙트럴 반지름, 고유값 크기의 최댓값 · 반복 계산이 수렴하는지 판단하는 기준. "whether the spectral radius is less than 1"</td></tr><tr><td><strong>diagonalize</strong></td><td>대각화하다 · 행렬을 대각행렬 형태로 분해해 계산을 단순화할 때. "A can be diagonalized as A = PDP^(-1)"</td></tr><tr><td><strong>stationary distribution</strong></td><td>정상분포, 시간이 지나도 변하지 않는 분포 · 마르코프 체인이 수렴하는 최종 상태. "The stationary distribution of a Markov chain"</td></tr><tr><td><strong>reduce to</strong></td><td>~로 귀결되다, 결국 ~문제로 환원되다 · 여러 다른 문제가 사실 같은 구조임을 말할 때. "all reduce to eigenvalue problems"</td></tr><tr><td><strong>fall into (a category)</strong></td><td>~범주에 속하다 · 특정 성질을 만족하는 대상들을 묶어 말할 때. "fall into that category"</td></tr><tr><td><strong>govern</strong></td><td>좌우하다, 지배하다 · 어떤 값이 전체 결과의 방향을 결정지을 때. "The magnitude of the eigenvalues governs growth and decay"</td></tr><tr><td><strong>spectral theorem</strong></td><td>스펙트럴 정리 · 대칭행렬의 고유값·고유벡터에 관한 정리. "the spectral theorem"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -429,7 +436,10 @@ print(f&quot;일치? {np.allclose(A_power_direct, A_power_via_diag)}&quot;)
       <p>작은 전이행렬 하나를 잡아 거듭제곱을 반복하며 분포가 수렴하는 과정을 관찰하고, 그 수렴점이 고유값 1에 대응하는 고유벡터를 정규화한 것과 일치하는지 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>여러 마켓의 가격이나 자산 수익률로 만든 공분산행렬을 고유분해하면 소수의 공통 요인이 변동의 대부분을 설명한다는 사실이 드러나고, 이는 상관된 포지션의 리스크를 합산할 때 직접 쓰인다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>spectral radius</strong></td><td>스펙트럴 반지름, 고유값 크기의 최댓값 · 반복 계산이 수렴하는지 판단하는 기준. "whether the spectral radius is less than 1"</td></tr><tr><td><strong>diagonalize</strong></td><td>대각화하다 · 행렬을 대각행렬 형태로 분해해 계산을 단순화할 때. "A can be diagonalized as A = PDP^(-1)"</td></tr><tr><td><strong>stationary distribution</strong></td><td>정상분포, 시간이 지나도 변하지 않는 분포 · 마르코프 체인이 수렴하는 최종 상태. "The stationary distribution of a Markov chain"</td></tr><tr><td><strong>reduce to</strong></td><td>~로 귀결되다, 결국 ~문제로 환원되다 · 여러 다른 문제가 사실 같은 구조임을 말할 때. "all reduce to eigenvalue problems"</td></tr><tr><td><strong>fall into (a category)</strong></td><td>~범주에 속하다 · 특정 성질을 만족하는 대상들을 묶어 말할 때. "fall into that category"</td></tr><tr><td><strong>govern</strong></td><td>좌우하다, 지배하다 · 어떤 값이 전체 결과의 방향을 결정지을 때. "The magnitude of the eigenvalues governs growth and decay"</td></tr><tr><td><strong>spectral theorem</strong></td><td>스펙트럴 정리 · 대칭행렬의 고유값·고유벡터에 관한 정리. "the spectral theorem"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-21.html">&larr; 21. 리스크·포트폴리오 행렬(공분산·상관)</a><a href="math-23.html">23. PCA·SVD &rarr;</a></div>
 </div>

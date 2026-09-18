@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -397,7 +401,10 @@ print(&quot;-&gt; 스프레드가 특정 범위를 벗어나지 않고 되돌아
       <p>Take price time series for two assets, compute the correlation of log-price levels and the correlation of log returns separately, compare how different the values are, and plot whether the spread between the two series mean-reverts.</p>
       <h2>Practical Connection</h2>
       <p>Prices of different markets covering the same event, or of complementary outcome tokens, should stay tied together in the long run — so if the spread does not mean-revert, that's grounds to suspect a liquidity shortfall or a difference in settlement terms.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>co-movement</strong></td><td>동반 움직임·같이 변동함 · 두 변수가 같은 방향으로 함께 움직이는 정도. "the degree of linear co-movement between two variables"</td></tr><tr><td><strong>spurious regression</strong></td><td>가짜 회귀·허위 회귀 관계 · 실제 관련 없는 두 추세가 통계상 관계 있어 보이는 함정. "the spurious regression problem"</td></tr><tr><td><strong>mean-reverting</strong></td><td>평균으로 회귀하는 · 값이 벌어져도 결국 평균 수준으로 돌아오는 성질. "stationary and mean-reverting"</td></tr><tr><td><strong>tied together</strong></td><td>서로 묶여 있다·연동되어 있다 · 두 시계열이 장기적으로 같이 움직인다고 말할 때. "stay tied together over the long run"</td></tr><tr><td><strong>at face value</strong></td><td>액면 그대로·곧이곧대로 · 겉으로 드러난 숫자를 검증 없이 믿지 말라고 할 때. "correlation between levels shouldn&#39;t be trusted at face value"</td></tr><tr><td><strong>long-run equilibrium</strong></td><td>장기 균형 · 단기적으로 벗어나도 결국 되돌아오는 안정 상태를 가리킬 때. "a long-run equilibrium exists between the two series"</td></tr><tr><td><strong>grounds to suspect</strong></td><td>~을 의심할 근거 · 어떤 이상 신호가 특정 문제를 의심하게 만들 때. "that&#39;s grounds to suspect a liquidity shortfall"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/math-50-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -459,7 +466,10 @@ print(&quot;-&gt; 스프레드가 특정 범위를 벗어나지 않고 되돌아
       <p>두 자산의 가격 시계열을 받아 로그 가격 수준의 상관과 로그 수익률의 상관을 각각 계산해 값이 얼마나 다른지 비교하고, 두 계열의 스프레드가 평균으로 회귀하는지 그려 확인하라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>같은 사건을 다루는 서로 다른 마켓이나 상보적 아웃컴 토큰의 가격은 장기적으로 묶여 있어야 하므로, 스프레드가 평균 회귀하지 않는다면 유동성 부족이나 정산 조건 차이를 의심할 근거가 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>co-movement</strong></td><td>동반 움직임·같이 변동함 · 두 변수가 같은 방향으로 함께 움직이는 정도. "the degree of linear co-movement between two variables"</td></tr><tr><td><strong>spurious regression</strong></td><td>가짜 회귀·허위 회귀 관계 · 실제 관련 없는 두 추세가 통계상 관계 있어 보이는 함정. "the spurious regression problem"</td></tr><tr><td><strong>mean-reverting</strong></td><td>평균으로 회귀하는 · 값이 벌어져도 결국 평균 수준으로 돌아오는 성질. "stationary and mean-reverting"</td></tr><tr><td><strong>tied together</strong></td><td>서로 묶여 있다·연동되어 있다 · 두 시계열이 장기적으로 같이 움직인다고 말할 때. "stay tied together over the long run"</td></tr><tr><td><strong>at face value</strong></td><td>액면 그대로·곧이곧대로 · 겉으로 드러난 숫자를 검증 없이 믿지 말라고 할 때. "correlation between levels shouldn&#39;t be trusted at face value"</td></tr><tr><td><strong>long-run equilibrium</strong></td><td>장기 균형 · 단기적으로 벗어나도 결국 되돌아오는 안정 상태를 가리킬 때. "a long-run equilibrium exists between the two series"</td></tr><tr><td><strong>grounds to suspect</strong></td><td>~을 의심할 근거 · 어떤 이상 신호가 특정 문제를 의심하게 만들 때. "that&#39;s grounds to suspect a liquidity shortfall"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/math-50-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="math-42.html">&larr; 42. 마르코프 체인(개념)</a><a href="math-44.html">44. 정수론·모듈러 산술 &rarr;</a></div>
 </div>

@@ -54,13 +54,17 @@
   /* 제목과 배지를 한 줄에 — .rail-title 이 block 이라 그냥 두면 배지가 아래로 떨어진다. */
   .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
   .rail-head > .rail-title { flex:0 0 auto; }
-  .rail-head > .rail-sub, .rail-head > .rail-jump { flex:1 0 100%; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
   .rail-note {
     margin-left:8px; padding:1px 7px; border-radius:999px;
     font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
     color:var(--accent); background:var(--accent-soft); white-space:nowrap;
   }
-  .rail-sub { display:block; margin-top:3px; font-size:0.76rem; color:var(--text2); }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
   /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
      본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
   .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
@@ -400,7 +404,10 @@ print(&quot;클래식 서명만 위조돼도 하이브리드는 거부:&quot;, n
       <p>In a system you work on, list every point where the signature algorithm is locked to exactly one choice, and write down what would need to change at each point to allow both algorithms to be accepted at once.</p>
       <h2>Practical Connection</h2>
       <p>If Verex's contracts hard-code how signatures are verified, there's no migration path when the scheme needs to change later, so keeping the verifier as a swappable module is what real preparedness looks like.</p>
-      <p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>have a direct bearing on</strong></td><td>~에 직접적인 영향을 미치다 · 한 사실이 다른 설계 판단에 바로 연결될 때. "has a direct bearing on how you design key management"</td></tr><tr><td><strong>lethal</strong></td><td>치명적인 · 어떤 문제가 특정 상황에서 특히 위험할 때. "especially lethal in on-chain systems"</td></tr><tr><td><strong>move in lockstep</strong></td><td>보조를 맞춰 함께 움직이다 · 여러 주체가 동시에, 일사불란하게 바뀌어야 할 때. "move in lockstep"</td></tr><tr><td><strong>coordination pressure</strong></td><td>조정 부담, 조율 압박 · 여러 당사자를 맞춰야 해서 생기는 압박. "raise the coordination pressure further"</td></tr><tr><td><strong>pinned</strong></td><td>영구히 고정된 · 한 번 정해지면 바꾸기 힘든 상태. "keys are permanently pinned"</td></tr><tr><td><strong>harvest-now-decrypt-later</strong></td><td>지금 데이터를 모아뒀다가 나중에 해독하는 위협 시나리오 · 미래 기술로 과거 데이터가 뚫릴 위험. "the harvest-now-decrypt-later threat"</td></tr><tr><td><strong>swappable module</strong></td><td>교체 가능한 모듈 · 나중에 통째로 바꿔 끼울 수 있게 설계된 부품. "keeping the verifier as a swappable module"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">If you study this on a given day, add a note link and a ✅ to this line in the source curriculum (<code>docs/knowledge/dev-100-curriculum.md</code>) and this spot will lead straight to the note body. You can also write directly on this page &mdash; but regenerating overwrites it, so it's safer to keep anything you want to save as markdown under <code>docs/algorithms/</code>.</p>
     </article>
     <hr class="lang-divider">
     <article lang="ko">
@@ -465,7 +472,10 @@ print(&quot;클래식 서명만 위조돼도 하이브리드는 거부:&quot;, n
       <p>자신이 다루는 시스템에서 서명 알고리즘이 한 번에 하나로 고정된 지점을 모두 찾아 목록화하고, 각 지점에 '두 알고리즘을 동시에 허용하는' 경로를 넣으려면 무엇을 바꿔야 하는지 적어 보라.</p>
       <h2>실무 · Verex 연결</h2>
       <p>Verex의 컨트랙트가 서명 검증 방식을 하드코딩해 두면 나중에 스킴을 바꿀 때 마이그레이션 경로가 없어지므로, 검증기를 교체 가능한 모듈로 두는 설계가 실질적인 대비가 된다.</p>
-      <p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>have a direct bearing on</strong></td><td>~에 직접적인 영향을 미치다 · 한 사실이 다른 설계 판단에 바로 연결될 때. "has a direct bearing on how you design key management"</td></tr><tr><td><strong>lethal</strong></td><td>치명적인 · 어떤 문제가 특정 상황에서 특히 위험할 때. "especially lethal in on-chain systems"</td></tr><tr><td><strong>move in lockstep</strong></td><td>보조를 맞춰 함께 움직이다 · 여러 주체가 동시에, 일사불란하게 바뀌어야 할 때. "move in lockstep"</td></tr><tr><td><strong>coordination pressure</strong></td><td>조정 부담, 조율 압박 · 여러 당사자를 맞춰야 해서 생기는 압박. "raise the coordination pressure further"</td></tr><tr><td><strong>pinned</strong></td><td>영구히 고정된 · 한 번 정해지면 바꾸기 힘든 상태. "keys are permanently pinned"</td></tr><tr><td><strong>harvest-now-decrypt-later</strong></td><td>지금 데이터를 모아뒀다가 나중에 해독하는 위협 시나리오 · 미래 기술로 과거 데이터가 뚫릴 위험. "the harvest-now-decrypt-later threat"</td></tr><tr><td><strong>swappable module</strong></td><td>교체 가능한 모듈 · 나중에 통째로 바꿔 끼울 수 있게 설계된 부품. "keeping the verifier as a swappable module"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p class="stub">공부한 날 원본 커리큘럼(<code>docs/knowledge/dev-100-curriculum.md</code>)의 이 줄에 노트 링크와 ✅ 를 붙이면, 이 자리는 노트 본문으로 바로 이어집니다. 노트 없이 이 페이지에 바로 적어도 됩니다 &mdash; 다만 다시 생성하면 덮어쓰이므로, 남길 글은 <code>docs/algorithms/</code> 의 마크다운으로 쓰는 편이 안전합니다.</p>
     </article>
   <div class="pager"><a href="algorithms-94.html">&larr; 146. 프라이버시 프리미티브</a><a href="algorithms-96.html">148. [복습] 검증 가능한 시스템 설계 체크리스트 &rarr;</a></div>
 </div>
