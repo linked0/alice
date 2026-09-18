@@ -320,6 +320,12 @@
 <li><strong>Change:</strong> the rail script on the 324 detail pages now renders every section — the current one first, the others tagged <code>data-other-section</code> — and the filter shows those other groups only in Done, Yesterday and Today modes; Important, New and All behave as before. <code>notes.html</code> already lists every section, so it needed nothing.</li>
 <li><strong>Result:</strong> on any page, Today lists Tech #56–#61 and English #1; Yesterday #54–#55; Done every green item across sections.</li>
 </ul>
+<h3 id="rail-important-shows-important-only">Rail: Important shows important only</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;make the important button only shows important. there is none have the status new and done at the same time. If some item newly added as important it will have a lower number than others.&quot;</li>
+<li><strong>Reasoning:</strong> the 2026-09-08/09 rule folded new and recently done items into Important because there was no other button for them; now New, Done, Yesterday and Today each have one, so every button maps to exactly one state.</li>
+<li><strong>Change:</strong> <code>isImportant</code> matches the <code>IMPORTANT</code> title only, on <code>notes.html</code>, 324 pages and <code>rtd-shell.mjs</code>; the code comment and the README rule updated. The list page still opens on Important, so it now shows the 21 Tech + 49 Foundations red items and nothing else until another button is pressed.</li>
+</ul>
 
   </article>
 </div>

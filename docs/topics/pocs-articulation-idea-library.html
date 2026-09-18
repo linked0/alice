@@ -621,7 +621,7 @@ objection-handling accuracy ↑
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). \uCD5C\uADFC \uC644\uB8CC\uB294 \uBC29\uAE08 \uB05D\uB0B8 \uAC15\uC870 \uD56D\uBAA9\uC774\uACE0,
   // \uC0C8 \uD56D\uBAA9\uC740 \uCD5C\uADFC \uCC3D(NEW_WINDOW) \uC548\uC5D0 \uC190\uB304 \uAC83\uC774\uB77C \uB458 \uB2E4 \uC911\uC694 \uC904\uC5D0 \uB450\uACE0 \uD544\uD130\uC5D0\uC11C \uC228\uAE30\uC9C0 \uC54A\uB294\uB2E4.
-  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'IMPORTANT' || d.title === 'TODAY DONE' || d.title === 'YESTERDAY DONE' || d.title === 'NEW'); };
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };

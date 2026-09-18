@@ -284,3 +284,9 @@ Source: jay's request in chat (screenshot of Chainlink's post on Bottomline Glob
 - **Cause:** jay (screenshot of the three buttons): "For this part, it shows the matched ones for all the categories." A detail page's rail held only its own section, so Done on a Tech page could never show a Foundations or English item.
 - **Change:** the rail script on the 324 detail pages now renders every section — the current one first, the others tagged `data-other-section` — and the filter shows those other groups only in Done, Yesterday and Today modes; Important, New and All behave as before. `notes.html` already lists every section, so it needed nothing.
 - **Result:** on any page, Today lists Tech #56–#61 and English #1; Yesterday #54–#55; Done every green item across sections.
+
+### Rail: Important shows important only
+
+- **Cause:** jay: "make the important button only shows important. there is none have the status new and done at the same time. If some item newly added as important it will have a lower number than others."
+- **Reasoning:** the 2026-09-08/09 rule folded new and recently done items into Important because there was no other button for them; now New, Done, Yesterday and Today each have one, so every button maps to exactly one state.
+- **Change:** `isImportant` matches the `IMPORTANT` title only, on `notes.html`, 324 pages and `rtd-shell.mjs`; the code comment and the README rule updated. The list page still opens on Important, so it now shows the 21 Tech + 49 Foundations red items and nothing else until another button is pressed.

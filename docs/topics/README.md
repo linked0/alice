@@ -161,8 +161,10 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
 - Rail buttons in two rows — **Important · New · All** / **Done · Yesterday · Today** (a `.tier-break` span forces the
   break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
-  Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
-  template `scripts/rtd-shell.mjs`).
+  Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
+  2026-09-18: "make the important button only shows important"; the 2026-09-08/09 rule that Important also showed new
+  and recently done items is retired). Each button shows exactly one state; Done / Yesterday / Today search every
+  section on detail pages. The state labels changed everywhere, including the page template `scripts/rtd-shell.mjs`.
 
 ## English pages: English first, Korean apart (jay, 2026-09-18)
 

@@ -200,8 +200,10 @@ TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, sync
 with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
 <li>Rail buttons in two rows — <strong>Important · New · All</strong> / <strong>Done · Yesterday · Today</strong> (a <code>.tier-break</code> span forces the
 break; list page, every detail page, template <code>rtd-shell.mjs</code>): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: &quot;Add done button also&quot; … &quot;Done before
-Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
-template <code>scripts/rtd-shell.mjs</code>).</li>
+Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, <strong>Important = IMPORTANT only</strong> (jay,
+2026-09-18: &quot;make the important button only shows important&quot;; the 2026-09-08/09 rule that Important also showed new
+and recently done items is retired). Each button shows exactly one state; Done / Yesterday / Today search every
+section on detail pages. The state labels changed everywhere, including the page template <code>scripts/rtd-shell.mjs</code>.</li>
 </ul>
 <h2 id="english-pages-english-first-korean-apart-jay-2026-09-18">English pages: English first, Korean apart (jay, 2026-09-18)</h2>
 <ul>
