@@ -181,17 +181,23 @@ in <code>notes.html</code> between <code>&lt;!-- health-nav --&gt;</code> / <cod
 pages. The password is never written to a file; <code>add-tech-item.py</code> leaves these cards alone (no key in <code>_nav.js</code>,
 numbers are not renumbered).</li>
 </ul>
-<h2 id="lately-done--the-state-of-items-done-today-jay-2026-09-18">LATELY DONE — the state of items done today (jay, 2026-09-18)</h2>
+<h2 id="today-done--yesterday-done--the-two-fresh-done-states-jay-2026-09-18">TODAY DONE / YESTERDAY DONE — the two fresh done states (jay, 2026-09-18)</h2>
 <ul>
-<li>When an item is marked done it becomes <strong>LATELY DONE</strong> (midnight blue, <code>#191970</code>) and stays so until the first item
-of the <em>next</em> day is marked done; then it drops to plain <strong>DONE</strong> (green; Foundations blue). A day starts at
+<li>When an item is marked done it becomes <strong>TODAY DONE</strong> (midnight blue, <code>#191970</code>) and stays so until the first item
+of the <em>next</em> day is marked done; then it becomes <strong>YESTERDAY DONE</strong> (sky blue, <code>#38bdf8</code>; jay, 2026-09-18:
+&quot;add the other day done status of which name tells everything&quot;) for one more done-day, and then plain <strong>DONE</strong>
+(green; Foundations blue). jay renamed the states from &quot;lately done&quot; / &quot;done the other day&quot; to <strong>Today done</strong> /
+<strong>Yesterday done</strong> (&quot;아예 change …&quot;); &quot;yesterday&quot; means the previous day on which something was done, which is not
+always the calendar yesterday. &quot;The other day&quot; means the previous day on which something was done, not necessarily
+yesterday. A day starts at
 <strong>06:00 KST</strong> (jay: &quot;done from the 6 a.m. today before the new day&#39;s first one is done&quot;). This replaces the old
 RECENTLY DONE (sky blue), which never rolled over.</li>
 <li>Mechanics: <code>add-tech-item.py --status recent</code> (alias <code>lately</code>) stamps <code>done</code> (ISO, +09:00; <code>--done-at</code> to override)
-on the <code>_nav.js</code> item, then runs <code>scripts/roll-lately-done.py</code>, which buckets every stamped item by
-<code>(done − 6h).date()</code>, keeps only the newest bucket as LATELY DONE, relabels the rest DONE, syncs every rail dot in
+on the <code>_nav.js</code> item, then runs <code>scripts/roll-done-states.py</code>, which buckets every stamped item by
+<code>(done − 6h).date()</code>, keeps the newest bucket as TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in
 <code>notes.html</code> with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
-<li>The Important filter still shows LATELY DONE items (the label string changed everywhere, including the page
+<li>Rail buttons <strong>Important · New · All · Yesterday · Today</strong> (list page, every detail page, template <code>rtd-shell.mjs</code>):
+Today = TODAY DONE only, Yesterday = YESTERDAY DONE only. The Important filter also shows both (the label string changed everywhere, including the page
 template <code>scripts/rtd-shell.mjs</code>).</li>
 </ul>
 

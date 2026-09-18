@@ -258,6 +258,20 @@
 <li><strong>Cause:</strong> jay: &quot;I want the health number start from 1 not 1000.&quot;</li>
 <li><strong>Change:</strong> <code>scripts/health-cards.py</code> numbers cards, rail links, kickers and pagers <code>1…N</code>; pages regenerated; README and memory updated. <code>add-tech-item.py</code> still ignores these keys, so Life items and Health items keep separate sequences.</li>
 </ul>
+<h3 id="done-the-other-day-a-third-stage-between-lately-done-and-done">DONE THE OTHER DAY: a third stage between LATELY DONE and DONE</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;could you add the other day done status of which name tells everything&quot; (first typed &quot;yesterday&quot;, then changed it to &quot;the other day&quot;).</li>
+<li><strong>Reasoning:</strong> the name follows the semantics: the state marks the <em>previous day on which something was done</em>, which is not always yesterday (nothing was done on 09-17, so today&#39;s &quot;other day&quot; is 09-16). Sky blue reuses the colour the old RECENTLY DONE had, so the eye already reads it as &quot;done, but not today&quot;. The roll is now one step per new day: LATELY → OTHER DAY → DONE.</li>
+<li><strong>Change:</strong> <code>scripts/roll-lately-done.py</code> buckets into newest / previous / older; <code>add-tech-item.py</code> counts the new label as done; the Important filter includes it (<code>notes.html</code>, <code>rtd-shell.mjs</code>, 324 pages); README and memory updated. The 11 older done items got their real <code>done</code> stamps from the commits that first marked them (09-12 ×8, 09-14 ×1, 09-16 ×2) so the roll works from data.</li>
+<li><strong>Result:</strong> #54 and #55 are DONE THE OTHER DAY, #56–#60 LATELY DONE, 44–53 DONE; Tech 60/241 unchanged. Branch <code>claude/other-day-done</code>, uncommitted pending jay&#39;s review.</li>
+</ul>
+<h3 id="states-renamed-today-done--yesterday-done-today-and-yesterday-rail-buttons">States renamed Today done / Yesterday done; Today and Yesterday rail buttons</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;buttons for yesterday which is for the other day and today which is for lately done besides Important, New and All. 아예 change the lately done to today done, and the other day done to yesterday done.&quot;</li>
+<li><strong>Reasoning:</strong> plain words for the button faces; the semantics stay the roll&#39;s (Yesterday = the previous done-day, noted in the README). The rail now has five buttons, so <code>.rail-tier</code> wraps.</li>
+<li><strong>Change:</strong> labels <code>TODAY DONE</code> (#191970) / <code>YESTERDAY DONE</code> (#38bdf8) in <code>_nav.js</code>, <code>notes.html</code>, 324 pages, the scripts and docs; <code>scripts/roll-lately-done.py</code> → <code>roll-done-states.py</code>; <code>--status today</code> alias; buttons Yesterday / Today after All (jay: &quot;change the button places between All and Today&quot; → Important · New · All · Yesterday · Today) with <code>isToday</code> / <code>isYesterday</code> filters on the list page, every detail page and <code>rtd-shell.mjs</code> (the template also gains the New button and the same <code>tierMode</code> logic the pages already had); memory note renamed <code>feedback-today-yesterday-done-states</code>.</li>
+<li><strong>Result:</strong> Today shows #56–#60, Yesterday shows #54–#55; counts unchanged.</li>
+</ul>
 
   </article>
 </div>
