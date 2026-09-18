@@ -57,7 +57,7 @@ verification starts. Content jay pastes directly wins for that item.</li>
 </ul>
 <h2 id="blockchain--tech-conventions">Blockchain &amp; Tech conventions</h2>
 <ul>
-<li><p><strong>Tooling:</strong> <code>python3 scripts/add-tech-item.py --key &lt;key&gt; --slot &lt;N&gt; --en en.md --ko ko.md [--status new] [--date]</code>
+<li><p><strong>Tooling:</strong> <code>python3 scripts/add-tech-item.py --key &lt;key&gt; --slot &lt;N&gt; --en en.md --ko ko.md [--status new] [--date] [--source chat|file]</code>
 does the whole insert (nav data, card with date, detail page, renumbering, pager, counters).
 Re-run with the same key to replace an item in place.</p>
 </li>
@@ -70,6 +70,10 @@ Detail pages&#39; <code>#N</code> kicker and prev/next pager are rebuilt after e
 <li><p><strong>Added date (jay, 2026-09-16, from #54 on):</strong> the KST date the item was added appears on the
 card head (<code>&lt;span class=&quot;topic-date&quot;&gt;YYYY-MM-DD&lt;/span&gt;</code>, right-aligned after the title) and in
 the detail page kicker after the type (<code>#N · PoC · YYYY-MM-DD</code>). Older items carry no date.</p>
+</li>
+<li><p><strong>Source tag (jay, 2026-09-18):</strong> next to the date, a small pill says where the subject came from:
+<code>chat</code> when jay pasted or pointed at the content, <code>file</code> when it was taken from the alice-tech
+file. Card: <code>&lt;span class=&quot;topic-src&quot;&gt;</code>; kicker: <code>#N · PoC · YYYY-MM-DD · chat</code>. Pass <code>--source</code>.</p>
 </li>
 <li><p>Every item: English and Korean copy text as JSON on the card and the page; page body generated
 from the copy text so they cannot diverge; a &quot;Verified and unverified&quot; closing section with

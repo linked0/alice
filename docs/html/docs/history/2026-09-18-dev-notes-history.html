@@ -61,6 +61,23 @@
 <li><strong>alice-tech usage:</strong> 2026-09-17 <code>[오늘 · a16z] 9/15 ETF −$5.9억</code> → #57. Remaining 09-17 candidates in file order: Four Pillars (규제 공백 세 발표), 딥다이브 (점도표 세 겹 읽기, covered by #61), 서비스 (Glamsterdam devnet, Sepolia fork 09-28).</li>
 <li><strong>Result:</strong> counters Blockchain 55/234, Fundamentals 6/192, Dev English 0/28, overall 61/454 (13 percent); nav sequence and cards verified 1–234; kickers <code>#56 · PoC · 2026-09-18</code>, <code>#57 · PoC · 2026-09-18</code>. Committed on <code>claude/notes-toss</code>, fast-forwarded to main and pushed at jay&#39;s request.</li>
 </ul>
+<h3 id="tech-notes-source-tag-chat--file-on-cards-and-detail-kickers">Tech Notes: source tag (chat / file) on cards and detail kickers</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Can you add the source in the list and detail page like chat, file&quot;, after checking which alice-tech candidates had been used.</li>
+<li><strong>Reasoning:</strong> the two sources are jay&#39;s own paste or pointer in chat and the daily alice-tech file; the tag makes the rule&#39;s output visible without opening the history. Shown only on dated items (#54 and later), since older items have neither date nor recorded source; #55 Alchemy predates the date rule and stays untagged.</li>
+<li><strong>Change:</strong> <code>scripts/add-tech-item.py</code> gains <code>--source chat|file</code> (default <code>chat</code>), a <code>topic-src</code> pill after the date on the card, and a fourth kicker span; renumbering leaves both intact. Nine existing items retro-tagged: chat — #54 Quick Slots, #56 Stripe, #58 Toss, #60 Bottomline, #62 Canton; file — #57 ETF, #59 EIP-8141/8130, #61 FOMC, #63 Clarity. README documents the tag.</li>
+<li><strong>Result:</strong> branch <code>claude/notes-source-tag</code>, uncommitted pending jay&#39;s review.</li>
+</ul>
+<h3 id="tech-notes-rail-new-filter-button">Tech Notes rail: &quot;New&quot; filter button</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;Add New button also in this area&quot; — the rail&#39;s Important / All toggle.</li>
+<li><strong>Change:</strong> third button <code>New</code> between Important and All in <code>notes.html</code>; filter mode <code>new</code> shows only rail items whose dot is NEW (yellow). Important still shows IMPORTANT + RECENTLY DONE + NEW as before; body cards are untouched, as with the other modes.</li>
+<li><strong>Result:</strong> same branch <code>claude/notes-source-tag</code>, uncommitted.</li>
+</ul>
+<h3 id="tech-notes-56-stripe--openrouter-marked-done">Tech Notes #56 (Stripe × OpenRouter) marked done</h3>
+<ul>
+<li>jay: &quot;make the 56 done&quot;. Re-ran <code>add-tech-item.py</code> with <code>--status recent</code> (same key, same date and source): dot NEW → RECENTLY DONE in <code>notes.html</code> and <code>_nav.js</code>; counters 56/234 for the section, 62/454 overall (14 percent); overall badge refreshed on every topic page. Same branch, uncommitted.</li>
+</ul>
 
   </article>
 </div>
