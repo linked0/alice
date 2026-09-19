@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopify&#39;s six decisions — fix the tool instead of replacing it, and reverse a bet the day its premise dies — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/490</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Shopify&#39;s six decisions — fix the tool instead of replacing it, and reverse a bet the day its premise dies</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#98</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Shopify&#39;s six decisions — fix the tool instead of replacing it, and reverse a bet the day its premise dies</h1>
+      <p class="lead">The Korean channel "헤이제임스, 플랫폼 하나 만들어줘" walks through twenty years of Shopify in one video: how Tobi Lütke, a German apprentice-trained developer burnt out on financial back-end work, wrote a snowboard shop in the four-month-old Ruby on Rails in 2004, discovered the shop software was the product, and made six decisions that turned a one-person store into a platform worth hundreds of trillions of won. The six: pivot from snowboards to shop software (2006); charge a 3 percent transaction fee and no subscription, so the company earns only when the merchant does; grow an ecosystem before revenue, with an app store, the Liquid template language and a stream of open-source releases (2009 on); protect founder control with 10-vote shares at the 2015 IPO and a founder share in 2022; write off a 1.97 billion dollar logistics acquisition after eleven months and cut 34 percent of staff to return to the main quest (2022 to 2023); and keep one 2.8-million-line Rails monolith, improve Ruby itself, mandate AI first, and abandon React Native for native apps in September 2026 because LLMs changed the cost of writing code twice.</p>
+      <p class="meta">For Jayverse the video is a set of decision templates more than a history. Three of them apply directly: aligning the fee with the user&#39;s success, improving the tool you have instead of migrating, and stating out loud which premise a bet rests on so you can see the day it breaks.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Shopify's six decisions — fix the tool instead of replacing it, and reverse a bet the day its premise dies\n\nThe Korean channel \"헤이제임스, 플랫폼 하나 만들어줘\" walks through twenty years of Shopify in one video: how Tobi Lütke, a German apprentice-trained developer burnt out on financial back-end work, wrote a snowboard shop in the four-month-old Ruby on Rails in 2004, discovered the shop software was the product, and made six decisions that turned a one-person store into a platform worth hundreds of trillions of won. The six: pivot from snowboards to shop software (2006); charge a 3 percent transaction fee and no subscription, so the company earns only when the merchant does; grow an ecosystem before revenue, with an app store, the Liquid template language and a stream of open-source releases (2009 on); protect founder control with 10-vote shares at the 2015 IPO and a founder share in 2022; write off a 1.97 billion dollar logistics acquisition after eleven months and cut 34 percent of staff to return to the main quest (2022 to 2023); and keep one 2.8-million-line Rails monolith, improve Ruby itself, mandate AI first, and abandon React Native for native apps in September 2026 because LLMs changed the cost of writing code twice.\n\nFor Jayverse the video is a set of decision templates more than a history. Three of them apply directly: aligning the fee with the user's success, improving the tool you have instead of migrating, and stating out loud which premise a bet rests on so you can see the day it breaks.\n\n## Why\n\nMost company histories are told as a sequence of wins. This one is told as a sequence of decisions with their premises attached, and that is what makes it usable by someone building a much smaller thing. Each decision names the trade it made: short-term app revenue for an ecosystem, dilution for control, a dead logistics bet for focus, code duplication for native quality once LLMs made duplication cheap. The video's own closing lesson (20:42) is the one worth keeping: a stack or a policy should be reversed not because the tool got worse but because the cost-benefit structure underneath it changed. That is a test you can run on your own architecture every quarter, and it is the opposite of both fashion-driven rewrites and loyalty-driven inertia.\n\n## How it works\n\n### The origin: a problem the founder had every day\n\nLütke came through a Siemens-subsidiary apprenticeship, rotating through restaurant, accounting and warehouse work, then burnt out on financial back-end development and set out to sell snowboards online (00:54). The shop builders of 2004, Yahoo Store among them, were so closed that changing a header colour was a struggle (01:58). Rails had appeared in July 2004; he spent four months building his own shop system on it (02:16). Without a work visa in Canada, registering a business was the only legal path, and when the software solved his need completely the company pivoted from selling snowboards to selling the shop (02:33), launching in 2006 with the mission that a small business with good tools can compete with a large one (02:50).\n\n### Six decisions\n\n1. **The product pivot (2006)** (03:08). Stop selling boards; sell e-commerce infrastructure.\n2. **\"If you don't make money, we don't\" (2006)** (03:44). No fixed subscription at first, a 3 percent transaction fee only. Because the company's revenue tracked merchant success, it spent 29.8 million of the 90 million dollars it raised, turned profitable in four years and reached an IPO (04:26).\n3. **Ecosystem before revenue (2009 on)** (04:45). The app store opened with nine apps; the company gave up near-term app revenue to grow third-party developers. It wrote Liquid, a sandboxed template language so merchants could edit their own designs, and open-sourced code it had built for itself, ActiveMerchant and DelayedJob among them (05:23). Instead of marketing spend it ran a build-a-business competition with Tim Ferriss to create a pool of future merchants; one entrant, Harley Finkelstein, later became president (05:57).\n4. **Dual-class and founder shares (2015, 2022)** (06:54). With founders at 14.6 percent at the IPO, Shopify introduced 10-vote shares; in 2022 shareholders approved a founder share that keeps the founder's voting power from falling below 40 percent regardless of dilution (07:31).\n5. **Killing a 2.7-trillion-won logistics bet (2022 to 2023)** (11:56). Betting on pandemic e-commerce growth, Shopify bought the logistics company Deliverr for about 1.972 billion dollars, and it failed. Lütke said publicly that his bet was wrong, wrote the book value to zero after eleven months and sold the logistics business to Flexport for a 13 percent stake (12:14). Logistics was a side quest; to refocus on the main quest headcount went from 11,600 to 7,600, a 34 percent cut, while gross merchandise volume roughly doubled over three years (12:51).\n6. **Fix the tool, do not replace it; then AI (2024 to 2026)** (14:24). Shopify still runs one Ruby on Rails monolith of about 2.8 million lines and deploys to production more than 40 times a day. Rather than migrate to microservices or another language, it contributed to Ruby's core and improved performance by more than 90 percent (15:48). In 2025 it set the rule that before asking for people or budget you must show why AI cannot do the job, and removed spending caps on AI coding tools (16:44). In September 2026 it dropped five years of React Native and returned to native iOS and Android, because writing platform-specific code with LLMs had become cheaper than the cost of a cross-platform layer, which reversed the premise the original choice rested on (17:29).\n\n| Decision | What it traded away | What it bought |\n|---|---|---|\n| 3 percent fee, no subscription | predictable revenue | incentives aligned with merchants; profitability on 30 percent of the capital raised |\n| Ecosystem first | app-store revenue | developers and merchants who stayed |\n| Founder shares | one-share-one-vote norms | long-horizon decisions against quarterly pressure |\n| Exit logistics | 1.97 billion dollars and 4,000 jobs | focus; GMV doubled anyway |\n| Keep the monolith | the fashion of microservices | 40 deploys a day and a faster Ruby for everyone |\n| Native over React Native | code sharing | quality, now that LLMs write the duplicate |\n\n### The four lessons the video draws\n\nStart from a pain you feel daily rather than from market research (19:54). Judge the business on operating income, because net income carries one-off swings such as gains and losses on equity stakes (20:10). Admit a wrong bet fast and reverse it publicly, even at a loss (20:27). Reverse a stack or a policy when the premise changes, not when the tool disappoints (20:42).\n\n### Where it lands in Jayverse\n\n- **Verex: price like decision 2.** A prediction-market exchange that earns a fee on filled volume and nothing on idle accounts is already aligned with its traders; write that alignment into the pricing page and resist subscription tiers until the alignment is proven.\n- **Every repo: the monolith rule.** Jayverse runs small TypeScript services on one stack. The Shopify lesson is that the next performance problem is more likely solved by improving the shared tooling (the Foundry scripts, the Next.js build, the Anvil devnet) than by splitting a service, and that a split needs a stated premise.\n- **Dark Horse and the Auditor: every bet gets a premise line.** Canton test usage, the Base App mini app and the boundary-file pilot should each carry one sentence naming the premise they rest on, so the Deliverr test can be run: when the premise dies, the bet is written off, not defended.\n- **Invest: read operating income, not net income.** The video's point about equity-stake swings distorting net income belongs next to the Invest items on reading company results, and it is the rule for judging any platform company in the Number readings.\n\n### Verified and unverified\n\nVerified on 2026-09-19 from the public record: Shopify grew from Lütke's Rails snowboard shop, launched in 2006, added its app store in 2009, wrote Liquid and open-sourced ActiveMerchant and DelayedJob, listed in 2015 with multiple-voting shares, adopted a founder share in 2022, bought Deliverr in 2022 for about 2.1 billion dollars in cash and stock and sold its logistics arm to Flexport in 2023 for an equity stake, and cut roughly 20 percent of staff in 2023 after 10 percent in 2022; it is known for running a large Rails monolith and for Lütke's 2025 memo requiring teams to show why AI cannot do a task before asking for resources. Taken from the video and not independently checked: the 3-percent-fee-only early model, the 29.8-of-90-million and four-years-to-profit figures, the 14.6 percent founder stake, the 34 percent cumulative cut and GMV doubling, the 2.8-million-line and 40-deploys figures, the more-than-90-percent Ruby improvement, and the September 2026 React Native reversal, which is the newest claim and should be checked against Shopify's engineering blog before being repeated.\n\nSources: [헤이제임스, 플랫폼 하나 만들어줘 — 1인 개발자가 시작해 수백조 기업이 된 쇼피파이 | 20년 동안 내린 결정 6가지, YouTube](https://www.youtube.com/watch?v=Vm1E3LriCY0) · Shopify investor relations and engineering blog for the founder share, Deliverr and Flexport transactions · related items: Tech #62 (agentic engineering writes the boundaries), Invest 800 to 809 (chart basics), Life #2 (the agent is a good sergeant).\n"</script>
+<h2>Why</h2>
+<p>Most company histories are told as a sequence of wins. This one is told as a sequence of decisions with their premises attached, and that is what makes it usable by someone building a much smaller thing. Each decision names the trade it made: short-term app revenue for an ecosystem, dilution for control, a dead logistics bet for focus, code duplication for native quality once LLMs made duplication cheap. The video&#39;s own closing lesson (20:42) is the one worth keeping: a stack or a policy should be reversed not because the tool got worse but because the cost-benefit structure underneath it changed. That is a test you can run on your own architecture every quarter, and it is the opposite of both fashion-driven rewrites and loyalty-driven inertia.</p>
+<h2>How it works</h2>
+<h3>The origin: a problem the founder had every day</h3>
+<p>Lütke came through a Siemens-subsidiary apprenticeship, rotating through restaurant, accounting and warehouse work, then burnt out on financial back-end development and set out to sell snowboards online (00:54). The shop builders of 2004, Yahoo Store among them, were so closed that changing a header colour was a struggle (01:58). Rails had appeared in July 2004; he spent four months building his own shop system on it (02:16). Without a work visa in Canada, registering a business was the only legal path, and when the software solved his need completely the company pivoted from selling snowboards to selling the shop (02:33), launching in 2006 with the mission that a small business with good tools can compete with a large one (02:50).</p>
+<h3>Six decisions</h3>
+<ol><li><strong>The product pivot (2006)</strong> (03:08). Stop selling boards; sell e-commerce infrastructure.</li><li><strong>"If you don&#39;t make money, we don&#39;t" (2006)</strong> (03:44). No fixed subscription at first, a 3 percent transaction fee only. Because the company&#39;s revenue tracked merchant success, it spent 29.8 million of the 90 million dollars it raised, turned profitable in four years and reached an IPO (04:26).</li><li><strong>Ecosystem before revenue (2009 on)</strong> (04:45). The app store opened with nine apps; the company gave up near-term app revenue to grow third-party developers. It wrote Liquid, a sandboxed template language so merchants could edit their own designs, and open-sourced code it had built for itself, ActiveMerchant and DelayedJob among them (05:23). Instead of marketing spend it ran a build-a-business competition with Tim Ferriss to create a pool of future merchants; one entrant, Harley Finkelstein, later became president (05:57).</li><li><strong>Dual-class and founder shares (2015, 2022)</strong> (06:54). With founders at 14.6 percent at the IPO, Shopify introduced 10-vote shares; in 2022 shareholders approved a founder share that keeps the founder&#39;s voting power from falling below 40 percent regardless of dilution (07:31).</li><li><strong>Killing a 2.7-trillion-won logistics bet (2022 to 2023)</strong> (11:56). Betting on pandemic e-commerce growth, Shopify bought the logistics company Deliverr for about 1.972 billion dollars, and it failed. Lütke said publicly that his bet was wrong, wrote the book value to zero after eleven months and sold the logistics business to Flexport for a 13 percent stake (12:14). Logistics was a side quest; to refocus on the main quest headcount went from 11,600 to 7,600, a 34 percent cut, while gross merchandise volume roughly doubled over three years (12:51).</li><li><strong>Fix the tool, do not replace it; then AI (2024 to 2026)</strong> (14:24). Shopify still runs one Ruby on Rails monolith of about 2.8 million lines and deploys to production more than 40 times a day. Rather than migrate to microservices or another language, it contributed to Ruby&#39;s core and improved performance by more than 90 percent (15:48). In 2025 it set the rule that before asking for people or budget you must show why AI cannot do the job, and removed spending caps on AI coding tools (16:44). In September 2026 it dropped five years of React Native and returned to native iOS and Android, because writing platform-specific code with LLMs had become cheaper than the cost of a cross-platform layer, which reversed the premise the original choice rested on (17:29).</li></ol>
+<table><thead><tr><th>Decision</th><th>What it traded away</th><th>What it bought</th></tr></thead><tbody><tr><td>3 percent fee, no subscription</td><td>predictable revenue</td><td>incentives aligned with merchants; profitability on 30 percent of the capital raised</td></tr><tr><td>Ecosystem first</td><td>app-store revenue</td><td>developers and merchants who stayed</td></tr><tr><td>Founder shares</td><td>one-share-one-vote norms</td><td>long-horizon decisions against quarterly pressure</td></tr><tr><td>Exit logistics</td><td>1.97 billion dollars and 4,000 jobs</td><td>focus; GMV doubled anyway</td></tr><tr><td>Keep the monolith</td><td>the fashion of microservices</td><td>40 deploys a day and a faster Ruby for everyone</td></tr><tr><td>Native over React Native</td><td>code sharing</td><td>quality, now that LLMs write the duplicate</td></tr></tbody></table>
+<h3>The four lessons the video draws</h3>
+<p>Start from a pain you feel daily rather than from market research (19:54). Judge the business on operating income, because net income carries one-off swings such as gains and losses on equity stakes (20:10). Admit a wrong bet fast and reverse it publicly, even at a loss (20:27). Reverse a stack or a policy when the premise changes, not when the tool disappoints (20:42).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: price like decision 2.</strong> A prediction-market exchange that earns a fee on filled volume and nothing on idle accounts is already aligned with its traders; write that alignment into the pricing page and resist subscription tiers until the alignment is proven.</li><li><strong>Every repo: the monolith rule.</strong> Jayverse runs small TypeScript services on one stack. The Shopify lesson is that the next performance problem is more likely solved by improving the shared tooling (the Foundry scripts, the Next.js build, the Anvil devnet) than by splitting a service, and that a split needs a stated premise.</li><li><strong>Dark Horse and the Auditor: every bet gets a premise line.</strong> Canton test usage, the Base App mini app and the boundary-file pilot should each carry one sentence naming the premise they rest on, so the Deliverr test can be run: when the premise dies, the bet is written off, not defended.</li><li><strong>Invest: read operating income, not net income.</strong> The video&#39;s point about equity-stake swings distorting net income belongs next to the Invest items on reading company results, and it is the rule for judging any platform company in the Number readings.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19 from the public record: Shopify grew from Lütke&#39;s Rails snowboard shop, launched in 2006, added its app store in 2009, wrote Liquid and open-sourced ActiveMerchant and DelayedJob, listed in 2015 with multiple-voting shares, adopted a founder share in 2022, bought Deliverr in 2022 for about 2.1 billion dollars in cash and stock and sold its logistics arm to Flexport in 2023 for an equity stake, and cut roughly 20 percent of staff in 2023 after 10 percent in 2022; it is known for running a large Rails monolith and for Lütke&#39;s 2025 memo requiring teams to show why AI cannot do a task before asking for resources. Taken from the video and not independently checked: the 3-percent-fee-only early model, the 29.8-of-90-million and four-years-to-profit figures, the 14.6 percent founder stake, the 34 percent cumulative cut and GMV doubling, the 2.8-million-line and 40-deploys figures, the more-than-90-percent Ruby improvement, and the September 2026 React Native reversal, which is the newest claim and should be checked against Shopify&#39;s engineering blog before being repeated.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=Vm1E3LriCY0">헤이제임스, 플랫폼 하나 만들어줘 — 1인 개발자가 시작해 수백조 기업이 된 쇼피파이 | 20년 동안 내린 결정 6가지, YouTube</a> · Shopify investor relations and engineering blog for the founder share, Deliverr and Flexport transactions · related items: Tech #62 (agentic engineering writes the boundaries), Invest 800 to 809 (chart basics), Life #2 (the agent is a good sergeant).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>apprenticeship</strong></td><td>도제 과정(현장을 돌며 배우는 직업 훈련) · 독일식 교육 제도를 말할 때. "a German apprentice-trained developer"</td></tr><tr><td><strong>burnt out (on)</strong></td><td>~에 번아웃된 · 일에 지쳐 의욕을 잃은 상태. "burnt out on financial back-end work"</td></tr><tr><td><strong>pivot</strong></td><td>피벗(사업 방향 전환) · 스타트업 표준 어휘. "pivot from snowboards to shop software"</td></tr><tr><td><strong>transaction fee</strong></td><td>거래 수수료 · 구독료(subscription)와 대비되는 과금 방식. "a 3 percent transaction fee and no subscription"</td></tr><tr><td><strong>aligned with</strong></td><td>~와 일치한(이해가 같은 방향인) · 인센티브 설계의 핵심 표현. "incentives aligned with merchants"</td></tr><tr><td><strong>ecosystem</strong></td><td>생태계(플랫폼 위의 서드파티 개발자·앱·상인) · 플랫폼 전략 어휘. "grow an ecosystem before revenue"</td></tr><tr><td><strong>third-party developer</strong></td><td>서드파티 개발자(플랫폼 소유자가 아닌 외부 개발자) · 앱스토어 문맥. "grow third-party developers"</td></tr><tr><td><strong>sandboxed</strong></td><td>샌드박스에 갇힌(격리되어 해를 못 끼치는) · Liquid 같은 안전한 템플릿 언어를 설명할 때. "a sandboxed template language"</td></tr><tr><td><strong>dual-class shares</strong></td><td>복수의결권 주식(의결권이 다른 두 종류의 주식) · 지배구조 용어. "Dual-class and founder shares"</td></tr><tr><td><strong>dilution</strong></td><td>희석(신주 발행으로 기존 지분 비율이 줄어드는 것) · 자본 조달의 부작용. "regardless of dilution"</td></tr><tr><td><strong>write off / write … to zero</strong></td><td>상각하다 / 장부가를 0으로 만들다 · 실패한 투자의 회계 처리. "wrote the book value to zero"</td></tr><tr><td><strong>book value</strong></td><td>장부가(회계상 기록된 가치) · 시장가와 대비. "wrote the book value to zero after eleven months"</td></tr><tr><td><strong>side quest / main quest</strong></td><td>사이드 퀘스트 / 메인 퀘스트(게임 용어를 빌린 부업/본업) · 뤼트케의 표현. "Logistics was a side quest"</td></tr><tr><td><strong>headcount</strong></td><td>인원 수(직원 수) · 감원·채용 문맥의 표준 단어. "headcount went from 11,600 to 7,600"</td></tr><tr><td><strong>GMV</strong></td><td>Gross Merchandise Volume(총거래액, 플랫폼을 거친 거래 총액) · 이커머스 핵심 지표. "gross merchandise volume roughly doubled"</td></tr><tr><td><strong>monolith</strong></td><td>모놀리스(하나의 배포 단위로 된 큰 코드베이스) · 마이크로서비스와 대비. "one Ruby on Rails monolith"</td></tr><tr><td><strong>microservices</strong></td><td>마이크로서비스(작은 서비스들로 쪼갠 구조) · 유행이 된 아키텍처. "migrate to microservices"</td></tr><tr><td><strong>premise</strong></td><td>전제(결정이 딛고 있는 가정) · 이 항목의 핵심 단어. "reversed the premise the original choice rested on"</td></tr><tr><td><strong>operating income vs net income</strong></td><td>영업이익 대 순이익 · 본업 건전성은 영업이익으로 본다는 규칙. "Judge the business on operating income"</td></tr><tr><td><strong>one-off</strong></td><td>일회성의(반복되지 않는) · 회계·실적 읽기에서. "one-off swings such as gains and losses on equity stakes"</td></tr><tr><td><strong>cost-benefit structure</strong></td><td>비용-편익 구조 · 결정을 뒤집을 조건을 말할 때. "the cost-benefit structure underneath it changed"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 쇼피파이의 결정 여섯 가지 — 도구를 바꾸지 말고 고쳐 쓰고, 전제가 죽은 날 베팅을 뒤집어라\n\n한국 채널 '헤이제임스, 플랫폼 하나 만들어줘'가 영상 하나로 쇼피파이 20년을 훑는다. 독일 도제 과정을 거친 개발자 토비 뤼트케(Tobi Lütke)가 금융 백엔드 일에 번아웃되어 2004년, 나온 지 넉 달 된 루비 온 레일즈로 스노보드 쇼핑몰을 만들다 쇼핑몰 소프트웨어가 곧 제품임을 알아채고, 1인 상점을 수백조 원 규모 플랫폼으로 만든 결정 여섯 가지를 내렸다는 이야기다. 여섯 가지: 스노보드에서 상점 소프트웨어로의 피벗(2006); 구독료 없이 거래 수수료 3%만 받아 상인이 벌 때만 회사도 버는 가격 정책; 앱스토어, 템플릿 언어 Liquid, 잇단 오픈소스 공개로 매출보다 생태계를 먼저 키운 것(2009~); 2015년 상장 때 10배 의결권 주식과 2022년 창업자 주식으로 창업자 통제권을 지킨 것; 19억 7,200만 달러 물류 인수를 11개월 만에 상각하고 직원 34%를 줄여 메인 퀘스트로 돌아온 것(2022~2023); 그리고 280만 줄의 레일즈 모놀리스 하나를 유지하며 루비 자체를 개량하고, AI 우선을 의무화하고, LLM이 코드를 두 번 쓰는 비용을 바꿨기에 2026년 9월 리액트 네이티브를 버리고 네이티브 앱으로 돌아간 것.\n\nJayverse에서 이 영상은 역사보다 결정의 템플릿 모음이다. 셋은 바로 적용된다. 수수료를 사용자의 성공에 맞추는 것, 이전하지 말고 가진 도구를 개량하는 것, 그리고 베팅이 어떤 전제 위에 있는지 소리 내어 말해 두어 그 전제가 깨지는 날을 볼 수 있게 하는 것.\n\n## 왜\n\n회사의 역사는 대개 승리의 연속으로 이야기된다. 이 영상은 전제가 붙은 결정의 연속으로 이야기하고, 그래서 훨씬 작은 것을 만드는 사람에게도 쓸모가 있다. 각 결정은 자신이 한 거래를 이름 붙인다. 생태계를 위한 단기 앱 매출, 통제권을 위한 희석, 집중을 위한 죽은 물류 베팅, LLM이 중복을 싸게 만든 뒤 네이티브 품질을 위한 코드 중복. 영상의 마무리 교훈(20:42)이 간직할 것이다. 스택이나 정책은 도구가 나빠져서가 아니라 그 아래의 비용-편익 구조가 바뀌었을 때 뒤집어야 한다. 이것은 매 분기 자기 아키텍처에 돌릴 수 있는 검사이고, 유행에 끌린 재작성과 충성에 끌린 관성 둘 다의 반대다.\n\n## 동작 방식\n\n### 기원: 창업자가 매일 겪은 문제\n\n뤼트케는 지멘스 자회사의 도제 과정에서 식당, 회계, 창고를 돌며 배우고, 금융 백엔드 개발에 번아웃되어 스노보드를 온라인으로 팔려 했다(00:54). 2004년의 쇼핑몰 빌더들, 야후 스토어 등은 상단 배경색 하나 바꾸기가 힘들 만큼 폐쇄적이었다(01:58). 레일즈는 2004년 7월에 나왔고, 그는 넉 달 동안 그 위에 자기 상점 시스템을 만들었다(02:16). 캐나다에서 취업 비자가 없어 사업자 등록만이 합법적 길이었고, 소프트웨어가 자기 필요를 완벽히 해결하자 회사는 스노보드 판매에서 상점 판매로 피벗해(02:33), 좋은 도구를 가진 작은 사업자가 큰 기업과 경쟁할 수 있다는 미션으로 2006년 출시했다(02:50).\n\n### 여섯 가지 결정\n\n1. **제품 피벗(2006)**(03:08). 보드 판매를 접고 이커머스 인프라를 판다.\n2. **\"당신이 못 벌면 우리도 못 번다\"(2006)**(03:44). 처음엔 고정 구독료 없이 거래 수수료 3%만. 회사 매출이 상인의 성공을 따라갔기에, 조달한 9천만 달러 중 2,980만 달러만 쓰고 4년 만에 흑자, 상장까지 갔다(04:26).\n3. **매출보다 생태계(2009~)**(04:45). 앱스토어는 앱 9개로 열었고, 회사는 서드파티 개발자를 키우기 위해 가까운 앱 매출을 포기했다. 상인이 직접 디자인을 고칠 수 있게 샌드박스 템플릿 언어 Liquid를 만들고, 스스로 필요해 만든 ActiveMerchant, DelayedJob 등을 오픈소스로 풀었다(05:23). 마케팅비 대신 팀 페리스와 창업 대회를 열어 미래 상인 풀을 만들었고, 참가자였던 할리 핑켈스타인이 훗날 사장이 되었다(05:57).\n4. **복수의결권과 창업자 주식(2015, 2022)**(06:54). 상장 시 창업자 지분이 14.6%라 10배 의결권 주식을 도입했고, 2022년에는 신주 발행 희석과 무관하게 창업자 의결권이 40% 아래로 떨어지지 않는 창업자 주식을 주주 승인으로 통과시켰다(07:31).\n5. **2조 7천억 원 물류 베팅의 철수(2022~2023)**(11:56). 팬데믹 이커머스 성장에 베팅해 물류 기업 Deliverr를 약 19억 7,200만 달러에 인수했고 실패했다. 뤼트케는 자기 베팅이 틀렸다고 공개 인정하고 11개월 만에 장부가를 0으로 상각하며 물류 사업을 지분 13%를 받고 Flexport에 넘겼다(12:14). 물류는 사이드 퀘스트였다며 메인 퀘스트에 집중하기 위해 직원을 11,600명에서 7,600명으로 34% 줄였고, 그 사이 3년간 총거래액(GMV)은 약 2배가 되었다(12:51).\n6. **도구를 바꾸지 말고 고쳐 쓰기, 그리고 AI(2024~2026)**(14:24). 쇼피파이는 여전히 약 280만 줄의 루비 온 레일즈 모놀리스 하나를 돌리며 하루 40회 이상 프로덕션 배포를 한다. 마이크로서비스나 다른 언어로 이전하는 대신 루비 코어에 기여해 성능을 90% 이상 개선했다(15:48). 2025년에는 사람이나 예산을 요청하기 전에 AI로 왜 안 되는지 보여야 한다는 원칙을 세우고 AI 코딩 도구의 지출 한도를 없앴다(16:44). 2026년 9월에는 5년간 유지한 리액트 네이티브를 버리고 네이티브 iOS·안드로이드로 돌아갔다. LLM으로 플랫폼별 코드를 쓰는 것이 크로스 플랫폼 층의 비용보다 싸져, 원래 선택이 딛고 있던 전제가 뒤집혔기 때문이다(17:29).\n\n| 결정 | 내준 것 | 얻은 것 |\n|---|---|---|\n| 수수료 3%, 구독 없음 | 예측 가능한 매출 | 상인과 일치한 인센티브; 조달 자본의 30%로 흑자 |\n| 생태계 우선 | 앱스토어 매출 | 남아 있는 개발자와 상인 |\n| 창업자 주식 | 1주 1표 규범 | 분기 압박에 맞선 장기 결정 |\n| 물류 철수 | 19억 7천만 달러와 4,000개 일자리 | 집중; GMV는 어쨌든 2배 |\n| 모놀리스 유지 | 마이크로서비스라는 유행 | 하루 40회 배포와 모두를 위한 더 빠른 루비 |\n| 리액트 네이티브 대신 네이티브 | 코드 공유 | 품질, 이제 중복은 LLM이 쓴다 |\n\n### 영상이 끌어내는 네 가지 교훈\n\n시장 조사보다 매일 느끼는 불편에서 출발하라(19:54). 순이익에는 지분 평가손익 같은 일회성 변동이 크니 영업이익으로 사업을 판단하라(20:10). 틀린 베팅은 손실을 감수하더라도 빨리 인정하고 공개적으로 철회하라(20:27). 스택이나 정책은 도구가 실망시킬 때가 아니라 전제가 바뀔 때 뒤집어라(20:42).\n\n### Jayverse에서의 위치\n\n- **Verex: 결정 2처럼 가격을 매기라.** 체결 거래량에 수수료를 받고 놀고 있는 계정에는 아무것도 받지 않는 예측시장 거래소는 이미 트레이더와 일치해 있다. 그 일치를 가격 페이지에 적고, 일치가 증명되기 전까지 구독 등급을 참으라.\n- **모든 레포: 모놀리스 규칙.** Jayverse는 한 스택 위의 작은 TypeScript 서비스들을 돌린다. 쇼피파이의 교훈은 다음 성능 문제가 서비스 분리보다 공유 도구(Foundry 스크립트, Next.js 빌드, Anvil 데브넷) 개량으로 풀릴 가능성이 크고, 분리에는 명시된 전제가 필요하다는 것이다.\n- **Dark Horse와 Auditor: 모든 베팅에 전제 한 줄.** Canton 테스트, Base App 미니앱, 경계 파일 시범은 각각 딛고 있는 전제를 한 문장으로 달아야 한다. 그래야 Deliverr 검사를 돌릴 수 있다. 전제가 죽으면 베팅은 방어되지 않고 상각된다.\n- **Invest: 순이익이 아니라 영업이익을 읽으라.** 지분 평가 변동이 순이익을 왜곡한다는 영상의 요점은 기업 실적 읽기에 관한 Invest 항목들 옆에 놓이고, Number 리딩에서 어떤 플랫폼 기업을 판단할 때의 규칙이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 공개 기록으로 확인: 쇼피파이는 뤼트케의 레일즈 스노보드 상점에서 자라 2006년 출시, 2009년 앱스토어 추가, Liquid 작성과 ActiveMerchant·DelayedJob 오픈소스 공개, 2015년 복수의결권 주식으로 상장, 2022년 창업자 주식 채택, 2022년 Deliverr를 현금·주식 약 21억 달러에 인수, 2023년 물류 부문을 지분을 받고 Flexport에 매각, 2022년 10% 뒤 2023년 약 20% 감원. 대형 레일즈 모놀리스 운영과, 자원을 요청하기 전 AI로 왜 안 되는지 보이라는 뤼트케의 2025년 메모로 알려져 있다. 영상에서 가져왔고 독립 확인하지 않은 것: 초기 수수료 3% 단독 모델, 9천만 중 2,980만 달러와 4년 흑자 수치, 창업자 지분 14.6%, 누적 34% 감원과 GMV 2배, 280만 줄과 하루 40회 배포, 루비 90% 이상 개선, 그리고 가장 새로운 주장인 2026년 9월 리액트 네이티브 철회. 마지막 것은 옮겨 말하기 전에 쇼피파이 엔지니어링 블로그로 확인해야 한다.\n\n출처: [헤이제임스, 플랫폼 하나 만들어줘 — 1인 개발자가 시작해 수백조 기업이 된 쇼피파이 | 20년 동안 내린 결정 6가지, YouTube](https://www.youtube.com/watch?v=Vm1E3LriCY0) · 창업자 주식, Deliverr·Flexport 거래는 쇼피파이 IR과 엔지니어링 블로그 · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Invest 800~809(차트 기초), Life #2(에이전트는 좋은 부사관).\n"</script>
+      <h1>쇼피파이의 결정 여섯 가지 — 도구를 바꾸지 말고 고쳐 쓰고, 전제가 죽은 날 베팅을 뒤집어라</h1>
+      <p class="lead">한국 채널 &#39;헤이제임스, 플랫폼 하나 만들어줘&#39;가 영상 하나로 쇼피파이 20년을 훑는다. 독일 도제 과정을 거친 개발자 토비 뤼트케(Tobi Lütke)가 금융 백엔드 일에 번아웃되어 2004년, 나온 지 넉 달 된 루비 온 레일즈로 스노보드 쇼핑몰을 만들다 쇼핑몰 소프트웨어가 곧 제품임을 알아채고, 1인 상점을 수백조 원 규모 플랫폼으로 만든 결정 여섯 가지를 내렸다는 이야기다. 여섯 가지: 스노보드에서 상점 소프트웨어로의 피벗(2006); 구독료 없이 거래 수수료 3%만 받아 상인이 벌 때만 회사도 버는 가격 정책; 앱스토어, 템플릿 언어 Liquid, 잇단 오픈소스 공개로 매출보다 생태계를 먼저 키운 것(2009~); 2015년 상장 때 10배 의결권 주식과 2022년 창업자 주식으로 창업자 통제권을 지킨 것; 19억 7,200만 달러 물류 인수를 11개월 만에 상각하고 직원 34%를 줄여 메인 퀘스트로 돌아온 것(2022~2023); 그리고 280만 줄의 레일즈 모놀리스 하나를 유지하며 루비 자체를 개량하고, AI 우선을 의무화하고, LLM이 코드를 두 번 쓰는 비용을 바꿨기에 2026년 9월 리액트 네이티브를 버리고 네이티브 앱으로 돌아간 것.</p>
+      <p class="meta">Jayverse에서 이 영상은 역사보다 결정의 템플릿 모음이다. 셋은 바로 적용된다. 수수료를 사용자의 성공에 맞추는 것, 이전하지 말고 가진 도구를 개량하는 것, 그리고 베팅이 어떤 전제 위에 있는지 소리 내어 말해 두어 그 전제가 깨지는 날을 볼 수 있게 하는 것.</p>
+<h2>왜</h2>
+<p>회사의 역사는 대개 승리의 연속으로 이야기된다. 이 영상은 전제가 붙은 결정의 연속으로 이야기하고, 그래서 훨씬 작은 것을 만드는 사람에게도 쓸모가 있다. 각 결정은 자신이 한 거래를 이름 붙인다. 생태계를 위한 단기 앱 매출, 통제권을 위한 희석, 집중을 위한 죽은 물류 베팅, LLM이 중복을 싸게 만든 뒤 네이티브 품질을 위한 코드 중복. 영상의 마무리 교훈(20:42)이 간직할 것이다. 스택이나 정책은 도구가 나빠져서가 아니라 그 아래의 비용-편익 구조가 바뀌었을 때 뒤집어야 한다. 이것은 매 분기 자기 아키텍처에 돌릴 수 있는 검사이고, 유행에 끌린 재작성과 충성에 끌린 관성 둘 다의 반대다.</p>
+<h2>동작 방식</h2>
+<h3>기원: 창업자가 매일 겪은 문제</h3>
+<p>뤼트케는 지멘스 자회사의 도제 과정에서 식당, 회계, 창고를 돌며 배우고, 금융 백엔드 개발에 번아웃되어 스노보드를 온라인으로 팔려 했다(00:54). 2004년의 쇼핑몰 빌더들, 야후 스토어 등은 상단 배경색 하나 바꾸기가 힘들 만큼 폐쇄적이었다(01:58). 레일즈는 2004년 7월에 나왔고, 그는 넉 달 동안 그 위에 자기 상점 시스템을 만들었다(02:16). 캐나다에서 취업 비자가 없어 사업자 등록만이 합법적 길이었고, 소프트웨어가 자기 필요를 완벽히 해결하자 회사는 스노보드 판매에서 상점 판매로 피벗해(02:33), 좋은 도구를 가진 작은 사업자가 큰 기업과 경쟁할 수 있다는 미션으로 2006년 출시했다(02:50).</p>
+<h3>여섯 가지 결정</h3>
+<ol><li><strong>제품 피벗(2006)</strong>(03:08). 보드 판매를 접고 이커머스 인프라를 판다.</li><li><strong>"당신이 못 벌면 우리도 못 번다"(2006)</strong>(03:44). 처음엔 고정 구독료 없이 거래 수수료 3%만. 회사 매출이 상인의 성공을 따라갔기에, 조달한 9천만 달러 중 2,980만 달러만 쓰고 4년 만에 흑자, 상장까지 갔다(04:26).</li><li><strong>매출보다 생태계(2009~)</strong>(04:45). 앱스토어는 앱 9개로 열었고, 회사는 서드파티 개발자를 키우기 위해 가까운 앱 매출을 포기했다. 상인이 직접 디자인을 고칠 수 있게 샌드박스 템플릿 언어 Liquid를 만들고, 스스로 필요해 만든 ActiveMerchant, DelayedJob 등을 오픈소스로 풀었다(05:23). 마케팅비 대신 팀 페리스와 창업 대회를 열어 미래 상인 풀을 만들었고, 참가자였던 할리 핑켈스타인이 훗날 사장이 되었다(05:57).</li><li><strong>복수의결권과 창업자 주식(2015, 2022)</strong>(06:54). 상장 시 창업자 지분이 14.6%라 10배 의결권 주식을 도입했고, 2022년에는 신주 발행 희석과 무관하게 창업자 의결권이 40% 아래로 떨어지지 않는 창업자 주식을 주주 승인으로 통과시켰다(07:31).</li><li><strong>2조 7천억 원 물류 베팅의 철수(2022~2023)</strong>(11:56). 팬데믹 이커머스 성장에 베팅해 물류 기업 Deliverr를 약 19억 7,200만 달러에 인수했고 실패했다. 뤼트케는 자기 베팅이 틀렸다고 공개 인정하고 11개월 만에 장부가를 0으로 상각하며 물류 사업을 지분 13%를 받고 Flexport에 넘겼다(12:14). 물류는 사이드 퀘스트였다며 메인 퀘스트에 집중하기 위해 직원을 11,600명에서 7,600명으로 34% 줄였고, 그 사이 3년간 총거래액(GMV)은 약 2배가 되었다(12:51).</li><li><strong>도구를 바꾸지 말고 고쳐 쓰기, 그리고 AI(2024~2026)</strong>(14:24). 쇼피파이는 여전히 약 280만 줄의 루비 온 레일즈 모놀리스 하나를 돌리며 하루 40회 이상 프로덕션 배포를 한다. 마이크로서비스나 다른 언어로 이전하는 대신 루비 코어에 기여해 성능을 90% 이상 개선했다(15:48). 2025년에는 사람이나 예산을 요청하기 전에 AI로 왜 안 되는지 보여야 한다는 원칙을 세우고 AI 코딩 도구의 지출 한도를 없앴다(16:44). 2026년 9월에는 5년간 유지한 리액트 네이티브를 버리고 네이티브 iOS·안드로이드로 돌아갔다. LLM으로 플랫폼별 코드를 쓰는 것이 크로스 플랫폼 층의 비용보다 싸져, 원래 선택이 딛고 있던 전제가 뒤집혔기 때문이다(17:29).</li></ol>
+<table><thead><tr><th>결정</th><th>내준 것</th><th>얻은 것</th></tr></thead><tbody><tr><td>수수료 3%, 구독 없음</td><td>예측 가능한 매출</td><td>상인과 일치한 인센티브; 조달 자본의 30%로 흑자</td></tr><tr><td>생태계 우선</td><td>앱스토어 매출</td><td>남아 있는 개발자와 상인</td></tr><tr><td>창업자 주식</td><td>1주 1표 규범</td><td>분기 압박에 맞선 장기 결정</td></tr><tr><td>물류 철수</td><td>19억 7천만 달러와 4,000개 일자리</td><td>집중; GMV는 어쨌든 2배</td></tr><tr><td>모놀리스 유지</td><td>마이크로서비스라는 유행</td><td>하루 40회 배포와 모두를 위한 더 빠른 루비</td></tr><tr><td>리액트 네이티브 대신 네이티브</td><td>코드 공유</td><td>품질, 이제 중복은 LLM이 쓴다</td></tr></tbody></table>
+<h3>영상이 끌어내는 네 가지 교훈</h3>
+<p>시장 조사보다 매일 느끼는 불편에서 출발하라(19:54). 순이익에는 지분 평가손익 같은 일회성 변동이 크니 영업이익으로 사업을 판단하라(20:10). 틀린 베팅은 손실을 감수하더라도 빨리 인정하고 공개적으로 철회하라(20:27). 스택이나 정책은 도구가 실망시킬 때가 아니라 전제가 바뀔 때 뒤집어라(20:42).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 결정 2처럼 가격을 매기라.</strong> 체결 거래량에 수수료를 받고 놀고 있는 계정에는 아무것도 받지 않는 예측시장 거래소는 이미 트레이더와 일치해 있다. 그 일치를 가격 페이지에 적고, 일치가 증명되기 전까지 구독 등급을 참으라.</li><li><strong>모든 레포: 모놀리스 규칙.</strong> Jayverse는 한 스택 위의 작은 TypeScript 서비스들을 돌린다. 쇼피파이의 교훈은 다음 성능 문제가 서비스 분리보다 공유 도구(Foundry 스크립트, Next.js 빌드, Anvil 데브넷) 개량으로 풀릴 가능성이 크고, 분리에는 명시된 전제가 필요하다는 것이다.</li><li><strong>Dark Horse와 Auditor: 모든 베팅에 전제 한 줄.</strong> Canton 테스트, Base App 미니앱, 경계 파일 시범은 각각 딛고 있는 전제를 한 문장으로 달아야 한다. 그래야 Deliverr 검사를 돌릴 수 있다. 전제가 죽으면 베팅은 방어되지 않고 상각된다.</li><li><strong>Invest: 순이익이 아니라 영업이익을 읽으라.</strong> 지분 평가 변동이 순이익을 왜곡한다는 영상의 요점은 기업 실적 읽기에 관한 Invest 항목들 옆에 놓이고, Number 리딩에서 어떤 플랫폼 기업을 판단할 때의 규칙이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 공개 기록으로 확인: 쇼피파이는 뤼트케의 레일즈 스노보드 상점에서 자라 2006년 출시, 2009년 앱스토어 추가, Liquid 작성과 ActiveMerchant·DelayedJob 오픈소스 공개, 2015년 복수의결권 주식으로 상장, 2022년 창업자 주식 채택, 2022년 Deliverr를 현금·주식 약 21억 달러에 인수, 2023년 물류 부문을 지분을 받고 Flexport에 매각, 2022년 10% 뒤 2023년 약 20% 감원. 대형 레일즈 모놀리스 운영과, 자원을 요청하기 전 AI로 왜 안 되는지 보이라는 뤼트케의 2025년 메모로 알려져 있다. 영상에서 가져왔고 독립 확인하지 않은 것: 초기 수수료 3% 단독 모델, 9천만 중 2,980만 달러와 4년 흑자 수치, 창업자 지분 14.6%, 누적 34% 감원과 GMV 2배, 280만 줄과 하루 40회 배포, 루비 90% 이상 개선, 그리고 가장 새로운 주장인 2026년 9월 리액트 네이티브 철회. 마지막 것은 옮겨 말하기 전에 쇼피파이 엔지니어링 블로그로 확인해야 한다.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=Vm1E3LriCY0">헤이제임스, 플랫폼 하나 만들어줘 — 1인 개발자가 시작해 수백조 기업이 된 쇼피파이 | 20년 동안 내린 결정 6가지, YouTube</a> · 창업자 주식, Deliverr·Flexport 거래는 쇼피파이 IR과 엔지니어링 블로그 · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Invest 800~809(차트 기초), Life #2(에이전트는 좋은 부사관).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>apprenticeship</strong></td><td>도제 과정(현장을 돌며 배우는 직업 훈련) · 독일식 교육 제도를 말할 때. "a German apprentice-trained developer"</td></tr><tr><td><strong>burnt out (on)</strong></td><td>~에 번아웃된 · 일에 지쳐 의욕을 잃은 상태. "burnt out on financial back-end work"</td></tr><tr><td><strong>pivot</strong></td><td>피벗(사업 방향 전환) · 스타트업 표준 어휘. "pivot from snowboards to shop software"</td></tr><tr><td><strong>transaction fee</strong></td><td>거래 수수료 · 구독료(subscription)와 대비되는 과금 방식. "a 3 percent transaction fee and no subscription"</td></tr><tr><td><strong>aligned with</strong></td><td>~와 일치한(이해가 같은 방향인) · 인센티브 설계의 핵심 표현. "incentives aligned with merchants"</td></tr><tr><td><strong>ecosystem</strong></td><td>생태계(플랫폼 위의 서드파티 개발자·앱·상인) · 플랫폼 전략 어휘. "grow an ecosystem before revenue"</td></tr><tr><td><strong>third-party developer</strong></td><td>서드파티 개발자(플랫폼 소유자가 아닌 외부 개발자) · 앱스토어 문맥. "grow third-party developers"</td></tr><tr><td><strong>sandboxed</strong></td><td>샌드박스에 갇힌(격리되어 해를 못 끼치는) · Liquid 같은 안전한 템플릿 언어를 설명할 때. "a sandboxed template language"</td></tr><tr><td><strong>dual-class shares</strong></td><td>복수의결권 주식(의결권이 다른 두 종류의 주식) · 지배구조 용어. "Dual-class and founder shares"</td></tr><tr><td><strong>dilution</strong></td><td>희석(신주 발행으로 기존 지분 비율이 줄어드는 것) · 자본 조달의 부작용. "regardless of dilution"</td></tr><tr><td><strong>write off / write … to zero</strong></td><td>상각하다 / 장부가를 0으로 만들다 · 실패한 투자의 회계 처리. "wrote the book value to zero"</td></tr><tr><td><strong>book value</strong></td><td>장부가(회계상 기록된 가치) · 시장가와 대비. "wrote the book value to zero after eleven months"</td></tr><tr><td><strong>side quest / main quest</strong></td><td>사이드 퀘스트 / 메인 퀘스트(게임 용어를 빌린 부업/본업) · 뤼트케의 표현. "Logistics was a side quest"</td></tr><tr><td><strong>headcount</strong></td><td>인원 수(직원 수) · 감원·채용 문맥의 표준 단어. "headcount went from 11,600 to 7,600"</td></tr><tr><td><strong>GMV</strong></td><td>Gross Merchandise Volume(총거래액, 플랫폼을 거친 거래 총액) · 이커머스 핵심 지표. "gross merchandise volume roughly doubled"</td></tr><tr><td><strong>monolith</strong></td><td>모놀리스(하나의 배포 단위로 된 큰 코드베이스) · 마이크로서비스와 대비. "one Ruby on Rails monolith"</td></tr><tr><td><strong>microservices</strong></td><td>마이크로서비스(작은 서비스들로 쪼갠 구조) · 유행이 된 아키텍처. "migrate to microservices"</td></tr><tr><td><strong>premise</strong></td><td>전제(결정이 딛고 있는 가정) · 이 항목의 핵심 단어. "reversed the premise the original choice rested on"</td></tr><tr><td><strong>operating income vs net income</strong></td><td>영업이익 대 순이익 · 본업 건전성은 영업이익으로 본다는 규칙. "Judge the business on operating income"</td></tr><tr><td><strong>one-off</strong></td><td>일회성의(반복되지 않는) · 회계·실적 읽기에서. "one-off swings such as gains and losses on equity stakes"</td></tr><tr><td><strong>cost-benefit structure</strong></td><td>비용-편익 구조 · 결정을 뒤집을 조건을 말할 때. "the cost-benefit structure underneath it changed"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-ai-engineer-builds-the-car.html">&larr; 97. An AI engineer builds the car, not the engine — judgment about architecture is the skill that stays scarce</a><a href="pocs-vibe-modeling-blender-mcp.html">99. Vibe modeling — an agent with a Blender MCP server researched, built, rendered and fixed the Sagrada Família in 29 minutes &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="shopify-six-decisions";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

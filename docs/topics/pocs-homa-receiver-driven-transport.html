@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homa — when the AI cluster&#39;s bottleneck is the short message, let the receiver run the network — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">14% &middot; 68/490</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Homa — when the AI cluster&#39;s bottleneck is the short message, let the receiver run the network</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#96</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Homa — when the AI cluster&#39;s bottleneck is the short message, let the receiver run the network</h1>
+      <p class="lead">John Ousterhout, professor emeritus at Stanford and the author of Tcl and *A Philosophy of Software Design*, gave a talk (YouTube, about 18 minutes) on why TCP and RDMA become the bottleneck in AI clusters and what his transport protocol Homa does differently. The argument in one line: AI traffic used to be a few gigabyte-sized transfers where bandwidth mattered, and it is turning into millions of tiny coordination messages where the slowest one percent matters. TCP and RDMA were built for the first world. Homa is a clean-slate protocol for the second: messages instead of byte streams, the receiver instead of the sender deciding who may send, and switch priority queues so a 50-byte message never waits behind a megabyte.</p>
+      <p class="meta">For Jayverse this is not a protocol to deploy, it is a way of reading every latency problem we have: the Verex matching path, the Rabbit relayer, the devnet RPC. The lesson is that the mean tells you nothing, the tail decides throughput, and the fix is usually to give the receiver control and to let short work overtake long work.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Homa — when the AI cluster's bottleneck is the short message, let the receiver run the network\n\nJohn Ousterhout, professor emeritus at Stanford and the author of Tcl and *A Philosophy of Software Design*, gave a talk (YouTube, about 18 minutes) on why TCP and RDMA become the bottleneck in AI clusters and what his transport protocol Homa does differently. The argument in one line: AI traffic used to be a few gigabyte-sized transfers where bandwidth mattered, and it is turning into millions of tiny coordination messages where the slowest one percent matters. TCP and RDMA were built for the first world. Homa is a clean-slate protocol for the second: messages instead of byte streams, the receiver instead of the sender deciding who may send, and switch priority queues so a 50-byte message never waits behind a megabyte.\n\nFor Jayverse this is not a protocol to deploy, it is a way of reading every latency problem we have: the Verex matching path, the Rabbit relayer, the devnet RPC. The lesson is that the mean tells you nothing, the tail decides throughput, and the fix is usually to give the receiver control and to let short work overtake long work.\n\n## Why\n\nA GPU that waits is the most expensive idle resource in computing, and in a synchronized training or inference step every GPU waits for the slowest message. When compute cycles were seconds long, a millisecond of network jitter was noise. Now that cycles are milliseconds, that same millisecond is the cycle, and one delayed metadata message stalls the whole cluster. The protocols carrying that message, TCP and RDMA over Converged Ethernet, optimise the wrong thing: they move big streams efficiently and treat a short message as just more bytes in the queue. Ousterhout's claim is that this is a design mismatch, not a tuning problem, and that a transport built around messages and receiver control cuts short-message tail latency by an order of magnitude on the same hardware.\n\n## How it works\n\n### The workload changed underneath the protocol\n\nTraining traffic was dominated by gradient exchange (02:25): gigabytes per step, connection setup cost amortised over huge transfers, bandwidth the metric that mattered, and TCP or RoCE good enough (02:39). Inference and agentic workloads flip this (03:16). The traffic is small and frequent: a lookup in a distributed KV cache, a barrier synchronization at the end of a compute step, scheduler and metadata chatter (03:37). None of it needs bandwidth. All of it needs to arrive on time, because the step cannot proceed until the last message lands (04:42). So the metric moves from mean latency to p99 tail latency, and the tail sets the effective throughput of the cluster (04:10).\n\n### Where TCP and RDMA lose the tail\n\nThe talk names three mechanisms, all structural:\n\n- **Incast and queue build-up.** Many senders fire at one receiver at once, packets pile up in the egress buffer of the top-of-rack switch (06:29), a short message lands behind that pile and either waits or is dropped and retransmitted (06:43). A retransmission timeout is milliseconds; the whole compute step was milliseconds.\n- **Sender-driven congestion control.** TCP and DCQCN-style RDMA learn about congestion after the fact, through ECN marks or loss, and then slow down. The feedback loop has a control lag, so it never quite converges and the rate oscillates (08:16). The sender is the wrong party to decide: it cannot see the receiver's downlink, which is where the congestion actually is.\n- **Byte streams and head-of-line blocking.** TCP and RDMA carry byte streams with no notion of where one message ends and the next begins (10:11). A transport that cannot see message boundaries cannot prioritise a short message, so it sits behind a long transfer in the same stream.\n\n### Homa's three design decisions\n\nHoma was designed from scratch for datacenter traffic (11:16), originally at Stanford (SIGCOMM 2018), and the talk describes three choices:\n\n1. **Messages and RPCs, not streams** (12:30). Each request and each response is an independent message, and the first packet carries the total length. That lets the network run **SRPT**, shortest remaining processing time first: a short message can overtake a long one because everyone knows how much of each is left (13:02).\n2. **Receiver-driven congestion control** (13:37). The receiver owns its downlink, the one place congestion happens. A sender may transmit only the first part of a message immediately, the *unscheduled* packets; the rest, the *scheduled* packets, go out only as the receiver issues **grant** packets (14:10). The receiver hands out grants to the messages with the least remaining, so switch buffers never fill in the first place (14:36).\n3. **Switch priority queues** (15:01). Modern switches have several egress queues per port. Homa puts long-message traffic in low-priority queues and short messages in high-priority ones, so a short message is forwarded ahead of bulk traffic it would otherwise queue behind.\n\n| Design axis | TCP / RDMA (RoCE) | Homa |\n|---|---|---|\n| Unit | byte stream | message / RPC with known length |\n| Who controls rate | sender, after ECN or loss | receiver, by grant packets |\n| Short vs long | first come, first served | SRPT, short overtakes long |\n| Switch queues | one queue per port in practice | several priority queues used explicitly |\n| Connections | long-lived, per pair | connectionless RPCs |\n\n### Numbers and status\n\nOn a mixed workload of 50-byte to 1 MB messages, the p99 latency of short messages fell from over 1 ms on TCP to under 100 µs on Homa, roughly 13 times (16:50); large messages also ran about twice as fast, which the talk credits to Homa's run-to-completion processing model (17:07). Homa exists as an open-source Linux kernel module on GitHub, and Ousterhout is working toward upstreaming it (12:09). His closing advice: if short-message latency is your cluster's bottleneck, try it (17:52).\n\n### Where it lands in Jayverse\n\n- **Verex: the matching path is a tail-latency problem, not a throughput one.** Order placement, cancel and fill notifications are small messages; the user-visible failure is the slowest one, not the average. Measure p99 on the CLOB round trip and on the fill notification, and put it next to the mean in the metrics page.\n- **Rabbit relayer and devnet RPC: let the receiver pace the sender.** The bridge relayer and the Anvil RPC both suffer incast when a burst of requests arrives; a receiver-side queue that serves short requests first (health checks, nonce reads) before long ones (log scans, traces) is Homa's SRPT idea at application level, and it needs no new protocol.\n- **Auditor: \"which percentile\" is part of the rule.** A latency check that names only a mean is unverifiable in the sense that matters here; every latency rule the Auditor records should state the percentile and the window.\n- **Theory: SRPT and receiver-driven flow control are scheduling theory.** SRPT is optimal for mean response time in a single queue; the item is a live example for the queueing and scheduling entries in Theory, and for the game-theory note on why a sender cannot be trusted to slow itself down.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Homa is a real receiver-driven, message-based datacenter transport from Ousterhout's group at Stanford (paper *Homa: A Receiver-Driven Low-Latency Transport Protocol Using Network Priorities*, SIGCOMM 2018), and an open-source Linux kernel module exists on GitHub under Stanford's PlatformLab; the design points above (SRPT, unscheduled and scheduled packets, grants, priority queues) match the published design. Taken from the talk summary and not independently checked: the 13-times p99 figure and the two-times large-message figure for this particular benchmark, the exact timestamps, and the current state of the upstreaming effort. The talk's date is not given in the summary.\n\nSources: [YouTube — John Ousterhout on Homa and AI cluster networking](https://www.youtube.com/watch?v=eZ8WWZzoaR0) · Montazeri, Li, Alizadeh, Ousterhout, *Homa*, SIGCOMM 2018 · PlatformLab/HomaModule on GitHub · related items: Tech #62 (agentic engineering writes the boundaries), Theory scheduling notes.\n"</script>
+<h2>Why</h2>
+<p>A GPU that waits is the most expensive idle resource in computing, and in a synchronized training or inference step every GPU waits for the slowest message. When compute cycles were seconds long, a millisecond of network jitter was noise. Now that cycles are milliseconds, that same millisecond is the cycle, and one delayed metadata message stalls the whole cluster. The protocols carrying that message, TCP and RDMA over Converged Ethernet, optimise the wrong thing: they move big streams efficiently and treat a short message as just more bytes in the queue. Ousterhout&#39;s claim is that this is a design mismatch, not a tuning problem, and that a transport built around messages and receiver control cuts short-message tail latency by an order of magnitude on the same hardware.</p>
+<h2>How it works</h2>
+<h3>The workload changed underneath the protocol</h3>
+<p>Training traffic was dominated by gradient exchange (02:25): gigabytes per step, connection setup cost amortised over huge transfers, bandwidth the metric that mattered, and TCP or RoCE good enough (02:39). Inference and agentic workloads flip this (03:16). The traffic is small and frequent: a lookup in a distributed KV cache, a barrier synchronization at the end of a compute step, scheduler and metadata chatter (03:37). None of it needs bandwidth. All of it needs to arrive on time, because the step cannot proceed until the last message lands (04:42). So the metric moves from mean latency to p99 tail latency, and the tail sets the effective throughput of the cluster (04:10).</p>
+<h3>Where TCP and RDMA lose the tail</h3>
+<p>The talk names three mechanisms, all structural:</p>
+<ul><li><strong>Incast and queue build-up.</strong> Many senders fire at one receiver at once, packets pile up in the egress buffer of the top-of-rack switch (06:29), a short message lands behind that pile and either waits or is dropped and retransmitted (06:43). A retransmission timeout is milliseconds; the whole compute step was milliseconds.</li><li><strong>Sender-driven congestion control.</strong> TCP and DCQCN-style RDMA learn about congestion after the fact, through ECN marks or loss, and then slow down. The feedback loop has a control lag, so it never quite converges and the rate oscillates (08:16). The sender is the wrong party to decide: it cannot see the receiver&#39;s downlink, which is where the congestion actually is.</li><li><strong>Byte streams and head-of-line blocking.</strong> TCP and RDMA carry byte streams with no notion of where one message ends and the next begins (10:11). A transport that cannot see message boundaries cannot prioritise a short message, so it sits behind a long transfer in the same stream.</li></ul>
+<h3>Homa&#39;s three design decisions</h3>
+<p>Homa was designed from scratch for datacenter traffic (11:16), originally at Stanford (SIGCOMM 2018), and the talk describes three choices:</p>
+<ol><li><strong>Messages and RPCs, not streams</strong> (12:30). Each request and each response is an independent message, and the first packet carries the total length. That lets the network run <strong>SRPT</strong>, shortest remaining processing time first: a short message can overtake a long one because everyone knows how much of each is left (13:02).</li><li><strong>Receiver-driven congestion control</strong> (13:37). The receiver owns its downlink, the one place congestion happens. A sender may transmit only the first part of a message immediately, the <em>unscheduled</em> packets; the rest, the <em>scheduled</em> packets, go out only as the receiver issues <strong>grant</strong> packets (14:10). The receiver hands out grants to the messages with the least remaining, so switch buffers never fill in the first place (14:36).</li><li><strong>Switch priority queues</strong> (15:01). Modern switches have several egress queues per port. Homa puts long-message traffic in low-priority queues and short messages in high-priority ones, so a short message is forwarded ahead of bulk traffic it would otherwise queue behind.</li></ol>
+<table><thead><tr><th>Design axis</th><th>TCP / RDMA (RoCE)</th><th>Homa</th></tr></thead><tbody><tr><td>Unit</td><td>byte stream</td><td>message / RPC with known length</td></tr><tr><td>Who controls rate</td><td>sender, after ECN or loss</td><td>receiver, by grant packets</td></tr><tr><td>Short vs long</td><td>first come, first served</td><td>SRPT, short overtakes long</td></tr><tr><td>Switch queues</td><td>one queue per port in practice</td><td>several priority queues used explicitly</td></tr><tr><td>Connections</td><td>long-lived, per pair</td><td>connectionless RPCs</td></tr></tbody></table>
+<h3>Numbers and status</h3>
+<p>On a mixed workload of 50-byte to 1 MB messages, the p99 latency of short messages fell from over 1 ms on TCP to under 100 µs on Homa, roughly 13 times (16:50); large messages also ran about twice as fast, which the talk credits to Homa&#39;s run-to-completion processing model (17:07). Homa exists as an open-source Linux kernel module on GitHub, and Ousterhout is working toward upstreaming it (12:09). His closing advice: if short-message latency is your cluster&#39;s bottleneck, try it (17:52).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: the matching path is a tail-latency problem, not a throughput one.</strong> Order placement, cancel and fill notifications are small messages; the user-visible failure is the slowest one, not the average. Measure p99 on the CLOB round trip and on the fill notification, and put it next to the mean in the metrics page.</li><li><strong>Rabbit relayer and devnet RPC: let the receiver pace the sender.</strong> The bridge relayer and the Anvil RPC both suffer incast when a burst of requests arrives; a receiver-side queue that serves short requests first (health checks, nonce reads) before long ones (log scans, traces) is Homa&#39;s SRPT idea at application level, and it needs no new protocol.</li><li><strong>Auditor: "which percentile" is part of the rule.</strong> A latency check that names only a mean is unverifiable in the sense that matters here; every latency rule the Auditor records should state the percentile and the window.</li><li><strong>Theory: SRPT and receiver-driven flow control are scheduling theory.</strong> SRPT is optimal for mean response time in a single queue; the item is a live example for the queueing and scheduling entries in Theory, and for the game-theory note on why a sender cannot be trusted to slow itself down.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Homa is a real receiver-driven, message-based datacenter transport from Ousterhout&#39;s group at Stanford (paper <em>Homa: A Receiver-Driven Low-Latency Transport Protocol Using Network Priorities</em>, SIGCOMM 2018), and an open-source Linux kernel module exists on GitHub under Stanford&#39;s PlatformLab; the design points above (SRPT, unscheduled and scheduled packets, grants, priority queues) match the published design. Taken from the talk summary and not independently checked: the 13-times p99 figure and the two-times large-message figure for this particular benchmark, the exact timestamps, and the current state of the upstreaming effort. The talk&#39;s date is not given in the summary.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=eZ8WWZzoaR0">YouTube — John Ousterhout on Homa and AI cluster networking</a> · Montazeri, Li, Alizadeh, Ousterhout, <em>Homa</em>, SIGCOMM 2018 · PlatformLab/HomaModule on GitHub · related items: Tech #62 (agentic engineering writes the boundaries), Theory scheduling notes.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>tail latency</strong></td><td>꼬리 지연(가장 느린 요청들의 지연) · 평균과 대비되는 성능 지표. "the slowest one percent matters"</td></tr><tr><td><strong>p99</strong></td><td>99번째 백분위수(요청 100개 중 느린 1개의 값) · 지연 SLO의 표준 단위. "measure p99 on the CLOB round trip"</td></tr><tr><td><strong>throughput</strong></td><td>처리량(단위 시간당 처리한 양) · 대역폭·지연과 함께 세 가지 기본 지표. "bandwidth mattered"</td></tr><tr><td><strong>clean-slate</strong></td><td>백지에서 새로 설계한 · 기존 프로토콜 호환을 버린 설계를 부르는 말. "a clean-slate protocol for the second"</td></tr><tr><td><strong>RDMA / RoCE</strong></td><td>Remote Direct Memory Access / RDMA over Converged Ethernet(이더넷 위의 RDMA) · 데이터센터 고속 전송의 표준 이름. "TCP or RoCE good enough"</td></tr><tr><td><strong>incast</strong></td><td>인캐스트(다수 송신자가 한 수신자에게 동시에 보내는 패턴) · 데이터센터 혼잡의 대표 원인. "Incast and queue build-up"</td></tr><tr><td><strong>top-of-rack (ToR) switch</strong></td><td>랙 상단 스위치(서버 랙마다 하나씩 있는 첫 홉 스위치) · 데이터센터 토폴로지 용어. "the egress buffer of the top-of-rack switch"</td></tr><tr><td><strong>egress</strong></td><td>출구(나가는 방향) · ingress(입구)와 짝. "egress queues per port"</td></tr><tr><td><strong>congestion control</strong></td><td>혼잡 제어(네트워크가 막힐 때 속도를 조절하는 규칙) · TCP의 핵심 메커니즘. "Sender-driven congestion control"</td></tr><tr><td><strong>ECN</strong></td><td>Explicit Congestion Notification(명시적 혼잡 알림, 패킷에 표시를 남기는 방식) · 손실 없이 혼잡을 알리는 신호. "through ECN marks or loss"</td></tr><tr><td><strong>control lag</strong></td><td>제어 시차(신호와 반응 사이의 지연) · 제어 이론 용어, 진동의 원인. "The feedback loop has a control lag"</td></tr><tr><td><strong>head-of-line (HOL) blocking</strong></td><td>선두 차단(앞의 것이 막혀 뒤가 못 나가는 현상) · 큐·스트림 설계의 고전적 병목. "Byte streams and head-of-line blocking"</td></tr><tr><td><strong>message boundary</strong></td><td>메시지 경계(어디서 한 메시지가 끝나는지) · 스트림 프로토콜의 결함을 설명할 때. "no notion of where one message ends"</td></tr><tr><td><strong>RPC</strong></td><td>Remote Procedure Call(원격 함수 호출, 요청-응답 쌍) · 분산 시스템의 기본 통신 단위. "Messages and RPCs, not streams"</td></tr><tr><td><strong>SRPT</strong></td><td>Shortest Remaining Processing Time first(잔여 처리 시간이 짧은 것 먼저) · 스케줄링 이론의 최적 정책. "a short message can overtake a long one"</td></tr><tr><td><strong>grant (packet)</strong></td><td>허가(수신자가 보내도 된다고 알리는 패킷) · Homa 고유 용어, 수신자 주도 제어의 도구. "the receiver issues grant packets"</td></tr><tr><td><strong>unscheduled / scheduled packets</strong></td><td>허가 없이 보내는 앞부분 / 허가를 받아 보내는 나머지 · Homa의 두 패킷 종류. "the first part of a message immediately, the unscheduled packets"</td></tr><tr><td><strong>barrier synchronization</strong></td><td>배리어 동기화(모든 노드가 한 지점에 모일 때까지 기다리는 것) · 병렬 계산의 기본 동기화. "a barrier synchronization at the end of a compute step"</td></tr><tr><td><strong>KV cache</strong></td><td>key-value 캐시(트랜스포머 추론에서 이전 토큰의 키·값을 저장) · LLM 추론 인프라 용어. "a lookup in a distributed KV cache"</td></tr><tr><td><strong>run-to-completion</strong></td><td>완료까지 실행(작업을 중간에 끊지 않고 끝까지 처리하는 모델) · 커널·네트워크 스택 설계 용어. "Homa&#39;s run-to-completion processing model"</td></tr><tr><td><strong>upstream (v.)</strong></td><td>업스트림에 병합하다(패치를 원 프로젝트, 여기서는 리눅스 커널에 넣다) · 오픈소스 관용어. "working toward upstreaming it"</td></tr><tr><td><strong>an order of magnitude</strong></td><td>한 자릿수(10배) 규모 · 크기 비교의 관용구. "by an order of magnitude"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# Homa — AI 클러스터의 병목이 짧은 메시지라면, 네트워크는 수신자가 운전해야 한다\n\n스탠퍼드 명예교수이자 Tcl과 *A Philosophy of Software Design*의 저자인 존 오스터하우트(John Ousterhout)가 약 18분의 강연(YouTube)에서 TCP와 RDMA가 왜 AI 클러스터의 병목이 되는지, 그리고 자신의 전송 프로토콜 Homa가 무엇을 다르게 하는지 설명한다. 주장은 한 줄이다. AI 트래픽은 예전에는 대역폭이 중요한 기가바이트 단위 전송 몇 개였고, 지금은 가장 느린 1퍼센트가 중요한 수백만 개의 작은 조정 메시지로 바뀌고 있다. TCP와 RDMA는 첫 번째 세계를 위해 만들어졌다. Homa는 두 번째 세계를 위한 백지 설계다. 바이트 스트림 대신 메시지, 송신자 대신 수신자가 누가 보낼지 결정, 그리고 50바이트 메시지가 1메가바이트 뒤에서 기다리지 않게 하는 스위치 우선순위 큐.\n\nJayverse에서 이것은 배포할 프로토콜이 아니라, 우리가 가진 모든 지연 문제를 읽는 방법이다. Verex 매칭 경로, Rabbit 릴레이어, 데브넷 RPC. 교훈은 평균은 아무것도 말해 주지 않고 꼬리가 처리량을 결정하며, 해법은 대개 수신자에게 제어권을 주고 짧은 일이 긴 일을 추월하게 하는 것이라는 점이다.\n\n## 왜\n\n기다리는 GPU는 컴퓨팅에서 가장 비싼 유휴 자원이고, 동기화된 학습·추론 단계에서는 모든 GPU가 가장 느린 메시지를 기다린다. 연산 주기가 초 단위였을 때 네트워크 지터 1밀리초는 잡음이었다. 주기가 밀리초가 된 지금 그 1밀리초가 곧 주기이고, 지연된 메타데이터 메시지 하나가 클러스터 전체를 멈춘다. 그 메시지를 나르는 프로토콜, TCP와 RoCE(RDMA over Converged Ethernet)는 잘못된 것을 최적화한다. 큰 스트림을 효율적으로 옮기고 짧은 메시지를 큐 속의 바이트 몇 개로 취급한다. 오스터하우트의 주장은 이것이 튜닝 문제가 아니라 설계 불일치이며, 메시지와 수신자 제어를 중심으로 만든 전송이 같은 하드웨어에서 짧은 메시지의 꼬리 지연을 한 자릿수 배 줄인다는 것이다.\n\n## 동작 방식\n\n### 프로토콜 아래에서 워크로드가 바뀌었다\n\n학습 트래픽은 그레이디언트 교환이 지배했다(02:25). 단계마다 기가바이트, 거대한 전송에 분산되는 연결 설정 비용, 중요한 지표는 대역폭, TCP나 RoCE로 충분(02:39). 추론과 에이전트 워크로드는 이것을 뒤집는다(03:16). 트래픽은 작고 빈번하다. 분산 KV 캐시 조회, 연산 단계 끝의 배리어 동기화, 스케줄러와 메타데이터 잡담(03:37). 어느 것도 대역폭이 필요하지 않다. 전부 정시에 도착해야 한다. 마지막 메시지가 도착하기 전까지 단계가 진행될 수 없기 때문이다(04:42). 그래서 지표가 평균 지연에서 p99 꼬리 지연으로 옮겨가고, 꼬리가 클러스터의 실효 처리량을 정한다(04:10).\n\n### TCP와 RDMA가 꼬리를 잃는 곳\n\n강연은 세 가지 메커니즘을 꼽고, 모두 구조적이다.\n\n- **인캐스트와 큐 적체.** 여러 송신자가 한 수신자에게 동시에 쏘면 ToR(top-of-rack) 스위치의 이그레스 버퍼에 패킷이 쌓이고(06:29), 짧은 메시지가 그 더미 뒤에 떨어져 기다리거나 유실 후 재전송된다(06:43). 재전송 타임아웃은 밀리초 단위인데 연산 단계 전체가 밀리초였다.\n- **송신자 주도 혼잡 제어.** TCP와 DCQCN 계열 RDMA는 ECN 표시나 손실을 통해 혼잡을 사후에 알고 나서 속도를 줄인다. 피드백 루프에 제어 시차가 있어 결코 완전히 수렴하지 못하고 속도가 진동한다(08:16). 송신자는 결정할 당사자로서 틀렸다. 혼잡이 실제로 있는 곳인 수신자의 다운링크를 볼 수 없다.\n- **바이트 스트림과 HOL(head-of-line) 블로킹.** TCP와 RDMA는 한 메시지가 어디서 끝나고 다음이 어디서 시작하는지 모르는 바이트 스트림을 나른다(10:11). 메시지 경계를 볼 수 없는 전송은 짧은 메시지를 우선할 수 없으니, 같은 스트림의 긴 전송 뒤에 앉아 있게 된다.\n\n### Homa의 세 가지 설계 결정\n\nHoma는 데이터센터 트래픽을 위해 처음부터 설계되었고(11:16), 원래 스탠퍼드에서 나왔다(SIGCOMM 2018). 강연은 세 가지 선택을 설명한다.\n\n1. **스트림이 아닌 메시지와 RPC**(12:30). 각 요청과 각 응답은 독립된 메시지이고 첫 패킷이 전체 길이를 나른다. 그래서 네트워크가 **SRPT**, 잔여 처리 시간이 가장 짧은 것 먼저를 돌릴 수 있다. 각 메시지가 얼마나 남았는지 모두 알기 때문에 짧은 메시지가 긴 것을 추월한다(13:02).\n2. **수신자 주도 혼잡 제어**(13:37). 수신자가 혼잡이 일어나는 단 하나의 장소인 자기 다운링크를 소유한다. 송신자는 메시지 앞부분, *unscheduled* 패킷만 즉시 보낼 수 있고, 나머지 *scheduled* 패킷은 수신자가 **grant** 패킷을 발행할 때만 나간다(14:10). 수신자는 잔여량이 가장 적은 메시지에 grant를 주므로 스위치 버퍼가 처음부터 차지 않는다(14:36).\n3. **스위치 우선순위 큐**(15:01). 현대 스위치는 포트마다 이그레스 큐가 여러 개다. Homa는 긴 메시지 트래픽을 낮은 우선순위 큐에, 짧은 메시지를 높은 우선순위 큐에 넣어, 짧은 메시지가 원래는 뒤에 줄 서야 했을 대량 트래픽보다 먼저 전달되게 한다.\n\n| 설계 축 | TCP / RDMA (RoCE) | Homa |\n|---|---|---|\n| 단위 | 바이트 스트림 | 길이를 아는 메시지 / RPC |\n| 속도 결정자 | 송신자, ECN·손실 뒤에 | 수신자, grant 패킷으로 |\n| 짧은 것 vs 긴 것 | 선착순 | SRPT, 짧은 것이 추월 |\n| 스위치 큐 | 실질적으로 포트당 하나 | 여러 우선순위 큐를 명시적으로 사용 |\n| 연결 | 쌍마다 장수명 | 연결 없는 RPC |\n\n### 숫자와 현황\n\n50바이트에서 1MB까지 섞인 워크로드에서 짧은 메시지의 p99 지연이 TCP의 1ms 이상에서 Homa의 100µs 미만으로, 약 13배 줄었다(16:50). 큰 메시지도 약 2배 빨랐고, 강연은 이를 Homa의 run-to-completion 처리 모델 덕으로 돌린다(17:07). Homa는 GitHub에 오픈소스 리눅스 커널 모듈로 존재하고, 오스터하우트는 업스트림 병합을 진행 중이다(12:09). 마무리 조언: 짧은 메시지 지연이 클러스터의 병목이라면 써 보라(17:52).\n\n### Jayverse에서의 위치\n\n- **Verex: 매칭 경로는 처리량이 아니라 꼬리 지연 문제다.** 주문 제출, 취소, 체결 알림은 작은 메시지이고, 사용자가 보는 실패는 평균이 아니라 가장 느린 하나다. CLOB 왕복과 체결 알림의 p99를 측정해 메트릭 페이지에서 평균 옆에 두라.\n- **Rabbit 릴레이어와 데브넷 RPC: 수신자가 송신자의 속도를 정하게 하라.** 브리지 릴레이어와 Anvil RPC는 요청이 몰릴 때 인캐스트를 겪는다. 짧은 요청(헬스체크, nonce 읽기)을 긴 요청(로그 스캔, 트레이스)보다 먼저 처리하는 수신자 측 큐는 애플리케이션 수준의 Homa SRPT이고, 새 프로토콜이 필요 없다.\n- **Auditor: \"어느 백분위수인지\"가 규칙의 일부다.** 평균만 말하는 지연 검사는 여기서 중요한 의미로 검증 불가능하다. Auditor가 기록하는 모든 지연 규칙은 백분위수와 창을 명시해야 한다.\n- **Theory: SRPT와 수신자 주도 흐름 제어는 스케줄링 이론이다.** SRPT는 단일 큐에서 평균 응답 시간에 최적이다. 이 항목은 Theory의 큐잉·스케줄링 항목과, 송신자가 스스로 속도를 줄이리라 믿을 수 없는 이유를 다루는 게임이론 노트의 살아 있는 예다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: Homa는 오스터하우트 그룹(스탠퍼드)의 실제 수신자 주도·메시지 기반 데이터센터 전송이고(논문 *Homa: A Receiver-Driven Low-Latency Transport Protocol Using Network Priorities*, SIGCOMM 2018), 스탠퍼드 PlatformLab의 GitHub에 오픈소스 리눅스 커널 모듈이 있으며, 위의 설계 요점(SRPT, unscheduled·scheduled 패킷, grant, 우선순위 큐)은 발표된 설계와 일치한다. 강연 요약에서 가져왔고 독립 확인하지 않은 것: 이 벤치마크의 13배 p99 수치와 큰 메시지 2배 수치, 정확한 타임스탬프, 업스트림 작업의 현재 상태. 강연 날짜는 요약에 없다.\n\n출처: [YouTube — 존 오스터하우트, Homa와 AI 클러스터 네트워킹](https://www.youtube.com/watch?v=eZ8WWZzoaR0) · Montazeri, Li, Alizadeh, Ousterhout, *Homa*, SIGCOMM 2018 · GitHub PlatformLab/HomaModule · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Theory 스케줄링 노트.\n"</script>
+      <h1>Homa — AI 클러스터의 병목이 짧은 메시지라면, 네트워크는 수신자가 운전해야 한다</h1>
+      <p class="lead">스탠퍼드 명예교수이자 Tcl과 *A Philosophy of Software Design*의 저자인 존 오스터하우트(John Ousterhout)가 약 18분의 강연(YouTube)에서 TCP와 RDMA가 왜 AI 클러스터의 병목이 되는지, 그리고 자신의 전송 프로토콜 Homa가 무엇을 다르게 하는지 설명한다. 주장은 한 줄이다. AI 트래픽은 예전에는 대역폭이 중요한 기가바이트 단위 전송 몇 개였고, 지금은 가장 느린 1퍼센트가 중요한 수백만 개의 작은 조정 메시지로 바뀌고 있다. TCP와 RDMA는 첫 번째 세계를 위해 만들어졌다. Homa는 두 번째 세계를 위한 백지 설계다. 바이트 스트림 대신 메시지, 송신자 대신 수신자가 누가 보낼지 결정, 그리고 50바이트 메시지가 1메가바이트 뒤에서 기다리지 않게 하는 스위치 우선순위 큐.</p>
+      <p class="meta">Jayverse에서 이것은 배포할 프로토콜이 아니라, 우리가 가진 모든 지연 문제를 읽는 방법이다. Verex 매칭 경로, Rabbit 릴레이어, 데브넷 RPC. 교훈은 평균은 아무것도 말해 주지 않고 꼬리가 처리량을 결정하며, 해법은 대개 수신자에게 제어권을 주고 짧은 일이 긴 일을 추월하게 하는 것이라는 점이다.</p>
+<h2>왜</h2>
+<p>기다리는 GPU는 컴퓨팅에서 가장 비싼 유휴 자원이고, 동기화된 학습·추론 단계에서는 모든 GPU가 가장 느린 메시지를 기다린다. 연산 주기가 초 단위였을 때 네트워크 지터 1밀리초는 잡음이었다. 주기가 밀리초가 된 지금 그 1밀리초가 곧 주기이고, 지연된 메타데이터 메시지 하나가 클러스터 전체를 멈춘다. 그 메시지를 나르는 프로토콜, TCP와 RoCE(RDMA over Converged Ethernet)는 잘못된 것을 최적화한다. 큰 스트림을 효율적으로 옮기고 짧은 메시지를 큐 속의 바이트 몇 개로 취급한다. 오스터하우트의 주장은 이것이 튜닝 문제가 아니라 설계 불일치이며, 메시지와 수신자 제어를 중심으로 만든 전송이 같은 하드웨어에서 짧은 메시지의 꼬리 지연을 한 자릿수 배 줄인다는 것이다.</p>
+<h2>동작 방식</h2>
+<h3>프로토콜 아래에서 워크로드가 바뀌었다</h3>
+<p>학습 트래픽은 그레이디언트 교환이 지배했다(02:25). 단계마다 기가바이트, 거대한 전송에 분산되는 연결 설정 비용, 중요한 지표는 대역폭, TCP나 RoCE로 충분(02:39). 추론과 에이전트 워크로드는 이것을 뒤집는다(03:16). 트래픽은 작고 빈번하다. 분산 KV 캐시 조회, 연산 단계 끝의 배리어 동기화, 스케줄러와 메타데이터 잡담(03:37). 어느 것도 대역폭이 필요하지 않다. 전부 정시에 도착해야 한다. 마지막 메시지가 도착하기 전까지 단계가 진행될 수 없기 때문이다(04:42). 그래서 지표가 평균 지연에서 p99 꼬리 지연으로 옮겨가고, 꼬리가 클러스터의 실효 처리량을 정한다(04:10).</p>
+<h3>TCP와 RDMA가 꼬리를 잃는 곳</h3>
+<p>강연은 세 가지 메커니즘을 꼽고, 모두 구조적이다.</p>
+<ul><li><strong>인캐스트와 큐 적체.</strong> 여러 송신자가 한 수신자에게 동시에 쏘면 ToR(top-of-rack) 스위치의 이그레스 버퍼에 패킷이 쌓이고(06:29), 짧은 메시지가 그 더미 뒤에 떨어져 기다리거나 유실 후 재전송된다(06:43). 재전송 타임아웃은 밀리초 단위인데 연산 단계 전체가 밀리초였다.</li><li><strong>송신자 주도 혼잡 제어.</strong> TCP와 DCQCN 계열 RDMA는 ECN 표시나 손실을 통해 혼잡을 사후에 알고 나서 속도를 줄인다. 피드백 루프에 제어 시차가 있어 결코 완전히 수렴하지 못하고 속도가 진동한다(08:16). 송신자는 결정할 당사자로서 틀렸다. 혼잡이 실제로 있는 곳인 수신자의 다운링크를 볼 수 없다.</li><li><strong>바이트 스트림과 HOL(head-of-line) 블로킹.</strong> TCP와 RDMA는 한 메시지가 어디서 끝나고 다음이 어디서 시작하는지 모르는 바이트 스트림을 나른다(10:11). 메시지 경계를 볼 수 없는 전송은 짧은 메시지를 우선할 수 없으니, 같은 스트림의 긴 전송 뒤에 앉아 있게 된다.</li></ul>
+<h3>Homa의 세 가지 설계 결정</h3>
+<p>Homa는 데이터센터 트래픽을 위해 처음부터 설계되었고(11:16), 원래 스탠퍼드에서 나왔다(SIGCOMM 2018). 강연은 세 가지 선택을 설명한다.</p>
+<ol><li><strong>스트림이 아닌 메시지와 RPC</strong>(12:30). 각 요청과 각 응답은 독립된 메시지이고 첫 패킷이 전체 길이를 나른다. 그래서 네트워크가 <strong>SRPT</strong>, 잔여 처리 시간이 가장 짧은 것 먼저를 돌릴 수 있다. 각 메시지가 얼마나 남았는지 모두 알기 때문에 짧은 메시지가 긴 것을 추월한다(13:02).</li><li><strong>수신자 주도 혼잡 제어</strong>(13:37). 수신자가 혼잡이 일어나는 단 하나의 장소인 자기 다운링크를 소유한다. 송신자는 메시지 앞부분, <em>unscheduled</em> 패킷만 즉시 보낼 수 있고, 나머지 <em>scheduled</em> 패킷은 수신자가 <strong>grant</strong> 패킷을 발행할 때만 나간다(14:10). 수신자는 잔여량이 가장 적은 메시지에 grant를 주므로 스위치 버퍼가 처음부터 차지 않는다(14:36).</li><li><strong>스위치 우선순위 큐</strong>(15:01). 현대 스위치는 포트마다 이그레스 큐가 여러 개다. Homa는 긴 메시지 트래픽을 낮은 우선순위 큐에, 짧은 메시지를 높은 우선순위 큐에 넣어, 짧은 메시지가 원래는 뒤에 줄 서야 했을 대량 트래픽보다 먼저 전달되게 한다.</li></ol>
+<table><thead><tr><th>설계 축</th><th>TCP / RDMA (RoCE)</th><th>Homa</th></tr></thead><tbody><tr><td>단위</td><td>바이트 스트림</td><td>길이를 아는 메시지 / RPC</td></tr><tr><td>속도 결정자</td><td>송신자, ECN·손실 뒤에</td><td>수신자, grant 패킷으로</td></tr><tr><td>짧은 것 vs 긴 것</td><td>선착순</td><td>SRPT, 짧은 것이 추월</td></tr><tr><td>스위치 큐</td><td>실질적으로 포트당 하나</td><td>여러 우선순위 큐를 명시적으로 사용</td></tr><tr><td>연결</td><td>쌍마다 장수명</td><td>연결 없는 RPC</td></tr></tbody></table>
+<h3>숫자와 현황</h3>
+<p>50바이트에서 1MB까지 섞인 워크로드에서 짧은 메시지의 p99 지연이 TCP의 1ms 이상에서 Homa의 100µs 미만으로, 약 13배 줄었다(16:50). 큰 메시지도 약 2배 빨랐고, 강연은 이를 Homa의 run-to-completion 처리 모델 덕으로 돌린다(17:07). Homa는 GitHub에 오픈소스 리눅스 커널 모듈로 존재하고, 오스터하우트는 업스트림 병합을 진행 중이다(12:09). 마무리 조언: 짧은 메시지 지연이 클러스터의 병목이라면 써 보라(17:52).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 매칭 경로는 처리량이 아니라 꼬리 지연 문제다.</strong> 주문 제출, 취소, 체결 알림은 작은 메시지이고, 사용자가 보는 실패는 평균이 아니라 가장 느린 하나다. CLOB 왕복과 체결 알림의 p99를 측정해 메트릭 페이지에서 평균 옆에 두라.</li><li><strong>Rabbit 릴레이어와 데브넷 RPC: 수신자가 송신자의 속도를 정하게 하라.</strong> 브리지 릴레이어와 Anvil RPC는 요청이 몰릴 때 인캐스트를 겪는다. 짧은 요청(헬스체크, nonce 읽기)을 긴 요청(로그 스캔, 트레이스)보다 먼저 처리하는 수신자 측 큐는 애플리케이션 수준의 Homa SRPT이고, 새 프로토콜이 필요 없다.</li><li><strong>Auditor: "어느 백분위수인지"가 규칙의 일부다.</strong> 평균만 말하는 지연 검사는 여기서 중요한 의미로 검증 불가능하다. Auditor가 기록하는 모든 지연 규칙은 백분위수와 창을 명시해야 한다.</li><li><strong>Theory: SRPT와 수신자 주도 흐름 제어는 스케줄링 이론이다.</strong> SRPT는 단일 큐에서 평균 응답 시간에 최적이다. 이 항목은 Theory의 큐잉·스케줄링 항목과, 송신자가 스스로 속도를 줄이리라 믿을 수 없는 이유를 다루는 게임이론 노트의 살아 있는 예다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: Homa는 오스터하우트 그룹(스탠퍼드)의 실제 수신자 주도·메시지 기반 데이터센터 전송이고(논문 <em>Homa: A Receiver-Driven Low-Latency Transport Protocol Using Network Priorities</em>, SIGCOMM 2018), 스탠퍼드 PlatformLab의 GitHub에 오픈소스 리눅스 커널 모듈이 있으며, 위의 설계 요점(SRPT, unscheduled·scheduled 패킷, grant, 우선순위 큐)은 발표된 설계와 일치한다. 강연 요약에서 가져왔고 독립 확인하지 않은 것: 이 벤치마크의 13배 p99 수치와 큰 메시지 2배 수치, 정확한 타임스탬프, 업스트림 작업의 현재 상태. 강연 날짜는 요약에 없다.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=eZ8WWZzoaR0">YouTube — 존 오스터하우트, Homa와 AI 클러스터 네트워킹</a> · Montazeri, Li, Alizadeh, Ousterhout, <em>Homa</em>, SIGCOMM 2018 · GitHub PlatformLab/HomaModule · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Theory 스케줄링 노트.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>tail latency</strong></td><td>꼬리 지연(가장 느린 요청들의 지연) · 평균과 대비되는 성능 지표. "the slowest one percent matters"</td></tr><tr><td><strong>p99</strong></td><td>99번째 백분위수(요청 100개 중 느린 1개의 값) · 지연 SLO의 표준 단위. "measure p99 on the CLOB round trip"</td></tr><tr><td><strong>throughput</strong></td><td>처리량(단위 시간당 처리한 양) · 대역폭·지연과 함께 세 가지 기본 지표. "bandwidth mattered"</td></tr><tr><td><strong>clean-slate</strong></td><td>백지에서 새로 설계한 · 기존 프로토콜 호환을 버린 설계를 부르는 말. "a clean-slate protocol for the second"</td></tr><tr><td><strong>RDMA / RoCE</strong></td><td>Remote Direct Memory Access / RDMA over Converged Ethernet(이더넷 위의 RDMA) · 데이터센터 고속 전송의 표준 이름. "TCP or RoCE good enough"</td></tr><tr><td><strong>incast</strong></td><td>인캐스트(다수 송신자가 한 수신자에게 동시에 보내는 패턴) · 데이터센터 혼잡의 대표 원인. "Incast and queue build-up"</td></tr><tr><td><strong>top-of-rack (ToR) switch</strong></td><td>랙 상단 스위치(서버 랙마다 하나씩 있는 첫 홉 스위치) · 데이터센터 토폴로지 용어. "the egress buffer of the top-of-rack switch"</td></tr><tr><td><strong>egress</strong></td><td>출구(나가는 방향) · ingress(입구)와 짝. "egress queues per port"</td></tr><tr><td><strong>congestion control</strong></td><td>혼잡 제어(네트워크가 막힐 때 속도를 조절하는 규칙) · TCP의 핵심 메커니즘. "Sender-driven congestion control"</td></tr><tr><td><strong>ECN</strong></td><td>Explicit Congestion Notification(명시적 혼잡 알림, 패킷에 표시를 남기는 방식) · 손실 없이 혼잡을 알리는 신호. "through ECN marks or loss"</td></tr><tr><td><strong>control lag</strong></td><td>제어 시차(신호와 반응 사이의 지연) · 제어 이론 용어, 진동의 원인. "The feedback loop has a control lag"</td></tr><tr><td><strong>head-of-line (HOL) blocking</strong></td><td>선두 차단(앞의 것이 막혀 뒤가 못 나가는 현상) · 큐·스트림 설계의 고전적 병목. "Byte streams and head-of-line blocking"</td></tr><tr><td><strong>message boundary</strong></td><td>메시지 경계(어디서 한 메시지가 끝나는지) · 스트림 프로토콜의 결함을 설명할 때. "no notion of where one message ends"</td></tr><tr><td><strong>RPC</strong></td><td>Remote Procedure Call(원격 함수 호출, 요청-응답 쌍) · 분산 시스템의 기본 통신 단위. "Messages and RPCs, not streams"</td></tr><tr><td><strong>SRPT</strong></td><td>Shortest Remaining Processing Time first(잔여 처리 시간이 짧은 것 먼저) · 스케줄링 이론의 최적 정책. "a short message can overtake a long one"</td></tr><tr><td><strong>grant (packet)</strong></td><td>허가(수신자가 보내도 된다고 알리는 패킷) · Homa 고유 용어, 수신자 주도 제어의 도구. "the receiver issues grant packets"</td></tr><tr><td><strong>unscheduled / scheduled packets</strong></td><td>허가 없이 보내는 앞부분 / 허가를 받아 보내는 나머지 · Homa의 두 패킷 종류. "the first part of a message immediately, the unscheduled packets"</td></tr><tr><td><strong>barrier synchronization</strong></td><td>배리어 동기화(모든 노드가 한 지점에 모일 때까지 기다리는 것) · 병렬 계산의 기본 동기화. "a barrier synchronization at the end of a compute step"</td></tr><tr><td><strong>KV cache</strong></td><td>key-value 캐시(트랜스포머 추론에서 이전 토큰의 키·값을 저장) · LLM 추론 인프라 용어. "a lookup in a distributed KV cache"</td></tr><tr><td><strong>run-to-completion</strong></td><td>완료까지 실행(작업을 중간에 끊지 않고 끝까지 처리하는 모델) · 커널·네트워크 스택 설계 용어. "Homa&#39;s run-to-completion processing model"</td></tr><tr><td><strong>upstream (v.)</strong></td><td>업스트림에 병합하다(패치를 원 프로젝트, 여기서는 리눅스 커널에 넣다) · 오픈소스 관용어. "working toward upstreaming it"</td></tr><tr><td><strong>an order of magnitude</strong></td><td>한 자릿수(10배) 규모 · 크기 비교의 관용구. "by an order of magnitude"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-the-chain-only-checks-a-proof-exists.html">&larr; 95. The chain stops verifying — it only checks that a proof exists</a><a href="pocs-ai-engineer-builds-the-car.html">97. An AI engineer builds the car, not the engine — judgment about architecture is the skill that stays scarce &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="homa-receiver-driven-transport";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
