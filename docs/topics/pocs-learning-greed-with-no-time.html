@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning greed on a full calendar — choose one through line, learn by producing, and let the system remember the rest — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Learning greed on a full calendar — choose one through line, learn by producing, and let the system remember the rest</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#62</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Learning greed on a full calendar — choose one through line, learn by producing, and let the system remember the rest</h1>
+      <p class="lead">The question behind today&#39;s twenty-odd items is jay&#39;s own: there is far more he wants to learn than time to learn it, and the wanting does not go away. This item is the answer assembled from the day&#39;s sources rather than from one video. Andrew Ng says what you offload to a model you do not retain, so learning has to run through your own hands. Robert Greene says nothing exceptional comes without a through line, so the appetite has to be pointed. Charlotte Fraza says a researcher narrows the question before reading and ends every session with three lines. Djokovic says the environment beats willpower and that the painful interval is the one to replay. Karpathy&#39;s LLM-wiki pattern says the system, not the head, should hold the index. Put together they give one method: a single through line that decides what gets learned deeply and what only gets filed, a fixed daily slot that produces an artefact, and a system that remembers everything you were curious about so you do not have to carry it.</p>
+      <p class="meta">For Jayverse the method is already half built. Knowledge Notes is the filing system, the daily history is the lab book, the Auditor&#39;s rule is the honesty check. What is missing is the filter at the front, the closing questions at the back, and a weekly hour that turns filed items into learned ones.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Learning greed on a full calendar — choose one through line, learn by producing, and let the system remember the rest\n\nThe question behind today's twenty-odd items is jay's own: there is far more he wants to learn than time to learn it, and the wanting does not go away. This item is the answer assembled from the day's sources rather than from one video. Andrew Ng says what you offload to a model you do not retain, so learning has to run through your own hands. Robert Greene says nothing exceptional comes without a through line, so the appetite has to be pointed. Charlotte Fraza says a researcher narrows the question before reading and ends every session with three lines. Djokovic says the environment beats willpower and that the painful interval is the one to replay. Karpathy's LLM-wiki pattern says the system, not the head, should hold the index. Put together they give one method: a single through line that decides what gets learned deeply and what only gets filed, a fixed daily slot that produces an artefact, and a system that remembers everything you were curious about so you do not have to carry it.\n\nFor Jayverse the method is already half built. Knowledge Notes is the filing system, the daily history is the lab book, the Auditor's rule is the honesty check. What is missing is the filter at the front, the closing questions at the back, and a weekly hour that turns filed items into learned ones.\n\n## Why\n\nThe greed for learning is not a flaw to fix. It is the same signal that makes a good engineer read the spec twice. The problem is a mismatch of speeds: inputs arrive in minutes, understanding takes hours, and a day has a fixed number of them. Two wrong responses follow. One is to consume everything shallowly, which feels like learning and leaves nothing, the cognitive offloading Ng warns about. The other is to feel guilty and stop, which wastes the signal. The right response is a queue with a filter: everything you are curious about gets captured in seconds, only what serves the through line gets the hours, and the capture itself relieves the pressure, because the mind stops rehearsing what it might forget. Today's site already does the capture. The rest is a small amount of discipline placed where the environment does the work.\n\n## How it works\n\n### One through line decides depth\n\nGreene's test is the filter. Write the through line in one sentence, the thing all the projects are versions of. For Jayverse it is close to: programmable money whose rules can be verified, and the tooling that lets a small team build it with agents. Then sort every wish into three bins:\n\n- **Learn deeply.** It moves the through line. This week that is agent harnesses and boundaries (Tech #62, #104, #106), evaluation and tracing (#102), the money rails (#103), and the market basics (Invest 800 to 815). These get the hours and a Verified and unverified paragraph written by you, not pasted.\n- **Learn enough to converse.** Adjacent and interview-relevant: robotics (#100, #113 to #116), world models, spatial intelligence. These get one item each and one sentence you could say in an interview, and no more until they touch a project.\n- **File and release.** Interesting, unconnected. These get a card and a Key expressions table and nothing else. Filing is the point. Once written down they stop costing attention.\n\nThe sorting is itself a five-minute daily act, and it is where most of the relief comes from. Ng's context advantage argues for the same bias: depth comes from years in one domain, and the domain is the through line.\n\n### A fixed slot that ends in an artefact\n\nDjokovic's environment rule and Fraza's curriculum rule agree: pick a time, not an amount of motivation. Two slots are enough.\n\n| Slot | When | Length | Output |\n|---|---|---|---|\n| Daily | same clock time each day | 30 to 45 minutes | one item moved from New to Done, in your words |\n| Weekly | one fixed weekend hour | 60 to 90 minutes | one deep-bin item worked by hand: rebuild the model, run the code, draw the chart |\n\nThe rule is that a slot ends with something written or built, because Fraza's point about output is the same as Ng's about offloading: retention follows production. Reading and highlighting do not count as the artefact. The Today and Yesterday buttons on the rail are the scoreboard for the daily slot. If Today is empty at night, the slot was skipped, and the number says so without an argument.\n\n### Three questions close every session\n\nFrom Fraza, appended to the day's history file in three lines: what did I learn, what is still unclear, what is the next step. The second line is the one that matters for greed. The unclear thing is written down, so it is safe, and it becomes tomorrow's first candidate instead of a background worry. Over weeks those lines are the real curriculum, better than any list of videos, because they were generated by friction with actual material.\n\n### Replay the interval where it turned\n\nKobe's advice to Djokovic applies to learning as much as to tennis. When a project stalls or a concept refuses to land, the useful thing is not the summary but the exact interval: which commit range, which paragraph, which step in the derivation. Write that interval into the history entry. The three-line close asks what was unclear; this asks where. Together they make the next session start at the right place.\n\n### Let the system hold the index\n\nKarpathy's pattern, as Tina Huang's video lays it out, has three layers: raw sources that are never edited, a wiki the model maintains, and a schema that tells the model how to read it, with an index and a log. Knowledge Notes has the wiki, the schema (the topics README), and the log (history). It lacks an honest raw layer and a machine-readable index. Both are small additions and both reduce the load on memory: the raw layer means a source can be reopened rather than re-remembered, and the index means the question \"have I already learned this\" is answered by a search rather than by anxiety. The greed shrinks when forgetting stops being a risk.\n\n### Accept the number\n\nThe Auditor's habit belongs here too. Today the site reads 61 done of 264 Tech items, 14 percent overall. That is not a failure rate, it is the honest ratio of curiosity to hours, and it is what the 1,000-done celebration is measuring. A learning plan that cannot show its ratio is a wish. This one can, every day, in the rail.\n\n### Where it lands in Jayverse\n\n- **Knowledge Notes: add the front filter and the back three lines.** A one-word bin per item at capture time (deep, converse, file) and the three closing questions at the end of each day's history file. Both are conventions, not code, and both can start tomorrow.\n- **Rail: the daily slot has a scoreboard already.** Today, Yesterday and Done are the learning metrics; the weekly hour should end by pressing Done on one deep-bin item after working it by hand, not after reading it.\n- **alice as the LLM wiki: raw layer and index.** A `docs/topics/raw/` folder for the pasted briefings and a generated `index.md` with one line per item are the two missing layers from Tech #109; they turn \"did I already learn this\" into a grep.\n- **Eng and interviews: the converse bin is the interview bank.** One sentence per adjacent topic, kept current, is exactly what a team-lead interview abroad draws on, and it is the cheapest form of learning the greed allows.\n\n### Verified and unverified\n\nVerified on 2026-09-19: the sources this item combines are on the site as Tech #97, #104, #106, #109, #119, Life 1304 to 1309, and Invest 815, each with its own Verified and unverified paragraph; the site's counts quoted here are read from the rail today. The method itself is a synthesis, not a study result: the claims that production improves retention and that fixed cues beat motivation are consistent with mainstream learning research (retrieval practice, habit cueing), but the specific slot lengths and the three-bin sort are recommendations for jay, not measured findings. Their test is the ratio in the rail over the next months.\n\nSources: Tech #97 (an AI engineer builds the car), #104 (Pocock, fundamentals), #106 (harness engineering), #109 (Obsidian and the LLM wiki), Life 1304 (Ng: tasks not jobs), 1306 (research like a PhD), 1307 (Greene: the through line), 1308 (Greene: reading), 1309 (Djokovic: watch the interval), Invest 815 (MIT: markets and edge) · related: Tech #62 (agentic engineering writes the boundaries).\n"</script>
+<h2>Why</h2>
+<p>The greed for learning is not a flaw to fix. It is the same signal that makes a good engineer read the spec twice. The problem is a mismatch of speeds: inputs arrive in minutes, understanding takes hours, and a day has a fixed number of them. Two wrong responses follow. One is to consume everything shallowly, which feels like learning and leaves nothing, the cognitive offloading Ng warns about. The other is to feel guilty and stop, which wastes the signal. The right response is a queue with a filter: everything you are curious about gets captured in seconds, only what serves the through line gets the hours, and the capture itself relieves the pressure, because the mind stops rehearsing what it might forget. Today&#39;s site already does the capture. The rest is a small amount of discipline placed where the environment does the work.</p>
+<h2>How it works</h2>
+<h3>One through line decides depth</h3>
+<p>Greene&#39;s test is the filter. Write the through line in one sentence, the thing all the projects are versions of. For Jayverse it is close to: programmable money whose rules can be verified, and the tooling that lets a small team build it with agents. Then sort every wish into three bins:</p>
+<ul><li><strong>Learn deeply.</strong> It moves the through line. This week that is agent harnesses and boundaries (Tech #62, #104, #106), evaluation and tracing (#102), the money rails (#103), and the market basics (Invest 800 to 815). These get the hours and a Verified and unverified paragraph written by you, not pasted.</li><li><strong>Learn enough to converse.</strong> Adjacent and interview-relevant: robotics (#100, #113 to #116), world models, spatial intelligence. These get one item each and one sentence you could say in an interview, and no more until they touch a project.</li><li><strong>File and release.</strong> Interesting, unconnected. These get a card and a Key expressions table and nothing else. Filing is the point. Once written down they stop costing attention.</li></ul>
+<p>The sorting is itself a five-minute daily act, and it is where most of the relief comes from. Ng&#39;s context advantage argues for the same bias: depth comes from years in one domain, and the domain is the through line.</p>
+<h3>A fixed slot that ends in an artefact</h3>
+<p>Djokovic&#39;s environment rule and Fraza&#39;s curriculum rule agree: pick a time, not an amount of motivation. Two slots are enough.</p>
+<table><thead><tr><th>Slot</th><th>When</th><th>Length</th><th>Output</th></tr></thead><tbody><tr><td>Daily</td><td>same clock time each day</td><td>30 to 45 minutes</td><td>one item moved from New to Done, in your words</td></tr><tr><td>Weekly</td><td>one fixed weekend hour</td><td>60 to 90 minutes</td><td>one deep-bin item worked by hand: rebuild the model, run the code, draw the chart</td></tr></tbody></table>
+<p>The rule is that a slot ends with something written or built, because Fraza&#39;s point about output is the same as Ng&#39;s about offloading: retention follows production. Reading and highlighting do not count as the artefact. The Today and Yesterday buttons on the rail are the scoreboard for the daily slot. If Today is empty at night, the slot was skipped, and the number says so without an argument.</p>
+<h3>Three questions close every session</h3>
+<p>From Fraza, appended to the day&#39;s history file in three lines: what did I learn, what is still unclear, what is the next step. The second line is the one that matters for greed. The unclear thing is written down, so it is safe, and it becomes tomorrow&#39;s first candidate instead of a background worry. Over weeks those lines are the real curriculum, better than any list of videos, because they were generated by friction with actual material.</p>
+<h3>Replay the interval where it turned</h3>
+<p>Kobe&#39;s advice to Djokovic applies to learning as much as to tennis. When a project stalls or a concept refuses to land, the useful thing is not the summary but the exact interval: which commit range, which paragraph, which step in the derivation. Write that interval into the history entry. The three-line close asks what was unclear; this asks where. Together they make the next session start at the right place.</p>
+<h3>Let the system hold the index</h3>
+<p>Karpathy&#39;s pattern, as Tina Huang&#39;s video lays it out, has three layers: raw sources that are never edited, a wiki the model maintains, and a schema that tells the model how to read it, with an index and a log. Knowledge Notes has the wiki, the schema (the topics README), and the log (history). It lacks an honest raw layer and a machine-readable index. Both are small additions and both reduce the load on memory: the raw layer means a source can be reopened rather than re-remembered, and the index means the question "have I already learned this" is answered by a search rather than by anxiety. The greed shrinks when forgetting stops being a risk.</p>
+<h3>Accept the number</h3>
+<p>The Auditor&#39;s habit belongs here too. Today the site reads 61 done of 264 Tech items, 14 percent overall. That is not a failure rate, it is the honest ratio of curiosity to hours, and it is what the 1,000-done celebration is measuring. A learning plan that cannot show its ratio is a wish. This one can, every day, in the rail.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Knowledge Notes: add the front filter and the back three lines.</strong> A one-word bin per item at capture time (deep, converse, file) and the three closing questions at the end of each day&#39;s history file. Both are conventions, not code, and both can start tomorrow.</li><li><strong>Rail: the daily slot has a scoreboard already.</strong> Today, Yesterday and Done are the learning metrics; the weekly hour should end by pressing Done on one deep-bin item after working it by hand, not after reading it.</li><li><strong>alice as the LLM wiki: raw layer and index.</strong> A <code>docs/topics/raw/</code> folder for the pasted briefings and a generated <code>index.md</code> with one line per item are the two missing layers from Tech #109; they turn "did I already learn this" into a grep.</li><li><strong>Eng and interviews: the converse bin is the interview bank.</strong> One sentence per adjacent topic, kept current, is exactly what a team-lead interview abroad draws on, and it is the cheapest form of learning the greed allows.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: the sources this item combines are on the site as Tech #97, #104, #106, #109, #119, Life 1304 to 1309, and Invest 815, each with its own Verified and unverified paragraph; the site&#39;s counts quoted here are read from the rail today. The method itself is a synthesis, not a study result: the claims that production improves retention and that fixed cues beat motivation are consistent with mainstream learning research (retrieval practice, habit cueing), but the specific slot lengths and the three-bin sort are recommendations for jay, not measured findings. Their test is the ratio in the rail over the next months.</p>
+<p>Sources: Tech #97 (an AI engineer builds the car), #104 (Pocock, fundamentals), #106 (harness engineering), #109 (Obsidian and the LLM wiki), Life 1304 (Ng: tasks not jobs), 1306 (research like a PhD), 1307 (Greene: the through line), 1308 (Greene: reading), 1309 (Djokovic: watch the interval), Invest 815 (MIT: markets and edge) · related: Tech #62 (agentic engineering writes the boundaries).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>through line</strong></td><td>관통선(모든 프로젝트를 잇는 한 가지 주제) · 그린의 집중 개념. "choose one through line"</td></tr><tr><td><strong>learning greed</strong></td><td>학습 욕심(시간보다 많은 배움의 욕구) · 이 항목의 이름. "Learning greed on a full calendar"</td></tr><tr><td><strong>on a full calendar</strong></td><td>일정이 꽉 찬 상태에서 · 시간 부족을 말하는 관용구. "on a full calendar"</td></tr><tr><td><strong>offload (v.)</strong></td><td>떠넘기다, 외주화하다(생각을 도구에 맡기다) · 응의 인지적 외주화. "what you offload to a model you do not retain"</td></tr><tr><td><strong>cognitive offloading</strong></td><td>인지적 외주화(기억·사고를 외부 도구에 맡기는 것) · 학습 연구 용어. "the cognitive offloading Ng warns about"</td></tr><tr><td><strong>mismatch of speeds</strong></td><td>속도의 불일치 · 입력과 이해의 속도 차이를 말할 때. "The problem is a mismatch of speeds"</td></tr><tr><td><strong>rehearse (v.)</strong></td><td>되뇌다(잊지 않으려 마음속으로 반복하다) · 기억 부담을 설명할 때. "the mind stops rehearsing what it might forget"</td></tr><tr><td><strong>bin (n.)</strong></td><td>통, 분류 칸 · 세 갈래 분류의 단위. "sort every wish into three bins"</td></tr><tr><td><strong>file and release</strong></td><td>보관하고 놓는다 · 흥미롭지만 연결되지 않은 것의 처리. "File and release"</td></tr><tr><td><strong>artefact</strong></td><td>산출물(쓰거나 만든 결과물; 영국식 철자) · 세션의 종료 조건. "a slot that ends in an artefact"</td></tr><tr><td><strong>retention follows production</strong></td><td>기억은 생산을 따른다 · 만들어야 남는다는 원칙. "retention follows production"</td></tr><tr><td><strong>scoreboard</strong></td><td>점수판 · 레일의 Today·Yesterday 버튼을 가리킬 때. "the scoreboard for the daily slot"</td></tr><tr><td><strong>without an argument</strong></td><td>논쟁 없이(숫자가 스스로 말한다) · 정직한 지표를 설명할 때. "the number says so without an argument"</td></tr><tr><td><strong>friction with actual material</strong></td><td>실제 재료와의 마찰 · 진짜 배움이 생기는 자리. "generated by friction with actual material"</td></tr><tr><td><strong>the interval where it turned</strong></td><td>뒤집힌 구간(결과가 갈린 정확한 지점) · 코비→조코비치 조언. "Replay the interval where it turned"</td></tr><tr><td><strong>raw layer</strong></td><td>원본 층(절대 수정하지 않는 소스 보관층) · 카파시 LLM 위키의 첫 층. "an honest raw layer"</td></tr><tr><td><strong>LLM wiki</strong></td><td>LLM Wiki, Large Language Model이 유지하는 위키 · 카파시의 패턴 이름. "Karpathy&#39;s LLM-wiki pattern"</td></tr><tr><td><strong>a wish, not a plan</strong></td><td>계획이 아니라 소원 · 측정할 수 없는 계획을 비판할 때. "A learning plan that cannot show its ratio is a wish"</td></tr><tr><td><strong>interview bank</strong></td><td>면접 은행(면접에서 꺼낼 한 문장들의 저장소) · Eng 연결. "the converse bin is the interview bank"</td></tr><tr><td><strong>retrieval practice</strong></td><td>인출 연습(기억을 꺼내는 훈련이 학습을 강화한다는 연구) · 학습 과학 용어. "retrieval practice, habit cueing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 꽉 찬 일정 위의 학습 욕심 — 관통선 하나를 고르고, 만들면서 배우고, 나머지는 시스템이 기억하게 하라\n\n오늘 스무 개 남짓의 항목 뒤에 있는 질문은 jay 자신의 것이다. 배우고 싶은 것은 시간보다 훨씬 많고, 그 욕심은 사라지지 않는다. 이 항목은 영상 하나가 아니라 오늘의 출처들을 모아 만든 답이다. 앤드류 응은 모델에 떠넘긴 것은 남지 않는다고 하니, 학습은 자기 손을 거쳐야 한다. 로버트 그린은 관통선 없이 탁월한 것은 없다고 하니, 욕심은 방향을 가져야 한다. 샬럿 프라자는 연구자라면 읽기 전에 질문을 좁히고 매 세션을 세 줄로 닫는다고 한다. 조코비치는 환경이 의지를 이기고, 뼈아픈 구간을 다시 봐야 한다고 한다. 카파시의 LLM 위키 패턴은 색인을 머리가 아니라 시스템이 쥐어야 한다고 한다. 합치면 방법 하나가 나온다. 무엇을 깊이 배우고 무엇을 그냥 보관할지 정하는 관통선 하나, 산출물로 끝나는 고정된 하루 슬롯, 그리고 궁금했던 모든 것을 대신 기억해 주어 머리에 이고 다니지 않게 하는 시스템.\n\nJayverse에서 이 방법은 이미 반쯤 만들어져 있다. Knowledge Notes가 보관 시스템이고, 일일 히스토리가 실험 노트이며, Auditor의 규칙이 정직성 검사다. 빠진 것은 앞단의 필터, 뒷단의 닫는 질문, 그리고 보관된 항목을 배운 항목으로 바꾸는 주 1회의 한 시간이다.\n\n## 왜\n\n학습 욕심은 고쳐야 할 결함이 아니다. 좋은 엔지니어가 스펙을 두 번 읽게 만드는 것과 같은 신호다. 문제는 속도의 불일치다. 입력은 분 단위로 도착하고, 이해는 시간 단위로 걸리며, 하루의 시간은 정해져 있다. 잘못된 반응이 둘 따라온다. 하나는 모든 것을 얕게 소비하는 것으로, 배우는 느낌은 있지만 남는 것이 없다. 응이 경고한 인지적 외주화다. 다른 하나는 죄책감에 멈추는 것으로, 신호를 버린다. 옳은 반응은 필터가 달린 대기열이다. 궁금한 모든 것은 몇 초 안에 포착되고, 관통선에 봉사하는 것만 시간을 받으며, 포착 자체가 압력을 덜어 준다. 잊을지도 모르는 것을 마음이 되뇌기를 멈추기 때문이다. 오늘의 사이트는 이미 포착을 한다. 나머지는 환경이 일하게 하는 자리에 놓인 작은 규율이다.\n\n## 동작 방식\n\n### 관통선 하나가 깊이를 정한다\n\n그린의 검사가 필터다. 모든 프로젝트가 그 변주인 한 가지를 한 문장으로 적어라. Jayverse라면 이런 것에 가깝다. 규칙을 검증할 수 있는 프로그래머블 머니, 그리고 작은 팀이 에이전트와 함께 그것을 만들 수 있게 하는 도구. 그다음 모든 바람을 세 통에 나눈다.\n\n- **깊이 배운다.** 관통선을 움직이는 것. 이번 주라면 에이전트 하네스와 경계(Tech #62, #104, #106), 평가와 트레이싱(#102), 돈의 레일(#103), 시장 기초(Invest 800~815). 이것들은 시간을 받고, 붙여 넣은 것이 아닌 스스로 쓴 확인된 것과 미확인 문단을 받는다.\n- **대화할 만큼만 배운다.** 인접하고 면접에 나올 만한 것. 로보틱스(#100, #113~#116), 월드 모델, 공간 지능. 항목 하나와 면접에서 말할 수 있는 문장 하나를 받고, 프로젝트에 닿기 전까지는 그 이상 받지 않는다.\n- **보관하고 놓는다.** 흥미롭지만 연결되지 않은 것. 카드 하나와 핵심 표현 표만 받는다. 보관이 요점이다. 적어 두면 주의를 소비하지 않는다.\n\n나누기 자체가 하루 5분의 행위이고, 안도감의 대부분이 여기서 온다. 응의 맥락 우위도 같은 편향을 지지한다. 깊이는 한 분야에서의 여러 해에서 오고, 그 분야가 관통선이다.\n\n### 산출물로 끝나는 고정 슬롯\n\n조코비치의 환경 규칙과 프라자의 커리큘럼 규칙은 일치한다. 의욕의 양이 아니라 시각을 고르라. 슬롯 둘이면 충분하다.\n\n| 슬롯 | 언제 | 길이 | 산출물 |\n|---|---|---|---|\n| 매일 | 매일 같은 시각 | 30~45분 | 항목 하나를 New에서 Done으로, 내 말로 |\n| 매주 | 주말의 고정된 한 시간 | 60~90분 | 깊은 통의 항목 하나를 손으로: 모델을 다시 만들고, 코드를 돌리고, 차트를 그린다 |\n\n규칙은 슬롯이 쓰거나 만든 무언가로 끝난다는 것이다. 산출물에 대한 프라자의 요점은 외주화에 대한 응의 요점과 같다. 기억은 생산을 따른다. 읽기와 밑줄은 산출물로 치지 않는다. 레일의 Today와 Yesterday 버튼이 매일 슬롯의 점수판이다. 밤에 Today가 비어 있으면 슬롯을 건너뛴 것이고, 숫자가 논쟁 없이 말해 준다.\n\n### 세 질문이 모든 세션을 닫는다\n\n프라자에게서 가져와 그날 히스토리 파일에 세 줄로 덧붙인다. 오늘 무엇을 배웠나, 여전히 불명확한 것은 무엇인가, 다음 단계는 무엇인가. 욕심에 중요한 것은 둘째 줄이다. 불명확한 것이 적히면 안전해지고, 배경의 걱정 대신 내일의 첫 후보가 된다. 몇 주가 지나면 그 줄들이 진짜 커리큘럼이 된다. 영상 목록 어떤 것보다 낫다. 실제 재료와의 마찰에서 생성되었기 때문이다.\n\n### 뒤집힌 구간을 다시 본다\n\n코비가 조코비치에게 한 조언은 테니스만큼 학습에도 적용된다. 프로젝트가 멈추거나 개념이 들어오지 않을 때 쓸모 있는 것은 요약이 아니라 정확한 구간이다. 어느 커밋 범위, 어느 문단, 어느 유도 단계. 그 구간을 히스토리 항목에 적으라. 세 줄 닫기는 무엇이 불명확했는지 묻고, 이것은 어디였는지 묻는다. 둘이 합쳐져 다음 세션을 맞는 자리에서 시작하게 한다.\n\n### 색인은 시스템이 쥐게 한다\n\n티나 황의 영상이 정리한 카파시의 패턴은 세 층이다. 절대 수정하지 않는 원본 소스, 모델이 유지하는 위키, 모델에게 읽는 법을 알려 주는 스키마, 그리고 색인과 로그. Knowledge Notes에는 위키, 스키마(topics README), 로그(히스토리)가 있다. 정직한 원본 층과 기계가 읽는 색인이 없다. 둘 다 작은 추가이고 둘 다 기억의 부담을 줄인다. 원본 층은 소스를 다시 기억하는 대신 다시 열 수 있게 하고, 색인은 \"이거 이미 배웠나\"라는 질문에 불안 대신 검색으로 답하게 한다. 잊는 것이 위험이 아니게 되면 욕심은 줄어든다.\n\n### 숫자를 받아들인다\n\nAuditor의 습관도 여기에 속한다. 오늘 사이트는 Tech 264개 중 61개 완료, 전체 14퍼센트를 보여 준다. 그것은 실패율이 아니라 호기심 대 시간의 정직한 비율이고, 1,000개 완료 축하가 측정하는 것이 바로 그것이다. 비율을 보여 줄 수 없는 학습 계획은 소원이다. 이 계획은 매일 레일에서 보여 줄 수 있다.\n\n### Jayverse에서의 위치\n\n- **Knowledge Notes: 앞단 필터와 뒷단 세 줄을 더한다.** 포착 시점에 항목당 한 단어의 통(deep, converse, file)과 매일 히스토리 파일 끝의 닫는 질문 셋. 둘 다 코드가 아니라 관습이고, 둘 다 내일 시작할 수 있다.\n- **레일: 매일 슬롯의 점수판은 이미 있다.** Today, Yesterday, Done이 학습 지표다. 주 1회 한 시간은 깊은 통의 항목 하나를 읽은 뒤가 아니라 손으로 해 본 뒤 Done을 누르며 끝나야 한다.\n- **LLM 위키로서의 alice: 원본 층과 색인.** 붙여 넣은 브리핑을 위한 `docs/topics/raw/` 폴더와 항목당 한 줄의 생성된 `index.md`가 Tech #109에서 빠진 두 층이다. \"이거 이미 배웠나\"를 grep으로 바꾼다.\n- **Eng와 면접: 대화 통이 면접 은행이다.** 인접 주제마다 한 문장을 최신으로 유지하는 것이 해외 팀 리드 면접이 끌어 쓰는 바로 그것이고, 욕심이 허락하는 가장 싼 학습 형태다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 이 항목이 결합한 출처들은 Tech #97, #104, #106, #109, #119, Life 1304~1309, Invest 815로 사이트에 있고 각각 자기 확인된 것과 미확인 문단을 갖는다. 여기 인용된 사이트 수치는 오늘 레일에서 읽었다. 방법 자체는 연구 결과가 아니라 종합이다. 생산이 기억을 높이고 고정된 신호가 의욕을 이긴다는 주장은 주류 학습 연구(인출 연습, 습관 신호)와 일치하지만, 구체적 슬롯 길이와 세 통 분류는 jay를 위한 권고이고 측정된 발견이 아니다. 그 검사는 다음 몇 달 레일의 비율이다.\n\n출처: Tech #97(AI 엔지니어는 차를 만든다), #104(포콕, 기본기), #106(하네스 엔지니어링), #109(옵시디언과 LLM 위키), Life 1304(응: 직업이 아니라 태스크), 1306(박사처럼 연구), 1307(그린: 관통선), 1308(그린: 독서), 1309(조코비치: 구간을 보라), Invest 815(MIT: 시장과 엣지) · 관련: Tech #62(에이전틱 엔지니어링은 경계를 쓴다).\n"</script>
+      <h1>꽉 찬 일정 위의 학습 욕심 — 관통선 하나를 고르고, 만들면서 배우고, 나머지는 시스템이 기억하게 하라</h1>
+      <p class="lead">오늘 스무 개 남짓의 항목 뒤에 있는 질문은 jay 자신의 것이다. 배우고 싶은 것은 시간보다 훨씬 많고, 그 욕심은 사라지지 않는다. 이 항목은 영상 하나가 아니라 오늘의 출처들을 모아 만든 답이다. 앤드류 응은 모델에 떠넘긴 것은 남지 않는다고 하니, 학습은 자기 손을 거쳐야 한다. 로버트 그린은 관통선 없이 탁월한 것은 없다고 하니, 욕심은 방향을 가져야 한다. 샬럿 프라자는 연구자라면 읽기 전에 질문을 좁히고 매 세션을 세 줄로 닫는다고 한다. 조코비치는 환경이 의지를 이기고, 뼈아픈 구간을 다시 봐야 한다고 한다. 카파시의 LLM 위키 패턴은 색인을 머리가 아니라 시스템이 쥐어야 한다고 한다. 합치면 방법 하나가 나온다. 무엇을 깊이 배우고 무엇을 그냥 보관할지 정하는 관통선 하나, 산출물로 끝나는 고정된 하루 슬롯, 그리고 궁금했던 모든 것을 대신 기억해 주어 머리에 이고 다니지 않게 하는 시스템.</p>
+      <p class="meta">Jayverse에서 이 방법은 이미 반쯤 만들어져 있다. Knowledge Notes가 보관 시스템이고, 일일 히스토리가 실험 노트이며, Auditor의 규칙이 정직성 검사다. 빠진 것은 앞단의 필터, 뒷단의 닫는 질문, 그리고 보관된 항목을 배운 항목으로 바꾸는 주 1회의 한 시간이다.</p>
+<h2>왜</h2>
+<p>학습 욕심은 고쳐야 할 결함이 아니다. 좋은 엔지니어가 스펙을 두 번 읽게 만드는 것과 같은 신호다. 문제는 속도의 불일치다. 입력은 분 단위로 도착하고, 이해는 시간 단위로 걸리며, 하루의 시간은 정해져 있다. 잘못된 반응이 둘 따라온다. 하나는 모든 것을 얕게 소비하는 것으로, 배우는 느낌은 있지만 남는 것이 없다. 응이 경고한 인지적 외주화다. 다른 하나는 죄책감에 멈추는 것으로, 신호를 버린다. 옳은 반응은 필터가 달린 대기열이다. 궁금한 모든 것은 몇 초 안에 포착되고, 관통선에 봉사하는 것만 시간을 받으며, 포착 자체가 압력을 덜어 준다. 잊을지도 모르는 것을 마음이 되뇌기를 멈추기 때문이다. 오늘의 사이트는 이미 포착을 한다. 나머지는 환경이 일하게 하는 자리에 놓인 작은 규율이다.</p>
+<h2>동작 방식</h2>
+<h3>관통선 하나가 깊이를 정한다</h3>
+<p>그린의 검사가 필터다. 모든 프로젝트가 그 변주인 한 가지를 한 문장으로 적어라. Jayverse라면 이런 것에 가깝다. 규칙을 검증할 수 있는 프로그래머블 머니, 그리고 작은 팀이 에이전트와 함께 그것을 만들 수 있게 하는 도구. 그다음 모든 바람을 세 통에 나눈다.</p>
+<ul><li><strong>깊이 배운다.</strong> 관통선을 움직이는 것. 이번 주라면 에이전트 하네스와 경계(Tech #62, #104, #106), 평가와 트레이싱(#102), 돈의 레일(#103), 시장 기초(Invest 800~815). 이것들은 시간을 받고, 붙여 넣은 것이 아닌 스스로 쓴 확인된 것과 미확인 문단을 받는다.</li><li><strong>대화할 만큼만 배운다.</strong> 인접하고 면접에 나올 만한 것. 로보틱스(#100, #113~#116), 월드 모델, 공간 지능. 항목 하나와 면접에서 말할 수 있는 문장 하나를 받고, 프로젝트에 닿기 전까지는 그 이상 받지 않는다.</li><li><strong>보관하고 놓는다.</strong> 흥미롭지만 연결되지 않은 것. 카드 하나와 핵심 표현 표만 받는다. 보관이 요점이다. 적어 두면 주의를 소비하지 않는다.</li></ul>
+<p>나누기 자체가 하루 5분의 행위이고, 안도감의 대부분이 여기서 온다. 응의 맥락 우위도 같은 편향을 지지한다. 깊이는 한 분야에서의 여러 해에서 오고, 그 분야가 관통선이다.</p>
+<h3>산출물로 끝나는 고정 슬롯</h3>
+<p>조코비치의 환경 규칙과 프라자의 커리큘럼 규칙은 일치한다. 의욕의 양이 아니라 시각을 고르라. 슬롯 둘이면 충분하다.</p>
+<table><thead><tr><th>슬롯</th><th>언제</th><th>길이</th><th>산출물</th></tr></thead><tbody><tr><td>매일</td><td>매일 같은 시각</td><td>30~45분</td><td>항목 하나를 New에서 Done으로, 내 말로</td></tr><tr><td>매주</td><td>주말의 고정된 한 시간</td><td>60~90분</td><td>깊은 통의 항목 하나를 손으로: 모델을 다시 만들고, 코드를 돌리고, 차트를 그린다</td></tr></tbody></table>
+<p>규칙은 슬롯이 쓰거나 만든 무언가로 끝난다는 것이다. 산출물에 대한 프라자의 요점은 외주화에 대한 응의 요점과 같다. 기억은 생산을 따른다. 읽기와 밑줄은 산출물로 치지 않는다. 레일의 Today와 Yesterday 버튼이 매일 슬롯의 점수판이다. 밤에 Today가 비어 있으면 슬롯을 건너뛴 것이고, 숫자가 논쟁 없이 말해 준다.</p>
+<h3>세 질문이 모든 세션을 닫는다</h3>
+<p>프라자에게서 가져와 그날 히스토리 파일에 세 줄로 덧붙인다. 오늘 무엇을 배웠나, 여전히 불명확한 것은 무엇인가, 다음 단계는 무엇인가. 욕심에 중요한 것은 둘째 줄이다. 불명확한 것이 적히면 안전해지고, 배경의 걱정 대신 내일의 첫 후보가 된다. 몇 주가 지나면 그 줄들이 진짜 커리큘럼이 된다. 영상 목록 어떤 것보다 낫다. 실제 재료와의 마찰에서 생성되었기 때문이다.</p>
+<h3>뒤집힌 구간을 다시 본다</h3>
+<p>코비가 조코비치에게 한 조언은 테니스만큼 학습에도 적용된다. 프로젝트가 멈추거나 개념이 들어오지 않을 때 쓸모 있는 것은 요약이 아니라 정확한 구간이다. 어느 커밋 범위, 어느 문단, 어느 유도 단계. 그 구간을 히스토리 항목에 적으라. 세 줄 닫기는 무엇이 불명확했는지 묻고, 이것은 어디였는지 묻는다. 둘이 합쳐져 다음 세션을 맞는 자리에서 시작하게 한다.</p>
+<h3>색인은 시스템이 쥐게 한다</h3>
+<p>티나 황의 영상이 정리한 카파시의 패턴은 세 층이다. 절대 수정하지 않는 원본 소스, 모델이 유지하는 위키, 모델에게 읽는 법을 알려 주는 스키마, 그리고 색인과 로그. Knowledge Notes에는 위키, 스키마(topics README), 로그(히스토리)가 있다. 정직한 원본 층과 기계가 읽는 색인이 없다. 둘 다 작은 추가이고 둘 다 기억의 부담을 줄인다. 원본 층은 소스를 다시 기억하는 대신 다시 열 수 있게 하고, 색인은 "이거 이미 배웠나"라는 질문에 불안 대신 검색으로 답하게 한다. 잊는 것이 위험이 아니게 되면 욕심은 줄어든다.</p>
+<h3>숫자를 받아들인다</h3>
+<p>Auditor의 습관도 여기에 속한다. 오늘 사이트는 Tech 264개 중 61개 완료, 전체 14퍼센트를 보여 준다. 그것은 실패율이 아니라 호기심 대 시간의 정직한 비율이고, 1,000개 완료 축하가 측정하는 것이 바로 그것이다. 비율을 보여 줄 수 없는 학습 계획은 소원이다. 이 계획은 매일 레일에서 보여 줄 수 있다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Knowledge Notes: 앞단 필터와 뒷단 세 줄을 더한다.</strong> 포착 시점에 항목당 한 단어의 통(deep, converse, file)과 매일 히스토리 파일 끝의 닫는 질문 셋. 둘 다 코드가 아니라 관습이고, 둘 다 내일 시작할 수 있다.</li><li><strong>레일: 매일 슬롯의 점수판은 이미 있다.</strong> Today, Yesterday, Done이 학습 지표다. 주 1회 한 시간은 깊은 통의 항목 하나를 읽은 뒤가 아니라 손으로 해 본 뒤 Done을 누르며 끝나야 한다.</li><li><strong>LLM 위키로서의 alice: 원본 층과 색인.</strong> 붙여 넣은 브리핑을 위한 <code>docs/topics/raw/</code> 폴더와 항목당 한 줄의 생성된 <code>index.md</code>가 Tech #109에서 빠진 두 층이다. "이거 이미 배웠나"를 grep으로 바꾼다.</li><li><strong>Eng와 면접: 대화 통이 면접 은행이다.</strong> 인접 주제마다 한 문장을 최신으로 유지하는 것이 해외 팀 리드 면접이 끌어 쓰는 바로 그것이고, 욕심이 허락하는 가장 싼 학습 형태다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 이 항목이 결합한 출처들은 Tech #97, #104, #106, #109, #119, Life 1304~1309, Invest 815로 사이트에 있고 각각 자기 확인된 것과 미확인 문단을 갖는다. 여기 인용된 사이트 수치는 오늘 레일에서 읽었다. 방법 자체는 연구 결과가 아니라 종합이다. 생산이 기억을 높이고 고정된 신호가 의욕을 이긴다는 주장은 주류 학습 연구(인출 연습, 습관 신호)와 일치하지만, 구체적 슬롯 길이와 세 통 분류는 jay를 위한 권고이고 측정된 발견이 아니다. 그 검사는 다음 몇 달 레일의 비율이다.</p>
+<p>출처: Tech #97(AI 엔지니어는 차를 만든다), #104(포콕, 기본기), #106(하네스 엔지니어링), #109(옵시디언과 LLM 위키), Life 1304(응: 직업이 아니라 태스크), 1306(박사처럼 연구), 1307(그린: 관통선), 1308(그린: 독서), 1309(조코비치: 구간을 보라), Invest 815(MIT: 시장과 엣지) · 관련: Tech #62(에이전틱 엔지니어링은 경계를 쓴다).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>through line</strong></td><td>관통선(모든 프로젝트를 잇는 한 가지 주제) · 그린의 집중 개념. "choose one through line"</td></tr><tr><td><strong>learning greed</strong></td><td>학습 욕심(시간보다 많은 배움의 욕구) · 이 항목의 이름. "Learning greed on a full calendar"</td></tr><tr><td><strong>on a full calendar</strong></td><td>일정이 꽉 찬 상태에서 · 시간 부족을 말하는 관용구. "on a full calendar"</td></tr><tr><td><strong>offload (v.)</strong></td><td>떠넘기다, 외주화하다(생각을 도구에 맡기다) · 응의 인지적 외주화. "what you offload to a model you do not retain"</td></tr><tr><td><strong>cognitive offloading</strong></td><td>인지적 외주화(기억·사고를 외부 도구에 맡기는 것) · 학습 연구 용어. "the cognitive offloading Ng warns about"</td></tr><tr><td><strong>mismatch of speeds</strong></td><td>속도의 불일치 · 입력과 이해의 속도 차이를 말할 때. "The problem is a mismatch of speeds"</td></tr><tr><td><strong>rehearse (v.)</strong></td><td>되뇌다(잊지 않으려 마음속으로 반복하다) · 기억 부담을 설명할 때. "the mind stops rehearsing what it might forget"</td></tr><tr><td><strong>bin (n.)</strong></td><td>통, 분류 칸 · 세 갈래 분류의 단위. "sort every wish into three bins"</td></tr><tr><td><strong>file and release</strong></td><td>보관하고 놓는다 · 흥미롭지만 연결되지 않은 것의 처리. "File and release"</td></tr><tr><td><strong>artefact</strong></td><td>산출물(쓰거나 만든 결과물; 영국식 철자) · 세션의 종료 조건. "a slot that ends in an artefact"</td></tr><tr><td><strong>retention follows production</strong></td><td>기억은 생산을 따른다 · 만들어야 남는다는 원칙. "retention follows production"</td></tr><tr><td><strong>scoreboard</strong></td><td>점수판 · 레일의 Today·Yesterday 버튼을 가리킬 때. "the scoreboard for the daily slot"</td></tr><tr><td><strong>without an argument</strong></td><td>논쟁 없이(숫자가 스스로 말한다) · 정직한 지표를 설명할 때. "the number says so without an argument"</td></tr><tr><td><strong>friction with actual material</strong></td><td>실제 재료와의 마찰 · 진짜 배움이 생기는 자리. "generated by friction with actual material"</td></tr><tr><td><strong>the interval where it turned</strong></td><td>뒤집힌 구간(결과가 갈린 정확한 지점) · 코비→조코비치 조언. "Replay the interval where it turned"</td></tr><tr><td><strong>raw layer</strong></td><td>원본 층(절대 수정하지 않는 소스 보관층) · 카파시 LLM 위키의 첫 층. "an honest raw layer"</td></tr><tr><td><strong>LLM wiki</strong></td><td>LLM Wiki, Large Language Model이 유지하는 위키 · 카파시의 패턴 이름. "Karpathy&#39;s LLM-wiki pattern"</td></tr><tr><td><strong>a wish, not a plan</strong></td><td>계획이 아니라 소원 · 측정할 수 없는 계획을 비판할 때. "A learning plan that cannot show its ratio is a wish"</td></tr><tr><td><strong>interview bank</strong></td><td>면접 은행(면접에서 꺼낼 한 문장들의 저장소) · Eng 연결. "the converse bin is the interview bank"</td></tr><tr><td><strong>retrieval practice</strong></td><td>인출 연습(기억을 꺼내는 훈련이 학습을 강화한다는 연구) · 학습 과학 용어. "retrieval practice, habit cueing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-agentic-engineering-writes-boundaries.html">&larr; 61. Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them</a><a href="pocs-agent-team-is-a-workflow.html">63. One employee, one agent creates silos — the unit of AX is a governed workflow &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="learning-greed-with-no-time";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

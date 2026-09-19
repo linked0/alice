@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; 황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1316</span><span>Talk</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask</h1>
+      <p class="lead">황석영, one of Korea&#39;s major postwar novelists, spoke in part 2 of a two-part interview with the YouTube channel 책과삶 ("Books and Life"), a roughly 12-minute video titled "&#39;절대 후회 없습니다&#39; 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책" ("No regrets at all — the great books you must read once before you die"). He opens with two paperbacks a college friend mailed him at the Vietnam front, *Moby Dick* and *Don Quixote* (00:39, 00:49, 01:00), and describes finishing them during a two-week lockdown at a US replacement depot in Da Nang during the Tet Offensive, with nothing else to read (01:09, 01:37). From there he moves to the ten years he spent choosing one representative story per author for his anthology *한국 명단편 101선*, and to his central claim for the AI era: a chatbot only amplifies the intellectual foundation a user already has, so without classics behind you, you ask elementary questions and get elementary answers (09:44, 10:03, 10:23, 10:33).</p>
+      <p class="meta">For Jayverse this is a second, independent source for the argument Tech #97 (judgment) and Tech #106 (the harness metaphor) already make about AI tools — 황석영 describes the same mechanism from the reader&#39;s side, not the engineer&#39;s, and adds a concrete counter-practice: fill the next empty stretch between commitments with one long, hard book, not more short-form video.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# 황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask\n\n황석영, one of Korea's major postwar novelists, spoke in part 2 of a two-part interview with the YouTube channel 책과삶 (\"Books and Life\"), a roughly 12-minute video titled \"'절대 후회 없습니다' 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책\" (\"No regrets at all — the great books you must read once before you die\"). He opens with two paperbacks a college friend mailed him at the Vietnam front, *Moby Dick* and *Don Quixote* (00:39, 00:49, 01:00), and describes finishing them during a two-week lockdown at a US replacement depot in Da Nang during the Tet Offensive, with nothing else to read (01:09, 01:37). From there he moves to the ten years he spent choosing one representative story per author for his anthology *한국 명단편 101선*, and to his central claim for the AI era: a chatbot only amplifies the intellectual foundation a user already has, so without classics behind you, you ask elementary questions and get elementary answers (09:44, 10:03, 10:23, 10:33).\n\nFor Jayverse this is a second, independent source for the argument Tech #97 (judgment) and Tech #106 (the harness metaphor) already make about AI tools — 황석영 describes the same mechanism from the reader's side, not the engineer's, and adds a concrete counter-practice: fill the next empty stretch between commitments with one long, hard book, not more short-form video.\n\n## Why\n\nThe failure mode this guards against is treating an AI chat window as a substitute for a reading history instead of an amplifier of one. 황석영 says he tested ChatGPT and Gemini directly before drawing his conclusion (09:44), and the pattern he describes matches what Andrew Ng calls a context advantage (Life 1304) and what Tech #106 calls a harness: the tool is only as good as the operator directing it. His version of the argument is specific to depth over time — \"정치·경제·철학·문화의 정수가 역사와 고전에서 축적\" (10:03), the essence of politics, economics, philosophy and culture accumulates from history and the classics — and it gives a falsifiable test: ask an AI an elementary-school-level question and you get an elementary-school-level answer back (10:23, 10:33), because the model has no way to know you wanted more.\n\n## How it works\n\n### Two books in a foxhole\n\n황석영 served as a Korean marine in Vietnam. A university friend mailed him *Moby Dick* and *Don Quixote* (00:39, 00:49, 01:00); he kept them in his footlocker until a Tet Offensive curfew and a two-week confinement to a US replacement-depot barracks in Da Nang left him with nothing else to do, so he read both cover to cover (01:09, 01:37). Decades later, he says, Ahab's obsession and Quixote's whole narrative arc are still with him (01:47, 01:58).\n\n### The transition-fortnight rule\n\nHe generalizes this into a reading rule: at the gap points in a life — leaving a job, graduating, the weeks before or after military service — when the world drops away for a month or two, spend that time cut off, in a room or a corner of a motel, working through one big book you never normally have time for. Done a few times over a life, he says, it becomes permanent internal capital (02:16, 02:34, 02:42, 02:52).\n\n### Ten volumes, one great line per writer\n\nSeparately, over three years, he reviewed one Korean short story a week for what became *한국 명단편 101선* — an 11-volume anthology by the source summary, though the actual 2015 Munhakdongne edition is ten volumes; the discrepancy is unresolved here (03:05, 03:16, 03:35). To pick a single story he read each candidate's entire body of work, arriving at a rule of his own: \"한국 작가들은 누구에게나 절창이 하나씩 있다\" — every Korean writer has one perfect passage in them (03:26, 03:47). His lineage runs from 이인직 and 이광수 through 홍명희, 이기영 (*고향*, *두만강*), 염상섭, 현진건, 채만식 (04:02, 04:07), a 1970s jump through 조세희 (*난장이가 쏘아올린 작은 공*) and his own *객지*, *한씨연대기*, *장길산*, *무기의 그늘* (04:21, 04:43), down to a younger generation: Nobel laureate 한강, 신경숙 (*엄마를 부탁해*), 황정은, 김애란 (04:43, 04:54).\n\n### Self-help gives a lesson, literature gives a life\n\nHe draws a sharp line between self-help books, which preach a narrow lesson the way a sermon does (05:02, 05:11), and literature, which lets a reader indirectly live through the total shape of someone else's life (05:22). Immersing in and empathizing with fiction widens the self (05:32); the resulting store of human data and imagination is, in his account, the actual source of creative power (05:42, 06:01). He contrasts this with a habit he sees in Korea of dismissing novels as lies — \"소설 쓰고 있네,\" roughly \"quit making things up\" — where Western culture instead treats literary literacy as a measure of being cultured (08:14, 08:24, 08:33, 09:02).\n\n### Text over video, because the brain built the picture itself\n\nHis closing point is about retention rather than content: a video leaves behind a handful of scattered visual images (11:10, 11:18, 11:28), but a book forces the reader's own brain to construct the characters, setting and emotion, so decades later the sense and atmosphere of that reading are still available and, he says, sustain the soul (11:28, 11:48).\n\n### Where it lands in Jayverse\n\n- **Knowledge Notes: add a \"transition fortnight\" entry type.** When a real gap opens — between jobs, after a launch, before onboarding somewhere new — the entry isn't another video summary, it's the raw-source layer for one book: your own notes, not a channel's. That is the counterweight to the video-heavy intake this whole Notes system otherwise runs on, and the direct fix for the \"deep bin\" flagged in `learning-greed-with-no-time` — read less broadly and more deeply for those two weeks.\n- **Eng: a ready interview question.** \"What did you read during your last break between jobs?\" is a natural follow-up prompt for practice — 황석영's own answer is the model one-brick answer, not a list.\n- **Life: cross-reference three related items.** His transition-fortnight rule restates `greene-reading-leaves-the-prison`'s argument for deliberate immersion and matches the discipline in `park-hyejin-ten-books-breakthrough`; his lineage of Korean authors overlaps `readers-top-novels-korean-canon` at the clearest point — Han Kang's Nobel puts her at the end of both lists, and the rest of the overlap is worth checking directly against that item.\n- **Auditor: the operator owns the question's quality, not the tool.** 황석영's AI-era claim is the harness argument stated from the user side — write the rule the way you would want to read it back in ten years: an AI answer is checked not only against the source it cites, but against whether the question behind it came from someone who had done the reading.\n\n### Verified and unverified\n\nVerified on 2026-09-19: 황석영 served as a Korean marine in the Vietnam War; the Tet Offensive was in early 1968; he compiled and edited *황석영의 한국 명단편 101* (Munhakdongne, 2015), a ten-volume anthology — the source summary states eleven volumes, and that discrepancy is not resolved here; the named authors and works (이인직, 이광수, 홍명희, 이기영, 염상섭, 현진건, 채만식, 조세희, 한강, 신경숙, 황정은, 김애란, and 황석영's own *객지*, *한씨연대기*, *장길산*, *무기의 그늘*) are real writers and titles; Han Kang won the 2024 Nobel Prize in Literature. Taken from the summary and not independently checked: the anecdote's specific details (the friend, the exact confinement conditions), the \"three years, one story a week\" review process, and every timestamp cited above.\n\nSources: [YouTube — 책과삶, \"'절대 후회 없습니다' 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책\"](https://www.youtube.com/watch?v=vOLRpBZeESA) · related items: `greene-reading-leaves-the-prison`, `park-hyejin-ten-books-breakthrough`, `readers-top-novels-korean-canon`, `learning-greed-with-no-time`, Life 1304 (Ng: context advantage), Tech #97 (judgment), Tech #106 (the harness metaphor).\n"</script>
+<h2>Why</h2>
+<p>The failure mode this guards against is treating an AI chat window as a substitute for a reading history instead of an amplifier of one. 황석영 says he tested ChatGPT and Gemini directly before drawing his conclusion (09:44), and the pattern he describes matches what Andrew Ng calls a context advantage (Life 1304) and what Tech #106 calls a harness: the tool is only as good as the operator directing it. His version of the argument is specific to depth over time — "정치·경제·철학·문화의 정수가 역사와 고전에서 축적" (10:03), the essence of politics, economics, philosophy and culture accumulates from history and the classics — and it gives a falsifiable test: ask an AI an elementary-school-level question and you get an elementary-school-level answer back (10:23, 10:33), because the model has no way to know you wanted more.</p>
+<h2>How it works</h2>
+<h3>Two books in a foxhole</h3>
+<p>황석영 served as a Korean marine in Vietnam. A university friend mailed him <em>Moby Dick</em> and <em>Don Quixote</em> (00:39, 00:49, 01:00); he kept them in his footlocker until a Tet Offensive curfew and a two-week confinement to a US replacement-depot barracks in Da Nang left him with nothing else to do, so he read both cover to cover (01:09, 01:37). Decades later, he says, Ahab&#39;s obsession and Quixote&#39;s whole narrative arc are still with him (01:47, 01:58).</p>
+<h3>The transition-fortnight rule</h3>
+<p>He generalizes this into a reading rule: at the gap points in a life — leaving a job, graduating, the weeks before or after military service — when the world drops away for a month or two, spend that time cut off, in a room or a corner of a motel, working through one big book you never normally have time for. Done a few times over a life, he says, it becomes permanent internal capital (02:16, 02:34, 02:42, 02:52).</p>
+<h3>Ten volumes, one great line per writer</h3>
+<p>Separately, over three years, he reviewed one Korean short story a week for what became <em>한국 명단편 101선</em> — an 11-volume anthology by the source summary, though the actual 2015 Munhakdongne edition is ten volumes; the discrepancy is unresolved here (03:05, 03:16, 03:35). To pick a single story he read each candidate&#39;s entire body of work, arriving at a rule of his own: "한국 작가들은 누구에게나 절창이 하나씩 있다" — every Korean writer has one perfect passage in them (03:26, 03:47). His lineage runs from 이인직 and 이광수 through 홍명희, 이기영 (<em>고향</em>, <em>두만강</em>), 염상섭, 현진건, 채만식 (04:02, 04:07), a 1970s jump through 조세희 (<em>난장이가 쏘아올린 작은 공</em>) and his own <em>객지</em>, <em>한씨연대기</em>, <em>장길산</em>, <em>무기의 그늘</em> (04:21, 04:43), down to a younger generation: Nobel laureate 한강, 신경숙 (<em>엄마를 부탁해</em>), 황정은, 김애란 (04:43, 04:54).</p>
+<h3>Self-help gives a lesson, literature gives a life</h3>
+<p>He draws a sharp line between self-help books, which preach a narrow lesson the way a sermon does (05:02, 05:11), and literature, which lets a reader indirectly live through the total shape of someone else&#39;s life (05:22). Immersing in and empathizing with fiction widens the self (05:32); the resulting store of human data and imagination is, in his account, the actual source of creative power (05:42, 06:01). He contrasts this with a habit he sees in Korea of dismissing novels as lies — "소설 쓰고 있네," roughly "quit making things up" — where Western culture instead treats literary literacy as a measure of being cultured (08:14, 08:24, 08:33, 09:02).</p>
+<h3>Text over video, because the brain built the picture itself</h3>
+<p>His closing point is about retention rather than content: a video leaves behind a handful of scattered visual images (11:10, 11:18, 11:28), but a book forces the reader&#39;s own brain to construct the characters, setting and emotion, so decades later the sense and atmosphere of that reading are still available and, he says, sustain the soul (11:28, 11:48).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Knowledge Notes: add a "transition fortnight" entry type.</strong> When a real gap opens — between jobs, after a launch, before onboarding somewhere new — the entry isn&#39;t another video summary, it&#39;s the raw-source layer for one book: your own notes, not a channel&#39;s. That is the counterweight to the video-heavy intake this whole Notes system otherwise runs on, and the direct fix for the "deep bin" flagged in <code>learning-greed-with-no-time</code> — read less broadly and more deeply for those two weeks.</li><li><strong>Eng: a ready interview question.</strong> "What did you read during your last break between jobs?" is a natural follow-up prompt for practice — 황석영&#39;s own answer is the model one-brick answer, not a list.</li><li><strong>Life: cross-reference three related items.</strong> His transition-fortnight rule restates <code>greene-reading-leaves-the-prison</code>&#39;s argument for deliberate immersion and matches the discipline in <code>park-hyejin-ten-books-breakthrough</code>; his lineage of Korean authors overlaps <code>readers-top-novels-korean-canon</code> at the clearest point — Han Kang&#39;s Nobel puts her at the end of both lists, and the rest of the overlap is worth checking directly against that item.</li><li><strong>Auditor: the operator owns the question&#39;s quality, not the tool.</strong> 황석영&#39;s AI-era claim is the harness argument stated from the user side — write the rule the way you would want to read it back in ten years: an AI answer is checked not only against the source it cites, but against whether the question behind it came from someone who had done the reading.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: 황석영 served as a Korean marine in the Vietnam War; the Tet Offensive was in early 1968; he compiled and edited <em>황석영의 한국 명단편 101</em> (Munhakdongne, 2015), a ten-volume anthology — the source summary states eleven volumes, and that discrepancy is not resolved here; the named authors and works (이인직, 이광수, 홍명희, 이기영, 염상섭, 현진건, 채만식, 조세희, 한강, 신경숙, 황정은, 김애란, and 황석영&#39;s own <em>객지</em>, <em>한씨연대기</em>, <em>장길산</em>, <em>무기의 그늘</em>) are real writers and titles; Han Kang won the 2024 Nobel Prize in Literature. Taken from the summary and not independently checked: the anecdote&#39;s specific details (the friend, the exact confinement conditions), the "three years, one story a week" review process, and every timestamp cited above.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=vOLRpBZeESA">YouTube — 책과삶, "&#39;절대 후회 없습니다&#39; 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책"</a> · related items: <code>greene-reading-leaves-the-prison</code>, <code>park-hyejin-ten-books-breakthrough</code>, <code>readers-top-novels-korean-canon</code>, <code>learning-greed-with-no-time</code>, Life 1304 (Ng: context advantage), Tech #97 (judgment), Tech #106 (the harness metaphor).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cover to cover</strong></td><td>처음부터 끝까지(책을 표지에서 표지까지) · 완독을 강조하는 관용구. "so he read both cover to cover"</td></tr><tr><td><strong>footlocker</strong></td><td>관물대(군인의 개인 물품 보관함) · 군 생활 배경 묘사에 쓰는 단어. "he kept them in his footlocker"</td></tr><tr><td><strong>replacement depot</strong></td><td>보충대(전선 배치를 기다리는 병력이 머무는 후방 기지) · 베트남전 배경의 군사 용어. "a US replacement-depot barracks in Da Nang"</td></tr><tr><td><strong>curfew</strong></td><td>통행금지·외출 금지 · 분쟁 상황에서 이동을 제한하는 명령. "a Tet Offensive curfew"</td></tr><tr><td><strong>confinement</strong></td><td>감금·유폐(제한된 공간에 갇힘) · 여기서는 자발적이지 않은 격리. "a two-week confinement"</td></tr><tr><td><strong>context advantage</strong></td><td>맥락 우위(같은 도구를 써도 배경지식이 많은 쪽이 유리하다는 개념) · Andrew Ng이 쓴 용어, Life 1304와 연결. "what Andrew Ng calls a context advantage"</td></tr><tr><td><strong>harness (metaphor)</strong></td><td>마구·통제 장치(도구를 다루는 사람의 숙련도에 성능이 좌우된다는 비유) · Tech #106의 핵심 개념. "what Tech #106 calls a harness"</td></tr><tr><td><strong>operator</strong></td><td>운용자(도구를 실제로 다루는 사람) · 도구 자체가 아니라 사람에게 책임을 두는 표현. "the tool is only as good as the operator directing it"</td></tr><tr><td><strong>falsifiable test</strong></td><td>반증 가능한 테스트(참·거짓을 실제로 확인할 수 있는 검증법) · 과학적 주장의 요건을 가리키는 표현. "it gives a falsifiable test"</td></tr><tr><td><strong>amplify / amplifier</strong></td><td>증폭하다 / 증폭기(원래 있는 것을 키우는 장치나 작용) · AI를 도구로 규정할 때 핵심 동사. "a chatbot only amplifies the intellectual foundation"</td></tr><tr><td><strong>counterweight</strong></td><td>평형추(한쪽으로 쏠리는 힘을 상쇄하는 반대쪽 무게) · 습관의 균형을 잡는 비유. "the counterweight to the video-heavy intake"</td></tr><tr><td><strong>raw-source layer</strong></td><td>원천 레이어(가공되지 않은 1차 자료 계층) · 남의 요약이 아니라 자신의 노트임을 강조. "it&#39;s the raw-source layer for one book"</td></tr><tr><td><strong>cross-reference (v.)</strong></td><td>상호 참조하다(다른 항목과 연결해 놓다) · 문서 간 연결을 지시하는 동사. "cross-reference three related items"</td></tr><tr><td><strong>lineage</strong></td><td>계보(사상이나 인물의 흐름) · 작가들 사이의 영향 관계를 설명할 때. "His lineage runs from 이인직 and 이광수"</td></tr><tr><td><strong>retention</strong></td><td>정착·기억 유지(경험한 내용이 오래 남는 정도) · 텍스트와 영상을 비교하는 축. "His closing point is about retention rather than content"</td></tr><tr><td><strong>sermon</strong></td><td>설교(교회에서 하는 훈계성 말) · 자기계발서의 일방적 어조를 빗댄 비유. "the way a sermon does"</td></tr><tr><td><strong>internal capital</strong></td><td>내적 자산(눈에 보이지 않지만 평생 쓸 수 있는 축적) · 독서 경험을 자산에 비유. "it becomes permanent internal capital"</td></tr><tr><td><strong>one-brick answer</strong></td><td>벽돌 하나짜리 답(깊이 있는 대상 하나를 제대로 다룬 답, 목록형 답과 대비) · Eng 연습 질문의 모범 답 형태. "the model one-brick answer, not a list"</td></tr><tr><td><strong>discrepancy</strong></td><td>불일치(두 출처의 수치나 진술이 서로 다름) · 앤솔로지 권수 문제에 쓴 표현. "the discrepancy is unresolved here"</td></tr><tr><td><strong>elementary-school-level</strong></td><td>초등학생 수준의(가장 기초적인 단계를 가리키는 복합 형용사) · AI 질문의 질을 낮잡아 부르는 표현. "an elementary-school-level answer back"</td></tr><tr><td><strong>deliberate immersion</strong></td><td>의도적 몰입(우연이 아니라 작정하고 빠져드는 것) · 전환기 독서법을 요약하는 표현. "restates <code>greene-reading-leaves-the-prison</code>&#39;s argument for deliberate immersion"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 황석영: AI에게 묻기 전에 고전을 읽어라 — 질문의 수준은 자신의 독서가 정한다\n\n한국 전후 문학을 대표하는 소설가 황석영이 유튜브 채널 책과삶과의 2부작 인터뷰 중 2부, 약 12분짜리 영상 \"'절대 후회 없습니다' 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책\"에서 이야기한다. 그는 베트남 전선에서 대학 동창이 우편으로 보내준 책 두 권, 『모비 딕』과 『돈키호테』로 이야기를 연다(00:39, 00:49, 01:00). 구정 공세 기간 다낭의 미군 보충대 독방에 2주간 외출 금지된 채 달리 읽을 것이 없어 두 권을 완독했다고 말한다(01:09, 01:37). 이어 한 작가당 대표작 한 편을 고르는 데 10년을 쓴 앤솔로지 『한국 명단편 101선』으로 넘어가고, AI 시대에 대한 핵심 주장을 편다. 챗봇은 사용자가 이미 가진 지적 토대를 증폭할 뿐이므로, 고전이 쌓여 있지 않으면 초등학생 수준의 질문을 하고 초등학생 수준의 답을 받는다는 것이다(09:44, 10:03, 10:23, 10:33).\n\nJayverse에서 이것은 Tech #97(판단력)과 Tech #106(하니스 비유)이 이미 펴는 주장에 대한 두 번째 독립 출처다. 황석영은 같은 메커니즘을 엔지니어가 아니라 독자의 관점에서 설명하고, 구체적인 대응 습관을 하나 더한다 — 다음으로 비는 시간을 짧은 영상으로 채우지 말고 두껍고 어려운 책 한 권으로 채우라는 것.\n\n## 왜\n\n이 항목이 막는 실패 양상은 AI 채팅창을 독서 이력의 대체물로 취급하는 것이다. 채팅창은 원래 독서 이력을 증폭하는 도구인데, 그것을 대체물처럼 쓰는 실수다. 황석영은 직접 ChatGPT와 Gemini를 써 보고 이 결론에 이르렀다고 말하며(09:44), 그가 묘사하는 패턴은 Andrew Ng이 말하는 맥락 우위(Life 1304)와 Tech #106의 하니스 개념과 일치한다. 도구는 그것을 다루는 사람만큼만 좋다. 그의 버전은 시간에 걸친 깊이에 특화되어 있다. \"정치·경제·철학·문화의 정수가 역사와 고전에서 축적\"된다는 말(10:03)이고, 반증 가능한 테스트도 준다. 초등학생 수준의 질문을 AI에 던지면 초등학생 수준의 답이 돌아온다(10:23, 10:33). 모델은 사용자가 더 원했다는 것을 알 방법이 없기 때문이다.\n\n## 동작 방식\n\n### 참호 속의 책 두 권\n\n황석영은 베트남전에 해병대원으로 참전했다. 대학 동창이 『모비 딕』과 『돈키호테』를 우편으로 보내주었고(00:39, 00:49, 01:00), 관물대에 넣어두었다가 구정 공세로 인한 외출 금지와 다낭 미군 보충대 독방에서의 2주간 무료함 속에 두 권 모두 완독했다(01:09, 01:37). 수십 년이 지나도 에이허브의 광기와 돈키호테의 서사 전체가 여전히 남아 있다고 그는 말한다(01:47, 01:58).\n\n### 전환기 독서법\n\n그는 이를 하나의 독서 규칙으로 일반화한다. 퇴사, 졸업, 입대나 전역 전후처럼 삶에서 한두 달 세상과 단절되는 틈이 생길 때, 그 시간을 끊어내어 방이나 모텔 구석방에서 평소 읽을 시간이 없던 대작 하나를 며칠 파고들라는 것. 삶에서 몇 번 이렇게 하면 그것이 평생의 내적 자산이 된다고 한다(02:16, 02:34, 02:42, 02:52).\n\n### 10권, 작가마다 절창 하나\n\n별도로 3년간 매주 한국 단편 한 편씩을 리뷰하여 나온 것이 『한국 명단편 101선』이다. 출처 요약은 11권이라 하지만 실제 2015년 문학동네판은 10권이며, 이 불일치는 여기서 해소되지 않는다(03:05, 03:16, 03:35). 단편 하나를 고르기 위해 후보 작가의 전작을 다 읽었고, 그 과정에서 자신만의 규칙에 이르렀다. \"한국 작가들은 누구에게나 절창이 하나씩 있다\"(03:26, 03:47). 그의 계보는 이인직, 이광수를 거쳐 홍명희, 이기영(『고향』, 『두만강』), 염상섭, 현진건, 채만식으로 이어지고(04:02, 04:07), 1970년대의 도약인 조세희(『난장이가 쏘아올린 작은 공』)와 자신의 『객지』, 『한씨연대기』, 『장길산』, 『무기의 그늘』(04:21, 04:43)을 거쳐, 노벨상 수상자 한강, 신경숙(『엄마를 부탁해』), 황정은, 김애란 등 후배 세대로 내려온다(04:43, 04:54).\n\n### 자기계발서는 교훈을, 문학은 삶을 준다\n\n그는 설교처럼 좁은 교훈을 주는 자기계발서와(05:02, 05:11), 다른 사람 삶의 총체적 양상을 간접 체험하게 해주는 문학 사이에 뚜렷한 선을 긋는다(05:22). 허구에 몰입하고 공감하며 자아가 넓어지고(05:32), 그렇게 쌓인 인간학적 데이터와 상상력이 실제 창조력의 원천이라고 말한다(05:42, 06:01). 그는 이를, 서구는 문학적 소양을 교양의 척도로 삼는데 한국은 소설을 \"소설 쓰고 있네\"라며 거짓말 취급하는 태도와 대비시킨다(08:14, 08:24, 08:33, 09:02).\n\n### 콘텐츠가 아니라 정착의 문제 — 텍스트가 영상을 이기는 이유\n\n그의 마지막 요점은 내용이 아니라 정착(retention)에 관한 것이다. 영상은 흩어진 시각 이미지 몇 장면만 남기지만(11:10, 11:18, 11:28), 책은 독자의 뇌가 직접 인물, 배경, 감정을 상상으로 재현하게 하므로 노년에도 그때의 감각과 공기가 남아 영혼을 지탱한다고 그는 말한다(11:28, 11:48).\n\n### Jayverse에서의 위치\n\n- **Knowledge Notes: \"전환기 2주\" 항목 유형을 추가한다.** 이직 사이, 런칭 뒤, 새로운 곳에 합류하기 전처럼 실제로 빈 시간이 생기면, 그 항목은 또 다른 영상 요약이 아니라 책 한 권의 원천 레이어여야 한다 — 채널의 노트가 아니라 자신의 노트. 이는 이 Notes 시스템이 그렇지 않아도 영상 위주로 돌아가는 것의 균형추이며, `learning-greed-with-no-time`에서 지적한 \"깊은 저장고\" 문제의 직접적인 해법이다. 그 2주간은 넓게보다 깊게 읽는다.\n- **Eng: 바로 쓸 수 있는 인터뷰 질문.** \"지난 이직 사이 쉬는 기간에 무엇을 읽었나요?(What did you read during your last break between jobs?)\"는 자연스러운 후속 연습 질문이다 — 황석영 자신의 답이 목록이 아니라 벽돌 하나짜리 모범 답이다.\n- **Life: 관련 항목 세 개를 연결한다.** 그의 전환기 독서법은 `greene-reading-leaves-the-prison`이 주장하는 의도적 몰입과 같은 말이고, `park-hyejin-ten-books-breakthrough`의 규율과 맞아떨어진다. 그의 한국 작가 계보는 `readers-top-novels-korean-canon`과 가장 분명한 지점에서 겹친다 — 한강의 노벨상 수상이 두 목록 모두의 끝에 그를 놓으며, 나머지 겹침은 그 항목과 직접 대조해 확인할 가치가 있다.\n- **Auditor: 질문의 질을 소유하는 것은 도구가 아니라 운용자다.** 황석영의 AI 시대 주장은 사용자 쪽에서 말한 하니스 논증이다 — 10년 뒤에 다시 읽고 싶은 방식으로 규칙을 적어두라. AI의 답은 인용한 출처뿐 아니라, 그 질문을 던진 사람이 실제로 그만큼 읽었는지에 대해서도 검증되어야 한다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 황석영은 베트남전에 한국 해병대원으로 참전했다; 구정 공세는 1968년 초였다; 그는 『황석영의 한국 명단편 101』(문학동네, 2015)을 엮고 해설했으며 이는 10권짜리 앤솔로지다 — 출처 요약은 11권이라 하며, 이 불일치는 여기서 해소되지 않는다; 언급된 작가와 작품(이인직, 이광수, 홍명희, 이기영, 염상섭, 현진건, 채만식, 조세희, 한강, 신경숙, 황정은, 김애란, 그리고 황석영 자신의 『객지』, 『한씨연대기』, 『장길산』, 『무기의 그늘』)은 모두 실존하는 작가와 작품이다; 한강은 2024년 노벨문학상을 수상했다. 요약에서 가져왔고 독립 확인하지 않은 것: 일화의 세부 사항(동창의 구체적 정황, 정확한 감금 조건), \"3년간 매주 한 편\" 리뷰 과정, 위에 인용한 모든 타임스탬프.\n\n출처: [YouTube — 책과삶, \"'절대 후회 없습니다' 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책\"](https://www.youtube.com/watch?v=vOLRpBZeESA) · 관련 항목: `greene-reading-leaves-the-prison`, `park-hyejin-ten-books-breakthrough`, `readers-top-novels-korean-canon`, `learning-greed-with-no-time`, Life 1304(Ng의 맥락 우위), Tech #97(판단력), Tech #106(하니스 비유).\n"</script>
+      <h1>황석영: AI에게 묻기 전에 고전을 읽어라 — 질문의 수준은 자신의 독서가 정한다</h1>
+      <p class="lead">한국 전후 문학을 대표하는 소설가 황석영이 유튜브 채널 책과삶과의 2부작 인터뷰 중 2부, 약 12분짜리 영상 "&#39;절대 후회 없습니다&#39; 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책"에서 이야기한다. 그는 베트남 전선에서 대학 동창이 우편으로 보내준 책 두 권, 『모비 딕』과 『돈키호테』로 이야기를 연다(00:39, 00:49, 01:00). 구정 공세 기간 다낭의 미군 보충대 독방에 2주간 외출 금지된 채 달리 읽을 것이 없어 두 권을 완독했다고 말한다(01:09, 01:37). 이어 한 작가당 대표작 한 편을 고르는 데 10년을 쓴 앤솔로지 『한국 명단편 101선』으로 넘어가고, AI 시대에 대한 핵심 주장을 편다. 챗봇은 사용자가 이미 가진 지적 토대를 증폭할 뿐이므로, 고전이 쌓여 있지 않으면 초등학생 수준의 질문을 하고 초등학생 수준의 답을 받는다는 것이다(09:44, 10:03, 10:23, 10:33).</p>
+      <p class="meta">Jayverse에서 이것은 Tech #97(판단력)과 Tech #106(하니스 비유)이 이미 펴는 주장에 대한 두 번째 독립 출처다. 황석영은 같은 메커니즘을 엔지니어가 아니라 독자의 관점에서 설명하고, 구체적인 대응 습관을 하나 더한다 — 다음으로 비는 시간을 짧은 영상으로 채우지 말고 두껍고 어려운 책 한 권으로 채우라는 것.</p>
+<h2>왜</h2>
+<p>이 항목이 막는 실패 양상은 AI 채팅창을 독서 이력의 대체물로 취급하는 것이다. 채팅창은 원래 독서 이력을 증폭하는 도구인데, 그것을 대체물처럼 쓰는 실수다. 황석영은 직접 ChatGPT와 Gemini를 써 보고 이 결론에 이르렀다고 말하며(09:44), 그가 묘사하는 패턴은 Andrew Ng이 말하는 맥락 우위(Life 1304)와 Tech #106의 하니스 개념과 일치한다. 도구는 그것을 다루는 사람만큼만 좋다. 그의 버전은 시간에 걸친 깊이에 특화되어 있다. "정치·경제·철학·문화의 정수가 역사와 고전에서 축적"된다는 말(10:03)이고, 반증 가능한 테스트도 준다. 초등학생 수준의 질문을 AI에 던지면 초등학생 수준의 답이 돌아온다(10:23, 10:33). 모델은 사용자가 더 원했다는 것을 알 방법이 없기 때문이다.</p>
+<h2>동작 방식</h2>
+<h3>참호 속의 책 두 권</h3>
+<p>황석영은 베트남전에 해병대원으로 참전했다. 대학 동창이 『모비 딕』과 『돈키호테』를 우편으로 보내주었고(00:39, 00:49, 01:00), 관물대에 넣어두었다가 구정 공세로 인한 외출 금지와 다낭 미군 보충대 독방에서의 2주간 무료함 속에 두 권 모두 완독했다(01:09, 01:37). 수십 년이 지나도 에이허브의 광기와 돈키호테의 서사 전체가 여전히 남아 있다고 그는 말한다(01:47, 01:58).</p>
+<h3>전환기 독서법</h3>
+<p>그는 이를 하나의 독서 규칙으로 일반화한다. 퇴사, 졸업, 입대나 전역 전후처럼 삶에서 한두 달 세상과 단절되는 틈이 생길 때, 그 시간을 끊어내어 방이나 모텔 구석방에서 평소 읽을 시간이 없던 대작 하나를 며칠 파고들라는 것. 삶에서 몇 번 이렇게 하면 그것이 평생의 내적 자산이 된다고 한다(02:16, 02:34, 02:42, 02:52).</p>
+<h3>10권, 작가마다 절창 하나</h3>
+<p>별도로 3년간 매주 한국 단편 한 편씩을 리뷰하여 나온 것이 『한국 명단편 101선』이다. 출처 요약은 11권이라 하지만 실제 2015년 문학동네판은 10권이며, 이 불일치는 여기서 해소되지 않는다(03:05, 03:16, 03:35). 단편 하나를 고르기 위해 후보 작가의 전작을 다 읽었고, 그 과정에서 자신만의 규칙에 이르렀다. "한국 작가들은 누구에게나 절창이 하나씩 있다"(03:26, 03:47). 그의 계보는 이인직, 이광수를 거쳐 홍명희, 이기영(『고향』, 『두만강』), 염상섭, 현진건, 채만식으로 이어지고(04:02, 04:07), 1970년대의 도약인 조세희(『난장이가 쏘아올린 작은 공』)와 자신의 『객지』, 『한씨연대기』, 『장길산』, 『무기의 그늘』(04:21, 04:43)을 거쳐, 노벨상 수상자 한강, 신경숙(『엄마를 부탁해』), 황정은, 김애란 등 후배 세대로 내려온다(04:43, 04:54).</p>
+<h3>자기계발서는 교훈을, 문학은 삶을 준다</h3>
+<p>그는 설교처럼 좁은 교훈을 주는 자기계발서와(05:02, 05:11), 다른 사람 삶의 총체적 양상을 간접 체험하게 해주는 문학 사이에 뚜렷한 선을 긋는다(05:22). 허구에 몰입하고 공감하며 자아가 넓어지고(05:32), 그렇게 쌓인 인간학적 데이터와 상상력이 실제 창조력의 원천이라고 말한다(05:42, 06:01). 그는 이를, 서구는 문학적 소양을 교양의 척도로 삼는데 한국은 소설을 "소설 쓰고 있네"라며 거짓말 취급하는 태도와 대비시킨다(08:14, 08:24, 08:33, 09:02).</p>
+<h3>콘텐츠가 아니라 정착의 문제 — 텍스트가 영상을 이기는 이유</h3>
+<p>그의 마지막 요점은 내용이 아니라 정착(retention)에 관한 것이다. 영상은 흩어진 시각 이미지 몇 장면만 남기지만(11:10, 11:18, 11:28), 책은 독자의 뇌가 직접 인물, 배경, 감정을 상상으로 재현하게 하므로 노년에도 그때의 감각과 공기가 남아 영혼을 지탱한다고 그는 말한다(11:28, 11:48).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Knowledge Notes: "전환기 2주" 항목 유형을 추가한다.</strong> 이직 사이, 런칭 뒤, 새로운 곳에 합류하기 전처럼 실제로 빈 시간이 생기면, 그 항목은 또 다른 영상 요약이 아니라 책 한 권의 원천 레이어여야 한다 — 채널의 노트가 아니라 자신의 노트. 이는 이 Notes 시스템이 그렇지 않아도 영상 위주로 돌아가는 것의 균형추이며, <code>learning-greed-with-no-time</code>에서 지적한 "깊은 저장고" 문제의 직접적인 해법이다. 그 2주간은 넓게보다 깊게 읽는다.</li><li><strong>Eng: 바로 쓸 수 있는 인터뷰 질문.</strong> "지난 이직 사이 쉬는 기간에 무엇을 읽었나요?(What did you read during your last break between jobs?)"는 자연스러운 후속 연습 질문이다 — 황석영 자신의 답이 목록이 아니라 벽돌 하나짜리 모범 답이다.</li><li><strong>Life: 관련 항목 세 개를 연결한다.</strong> 그의 전환기 독서법은 <code>greene-reading-leaves-the-prison</code>이 주장하는 의도적 몰입과 같은 말이고, <code>park-hyejin-ten-books-breakthrough</code>의 규율과 맞아떨어진다. 그의 한국 작가 계보는 <code>readers-top-novels-korean-canon</code>과 가장 분명한 지점에서 겹친다 — 한강의 노벨상 수상이 두 목록 모두의 끝에 그를 놓으며, 나머지 겹침은 그 항목과 직접 대조해 확인할 가치가 있다.</li><li><strong>Auditor: 질문의 질을 소유하는 것은 도구가 아니라 운용자다.</strong> 황석영의 AI 시대 주장은 사용자 쪽에서 말한 하니스 논증이다 — 10년 뒤에 다시 읽고 싶은 방식으로 규칙을 적어두라. AI의 답은 인용한 출처뿐 아니라, 그 질문을 던진 사람이 실제로 그만큼 읽었는지에 대해서도 검증되어야 한다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 황석영은 베트남전에 한국 해병대원으로 참전했다; 구정 공세는 1968년 초였다; 그는 『황석영의 한국 명단편 101』(문학동네, 2015)을 엮고 해설했으며 이는 10권짜리 앤솔로지다 — 출처 요약은 11권이라 하며, 이 불일치는 여기서 해소되지 않는다; 언급된 작가와 작품(이인직, 이광수, 홍명희, 이기영, 염상섭, 현진건, 채만식, 조세희, 한강, 신경숙, 황정은, 김애란, 그리고 황석영 자신의 『객지』, 『한씨연대기』, 『장길산』, 『무기의 그늘』)은 모두 실존하는 작가와 작품이다; 한강은 2024년 노벨문학상을 수상했다. 요약에서 가져왔고 독립 확인하지 않은 것: 일화의 세부 사항(동창의 구체적 정황, 정확한 감금 조건), "3년간 매주 한 편" 리뷰 과정, 위에 인용한 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=vOLRpBZeESA">YouTube — 책과삶, "&#39;절대 후회 없습니다&#39; 죽기 전에 꼭 한 번은 읽어야 할, 영원히 남을 위대한 책"</a> · 관련 항목: <code>greene-reading-leaves-the-prison</code>, <code>park-hyejin-ten-books-breakthrough</code>, <code>readers-top-novels-korean-canon</code>, <code>learning-greed-with-no-time</code>, Life 1304(Ng의 맥락 우위), Tech #97(판단력), Tech #106(하니스 비유).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>cover to cover</strong></td><td>처음부터 끝까지(책을 표지에서 표지까지) · 완독을 강조하는 관용구. "so he read both cover to cover"</td></tr><tr><td><strong>footlocker</strong></td><td>관물대(군인의 개인 물품 보관함) · 군 생활 배경 묘사에 쓰는 단어. "he kept them in his footlocker"</td></tr><tr><td><strong>replacement depot</strong></td><td>보충대(전선 배치를 기다리는 병력이 머무는 후방 기지) · 베트남전 배경의 군사 용어. "a US replacement-depot barracks in Da Nang"</td></tr><tr><td><strong>curfew</strong></td><td>통행금지·외출 금지 · 분쟁 상황에서 이동을 제한하는 명령. "a Tet Offensive curfew"</td></tr><tr><td><strong>confinement</strong></td><td>감금·유폐(제한된 공간에 갇힘) · 여기서는 자발적이지 않은 격리. "a two-week confinement"</td></tr><tr><td><strong>context advantage</strong></td><td>맥락 우위(같은 도구를 써도 배경지식이 많은 쪽이 유리하다는 개념) · Andrew Ng이 쓴 용어, Life 1304와 연결. "what Andrew Ng calls a context advantage"</td></tr><tr><td><strong>harness (metaphor)</strong></td><td>마구·통제 장치(도구를 다루는 사람의 숙련도에 성능이 좌우된다는 비유) · Tech #106의 핵심 개념. "what Tech #106 calls a harness"</td></tr><tr><td><strong>operator</strong></td><td>운용자(도구를 실제로 다루는 사람) · 도구 자체가 아니라 사람에게 책임을 두는 표현. "the tool is only as good as the operator directing it"</td></tr><tr><td><strong>falsifiable test</strong></td><td>반증 가능한 테스트(참·거짓을 실제로 확인할 수 있는 검증법) · 과학적 주장의 요건을 가리키는 표현. "it gives a falsifiable test"</td></tr><tr><td><strong>amplify / amplifier</strong></td><td>증폭하다 / 증폭기(원래 있는 것을 키우는 장치나 작용) · AI를 도구로 규정할 때 핵심 동사. "a chatbot only amplifies the intellectual foundation"</td></tr><tr><td><strong>counterweight</strong></td><td>평형추(한쪽으로 쏠리는 힘을 상쇄하는 반대쪽 무게) · 습관의 균형을 잡는 비유. "the counterweight to the video-heavy intake"</td></tr><tr><td><strong>raw-source layer</strong></td><td>원천 레이어(가공되지 않은 1차 자료 계층) · 남의 요약이 아니라 자신의 노트임을 강조. "it&#39;s the raw-source layer for one book"</td></tr><tr><td><strong>cross-reference (v.)</strong></td><td>상호 참조하다(다른 항목과 연결해 놓다) · 문서 간 연결을 지시하는 동사. "cross-reference three related items"</td></tr><tr><td><strong>lineage</strong></td><td>계보(사상이나 인물의 흐름) · 작가들 사이의 영향 관계를 설명할 때. "His lineage runs from 이인직 and 이광수"</td></tr><tr><td><strong>retention</strong></td><td>정착·기억 유지(경험한 내용이 오래 남는 정도) · 텍스트와 영상을 비교하는 축. "His closing point is about retention rather than content"</td></tr><tr><td><strong>sermon</strong></td><td>설교(교회에서 하는 훈계성 말) · 자기계발서의 일방적 어조를 빗댄 비유. "the way a sermon does"</td></tr><tr><td><strong>internal capital</strong></td><td>내적 자산(눈에 보이지 않지만 평생 쓸 수 있는 축적) · 독서 경험을 자산에 비유. "it becomes permanent internal capital"</td></tr><tr><td><strong>one-brick answer</strong></td><td>벽돌 하나짜리 답(깊이 있는 대상 하나를 제대로 다룬 답, 목록형 답과 대비) · Eng 연습 질문의 모범 답 형태. "the model one-brick answer, not a list"</td></tr><tr><td><strong>discrepancy</strong></td><td>불일치(두 출처의 수치나 진술이 서로 다름) · 앤솔로지 권수 문제에 쓴 표현. "the discrepancy is unresolved here"</td></tr><tr><td><strong>elementary-school-level</strong></td><td>초등학생 수준의(가장 기초적인 단계를 가리키는 복합 형용사) · AI 질문의 질을 낮잡아 부르는 표현. "an elementary-school-level answer back"</td></tr><tr><td><strong>deliberate immersion</strong></td><td>의도적 몰입(우연이 아니라 작정하고 빠져드는 것) · 전환기 독서법을 요약하는 표현. "restates <code>greene-reading-leaves-the-prison</code>&#39;s argument for deliberate immersion"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-raksseo-classics-top-10-beginners.html">&larr; 1315. 락서의 고전문학 톱10 — ten short classics, picked so a beginner finishes them and a foreigner recognizes them</a><a href="pocs-summarize-roof-pillars-foundation.html">1317. Roof, pillars, foundation — summarize by building a structure, not restating sentences &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="hwang-sokyong-read-classics-ai-era";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

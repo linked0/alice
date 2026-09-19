@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design — forcing chaos into an order that hides exactly what the next layer doesn&#39;t need to see — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Design — forcing chaos into an order that hides exactly what the next layer doesn&#39;t need to see</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#125</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Design — forcing chaos into an order that hides exactly what the next layer doesn&#39;t need to see</h1>
+      <p class="lead">XenoSphere Originals&#39; video "The Art of Design | How Design Controls the World" (YouTube, about 11 minutes) argues that design is not logos or furniture but the practice of forcing chaos into purposeful order (00:07–00:14). It opens from Herbert Simon&#39;s definition in *The Sciences of the Artificial* (1969) — devising courses of action aimed at changing existing situations into preferred ones (01:45–01:53) — and builds four ideas on top of it: design begins in dissatisfaction and needs constraints to become real work (a bridge request with no span, load, budget, material or wind spec is not a design brief), engineering is intelligent compromise between competing demands, working systems are built as abstraction layers that each hide detail behind a simplified interface, and once a system reaches human scale it needs standard interfaces and choice architecture, because a design is never neutral even when nobody chose it on purpose.</p>
+      <p class="meta">For Jayverse this is the theory underneath work already being done by habit: every abstraction boundary in Rabbit, Verex and the devnet, every token standard, and every default the Knowledge Notes site ships are all instances of the same four moves — pick constraints, compress into layers, standardize the interface, and admit that the resulting choice is never neutral.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Design — forcing chaos into an order that hides exactly what the next layer doesn't need to see\n\nXenoSphere Originals' video \"The Art of Design | How Design Controls the World\" (YouTube, about 11 minutes) argues that design is not logos or furniture but the practice of forcing chaos into purposeful order (00:07–00:14). It opens from Herbert Simon's definition in *The Sciences of the Artificial* (1969) — devising courses of action aimed at changing existing situations into preferred ones (01:45–01:53) — and builds four ideas on top of it: design begins in dissatisfaction and needs constraints to become real work (a bridge request with no span, load, budget, material or wind spec is not a design brief), engineering is intelligent compromise between competing demands, working systems are built as abstraction layers that each hide detail behind a simplified interface, and once a system reaches human scale it needs standard interfaces and choice architecture, because a design is never neutral even when nobody chose it on purpose.\n\nFor Jayverse this is the theory underneath work already being done by habit: every abstraction boundary in Rabbit, Verex and the devnet, every token standard, and every default the Knowledge Notes site ships are all instances of the same four moves — pick constraints, compress into layers, standardize the interface, and admit that the resulting choice is never neutral.\n\n## Why\n\nThe video's throughline is that design failure is usually a missing decision, not a missing skill: nobody picked which constraints matter, so the system tries to satisfy all of them and satisfies none, or nobody picked where the abstraction boundary sits, so every layer leaks into the next. The same failure shows up as a vague resolution rule in a prediction market or a docs rail that tries to show full text and a live count at once. Naming the constraint, the layer, or the interface up front turns \"it should just work\" into something that can actually be built and later explained.\n\n## How it works\n\n### Constraints are the starting material, not the obstacle\n\nDesign starts when reality refuses to satisfy every wish (02:55–03:19); the request itself is empty until it comes with numbers attached. Engineering is then the art of intelligent compromise: a stronger airframe is heavier, a lighter battery holds less charge, a safer building costs more, and there is no single perfect solution, only a chosen trade-off (03:29–03:49). The video cites NASA's systems-engineering definition of the discipline as balancing competing demands so the whole system works (03:49–04:06) — the exact wording is the video's paraphrase, not independently checked here, though it matches how NASA's own systems-engineering handbook describes trade studies.\n\n### Abstraction layers hide detail so each layer can be understood alone\n\nHarry Beck's 1931 London Underground map (first published 1933) is the video's central case: geographic accuracy was noise for a rider who needs interchanges and stop counts, so Beck abstracted the network into straight lines and even spacing (04:22–05:18). \"Accuracy and usefulness are not the same thing; good design keeps only what matters to the task.\" The same move scales down to hardware: the Intel 4004 (1971) grew into chips with billions of transistors only because nobody reasons about all of them at once — transistor, gate, functional unit, processor, computer, network, each layer hiding the one below behind a simplified interface (05:26–07:00). Architecture, in this frame, is knowing where to draw the boundary so each layer can be understood on its own (07:06–07:14).\n\n### Standard interfaces let complexity scale without a coordinator\n\nFive people can improvise; five thousand need roles, schedules, procedures and clear authority (07:33–07:54). The ISO shipping container (1968) is the video's proof that the fix is a standard interface, not central control: cranes, trucks, ships and ports only ever need to agree on the corner fittings, never on what is inside the box (07:54–09:12). Hiding particulars behind one fixed interface let global freight scale without anyone coordinating the whole system.\n\n### Choice architecture: design is never neutral\n\nThe last section turns to Richard Thaler's nudge framing (Thaler & Sunstein, *Nudge*, 2008): thresholds, queue barriers, which button is biggest and brightest, and which option is the default all steer decisions, whether or not anyone intended that (09:25–10:18). One tap versus six menu clicks is not an accident (10:36–10:45). The video's closing line is the sharpest one: \"bad design is not always failed design; sometimes it works exactly as intended,\" illustrated with subscription-cancellation flows built to be painful (11:00–11:09) — a pattern real enough that the FTC's \"click to cancel\" rule (2023–2025) targeted exactly this dark pattern.\n\n### Where it lands in Jayverse\n\n- **Verex: the resolution rule and the market UI are both interfaces, and neither is neutral.** A resolution source that names a benchmark instead of a raw price is Beck's map, not the territory. The number of taps to place, cancel, or claim a position is a chosen default, not a UX afterthought; write down why each one is that many taps.\n- **Auditor: \"by which rule\" is the corner fitting.** Anyone checking a claim only needs to agree on the interface — what rule, what evidence — never on the internals of how a service produced the claim.\n- **Knowledge Notes: the rail is Beck's map of the site.** Numbers and done-states instead of full text is a deliberate abstraction, accurate to the task (\"what's here, what's done\") rather than to the full content one layer down.\n- **Token standards (JYVE, ERC-20 more broadly): the standard IS the shipping container.** A wallet, an exchange, and a bridge never need to agree on what a token represents, only on `transfer`, `approve`, `balanceOf` — the same move as the corner fitting.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Herbert Simon's definition is from *The Sciences of the Artificial* (1969); Harry Beck's London Underground diagram was designed in 1931 and first published in 1933; the Intel 4004 shipped in 1971; the ISO 668 shipping-container standard dates to 1968; Thaler and Sunstein's *Nudge* was published in 2008; the FTC's \"click to cancel\" rule against cancellation dark patterns was finalized in 2023–2025. Taken from the summary and not independently checked: the exact wording of the NASA systems-engineering quote, and all timestamps. Sources: [YouTube — XenoSphere Originals, \"The Art of Design | How Design Controls the World\"](https://www.youtube.com/watch?v=DVsgpTNB5CI) · Herbert A. Simon, *The Sciences of the Artificial* (1969) · Thaler & Sunstein, *Nudge* (2008) · FTC \"click to cancel\" rule (16 CFR Part 425) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #105 (ontologies: types at the door, meaning at the ledger), Tech #106 (harness engineering), Tech `system-design-course-single-server-to-scale`, Life `summarize-roof-pillars-foundation`, `herjavec-they-buy-you-be-heard`, `yc-pick-one-idea-go-deep`.\n"</script>
+<h2>Why</h2>
+<p>The video&#39;s throughline is that design failure is usually a missing decision, not a missing skill: nobody picked which constraints matter, so the system tries to satisfy all of them and satisfies none, or nobody picked where the abstraction boundary sits, so every layer leaks into the next. The same failure shows up as a vague resolution rule in a prediction market or a docs rail that tries to show full text and a live count at once. Naming the constraint, the layer, or the interface up front turns "it should just work" into something that can actually be built and later explained.</p>
+<h2>How it works</h2>
+<h3>Constraints are the starting material, not the obstacle</h3>
+<p>Design starts when reality refuses to satisfy every wish (02:55–03:19); the request itself is empty until it comes with numbers attached. Engineering is then the art of intelligent compromise: a stronger airframe is heavier, a lighter battery holds less charge, a safer building costs more, and there is no single perfect solution, only a chosen trade-off (03:29–03:49). The video cites NASA&#39;s systems-engineering definition of the discipline as balancing competing demands so the whole system works (03:49–04:06) — the exact wording is the video&#39;s paraphrase, not independently checked here, though it matches how NASA&#39;s own systems-engineering handbook describes trade studies.</p>
+<h3>Abstraction layers hide detail so each layer can be understood alone</h3>
+<p>Harry Beck&#39;s 1931 London Underground map (first published 1933) is the video&#39;s central case: geographic accuracy was noise for a rider who needs interchanges and stop counts, so Beck abstracted the network into straight lines and even spacing (04:22–05:18). "Accuracy and usefulness are not the same thing; good design keeps only what matters to the task." The same move scales down to hardware: the Intel 4004 (1971) grew into chips with billions of transistors only because nobody reasons about all of them at once — transistor, gate, functional unit, processor, computer, network, each layer hiding the one below behind a simplified interface (05:26–07:00). Architecture, in this frame, is knowing where to draw the boundary so each layer can be understood on its own (07:06–07:14).</p>
+<h3>Standard interfaces let complexity scale without a coordinator</h3>
+<p>Five people can improvise; five thousand need roles, schedules, procedures and clear authority (07:33–07:54). The ISO shipping container (1968) is the video&#39;s proof that the fix is a standard interface, not central control: cranes, trucks, ships and ports only ever need to agree on the corner fittings, never on what is inside the box (07:54–09:12). Hiding particulars behind one fixed interface let global freight scale without anyone coordinating the whole system.</p>
+<h3>Choice architecture: design is never neutral</h3>
+<p>The last section turns to Richard Thaler&#39;s nudge framing (Thaler &amp; Sunstein, <em>Nudge</em>, 2008): thresholds, queue barriers, which button is biggest and brightest, and which option is the default all steer decisions, whether or not anyone intended that (09:25–10:18). One tap versus six menu clicks is not an accident (10:36–10:45). The video&#39;s closing line is the sharpest one: "bad design is not always failed design; sometimes it works exactly as intended," illustrated with subscription-cancellation flows built to be painful (11:00–11:09) — a pattern real enough that the FTC&#39;s "click to cancel" rule (2023–2025) targeted exactly this dark pattern.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: the resolution rule and the market UI are both interfaces, and neither is neutral.</strong> A resolution source that names a benchmark instead of a raw price is Beck&#39;s map, not the territory. The number of taps to place, cancel, or claim a position is a chosen default, not a UX afterthought; write down why each one is that many taps.</li><li><strong>Auditor: "by which rule" is the corner fitting.</strong> Anyone checking a claim only needs to agree on the interface — what rule, what evidence — never on the internals of how a service produced the claim.</li><li><strong>Knowledge Notes: the rail is Beck&#39;s map of the site.</strong> Numbers and done-states instead of full text is a deliberate abstraction, accurate to the task ("what&#39;s here, what&#39;s done") rather than to the full content one layer down.</li><li><strong>Token standards (JYVE, ERC-20 more broadly): the standard IS the shipping container.</strong> A wallet, an exchange, and a bridge never need to agree on what a token represents, only on <code>transfer</code>, <code>approve</code>, <code>balanceOf</code> — the same move as the corner fitting.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Herbert Simon&#39;s definition is from <em>The Sciences of the Artificial</em> (1969); Harry Beck&#39;s London Underground diagram was designed in 1931 and first published in 1933; the Intel 4004 shipped in 1971; the ISO 668 shipping-container standard dates to 1968; Thaler and Sunstein&#39;s <em>Nudge</em> was published in 2008; the FTC&#39;s "click to cancel" rule against cancellation dark patterns was finalized in 2023–2025. Taken from the summary and not independently checked: the exact wording of the NASA systems-engineering quote, and all timestamps. Sources: <a href="https://www.youtube.com/watch?v=DVsgpTNB5CI">YouTube — XenoSphere Originals, "The Art of Design | How Design Controls the World"</a> · Herbert A. Simon, <em>The Sciences of the Artificial</em> (1969) · Thaler &amp; Sunstein, <em>Nudge</em> (2008) · FTC "click to cancel" rule (16 CFR Part 425) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #105 (ontologies: types at the door, meaning at the ledger), Tech #106 (harness engineering), Tech <code>system-design-course-single-server-to-scale</code>, Life <code>summarize-roof-pillars-foundation</code>, <code>herjavec-they-buy-you-be-heard</code>, <code>yc-pick-one-idea-go-deep</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>purposeful order</strong></td><td>목적 있는 질서(무작위가 아니라 의도로 짜인 상태) · 디자인을 장식과 구분하는 핵심어. "forcing chaos into purposeful order"</td></tr><tr><td><strong>design brief</strong></td><td>디자인 브리프(제약과 요구사항이 담긴 작업 의뢰서) · 숫자 없는 요청은 브리프가 아니라는 비교점. "is not a design brief"</td></tr><tr><td><strong>intelligent compromise</strong></td><td>지적 타협(경쟁하는 요구 사이에서 의식적으로 고른 절충) · 엔지니어링을 정의하는 표현. "the art of intelligent compromise"</td></tr><tr><td><strong>trade-off</strong></td><td>트레이드오프(하나를 얻으려면 다른 하나를 내줘야 하는 선택) · 완벽한 해법이 없다는 주장의 핵심. "only a chosen trade-off"</td></tr><tr><td><strong>systems engineering</strong></td><td>시스템 엔지니어링(부분이 아니라 전체가 동작하도록 설계·조율하는 분야) · NASA 정의의 출처 분야. "NASA&#39;s systems-engineering definition"</td></tr><tr><td><strong>trade study</strong></td><td>트레이드 스터디(여러 설계안의 장단점을 비교하는 공식 분석) · NASA 핸드북 용어, 타협을 문서화하는 방법. "trade studies"</td></tr><tr><td><strong>abstraction layer</strong></td><td>추상화 층(아래 세부를 감추고 단순화된 면만 보여주는 층) · 아키텍처 전체를 지탱하는 개념. "abstraction layers hide detail"</td></tr><tr><td><strong>simplified interface</strong></td><td>단순화된 인터페이스(내부 복잡성을 감춘 사용 접점) · 층과 층 사이의 계약. "a simplified interface"</td></tr><tr><td><strong>corner fitting</strong></td><td>모서리 피팅(ISO 컨테이너 네 모서리의 표준 고정쇠) · 표준 인터페이스의 물리적 예시. "only ever need to agree on the corner fittings"</td></tr><tr><td><strong>ISO</strong></td><td>International Organization for Standardization(국제표준화기구) · 해상 컨테이너 규격(ISO 668)의 제정 기관. "the ISO shipping container (1968)"</td></tr><tr><td><strong>NASA</strong></td><td>National Aeronautics and Space Administration(미국항공우주국) · 시스템 엔지니어링 정의의 출처. "NASA&#39;s systems-engineering definition"</td></tr><tr><td><strong>choice architecture</strong></td><td>선택 설계(선택지가 제시되는 방식 자체가 결정을 유도하는 설계) · 세일러의 넛지 이론의 핵심 개념. "choice architecture"</td></tr><tr><td><strong>nudge</strong></td><td>넛지(강제하지 않고 기본값·배치로 행동을 유도하는 장치) · Thaler &amp; Sunstein의 책 제목이자 용어. "Richard Thaler&#39;s nudge framing"</td></tr><tr><td><strong>default (option)</strong></td><td>기본값(아무것도 고르지 않았을 때 자동으로 선택되는 옵션) · 선택 설계의 가장 강력한 도구. "which option is the default"</td></tr><tr><td><strong>dark pattern</strong></td><td>다크 패턴(사용자에게 불리한 행동을 하도록 속이거나 유도하는 UI 설계) · 구독 취소 사례에 쓰인 용어. "this dark pattern"</td></tr><tr><td><strong>click to cancel</strong></td><td>클릭 한 번으로 취소(FTC가 2023–2025년 확정한 구독 취소 간소화 규정 이름) · 다크 패턴 규제의 구체적 사례. "the FTC&#39;s \"click to cancel\" rule"</td></tr><tr><td><strong>FTC</strong></td><td>Federal Trade Commission(미국 연방거래위원회) · 다크 패턴을 규제한 기관. "the FTC&#39;s \"click to cancel\" rule"</td></tr><tr><td><strong>CFR</strong></td><td>Code of Federal Regulations(미국 연방규정집) · click-to-cancel 규정이 등재된 법전 번호. "16 CFR Part 425"</td></tr><tr><td><strong>UX</strong></td><td>User Experience(사용자 경험) · 탭 수가 우연이 아니라는 논지에서 쓰인 약어. "not a UX afterthought"</td></tr><tr><td><strong>ERC-20</strong></td><td>Ethereum Request for Comment 20(이더리움 대체 가능 토큰 표준) · 토큰 표준을 모서리 피팅에 비유할 때 쓴 예시. "ERC-20 more broadly"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 디자인 — 다음 층이 볼 필요 없는 것을 정확히 감추며, 혼돈을 목적 있는 질서로 바꾸는 일\n\nXenoSphere Originals의 영상 \"The Art of Design | How Design Controls the World\"(YouTube, 약 11분)는 디자인이 로고나 가구가 아니라 혼돈을 목적 있는 질서로 강제하는 실천이라고 주장한다(00:07–00:14). 영상은 허버트 사이먼(Herbert Simon)이 *The Sciences of the Artificial*(1969)에서 내린 정의로 시작한다. 기존 상황을 더 나은 상황으로 바꾸는 행동 방침을 고안하는 것(01:45–01:53). 그 위에 네 가지 아이디어를 쌓는다. 디자인은 불만에서 시작하며 실제 작업이 되려면 제약이 필요하다(경간, 하중, 예산, 재료, 풍하중이 없는 다리 요청은 디자인 브리프가 아니다). 엔지니어링은 경쟁하는 요구 사이의 지적 타협이다. 동작하는 시스템은 각 층이 세부를 감추고 단순화된 인터페이스를 제공하는 추상화 층으로 지어진다. 그리고 시스템이 인간 규모에 도달하면 표준 인터페이스와 선택 설계가 필요하다. 아무도 의도하지 않았어도 디자인은 결코 중립적이지 않기 때문이다.\n\nJayverse에서 이것은 이미 습관적으로 하고 있는 작업 아래의 이론이다. Rabbit, Verex, 데브넷의 모든 추상화 경계, 모든 토큰 표준, Knowledge Notes 사이트가 내보내는 모든 기본값은 전부 같은 네 가지 동작의 사례다. 제약을 고르고, 층으로 압축하고, 인터페이스를 표준화하고, 그 결과 선택이 결코 중립적이지 않음을 인정하는 것.\n\n## 왜\n\n영상의 관통선은 디자인 실패가 대개 부족한 기술이 아니라 빠진 결정이라는 점이다. 어떤 제약이 중요한지 아무도 고르지 않으면 시스템은 모든 것을 만족시키려다 아무것도 만족시키지 못하고, 추상화 경계가 어디인지 아무도 정하지 않으면 모든 층이 다음 층으로 새어 나간다. 같은 실패가 예측 마켓의 모호한 정산 규칙이나, 전체 텍스트와 실시간 카운트를 동시에 보여주려는 문서 레일에서 나타난다. 제약, 층, 인터페이스를 미리 이름 붙이는 것이 \"그냥 되겠지\"를 실제로 만들 수 있고 나중에 설명할 수 있는 것으로 바꾼다.\n\n## 동작 방식\n\n### 제약은 장애물이 아니라 재료다\n\n디자인은 현실이 모든 소망을 들어주기를 거부할 때 시작한다(02:55–03:19). 요청 자체는 숫자가 붙기 전까지는 비어 있다. 그다음 엔지니어링은 지적 타협의 기술이 된다. 더 튼튼한 기체는 더 무겁고, 더 가벼운 배터리는 충전량이 적고, 더 안전한 건물은 더 비싸다. 단 하나의 완벽한 해법은 없고 선택된 트레이드오프만 있다(03:29–03:49). 영상은 NASA의 시스템 엔지니어링 정의를 인용한다. 경쟁하는 요구를 균형 잡고 타협시켜 전체가 동작하게 하는 기술이자 과학(03:49–04:06). 정확한 문구는 영상의 표현이며 여기서 독립적으로 확인하지 않았지만, 그 개념은 NASA 자체 시스템 엔지니어링 핸드북이 트레이드 스터디를 설명하는 방식과 일치한다.\n\n### 추상화 층은 세부를 감춰 각 층이 홀로 이해되게 한다\n\n해리 벡(Harry Beck)의 1931년 런던 지하철 노선도(1933년 첫 발행)가 영상의 핵심 사례다. 환승과 정거장 수만 알면 되는 승객에게 지리적 정확성은 잡음이었고, 그래서 벡은 네트워크를 직선과 균등 간격으로 추상화했다(04:22–05:18). \"정확성과 유용성은 같은 것이 아니다. 좋은 디자인은 과제에 중요한 것만 남긴다.\" 같은 동작이 하드웨어로 내려간다. 인텔 4004(1971)가 수십억 개 트랜지스터를 가진 칩으로 자란 것은 아무도 그 전부를 한꺼번에 따질 필요가 없기 때문이다. 트랜지스터, 게이트, 기능 단위, 프로세서, 컴퓨터, 네트워크. 각 층은 아래 층을 감추고 단순화된 인터페이스만 내놓는다(05:26–07:00). 이 틀에서 아키텍처란 각 층이 홀로 이해될 수 있도록 경계를 어디에 그을지 아는 것이다(07:06–07:14).\n\n### 표준 인터페이스는 조정자 없이 복잡성을 확장시킨다\n\n다섯 명은 즉흥으로 할 수 있지만 오천 명은 역할, 일정, 절차, 명확한 권한이 필요하다(07:33–07:54). ISO 해상 컨테이너(1968)는 해법이 중앙 통제가 아니라 표준 인터페이스라는 영상의 증거다. 크레인, 트럭, 선박, 항만은 모서리 피팅에만 합의하면 되고, 안에 무엇이 들었는지는 몰라도 된다(07:54–09:12). 세부를 하나의 고정된 인터페이스 뒤에 감춘 것이 전 세계 화물이 아무도 전체 시스템을 조정하지 않고도 확장할 수 있게 했다.\n\n### 선택 설계: 디자인은 결코 중립적이지 않다\n\n마지막 절은 리처드 세일러(Richard Thaler)의 넛지 틀로 넘어간다(Thaler & Sunstein, *Nudge*, 2008). 문턱값, 줄서기 장벽, 어느 버튼이 가장 크고 밝은지, 어느 선택지가 기본값인지 모두 결정을 조종한다. 누군가 의도했든 아니든이다(09:25–10:18). 탭 한 번과 메뉴 여섯 번 클릭의 차이는 우연이 아니다(10:36–10:45). 영상의 마무리 문장이 가장 날카롭다. \"나쁜 디자인이 항상 실패한 디자인은 아니다. 때로는 의도한 대로 정확히 동작한다.\" 고통스럽게 만들어진 구독 취소 흐름으로 예를 든다(11:00–11:09). FTC의 \"클릭 한 번으로 취소\"(click to cancel) 규정(2023–2025)이 정확히 이 다크 패턴을 겨냥할 만큼 실재하는 패턴이다.\n\n### Jayverse에서의 위치\n\n- **Verex: 정산 규칙과 마켓 UI는 둘 다 인터페이스이고, 둘 다 중립적이지 않다.** 원시 가격이 아니라 벤치마크를 지정하는 정산 소스는 벡의 지도이지 영토가 아니다. 포지션을 열고, 취소하고, 청구하는 데 필요한 탭 수는 선택된 기본값이지 UX 뒷생각이 아니다. 왜 그만큼의 탭인지 적어 둘 것.\n- **Auditor: \"어떤 규칙으로\"가 모서리 피팅이다.** 어떤 주장을 확인하는 사람은 인터페이스, 즉 어떤 규칙과 어떤 증거인지만 합의하면 되고, 서비스가 그 주장을 어떻게 만들어 냈는지 내부는 몰라도 된다.\n- **Knowledge Notes: 레일은 사이트의 벡 지도다.** 전체 텍스트 대신 숫자와 완료 상태를 보여 주는 것은 의도된 추상화다. 한 층 아래에 있는 전체 내용이 아니라 \"여기 무엇이 있고, 무엇이 끝났는지\"라는 과제에 정확하다.\n- **토큰 표준(JYVE, 더 넓게는 ERC-20): 표준이 곧 해상 컨테이너다.** 지갑, 거래소, 브리지는 토큰이 무엇을 나타내는지 합의할 필요가 없고 `transfer`, `approve`, `balanceOf`에만 합의하면 된다. 모서리 피팅과 같은 동작이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 허버트 사이먼의 정의는 *The Sciences of the Artificial*(1969)에서 나왔다. 해리 벡의 런던 지하철 노선도는 1931년에 설계되어 1933년에 처음 발행되었다. 인텔 4004는 1971년에 출시되었다. ISO 668 해상 컨테이너 표준은 1968년으로 거슬러 올라간다. 세일러와 선스타인의 *Nudge*는 2008년에 출간되었다. 취소 다크 패턴을 겨냥한 FTC의 \"클릭 한 번으로 취소\" 규정은 2023–2025년에 확정되었다. 요약에서 가져왔고 독립 확인하지 않은 것: NASA 시스템 엔지니어링 인용문의 정확한 문구, 모든 타임스탬프.\n\n출처: [YouTube — XenoSphere Originals, \"The Art of Design | How Design Controls the World\"](https://www.youtube.com/watch?v=DVsgpTNB5CI) · Herbert A. Simon, *The Sciences of the Artificial*(1969) · Thaler & Sunstein, *Nudge*(2008) · FTC \"클릭 한 번으로 취소\" 규정(16 CFR Part 425) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #105(온톨로지: 타입은 문 앞에서, 의미는 원장에서), Tech #106(하니스 엔지니어링), Tech `system-design-course-single-server-to-scale`, Life `summarize-roof-pillars-foundation`, `herjavec-they-buy-you-be-heard`, `yc-pick-one-idea-go-deep`.\n"</script>
+      <h1>디자인 — 다음 층이 볼 필요 없는 것을 정확히 감추며, 혼돈을 목적 있는 질서로 바꾸는 일</h1>
+      <p class="lead">XenoSphere Originals의 영상 "The Art of Design | How Design Controls the World"(YouTube, 약 11분)는 디자인이 로고나 가구가 아니라 혼돈을 목적 있는 질서로 강제하는 실천이라고 주장한다(00:07–00:14). 영상은 허버트 사이먼(Herbert Simon)이 *The Sciences of the Artificial*(1969)에서 내린 정의로 시작한다. 기존 상황을 더 나은 상황으로 바꾸는 행동 방침을 고안하는 것(01:45–01:53). 그 위에 네 가지 아이디어를 쌓는다. 디자인은 불만에서 시작하며 실제 작업이 되려면 제약이 필요하다(경간, 하중, 예산, 재료, 풍하중이 없는 다리 요청은 디자인 브리프가 아니다). 엔지니어링은 경쟁하는 요구 사이의 지적 타협이다. 동작하는 시스템은 각 층이 세부를 감추고 단순화된 인터페이스를 제공하는 추상화 층으로 지어진다. 그리고 시스템이 인간 규모에 도달하면 표준 인터페이스와 선택 설계가 필요하다. 아무도 의도하지 않았어도 디자인은 결코 중립적이지 않기 때문이다.</p>
+      <p class="meta">Jayverse에서 이것은 이미 습관적으로 하고 있는 작업 아래의 이론이다. Rabbit, Verex, 데브넷의 모든 추상화 경계, 모든 토큰 표준, Knowledge Notes 사이트가 내보내는 모든 기본값은 전부 같은 네 가지 동작의 사례다. 제약을 고르고, 층으로 압축하고, 인터페이스를 표준화하고, 그 결과 선택이 결코 중립적이지 않음을 인정하는 것.</p>
+<h2>왜</h2>
+<p>영상의 관통선은 디자인 실패가 대개 부족한 기술이 아니라 빠진 결정이라는 점이다. 어떤 제약이 중요한지 아무도 고르지 않으면 시스템은 모든 것을 만족시키려다 아무것도 만족시키지 못하고, 추상화 경계가 어디인지 아무도 정하지 않으면 모든 층이 다음 층으로 새어 나간다. 같은 실패가 예측 마켓의 모호한 정산 규칙이나, 전체 텍스트와 실시간 카운트를 동시에 보여주려는 문서 레일에서 나타난다. 제약, 층, 인터페이스를 미리 이름 붙이는 것이 "그냥 되겠지"를 실제로 만들 수 있고 나중에 설명할 수 있는 것으로 바꾼다.</p>
+<h2>동작 방식</h2>
+<h3>제약은 장애물이 아니라 재료다</h3>
+<p>디자인은 현실이 모든 소망을 들어주기를 거부할 때 시작한다(02:55–03:19). 요청 자체는 숫자가 붙기 전까지는 비어 있다. 그다음 엔지니어링은 지적 타협의 기술이 된다. 더 튼튼한 기체는 더 무겁고, 더 가벼운 배터리는 충전량이 적고, 더 안전한 건물은 더 비싸다. 단 하나의 완벽한 해법은 없고 선택된 트레이드오프만 있다(03:29–03:49). 영상은 NASA의 시스템 엔지니어링 정의를 인용한다. 경쟁하는 요구를 균형 잡고 타협시켜 전체가 동작하게 하는 기술이자 과학(03:49–04:06). 정확한 문구는 영상의 표현이며 여기서 독립적으로 확인하지 않았지만, 그 개념은 NASA 자체 시스템 엔지니어링 핸드북이 트레이드 스터디를 설명하는 방식과 일치한다.</p>
+<h3>추상화 층은 세부를 감춰 각 층이 홀로 이해되게 한다</h3>
+<p>해리 벡(Harry Beck)의 1931년 런던 지하철 노선도(1933년 첫 발행)가 영상의 핵심 사례다. 환승과 정거장 수만 알면 되는 승객에게 지리적 정확성은 잡음이었고, 그래서 벡은 네트워크를 직선과 균등 간격으로 추상화했다(04:22–05:18). "정확성과 유용성은 같은 것이 아니다. 좋은 디자인은 과제에 중요한 것만 남긴다." 같은 동작이 하드웨어로 내려간다. 인텔 4004(1971)가 수십억 개 트랜지스터를 가진 칩으로 자란 것은 아무도 그 전부를 한꺼번에 따질 필요가 없기 때문이다. 트랜지스터, 게이트, 기능 단위, 프로세서, 컴퓨터, 네트워크. 각 층은 아래 층을 감추고 단순화된 인터페이스만 내놓는다(05:26–07:00). 이 틀에서 아키텍처란 각 층이 홀로 이해될 수 있도록 경계를 어디에 그을지 아는 것이다(07:06–07:14).</p>
+<h3>표준 인터페이스는 조정자 없이 복잡성을 확장시킨다</h3>
+<p>다섯 명은 즉흥으로 할 수 있지만 오천 명은 역할, 일정, 절차, 명확한 권한이 필요하다(07:33–07:54). ISO 해상 컨테이너(1968)는 해법이 중앙 통제가 아니라 표준 인터페이스라는 영상의 증거다. 크레인, 트럭, 선박, 항만은 모서리 피팅에만 합의하면 되고, 안에 무엇이 들었는지는 몰라도 된다(07:54–09:12). 세부를 하나의 고정된 인터페이스 뒤에 감춘 것이 전 세계 화물이 아무도 전체 시스템을 조정하지 않고도 확장할 수 있게 했다.</p>
+<h3>선택 설계: 디자인은 결코 중립적이지 않다</h3>
+<p>마지막 절은 리처드 세일러(Richard Thaler)의 넛지 틀로 넘어간다(Thaler &amp; Sunstein, <em>Nudge</em>, 2008). 문턱값, 줄서기 장벽, 어느 버튼이 가장 크고 밝은지, 어느 선택지가 기본값인지 모두 결정을 조종한다. 누군가 의도했든 아니든이다(09:25–10:18). 탭 한 번과 메뉴 여섯 번 클릭의 차이는 우연이 아니다(10:36–10:45). 영상의 마무리 문장이 가장 날카롭다. "나쁜 디자인이 항상 실패한 디자인은 아니다. 때로는 의도한 대로 정확히 동작한다." 고통스럽게 만들어진 구독 취소 흐름으로 예를 든다(11:00–11:09). FTC의 "클릭 한 번으로 취소"(click to cancel) 규정(2023–2025)이 정확히 이 다크 패턴을 겨냥할 만큼 실재하는 패턴이다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 정산 규칙과 마켓 UI는 둘 다 인터페이스이고, 둘 다 중립적이지 않다.</strong> 원시 가격이 아니라 벤치마크를 지정하는 정산 소스는 벡의 지도이지 영토가 아니다. 포지션을 열고, 취소하고, 청구하는 데 필요한 탭 수는 선택된 기본값이지 UX 뒷생각이 아니다. 왜 그만큼의 탭인지 적어 둘 것.</li><li><strong>Auditor: "어떤 규칙으로"가 모서리 피팅이다.</strong> 어떤 주장을 확인하는 사람은 인터페이스, 즉 어떤 규칙과 어떤 증거인지만 합의하면 되고, 서비스가 그 주장을 어떻게 만들어 냈는지 내부는 몰라도 된다.</li><li><strong>Knowledge Notes: 레일은 사이트의 벡 지도다.</strong> 전체 텍스트 대신 숫자와 완료 상태를 보여 주는 것은 의도된 추상화다. 한 층 아래에 있는 전체 내용이 아니라 "여기 무엇이 있고, 무엇이 끝났는지"라는 과제에 정확하다.</li><li><strong>토큰 표준(JYVE, 더 넓게는 ERC-20): 표준이 곧 해상 컨테이너다.</strong> 지갑, 거래소, 브리지는 토큰이 무엇을 나타내는지 합의할 필요가 없고 <code>transfer</code>, <code>approve</code>, <code>balanceOf</code>에만 합의하면 된다. 모서리 피팅과 같은 동작이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 허버트 사이먼의 정의는 <em>The Sciences of the Artificial</em>(1969)에서 나왔다. 해리 벡의 런던 지하철 노선도는 1931년에 설계되어 1933년에 처음 발행되었다. 인텔 4004는 1971년에 출시되었다. ISO 668 해상 컨테이너 표준은 1968년으로 거슬러 올라간다. 세일러와 선스타인의 *Nudge*는 2008년에 출간되었다. 취소 다크 패턴을 겨냥한 FTC의 "클릭 한 번으로 취소" 규정은 2023–2025년에 확정되었다. 요약에서 가져왔고 독립 확인하지 않은 것: NASA 시스템 엔지니어링 인용문의 정확한 문구, 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=DVsgpTNB5CI">YouTube — XenoSphere Originals, "The Art of Design | How Design Controls the World"</a> · Herbert A. Simon, <em>The Sciences of the Artificial</em>(1969) · Thaler &amp; Sunstein, <em>Nudge</em>(2008) · FTC "클릭 한 번으로 취소" 규정(16 CFR Part 425) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #105(온톨로지: 타입은 문 앞에서, 의미는 원장에서), Tech #106(하니스 엔지니어링), Tech <code>system-design-course-single-server-to-scale</code>, Life <code>summarize-roof-pillars-foundation</code>, <code>herjavec-they-buy-you-be-heard</code>, <code>yc-pick-one-idea-go-deep</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>purposeful order</strong></td><td>목적 있는 질서(무작위가 아니라 의도로 짜인 상태) · 디자인을 장식과 구분하는 핵심어. "forcing chaos into purposeful order"</td></tr><tr><td><strong>design brief</strong></td><td>디자인 브리프(제약과 요구사항이 담긴 작업 의뢰서) · 숫자 없는 요청은 브리프가 아니라는 비교점. "is not a design brief"</td></tr><tr><td><strong>intelligent compromise</strong></td><td>지적 타협(경쟁하는 요구 사이에서 의식적으로 고른 절충) · 엔지니어링을 정의하는 표현. "the art of intelligent compromise"</td></tr><tr><td><strong>trade-off</strong></td><td>트레이드오프(하나를 얻으려면 다른 하나를 내줘야 하는 선택) · 완벽한 해법이 없다는 주장의 핵심. "only a chosen trade-off"</td></tr><tr><td><strong>systems engineering</strong></td><td>시스템 엔지니어링(부분이 아니라 전체가 동작하도록 설계·조율하는 분야) · NASA 정의의 출처 분야. "NASA&#39;s systems-engineering definition"</td></tr><tr><td><strong>trade study</strong></td><td>트레이드 스터디(여러 설계안의 장단점을 비교하는 공식 분석) · NASA 핸드북 용어, 타협을 문서화하는 방법. "trade studies"</td></tr><tr><td><strong>abstraction layer</strong></td><td>추상화 층(아래 세부를 감추고 단순화된 면만 보여주는 층) · 아키텍처 전체를 지탱하는 개념. "abstraction layers hide detail"</td></tr><tr><td><strong>simplified interface</strong></td><td>단순화된 인터페이스(내부 복잡성을 감춘 사용 접점) · 층과 층 사이의 계약. "a simplified interface"</td></tr><tr><td><strong>corner fitting</strong></td><td>모서리 피팅(ISO 컨테이너 네 모서리의 표준 고정쇠) · 표준 인터페이스의 물리적 예시. "only ever need to agree on the corner fittings"</td></tr><tr><td><strong>ISO</strong></td><td>International Organization for Standardization(국제표준화기구) · 해상 컨테이너 규격(ISO 668)의 제정 기관. "the ISO shipping container (1968)"</td></tr><tr><td><strong>NASA</strong></td><td>National Aeronautics and Space Administration(미국항공우주국) · 시스템 엔지니어링 정의의 출처. "NASA&#39;s systems-engineering definition"</td></tr><tr><td><strong>choice architecture</strong></td><td>선택 설계(선택지가 제시되는 방식 자체가 결정을 유도하는 설계) · 세일러의 넛지 이론의 핵심 개념. "choice architecture"</td></tr><tr><td><strong>nudge</strong></td><td>넛지(강제하지 않고 기본값·배치로 행동을 유도하는 장치) · Thaler &amp; Sunstein의 책 제목이자 용어. "Richard Thaler&#39;s nudge framing"</td></tr><tr><td><strong>default (option)</strong></td><td>기본값(아무것도 고르지 않았을 때 자동으로 선택되는 옵션) · 선택 설계의 가장 강력한 도구. "which option is the default"</td></tr><tr><td><strong>dark pattern</strong></td><td>다크 패턴(사용자에게 불리한 행동을 하도록 속이거나 유도하는 UI 설계) · 구독 취소 사례에 쓰인 용어. "this dark pattern"</td></tr><tr><td><strong>click to cancel</strong></td><td>클릭 한 번으로 취소(FTC가 2023–2025년 확정한 구독 취소 간소화 규정 이름) · 다크 패턴 규제의 구체적 사례. "the FTC&#39;s \"click to cancel\" rule"</td></tr><tr><td><strong>FTC</strong></td><td>Federal Trade Commission(미국 연방거래위원회) · 다크 패턴을 규제한 기관. "the FTC&#39;s \"click to cancel\" rule"</td></tr><tr><td><strong>CFR</strong></td><td>Code of Federal Regulations(미국 연방규정집) · click-to-cancel 규정이 등재된 법전 번호. "16 CFR Part 425"</td></tr><tr><td><strong>UX</strong></td><td>User Experience(사용자 경험) · 탭 수가 우연이 아니라는 논지에서 쓰인 약어. "not a UX afterthought"</td></tr><tr><td><strong>ERC-20</strong></td><td>Ethereum Request for Comment 20(이더리움 대체 가능 토큰 표준) · 토큰 표준을 모서리 피팅에 비유할 때 쓴 예시. "ERC-20 more broadly"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-yc-first-users-search-not-persuasion-mep.html">&larr; 124. First users are a search problem — not a persuasion problem</a><a href="pocs-chatgpt-work-data-agent-root-cause-to-slack.html">126. OpenAI&#39;s "data agent" demo names a root cause on screen — but never shows the query that proves it &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="design-constraints-layers-interfaces-choice";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

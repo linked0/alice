@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desire is demand minus need — Lacan&#39;s gap that no feature ever closes — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Desire is demand minus need — Lacan&#39;s gap that no feature ever closes</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1318</span><span>Talk</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Desire is demand minus need — Lacan&#39;s gap that no feature ever closes</h1>
+      <p class="lead">The YouTube channel 5분 뚝딱 철학 ran a roughly 30-minute integrated episode (089, "라캉: 프로이트를 언어로 재해석한 철학자") on Jacques Lacan&#39;s "return to Freud" — his fusion of Saussure&#39;s linguistics, Jakobson&#39;s rhetoric and Lévi-Strauss&#39;s structuralism into a rereading of psychoanalysis (00:15, 00:47). Where Freud split the psyche into Id, Ego and Superego (01:35–02:10), Lacan proposes three registers instead — Imaginary, Symbolic, Real, together RSI (03:10) — plus a claim about desire as structure: `desire = demand − need`, a gap no object closes (14:53–16:55). The video also rereads Oedipus as entry into the Symbolic through the Name-of-the-Father (19:08–21:41), and restates Freud&#39;s "the unconscious is structured like a language" (22:29) through Jakobson&#39;s metaphor/metonymy pair. None of this is clinical; it is a way of reading why wanting doesn&#39;t resolve into having.</p>
+      <p class="meta">For Jayverse this is a name for a few problems that already show up without one: a user who keeps rewording the same request, a reading backlog that grows no matter how fast items get read, an interview that isn&#39;t really about vocabulary. The need/demand/desire split gives a place to stop treating all three as the same thing.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Desire is demand minus need — Lacan's gap that no feature ever closes\n\nThe YouTube channel 5분 뚝딱 철학 ran a roughly 30-minute integrated episode (089, \"라캉: 프로이트를 언어로 재해석한 철학자\") on Jacques Lacan's \"return to Freud\" — his fusion of Saussure's linguistics, Jakobson's rhetoric and Lévi-Strauss's structuralism into a rereading of psychoanalysis (00:15, 00:47). Where Freud split the psyche into Id, Ego and Superego (01:35–02:10), Lacan proposes three registers instead — Imaginary, Symbolic, Real, together RSI (03:10) — plus a claim about desire as structure: `desire = demand − need`, a gap no object closes (14:53–16:55). The video also rereads Oedipus as entry into the Symbolic through the Name-of-the-Father (19:08–21:41), and restates Freud's \"the unconscious is structured like a language\" (22:29) through Jakobson's metaphor/metonymy pair. None of this is clinical; it is a way of reading why wanting doesn't resolve into having.\n\nFor Jayverse this is a name for a few problems that already show up without one: a user who keeps rewording the same request, a reading backlog that grows no matter how fast items get read, an interview that isn't really about vocabulary. The need/demand/desire split gives a place to stop treating all three as the same thing.\n\n## Why\n\nTeams and individuals both tend to treat \"give them what they asked for\" as if satisfying a demand satisfies the need under it, then get confused when the request comes back reworded. Lacan's split explains the recurrence structurally rather than as a communication failure: a demand spoken to another person always carries a second demand underneath, for recognition, that no feature, answer, or credential settles — because desire is defined as exactly what's left over once need is subtracted from demand. Skipping this costs real cycles: a backlog that grows no matter how fast items ship, a reading habit that adds books faster than it finishes them, a résumé line collected instead of a skill built. The fix isn't working harder at closing the gap; it's recognizing which of your own backlogs are actually desire in this structural sense, and routing them into a through line or a filing system instead of trying to consume them empty.\n\n## How it works\n\n### Three registers replace three agencies\n\nFreud's Id/Ego/Superego splits force (drive), mediator, and internalized prohibition (01:35–02:10). Lacan's RSI cuts along a different axis — registers of experience, not moral agencies (03:10). The Imaginary starts at the mirror stage, 6–18 months: an infant with no motor coordination sees a unified image in a mirror and misrecognizes it as itself, the seed of narcissism and a closed two-person world with the mother (03:44–05:11). The Symbolic opens when a third term — the \"father\" as law, prohibition, social order, not necessarily the biological father — breaks that dyad and installs language and rule. The video's example is Helen Keller: the moment she connected the palm sign for \"water\" to the thing itself, not as a private gesture but as a shared, arbitrary social sign, she crossed into the Symbolic (06:48–07:28). Lacan's inversion of Descartes names the consequence: \"I think where I am not, I am where I do not think\" — the subject doesn't precede language and then use it; it is produced by submitting to language's rules (08:18–09:03). The Real is what neither register captures, comparable to Laozi's \"the way that can be spoken is not the constant way\" (道可道非常道) or Kant's *Ding an sich* — a residue that both sustains and cracks the other two (09:58–11:51).\n\n### Need, demand, desire — and why the gap never closes\n\nA need is biological and satisfiable: hunger, met by food. A demand is that need spoken to another person, and the moment it's spoken it stops being purely biological — asking for milk is also, always, asking to be loved unconditionally by the one who can give it. Desire is what demand carries beyond need, demand minus need, a structural remainder no specific object fills, because it was never really about the object (14:53–16:55). Lacan's formula is \"man's desire is the desire of the Other\" (17:06): wanting is routed through what we imagine the other wants from us, or sees in us. The video's illustration is the child who wants to *be* the phallus that fills the mother's lack — to be the thing that completes someone else, not to have a thing. It reads consumer culture, credentialism, even a stripped-down minimalism or monastic withdrawal the same way: not needs, but bids for recognition through an Other, dressed as needs (18:05–18:41).\n\n### Oedipus reread as entry, not family drama\n\nLacan keeps the Oedipal structure but drains the family psychology out of it. The Name-of-the-Father (Nom-du-père) is not the man in the house; it is the position of law and language that intervenes in the imaginary dyad. Symbolic castration is giving up the fantasy of being the object that completes the mother, and accepting a permanent lack at the center of the self as the price of becoming a subject who can speak inside a shared system (19:08–21:41). The lack is not a flaw to fix; it is the condition for having language at all.\n\n### A sentence, not a vault: the unconscious as structure\n\nFreud's unconscious is a place where repressed memories sit; Lacan's \"structured like a language\" extends this from an individual's buried content to a universal grammar the individual didn't design, drawing on Lévi-Strauss (22:29, 25:56). Two of Freud's dream mechanisms map onto Jakobson's two axes of language: condensation — many ideas compressed into one image — is paradigm/metaphor, substitution along a vertical axis; displacement — significance sliding from one element to an adjacent one — is syntagm/metonymy, substitution along the horizontal, sequential axis (23:16–25:29). And where Saussure's sign binds a signifier (word) to a signified (concept) like two sides of one coin, with the signified given priority, Lacan writes it as a bar, S over s, and reverses the priority: the signifier moves and the signified slides under it, the way looking up one dictionary word only sends you to another, never to a final meaning (26:43–29:17).\n\n### Where it lands in Jayverse\n\n- **Life: the learning-greed backlog is Lacanian desire, not appetite — name it.** `learning-greed-with-no-time` is the strongest link here: the pull to read one more paper or open one more tab doesn't close when fed, because it was never a need for information — it's demand for recognition sliding along an endless chain of signifiers. The fix matches the video's own account of the signifier: pick a through line and a filing system, not more input. Greene's read-the-root-of-the-text focus items (Life 1307, 1308) are the same move in miniature — a \"narrowed thought in your head\" is a borrowed signifier chain, and staring at one text's root is one way to stop the book-to-book substitution.\n- **Theory: the infinite regress in others' preferences is \"desire of the Other.\"** `mit-decision-theory-vnm-risk-aversion` treats utility as unfixed and shows preferences regressing into what others expect of us; Lacan's \"man's desire is the desire of the Other\" (17:06) names the same regress from the opposite direction. This bridge is this write-up's interpretation, not a claim either source makes.\n- **Verex/product: a feature request is a demand, not the need under it.** `desire = demand − need` is the exact reason a shipped feature comes back reworded: what a user asks for carries an unspoken ask for recognition the feature can't satisfy. It's the same gap the Harvard product-company item `product-company-gap-mvs-slip` and Tech #98's Shopify premise line describe from the product side — read a request's literal ask and its underlying job as two different things before building either.\n- **Auditor: the signifier \"verified\" slides until a rule pins it down.** Lacan's S/s bar — the signifier moving, the signified sliding under it — describes exactly what happens to a word like \"verified\" with no attached rule: it means whatever the reader assumes. \"What was checked, by which rule\" is the pin.\n- **Eng: a job interview abroad is entry into the Symbolic, not a vocabulary test.** The video's Helen Keller moment — taking a sign as a shared social rule, not a private gesture — is what actually happens in an interview run under another language's rules of politeness, hedging and turn-taking, not just its words.\n- **Knowledge Notes: use this video as a stress test for `summarize-roof-pillars-foundation`.** Lacan's own prose is famous for resisting summary; running the roof–pillar–foundation split on this episode (claim, three or four supporting structures, underlying assumptions) is a real test of whether that method holds on hard material, not just easy Tech items.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Lacan (1901–1981) and his \"return to Freud\" are documented intellectual-history facts; the mirror stage paper dates to 1936, revised into its familiar form and presented in 1949; Écrits (1966) collects his major papers; the three registers (Imaginary/Symbolic/Real), \"the unconscious is structured like a language,\" \"desire is the desire of the Other,\" the Name-of-the-Father, and the S/s bar are all standard, documented elements of Lacanian theory; Jakobson's metaphor/metonymy pair (1956) and Lacan's own mapping of it onto condensation/displacement appear in \"The Instance of the Letter in the Unconscious\" (1957); Saussure's *Cours de linguistique générale* (1916) is the source of the sign Lacan reworks. Taken from the video and not independently checked: the specific timestamps, the Helen Keller framing and the Descartes-inversion phrasing as the video states them, the consumer-society examples, and the decision-theory bridge in the Theory bullet above, which is this write-up's interpretation, not a claim in either source.\n\nSources: [5분 뚝딱 철학 — 089 라캉: 프로이트를 언어로 재해석한 철학자 (통합편)](https://www.youtube.com/watch?v=OUICU4ut0-8) · Jacques Lacan, *Écrits* (1966) · Ferdinand de Saussure, *Cours de linguistique générale* (1916) · Roman Jakobson, \"Two Aspects of Language and Two Types of Aphasic Disturbances\" (1956) · related items: `mit-decision-theory-vnm-risk-aversion` (Theory), `learning-greed-with-no-time` (Tech, Important), `product-company-gap-mvs-slip`, `summarize-roof-pillars-foundation` (Knowledge Notes), Tech #98 (Shopify premise line).\n"</script>
+<h2>Why</h2>
+<p>Teams and individuals both tend to treat "give them what they asked for" as if satisfying a demand satisfies the need under it, then get confused when the request comes back reworded. Lacan&#39;s split explains the recurrence structurally rather than as a communication failure: a demand spoken to another person always carries a second demand underneath, for recognition, that no feature, answer, or credential settles — because desire is defined as exactly what&#39;s left over once need is subtracted from demand. Skipping this costs real cycles: a backlog that grows no matter how fast items ship, a reading habit that adds books faster than it finishes them, a résumé line collected instead of a skill built. The fix isn&#39;t working harder at closing the gap; it&#39;s recognizing which of your own backlogs are actually desire in this structural sense, and routing them into a through line or a filing system instead of trying to consume them empty.</p>
+<h2>How it works</h2>
+<h3>Three registers replace three agencies</h3>
+<p>Freud&#39;s Id/Ego/Superego splits force (drive), mediator, and internalized prohibition (01:35–02:10). Lacan&#39;s RSI cuts along a different axis — registers of experience, not moral agencies (03:10). The Imaginary starts at the mirror stage, 6–18 months: an infant with no motor coordination sees a unified image in a mirror and misrecognizes it as itself, the seed of narcissism and a closed two-person world with the mother (03:44–05:11). The Symbolic opens when a third term — the "father" as law, prohibition, social order, not necessarily the biological father — breaks that dyad and installs language and rule. The video&#39;s example is Helen Keller: the moment she connected the palm sign for "water" to the thing itself, not as a private gesture but as a shared, arbitrary social sign, she crossed into the Symbolic (06:48–07:28). Lacan&#39;s inversion of Descartes names the consequence: "I think where I am not, I am where I do not think" — the subject doesn&#39;t precede language and then use it; it is produced by submitting to language&#39;s rules (08:18–09:03). The Real is what neither register captures, comparable to Laozi&#39;s "the way that can be spoken is not the constant way" (道可道非常道) or Kant&#39;s <em>Ding an sich</em> — a residue that both sustains and cracks the other two (09:58–11:51).</p>
+<h3>Need, demand, desire — and why the gap never closes</h3>
+<p>A need is biological and satisfiable: hunger, met by food. A demand is that need spoken to another person, and the moment it&#39;s spoken it stops being purely biological — asking for milk is also, always, asking to be loved unconditionally by the one who can give it. Desire is what demand carries beyond need, demand minus need, a structural remainder no specific object fills, because it was never really about the object (14:53–16:55). Lacan&#39;s formula is "man&#39;s desire is the desire of the Other" (17:06): wanting is routed through what we imagine the other wants from us, or sees in us. The video&#39;s illustration is the child who wants to <em>be</em> the phallus that fills the mother&#39;s lack — to be the thing that completes someone else, not to have a thing. It reads consumer culture, credentialism, even a stripped-down minimalism or monastic withdrawal the same way: not needs, but bids for recognition through an Other, dressed as needs (18:05–18:41).</p>
+<h3>Oedipus reread as entry, not family drama</h3>
+<p>Lacan keeps the Oedipal structure but drains the family psychology out of it. The Name-of-the-Father (Nom-du-père) is not the man in the house; it is the position of law and language that intervenes in the imaginary dyad. Symbolic castration is giving up the fantasy of being the object that completes the mother, and accepting a permanent lack at the center of the self as the price of becoming a subject who can speak inside a shared system (19:08–21:41). The lack is not a flaw to fix; it is the condition for having language at all.</p>
+<h3>A sentence, not a vault: the unconscious as structure</h3>
+<p>Freud&#39;s unconscious is a place where repressed memories sit; Lacan&#39;s "structured like a language" extends this from an individual&#39;s buried content to a universal grammar the individual didn&#39;t design, drawing on Lévi-Strauss (22:29, 25:56). Two of Freud&#39;s dream mechanisms map onto Jakobson&#39;s two axes of language: condensation — many ideas compressed into one image — is paradigm/metaphor, substitution along a vertical axis; displacement — significance sliding from one element to an adjacent one — is syntagm/metonymy, substitution along the horizontal, sequential axis (23:16–25:29). And where Saussure&#39;s sign binds a signifier (word) to a signified (concept) like two sides of one coin, with the signified given priority, Lacan writes it as a bar, S over s, and reverses the priority: the signifier moves and the signified slides under it, the way looking up one dictionary word only sends you to another, never to a final meaning (26:43–29:17).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Life: the learning-greed backlog is Lacanian desire, not appetite — name it.</strong> <code>learning-greed-with-no-time</code> is the strongest link here: the pull to read one more paper or open one more tab doesn&#39;t close when fed, because it was never a need for information — it&#39;s demand for recognition sliding along an endless chain of signifiers. The fix matches the video&#39;s own account of the signifier: pick a through line and a filing system, not more input. Greene&#39;s read-the-root-of-the-text focus items (Life 1307, 1308) are the same move in miniature — a "narrowed thought in your head" is a borrowed signifier chain, and staring at one text&#39;s root is one way to stop the book-to-book substitution.</li><li><strong>Theory: the infinite regress in others&#39; preferences is "desire of the Other."</strong> <code>mit-decision-theory-vnm-risk-aversion</code> treats utility as unfixed and shows preferences regressing into what others expect of us; Lacan&#39;s "man&#39;s desire is the desire of the Other" (17:06) names the same regress from the opposite direction. This bridge is this write-up&#39;s interpretation, not a claim either source makes.</li><li><strong>Verex/product: a feature request is a demand, not the need under it.</strong> <code>desire = demand − need</code> is the exact reason a shipped feature comes back reworded: what a user asks for carries an unspoken ask for recognition the feature can&#39;t satisfy. It&#39;s the same gap the Harvard product-company item <code>product-company-gap-mvs-slip</code> and Tech #98&#39;s Shopify premise line describe from the product side — read a request&#39;s literal ask and its underlying job as two different things before building either.</li><li><strong>Auditor: the signifier "verified" slides until a rule pins it down.</strong> Lacan&#39;s S/s bar — the signifier moving, the signified sliding under it — describes exactly what happens to a word like "verified" with no attached rule: it means whatever the reader assumes. "What was checked, by which rule" is the pin.</li><li><strong>Eng: a job interview abroad is entry into the Symbolic, not a vocabulary test.</strong> The video&#39;s Helen Keller moment — taking a sign as a shared social rule, not a private gesture — is what actually happens in an interview run under another language&#39;s rules of politeness, hedging and turn-taking, not just its words.</li><li><strong>Knowledge Notes: use this video as a stress test for <code>summarize-roof-pillars-foundation</code>.</strong> Lacan&#39;s own prose is famous for resisting summary; running the roof–pillar–foundation split on this episode (claim, three or four supporting structures, underlying assumptions) is a real test of whether that method holds on hard material, not just easy Tech items.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Lacan (1901–1981) and his "return to Freud" are documented intellectual-history facts; the mirror stage paper dates to 1936, revised into its familiar form and presented in 1949; Écrits (1966) collects his major papers; the three registers (Imaginary/Symbolic/Real), "the unconscious is structured like a language," "desire is the desire of the Other," the Name-of-the-Father, and the S/s bar are all standard, documented elements of Lacanian theory; Jakobson&#39;s metaphor/metonymy pair (1956) and Lacan&#39;s own mapping of it onto condensation/displacement appear in "The Instance of the Letter in the Unconscious" (1957); Saussure&#39;s <em>Cours de linguistique générale</em> (1916) is the source of the sign Lacan reworks. Taken from the video and not independently checked: the specific timestamps, the Helen Keller framing and the Descartes-inversion phrasing as the video states them, the consumer-society examples, and the decision-theory bridge in the Theory bullet above, which is this write-up&#39;s interpretation, not a claim in either source.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=OUICU4ut0-8">5분 뚝딱 철학 — 089 라캉: 프로이트를 언어로 재해석한 철학자 (통합편)</a> · Jacques Lacan, <em>Écrits</em> (1966) · Ferdinand de Saussure, <em>Cours de linguistique générale</em> (1916) · Roman Jakobson, "Two Aspects of Language and Two Types of Aphasic Disturbances" (1956) · related items: <code>mit-decision-theory-vnm-risk-aversion</code> (Theory), <code>learning-greed-with-no-time</code> (Tech, Important), <code>product-company-gap-mvs-slip</code>, <code>summarize-roof-pillars-foundation</code> (Knowledge Notes), Tech #98 (Shopify premise line).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>mirror stage</strong></td><td>거울 단계(생후 6~18개월, 유아가 거울 속 통일된 이미지를 자기로 오인하는 시기) · 상상계 형성의 핵심 개념. "The Imaginary starts at the mirror stage, 6–18 months"</td></tr><tr><td><strong>RSI (Real, Symbolic, Imaginary)</strong></td><td>실재계·상징계·상상계(라캉의 세 위상, 프로이트의 이드/자아/초자아를 대체) · 이 항목 전체의 뼈대. "Lacan proposes three registers instead"</td></tr><tr><td><strong>misrecognition</strong></td><td>오인(자신이 아닌 것을 자신으로 착각) · 거울 단계 이론의 핵심 동작. "misrecognizes it as itself"</td></tr><tr><td><strong>closed dyad</strong></td><td>닫힌 이인관계(둘만의 폐쇄된 관계, 여기선 유아-어머니) · 상상계가 상징계로 열리기 전 상태. "a closed two-person world with the mother"</td></tr><tr><td><strong>Name-of-the-Father (Nom-du-père)</strong></td><td>아버지의-이름(생물학적 아버지가 아니라 법·언어·질서의 자리) · 상징계 진입의 매개. "the position of law and language that intervenes"</td></tr><tr><td><strong>symbolic castration</strong></td><td>상징적 거세(어머니를 완성하는 존재가 되려는 환상을 포기하는 것) · 주체 형성의 대가로 받아들이는 결여. "accepting a permanent lack at the center of the self"</td></tr><tr><td><strong>signifier / signified</strong></td><td>기표(소리·형태) / 기의(개념·의미) · 소쉬르 기호론의 두 축, 라캉이 우선순위를 뒤집는 지점. "the signifier moves and the signified slides under it"</td></tr><tr><td><strong>S/s bar</strong></td><td>S/s 바(라캉이 기표 S를 기의 s 위에 쓰고 선을 그은 표기) · 기표 우위를 나타내는 라캉 고유 표기. "Lacan writes it as a bar, S over s"</td></tr><tr><td><strong>condensation</strong></td><td>압축(여러 생각이 하나의 이미지로 눌려 담기는 꿈 기제) · 은유와 대응. "condensation — many ideas compressed into one image"</td></tr><tr><td><strong>displacement</strong></td><td>전치(의미가 인접 요소로 미끄러지는 꿈 기제) · 환유와 대응. "displacement — significance sliding from one element to an adjacent one"</td></tr><tr><td><strong>metaphor / paradigm</strong></td><td>은유 / 계열체(수직축의 대체) · 압축의 언어학적 대응. "is paradigm/metaphor, substitution along a vertical axis"</td></tr><tr><td><strong>metonymy / syntagm</strong></td><td>환유 / 통합체(수평·순차축의 대체) · 전치의 언어학적 대응. "is syntagm/metonymy, substitution along the horizontal"</td></tr><tr><td><strong>desire of the Other</strong></td><td>타자의 욕망(원함이 타자가 원하는 것을 거쳐 간다는 라캉의 공식) · "man&#39;s desire is the desire of the Other". "wanting is routed through what we imagine the other wants from us"</td></tr><tr><td><strong>demand vs need</strong></td><td>요구 대 필요(말해진 요구는 순수한 필요를 넘어선다) · 욕망 공식의 두 변수. "asking for milk is also, always, asking to be loved unconditionally"</td></tr><tr><td><strong>structural gap/remainder</strong></td><td>구조적 간극/잉여(대상으로 메울 수 없는 남는 부분) · 욕망을 정의하는 핵심 성질. "a structural remainder no specific object fills"</td></tr><tr><td><strong>return to Freud</strong></td><td>프로이트로의 회귀(라캉이 자신의 기획을 부르는 이름) · 언어학으로 프로이트를 재해석하는 프로젝트 전체. "his &#39;return to Freud&#39;"</td></tr><tr><td><strong>Ding an sich</strong></td><td>물자체(칸트, 경험으로 포착되지 않는 사물 그 자체) · 라캉의 실재계를 설명할 때 끌어온 비유. "comparable to ... Kant&#39;s Ding an sich"</td></tr><tr><td><strong>structured like a language</strong></td><td>언어처럼 구조화된(무의식의 형식을 규정하는 라캉의 명제) · 프로이트의 무의식 개념을 확장. "the unconscious is structured like a language"</td></tr><tr><td><strong>through line</strong></td><td>관통선(여러 항목을 꿰는 하나의 일관된 줄기) · 욕망을 채우는 대신 방향을 잡는 방법. "pick a through line and a filing system"</td></tr><tr><td><strong>filing system</strong></td><td>정리 체계(들어온 것을 어디에 둘지 정하는 규칙) · through line과 짝을 이루는 실무적 해법. "not more input"</td></tr><tr><td><strong>bid for recognition</strong></td><td>인정을 얻으려는 시도(필요로 위장한, 실은 타자를 향한 요구) · 소비·학력 경쟁을 읽는 틀. "bids for recognition through an Other, dressed as needs"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 욕망은 요구에서 필요를 뺀 것이다 — 어떤 기능도 채우지 못하는 라캉의 간극\n\n유튜브 채널 5분 뚝딱 철학이 자크 라캉의 \"프로이트로의 회귀\"를 다룬 약 30분짜리 통합편(089화, \"라캉: 프로이트를 언어로 재해석한 철학자\")을 냈다. 소쉬르의 언어학, 야콥슨의 수사학, 레비스트로스의 구조주의를 정신분석과 결합해 다시 읽는 내용이다(00:15, 00:47). 프로이트가 정신을 이드·자아·초자아로 나눴다면(01:35–02:10), 라캉은 대신 세 가지 위상 — 상상계·상징계·실재계, 합쳐서 RSI(03:10) — 를 제시하고, 욕망을 구조로 보는 주장을 더한다. `욕망 = 요구 − 필요`, 어떤 대상으로도 메워지지 않는 간극이다(14:53–16:55). 영상은 또 오이디푸스를 아버지의-이름을 통한 상징계 진입으로 다시 읽고(19:08–21:41), 야콥슨의 은유/환유 쌍을 통해 프로이트의 \"무의식은 언어처럼 구조화되어 있다\"(22:29)를 재서술한다. 이 모든 것은 임상적 주장이 아니라, 원하는 것이 왜 가짐으로 해소되지 않는지를 읽는 방법이다.\n\nJayverse에서 이것은 이미 이름 없이 존재하던 몇 가지 문제에 이름을 붙여 준다. 같은 요청을 말만 바꿔 계속하는 사용자, 아무리 빨리 읽어도 줄지 않는 읽을거리 목록, 사실은 어휘력 테스트가 아닌 인터뷰. 필요/요구/욕망의 구분은 이 셋을 같은 것으로 취급하는 습관을 멈출 자리를 준다.\n\n## 왜\n\n팀도 개인도 \"요청한 걸 주면\" 그 밑의 필요까지 채워진다고 여기다가, 요청이 말만 바뀌어 돌아오면 당황한다. 라캉의 구분은 이 반복을 소통 실패가 아니라 구조로 설명한다. 남에게 말해진 요구는 항상 그 아래에 인정에 대한 두 번째 요구를 지니는데, 그것은 어떤 기능도, 답도, 자격증도 해소하지 못한다. 욕망이 정확히 요구에서 필요를 뺀 나머지로 정의되기 때문이다. 이를 무시하면 실제 비용이 든다. 아무리 빨리 처리해도 줄지 않는 백로그, 다 읽기보다 더 빨리 쌓이는 독서 습관, 실력 대신 모아 놓은 이력서 한 줄. 해법은 간극을 메우려 더 애쓰는 것이 아니라, 자신의 백로그 중 어느 것이 이런 구조적 의미의 욕망인지 알아보고, 그것을 하나의 관통선이나 정리 체계로 돌리는 것이지, 비워질 때까지 소비하려는 것이 아니다.\n\n## 동작 방식\n\n### 세 위상이 세 기관을 대체한다\n\n프로이트의 이드·자아·초자아는 힘(충동), 중재자, 내재화된 금지로 나눈다(01:35–02:10). 라캉의 RSI는 다른 축을 자른다. 도덕적 기관이 아니라 경험의 위상들이다(03:10). 상상계는 거울 단계, 생후 6~18개월에서 시작한다. 운동 협응이 안 되는 유아가 거울 속 통일된 이미지를 보고 그것을 자기 자신으로 오인하는데, 이것이 나르시시즘과 어머니와의 닫힌 이인관계의 씨앗이다(03:44–05:11). 상징계는 세 번째 항 — 법, 금지, 사회 질서로서의 \"아버지\"이며 꼭 생물학적 아버지일 필요는 없다 — 이 그 이인관계를 깨고 언어와 규칙을 들여올 때 열린다. 영상의 예시는 헬렌 켈러다. 손바닥에 쓴 \"물\" 신호를 사물 자체와 연결한 순간, 그것을 사적인 몸짓이 아니라 공유된 임의적 사회 기호로 받아들인 순간, 그녀는 상징계로 건너갔다(06:48–07:28). 라캉이 데카르트를 뒤집은 문장이 그 결과를 담는다. \"나는 내가 있지 않은 곳에서 생각하고, 내가 생각하지 않는 곳에 있다.\" 주체는 언어보다 먼저 있다가 언어를 쓰는 게 아니라, 언어의 규칙에 복종함으로써 만들어진다(08:18–09:03). 실재계는 두 위상 어느 것도 담지 못하는 것으로, 노자의 \"도를 도라 할 수 있으면 항상 그러한 도가 아니다\"(道可道非常道)나 칸트의 물자체에 견줄 수 있다. 다른 두 위상을 떠받치면서 동시에 금 가게 하는 잔여물이다(09:58–11:51).\n\n### 필요, 요구, 욕망 — 간극이 결코 닫히지 않는 이유\n\n필요는 생물학적이고 충족 가능하다. 배고픔이 음식으로 채워지는 것처럼. 요구는 그 필요를 타인에게 말한 것인데, 말해지는 순간 순수하게 생물학적이길 멈춘다. 우유를 달라는 것은 동시에 언제나, 그걸 줄 수 있는 사람에게 무조건적으로 사랑받고 싶다는 요구이기도 하다. 욕망은 요구가 필요를 넘어 담고 있는 것, 요구에서 필요를 뺀 것, 어떤 특정 대상도 채우지 못하는 구조적 잉여다. 애초에 그 대상에 관한 것이 아니었기 때문이다(14:53–16:55). 라캉의 공식은 \"인간의 욕망은 타자의 욕망이다\"(17:06)이다. 원함은 타자가 우리에게 무엇을 원하는지, 우리를 어떻게 보는지에 대한 상상을 거쳐 간다. 영상의 예시는 어머니의 결핍을 채우는 남근이 되고 싶어 하는 아이다. 무언가를 가지는 게 아니라 누군가를 완성하는 것이 되고 싶어 한다. 소비문화, 학력·자격 경쟁, 심지어 미니멀리즘이나 수도원적 은둔조차 같은 방식으로 읽힌다. 필요가 아니라, 필요로 위장한 타자를 통한 인정 요구다(18:05–18:41).\n\n### 오이디푸스를 가족극이 아니라 진입으로 다시 읽기\n\n라캉은 오이디푸스 구조를 유지하되 가족 심리를 빼낸다. 아버지의-이름(Nom-du-père)은 집 안의 그 남자가 아니라, 상상계적 이인관계에 개입하는 법과 언어의 자리다. 상징적 거세는 어머니를 완성하는 대상이 되겠다는 환상을 포기하고, 공유된 체계 안에서 말할 수 있는 주체가 되는 대가로 자기 중심에 영구적인 결여를 받아들이는 것이다(19:08–21:41). 그 결여는 고쳐야 할 결함이 아니라, 애초에 언어를 갖기 위한 조건이다.\n\n### 금고가 아니라 문장: 구조로서의 무의식\n\n프로이트의 무의식은 억압된 기억이 놓인 장소다. 라캉의 \"언어처럼 구조화되어 있다\"는 이것을 개인이 묻어 둔 내용에서, 개인이 설계하지 않은 보편적 문법으로 확장한다. 레비스트로스를 끌어들인 확장이다(22:29, 25:56). 프로이트의 꿈 기제 두 가지는 야콥슨의 언어 두 축에 대응한다. 압축 — 여러 생각을 하나의 이미지로 눌러 담는 것 — 은 계열체/은유, 수직축을 따른 대체다. 전치 — 의미가 한 요소에서 인접 요소로 미끄러지는 것 — 은 통합체/환유, 수평·순차축을 따른 대체다(23:16–25:29). 그리고 소쉬르의 기호가 기표(단어)와 기의(개념)를 동전의 양면처럼 묶고 기의에 우선권을 준다면, 라캉은 이를 바(bar)로 써서 S 위에 s로 표기하고 우선권을 뒤집는다. 기표가 움직이고 기의는 그 아래에서 미끄러진다. 사전에서 단어 하나를 찾으면 다른 단어로 보낼 뿐, 결코 최종 의미에 도달하지 못하는 것과 같다(26:43–29:17).\n\n### Jayverse에서의 위치\n\n- **Life: 학습 욕심 백로그는 식욕이 아니라 라캉적 욕망이다 — 이름을 붙인다.** `learning-greed-with-no-time`이 가장 강한 연결이다. 논문 하나, 탭 하나를 더 읽고 싶은 충동은 채워져도 닫히지 않는다. 애초에 정보에 대한 필요가 아니라, 끝없는 기표 사슬을 타고 미끄러지는 인정 요구였기 때문이다. 해법도 영상이 말하는 기표의 성격과 일치한다. 더 많은 입력이 아니라 관통선 하나와 정리 체계를 고르는 것. 그린의 텍스트 뿌리 응시 항목(Life 1307, 1308)도 같은 동작의 축소판이다. 머릿속의 \"좁혀진 생각\"은 빌려 온 기표 사슬이고, 텍스트 하나의 뿌리를 응시하는 것이 책에서 책으로 이어지는 대체를 멈추는 한 방법이다.\n- **Theory: 타인의 선호에 관한 무한 회귀는 \"타자의 욕망\"이다.** `mit-decision-theory-vnm-risk-aversion`은 효용을 고정되지 않은 것으로 보고, 선호가 타인의 기대 속으로 회귀하는 모습을 보여준다. 라캉의 \"인간의 욕망은 타자의 욕망이다\"(17:06)는 반대 방향에서 같은 회귀에 이름을 붙인다. 이 연결은 이 글의 해석이며, 두 출처 어느 쪽의 주장도 아니다.\n- **Verex/제품: 기능 요청은 요구이지, 그 밑의 필요가 아니다.** `욕망 = 요구 − 필요`는 배포한 기능이 말만 바꿔 돌아오는 정확한 이유다. 사용자가 요청하는 것은 그 기능이 채울 수 없는, 말해지지 않은 인정 요구를 함께 담고 있다. 하버드 제품-회사 간극 항목 `product-company-gap-mvs-slip`과 Tech #98의 Shopify 전제 문장이 제품 쪽에서 같은 간극을 설명한다. 요청의 표면적 요구와 그 밑의 일(job)을 만들기 전에 별개로 읽어야 한다.\n- **Auditor: \"확인됨\"이라는 기표는 규칙이 고정하기 전까지 미끄러진다.** 라캉의 S/s 바 — 기표가 움직이고 기의가 그 아래에서 미끄러지는 것 — 는 규칙이 붙지 않은 \"확인됨\" 같은 단어에 정확히 일어나는 일을 묘사한다. 읽는 사람이 가정하는 대로 의미가 된다. \"무엇을 어떤 규칙으로 확인했는지\"가 그 고정핀이다.\n- **Eng: 해외 취업 인터뷰는 어휘 테스트가 아니라 상징계 진입이다.** 영상의 헬렌 켈러 순간 — 신호를 사적 몸짓이 아니라 공유된 사회 규칙으로 받아들이는 것 — 은 다른 언어의 공손함, 헤징, turn-taking 규칙 아래서 진행되는 인터뷰에서 실제로 일어나는 일이지, 단어만의 문제가 아니다.\n- **Knowledge Notes: 이 영상을 `summarize-roof-pillars-foundation`의 스트레스 테스트로 쓴다.** 라캉 자신의 글은 요약을 거부하기로 유명하다. 이 편에 지붕–기둥–기초 분할(주장, 서너 개의 뒷받침 구조, 밑에 깔린 전제)을 돌려 보는 것은 쉬운 Tech 항목뿐 아니라 어려운 자료에서도 그 방법이 버티는지에 대한 진짜 테스트다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 라캉(1901–1981)과 그의 \"프로이트로의 회귀\"는 문헌으로 확인된 지성사적 사실이다. 거울 단계 논문은 1936년에 나왔고 1949년에 지금 알려진 형태로 개정·발표되었다. 『에크리(Écrits)』(1966)는 그의 주요 논문들을 모은 책이다. 세 위상(상상계/상징계/실재계), \"무의식은 언어처럼 구조화되어 있다\", \"욕망은 타자의 욕망이다\", 아버지의-이름, S/s 바는 모두 라캉 이론의 표준적이고 문헌으로 확인된 요소들이다. 야콥슨의 은유/환유 쌍(1956)과 라캉이 이를 압축/전치에 대응시킨 것은 \"무의식에서의 문자의 심급\"(1957)에 나온다. 소쉬르의 『일반언어학 강의』(1916)는 라캉이 재작업한 기호 개념의 출처다. 영상에서 가져왔고 독립 확인하지 않은 것: 구체적 타임스탬프, 영상이 서술한 그대로의 헬렌 켈러 프레이밍과 데카르트 역전 문구, 소비사회 예시들, 그리고 위 Theory 항목의 의사결정이론 연결(이는 두 출처 어디의 주장도 아닌 이 글의 해석이다).\n\n출처: [5분 뚝딱 철학 — 089 라캉: 프로이트를 언어로 재해석한 철학자 (통합편)](https://www.youtube.com/watch?v=OUICU4ut0-8) · Jacques Lacan, *Écrits* (1966) · Ferdinand de Saussure, *Cours de linguistique générale* (1916) · Roman Jakobson, \"Two Aspects of Language and Two Types of Aphasic Disturbances\" (1956) · 관련 항목: `mit-decision-theory-vnm-risk-aversion`(Theory), `learning-greed-with-no-time`(Tech, Important), `product-company-gap-mvs-slip`, `summarize-roof-pillars-foundation`(Knowledge Notes), Tech #98(Shopify 전제 문장).\n"</script>
+      <h1>욕망은 요구에서 필요를 뺀 것이다 — 어떤 기능도 채우지 못하는 라캉의 간극</h1>
+      <p class="lead">유튜브 채널 5분 뚝딱 철학이 자크 라캉의 "프로이트로의 회귀"를 다룬 약 30분짜리 통합편(089화, "라캉: 프로이트를 언어로 재해석한 철학자")을 냈다. 소쉬르의 언어학, 야콥슨의 수사학, 레비스트로스의 구조주의를 정신분석과 결합해 다시 읽는 내용이다(00:15, 00:47). 프로이트가 정신을 이드·자아·초자아로 나눴다면(01:35–02:10), 라캉은 대신 세 가지 위상 — 상상계·상징계·실재계, 합쳐서 RSI(03:10) — 를 제시하고, 욕망을 구조로 보는 주장을 더한다. `욕망 = 요구 − 필요`, 어떤 대상으로도 메워지지 않는 간극이다(14:53–16:55). 영상은 또 오이디푸스를 아버지의-이름을 통한 상징계 진입으로 다시 읽고(19:08–21:41), 야콥슨의 은유/환유 쌍을 통해 프로이트의 "무의식은 언어처럼 구조화되어 있다"(22:29)를 재서술한다. 이 모든 것은 임상적 주장이 아니라, 원하는 것이 왜 가짐으로 해소되지 않는지를 읽는 방법이다.</p>
+      <p class="meta">Jayverse에서 이것은 이미 이름 없이 존재하던 몇 가지 문제에 이름을 붙여 준다. 같은 요청을 말만 바꿔 계속하는 사용자, 아무리 빨리 읽어도 줄지 않는 읽을거리 목록, 사실은 어휘력 테스트가 아닌 인터뷰. 필요/요구/욕망의 구분은 이 셋을 같은 것으로 취급하는 습관을 멈출 자리를 준다.</p>
+<h2>왜</h2>
+<p>팀도 개인도 "요청한 걸 주면" 그 밑의 필요까지 채워진다고 여기다가, 요청이 말만 바뀌어 돌아오면 당황한다. 라캉의 구분은 이 반복을 소통 실패가 아니라 구조로 설명한다. 남에게 말해진 요구는 항상 그 아래에 인정에 대한 두 번째 요구를 지니는데, 그것은 어떤 기능도, 답도, 자격증도 해소하지 못한다. 욕망이 정확히 요구에서 필요를 뺀 나머지로 정의되기 때문이다. 이를 무시하면 실제 비용이 든다. 아무리 빨리 처리해도 줄지 않는 백로그, 다 읽기보다 더 빨리 쌓이는 독서 습관, 실력 대신 모아 놓은 이력서 한 줄. 해법은 간극을 메우려 더 애쓰는 것이 아니라, 자신의 백로그 중 어느 것이 이런 구조적 의미의 욕망인지 알아보고, 그것을 하나의 관통선이나 정리 체계로 돌리는 것이지, 비워질 때까지 소비하려는 것이 아니다.</p>
+<h2>동작 방식</h2>
+<h3>세 위상이 세 기관을 대체한다</h3>
+<p>프로이트의 이드·자아·초자아는 힘(충동), 중재자, 내재화된 금지로 나눈다(01:35–02:10). 라캉의 RSI는 다른 축을 자른다. 도덕적 기관이 아니라 경험의 위상들이다(03:10). 상상계는 거울 단계, 생후 6~18개월에서 시작한다. 운동 협응이 안 되는 유아가 거울 속 통일된 이미지를 보고 그것을 자기 자신으로 오인하는데, 이것이 나르시시즘과 어머니와의 닫힌 이인관계의 씨앗이다(03:44–05:11). 상징계는 세 번째 항 — 법, 금지, 사회 질서로서의 "아버지"이며 꼭 생물학적 아버지일 필요는 없다 — 이 그 이인관계를 깨고 언어와 규칙을 들여올 때 열린다. 영상의 예시는 헬렌 켈러다. 손바닥에 쓴 "물" 신호를 사물 자체와 연결한 순간, 그것을 사적인 몸짓이 아니라 공유된 임의적 사회 기호로 받아들인 순간, 그녀는 상징계로 건너갔다(06:48–07:28). 라캉이 데카르트를 뒤집은 문장이 그 결과를 담는다. "나는 내가 있지 않은 곳에서 생각하고, 내가 생각하지 않는 곳에 있다." 주체는 언어보다 먼저 있다가 언어를 쓰는 게 아니라, 언어의 규칙에 복종함으로써 만들어진다(08:18–09:03). 실재계는 두 위상 어느 것도 담지 못하는 것으로, 노자의 "도를 도라 할 수 있으면 항상 그러한 도가 아니다"(道可道非常道)나 칸트의 물자체에 견줄 수 있다. 다른 두 위상을 떠받치면서 동시에 금 가게 하는 잔여물이다(09:58–11:51).</p>
+<h3>필요, 요구, 욕망 — 간극이 결코 닫히지 않는 이유</h3>
+<p>필요는 생물학적이고 충족 가능하다. 배고픔이 음식으로 채워지는 것처럼. 요구는 그 필요를 타인에게 말한 것인데, 말해지는 순간 순수하게 생물학적이길 멈춘다. 우유를 달라는 것은 동시에 언제나, 그걸 줄 수 있는 사람에게 무조건적으로 사랑받고 싶다는 요구이기도 하다. 욕망은 요구가 필요를 넘어 담고 있는 것, 요구에서 필요를 뺀 것, 어떤 특정 대상도 채우지 못하는 구조적 잉여다. 애초에 그 대상에 관한 것이 아니었기 때문이다(14:53–16:55). 라캉의 공식은 "인간의 욕망은 타자의 욕망이다"(17:06)이다. 원함은 타자가 우리에게 무엇을 원하는지, 우리를 어떻게 보는지에 대한 상상을 거쳐 간다. 영상의 예시는 어머니의 결핍을 채우는 남근이 되고 싶어 하는 아이다. 무언가를 가지는 게 아니라 누군가를 완성하는 것이 되고 싶어 한다. 소비문화, 학력·자격 경쟁, 심지어 미니멀리즘이나 수도원적 은둔조차 같은 방식으로 읽힌다. 필요가 아니라, 필요로 위장한 타자를 통한 인정 요구다(18:05–18:41).</p>
+<h3>오이디푸스를 가족극이 아니라 진입으로 다시 읽기</h3>
+<p>라캉은 오이디푸스 구조를 유지하되 가족 심리를 빼낸다. 아버지의-이름(Nom-du-père)은 집 안의 그 남자가 아니라, 상상계적 이인관계에 개입하는 법과 언어의 자리다. 상징적 거세는 어머니를 완성하는 대상이 되겠다는 환상을 포기하고, 공유된 체계 안에서 말할 수 있는 주체가 되는 대가로 자기 중심에 영구적인 결여를 받아들이는 것이다(19:08–21:41). 그 결여는 고쳐야 할 결함이 아니라, 애초에 언어를 갖기 위한 조건이다.</p>
+<h3>금고가 아니라 문장: 구조로서의 무의식</h3>
+<p>프로이트의 무의식은 억압된 기억이 놓인 장소다. 라캉의 "언어처럼 구조화되어 있다"는 이것을 개인이 묻어 둔 내용에서, 개인이 설계하지 않은 보편적 문법으로 확장한다. 레비스트로스를 끌어들인 확장이다(22:29, 25:56). 프로이트의 꿈 기제 두 가지는 야콥슨의 언어 두 축에 대응한다. 압축 — 여러 생각을 하나의 이미지로 눌러 담는 것 — 은 계열체/은유, 수직축을 따른 대체다. 전치 — 의미가 한 요소에서 인접 요소로 미끄러지는 것 — 은 통합체/환유, 수평·순차축을 따른 대체다(23:16–25:29). 그리고 소쉬르의 기호가 기표(단어)와 기의(개념)를 동전의 양면처럼 묶고 기의에 우선권을 준다면, 라캉은 이를 바(bar)로 써서 S 위에 s로 표기하고 우선권을 뒤집는다. 기표가 움직이고 기의는 그 아래에서 미끄러진다. 사전에서 단어 하나를 찾으면 다른 단어로 보낼 뿐, 결코 최종 의미에 도달하지 못하는 것과 같다(26:43–29:17).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Life: 학습 욕심 백로그는 식욕이 아니라 라캉적 욕망이다 — 이름을 붙인다.</strong> <code>learning-greed-with-no-time</code>이 가장 강한 연결이다. 논문 하나, 탭 하나를 더 읽고 싶은 충동은 채워져도 닫히지 않는다. 애초에 정보에 대한 필요가 아니라, 끝없는 기표 사슬을 타고 미끄러지는 인정 요구였기 때문이다. 해법도 영상이 말하는 기표의 성격과 일치한다. 더 많은 입력이 아니라 관통선 하나와 정리 체계를 고르는 것. 그린의 텍스트 뿌리 응시 항목(Life 1307, 1308)도 같은 동작의 축소판이다. 머릿속의 "좁혀진 생각"은 빌려 온 기표 사슬이고, 텍스트 하나의 뿌리를 응시하는 것이 책에서 책으로 이어지는 대체를 멈추는 한 방법이다.</li><li><strong>Theory: 타인의 선호에 관한 무한 회귀는 "타자의 욕망"이다.</strong> <code>mit-decision-theory-vnm-risk-aversion</code>은 효용을 고정되지 않은 것으로 보고, 선호가 타인의 기대 속으로 회귀하는 모습을 보여준다. 라캉의 "인간의 욕망은 타자의 욕망이다"(17:06)는 반대 방향에서 같은 회귀에 이름을 붙인다. 이 연결은 이 글의 해석이며, 두 출처 어느 쪽의 주장도 아니다.</li><li><strong>Verex/제품: 기능 요청은 요구이지, 그 밑의 필요가 아니다.</strong> <code>욕망 = 요구 − 필요</code>는 배포한 기능이 말만 바꿔 돌아오는 정확한 이유다. 사용자가 요청하는 것은 그 기능이 채울 수 없는, 말해지지 않은 인정 요구를 함께 담고 있다. 하버드 제품-회사 간극 항목 <code>product-company-gap-mvs-slip</code>과 Tech #98의 Shopify 전제 문장이 제품 쪽에서 같은 간극을 설명한다. 요청의 표면적 요구와 그 밑의 일(job)을 만들기 전에 별개로 읽어야 한다.</li><li><strong>Auditor: "확인됨"이라는 기표는 규칙이 고정하기 전까지 미끄러진다.</strong> 라캉의 S/s 바 — 기표가 움직이고 기의가 그 아래에서 미끄러지는 것 — 는 규칙이 붙지 않은 "확인됨" 같은 단어에 정확히 일어나는 일을 묘사한다. 읽는 사람이 가정하는 대로 의미가 된다. "무엇을 어떤 규칙으로 확인했는지"가 그 고정핀이다.</li><li><strong>Eng: 해외 취업 인터뷰는 어휘 테스트가 아니라 상징계 진입이다.</strong> 영상의 헬렌 켈러 순간 — 신호를 사적 몸짓이 아니라 공유된 사회 규칙으로 받아들이는 것 — 은 다른 언어의 공손함, 헤징, turn-taking 규칙 아래서 진행되는 인터뷰에서 실제로 일어나는 일이지, 단어만의 문제가 아니다.</li><li><strong>Knowledge Notes: 이 영상을 <code>summarize-roof-pillars-foundation</code>의 스트레스 테스트로 쓴다.</strong> 라캉 자신의 글은 요약을 거부하기로 유명하다. 이 편에 지붕–기둥–기초 분할(주장, 서너 개의 뒷받침 구조, 밑에 깔린 전제)을 돌려 보는 것은 쉬운 Tech 항목뿐 아니라 어려운 자료에서도 그 방법이 버티는지에 대한 진짜 테스트다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 라캉(1901–1981)과 그의 "프로이트로의 회귀"는 문헌으로 확인된 지성사적 사실이다. 거울 단계 논문은 1936년에 나왔고 1949년에 지금 알려진 형태로 개정·발표되었다. 『에크리(Écrits)』(1966)는 그의 주요 논문들을 모은 책이다. 세 위상(상상계/상징계/실재계), "무의식은 언어처럼 구조화되어 있다", "욕망은 타자의 욕망이다", 아버지의-이름, S/s 바는 모두 라캉 이론의 표준적이고 문헌으로 확인된 요소들이다. 야콥슨의 은유/환유 쌍(1956)과 라캉이 이를 압축/전치에 대응시킨 것은 "무의식에서의 문자의 심급"(1957)에 나온다. 소쉬르의 『일반언어학 강의』(1916)는 라캉이 재작업한 기호 개념의 출처다. 영상에서 가져왔고 독립 확인하지 않은 것: 구체적 타임스탬프, 영상이 서술한 그대로의 헬렌 켈러 프레이밍과 데카르트 역전 문구, 소비사회 예시들, 그리고 위 Theory 항목의 의사결정이론 연결(이는 두 출처 어디의 주장도 아닌 이 글의 해석이다).</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=OUICU4ut0-8">5분 뚝딱 철학 — 089 라캉: 프로이트를 언어로 재해석한 철학자 (통합편)</a> · Jacques Lacan, <em>Écrits</em> (1966) · Ferdinand de Saussure, <em>Cours de linguistique générale</em> (1916) · Roman Jakobson, "Two Aspects of Language and Two Types of Aphasic Disturbances" (1956) · 관련 항목: <code>mit-decision-theory-vnm-risk-aversion</code>(Theory), <code>learning-greed-with-no-time</code>(Tech, Important), <code>product-company-gap-mvs-slip</code>, <code>summarize-roof-pillars-foundation</code>(Knowledge Notes), Tech #98(Shopify 전제 문장).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>mirror stage</strong></td><td>거울 단계(생후 6~18개월, 유아가 거울 속 통일된 이미지를 자기로 오인하는 시기) · 상상계 형성의 핵심 개념. "The Imaginary starts at the mirror stage, 6–18 months"</td></tr><tr><td><strong>RSI (Real, Symbolic, Imaginary)</strong></td><td>실재계·상징계·상상계(라캉의 세 위상, 프로이트의 이드/자아/초자아를 대체) · 이 항목 전체의 뼈대. "Lacan proposes three registers instead"</td></tr><tr><td><strong>misrecognition</strong></td><td>오인(자신이 아닌 것을 자신으로 착각) · 거울 단계 이론의 핵심 동작. "misrecognizes it as itself"</td></tr><tr><td><strong>closed dyad</strong></td><td>닫힌 이인관계(둘만의 폐쇄된 관계, 여기선 유아-어머니) · 상상계가 상징계로 열리기 전 상태. "a closed two-person world with the mother"</td></tr><tr><td><strong>Name-of-the-Father (Nom-du-père)</strong></td><td>아버지의-이름(생물학적 아버지가 아니라 법·언어·질서의 자리) · 상징계 진입의 매개. "the position of law and language that intervenes"</td></tr><tr><td><strong>symbolic castration</strong></td><td>상징적 거세(어머니를 완성하는 존재가 되려는 환상을 포기하는 것) · 주체 형성의 대가로 받아들이는 결여. "accepting a permanent lack at the center of the self"</td></tr><tr><td><strong>signifier / signified</strong></td><td>기표(소리·형태) / 기의(개념·의미) · 소쉬르 기호론의 두 축, 라캉이 우선순위를 뒤집는 지점. "the signifier moves and the signified slides under it"</td></tr><tr><td><strong>S/s bar</strong></td><td>S/s 바(라캉이 기표 S를 기의 s 위에 쓰고 선을 그은 표기) · 기표 우위를 나타내는 라캉 고유 표기. "Lacan writes it as a bar, S over s"</td></tr><tr><td><strong>condensation</strong></td><td>압축(여러 생각이 하나의 이미지로 눌려 담기는 꿈 기제) · 은유와 대응. "condensation — many ideas compressed into one image"</td></tr><tr><td><strong>displacement</strong></td><td>전치(의미가 인접 요소로 미끄러지는 꿈 기제) · 환유와 대응. "displacement — significance sliding from one element to an adjacent one"</td></tr><tr><td><strong>metaphor / paradigm</strong></td><td>은유 / 계열체(수직축의 대체) · 압축의 언어학적 대응. "is paradigm/metaphor, substitution along a vertical axis"</td></tr><tr><td><strong>metonymy / syntagm</strong></td><td>환유 / 통합체(수평·순차축의 대체) · 전치의 언어학적 대응. "is syntagm/metonymy, substitution along the horizontal"</td></tr><tr><td><strong>desire of the Other</strong></td><td>타자의 욕망(원함이 타자가 원하는 것을 거쳐 간다는 라캉의 공식) · "man&#39;s desire is the desire of the Other". "wanting is routed through what we imagine the other wants from us"</td></tr><tr><td><strong>demand vs need</strong></td><td>요구 대 필요(말해진 요구는 순수한 필요를 넘어선다) · 욕망 공식의 두 변수. "asking for milk is also, always, asking to be loved unconditionally"</td></tr><tr><td><strong>structural gap/remainder</strong></td><td>구조적 간극/잉여(대상으로 메울 수 없는 남는 부분) · 욕망을 정의하는 핵심 성질. "a structural remainder no specific object fills"</td></tr><tr><td><strong>return to Freud</strong></td><td>프로이트로의 회귀(라캉이 자신의 기획을 부르는 이름) · 언어학으로 프로이트를 재해석하는 프로젝트 전체. "his &#39;return to Freud&#39;"</td></tr><tr><td><strong>Ding an sich</strong></td><td>물자체(칸트, 경험으로 포착되지 않는 사물 그 자체) · 라캉의 실재계를 설명할 때 끌어온 비유. "comparable to ... Kant&#39;s Ding an sich"</td></tr><tr><td><strong>structured like a language</strong></td><td>언어처럼 구조화된(무의식의 형식을 규정하는 라캉의 명제) · 프로이트의 무의식 개념을 확장. "the unconscious is structured like a language"</td></tr><tr><td><strong>through line</strong></td><td>관통선(여러 항목을 꿰는 하나의 일관된 줄기) · 욕망을 채우는 대신 방향을 잡는 방법. "pick a through line and a filing system"</td></tr><tr><td><strong>filing system</strong></td><td>정리 체계(들어온 것을 어디에 둘지 정하는 규칙) · through line과 짝을 이루는 실무적 해법. "not more input"</td></tr><tr><td><strong>bid for recognition</strong></td><td>인정을 얻으려는 시도(필요로 위장한, 실은 타자를 향한 요구) · 소비·학력 경쟁을 읽는 틀. "bids for recognition through an Other, dressed as needs"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-summarize-roof-pillars-foundation.html">&larr; 1317. Roof, pillars, foundation — summarize by building a structure, not restating sentences</a><a href="pocs-herjavec-they-buy-you-be-heard.html">1319. People don&#39;t buy the idea — they buy whether you can be heard &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="lacan-rsi-desire-signifier";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

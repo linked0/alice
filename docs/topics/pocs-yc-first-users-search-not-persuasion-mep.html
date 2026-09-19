@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First users are a search problem — not a persuasion problem — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; First users are a search problem — not a persuasion problem</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#124</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>First users are a search problem — not a persuasion problem</h1>
+      <p class="lead">Gustaf Alström and Ankit Gupta — likely the YC group partners of those names, Alström a longtime YC partner and Gupta the co-founder of Pulse — walk through a roughly 5.5-minute Y Combinator video, "How To Get Your First Users" (youtube.com/watch?v=0kARDVL2nZg). Their claim: most people do not want to be a startup&#39;s first ten users, let alone its first paying customer (00:04–00:16), so finding them is a search problem, not a persuasion problem (01:20). Two archetypes cover almost every real case: the tech enthusiast, who tries new tools for the pleasure of it (Gustaf describes his own habit at Airbnb of trialling and championing unproven startup tools), and the burning-problem buyer, who has an urgent need and does not care whose product solves it (Ankit needed to ship an inference API and paid an unknown vendor within three days) (00:46–01:20). From there the talk gives five counter-intuitive rules for finding both types, plus a naming device for what an early product has to be: the Minimum Evolvable Product, MEP (00:33, 05:08) — the smallest thing that can survive contact with real users and adapt, not the smallest thing that satisfies a spec.</p>
+      <p class="meta">For Jayverse this reframes "get users" from a marketing task into a targeting-and-pricing exercise, and it gives the Auditor row a name for what its first version needs to be: not a finished product, but something built to survive its first real user and change shape because of them.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# First users are a search problem — not a persuasion problem\n\nGustaf Alström and Ankit Gupta — likely the YC group partners of those names, Alström a longtime YC partner and Gupta the co-founder of Pulse — walk through a roughly 5.5-minute Y Combinator video, \"How To Get Your First Users\" (youtube.com/watch?v=0kARDVL2nZg). Their claim: most people do not want to be a startup's first ten users, let alone its first paying customer (00:04–00:16), so finding them is a search problem, not a persuasion problem (01:20). Two archetypes cover almost every real case: the tech enthusiast, who tries new tools for the pleasure of it (Gustaf describes his own habit at Airbnb of trialling and championing unproven startup tools), and the burning-problem buyer, who has an urgent need and does not care whose product solves it (Ankit needed to ship an inference API and paid an unknown vendor within three days) (00:46–01:20). From there the talk gives five counter-intuitive rules for finding both types, plus a naming device for what an early product has to be: the Minimum Evolvable Product, MEP (00:33, 05:08) — the smallest thing that can survive contact with real users and adapt, not the smallest thing that satisfies a spec.\n\nFor Jayverse this reframes \"get users\" from a marketing task into a targeting-and-pricing exercise, and it gives the Auditor row a name for what its first version needs to be: not a finished product, but something built to survive its first real user and change shape because of them.\n\n## Why\n\nThe natural instinct when a product is ready is to announce it broadly and hope the right people notice — a launch post, a landing page, maybe an ad. The talk's point is that this instinct wastes the one signal early founders actually need: sharp, opinionated feedback from someone who has skin in the game. A free trial user who churns says nothing; the product just stops appearing in their day and no one finds out why. A paying user who is unhappy complains, in detail, because money makes them entitled to. So the failure this prevents is building for an imagined broad audience instead of searching out the narrow one that already has the problem — and then mistaking silence from free users for validation instead of the absence of a real test.\n\n## How it works\n\n### Two kinds of first customers\n\nAlmost every early customer fits one of two profiles. The tech enthusiast wants to be an early adopter — they read Product Hunt, trial new tools as a hobby, and get satisfaction from bringing a good find into their workplace, the way Gustaf describes doing at Airbnb before he joined YC. The burning-problem buyer is the opposite mindset: they are not shopping, they have a deadline or an outage, and whoever's product removes the pain first wins their money without a sales pitch — Ankit's example is needing an inference API and paying within three days, indifferent to brand. Both types exist for almost any product; the job is finding which channel reaches each one, not persuading a skeptical stranger.\n\n### Five counter-intuitive rules\n\n1. **Charge real money early.** Price is a feedback filter: free users leave without a word, paying users get angry and tell you exactly what's broken. It also selects for genuine early adopters, who tend to be less price-sensitive than the broad market they're ahead of (01:31–01:47).\n2. **Reach people directly.** Targeted outreach, cold email, and showing up in person beat broad-reach channels like a billboard, because the first hundred users are found one at a time, not advertised to (01:47–01:59).\n3. **Launch early.** A wider public surface — even an unfinished one — gives both customer types more ways to stumble onto the product than a long private beta does (01:59–02:09).\n4. **Study the ones who said yes.** Whenever an early user trusts an unproven product, ask why; that reasoning usually generalizes to the next twenty users of the same type (02:15–02:20).\n5. **Run fast, cheap experiments.** Price, landing page, onboarding, and feature set are all worth testing quickly, and losing one or two users along the way is an acceptable cost — the talk's line is that startups fight irrelevance, not headlines (02:26–02:46).\n\n### The Minimum Evolvable Product\n\nThe talk's central metaphor is a phylogenetic tree: a startup's first version is an amoeba, not a scaled-down human — it needs just enough structure to sense pressure from the market and start an evolutionary search, not every organ the final form will have (03:31–04:01). That reframes what a first release is for. An MVP, in the usual reading, is judged by whether it does enough; an MEP is judged by whether it survives contact with real users and can change in response — the emphasis moves from function to adaptability (05:14–05:25).\n\n### Path dependency: the Tesla Roadster\n\nTesla's amoeba was the Roadster, sold at roughly $109,000 at its 2008 launch (the summary's figure of $150k looks high and is not the verified number). Its buyers wanted acceleration and technology bragging rights, not comfort — and that first audience shaped every Tesla since: even the mass-market Model Y ships with Lamborghini-class acceleration trims and a stiffer ride than a comparable Toyota. Whoever a product's first real users are does not wash out later; it sets the axis the product keeps optimizing along (04:08–05:02).\n\n### Targeting in the AI era\n\nThe talk adds a distribution note specific to AI products: individual consumers spend on the order of $150 a month on software subscriptions total, while a corporate card can absorb hundreds of dollars per tool without much friction — and AI products carry real inference cost per user, so an ad-subsidized free tier is harder to sustain than it was for consumer software. The implied targeting rule is to aim at B2B buyers, prosumers, or a narrow high-value vertical (the talk names doctors) where the willingness to pay matches the cost to serve (02:51–03:20).\n\n### Where it lands in Jayverse\n\n- **Verex / Auditor: a one-week first-users plan, not a launch post.** Charge from day one; send ten targeted cold emails instead of a public announcement; put up one public demo page instead of a waitlist; interview the first two paying users about why they trusted it; revisit price at the end of the week based on what they said.\n- **Knowledge Notes: MEP is a naming lesson, not Tesla trivia.** \"Minimum evolvable\" names what the first version must survive, not what it must do — a sharper frame than MVP for Tech #98's Shopify premise line and for how any new Jayverse service gets scoped.\n- **Eng: \"a search problem, not a persuasion problem\" is an interview line.** It reframes go-to-market and early-traction questions away from \"how did you convince people\" toward \"how did you find the people who already needed it\" — a distinction worth having ready for a team-lead interview.\n- **Life: the amoeba is the shape for `learning-greed-with-no-time`.** A study plan under real time pressure only needs enough structure to react and adapt to what's actually hard, not full coverage of a syllabus — the same MEP-over-MVP move applied to learning instead of product.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Gustaf Alström and Ankit Gupta are real Y Combinator group partners (Ankit Gupta co-founded Pulse before joining YC); the Tesla Roadster launched in 2008 at a base price of roughly $109,000, not the $150k the summary states; the Tesla Model Y is a real, current production vehicle; \"search problem, not a persuasion problem\" is the video's own framing. Taken from the summary and not independently checked: the $150/month consumer-software-spend figure, the three-day anecdote about Ankit's inference API customer, the claim that Model Y suspension is stiffer than a comparable Toyota's, and all timestamps. Sources: [YouTube — Y Combinator, \"How To Get Your First Users\"](https://www.youtube.com/watch?v=0kARDVL2nZg) · related items: `product-company-gap-mvs-slip` (Harvard MVS: a working product isn't a scalable company), `blotato-solo-micro-saas-system` (Sabrina's solo playbook, $10K MRR in 10 days as an MEP in practice), `yc-pick-one-idea-go-deep` (YC on picking one idea and going deep).\n"</script>
+<h2>Why</h2>
+<p>The natural instinct when a product is ready is to announce it broadly and hope the right people notice — a launch post, a landing page, maybe an ad. The talk&#39;s point is that this instinct wastes the one signal early founders actually need: sharp, opinionated feedback from someone who has skin in the game. A free trial user who churns says nothing; the product just stops appearing in their day and no one finds out why. A paying user who is unhappy complains, in detail, because money makes them entitled to. So the failure this prevents is building for an imagined broad audience instead of searching out the narrow one that already has the problem — and then mistaking silence from free users for validation instead of the absence of a real test.</p>
+<h2>How it works</h2>
+<h3>Two kinds of first customers</h3>
+<p>Almost every early customer fits one of two profiles. The tech enthusiast wants to be an early adopter — they read Product Hunt, trial new tools as a hobby, and get satisfaction from bringing a good find into their workplace, the way Gustaf describes doing at Airbnb before he joined YC. The burning-problem buyer is the opposite mindset: they are not shopping, they have a deadline or an outage, and whoever&#39;s product removes the pain first wins their money without a sales pitch — Ankit&#39;s example is needing an inference API and paying within three days, indifferent to brand. Both types exist for almost any product; the job is finding which channel reaches each one, not persuading a skeptical stranger.</p>
+<h3>Five counter-intuitive rules</h3>
+<ol><li><strong>Charge real money early.</strong> Price is a feedback filter: free users leave without a word, paying users get angry and tell you exactly what&#39;s broken. It also selects for genuine early adopters, who tend to be less price-sensitive than the broad market they&#39;re ahead of (01:31–01:47).</li><li><strong>Reach people directly.</strong> Targeted outreach, cold email, and showing up in person beat broad-reach channels like a billboard, because the first hundred users are found one at a time, not advertised to (01:47–01:59).</li><li><strong>Launch early.</strong> A wider public surface — even an unfinished one — gives both customer types more ways to stumble onto the product than a long private beta does (01:59–02:09).</li><li><strong>Study the ones who said yes.</strong> Whenever an early user trusts an unproven product, ask why; that reasoning usually generalizes to the next twenty users of the same type (02:15–02:20).</li><li><strong>Run fast, cheap experiments.</strong> Price, landing page, onboarding, and feature set are all worth testing quickly, and losing one or two users along the way is an acceptable cost — the talk&#39;s line is that startups fight irrelevance, not headlines (02:26–02:46).</li></ol>
+<h3>The Minimum Evolvable Product</h3>
+<p>The talk&#39;s central metaphor is a phylogenetic tree: a startup&#39;s first version is an amoeba, not a scaled-down human — it needs just enough structure to sense pressure from the market and start an evolutionary search, not every organ the final form will have (03:31–04:01). That reframes what a first release is for. An MVP, in the usual reading, is judged by whether it does enough; an MEP is judged by whether it survives contact with real users and can change in response — the emphasis moves from function to adaptability (05:14–05:25).</p>
+<h3>Path dependency: the Tesla Roadster</h3>
+<p>Tesla&#39;s amoeba was the Roadster, sold at roughly $109,000 at its 2008 launch (the summary&#39;s figure of $150k looks high and is not the verified number). Its buyers wanted acceleration and technology bragging rights, not comfort — and that first audience shaped every Tesla since: even the mass-market Model Y ships with Lamborghini-class acceleration trims and a stiffer ride than a comparable Toyota. Whoever a product&#39;s first real users are does not wash out later; it sets the axis the product keeps optimizing along (04:08–05:02).</p>
+<h3>Targeting in the AI era</h3>
+<p>The talk adds a distribution note specific to AI products: individual consumers spend on the order of $150 a month on software subscriptions total, while a corporate card can absorb hundreds of dollars per tool without much friction — and AI products carry real inference cost per user, so an ad-subsidized free tier is harder to sustain than it was for consumer software. The implied targeting rule is to aim at B2B buyers, prosumers, or a narrow high-value vertical (the talk names doctors) where the willingness to pay matches the cost to serve (02:51–03:20).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex / Auditor: a one-week first-users plan, not a launch post.</strong> Charge from day one; send ten targeted cold emails instead of a public announcement; put up one public demo page instead of a waitlist; interview the first two paying users about why they trusted it; revisit price at the end of the week based on what they said.</li><li><strong>Knowledge Notes: MEP is a naming lesson, not Tesla trivia.</strong> "Minimum evolvable" names what the first version must survive, not what it must do — a sharper frame than MVP for Tech #98&#39;s Shopify premise line and for how any new Jayverse service gets scoped.</li><li><strong>Eng: "a search problem, not a persuasion problem" is an interview line.</strong> It reframes go-to-market and early-traction questions away from "how did you convince people" toward "how did you find the people who already needed it" — a distinction worth having ready for a team-lead interview.</li><li><strong>Life: the amoeba is the shape for <code>learning-greed-with-no-time</code>.</strong> A study plan under real time pressure only needs enough structure to react and adapt to what&#39;s actually hard, not full coverage of a syllabus — the same MEP-over-MVP move applied to learning instead of product.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Gustaf Alström and Ankit Gupta are real Y Combinator group partners (Ankit Gupta co-founded Pulse before joining YC); the Tesla Roadster launched in 2008 at a base price of roughly $109,000, not the $150k the summary states; the Tesla Model Y is a real, current production vehicle; "search problem, not a persuasion problem" is the video&#39;s own framing. Taken from the summary and not independently checked: the $150/month consumer-software-spend figure, the three-day anecdote about Ankit&#39;s inference API customer, the claim that Model Y suspension is stiffer than a comparable Toyota&#39;s, and all timestamps. Sources: <a href="https://www.youtube.com/watch?v=0kARDVL2nZg">YouTube — Y Combinator, "How To Get Your First Users"</a> · related items: <code>product-company-gap-mvs-slip</code> (Harvard MVS: a working product isn&#39;t a scalable company), <code>blotato-solo-micro-saas-system</code> (Sabrina&#39;s solo playbook, $10K MRR in 10 days as an MEP in practice), <code>yc-pick-one-idea-go-deep</code> (YC on picking one idea and going deep).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>search problem (vs. persuasion problem)</strong></td><td>탐색의 문제(설득의 문제와 대비) · 초기 사용자 확보를 마케팅이 아닌 타기팅 문제로 재정의할 때. "a search problem, not a persuasion problem"</td></tr><tr><td><strong>tech enthusiast</strong></td><td>기술 애호가(재미로 신제품을 써보는 사람) · 첫 고객의 두 유형 중 하나. "The tech enthusiast wants to be an early adopter"</td></tr><tr><td><strong>burning-problem buyer</strong></td><td>급한 문제를 가진 구매자 · 첫 고객의 다른 한 유형, 브랜드에 무관심. "the burning-problem buyer, who has an urgent need"</td></tr><tr><td><strong>early adopter</strong></td><td>얼리어답터(신제품을 가장 먼저 받아들이는 사람) · tech enthusiast와 겹치는 표준 마케팅 용어. "wants to be an early adopter"</td></tr><tr><td><strong>skin in the game</strong></td><td>이해관계가 걸려 있음(돈·시간을 직접 걸었다는 관용구) · 피드백의 질을 설명할 때. "feedback from someone who has skin in the game"</td></tr><tr><td><strong>price-sensitive</strong></td><td>가격에 민감한 · 진성 얼리어답터는 이것이 낮다는 규칙 설명. "tend to be less price-sensitive than the broad market"</td></tr><tr><td><strong>cold email</strong></td><td>콜드 이메일(사전 관계 없는 대상에게 보내는 영업 메일) · 다섯 규칙 중 직접 아웃리치 항목. "Targeted outreach, cold email"</td></tr><tr><td><strong>go-to-market</strong></td><td>고투마켓(제품을 시장에 내놓는 전략) · Eng 인터뷰 랜딩에서 쓰는 표준 스타트업 용어. "go-to-market and early-traction questions"</td></tr><tr><td><strong>willingness to pay</strong></td><td>지불 의향(고객이 실제로 낼 용의가 있는 금액) · AI 시대 타기팅 규칙의 핵심 변수. "the willingness to pay matches the cost to serve"</td></tr><tr><td><strong>MVP</strong></td><td>Minimum Viable Product(최소 기능 제품) · MEP와 대비되는 기존 개념, 기능 충족 여부로 평가. "An MVP, in the usual reading, is judged by whether it does enough"</td></tr><tr><td><strong>MEP</strong></td><td>Minimum Evolvable Product(최소 진화 가능 제품) · 이 항목의 핵심 개념, 생존과 적응력으로 평가. "the Minimum Evolvable Product, MEP"</td></tr><tr><td><strong>phylogenetic tree</strong></td><td>계통수(생물 진화 계통을 나타내는 나무 그림) · 아메바 비유의 출처. "a phylogenetic tree: a startup&#39;s first version is an amoeba"</td></tr><tr><td><strong>path dependency</strong></td><td>경로 의존성(초기 선택이 이후 경로를 계속 제약하는 현상) · 테슬라 로드스터 사례의 교훈. "it sets the axis the product keeps optimizing along"</td></tr><tr><td><strong>B2B</strong></td><td>Business-to-Business(기업 대 기업 거래) · AI 시대 타기팅 규칙에서 권하는 고객군. "aim at B2B buyers, prosumers"</td></tr><tr><td><strong>prosumer</strong></td><td>프로슈머(전문가 수준으로 쓰는 일반 소비자) · B2B와 나란히 언급되는 타기팅 대상. "prosumers, or a narrow high-value vertical"</td></tr><tr><td><strong>API</strong></td><td>Application Programming Interface(응용 프로그램 인터페이스) · 안킷의 burning-problem 사례에 등장하는 제품. "needed to ship an inference API"</td></tr><tr><td><strong>YC</strong></td><td>Y Combinator(스타트업 액셀러레이터) · 두 화자의 소속이자 영상 제작사. "a Y Combinator video"</td></tr><tr><td><strong>MRR</strong></td><td>Monthly Recurring Revenue(월 반복 매출) · 관련 항목(Blotato)에서 MEP 실전 사례로 인용한 지표. "10K MRR in 10 days as an MEP in practice"</td></tr><tr><td><strong>irrelevance (fight irrelevance, not headlines)</strong></td><td>무관해짐(존재감을 잃는 것) · 다섯 규칙 5번의 핵심 문구, 빠른 실험을 정당화. "startups fight irrelevance, not headlines"</td></tr><tr><td><strong>amoeba</strong></td><td>아메바(단세포 원생동물) · 초기 제품을 가리키는 이 항목의 핵심 은유. "a startup&#39;s first version is an amoeba, not a scaled-down human"</td></tr><tr><td><strong>vertical (n.)</strong></td><td>버티컬(특정 산업/직군에 특화된 시장 분류) · AI 시대 타기팅에서 의사 같은 좁은 고가치 시장을 가리킬 때. "a narrow high-value vertical (the talk names doctors)"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 첫 사용자는 설득이 아니라 탐색의 문제다\n\n구스타프 알스트룀(Gustaf Alström)과 안킷 굽타(Ankit Gupta) — 이름으로 보아 같은 이름의 YC 그룹 파트너들로 보인다. 알스트룀은 오랜 YC 파트너, 굽타는 Pulse의 공동창업자다 — 가 약 5.5분짜리 Y Combinator 영상 \"How To Get Your First Users\"(youtube.com/watch?v=0kARDVL2nZg)에서 이야기한다. 주장은 이렇다. 대부분의 사람은 검증되지 않은 스타트업의 첫 열 명, 더구나 첫 유료 고객이 되고 싶어하지 않는다(00:04–00:16). 그래서 그들을 찾는 일은 설득의 문제가 아니라 탐색의 문제다(01:20). 실제 사례는 거의 두 유형으로 나뉜다. 기술 애호가 — 그저 즐거워서 새 도구를 써보는 사람(구스타프는 Airbnb 재직 시절 검증 안 된 스타트업 도구를 직접 써보고 회사에 들여온 자신의 습관을 예로 든다) — 와 급한 문제를 가진 구매자 — 절박한 필요가 있고 누구의 제품이 풀어주든 상관없는 사람(안킷은 추론 API를 당장 출시해야 했고, 낯선 벤더의 제품을 3일 만에 결제했다)이다(00:46–01:20). 이어서 강연은 두 유형을 찾는 다섯 가지 반직관적 규칙과, 초기 제품이 어떤 모습이어야 하는지를 가리키는 이름 하나를 제시한다. 최소 진화 가능 제품, MEP(Minimum Evolvable Product, 00:33, 05:08) — 실제 사용자와 접촉해 살아남고 그에 맞춰 변형할 수 있는 가장 작은 것이지, 명세를 만족하는 가장 작은 것이 아니다.\n\nJayverse에서 이것은 \"사용자를 얻는다\"를 마케팅 과제에서 타기팅과 가격 결정 과제로 바꾼다. 그리고 Auditor 행의 첫 버전이 어떤 모습이어야 하는지에 이름을 붙여 준다. 완성된 제품이 아니라, 첫 실제 사용자와 접촉해 살아남고 그로 인해 모양이 바뀌도록 만든 것.\n\n## 왜\n\n제품이 준비되면 자연스러운 본능은 널리 알리고 맞는 사람이 알아채 주기를 바라는 것이다. 출시 글, 랜딩 페이지, 어쩌면 광고. 강연의 요점은 이 본능이 초기 창업자에게 정말 필요한 하나의 신호, 즉 이해관계가 걸린 사람의 날카롭고 편파적인 피드백을 낭비한다는 것이다. 무료 체험 후 이탈하는 사용자는 아무 말도 하지 않는다. 제품이 그들의 일상에서 그냥 사라질 뿐, 왜인지 아무도 알지 못한다. 반면 불만족한 유료 사용자는 상세히 불평한다. 돈을 냈으니 그럴 자격이 있다고 느끼기 때문이다. 그래서 이것이 막는 실패는, 상상 속의 넓은 고객층을 위해 만들다가 이미 그 문제를 가진 좁은 집단을 찾아내는 일을 건너뛰는 것, 그리고 무료 사용자의 침묵을 검증이 아니라 진짜 테스트의 부재로 오해하는 것이다.\n\n## 동작 방식\n\n### 두 종류의 첫 고객\n\n거의 모든 초기 고객은 두 유형 중 하나에 속한다. 기술 애호가는 얼리어답터가 되고 싶어한다. Product Hunt를 읽고, 취미로 새 도구를 써보고, 좋은 발견을 직장에 들여오는 데서 만족을 얻는다. 구스타프가 YC에 합류하기 전 Airbnb에서 했던 일이 그렇다. 급한 문제를 가진 구매자는 정반대의 사고방식이다. 쇼핑하는 게 아니라 마감이나 장애 상황에 처해 있고, 누구의 제품이든 먼저 고통을 없애 주는 쪽이 영업 없이 돈을 가져간다. 안킷의 사례는 추론 API가 필요했고 브랜드에 무관심하게 3일 만에 결제한 것이다. 두 유형 모두 거의 모든 제품에 존재한다. 관건은 회의적인 낯선 사람을 설득하는 것이 아니라, 각 유형에 닿는 채널을 찾는 것이다.\n\n### 다섯 가지 반직관적 규칙\n\n1. **일찍부터 실제 돈을 받으라.** 가격은 피드백 필터다. 무료 사용자는 말 없이 떠나지만, 유료 사용자는 화를 내며 무엇이 고장났는지 정확히 말해 준다. 가격은 또한 진짜 얼리어답터를 걸러내는데, 이들은 뒤따를 넓은 시장보다 가격에 덜 민감한 경향이 있다(01:31–01:47).\n2. **사람에게 직접 다가가라.** 타기팅된 아웃리치, 콜드 이메일, 직접 찾아가는 것이 빌보드 같은 광범위 도달 채널을 이긴다. 첫 백 명은 광고되는 것이 아니라 한 명씩 발견되는 것이기 때문이다(01:47–01:59).\n3. **일찍 출시하라.** 완성되지 않았더라도 더 넓은 공개 표면은 비공개 베타를 오래 끄는 것보다 두 고객 유형 모두가 제품을 우연히 발견할 경로를 더 많이 만들어 준다(01:59–02:09).\n4. **그렇다고 한 사람들을 연구하라.** 초기 사용자가 검증 안 된 제품을 신뢰할 때마다 이유를 물어라. 그 이유는 대개 같은 유형의 다음 스무 명에게도 일반화된다(02:15–02:20).\n5. **빠르고 값싼 실험을 돌려라.** 가격, 랜딩 페이지, 온보딩, 기능 구성 모두 빠르게 테스트할 가치가 있고, 그 과정에서 한두 명을 잃는 것은 용인할 비용이다. 강연의 표현으로는, 스타트업은 헤드라인이 아니라 무관해짐(irrelevance)과 싸운다(02:26–02:46).\n\n### 최소 진화 가능 제품\n\n강연의 핵심 비유는 계통수(phylogenetic tree)다. 스타트업의 첫 버전은 축소된 인간이 아니라 아메바다. 최종 형태가 가질 모든 기관이 아니라, 시장의 압력을 감지하고 진화적 탐색을 시작할 정도의 구조만 있으면 된다(03:31–04:01). 이것은 첫 출시가 무엇을 위한 것인지를 다시 정의한다. 보통의 독법에서 MVP는 충분히 기능하는지로 평가받는다. MEP는 실제 사용자와의 접촉에서 살아남고 그에 반응해 변할 수 있는지로 평가받는다. 강조점이 기능에서 적응력으로 옮겨간다(05:14–05:25).\n\n### 경로 의존성: 테슬라 로드스터\n\n테슬라의 아메바는 로드스터였다. 2008년 출시 당시 기본가는 약 10만 9천 달러였다(요약의 15만 달러라는 수치는 높아 보이며 확인된 숫자는 아니다). 구매자들이 원한 것은 편안함이 아니라 가속력과 기술 자랑거리였고, 그 첫 청중이 이후 모든 테슬라를 형성했다. 대중 모델인 Model Y조차 람보르기니급 가속 트림과 비슷한 급의 도요타보다 단단한 승차감을 갖추고 있다. 제품의 첫 실제 사용자가 누구인지는 나중에 씻겨 나가지 않는다. 제품이 계속 최적화해 나갈 축을 정해 버린다(04:08–05:02).\n\n### AI 시대의 타기팅\n\n강연은 AI 제품에 특화된 유통 메모를 하나 덧붙인다. 개인 소비자는 소프트웨어 구독에 월 대략 150달러 정도를 쓰는 반면, 법인카드는 도구 하나에 수백 달러를 큰 마찰 없이 흡수할 수 있다. 그리고 AI 제품은 사용자당 실제 추론 비용을 지니므로, 광고로 보조되는 무료 티어는 예전 소비자 소프트웨어 때보다 유지하기 어렵다. 여기서 나오는 타기팅 규칙은 B2B 구매자, 프로슈머, 혹은 지불 의향이 서비스 비용과 맞아떨어지는 좁고 높은 가치의 버티컬(강연은 의사를 예로 든다)을 겨냥하라는 것이다(02:51–03:20).\n\n### Jayverse에서의 위치\n\n- **Verex / Auditor: 출시 글이 아니라 일주일짜리 첫 사용자 계획.** 첫날부터 돈을 받는다. 공개 발표 대신 타기팅된 콜드 이메일 열 통을 보낸다. 대기명단 대신 공개 데모 페이지 하나를 올린다. 첫 유료 사용자 두 명에게 왜 신뢰했는지 인터뷰한다. 그들의 답을 바탕으로 주말에 가격을 다시 본다.\n- **Knowledge Notes: MEP는 테슬라 잡학이 아니라 이름 짓기의 교훈이다.** \"최소 진화 가능\"은 첫 버전이 무엇을 해야 하는지가 아니라 무엇을 살아남아야 하는지를 이름 붙인다. Tech #98의 Shopify 전제 문장과, 새 Jayverse 서비스의 범위를 정하는 방식 모두에 MVP보다 날카로운 틀이다.\n- **Eng: \"설득이 아니라 탐색의 문제\"는 인터뷰용 문장이다.** 초기 트랙션 질문을 \"어떻게 사람들을 설득했나\"에서 \"이미 그 문제를 가진 사람들을 어떻게 찾았나\"로 다시 틀 짓는다. 팀 리드 면접을 위해 준비해 둘 만한 구분이다.\n- **Life: 아메바는 `learning-greed-with-no-time`의 학습 계획 모양이다.** 실제 시간 압박 아래의 학습 계획은 실라버스 전체를 커버할 필요 없이, 실제로 어려운 부분에 반응하고 적응할 정도의 구조만 있으면 된다. 제품이 아니라 학습에 적용한 같은 MEP-over-MVP 움직임이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 구스타프 알스트룀과 안킷 굽타는 실제 Y Combinator 그룹 파트너다(안킷 굽타는 YC 합류 전 Pulse를 공동창업했다). 테슬라 로드스터는 2008년 기본가 약 10만 9천 달러로 출시되었으며, 요약이 말하는 15만 달러가 아니다. 테슬라 Model Y는 실재하는 현재 생산 차량이다. \"설득이 아니라 탐색의 문제\"는 영상 자체의 표현이다. 요약에서 가져왔고 독립 확인하지 않은 것: 월 150달러라는 소비자 소프트웨어 지출 수치, 안킷의 추론 API 고객에 관한 3일짜리 일화, Model Y 서스펜션이 비슷한 급 도요타보다 단단하다는 주장, 모든 타임스탬프. 출처: [YouTube — Y Combinator, \"How To Get Your First Users\"](https://www.youtube.com/watch?v=0kARDVL2nZg) · 관련 항목: `product-company-gap-mvs-slip`(Harvard MVS: 작동하는 제품이 확장 가능한 회사는 아니다), `blotato-solo-micro-saas-system`(Sabrina의 솔로 플레이북, 10일 만에 MRR 1만 달러 — MEP의 실전 사례), `yc-pick-one-idea-go-deep`(YC의 \"하나의 아이디어를 골라 깊이 파라\").\n"</script>
+      <h1>첫 사용자는 설득이 아니라 탐색의 문제다</h1>
+      <p class="lead">구스타프 알스트룀(Gustaf Alström)과 안킷 굽타(Ankit Gupta) — 이름으로 보아 같은 이름의 YC 그룹 파트너들로 보인다. 알스트룀은 오랜 YC 파트너, 굽타는 Pulse의 공동창업자다 — 가 약 5.5분짜리 Y Combinator 영상 "How To Get Your First Users"(youtube.com/watch?v=0kARDVL2nZg)에서 이야기한다. 주장은 이렇다. 대부분의 사람은 검증되지 않은 스타트업의 첫 열 명, 더구나 첫 유료 고객이 되고 싶어하지 않는다(00:04–00:16). 그래서 그들을 찾는 일은 설득의 문제가 아니라 탐색의 문제다(01:20). 실제 사례는 거의 두 유형으로 나뉜다. 기술 애호가 — 그저 즐거워서 새 도구를 써보는 사람(구스타프는 Airbnb 재직 시절 검증 안 된 스타트업 도구를 직접 써보고 회사에 들여온 자신의 습관을 예로 든다) — 와 급한 문제를 가진 구매자 — 절박한 필요가 있고 누구의 제품이 풀어주든 상관없는 사람(안킷은 추론 API를 당장 출시해야 했고, 낯선 벤더의 제품을 3일 만에 결제했다)이다(00:46–01:20). 이어서 강연은 두 유형을 찾는 다섯 가지 반직관적 규칙과, 초기 제품이 어떤 모습이어야 하는지를 가리키는 이름 하나를 제시한다. 최소 진화 가능 제품, MEP(Minimum Evolvable Product, 00:33, 05:08) — 실제 사용자와 접촉해 살아남고 그에 맞춰 변형할 수 있는 가장 작은 것이지, 명세를 만족하는 가장 작은 것이 아니다.</p>
+      <p class="meta">Jayverse에서 이것은 "사용자를 얻는다"를 마케팅 과제에서 타기팅과 가격 결정 과제로 바꾼다. 그리고 Auditor 행의 첫 버전이 어떤 모습이어야 하는지에 이름을 붙여 준다. 완성된 제품이 아니라, 첫 실제 사용자와 접촉해 살아남고 그로 인해 모양이 바뀌도록 만든 것.</p>
+<h2>왜</h2>
+<p>제품이 준비되면 자연스러운 본능은 널리 알리고 맞는 사람이 알아채 주기를 바라는 것이다. 출시 글, 랜딩 페이지, 어쩌면 광고. 강연의 요점은 이 본능이 초기 창업자에게 정말 필요한 하나의 신호, 즉 이해관계가 걸린 사람의 날카롭고 편파적인 피드백을 낭비한다는 것이다. 무료 체험 후 이탈하는 사용자는 아무 말도 하지 않는다. 제품이 그들의 일상에서 그냥 사라질 뿐, 왜인지 아무도 알지 못한다. 반면 불만족한 유료 사용자는 상세히 불평한다. 돈을 냈으니 그럴 자격이 있다고 느끼기 때문이다. 그래서 이것이 막는 실패는, 상상 속의 넓은 고객층을 위해 만들다가 이미 그 문제를 가진 좁은 집단을 찾아내는 일을 건너뛰는 것, 그리고 무료 사용자의 침묵을 검증이 아니라 진짜 테스트의 부재로 오해하는 것이다.</p>
+<h2>동작 방식</h2>
+<h3>두 종류의 첫 고객</h3>
+<p>거의 모든 초기 고객은 두 유형 중 하나에 속한다. 기술 애호가는 얼리어답터가 되고 싶어한다. Product Hunt를 읽고, 취미로 새 도구를 써보고, 좋은 발견을 직장에 들여오는 데서 만족을 얻는다. 구스타프가 YC에 합류하기 전 Airbnb에서 했던 일이 그렇다. 급한 문제를 가진 구매자는 정반대의 사고방식이다. 쇼핑하는 게 아니라 마감이나 장애 상황에 처해 있고, 누구의 제품이든 먼저 고통을 없애 주는 쪽이 영업 없이 돈을 가져간다. 안킷의 사례는 추론 API가 필요했고 브랜드에 무관심하게 3일 만에 결제한 것이다. 두 유형 모두 거의 모든 제품에 존재한다. 관건은 회의적인 낯선 사람을 설득하는 것이 아니라, 각 유형에 닿는 채널을 찾는 것이다.</p>
+<h3>다섯 가지 반직관적 규칙</h3>
+<ol><li><strong>일찍부터 실제 돈을 받으라.</strong> 가격은 피드백 필터다. 무료 사용자는 말 없이 떠나지만, 유료 사용자는 화를 내며 무엇이 고장났는지 정확히 말해 준다. 가격은 또한 진짜 얼리어답터를 걸러내는데, 이들은 뒤따를 넓은 시장보다 가격에 덜 민감한 경향이 있다(01:31–01:47).</li><li><strong>사람에게 직접 다가가라.</strong> 타기팅된 아웃리치, 콜드 이메일, 직접 찾아가는 것이 빌보드 같은 광범위 도달 채널을 이긴다. 첫 백 명은 광고되는 것이 아니라 한 명씩 발견되는 것이기 때문이다(01:47–01:59).</li><li><strong>일찍 출시하라.</strong> 완성되지 않았더라도 더 넓은 공개 표면은 비공개 베타를 오래 끄는 것보다 두 고객 유형 모두가 제품을 우연히 발견할 경로를 더 많이 만들어 준다(01:59–02:09).</li><li><strong>그렇다고 한 사람들을 연구하라.</strong> 초기 사용자가 검증 안 된 제품을 신뢰할 때마다 이유를 물어라. 그 이유는 대개 같은 유형의 다음 스무 명에게도 일반화된다(02:15–02:20).</li><li><strong>빠르고 값싼 실험을 돌려라.</strong> 가격, 랜딩 페이지, 온보딩, 기능 구성 모두 빠르게 테스트할 가치가 있고, 그 과정에서 한두 명을 잃는 것은 용인할 비용이다. 강연의 표현으로는, 스타트업은 헤드라인이 아니라 무관해짐(irrelevance)과 싸운다(02:26–02:46).</li></ol>
+<h3>최소 진화 가능 제품</h3>
+<p>강연의 핵심 비유는 계통수(phylogenetic tree)다. 스타트업의 첫 버전은 축소된 인간이 아니라 아메바다. 최종 형태가 가질 모든 기관이 아니라, 시장의 압력을 감지하고 진화적 탐색을 시작할 정도의 구조만 있으면 된다(03:31–04:01). 이것은 첫 출시가 무엇을 위한 것인지를 다시 정의한다. 보통의 독법에서 MVP는 충분히 기능하는지로 평가받는다. MEP는 실제 사용자와의 접촉에서 살아남고 그에 반응해 변할 수 있는지로 평가받는다. 강조점이 기능에서 적응력으로 옮겨간다(05:14–05:25).</p>
+<h3>경로 의존성: 테슬라 로드스터</h3>
+<p>테슬라의 아메바는 로드스터였다. 2008년 출시 당시 기본가는 약 10만 9천 달러였다(요약의 15만 달러라는 수치는 높아 보이며 확인된 숫자는 아니다). 구매자들이 원한 것은 편안함이 아니라 가속력과 기술 자랑거리였고, 그 첫 청중이 이후 모든 테슬라를 형성했다. 대중 모델인 Model Y조차 람보르기니급 가속 트림과 비슷한 급의 도요타보다 단단한 승차감을 갖추고 있다. 제품의 첫 실제 사용자가 누구인지는 나중에 씻겨 나가지 않는다. 제품이 계속 최적화해 나갈 축을 정해 버린다(04:08–05:02).</p>
+<h3>AI 시대의 타기팅</h3>
+<p>강연은 AI 제품에 특화된 유통 메모를 하나 덧붙인다. 개인 소비자는 소프트웨어 구독에 월 대략 150달러 정도를 쓰는 반면, 법인카드는 도구 하나에 수백 달러를 큰 마찰 없이 흡수할 수 있다. 그리고 AI 제품은 사용자당 실제 추론 비용을 지니므로, 광고로 보조되는 무료 티어는 예전 소비자 소프트웨어 때보다 유지하기 어렵다. 여기서 나오는 타기팅 규칙은 B2B 구매자, 프로슈머, 혹은 지불 의향이 서비스 비용과 맞아떨어지는 좁고 높은 가치의 버티컬(강연은 의사를 예로 든다)을 겨냥하라는 것이다(02:51–03:20).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex / Auditor: 출시 글이 아니라 일주일짜리 첫 사용자 계획.</strong> 첫날부터 돈을 받는다. 공개 발표 대신 타기팅된 콜드 이메일 열 통을 보낸다. 대기명단 대신 공개 데모 페이지 하나를 올린다. 첫 유료 사용자 두 명에게 왜 신뢰했는지 인터뷰한다. 그들의 답을 바탕으로 주말에 가격을 다시 본다.</li><li><strong>Knowledge Notes: MEP는 테슬라 잡학이 아니라 이름 짓기의 교훈이다.</strong> "최소 진화 가능"은 첫 버전이 무엇을 해야 하는지가 아니라 무엇을 살아남아야 하는지를 이름 붙인다. Tech #98의 Shopify 전제 문장과, 새 Jayverse 서비스의 범위를 정하는 방식 모두에 MVP보다 날카로운 틀이다.</li><li><strong>Eng: "설득이 아니라 탐색의 문제"는 인터뷰용 문장이다.</strong> 초기 트랙션 질문을 "어떻게 사람들을 설득했나"에서 "이미 그 문제를 가진 사람들을 어떻게 찾았나"로 다시 틀 짓는다. 팀 리드 면접을 위해 준비해 둘 만한 구분이다.</li><li><strong>Life: 아메바는 <code>learning-greed-with-no-time</code>의 학습 계획 모양이다.</strong> 실제 시간 압박 아래의 학습 계획은 실라버스 전체를 커버할 필요 없이, 실제로 어려운 부분에 반응하고 적응할 정도의 구조만 있으면 된다. 제품이 아니라 학습에 적용한 같은 MEP-over-MVP 움직임이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 구스타프 알스트룀과 안킷 굽타는 실제 Y Combinator 그룹 파트너다(안킷 굽타는 YC 합류 전 Pulse를 공동창업했다). 테슬라 로드스터는 2008년 기본가 약 10만 9천 달러로 출시되었으며, 요약이 말하는 15만 달러가 아니다. 테슬라 Model Y는 실재하는 현재 생산 차량이다. "설득이 아니라 탐색의 문제"는 영상 자체의 표현이다. 요약에서 가져왔고 독립 확인하지 않은 것: 월 150달러라는 소비자 소프트웨어 지출 수치, 안킷의 추론 API 고객에 관한 3일짜리 일화, Model Y 서스펜션이 비슷한 급 도요타보다 단단하다는 주장, 모든 타임스탬프. 출처: <a href="https://www.youtube.com/watch?v=0kARDVL2nZg">YouTube — Y Combinator, "How To Get Your First Users"</a> · 관련 항목: <code>product-company-gap-mvs-slip</code>(Harvard MVS: 작동하는 제품이 확장 가능한 회사는 아니다), <code>blotato-solo-micro-saas-system</code>(Sabrina의 솔로 플레이북, 10일 만에 MRR 1만 달러 — MEP의 실전 사례), <code>yc-pick-one-idea-go-deep</code>(YC의 "하나의 아이디어를 골라 깊이 파라").</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>search problem (vs. persuasion problem)</strong></td><td>탐색의 문제(설득의 문제와 대비) · 초기 사용자 확보를 마케팅이 아닌 타기팅 문제로 재정의할 때. "a search problem, not a persuasion problem"</td></tr><tr><td><strong>tech enthusiast</strong></td><td>기술 애호가(재미로 신제품을 써보는 사람) · 첫 고객의 두 유형 중 하나. "The tech enthusiast wants to be an early adopter"</td></tr><tr><td><strong>burning-problem buyer</strong></td><td>급한 문제를 가진 구매자 · 첫 고객의 다른 한 유형, 브랜드에 무관심. "the burning-problem buyer, who has an urgent need"</td></tr><tr><td><strong>early adopter</strong></td><td>얼리어답터(신제품을 가장 먼저 받아들이는 사람) · tech enthusiast와 겹치는 표준 마케팅 용어. "wants to be an early adopter"</td></tr><tr><td><strong>skin in the game</strong></td><td>이해관계가 걸려 있음(돈·시간을 직접 걸었다는 관용구) · 피드백의 질을 설명할 때. "feedback from someone who has skin in the game"</td></tr><tr><td><strong>price-sensitive</strong></td><td>가격에 민감한 · 진성 얼리어답터는 이것이 낮다는 규칙 설명. "tend to be less price-sensitive than the broad market"</td></tr><tr><td><strong>cold email</strong></td><td>콜드 이메일(사전 관계 없는 대상에게 보내는 영업 메일) · 다섯 규칙 중 직접 아웃리치 항목. "Targeted outreach, cold email"</td></tr><tr><td><strong>go-to-market</strong></td><td>고투마켓(제품을 시장에 내놓는 전략) · Eng 인터뷰 랜딩에서 쓰는 표준 스타트업 용어. "go-to-market and early-traction questions"</td></tr><tr><td><strong>willingness to pay</strong></td><td>지불 의향(고객이 실제로 낼 용의가 있는 금액) · AI 시대 타기팅 규칙의 핵심 변수. "the willingness to pay matches the cost to serve"</td></tr><tr><td><strong>MVP</strong></td><td>Minimum Viable Product(최소 기능 제품) · MEP와 대비되는 기존 개념, 기능 충족 여부로 평가. "An MVP, in the usual reading, is judged by whether it does enough"</td></tr><tr><td><strong>MEP</strong></td><td>Minimum Evolvable Product(최소 진화 가능 제품) · 이 항목의 핵심 개념, 생존과 적응력으로 평가. "the Minimum Evolvable Product, MEP"</td></tr><tr><td><strong>phylogenetic tree</strong></td><td>계통수(생물 진화 계통을 나타내는 나무 그림) · 아메바 비유의 출처. "a phylogenetic tree: a startup&#39;s first version is an amoeba"</td></tr><tr><td><strong>path dependency</strong></td><td>경로 의존성(초기 선택이 이후 경로를 계속 제약하는 현상) · 테슬라 로드스터 사례의 교훈. "it sets the axis the product keeps optimizing along"</td></tr><tr><td><strong>B2B</strong></td><td>Business-to-Business(기업 대 기업 거래) · AI 시대 타기팅 규칙에서 권하는 고객군. "aim at B2B buyers, prosumers"</td></tr><tr><td><strong>prosumer</strong></td><td>프로슈머(전문가 수준으로 쓰는 일반 소비자) · B2B와 나란히 언급되는 타기팅 대상. "prosumers, or a narrow high-value vertical"</td></tr><tr><td><strong>API</strong></td><td>Application Programming Interface(응용 프로그램 인터페이스) · 안킷의 burning-problem 사례에 등장하는 제품. "needed to ship an inference API"</td></tr><tr><td><strong>YC</strong></td><td>Y Combinator(스타트업 액셀러레이터) · 두 화자의 소속이자 영상 제작사. "a Y Combinator video"</td></tr><tr><td><strong>MRR</strong></td><td>Monthly Recurring Revenue(월 반복 매출) · 관련 항목(Blotato)에서 MEP 실전 사례로 인용한 지표. "10K MRR in 10 days as an MEP in practice"</td></tr><tr><td><strong>irrelevance (fight irrelevance, not headlines)</strong></td><td>무관해짐(존재감을 잃는 것) · 다섯 규칙 5번의 핵심 문구, 빠른 실험을 정당화. "startups fight irrelevance, not headlines"</td></tr><tr><td><strong>amoeba</strong></td><td>아메바(단세포 원생동물) · 초기 제품을 가리키는 이 항목의 핵심 은유. "a startup&#39;s first version is an amoeba, not a scaled-down human"</td></tr><tr><td><strong>vertical (n.)</strong></td><td>버티컬(특정 산업/직군에 특화된 시장 분류) · AI 시대 타기팅에서 의사 같은 좁은 고가치 시장을 가리킬 때. "a narrow high-value vertical (the talk names doctors)"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-yc-pick-one-idea-go-deep.html">&larr; 123. Pick one idea and go deep — the idea only appears after contact with reality, not before it</a><a href="pocs-design-constraints-layers-interfaces-choice.html">125. Design — forcing chaos into an order that hides exactly what the next layer doesn&#39;t need to see &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="yc-first-users-search-not-persuasion-mep";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

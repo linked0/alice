@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three founders shipped Claude Managed Agents to production — because the harness wasn&#39;t their edge — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Three founders shipped Claude Managed Agents to production — because the harness wasn&#39;t their edge</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#107</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Three founders shipped Claude Managed Agents to production — because the harness wasn&#39;t their edge</h1>
+      <p class="lead">Anthropic&#39;s Claude channel ran a panel, "How founders build on Claude Managed Agents" (YouTube, about 35 minutes), with three founders who put Managed Agents into production: Saumil, a meeting assistant (Briefs &amp; Tasks); Mihir, a sales-pipeline product (Watchtower); and Todd, a product-analytics and code-self-healing tool. All three describe shipping inside days to two weeks (14:19, 14:50, 16:11). The panel keeps returning to one test for choosing between building your own agent harness and buying Anthropic&#39;s managed one: does the harness define your product&#39;s unique value, or is it plumbing underneath value you already own.</p>
+      <p class="meta">For Jayverse this is a lens for every agent I build or plan — Rabbit&#39;s mandate-enforcing flows, Verex&#39;s market-maker bots, the Auditor, and the Dark Horse candidates — before I write my own scheduler, sandbox, or memory layer, the question is whether that layer is what the user is paying for.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Three founders shipped Claude Managed Agents to production — because the harness wasn't their edge\n\nAnthropic's Claude channel ran a panel, \"How founders build on Claude Managed Agents\" (YouTube, about 35 minutes), with three founders who put Managed Agents into production: Saumil, a meeting assistant (Briefs & Tasks); Mihir, a sales-pipeline product (Watchtower); and Todd, a product-analytics and code-self-healing tool. All three describe shipping inside days to two weeks (14:19, 14:50, 16:11). The panel keeps returning to one test for choosing between building your own agent harness and buying Anthropic's managed one: does the harness define your product's unique value, or is it plumbing underneath value you already own.\n\nFor Jayverse this is a lens for every agent I build or plan — Rabbit's mandate-enforcing flows, Verex's market-maker bots, the Auditor, and the Dark Horse candidates — before I write my own scheduler, sandbox, or memory layer, the question is whether that layer is what the user is paying for.\n\n## Why\n\nAn agent harness — sandboxing, memory, scheduling, tool execution — is expensive to build and easy to mistake for the product. The panel's founders all started by asking what layer their users actually value: Saumil's users value a briefing that is right about who they're meeting, not the infrastructure that produced it; Mihir's users value a forecast rolled up across hundreds of accounts, not the container it ran in. Getting this wrong in either direction is costly: build the harness when you don't need to and you spend your runway on plumbing instead of product; buy it when you actually need extreme control (sub-second voice latency, cost-optimized batch inference at scale) and you inherit someone else's ceiling. The panel's answer is concrete enough to apply directly: ask \"is this infrastructure our core competency?\" (12:27) before every build decision, not after.\n\n## How it works\n\n### Three products, one production pattern\nSaumil's meeting assistant does more than live transcription: it briefs the user before a meeting and automates tasks after it (00:11, 00:17). Twenty-four hours ahead, it cross-references the other side's LinkedIn, prior conversations, and email to write the brief (02:27, 05:29). Mihir's Watchtower runs a persistent agent per sales account (00:46, 00:53), and a second agent sits above them, cross-analyzing hundreds of accounts for roll-ups, revenue forecasts, and priority targets — built and deployed on Managed Agents in two weeks (01:14, 01:28). Todd's product combines a customer's source code with their user telemetry: it reviews UX and instrumentation when a PR is submitted, and when funnel conversion drops, it analyzes the code and proposes a fix PR (01:32, 01:53, 23:01, 24:04).\n\n### An independent verifier that prefers silence to a wrong answer\nAll three treat wrong output as worse than no output. Saumil's clearest failure mode is briefing the user on the wrong person — a name collision, the wrong \"Tom\" — which is far more damaging than skipping the brief entirely (02:18, 02:41). Their fix is a verifier agent that runs in a clean context, fully separated from the agent that did the work (03:10, 06:12), scoring the output against a rubric written from the user's experience, not the model's confidence. Below the rubric's threshold, the system doesn't show a degraded answer — it shows nothing, a fail-silent / graceful-degradation choice made deliberately at the product layer (03:03, 06:32).\n\n### Sandboxing: isolate first, choose real-time vs batch second\nTodd's product snapshots a customer's actual source code to analyze, execute, and modify it, which makes isolation non-negotiable — a leaked secret or a stray write is a real incident, not a bug report (10:38, 10:48). Rather than build container isolation themselves, they use the platform's built-in sandbox (11:28). On top of that, they split workloads by latency need: large-scale funnel verification runs as a nightly batch, and user-facing queries run in real time, kept on separate paths (11:51, 12:05).\n\n### Memory split: what you index yourself, what the platform holds\nMihir's Watchtower draws a line through memory. Account memory — a given account's lifecycle and deal history — is indexed by Watchtower itself, because contamination between accounts and precise, per-account querying both demand tight control (07:01, 09:45, 18:12). Org- and user-level memory — revenue-forecast criteria, a rep's preferences, how sales fields are defined — sits in Anthropic's Managed Memory, because that logic is shared and generic across the org rather than unique per account (07:46, 10:00). The parent Watchtower agent writes code directly to fan out across roughly 500 accounts' memory in parallel, searching and rolling up results (08:21, 08:42) — a pattern the panel calls \"dreaming,\" an unreviewed batch pass over memory that surfaces what to act on next.\n\n### The build-vs-buy test, and how they evaluate afterward\nThe founders converge on one question: is the harness infrastructure our core competency (12:27)? When it isn't — when the product's edge is the briefing quality or the sales roll-up, not the plumbing under it — buying managed infrastructure wins, because an early-stage startup's scarce resource is experiment speed toward product-market fit, not infrastructure upkeep (12:33, 13:05, 13:22, 14:04). The stated exceptions are narrow: extremely latency-sensitive voice (\"Jarvis\"-style) products that need to control the harness directly (12:45, 12:51, 33:55), and large-traffic products that need fine-grained margin control, such as batch mode's roughly 50–75 percent cost savings (29:40, 31:06). On evaluation, the panel warns that early internal dogfooding is vibes-based and overfits to the team's own usage (24:45, 25:07); the fix is interviewing real customers about their actual query intent to build segmented benchmark cohorts (26:15). Because memory changes and external state (Slack, a CRM) drifts, these are stateful systems that resist static evals (26:42, 27:07). And when migrating models, they avoid over-tuning prompts to one model family's quirks, checking instead for defenses against the new model's own failure patterns — like a tendency toward excessive modifiers or dash overuse (27:45, 28:41).\n\n### Where it lands in Jayverse\n\n- **Rabbit: the verifier-with-veto matters more here than for a briefing.** An agent that can move money needs the panel's clean-context verifier pattern applied to the mandate enforcer — fail-silent means the enforcer blocks a send rather than let a degraded approval through.\n- **Verex: the Watchtower pattern is the market-maker ops shape.** One dedicated agent per market, with a roll-up agent above it fanning out across markets for pricing and inventory summaries, is a smaller version of what Watchtower does across sales accounts.\n- **Auditor: the independent verifier is the Auditor role, and the rubric is the rule.** \"What was checked, by which rubric\" is exactly the Auditor's job description; write the rubric down the way Saumil's team did before the first wrong brief goes out.\n- **Dark Horse: Managed Agents is a legitimate buy option, not a compromise.** For a candidate whose edge isn't the harness — most of them — building on Managed Agents keeps the repo small and the runway spent on the product decision, not on sandboxing.\n- **Eng: practice the three-sentence answer to \"build or buy the harness.\"** State the test (does the harness define your product's value), the two named exceptions (latency-critical control, large-scale margin control), and one concrete example from Jayverse.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Anthropic offers Claude Managed Agents — server-hosted agents with a managed sandbox, memory, and tool execution — as part of the Claude platform; \"LLM-as-judge with a clean context\" and \"graceful degradation\" (failing silently rather than showing a low-confidence answer) are established patterns in production LLM systems; batch inference APIs typically discount around 50 percent versus real-time pricing. Taken from the summary and not independently checked: the founders' names and product names (Saumil/Briefs & Tasks, Mihir/Watchtower, Todd's product), the two-week build time, the roughly 500-account figure, the \"dreaming\" terminology, and all timestamps.\n\nSources: [YouTube — \"How founders build on Claude Managed Agents,\" Anthropic's Claude channel](https://www.youtube.com/watch?v=hm8NzEd5io0) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #101 (ADK voice — the low-latency build exception), Tech #102 (MLflow — evals), `harness-engineering-shift-left` and `vercel-eve-filesystem-agents` (the own-the-environment counter-position).\n"</script>
+<h2>Why</h2>
+<p>An agent harness — sandboxing, memory, scheduling, tool execution — is expensive to build and easy to mistake for the product. The panel&#39;s founders all started by asking what layer their users actually value: Saumil&#39;s users value a briefing that is right about who they&#39;re meeting, not the infrastructure that produced it; Mihir&#39;s users value a forecast rolled up across hundreds of accounts, not the container it ran in. Getting this wrong in either direction is costly: build the harness when you don&#39;t need to and you spend your runway on plumbing instead of product; buy it when you actually need extreme control (sub-second voice latency, cost-optimized batch inference at scale) and you inherit someone else&#39;s ceiling. The panel&#39;s answer is concrete enough to apply directly: ask "is this infrastructure our core competency?" (12:27) before every build decision, not after.</p>
+<h2>How it works</h2>
+<h3>Three products, one production pattern</h3>
+<p>Saumil&#39;s meeting assistant does more than live transcription: it briefs the user before a meeting and automates tasks after it (00:11, 00:17). Twenty-four hours ahead, it cross-references the other side&#39;s LinkedIn, prior conversations, and email to write the brief (02:27, 05:29). Mihir&#39;s Watchtower runs a persistent agent per sales account (00:46, 00:53), and a second agent sits above them, cross-analyzing hundreds of accounts for roll-ups, revenue forecasts, and priority targets — built and deployed on Managed Agents in two weeks (01:14, 01:28). Todd&#39;s product combines a customer&#39;s source code with their user telemetry: it reviews UX and instrumentation when a PR is submitted, and when funnel conversion drops, it analyzes the code and proposes a fix PR (01:32, 01:53, 23:01, 24:04).</p>
+<h3>An independent verifier that prefers silence to a wrong answer</h3>
+<p>All three treat wrong output as worse than no output. Saumil&#39;s clearest failure mode is briefing the user on the wrong person — a name collision, the wrong "Tom" — which is far more damaging than skipping the brief entirely (02:18, 02:41). Their fix is a verifier agent that runs in a clean context, fully separated from the agent that did the work (03:10, 06:12), scoring the output against a rubric written from the user&#39;s experience, not the model&#39;s confidence. Below the rubric&#39;s threshold, the system doesn&#39;t show a degraded answer — it shows nothing, a fail-silent / graceful-degradation choice made deliberately at the product layer (03:03, 06:32).</p>
+<h3>Sandboxing: isolate first, choose real-time vs batch second</h3>
+<p>Todd&#39;s product snapshots a customer&#39;s actual source code to analyze, execute, and modify it, which makes isolation non-negotiable — a leaked secret or a stray write is a real incident, not a bug report (10:38, 10:48). Rather than build container isolation themselves, they use the platform&#39;s built-in sandbox (11:28). On top of that, they split workloads by latency need: large-scale funnel verification runs as a nightly batch, and user-facing queries run in real time, kept on separate paths (11:51, 12:05).</p>
+<h3>Memory split: what you index yourself, what the platform holds</h3>
+<p>Mihir&#39;s Watchtower draws a line through memory. Account memory — a given account&#39;s lifecycle and deal history — is indexed by Watchtower itself, because contamination between accounts and precise, per-account querying both demand tight control (07:01, 09:45, 18:12). Org- and user-level memory — revenue-forecast criteria, a rep&#39;s preferences, how sales fields are defined — sits in Anthropic&#39;s Managed Memory, because that logic is shared and generic across the org rather than unique per account (07:46, 10:00). The parent Watchtower agent writes code directly to fan out across roughly 500 accounts&#39; memory in parallel, searching and rolling up results (08:21, 08:42) — a pattern the panel calls "dreaming," an unreviewed batch pass over memory that surfaces what to act on next.</p>
+<h3>The build-vs-buy test, and how they evaluate afterward</h3>
+<p>The founders converge on one question: is the harness infrastructure our core competency (12:27)? When it isn&#39;t — when the product&#39;s edge is the briefing quality or the sales roll-up, not the plumbing under it — buying managed infrastructure wins, because an early-stage startup&#39;s scarce resource is experiment speed toward product-market fit, not infrastructure upkeep (12:33, 13:05, 13:22, 14:04). The stated exceptions are narrow: extremely latency-sensitive voice ("Jarvis"-style) products that need to control the harness directly (12:45, 12:51, 33:55), and large-traffic products that need fine-grained margin control, such as batch mode&#39;s roughly 50–75 percent cost savings (29:40, 31:06). On evaluation, the panel warns that early internal dogfooding is vibes-based and overfits to the team&#39;s own usage (24:45, 25:07); the fix is interviewing real customers about their actual query intent to build segmented benchmark cohorts (26:15). Because memory changes and external state (Slack, a CRM) drifts, these are stateful systems that resist static evals (26:42, 27:07). And when migrating models, they avoid over-tuning prompts to one model family&#39;s quirks, checking instead for defenses against the new model&#39;s own failure patterns — like a tendency toward excessive modifiers or dash overuse (27:45, 28:41).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Rabbit: the verifier-with-veto matters more here than for a briefing.</strong> An agent that can move money needs the panel&#39;s clean-context verifier pattern applied to the mandate enforcer — fail-silent means the enforcer blocks a send rather than let a degraded approval through.</li><li><strong>Verex: the Watchtower pattern is the market-maker ops shape.</strong> One dedicated agent per market, with a roll-up agent above it fanning out across markets for pricing and inventory summaries, is a smaller version of what Watchtower does across sales accounts.</li><li><strong>Auditor: the independent verifier is the Auditor role, and the rubric is the rule.</strong> "What was checked, by which rubric" is exactly the Auditor&#39;s job description; write the rubric down the way Saumil&#39;s team did before the first wrong brief goes out.</li><li><strong>Dark Horse: Managed Agents is a legitimate buy option, not a compromise.</strong> For a candidate whose edge isn&#39;t the harness — most of them — building on Managed Agents keeps the repo small and the runway spent on the product decision, not on sandboxing.</li><li><strong>Eng: practice the three-sentence answer to "build or buy the harness."</strong> State the test (does the harness define your product&#39;s value), the two named exceptions (latency-critical control, large-scale margin control), and one concrete example from Jayverse.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Anthropic offers Claude Managed Agents — server-hosted agents with a managed sandbox, memory, and tool execution — as part of the Claude platform; "LLM-as-judge with a clean context" and "graceful degradation" (failing silently rather than showing a low-confidence answer) are established patterns in production LLM systems; batch inference APIs typically discount around 50 percent versus real-time pricing. Taken from the summary and not independently checked: the founders&#39; names and product names (Saumil/Briefs &amp; Tasks, Mihir/Watchtower, Todd&#39;s product), the two-week build time, the roughly 500-account figure, the "dreaming" terminology, and all timestamps.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=hm8NzEd5io0">YouTube — "How founders build on Claude Managed Agents," Anthropic&#39;s Claude channel</a> · related items: Tech #62 (agentic engineering writes the boundaries), Tech #101 (ADK voice — the low-latency build exception), Tech #102 (MLflow — evals), <code>harness-engineering-shift-left</code> and <code>vercel-eve-filesystem-agents</code> (the own-the-environment counter-position).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>harness</strong></td><td>하네스(에이전트를 실행시키는 인프라 전체: 샌드박스·메모리·스케줄링·도구 실행) · build-vs-buy 논의의 핵심 대상. "does the harness define your product&#39;s unique value"</td></tr><tr><td><strong>Managed Agents</strong></td><td>Anthropic이 제공하는 서버 호스팅 관리형 에이전트 서비스 이름 · 이 글의 주제. "shipped Claude Managed Agents to production"</td></tr><tr><td><strong>clean context</strong></td><td>이전 작업의 흔적이 섞이지 않은 깨끗한 컨텍스트 · 독립 검증자를 실행 에이전트와 분리할 때 쓰는 조건. "a verifier agent that runs in a clean context"</td></tr><tr><td><strong>rubric</strong></td><td>채점 기준표(무엇을, 어떤 기준으로 통과시킬지 명시한 규칙) · 검증 에이전트가 출력을 평가하는 잣대. "scoring the output against a rubric"</td></tr><tr><td><strong>fail-silent</strong></td><td>실패했을 때 조용히 아무것도 보여주지 않는 설계 · 틀린 답보다 침묵을 택하는 원칙. "a fail-silent / graceful-degradation choice"</td></tr><tr><td><strong>graceful degradation</strong></td><td>우아한 성능 저하(품질이 기준 미달일 때 조용히 물러나는 설계) · fail-silent와 짝을 이루는 표현. 위와 같은 문맥.</td></tr><tr><td><strong>sandbox(ing)</strong></td><td>샌드박스(격리된 실행 환경), 격리하는 행위 · 고객 소스 코드를 안전하게 다루기 위한 필수 장치. "isolation... non-negotiable"</td></tr><tr><td><strong>fan out</strong></td><td>하나의 작업을 여러 갈래로 병렬로 퍼뜨려 처리하다 · 상위 에이전트가 수백 개 계정 메모리를 동시에 훑을 때. "fan out across roughly 500 accounts&#39; memory"</td></tr><tr><td><strong>roll-up</strong></td><td>여러 항목(거래처·마켓 등)을 하나의 요약으로 집계한 것 · Watchtower의 핵심 산출물. "a roll-up agent above it"</td></tr><tr><td><strong>PR</strong></td><td>Pull Request(풀 리퀘스트, 코드 변경을 제안하는 단위) · 코드 자가 치유 제품이 제출하는 결과물. "proposes a fix PR"</td></tr><tr><td><strong>UX</strong></td><td>User Experience(사용자 경험) · PR 제출 시 함께 검토하는 대상. "reviews UX and instrumentation"</td></tr><tr><td><strong>PMF</strong></td><td>Product-Market Fit(제품-시장 적합성, 제품이 시장 수요에 맞아떨어지는 상태) · 초기 스타트업이 최적화하는 목표. "toward product-market fit"</td></tr><tr><td><strong>funnel conversion</strong></td><td>퍼널(단계별 유입-전환 흐름) 전환율 · 이 지표가 떨어지면 코드 분석이 트리거된다. "when funnel conversion drops"</td></tr><tr><td><strong>dogfooding</strong></td><td>자사 직원이 자사 제품을 직접 써보며 검증하는 관행 · 초기 평가의 한계로 지적됨. "internal dogfooding is vibes-based"</td></tr><tr><td><strong>overfit</strong></td><td>특정 데이터(팀 자신의 사용 패턴)에만 맞춰져 일반화가 안 되는 상태 · dogfooding의 부작용. "overfits to the team&#39;s own usage"</td></tr><tr><td><strong>stateful</strong></td><td>상태를 유지하는(이전 상호작용·외부 변화가 다음 결과에 영향을 미치는) · 정적 eval이 잘 안 맞는 이유. "stateful systems that resist static evals"</td></tr><tr><td><strong>batch mode</strong></td><td>실시간이 아니라 모아서 일괄 처리하는 방식 · 비용을 크게 아끼지만 지연이 늘어나는 트레이드오프. "batch mode&#39;s roughly 50-75 percent cost savings"</td></tr><tr><td><strong>runway</strong></td><td>활주로(스타트업이 자금이 바닥나기 전까지 버틸 수 있는 기간) · build 대신 buy를 택하는 이유. "spend your runway on plumbing"</td></tr><tr><td><strong>core competency</strong></td><td>핵심 경쟁력(그 회사만이 잘할 수 있는 영역) · build-vs-buy 판단의 기준 문구. "is this infrastructure our core competency"</td></tr><tr><td><strong>plumbing</strong></td><td>배관(눈에 띄지 않지만 필수적인 기반 인프라를 가리키는 비유) · 하네스를 제품과 대비시키는 말. "spend your runway on plumbing instead of product"</td></tr><tr><td><strong>veto</strong></td><td>거부권(승인을 막을 권한) · Rabbit의 mandate enforcer가 갖는 역할을 설명할 때. "the verifier-with-veto matters more here than for a briefing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 세 창업자가 Claude Managed Agents를 프로덕션에 배포했다 — 하네스가 자기 제품의 경쟁력이 아니었기 때문에\n\nAnthropic의 Claude 채널이 \"How founders build on Claude Managed Agents\"라는 패널(YouTube, 약 35분)을 진행했고, Managed Agents를 프로덕션에 올린 세 창업자가 출연했다. 미팅 어시스턴트(Briefs & Tasks)를 만든 Saumil, 영업 파이프라인 제품(Watchtower)을 만든 Mihir, 프로덕트 분석·코드 자가 치유 도구를 만든 Todd. 세 사람 모두 며칠에서 2주 안에 배포했다고 말한다(14:19, 14:50, 16:11). 패널이 반복해서 돌아오는 질문은 하나다. 자체 에이전트 하네스를 만들지, Anthropic의 관리형 하네스를 살지 가르는 기준. 하네스가 제품의 고유한 가치를 정의하는가, 아니면 이미 보유한 가치 아래의 배관일 뿐인가.\n\nJayverse에서 이것은 내가 만들거나 계획하는 모든 에이전트를 보는 렌즈다. Rabbit의 mandate 집행 흐름, Verex의 마켓메이커 봇, Auditor, Dark Horse 후보들. 직접 스케줄러, 샌드박스, 메모리 레이어를 쓰기 전에 먼저 물을 것은, 그 레이어가 사용자가 돈을 내는 대상인가다.\n\n## 왜\n\n에이전트 하네스—샌드박싱, 메모리, 스케줄링, 도구 실행—는 만들기 비싸고 제품 자체로 착각하기 쉽다. 패널의 창업자들은 모두 사용자가 실제로 가치를 두는 레이어가 무엇인지부터 물었다. Saumil의 사용자는 만날 상대에 대해 정확한 브리핑에 가치를 두지, 그것을 만들어낸 인프라에 가치를 두지 않는다. Mihir의 사용자는 수백 개 거래처를 가로지르는 롤업 예측에 가치를 두지, 그것이 돌아간 컨테이너에 가치를 두지 않는다. 어느 방향으로든 틀리면 대가가 크다. 필요 없는데 하네스를 만들면 제품이 아니라 배관에 활주로를 쓰게 된다. 실제로 극한의 제어(서브초 음성 지연, 대규모 배치 추론의 비용 최적화)가 필요한데 사면 남의 한계를 물려받는다. 패널의 답은 바로 적용할 수 있을 만큼 구체적이다. 모든 빌드 결정 전에 \"이 인프라가 우리의 핵심 경쟁력인가?\"(12:27)를 묻는 것, 결정 후가 아니라.\n\n## 동작 방식\n\n### 세 제품, 하나의 프로덕션 패턴\nSaumil의 미팅 어시스턴트는 실시간 기록 이상을 한다. 미팅 전에 사용자를 브리핑하고 미팅 후 태스크를 자동화한다(00:11, 00:17). 24시간 전에 상대의 LinkedIn, 이전 대화, 이메일을 교차 분석해 브리핑을 쓴다(02:27, 05:29). Mihir의 Watchtower는 거래처마다 영구 실행되는 전담 에이전트를 돌리고(00:46, 00:53), 그 위에 두 번째 에이전트가 앉아 수백 개 거래처를 교차 분석해 롤업, 매출 예측, 우선 타깃을 뽑는다. Managed Agents로 2주 만에 구축·배포했다(01:14, 01:28). Todd의 제품은 고객사의 소스 코드와 사용자 텔레메트리를 결합한다. PR이 제출되면 UX와 계측을 리뷰하고, 퍼널 전환율이 떨어지면 코드를 분석해 수정 PR을 제안한다(01:32, 01:53, 23:01, 24:04).\n\n### 틀린 답보다 침묵을 택하는 독립 검증자\n셋 다 잘못된 출력을 출력 없음보다 더 나쁘다고 취급한다. Saumil의 가장 분명한 실패 모드는 동명이인—엉뚱한 \"Tom\"—의 정보로 사용자를 브리핑하는 것이고, 이는 브리핑을 아예 건너뛰는 것보다 훨씬 더 치명적이다(02:18, 02:41). 이들의 해법은 실행한 에이전트와 완전히 분리된 clean-context에서 도는 검증 에이전트다(03:10, 06:12). 이 검증자는 모델의 자신감이 아니라 사용자 경험 관점에서 쓰인 rubric으로 출력을 채점한다. rubric 기준을 못 넘으면 시스템은 낮은 품질의 답을 보여주는 대신 아예 아무것도 보여주지 않는다. 제품 레이어에서 의도적으로 택한 fail-silent / graceful degradation이다(03:03, 06:32).\n\n### 샌드박싱: 격리가 먼저, 실시간이냐 배치냐는 그다음\nTodd의 제품은 고객사의 실제 소스 코드를 스냅샷해 분석·실행·수정하므로 격리는 타협 불가능하다. 시크릿 유출이나 잘못된 쓰기는 버그 리포트가 아니라 실제 사고다(10:38, 10:48). 컨테이너 격리를 직접 만드는 대신 플랫폼에 내장된 샌드박스를 쓴다(11:28). 그 위에서 워크로드를 지연 요구사항으로 나눈다. 대규모 퍼널 검증은 야간 배치로, 사용자 대면 질의는 실시간으로, 서로 다른 경로에 둔다(11:51, 12:05).\n\n### 메모리 분리: 무엇을 직접 인덱싱하고 무엇을 플랫폼에 맡길지\nMihir의 Watchtower는 메모리에 선을 하나 긋는다. account 메모리—특정 거래처의 라이프사이클과 거래 내역—는 Watchtower 자체가 인덱싱한다. 거래처 간 오염 방지와 거래처별 정밀 쿼리 둘 다 강한 통제를 요구하기 때문이다(07:01, 09:45, 18:12). org·user 메모리—매출 예측 기준, 담당자 선호, 영업 필드 정의—는 Anthropic의 Managed Memory에 둔다. 이 로직은 거래처마다 고유한 게 아니라 조직 전체에서 공유되는 일반 로직이기 때문이다(07:46, 10:00). 상위 Watchtower 에이전트는 코드를 직접 써서 약 500개 계정의 메모리를 fan-out으로 병렬 탐색하고 결과를 롤업한다(08:21, 08:42). 패널은 이를 \"dreaming\"이라 부른다. 검토받지 않은 배치가 메모리를 훑으며 다음에 무엇을 해야 할지 드러내는 패턴이다.\n\n### build vs buy 테스트, 그리고 이후의 평가 방식\n창업자들은 하나의 질문으로 수렴한다. 이 하네스 인프라가 우리의 핵심 경쟁력인가(12:27)? 아니라면—제품의 경쟁력이 브리핑 품질이나 영업 롤업이지 그 밑의 배관이 아니라면—관리형 인프라를 사는 쪽이 유리하다. 초기 스타트업의 희소 자원은 인프라 유지가 아니라 PMF를 향한 실험 속도이기 때문이다(12:33, 13:05, 13:22, 14:04). 명시된 예외는 좁다. 하네스를 직접 제어해야 하는 극단적 저지연 음성(\"자비스\"형) 제품(12:45, 12:51, 33:55), 그리고 배치 모드의 약 50~75% 비용 절감처럼 세밀한 마진 제어가 필요한 대규모 트래픽 제품(29:40, 31:06)이다. 평가에 대해서는, 초기 사내 도그푸딩이 vibes 기반이라 팀 자신의 사용 패턴에 과적합된다고 경고한다(24:45, 25:07). 해법은 실제 고객을 인터뷰해 진짜 질의 의도를 파악하고 벤치마크 코호트를 세분화하는 것이다(26:15). 메모리가 변하고 외부 상태(Slack, CRM)가 드리프트하므로 이런 시스템은 stateful이라 정적 eval에 잘 맞지 않는다(26:42, 27:07). 모델을 마이그레이션할 때는 특정 모델군의 버릇에 프롬프트를 과도하게 맞추지 않고, 대신 새 모델 고유의 실패 패턴—과도한 수식어나 대시 남용 같은 문체—을 상쇄하는 방어벽 위주로 점검한다(27:45, 28:41).\n\n### Jayverse에서의 위치\n\n- **Rabbit: 검증자-거부권 패턴이 브리핑보다 여기서 더 중요하다.** 돈을 움직이는 에이전트는 패널의 clean-context 검증자 패턴을 mandate enforcer에 적용해야 한다. fail-silent는 enforcer가 저품질 승인을 통과시키는 대신 전송을 막는 것을 뜻한다.\n- **Verex: Watchtower 패턴이 마켓메이커 운영의 형태다.** 마켓마다 전담 에이전트 하나, 그 위에 마켓들을 가로질러 가격·재고 요약을 fan-out하는 롤업 에이전트는 Watchtower가 영업 거래처에 대해 하는 일의 축소판이다.\n- **Auditor: 독립 검증자가 곧 Auditor 역할이고, rubric이 곧 규칙이다.** \"무엇을 어떤 rubric으로 확인했는가\"는 정확히 Auditor의 직무 기술이다. Saumil 팀이 첫 잘못된 브리핑이 나가기 전에 그랬듯 rubric을 미리 적어둘 것.\n- **Dark Horse: Managed Agents는 타협이 아니라 정당한 buy 옵션이다.** 하네스가 경쟁력이 아닌 후보—대부분—는 Managed Agents 위에 지으면 레포가 작게 유지되고 활주로가 샌드박싱이 아니라 제품 결정에 쓰인다.\n- **Eng: \"하네스를 build할지 buy할지\" 세 문장 답을 연습한다.** 기준(하네스가 제품 가치를 정의하는가), 명시된 두 예외(지연 임계 제어, 대규모 마진 제어), Jayverse의 구체적 예시 하나를 말한다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: Anthropic은 Claude Managed Agents—관리형 샌드박스, 메모리, 도구 실행을 갖춘 서버 호스팅 에이전트—를 Claude 플랫폼의 일부로 제공한다. \"clean context를 가진 LLM-as-judge\"와 \"graceful degradation\"(낮은 신뢰도 답을 보이는 대신 조용히 실패하는 것)은 프로덕션 LLM 시스템에서 확립된 패턴이다. 배치 추론 API는 보통 실시간 가격 대비 약 50% 할인된다. 요약에서 가져왔고 독립 확인하지 않은 것: 창업자 이름과 제품명(Saumil/Briefs & Tasks, Mihir/Watchtower, Todd의 제품), 2주 구축 기간, 약 500개 계정이라는 수치, \"dreaming\"이라는 용어, 모든 타임스탬프.\n\n출처: [YouTube — \"How founders build on Claude Managed Agents\", Anthropic Claude 채널](https://www.youtube.com/watch?v=hm8NzEd5io0) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #101(ADK 음성 — 저지연 build 예외), Tech #102(MLflow — evals), `harness-engineering-shift-left`, `vercel-eve-filesystem-agents`(환경을 직접 소유해야 한다는 반대 입장).\n"</script>
+      <h1>세 창업자가 Claude Managed Agents를 프로덕션에 배포했다 — 하네스가 자기 제품의 경쟁력이 아니었기 때문에</h1>
+      <p class="lead">Anthropic의 Claude 채널이 "How founders build on Claude Managed Agents"라는 패널(YouTube, 약 35분)을 진행했고, Managed Agents를 프로덕션에 올린 세 창업자가 출연했다. 미팅 어시스턴트(Briefs &amp; Tasks)를 만든 Saumil, 영업 파이프라인 제품(Watchtower)을 만든 Mihir, 프로덕트 분석·코드 자가 치유 도구를 만든 Todd. 세 사람 모두 며칠에서 2주 안에 배포했다고 말한다(14:19, 14:50, 16:11). 패널이 반복해서 돌아오는 질문은 하나다. 자체 에이전트 하네스를 만들지, Anthropic의 관리형 하네스를 살지 가르는 기준. 하네스가 제품의 고유한 가치를 정의하는가, 아니면 이미 보유한 가치 아래의 배관일 뿐인가.</p>
+      <p class="meta">Jayverse에서 이것은 내가 만들거나 계획하는 모든 에이전트를 보는 렌즈다. Rabbit의 mandate 집행 흐름, Verex의 마켓메이커 봇, Auditor, Dark Horse 후보들. 직접 스케줄러, 샌드박스, 메모리 레이어를 쓰기 전에 먼저 물을 것은, 그 레이어가 사용자가 돈을 내는 대상인가다.</p>
+<h2>왜</h2>
+<p>에이전트 하네스—샌드박싱, 메모리, 스케줄링, 도구 실행—는 만들기 비싸고 제품 자체로 착각하기 쉽다. 패널의 창업자들은 모두 사용자가 실제로 가치를 두는 레이어가 무엇인지부터 물었다. Saumil의 사용자는 만날 상대에 대해 정확한 브리핑에 가치를 두지, 그것을 만들어낸 인프라에 가치를 두지 않는다. Mihir의 사용자는 수백 개 거래처를 가로지르는 롤업 예측에 가치를 두지, 그것이 돌아간 컨테이너에 가치를 두지 않는다. 어느 방향으로든 틀리면 대가가 크다. 필요 없는데 하네스를 만들면 제품이 아니라 배관에 활주로를 쓰게 된다. 실제로 극한의 제어(서브초 음성 지연, 대규모 배치 추론의 비용 최적화)가 필요한데 사면 남의 한계를 물려받는다. 패널의 답은 바로 적용할 수 있을 만큼 구체적이다. 모든 빌드 결정 전에 "이 인프라가 우리의 핵심 경쟁력인가?"(12:27)를 묻는 것, 결정 후가 아니라.</p>
+<h2>동작 방식</h2>
+<h3>세 제품, 하나의 프로덕션 패턴</h3>
+<p>Saumil의 미팅 어시스턴트는 실시간 기록 이상을 한다. 미팅 전에 사용자를 브리핑하고 미팅 후 태스크를 자동화한다(00:11, 00:17). 24시간 전에 상대의 LinkedIn, 이전 대화, 이메일을 교차 분석해 브리핑을 쓴다(02:27, 05:29). Mihir의 Watchtower는 거래처마다 영구 실행되는 전담 에이전트를 돌리고(00:46, 00:53), 그 위에 두 번째 에이전트가 앉아 수백 개 거래처를 교차 분석해 롤업, 매출 예측, 우선 타깃을 뽑는다. Managed Agents로 2주 만에 구축·배포했다(01:14, 01:28). Todd의 제품은 고객사의 소스 코드와 사용자 텔레메트리를 결합한다. PR이 제출되면 UX와 계측을 리뷰하고, 퍼널 전환율이 떨어지면 코드를 분석해 수정 PR을 제안한다(01:32, 01:53, 23:01, 24:04).</p>
+<h3>틀린 답보다 침묵을 택하는 독립 검증자</h3>
+<p>셋 다 잘못된 출력을 출력 없음보다 더 나쁘다고 취급한다. Saumil의 가장 분명한 실패 모드는 동명이인—엉뚱한 "Tom"—의 정보로 사용자를 브리핑하는 것이고, 이는 브리핑을 아예 건너뛰는 것보다 훨씬 더 치명적이다(02:18, 02:41). 이들의 해법은 실행한 에이전트와 완전히 분리된 clean-context에서 도는 검증 에이전트다(03:10, 06:12). 이 검증자는 모델의 자신감이 아니라 사용자 경험 관점에서 쓰인 rubric으로 출력을 채점한다. rubric 기준을 못 넘으면 시스템은 낮은 품질의 답을 보여주는 대신 아예 아무것도 보여주지 않는다. 제품 레이어에서 의도적으로 택한 fail-silent / graceful degradation이다(03:03, 06:32).</p>
+<h3>샌드박싱: 격리가 먼저, 실시간이냐 배치냐는 그다음</h3>
+<p>Todd의 제품은 고객사의 실제 소스 코드를 스냅샷해 분석·실행·수정하므로 격리는 타협 불가능하다. 시크릿 유출이나 잘못된 쓰기는 버그 리포트가 아니라 실제 사고다(10:38, 10:48). 컨테이너 격리를 직접 만드는 대신 플랫폼에 내장된 샌드박스를 쓴다(11:28). 그 위에서 워크로드를 지연 요구사항으로 나눈다. 대규모 퍼널 검증은 야간 배치로, 사용자 대면 질의는 실시간으로, 서로 다른 경로에 둔다(11:51, 12:05).</p>
+<h3>메모리 분리: 무엇을 직접 인덱싱하고 무엇을 플랫폼에 맡길지</h3>
+<p>Mihir의 Watchtower는 메모리에 선을 하나 긋는다. account 메모리—특정 거래처의 라이프사이클과 거래 내역—는 Watchtower 자체가 인덱싱한다. 거래처 간 오염 방지와 거래처별 정밀 쿼리 둘 다 강한 통제를 요구하기 때문이다(07:01, 09:45, 18:12). org·user 메모리—매출 예측 기준, 담당자 선호, 영업 필드 정의—는 Anthropic의 Managed Memory에 둔다. 이 로직은 거래처마다 고유한 게 아니라 조직 전체에서 공유되는 일반 로직이기 때문이다(07:46, 10:00). 상위 Watchtower 에이전트는 코드를 직접 써서 약 500개 계정의 메모리를 fan-out으로 병렬 탐색하고 결과를 롤업한다(08:21, 08:42). 패널은 이를 "dreaming"이라 부른다. 검토받지 않은 배치가 메모리를 훑으며 다음에 무엇을 해야 할지 드러내는 패턴이다.</p>
+<h3>build vs buy 테스트, 그리고 이후의 평가 방식</h3>
+<p>창업자들은 하나의 질문으로 수렴한다. 이 하네스 인프라가 우리의 핵심 경쟁력인가(12:27)? 아니라면—제품의 경쟁력이 브리핑 품질이나 영업 롤업이지 그 밑의 배관이 아니라면—관리형 인프라를 사는 쪽이 유리하다. 초기 스타트업의 희소 자원은 인프라 유지가 아니라 PMF를 향한 실험 속도이기 때문이다(12:33, 13:05, 13:22, 14:04). 명시된 예외는 좁다. 하네스를 직접 제어해야 하는 극단적 저지연 음성("자비스"형) 제품(12:45, 12:51, 33:55), 그리고 배치 모드의 약 50~75% 비용 절감처럼 세밀한 마진 제어가 필요한 대규모 트래픽 제품(29:40, 31:06)이다. 평가에 대해서는, 초기 사내 도그푸딩이 vibes 기반이라 팀 자신의 사용 패턴에 과적합된다고 경고한다(24:45, 25:07). 해법은 실제 고객을 인터뷰해 진짜 질의 의도를 파악하고 벤치마크 코호트를 세분화하는 것이다(26:15). 메모리가 변하고 외부 상태(Slack, CRM)가 드리프트하므로 이런 시스템은 stateful이라 정적 eval에 잘 맞지 않는다(26:42, 27:07). 모델을 마이그레이션할 때는 특정 모델군의 버릇에 프롬프트를 과도하게 맞추지 않고, 대신 새 모델 고유의 실패 패턴—과도한 수식어나 대시 남용 같은 문체—을 상쇄하는 방어벽 위주로 점검한다(27:45, 28:41).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Rabbit: 검증자-거부권 패턴이 브리핑보다 여기서 더 중요하다.</strong> 돈을 움직이는 에이전트는 패널의 clean-context 검증자 패턴을 mandate enforcer에 적용해야 한다. fail-silent는 enforcer가 저품질 승인을 통과시키는 대신 전송을 막는 것을 뜻한다.</li><li><strong>Verex: Watchtower 패턴이 마켓메이커 운영의 형태다.</strong> 마켓마다 전담 에이전트 하나, 그 위에 마켓들을 가로질러 가격·재고 요약을 fan-out하는 롤업 에이전트는 Watchtower가 영업 거래처에 대해 하는 일의 축소판이다.</li><li><strong>Auditor: 독립 검증자가 곧 Auditor 역할이고, rubric이 곧 규칙이다.</strong> "무엇을 어떤 rubric으로 확인했는가"는 정확히 Auditor의 직무 기술이다. Saumil 팀이 첫 잘못된 브리핑이 나가기 전에 그랬듯 rubric을 미리 적어둘 것.</li><li><strong>Dark Horse: Managed Agents는 타협이 아니라 정당한 buy 옵션이다.</strong> 하네스가 경쟁력이 아닌 후보—대부분—는 Managed Agents 위에 지으면 레포가 작게 유지되고 활주로가 샌드박싱이 아니라 제품 결정에 쓰인다.</li><li><strong>Eng: "하네스를 build할지 buy할지" 세 문장 답을 연습한다.</strong> 기준(하네스가 제품 가치를 정의하는가), 명시된 두 예외(지연 임계 제어, 대규모 마진 제어), Jayverse의 구체적 예시 하나를 말한다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: Anthropic은 Claude Managed Agents—관리형 샌드박스, 메모리, 도구 실행을 갖춘 서버 호스팅 에이전트—를 Claude 플랫폼의 일부로 제공한다. "clean context를 가진 LLM-as-judge"와 "graceful degradation"(낮은 신뢰도 답을 보이는 대신 조용히 실패하는 것)은 프로덕션 LLM 시스템에서 확립된 패턴이다. 배치 추론 API는 보통 실시간 가격 대비 약 50% 할인된다. 요약에서 가져왔고 독립 확인하지 않은 것: 창업자 이름과 제품명(Saumil/Briefs &amp; Tasks, Mihir/Watchtower, Todd의 제품), 2주 구축 기간, 약 500개 계정이라는 수치, "dreaming"이라는 용어, 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=hm8NzEd5io0">YouTube — "How founders build on Claude Managed Agents", Anthropic Claude 채널</a> · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #101(ADK 음성 — 저지연 build 예외), Tech #102(MLflow — evals), <code>harness-engineering-shift-left</code>, <code>vercel-eve-filesystem-agents</code>(환경을 직접 소유해야 한다는 반대 입장).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>harness</strong></td><td>하네스(에이전트를 실행시키는 인프라 전체: 샌드박스·메모리·스케줄링·도구 실행) · build-vs-buy 논의의 핵심 대상. "does the harness define your product&#39;s unique value"</td></tr><tr><td><strong>Managed Agents</strong></td><td>Anthropic이 제공하는 서버 호스팅 관리형 에이전트 서비스 이름 · 이 글의 주제. "shipped Claude Managed Agents to production"</td></tr><tr><td><strong>clean context</strong></td><td>이전 작업의 흔적이 섞이지 않은 깨끗한 컨텍스트 · 독립 검증자를 실행 에이전트와 분리할 때 쓰는 조건. "a verifier agent that runs in a clean context"</td></tr><tr><td><strong>rubric</strong></td><td>채점 기준표(무엇을, 어떤 기준으로 통과시킬지 명시한 규칙) · 검증 에이전트가 출력을 평가하는 잣대. "scoring the output against a rubric"</td></tr><tr><td><strong>fail-silent</strong></td><td>실패했을 때 조용히 아무것도 보여주지 않는 설계 · 틀린 답보다 침묵을 택하는 원칙. "a fail-silent / graceful-degradation choice"</td></tr><tr><td><strong>graceful degradation</strong></td><td>우아한 성능 저하(품질이 기준 미달일 때 조용히 물러나는 설계) · fail-silent와 짝을 이루는 표현. 위와 같은 문맥.</td></tr><tr><td><strong>sandbox(ing)</strong></td><td>샌드박스(격리된 실행 환경), 격리하는 행위 · 고객 소스 코드를 안전하게 다루기 위한 필수 장치. "isolation... non-negotiable"</td></tr><tr><td><strong>fan out</strong></td><td>하나의 작업을 여러 갈래로 병렬로 퍼뜨려 처리하다 · 상위 에이전트가 수백 개 계정 메모리를 동시에 훑을 때. "fan out across roughly 500 accounts&#39; memory"</td></tr><tr><td><strong>roll-up</strong></td><td>여러 항목(거래처·마켓 등)을 하나의 요약으로 집계한 것 · Watchtower의 핵심 산출물. "a roll-up agent above it"</td></tr><tr><td><strong>PR</strong></td><td>Pull Request(풀 리퀘스트, 코드 변경을 제안하는 단위) · 코드 자가 치유 제품이 제출하는 결과물. "proposes a fix PR"</td></tr><tr><td><strong>UX</strong></td><td>User Experience(사용자 경험) · PR 제출 시 함께 검토하는 대상. "reviews UX and instrumentation"</td></tr><tr><td><strong>PMF</strong></td><td>Product-Market Fit(제품-시장 적합성, 제품이 시장 수요에 맞아떨어지는 상태) · 초기 스타트업이 최적화하는 목표. "toward product-market fit"</td></tr><tr><td><strong>funnel conversion</strong></td><td>퍼널(단계별 유입-전환 흐름) 전환율 · 이 지표가 떨어지면 코드 분석이 트리거된다. "when funnel conversion drops"</td></tr><tr><td><strong>dogfooding</strong></td><td>자사 직원이 자사 제품을 직접 써보며 검증하는 관행 · 초기 평가의 한계로 지적됨. "internal dogfooding is vibes-based"</td></tr><tr><td><strong>overfit</strong></td><td>특정 데이터(팀 자신의 사용 패턴)에만 맞춰져 일반화가 안 되는 상태 · dogfooding의 부작용. "overfits to the team&#39;s own usage"</td></tr><tr><td><strong>stateful</strong></td><td>상태를 유지하는(이전 상호작용·외부 변화가 다음 결과에 영향을 미치는) · 정적 eval이 잘 안 맞는 이유. "stateful systems that resist static evals"</td></tr><tr><td><strong>batch mode</strong></td><td>실시간이 아니라 모아서 일괄 처리하는 방식 · 비용을 크게 아끼지만 지연이 늘어나는 트레이드오프. "batch mode&#39;s roughly 50-75 percent cost savings"</td></tr><tr><td><strong>runway</strong></td><td>활주로(스타트업이 자금이 바닥나기 전까지 버틸 수 있는 기간) · build 대신 buy를 택하는 이유. "spend your runway on plumbing"</td></tr><tr><td><strong>core competency</strong></td><td>핵심 경쟁력(그 회사만이 잘할 수 있는 영역) · build-vs-buy 판단의 기준 문구. "is this infrastructure our core competency"</td></tr><tr><td><strong>plumbing</strong></td><td>배관(눈에 띄지 않지만 필수적인 기반 인프라를 가리키는 비유) · 하네스를 제품과 대비시키는 말. "spend your runway on plumbing instead of product"</td></tr><tr><td><strong>veto</strong></td><td>거부권(승인을 막을 권한) · Rabbit의 mandate enforcer가 갖는 역할을 설명할 때. "the verifier-with-veto matters more here than for a briefing"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-harness-engineering-shift-left.html">&larr; 106. Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself</a><a href="pocs-vercel-eve-filesystem-agents.html">108. The Vercel data agent — four architectures lost to a file system and a shell &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="managed-agents-build-vs-buy-harness";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

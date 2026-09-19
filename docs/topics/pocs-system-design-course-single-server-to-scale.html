@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design Course — a two-hour walk from one server to the seven decisions every design interview tests — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; System Design Course — a two-hour walk from one server to the seven decisions every design interview tests</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#121</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>System Design Course — a two-hour walk from one server to the seven decisions every design interview tests</h1>
+      <p class="lead">freeCodeCamp.org published a two-hour course, "System Design Course – APIs, Databases, Caching, CDNs, Load Balancing &amp; Production Infra" (YouTube, C842vFY5kRo). It starts from the smallest possible system — one server running the web app, the database and the cache together — and walks the standard path out: split the web tier from the data tier, pick a database family by access pattern, scale the web tier horizontally behind a load balancer, choose an API style and a wire protocol, separate authentication from authorization, and close with a checklist of the controls a production API needs before it is exposed. The course spends real time on trade-offs rather than definitions: five database families, seven load-balancing algorithms, three API styles, two transport protocols, two authentication schemes and a seven-item security list.</p>
+      <p class="meta">For Jayverse this is not new information, it is a checklist. Every choice below is already made somewhere in Verex, Rabbit or Number; the value of the course is turning "we did it that way" into a table that can be checked against a stated rule, row by row.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# System Design Course — a two-hour walk from one server to the seven decisions every design interview tests\n\nfreeCodeCamp.org published a two-hour course, \"System Design Course – APIs, Databases, Caching, CDNs, Load Balancing & Production Infra\" (YouTube, C842vFY5kRo). It starts from the smallest possible system — one server running the web app, the database and the cache together — and walks the standard path out: split the web tier from the data tier, pick a database family by access pattern, scale the web tier horizontally behind a load balancer, choose an API style and a wire protocol, separate authentication from authorization, and close with a checklist of the controls a production API needs before it is exposed. The course spends real time on trade-offs rather than definitions: five database families, seven load-balancing algorithms, three API styles, two transport protocols, two authentication schemes and a seven-item security list.\n\nFor Jayverse this is not new information, it is a checklist. Every choice below is already made somewhere in Verex, Rabbit or Number; the value of the course is turning \"we did it that way\" into a table that can be checked against a stated rule, row by row.\n\n## Why\n\nSimonyan's own upload of the same course opens with the reason to learn this in the AI era: when an agent writes the handlers, the person is left with the decisions the handlers cannot make, which tier owns state, which database family, which protocol, which control sits at the door. That is system design, and it is exactly the part Tech #62 calls the boundary.\n\nA design interview and a real architecture review ask the same question in the same order: what does this component need (consistency, latency, throughput, ordering), and which of the standard choices matches that need. Skipping the question does not remove the trade-off, it just means the trade-off was made by accident — a database picked because it was already running, a load-balancing algorithm left at its default, a security control added only after an incident. Naming the choice explicitly is what turns an implementation detail into something the Auditor, or an interviewer, can check.\n\n## How it works\n\n### Data tier: pick by access pattern, not habit\n\nA single server outgrows itself when the web tier and the data tier compete for the same CPU and memory; the first split is always web tier from data tier (03:33, 07:16). After that the database choice follows the access pattern, not preference.\n\n| Family | When | Jayverse today |\n|---|---|---|\n| RDBMS (Postgres, MySQL) — tables, joins (07:42, 08:18) | ACID matters: payments, banking, structured e-commerce (09:48, 12:58) | Postgres for orders — correct |\n| Document (MongoDB) — nested JSON (10:30) | joinless, fast reads on denormalized documents (10:51, 12:13) | not used |\n| Wide-column (Cassandra) | very large write volume, horizontal scale (11:04) | not used |\n| Key-value (Redis) — in-memory (11:40) | sub-millisecond reads, ephemeral state | unknown — not yet confirmed whether Verex or Rabbit run one |\n| Graph (Neo4j, Neptune) | relationship traversal, recommendations (11:19) | not used |\n\n### Scaling and load balancing: seven algorithms behind one idea\n\nScaling up (bigger hardware) is fast but hits a ceiling and stays a single point of failure; scaling out (more instances behind a load balancer) is the only path at real load (13:46, 14:07, 14:34). The course names seven load-balancing algorithms (17:49): round robin, least connections, least response time, IP hash, weighted, geographical, and consistent hashing. The first six route each new request by a rule; consistent hashing is different — it maps both nodes and keys onto a hash ring so that adding or removing a node only remaps the keys next to it, which is why it is the standard choice for cache and shard placement rather than plain request routing (23:12, 23:59). SPOF is handled separately from the algorithm: health checks pull a failing instance out of rotation automatically, the load balancer itself is run active-passive or active-active so it is not the new single point of failure, and unhealthy instances are replaced rather than nursed (24:27, 27:05, 29:17, 30:20).\n\n| Mechanism | When | Jayverse today |\n|---|---|---|\n| Round robin | equal-capacity servers, default choice | Google Cloud Run's load balancer — default (round robin / least request) |\n| Least connections / least response time | uneven request duration | not tuned — running on the platform default |\n| Consistent hashing | cache or shard nodes that must survive resizing | not used yet; relevant once Verex or Devnet add a cache layer |\n| Health checks + LB redundancy | any production tier | inherited from Cloud Run's managed load balancer |\n\n### API style and wire protocol: match the shape of the call\n\nREST names resources as plural nouns, uses HTTP verbs for the operation, filters and paginates through query parameters, and caches at the HTTP layer (33:48, 01:07:05, 01:09:40, 01:17:47). GraphQL exists because Facebook's REST clients needed several round trips and still got the wrong shape of data — over- or under-fetching — so GraphQL exposes one endpoint where the client states exactly which fields it wants (Query, Mutation); the cost is that errors come back inside a `200` response as an `errors` array, so query-depth limits are not optional (34:26, 37:49, 01:19:44, 01:21:08, 01:23:26, 01:24:27). gRPC serializes with Protocol Buffers over HTTP/2, supports bidirectional streaming, and skips JSON parsing — which is why it is the default for internal microservice calls rather than public APIs (35:50, 36:11, 56:10, 56:35).\n\nUnderneath the API style sits the transport. TCP's handshake, ordering guarantee and retransmission make it the only acceptable choice for payments, banking and auth (59:29, 01:02:38, 01:03:57); UDP skips both and is used where a late packet is worse than a lost one — streaming, calls, games (01:01:24, 01:02:18, 01:04:00). WebSocket sits on top of TCP for real-time bidirectional push, replacing polling (52:08, 53:27); AMQP is for asynchronous queues and brokers (54:50).\n\n| Style / protocol | When | Jayverse today |\n|---|---|---|\n| REST | resource CRUD, cacheable, simple clients | Verex api — REST today |\n| GraphQL | many client shapes, avoid over/under-fetching | not used |\n| gRPC | internal service-to-service, low overhead, streaming | not used |\n| WebSocket | real-time push, avoid polling | fills stream on Verex (Tech #101's open-stream rule) |\n| TCP | ordering and delivery required | Verex api, RPC calls |\n| UDP | latency over loss-tolerance | not used |\n\n### Authentication vs authorization: two different questions\n\nAuthentication answers \"who is this\" (01:26:33); authorization answers \"what can they do\" (01:46:14), and the course treats these as separate systems, not one. Session-based auth keeps state on the server or in Redis and hands the client a session cookie — simple, but stateful, which constrains horizontal scaling (01:33:18, 01:34:40). JWTs are signed claims: the server verifies a signature instead of querying a database, which is what makes them stateless; a short-lived access token (15 minutes to an hour) pairs with a longer-lived refresh token kept in an HTTP-only cookie to block XSS theft (01:35:46, 01:37:57, 01:38:42). OIDC adds an ID token on top of OAuth 2.0 for social login and SSO (01:41:10, 01:43:11). For authorization the course names three models — RBAC (roles map to permission sets), ABAC (rules over attributes), and ACL (per-resource, per-user, the Google Drive model) — and is careful to state that OAuth 2.0 itself is not authentication: it is an authorization framework for delegating a limited, revocable token to a third party without handing over a password (01:39:30, 01:49:22, 01:52:49, 01:53:39).\n\n| Choice | When | Jayverse today |\n|---|---|---|\n| Session + server/Redis state | simple, single-region, low scale need | not used |\n| JWT (access + refresh) | stateless verification, horizontal scale | JWT + wallet signature |\n| OIDC / SSO | social login, enterprise SSO | not used |\n| OAuth 2.0 (delegated authorization) | third party needs limited, revocable access without a password | Rabbit's 7715 session-key mandates — same shape |\n| RBAC / ACL | admin-only surfaces, per-resource sharing | Number — admin-only site |\n\n### Seven-item production security checklist\n\nThe course closes with seven controls it treats as non-negotiable before a production API ships (01:57:27–02:04:05): rate limiting per endpoint, per user/IP, and globally; CORS; SQL/NoSQL injection defense via parameterized queries or an ORM; a WAF; a VPN or private network for admin dashboards and backend-only APIs; CSRF tokens; and XSS defense via input sanitization.\n\n| Control | Jayverse today |\n|---|---|\n| Rate limiting | on the RPC and the faucet (Tech #82's faucet item) |\n| CORS | on the portal |\n| Injection defense | via the ORM |\n| WAF | none |\n| VPN / private network | Number is admin-only, which is the same shape as a VPN-gated backend |\n| CSRF tokens | not confirmed — needs a check |\n| XSS defense | not confirmed — needs a check |\n\n### Where it lands in Jayverse\n\n- **Verex: the five tables above are the architecture review.** Every row is a checkable claim about Verex's stack — Postgres for orders, REST today, TCP for the API, JWT plus wallet signature for auth — and every blank cell (Redis, CSRF, XSS) is a named follow-up rather than an unknown unknown.\n- **Rabbit: the 7715 mandate is the OAuth 2.0 analogy, exactly.** A session-key mandate hands a delegate a limited, revocable capability without sharing a key — that is what OAuth 2.0's grant-a-token-not-a-password model is for. The portal's session-vs-JWT question (stateful cookie vs stateless signature) is the same trade-off the course lays out for scaling.\n- **Devnet: rate limiting and health checks belong on Anvil, not just the API.** The course's SPOF section (health checks pull a bad instance out of rotation) applies to the hosted Anvil RPC the same way it applies to a web server.\n- **Auditor: every \"Jayverse today\" cell is a checkable rule, including the blank ones.** \"Unknown — needs a check\" for Redis, CSRF and XSS is itself the correct Auditor entry: a stated gap, not a silent one.\n- **Eng and Theory: this is the interview syllabus, and consistent hashing is a Theory item.** The 40-minute system-design interview question runs in roughly this order — data tier, scaling, API, auth, security — so this file doubles as interview prep; consistent hashing's hash-ring remapping belongs with the queueing and scheduling entries in Theory.\n\n### Verified and unverified\n\nVerified on 2026-09-19: freeCodeCamp.org publishes long-form system-design courses on YouTube, and every concept named above is textbook material with documented behavior — ACID on RDBMS, the five database-family split, the seven standard load-balancing algorithms including consistent hashing's hash-ring remapping, REST/GraphQL/gRPC as described (GraphQL's `errors`-array-inside-200 behavior is a well-known footgun; gRPC's Protocol Buffers over HTTP/2 is accurate), TCP's handshake and reliability guarantees versus UDP's connectionless model, JWT as stateless signature verification, OIDC as an OAuth 2.0 extension, RBAC/ABAC/ACL as standard authorization models, and OAuth 2.0 as an authorization (not authentication) framework. Taken from the summary and not independently checked: the exact timestamps, and the video's runtime beyond \"about two hours.\"\n\nSources: [YouTube — freeCodeCamp.org, \"System Design Course – APIs, Databases, Caching, CDNs, Load Balancing & Production Infra\"](https://www.youtube.com/watch?v=C842vFY5kRo) · [YouTube — Hayk Simonyan, original course upload](https://www.youtube.com/watch?v=oYxTTirKY8M) (same curriculum; adds the framing that system design matters more, not less, when agents write the code, because the human is left with the boundaries) · related items: Tech #96 (Homa: TCP vs message transport), Tech #101 (ADK voice: open streams), Tech #62 (agentic engineering writes the boundaries), the faucet item `a-faucet-is-a-payout`, Dark Horse (b) security-hole research.\n"</script>
+<h2>Why</h2>
+<p>Simonyan&#39;s own upload of the same course opens with the reason to learn this in the AI era: when an agent writes the handlers, the person is left with the decisions the handlers cannot make, which tier owns state, which database family, which protocol, which control sits at the door. That is system design, and it is exactly the part Tech #62 calls the boundary.</p>
+<p>A design interview and a real architecture review ask the same question in the same order: what does this component need (consistency, latency, throughput, ordering), and which of the standard choices matches that need. Skipping the question does not remove the trade-off, it just means the trade-off was made by accident — a database picked because it was already running, a load-balancing algorithm left at its default, a security control added only after an incident. Naming the choice explicitly is what turns an implementation detail into something the Auditor, or an interviewer, can check.</p>
+<h2>How it works</h2>
+<h3>Data tier: pick by access pattern, not habit</h3>
+<p>A single server outgrows itself when the web tier and the data tier compete for the same CPU and memory; the first split is always web tier from data tier (03:33, 07:16). After that the database choice follows the access pattern, not preference.</p>
+<table><thead><tr><th>Family</th><th>When</th><th>Jayverse today</th></tr></thead><tbody><tr><td>RDBMS (Postgres, MySQL) — tables, joins (07:42, 08:18)</td><td>ACID matters: payments, banking, structured e-commerce (09:48, 12:58)</td><td>Postgres for orders — correct</td></tr><tr><td>Document (MongoDB) — nested JSON (10:30)</td><td>joinless, fast reads on denormalized documents (10:51, 12:13)</td><td>not used</td></tr><tr><td>Wide-column (Cassandra)</td><td>very large write volume, horizontal scale (11:04)</td><td>not used</td></tr><tr><td>Key-value (Redis) — in-memory (11:40)</td><td>sub-millisecond reads, ephemeral state</td><td>unknown — not yet confirmed whether Verex or Rabbit run one</td></tr><tr><td>Graph (Neo4j, Neptune)</td><td>relationship traversal, recommendations (11:19)</td><td>not used</td></tr></tbody></table>
+<h3>Scaling and load balancing: seven algorithms behind one idea</h3>
+<p>Scaling up (bigger hardware) is fast but hits a ceiling and stays a single point of failure; scaling out (more instances behind a load balancer) is the only path at real load (13:46, 14:07, 14:34). The course names seven load-balancing algorithms (17:49): round robin, least connections, least response time, IP hash, weighted, geographical, and consistent hashing. The first six route each new request by a rule; consistent hashing is different — it maps both nodes and keys onto a hash ring so that adding or removing a node only remaps the keys next to it, which is why it is the standard choice for cache and shard placement rather than plain request routing (23:12, 23:59). SPOF is handled separately from the algorithm: health checks pull a failing instance out of rotation automatically, the load balancer itself is run active-passive or active-active so it is not the new single point of failure, and unhealthy instances are replaced rather than nursed (24:27, 27:05, 29:17, 30:20).</p>
+<table><thead><tr><th>Mechanism</th><th>When</th><th>Jayverse today</th></tr></thead><tbody><tr><td>Round robin</td><td>equal-capacity servers, default choice</td><td>Google Cloud Run&#39;s load balancer — default (round robin / least request)</td></tr><tr><td>Least connections / least response time</td><td>uneven request duration</td><td>not tuned — running on the platform default</td></tr><tr><td>Consistent hashing</td><td>cache or shard nodes that must survive resizing</td><td>not used yet; relevant once Verex or Devnet add a cache layer</td></tr><tr><td>Health checks + LB redundancy</td><td>any production tier</td><td>inherited from Cloud Run&#39;s managed load balancer</td></tr></tbody></table>
+<h3>API style and wire protocol: match the shape of the call</h3>
+<p>REST names resources as plural nouns, uses HTTP verbs for the operation, filters and paginates through query parameters, and caches at the HTTP layer (33:48, 01:07:05, 01:09:40, 01:17:47). GraphQL exists because Facebook&#39;s REST clients needed several round trips and still got the wrong shape of data — over- or under-fetching — so GraphQL exposes one endpoint where the client states exactly which fields it wants (Query, Mutation); the cost is that errors come back inside a <code>200</code> response as an <code>errors</code> array, so query-depth limits are not optional (34:26, 37:49, 01:19:44, 01:21:08, 01:23:26, 01:24:27). gRPC serializes with Protocol Buffers over HTTP/2, supports bidirectional streaming, and skips JSON parsing — which is why it is the default for internal microservice calls rather than public APIs (35:50, 36:11, 56:10, 56:35).</p>
+<p>Underneath the API style sits the transport. TCP&#39;s handshake, ordering guarantee and retransmission make it the only acceptable choice for payments, banking and auth (59:29, 01:02:38, 01:03:57); UDP skips both and is used where a late packet is worse than a lost one — streaming, calls, games (01:01:24, 01:02:18, 01:04:00). WebSocket sits on top of TCP for real-time bidirectional push, replacing polling (52:08, 53:27); AMQP is for asynchronous queues and brokers (54:50).</p>
+<table><thead><tr><th>Style / protocol</th><th>When</th><th>Jayverse today</th></tr></thead><tbody><tr><td>REST</td><td>resource CRUD, cacheable, simple clients</td><td>Verex api — REST today</td></tr><tr><td>GraphQL</td><td>many client shapes, avoid over/under-fetching</td><td>not used</td></tr><tr><td>gRPC</td><td>internal service-to-service, low overhead, streaming</td><td>not used</td></tr><tr><td>WebSocket</td><td>real-time push, avoid polling</td><td>fills stream on Verex (Tech #101&#39;s open-stream rule)</td></tr><tr><td>TCP</td><td>ordering and delivery required</td><td>Verex api, RPC calls</td></tr><tr><td>UDP</td><td>latency over loss-tolerance</td><td>not used</td></tr></tbody></table>
+<h3>Authentication vs authorization: two different questions</h3>
+<p>Authentication answers "who is this" (01:26:33); authorization answers "what can they do" (01:46:14), and the course treats these as separate systems, not one. Session-based auth keeps state on the server or in Redis and hands the client a session cookie — simple, but stateful, which constrains horizontal scaling (01:33:18, 01:34:40). JWTs are signed claims: the server verifies a signature instead of querying a database, which is what makes them stateless; a short-lived access token (15 minutes to an hour) pairs with a longer-lived refresh token kept in an HTTP-only cookie to block XSS theft (01:35:46, 01:37:57, 01:38:42). OIDC adds an ID token on top of OAuth 2.0 for social login and SSO (01:41:10, 01:43:11). For authorization the course names three models — RBAC (roles map to permission sets), ABAC (rules over attributes), and ACL (per-resource, per-user, the Google Drive model) — and is careful to state that OAuth 2.0 itself is not authentication: it is an authorization framework for delegating a limited, revocable token to a third party without handing over a password (01:39:30, 01:49:22, 01:52:49, 01:53:39).</p>
+<table><thead><tr><th>Choice</th><th>When</th><th>Jayverse today</th></tr></thead><tbody><tr><td>Session + server/Redis state</td><td>simple, single-region, low scale need</td><td>not used</td></tr><tr><td>JWT (access + refresh)</td><td>stateless verification, horizontal scale</td><td>JWT + wallet signature</td></tr><tr><td>OIDC / SSO</td><td>social login, enterprise SSO</td><td>not used</td></tr><tr><td>OAuth 2.0 (delegated authorization)</td><td>third party needs limited, revocable access without a password</td><td>Rabbit&#39;s 7715 session-key mandates — same shape</td></tr><tr><td>RBAC / ACL</td><td>admin-only surfaces, per-resource sharing</td><td>Number — admin-only site</td></tr></tbody></table>
+<h3>Seven-item production security checklist</h3>
+<p>The course closes with seven controls it treats as non-negotiable before a production API ships (01:57:27–02:04:05): rate limiting per endpoint, per user/IP, and globally; CORS; SQL/NoSQL injection defense via parameterized queries or an ORM; a WAF; a VPN or private network for admin dashboards and backend-only APIs; CSRF tokens; and XSS defense via input sanitization.</p>
+<table><thead><tr><th>Control</th><th>Jayverse today</th></tr></thead><tbody><tr><td>Rate limiting</td><td>on the RPC and the faucet (Tech #82&#39;s faucet item)</td></tr><tr><td>CORS</td><td>on the portal</td></tr><tr><td>Injection defense</td><td>via the ORM</td></tr><tr><td>WAF</td><td>none</td></tr><tr><td>VPN / private network</td><td>Number is admin-only, which is the same shape as a VPN-gated backend</td></tr><tr><td>CSRF tokens</td><td>not confirmed — needs a check</td></tr><tr><td>XSS defense</td><td>not confirmed — needs a check</td></tr></tbody></table>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex: the five tables above are the architecture review.</strong> Every row is a checkable claim about Verex&#39;s stack — Postgres for orders, REST today, TCP for the API, JWT plus wallet signature for auth — and every blank cell (Redis, CSRF, XSS) is a named follow-up rather than an unknown unknown.</li><li><strong>Rabbit: the 7715 mandate is the OAuth 2.0 analogy, exactly.</strong> A session-key mandate hands a delegate a limited, revocable capability without sharing a key — that is what OAuth 2.0&#39;s grant-a-token-not-a-password model is for. The portal&#39;s session-vs-JWT question (stateful cookie vs stateless signature) is the same trade-off the course lays out for scaling.</li><li><strong>Devnet: rate limiting and health checks belong on Anvil, not just the API.</strong> The course&#39;s SPOF section (health checks pull a bad instance out of rotation) applies to the hosted Anvil RPC the same way it applies to a web server.</li><li><strong>Auditor: every "Jayverse today" cell is a checkable rule, including the blank ones.</strong> "Unknown — needs a check" for Redis, CSRF and XSS is itself the correct Auditor entry: a stated gap, not a silent one.</li><li><strong>Eng and Theory: this is the interview syllabus, and consistent hashing is a Theory item.</strong> The 40-minute system-design interview question runs in roughly this order — data tier, scaling, API, auth, security — so this file doubles as interview prep; consistent hashing&#39;s hash-ring remapping belongs with the queueing and scheduling entries in Theory.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: freeCodeCamp.org publishes long-form system-design courses on YouTube, and every concept named above is textbook material with documented behavior — ACID on RDBMS, the five database-family split, the seven standard load-balancing algorithms including consistent hashing&#39;s hash-ring remapping, REST/GraphQL/gRPC as described (GraphQL&#39;s <code>errors</code>-array-inside-200 behavior is a well-known footgun; gRPC&#39;s Protocol Buffers over HTTP/2 is accurate), TCP&#39;s handshake and reliability guarantees versus UDP&#39;s connectionless model, JWT as stateless signature verification, OIDC as an OAuth 2.0 extension, RBAC/ABAC/ACL as standard authorization models, and OAuth 2.0 as an authorization (not authentication) framework. Taken from the summary and not independently checked: the exact timestamps, and the video&#39;s runtime beyond "about two hours."</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=C842vFY5kRo">YouTube — freeCodeCamp.org, "System Design Course – APIs, Databases, Caching, CDNs, Load Balancing &amp; Production Infra"</a> · <a href="https://www.youtube.com/watch?v=oYxTTirKY8M">YouTube — Hayk Simonyan, original course upload</a> (same curriculum; adds the framing that system design matters more, not less, when agents write the code, because the human is left with the boundaries) · related items: Tech #96 (Homa: TCP vs message transport), Tech #101 (ADK voice: open streams), Tech #62 (agentic engineering writes the boundaries), the faucet item <code>a-faucet-is-a-payout</code>, Dark Horse (b) security-hole research.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>ACID</strong></td><td>Atomicity, Consistency, Isolation, Durability(원자성·일관성·고립성·지속성) · 관계형 DB가 보장하는 트랜잭션 속성, 결제·뱅킹의 필수 조건. "ACID matters: payments, banking, structured e-commerce"</td></tr><tr><td><strong>RDBMS</strong></td><td>Relational Database Management System(관계형 데이터베이스 관리 시스템) · 테이블과 조인 기반 DB, Postgres·MySQL이 대표. "RDBMS (Postgres, MySQL) — tables, joins"</td></tr><tr><td><strong>NoSQL</strong></td><td>Not only SQL(SQL만이 아닌, 비관계형 DB 총칭) · 문서·와이드컬럼·키값·그래프 계열을 묶는 말. "SQL/NoSQL injection defense via parameterized queries or an ORM"</td></tr><tr><td><strong>SPOF</strong></td><td>Single Point of Failure(단일 장애점) · 그 하나가 죽으면 전체가 죽는 컴포넌트, 스케일업의 고질적 리스크. "hits a ceiling and stays a single point of failure"</td></tr><tr><td><strong>REST</strong></td><td>Representational State Transfer(자원을 명사·HTTP 동사로 다루는 API 스타일) · 가장 흔한 공개 API 스타일. "REST names resources as plural nouns"</td></tr><tr><td><strong>CRUD</strong></td><td>Create, Read, Update, Delete(생성·조회·수정·삭제) · 리소스 API의 기본 동작 네 가지. "resource CRUD, cacheable, simple clients"</td></tr><tr><td><strong>gRPC</strong></td><td>gRPC Remote Procedure Call(구글이 만든 RPC 프레임워크) · Protocol Buffers + HTTP/2, 내부 마이크로서비스 표준. "gRPC serializes with Protocol Buffers over HTTP/2"</td></tr><tr><td><strong>TCP</strong></td><td>Transmission Control Protocol(전송 제어 프로토콜) · 순서 보장·재전송이 있는 연결형 전송, 결제·인증에 필수. "TCP&#39;s handshake, ordering guarantee and retransmission"</td></tr><tr><td><strong>UDP</strong></td><td>User Datagram Protocol(사용자 데이터그램 프로토콜) · 핸드셰이크·재전송 없는 비연결형, 지연이 유실보다 나쁠 때. "UDP skips both and is used where a late packet is worse than a lost one"</td></tr><tr><td><strong>AMQP</strong></td><td>Advanced Message Queuing Protocol(고급 메시지 큐잉 프로토콜) · 비동기 큐·브로커 표준. "AMQP is for asynchronous queues and brokers"</td></tr><tr><td><strong>JWT</strong></td><td>JSON Web Token(JSON 웹 토큰) · 서명된 클레임, DB 조회 없이 서명만 검증하는 무상태 인증. "JWTs are signed claims: the server verifies a signature instead of querying a database"</td></tr><tr><td><strong>OAuth 2.0 / OIDC / SSO</strong></td><td>Open Authorization / OpenID Connect / Single Sign-On(위임 인가 프레임워크 / 그 위의 신원 계층 / 통합 로그인) · 비밀번호 없이 제한된 토큰을 제3자에 위임하는 한 가족. "OAuth 2.0 itself is not authentication: it is an authorization framework for delegating a limited, revocable token"</td></tr><tr><td><strong>RBAC / ABAC / ACL</strong></td><td>Role-Based / Attribute-Based Access Control, Access Control List(역할 기반·속성 기반 접근 제어, 접근 제어 목록) · 인가(무엇을 할 수 있는가)의 세 표준 모델. "RBAC (roles map to permission sets), ABAC (rules over attributes), and ACL (per-resource, per-user, the Google Drive model)"</td></tr><tr><td><strong>CORS</strong></td><td>Cross-Origin Resource Sharing(교차 출처 리소스 공유) · 어느 출처가 API를 호출할 수 있는지 제한. "rate limiting per endpoint, per user/IP, and globally; CORS"</td></tr><tr><td><strong>WAF</strong></td><td>Web Application Firewall(웹 애플리케이션 방화벽) · 엣지에서 악성 요청을 거르는 계층. "a WAF; a VPN or private network"</td></tr><tr><td><strong>VPN</strong></td><td>Virtual Private Network(가상 사설망) · 관리자 대시보드·백엔드 전용 API를 사설망 안에만 두는 방식. "a VPN or private network for admin dashboards and backend-only APIs"</td></tr><tr><td><strong>CSRF</strong></td><td>Cross-Site Request Forgery(사이트 간 요청 위조) · 로그인된 사용자를 속여 원치 않는 요청을 보내게 하는 공격, 토큰으로 방어. "CSRF tokens; and XSS defense via input sanitization"</td></tr><tr><td><strong>XSS</strong></td><td>Cross-Site Scripting(사이트 간 스크립팅) · 악성 스크립트를 삽입하는 공격, 입력 sanitize와 HTTP-only 쿠키로 방어. "a longer-lived refresh token kept in an HTTP-only cookie to block XSS theft"</td></tr><tr><td><strong>hash ring (consistent hashing)</strong></td><td>해시 링(노드와 키를 원형 해시 공간에 배치하는 구조) · 노드 증감 시 재매핑을 최소화하는 이유. "it maps both nodes and keys onto a hash ring so that adding or removing a node only remaps the keys next to it"</td></tr><tr><td><strong>over-fetching / under-fetching</strong></td><td>과다 조회 / 과소 조회(필요보다 많이 또는 적게 데이터를 받는 문제) · GraphQL이 REST 대신 등장한 이유. "over- or under-fetching"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 시스템 설계 강의 — 서버 한 대에서 모든 설계 인터뷰가 시험하는 일곱 가지 결정까지, 두 시간의 여정\n\nfreeCodeCamp.org가 두 시간짜리 강의 \"System Design Course – APIs, Databases, Caching, CDNs, Load Balancing & Production Infra\"(YouTube, C842vFY5kRo)를 공개했다. 가장 작은 시스템 — 웹 앱, 데이터베이스, 캐시가 서버 한 대에서 함께 돌아가는 상태 — 에서 시작해 표준 경로를 따라간다. 웹 티어와 데이터 티어를 분리하고, 접근 패턴에 따라 데이터베이스 계열을 고르고, 로드 밸런서 뒤에서 웹 티어를 수평으로 확장하고, API 스타일과 전송 프로토콜을 고르고, 인증과 인가를 분리하고, 프로덕션 API가 노출되기 전 필요한 통제 목록으로 마무리한다. 강의는 정의보다 트레이드오프에 실제 시간을 쓴다. 데이터베이스 5계열, 로드 밸런싱 알고리즘 7종, API 스타일 3종, 전송 프로토콜 2종, 인증 방식 2종, 보안 항목 7개.\n\nJayverse에서 이것은 새로운 정보가 아니라 체크리스트다. 아래 모든 선택은 이미 Verex, Rabbit, Number 어딘가에 내려져 있다. 강의의 가치는 \"우리는 그렇게 했다\"를 행마다 명시된 규칙과 대조할 수 있는 표로 바꾸는 데 있다.\n\n## 왜\n\n같은 강의의 Simonyan 원본 업로드는 AI 시대에 이것을 배워야 하는 이유로 시작한다. 에이전트가 핸들러를 쓰면 사람에게는 핸들러가 내릴 수 없는 결정이 남는다. 어느 티어가 상태를 소유하는가, 어느 데이터베이스 계열인가, 어느 프로토콜인가, 어느 통제가 문 앞에 서는가. 그것이 시스템 설계이고, Tech #62가 경계라 부르는 바로 그 부분이다.\n\n설계 인터뷰와 실제 아키텍처 리뷰는 같은 순서로 같은 질문을 한다. 이 컴포넌트에 무엇이 필요한가(일관성, 지연, 처리량, 순서 보장), 그리고 표준 선택지 중 어느 것이 그 필요에 맞는가. 질문을 건너뛴다고 트레이드오프가 사라지지 않는다. 그저 트레이드오프가 우연히 정해졌다는 뜻일 뿐이다 — 이미 돌고 있어서 고른 데이터베이스, 기본값에 그대로 둔 로드 밸런싱 알고리즘, 사고가 난 뒤에야 추가한 보안 통제. 선택을 명시적으로 이름 붙이는 것이 구현 디테일을 Auditor나 인터뷰어가 확인할 수 있는 것으로 바꾼다.\n\n## 동작 방식\n\n### 데이터 티어: 습관이 아니라 접근 패턴으로 고른다\n\n서버 한 대는 웹 티어와 데이터 티어가 같은 CPU와 메모리를 두고 경쟁할 때 한계를 드러낸다. 첫 분리는 언제나 웹 티어와 데이터 티어의 분리다(03:33, 07:16). 그다음 데이터베이스 선택은 선호가 아니라 접근 패턴을 따른다.\n\n| 계열 | 언제 | Jayverse 현재 |\n|---|---|---|\n| RDBMS(Postgres, MySQL) — 테이블, 조인(07:42, 08:18) | ACID가 필요할 때: 결제, 뱅킹, 정형 전자상거래(09:48, 12:58) | 주문에 Postgres — 맞는 선택 |\n| Document(MongoDB) — 중첩 JSON(10:30) | 조인 없이 비정규화된 문서를 빠르게 읽을 때(10:51, 12:13) | 사용 안 함 |\n| Wide-column(Cassandra) | 대규모 쓰기, 수평 확장(11:04) | 사용 안 함 |\n| Key-value(Redis) — 인메모리(11:40) | 밀리초 미만 읽기, 임시 상태 | 미확인 — Verex나 Rabbit이 Redis를 쓰는지 아직 확인 안 됨 |\n| Graph(Neo4j, Neptune) | 관계 탐색, 추천(11:19) | 사용 안 함 |\n\n### 스케일링과 로드 밸런싱: 한 아이디어 뒤의 일곱 알고리즘\n\n스케일업(더 큰 하드웨어)은 빠르지만 한계와 단일 장애점(SPOF)을 남긴다. 스케일아웃(로드 밸런서 뒤에 인스턴스를 더 두는 것)이 실제 트래픽에서 유일한 길이다(13:46, 14:07, 14:34). 강의는 로드 밸런싱 알고리즘 일곱 개를 꼽는다(17:49). round robin, least connections, least response time, IP hash, weighted, geographical, consistent hashing. 앞의 여섯은 규칙 하나로 매 요청을 보낸다. consistent hashing은 다르다. 노드와 키를 모두 해시 링 위에 올려서, 노드를 추가하거나 제거해도 그 옆의 키만 재매핑되게 한다. 그래서 단순 요청 라우팅이 아니라 캐시·샤드 배치의 표준 선택이 된다(23:12, 23:59). SPOF는 알고리즘과 별도로 다룬다. 헬스 체크가 실패한 인스턴스를 자동으로 로테이션에서 빼고, 로드 밸런서 자체는 active-passive나 active-active로 이중화해 새로운 단일 장애점이 되지 않게 하며, 고장난 인스턴스는 고치는 대신 교체한다(24:27, 27:05, 29:17, 30:20).\n\n| 메커니즘 | 언제 | Jayverse 현재 |\n|---|---|---|\n| Round robin | 동일 용량 서버, 기본 선택 | Google Cloud Run 로드 밸런서 — 기본값(round robin / least request) |\n| Least connections / least response time | 요청 처리 시간이 불균등할 때 | 튜닝 안 함 — 플랫폼 기본값 그대로 |\n| Consistent hashing | 리사이징을 견뎌야 하는 캐시·샤드 노드 | 아직 사용 안 함 — Verex나 Devnet에 캐시 레이어가 생기면 필요 |\n| 헬스 체크 + LB 이중화 | 모든 프로덕션 티어 | Cloud Run의 관리형 로드 밸런서에서 상속 |\n\n### API 스타일과 전송 프로토콜: 호출의 모양에 맞춘다\n\nREST는 리소스를 복수형 명사로 이름 붙이고, 동작은 HTTP 동사로, 필터와 페이지네이션은 쿼리 파라미터로, 캐싱은 HTTP 계층에서 한다(33:48, 01:07:05, 01:09:40, 01:17:47). GraphQL은 페이스북의 REST 클라이언트가 여러 번 왕복하고도 잘못된 모양의 데이터를 받았기 때문에 — 오버페칭이거나 언더페칭 — 나왔다. 그래서 GraphQL은 단일 엔드포인트에서 클라이언트가 정확히 어떤 필드를 원하는지 명시한다(Query, Mutation). 대가는 에러가 `200` 응답 안에 `errors` 배열로 돌아온다는 것이라, 쿼리 깊이 제한이 선택이 아니다(34:26, 37:49, 01:19:44, 01:21:08, 01:23:26, 01:24:27). gRPC는 Protocol Buffers로 HTTP/2 위에서 직렬화하고, 양방향 스트리밍을 지원하며, JSON 파싱을 건너뛴다 — 그래서 공개 API가 아니라 내부 마이크로서비스 간 호출의 기본값이다(35:50, 36:11, 56:10, 56:35).\n\nAPI 스타일 아래에는 전송 계층 선택이 있다. TCP의 핸드셰이크, 순서 보장, 재전송은 결제·뱅킹·인증에 유일하게 허용되는 선택으로 만든다(59:29, 01:02:38, 01:03:57). UDP는 둘 다 건너뛰고, 유실보다 지연이 더 나쁜 곳 — 스트리밍, 화상통화, 실시간 게임 — 에 쓰인다(01:01:24, 01:02:18, 01:04:00). WebSocket은 TCP 위에서 실시간 양방향 푸시를 하며 폴링을 대체한다(52:08, 53:27). AMQP는 비동기 큐·브로커용이다(54:50).\n\n| 스타일 / 프로토콜 | 언제 | Jayverse 현재 |\n|---|---|---|\n| REST | 리소스 CRUD, 캐시 가능, 단순한 클라이언트 | Verex api — 현재 REST |\n| GraphQL | 클라이언트 모양이 다양, 오버/언더페칭 회피 | 사용 안 함 |\n| gRPC | 내부 서비스 간, 낮은 오버헤드, 스트리밍 | 사용 안 함 |\n| WebSocket | 실시간 푸시, 폴링 회피 | Verex의 체결 스트림(Tech #101의 오픈 스트림 규칙) |\n| TCP | 순서와 전달 보장이 필요 | Verex api, RPC 호출 |\n| UDP | 유실보다 지연을 우선 | 사용 안 함 |\n\n### 인증 대 인가: 서로 다른 두 질문\n\n인증은 \"누구인가\"에 답하고(01:26:33), 인가는 \"무엇을 할 수 있는가\"에 답한다(01:46:14). 강의는 이 둘을 하나가 아니라 별개의 시스템으로 다룬다. 세션 기반 인증은 서버나 Redis에 상태를 두고 클라이언트에 세션 쿠키를 준다 — 단순하지만 stateful이라 수평 확장을 제약한다(01:33:18, 01:34:40). JWT는 서명된 클레임이다. 서버는 DB를 조회하는 대신 서명을 검증하는데, 이것이 JWT를 stateless로 만드는 이유다. 짧은 수명(15분~1시간)의 access 토큰이 HTTP-only 쿠키에 담긴 더 긴 수명의 refresh 토큰과 짝을 이뤄 XSS 탈취를 막는다(01:35:46, 01:37:57, 01:38:42). OIDC는 OAuth 2.0 위에 ID 토큰을 얹어 소셜 로그인과 SSO를 지원한다(01:41:10, 01:43:11). 인가에 대해 강의는 세 모델을 꼽는다 — RBAC(역할이 권한 집합에 매핑), ABAC(속성에 대한 규칙), ACL(리소스별·사용자별, Google Drive 모델) — 그리고 OAuth 2.0 자체는 인증 도구가 아니라고 명확히 한다. 비밀번호를 넘기지 않고 제한적이고 철회 가능한 토큰을 제3자에게 위임하는 인가 프레임워크다(01:39:30, 01:49:22, 01:52:49, 01:53:39).\n\n| 선택 | 언제 | Jayverse 현재 |\n|---|---|---|\n| 세션 + 서버/Redis 상태 | 단순, 단일 리전, 낮은 확장 필요 | 사용 안 함 |\n| JWT(access + refresh) | 무상태 검증, 수평 확장 | JWT + 지갑 서명 |\n| OIDC / SSO | 소셜 로그인, 엔터프라이즈 SSO | 사용 안 함 |\n| OAuth 2.0(위임 인가) | 제3자가 비밀번호 없이 제한된 철회 가능 접근이 필요할 때 | Rabbit의 7715 세션키 mandate — 같은 형태 |\n| RBAC / ACL | 관리자 전용 화면, 리소스별 공유 | Number — 관리자 전용 사이트 |\n\n### 프로덕션 보안 7항목 체크리스트\n\n강의는 프로덕션 API가 노출되기 전 타협 불가로 다루는 통제 일곱 가지로 마무리한다(01:57:27–02:04:05). 엔드포인트별·유저/IP별·전역 rate limiting; CORS; 파라미터화 쿼리나 ORM을 통한 SQL/NoSQL injection 방어; WAF; 관리자 대시보드와 백엔드 전용 API를 위한 VPN 또는 사설망; CSRF 토큰; 입력 sanitize를 통한 XSS 방어.\n\n| 통제 | Jayverse 현재 |\n|---|---|\n| Rate limiting | RPC와 faucet에 적용(Tech #82의 faucet 항목) |\n| CORS | 포털에 적용 |\n| Injection 방어 | ORM 경유 |\n| WAF | 없음 |\n| VPN / 사설망 | Number가 관리자 전용 사이트인 것이 VPN으로 막힌 백엔드와 같은 형태 |\n| CSRF 토큰 | 미확인 — 점검 필요 |\n| XSS 방어 | 미확인 — 점검 필요 |\n\n### Jayverse에서의 위치\n\n- **Verex: 위 다섯 표가 곧 아키텍처 리뷰다.** 모든 행이 Verex 스택에 대한 검증 가능한 주장이다 — 주문에 Postgres, 현재 REST, API에 TCP, 인증에 JWT와 지갑 서명 — 그리고 빈 칸(Redis, CSRF, XSS)은 알 수 없는 미지가 아니라 이름 붙은 후속 작업이다.\n- **Rabbit: 7715 mandate가 정확히 OAuth 2.0의 유비다.** 세션키 mandate는 키를 공유하지 않고 델리게이트에게 제한적이고 철회 가능한 능력을 준다 — 이것이 OAuth 2.0의 \"비밀번호가 아니라 토큰을 준다\" 모델이 하는 일이다. 포털의 세션 대 JWT 질문(상태 있는 쿠키 대 무상태 서명)은 강의가 스케일링에서 설명하는 것과 같은 트레이드오프다.\n- **Devnet: rate limiting과 헬스 체크는 API뿐 아니라 Anvil에도 있어야 한다.** 강의의 SPOF 절(헬스 체크가 고장난 인스턴스를 로테이션에서 뺀다)은 호스팅된 Anvil RPC에도 웹 서버와 똑같이 적용된다.\n- **Auditor: \"Jayverse 현재\" 칸은 빈 칸까지 포함해 모두 검증 가능한 규칙이다.** Redis, CSRF, XSS에 대한 \"미확인 — 점검 필요\"는 그 자체로 올바른 Auditor 항목이다. 조용한 공백이 아니라 명시된 공백.\n- **Eng와 Theory: 이것이 인터뷰 커리큘럼이고, consistent hashing은 Theory 항목이다.** 40분짜리 시스템 설계 인터뷰 문제는 대략 이 순서로 진행된다 — 데이터 티어, 스케일링, API, 인증, 보안 — 그래서 이 파일은 인터뷰 준비를 겸한다. consistent hashing의 해시 링 재매핑은 Theory의 큐잉·스케줄링 항목과 함께 놓인다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: freeCodeCamp.org는 YouTube에 장편 시스템 설계 강의를 공개하는 채널이고, 위에서 이름 붙인 개념은 모두 문서화된 동작을 가진 교과서적 시스템 설계 내용이다 — RDBMS의 ACID, 데이터베이스 5계열 구분, consistent hashing의 해시 링 재매핑을 포함한 표준 로드 밸런싱 알고리즘 7종, 설명된 그대로의 REST/GraphQL/gRPC(GraphQL의 \"errors 배열이 200 안에\" 동작은 잘 알려진 함정이고, gRPC의 Protocol Buffers-over-HTTP/2도 정확하다), TCP의 핸드셰이크와 신뢰성 보장 대 UDP의 비연결 모델, 무상태 서명 검증으로서의 JWT, OAuth 2.0 확장으로서의 OIDC, 표준 인가 모델로서의 RBAC/ABAC/ACL, 인증이 아니라 인가 프레임워크로서의 OAuth 2.0. 요약에서 가져왔고 독립 확인하지 않은 것: 정확한 타임스탬프, \"약 두 시간\" 이상의 영상 러닝타임.\n\n출처: [YouTube — freeCodeCamp.org, \"System Design Course – APIs, Databases, Caching, CDNs, Load Balancing & Production Infra\"](https://www.youtube.com/watch?v=C842vFY5kRo) · [YouTube — Hayk Simonyan 원본 업로드](https://www.youtube.com/watch?v=oYxTTirKY8M) (같은 커리큘럼. 에이전트가 코드를 쓰는 시대에 시스템 설계가 덜 아니라 더 중요해진다는 프레이밍을 더한다. 사람에게 남는 것이 경계이기 때문이다) · 관련 항목: Tech #96(Homa: TCP 대 메시지 전송), Tech #101(ADK voice: 오픈 스트림), Tech #62(에이전틱 엔지니어링은 경계를 쓴다), faucet 항목 `a-faucet-is-a-payout`, Dark Horse (b) 보안 취약점 연구.\n"</script>
+      <h1>시스템 설계 강의 — 서버 한 대에서 모든 설계 인터뷰가 시험하는 일곱 가지 결정까지, 두 시간의 여정</h1>
+      <p class="lead">freeCodeCamp.org가 두 시간짜리 강의 "System Design Course – APIs, Databases, Caching, CDNs, Load Balancing &amp; Production Infra"(YouTube, C842vFY5kRo)를 공개했다. 가장 작은 시스템 — 웹 앱, 데이터베이스, 캐시가 서버 한 대에서 함께 돌아가는 상태 — 에서 시작해 표준 경로를 따라간다. 웹 티어와 데이터 티어를 분리하고, 접근 패턴에 따라 데이터베이스 계열을 고르고, 로드 밸런서 뒤에서 웹 티어를 수평으로 확장하고, API 스타일과 전송 프로토콜을 고르고, 인증과 인가를 분리하고, 프로덕션 API가 노출되기 전 필요한 통제 목록으로 마무리한다. 강의는 정의보다 트레이드오프에 실제 시간을 쓴다. 데이터베이스 5계열, 로드 밸런싱 알고리즘 7종, API 스타일 3종, 전송 프로토콜 2종, 인증 방식 2종, 보안 항목 7개.</p>
+      <p class="meta">Jayverse에서 이것은 새로운 정보가 아니라 체크리스트다. 아래 모든 선택은 이미 Verex, Rabbit, Number 어딘가에 내려져 있다. 강의의 가치는 "우리는 그렇게 했다"를 행마다 명시된 규칙과 대조할 수 있는 표로 바꾸는 데 있다.</p>
+<h2>왜</h2>
+<p>같은 강의의 Simonyan 원본 업로드는 AI 시대에 이것을 배워야 하는 이유로 시작한다. 에이전트가 핸들러를 쓰면 사람에게는 핸들러가 내릴 수 없는 결정이 남는다. 어느 티어가 상태를 소유하는가, 어느 데이터베이스 계열인가, 어느 프로토콜인가, 어느 통제가 문 앞에 서는가. 그것이 시스템 설계이고, Tech #62가 경계라 부르는 바로 그 부분이다.</p>
+<p>설계 인터뷰와 실제 아키텍처 리뷰는 같은 순서로 같은 질문을 한다. 이 컴포넌트에 무엇이 필요한가(일관성, 지연, 처리량, 순서 보장), 그리고 표준 선택지 중 어느 것이 그 필요에 맞는가. 질문을 건너뛴다고 트레이드오프가 사라지지 않는다. 그저 트레이드오프가 우연히 정해졌다는 뜻일 뿐이다 — 이미 돌고 있어서 고른 데이터베이스, 기본값에 그대로 둔 로드 밸런싱 알고리즘, 사고가 난 뒤에야 추가한 보안 통제. 선택을 명시적으로 이름 붙이는 것이 구현 디테일을 Auditor나 인터뷰어가 확인할 수 있는 것으로 바꾼다.</p>
+<h2>동작 방식</h2>
+<h3>데이터 티어: 습관이 아니라 접근 패턴으로 고른다</h3>
+<p>서버 한 대는 웹 티어와 데이터 티어가 같은 CPU와 메모리를 두고 경쟁할 때 한계를 드러낸다. 첫 분리는 언제나 웹 티어와 데이터 티어의 분리다(03:33, 07:16). 그다음 데이터베이스 선택은 선호가 아니라 접근 패턴을 따른다.</p>
+<table><thead><tr><th>계열</th><th>언제</th><th>Jayverse 현재</th></tr></thead><tbody><tr><td>RDBMS(Postgres, MySQL) — 테이블, 조인(07:42, 08:18)</td><td>ACID가 필요할 때: 결제, 뱅킹, 정형 전자상거래(09:48, 12:58)</td><td>주문에 Postgres — 맞는 선택</td></tr><tr><td>Document(MongoDB) — 중첩 JSON(10:30)</td><td>조인 없이 비정규화된 문서를 빠르게 읽을 때(10:51, 12:13)</td><td>사용 안 함</td></tr><tr><td>Wide-column(Cassandra)</td><td>대규모 쓰기, 수평 확장(11:04)</td><td>사용 안 함</td></tr><tr><td>Key-value(Redis) — 인메모리(11:40)</td><td>밀리초 미만 읽기, 임시 상태</td><td>미확인 — Verex나 Rabbit이 Redis를 쓰는지 아직 확인 안 됨</td></tr><tr><td>Graph(Neo4j, Neptune)</td><td>관계 탐색, 추천(11:19)</td><td>사용 안 함</td></tr></tbody></table>
+<h3>스케일링과 로드 밸런싱: 한 아이디어 뒤의 일곱 알고리즘</h3>
+<p>스케일업(더 큰 하드웨어)은 빠르지만 한계와 단일 장애점(SPOF)을 남긴다. 스케일아웃(로드 밸런서 뒤에 인스턴스를 더 두는 것)이 실제 트래픽에서 유일한 길이다(13:46, 14:07, 14:34). 강의는 로드 밸런싱 알고리즘 일곱 개를 꼽는다(17:49). round robin, least connections, least response time, IP hash, weighted, geographical, consistent hashing. 앞의 여섯은 규칙 하나로 매 요청을 보낸다. consistent hashing은 다르다. 노드와 키를 모두 해시 링 위에 올려서, 노드를 추가하거나 제거해도 그 옆의 키만 재매핑되게 한다. 그래서 단순 요청 라우팅이 아니라 캐시·샤드 배치의 표준 선택이 된다(23:12, 23:59). SPOF는 알고리즘과 별도로 다룬다. 헬스 체크가 실패한 인스턴스를 자동으로 로테이션에서 빼고, 로드 밸런서 자체는 active-passive나 active-active로 이중화해 새로운 단일 장애점이 되지 않게 하며, 고장난 인스턴스는 고치는 대신 교체한다(24:27, 27:05, 29:17, 30:20).</p>
+<table><thead><tr><th>메커니즘</th><th>언제</th><th>Jayverse 현재</th></tr></thead><tbody><tr><td>Round robin</td><td>동일 용량 서버, 기본 선택</td><td>Google Cloud Run 로드 밸런서 — 기본값(round robin / least request)</td></tr><tr><td>Least connections / least response time</td><td>요청 처리 시간이 불균등할 때</td><td>튜닝 안 함 — 플랫폼 기본값 그대로</td></tr><tr><td>Consistent hashing</td><td>리사이징을 견뎌야 하는 캐시·샤드 노드</td><td>아직 사용 안 함 — Verex나 Devnet에 캐시 레이어가 생기면 필요</td></tr><tr><td>헬스 체크 + LB 이중화</td><td>모든 프로덕션 티어</td><td>Cloud Run의 관리형 로드 밸런서에서 상속</td></tr></tbody></table>
+<h3>API 스타일과 전송 프로토콜: 호출의 모양에 맞춘다</h3>
+<p>REST는 리소스를 복수형 명사로 이름 붙이고, 동작은 HTTP 동사로, 필터와 페이지네이션은 쿼리 파라미터로, 캐싱은 HTTP 계층에서 한다(33:48, 01:07:05, 01:09:40, 01:17:47). GraphQL은 페이스북의 REST 클라이언트가 여러 번 왕복하고도 잘못된 모양의 데이터를 받았기 때문에 — 오버페칭이거나 언더페칭 — 나왔다. 그래서 GraphQL은 단일 엔드포인트에서 클라이언트가 정확히 어떤 필드를 원하는지 명시한다(Query, Mutation). 대가는 에러가 <code>200</code> 응답 안에 <code>errors</code> 배열로 돌아온다는 것이라, 쿼리 깊이 제한이 선택이 아니다(34:26, 37:49, 01:19:44, 01:21:08, 01:23:26, 01:24:27). gRPC는 Protocol Buffers로 HTTP/2 위에서 직렬화하고, 양방향 스트리밍을 지원하며, JSON 파싱을 건너뛴다 — 그래서 공개 API가 아니라 내부 마이크로서비스 간 호출의 기본값이다(35:50, 36:11, 56:10, 56:35).</p>
+<p>API 스타일 아래에는 전송 계층 선택이 있다. TCP의 핸드셰이크, 순서 보장, 재전송은 결제·뱅킹·인증에 유일하게 허용되는 선택으로 만든다(59:29, 01:02:38, 01:03:57). UDP는 둘 다 건너뛰고, 유실보다 지연이 더 나쁜 곳 — 스트리밍, 화상통화, 실시간 게임 — 에 쓰인다(01:01:24, 01:02:18, 01:04:00). WebSocket은 TCP 위에서 실시간 양방향 푸시를 하며 폴링을 대체한다(52:08, 53:27). AMQP는 비동기 큐·브로커용이다(54:50).</p>
+<table><thead><tr><th>스타일 / 프로토콜</th><th>언제</th><th>Jayverse 현재</th></tr></thead><tbody><tr><td>REST</td><td>리소스 CRUD, 캐시 가능, 단순한 클라이언트</td><td>Verex api — 현재 REST</td></tr><tr><td>GraphQL</td><td>클라이언트 모양이 다양, 오버/언더페칭 회피</td><td>사용 안 함</td></tr><tr><td>gRPC</td><td>내부 서비스 간, 낮은 오버헤드, 스트리밍</td><td>사용 안 함</td></tr><tr><td>WebSocket</td><td>실시간 푸시, 폴링 회피</td><td>Verex의 체결 스트림(Tech #101의 오픈 스트림 규칙)</td></tr><tr><td>TCP</td><td>순서와 전달 보장이 필요</td><td>Verex api, RPC 호출</td></tr><tr><td>UDP</td><td>유실보다 지연을 우선</td><td>사용 안 함</td></tr></tbody></table>
+<h3>인증 대 인가: 서로 다른 두 질문</h3>
+<p>인증은 "누구인가"에 답하고(01:26:33), 인가는 "무엇을 할 수 있는가"에 답한다(01:46:14). 강의는 이 둘을 하나가 아니라 별개의 시스템으로 다룬다. 세션 기반 인증은 서버나 Redis에 상태를 두고 클라이언트에 세션 쿠키를 준다 — 단순하지만 stateful이라 수평 확장을 제약한다(01:33:18, 01:34:40). JWT는 서명된 클레임이다. 서버는 DB를 조회하는 대신 서명을 검증하는데, 이것이 JWT를 stateless로 만드는 이유다. 짧은 수명(15분~1시간)의 access 토큰이 HTTP-only 쿠키에 담긴 더 긴 수명의 refresh 토큰과 짝을 이뤄 XSS 탈취를 막는다(01:35:46, 01:37:57, 01:38:42). OIDC는 OAuth 2.0 위에 ID 토큰을 얹어 소셜 로그인과 SSO를 지원한다(01:41:10, 01:43:11). 인가에 대해 강의는 세 모델을 꼽는다 — RBAC(역할이 권한 집합에 매핑), ABAC(속성에 대한 규칙), ACL(리소스별·사용자별, Google Drive 모델) — 그리고 OAuth 2.0 자체는 인증 도구가 아니라고 명확히 한다. 비밀번호를 넘기지 않고 제한적이고 철회 가능한 토큰을 제3자에게 위임하는 인가 프레임워크다(01:39:30, 01:49:22, 01:52:49, 01:53:39).</p>
+<table><thead><tr><th>선택</th><th>언제</th><th>Jayverse 현재</th></tr></thead><tbody><tr><td>세션 + 서버/Redis 상태</td><td>단순, 단일 리전, 낮은 확장 필요</td><td>사용 안 함</td></tr><tr><td>JWT(access + refresh)</td><td>무상태 검증, 수평 확장</td><td>JWT + 지갑 서명</td></tr><tr><td>OIDC / SSO</td><td>소셜 로그인, 엔터프라이즈 SSO</td><td>사용 안 함</td></tr><tr><td>OAuth 2.0(위임 인가)</td><td>제3자가 비밀번호 없이 제한된 철회 가능 접근이 필요할 때</td><td>Rabbit의 7715 세션키 mandate — 같은 형태</td></tr><tr><td>RBAC / ACL</td><td>관리자 전용 화면, 리소스별 공유</td><td>Number — 관리자 전용 사이트</td></tr></tbody></table>
+<h3>프로덕션 보안 7항목 체크리스트</h3>
+<p>강의는 프로덕션 API가 노출되기 전 타협 불가로 다루는 통제 일곱 가지로 마무리한다(01:57:27–02:04:05). 엔드포인트별·유저/IP별·전역 rate limiting; CORS; 파라미터화 쿼리나 ORM을 통한 SQL/NoSQL injection 방어; WAF; 관리자 대시보드와 백엔드 전용 API를 위한 VPN 또는 사설망; CSRF 토큰; 입력 sanitize를 통한 XSS 방어.</p>
+<table><thead><tr><th>통제</th><th>Jayverse 현재</th></tr></thead><tbody><tr><td>Rate limiting</td><td>RPC와 faucet에 적용(Tech #82의 faucet 항목)</td></tr><tr><td>CORS</td><td>포털에 적용</td></tr><tr><td>Injection 방어</td><td>ORM 경유</td></tr><tr><td>WAF</td><td>없음</td></tr><tr><td>VPN / 사설망</td><td>Number가 관리자 전용 사이트인 것이 VPN으로 막힌 백엔드와 같은 형태</td></tr><tr><td>CSRF 토큰</td><td>미확인 — 점검 필요</td></tr><tr><td>XSS 방어</td><td>미확인 — 점검 필요</td></tr></tbody></table>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex: 위 다섯 표가 곧 아키텍처 리뷰다.</strong> 모든 행이 Verex 스택에 대한 검증 가능한 주장이다 — 주문에 Postgres, 현재 REST, API에 TCP, 인증에 JWT와 지갑 서명 — 그리고 빈 칸(Redis, CSRF, XSS)은 알 수 없는 미지가 아니라 이름 붙은 후속 작업이다.</li><li><strong>Rabbit: 7715 mandate가 정확히 OAuth 2.0의 유비다.</strong> 세션키 mandate는 키를 공유하지 않고 델리게이트에게 제한적이고 철회 가능한 능력을 준다 — 이것이 OAuth 2.0의 "비밀번호가 아니라 토큰을 준다" 모델이 하는 일이다. 포털의 세션 대 JWT 질문(상태 있는 쿠키 대 무상태 서명)은 강의가 스케일링에서 설명하는 것과 같은 트레이드오프다.</li><li><strong>Devnet: rate limiting과 헬스 체크는 API뿐 아니라 Anvil에도 있어야 한다.</strong> 강의의 SPOF 절(헬스 체크가 고장난 인스턴스를 로테이션에서 뺀다)은 호스팅된 Anvil RPC에도 웹 서버와 똑같이 적용된다.</li><li><strong>Auditor: "Jayverse 현재" 칸은 빈 칸까지 포함해 모두 검증 가능한 규칙이다.</strong> Redis, CSRF, XSS에 대한 "미확인 — 점검 필요"는 그 자체로 올바른 Auditor 항목이다. 조용한 공백이 아니라 명시된 공백.</li><li><strong>Eng와 Theory: 이것이 인터뷰 커리큘럼이고, consistent hashing은 Theory 항목이다.</strong> 40분짜리 시스템 설계 인터뷰 문제는 대략 이 순서로 진행된다 — 데이터 티어, 스케일링, API, 인증, 보안 — 그래서 이 파일은 인터뷰 준비를 겸한다. consistent hashing의 해시 링 재매핑은 Theory의 큐잉·스케줄링 항목과 함께 놓인다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: freeCodeCamp.org는 YouTube에 장편 시스템 설계 강의를 공개하는 채널이고, 위에서 이름 붙인 개념은 모두 문서화된 동작을 가진 교과서적 시스템 설계 내용이다 — RDBMS의 ACID, 데이터베이스 5계열 구분, consistent hashing의 해시 링 재매핑을 포함한 표준 로드 밸런싱 알고리즘 7종, 설명된 그대로의 REST/GraphQL/gRPC(GraphQL의 "errors 배열이 200 안에" 동작은 잘 알려진 함정이고, gRPC의 Protocol Buffers-over-HTTP/2도 정확하다), TCP의 핸드셰이크와 신뢰성 보장 대 UDP의 비연결 모델, 무상태 서명 검증으로서의 JWT, OAuth 2.0 확장으로서의 OIDC, 표준 인가 모델로서의 RBAC/ABAC/ACL, 인증이 아니라 인가 프레임워크로서의 OAuth 2.0. 요약에서 가져왔고 독립 확인하지 않은 것: 정확한 타임스탬프, "약 두 시간" 이상의 영상 러닝타임.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=C842vFY5kRo">YouTube — freeCodeCamp.org, "System Design Course – APIs, Databases, Caching, CDNs, Load Balancing &amp; Production Infra"</a> · <a href="https://www.youtube.com/watch?v=oYxTTirKY8M">YouTube — Hayk Simonyan 원본 업로드</a> (같은 커리큘럼. 에이전트가 코드를 쓰는 시대에 시스템 설계가 덜 아니라 더 중요해진다는 프레이밍을 더한다. 사람에게 남는 것이 경계이기 때문이다) · 관련 항목: Tech #96(Homa: TCP 대 메시지 전송), Tech #101(ADK voice: 오픈 스트림), Tech #62(에이전틱 엔지니어링은 경계를 쓴다), faucet 항목 <code>a-faucet-is-a-payout</code>, Dark Horse (b) 보안 취약점 연구.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>ACID</strong></td><td>Atomicity, Consistency, Isolation, Durability(원자성·일관성·고립성·지속성) · 관계형 DB가 보장하는 트랜잭션 속성, 결제·뱅킹의 필수 조건. "ACID matters: payments, banking, structured e-commerce"</td></tr><tr><td><strong>RDBMS</strong></td><td>Relational Database Management System(관계형 데이터베이스 관리 시스템) · 테이블과 조인 기반 DB, Postgres·MySQL이 대표. "RDBMS (Postgres, MySQL) — tables, joins"</td></tr><tr><td><strong>NoSQL</strong></td><td>Not only SQL(SQL만이 아닌, 비관계형 DB 총칭) · 문서·와이드컬럼·키값·그래프 계열을 묶는 말. "SQL/NoSQL injection defense via parameterized queries or an ORM"</td></tr><tr><td><strong>SPOF</strong></td><td>Single Point of Failure(단일 장애점) · 그 하나가 죽으면 전체가 죽는 컴포넌트, 스케일업의 고질적 리스크. "hits a ceiling and stays a single point of failure"</td></tr><tr><td><strong>REST</strong></td><td>Representational State Transfer(자원을 명사·HTTP 동사로 다루는 API 스타일) · 가장 흔한 공개 API 스타일. "REST names resources as plural nouns"</td></tr><tr><td><strong>CRUD</strong></td><td>Create, Read, Update, Delete(생성·조회·수정·삭제) · 리소스 API의 기본 동작 네 가지. "resource CRUD, cacheable, simple clients"</td></tr><tr><td><strong>gRPC</strong></td><td>gRPC Remote Procedure Call(구글이 만든 RPC 프레임워크) · Protocol Buffers + HTTP/2, 내부 마이크로서비스 표준. "gRPC serializes with Protocol Buffers over HTTP/2"</td></tr><tr><td><strong>TCP</strong></td><td>Transmission Control Protocol(전송 제어 프로토콜) · 순서 보장·재전송이 있는 연결형 전송, 결제·인증에 필수. "TCP&#39;s handshake, ordering guarantee and retransmission"</td></tr><tr><td><strong>UDP</strong></td><td>User Datagram Protocol(사용자 데이터그램 프로토콜) · 핸드셰이크·재전송 없는 비연결형, 지연이 유실보다 나쁠 때. "UDP skips both and is used where a late packet is worse than a lost one"</td></tr><tr><td><strong>AMQP</strong></td><td>Advanced Message Queuing Protocol(고급 메시지 큐잉 프로토콜) · 비동기 큐·브로커 표준. "AMQP is for asynchronous queues and brokers"</td></tr><tr><td><strong>JWT</strong></td><td>JSON Web Token(JSON 웹 토큰) · 서명된 클레임, DB 조회 없이 서명만 검증하는 무상태 인증. "JWTs are signed claims: the server verifies a signature instead of querying a database"</td></tr><tr><td><strong>OAuth 2.0 / OIDC / SSO</strong></td><td>Open Authorization / OpenID Connect / Single Sign-On(위임 인가 프레임워크 / 그 위의 신원 계층 / 통합 로그인) · 비밀번호 없이 제한된 토큰을 제3자에 위임하는 한 가족. "OAuth 2.0 itself is not authentication: it is an authorization framework for delegating a limited, revocable token"</td></tr><tr><td><strong>RBAC / ABAC / ACL</strong></td><td>Role-Based / Attribute-Based Access Control, Access Control List(역할 기반·속성 기반 접근 제어, 접근 제어 목록) · 인가(무엇을 할 수 있는가)의 세 표준 모델. "RBAC (roles map to permission sets), ABAC (rules over attributes), and ACL (per-resource, per-user, the Google Drive model)"</td></tr><tr><td><strong>CORS</strong></td><td>Cross-Origin Resource Sharing(교차 출처 리소스 공유) · 어느 출처가 API를 호출할 수 있는지 제한. "rate limiting per endpoint, per user/IP, and globally; CORS"</td></tr><tr><td><strong>WAF</strong></td><td>Web Application Firewall(웹 애플리케이션 방화벽) · 엣지에서 악성 요청을 거르는 계층. "a WAF; a VPN or private network"</td></tr><tr><td><strong>VPN</strong></td><td>Virtual Private Network(가상 사설망) · 관리자 대시보드·백엔드 전용 API를 사설망 안에만 두는 방식. "a VPN or private network for admin dashboards and backend-only APIs"</td></tr><tr><td><strong>CSRF</strong></td><td>Cross-Site Request Forgery(사이트 간 요청 위조) · 로그인된 사용자를 속여 원치 않는 요청을 보내게 하는 공격, 토큰으로 방어. "CSRF tokens; and XSS defense via input sanitization"</td></tr><tr><td><strong>XSS</strong></td><td>Cross-Site Scripting(사이트 간 스크립팅) · 악성 스크립트를 삽입하는 공격, 입력 sanitize와 HTTP-only 쿠키로 방어. "a longer-lived refresh token kept in an HTTP-only cookie to block XSS theft"</td></tr><tr><td><strong>hash ring (consistent hashing)</strong></td><td>해시 링(노드와 키를 원형 해시 공간에 배치하는 구조) · 노드 증감 시 재매핑을 최소화하는 이유. "it maps both nodes and keys onto a hash ring so that adding or removing a node only remaps the keys next to it"</td></tr><tr><td><strong>over-fetching / under-fetching</strong></td><td>과다 조회 / 과소 조회(필요보다 많이 또는 적게 데이터를 받는 문제) · GraphQL이 REST 대신 등장한 이유. "over- or under-fetching"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-product-company-gap-mvs-slip.html">&larr; 120. A working product isn&#39;t a scalable company — distribution and business model decide the rest</a><a href="pocs-microfactory-small-models-clutch-rollback.html">122. Microfactory — a small task model plus a human clutch beats a generalist foundation model on a repeating cell &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="system-design-course-single-server-to-scale";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

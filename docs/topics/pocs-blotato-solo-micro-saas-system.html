@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blotato&#39;s solo playbook — validate with a post, ship one feature, grade every draft before it goes out — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Blotato&#39;s solo playbook — validate with a post, ship one feature, grade every draft before it goes out</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#118</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Blotato&#39;s solo playbook — validate with a post, ship one feature, grade every draft before it goes out</h1>
+      <p class="lead">Sabrina, founder of the AI micro-SaaS Blotato, sat down with the Product Faculty YouTube channel for a roughly 46-minute conversation, "She Built Two AI Businesses Solo, Here&#39;s the exact System" (youtube.com/watch?v=l5-xNKNaVPA). After a first Silicon Valley startup exit and the burnout that followed, she bootstrapped Blotato — a tool that turns one piece of content into multiple platform-ready posts — largely solo, using Cursor and Claude Code for both the product and her own content pipeline, to a reported $2M–$3M ARR (00:07, 00:21, 22:45). The value of the talk isn&#39;t the revenue number; it&#39;s three repeatable systems underneath it: validate with a cheap public test instead of a private waitlist, cut the first version down to one transformation, and put a grading skill in the loop so an AI-assisted pipeline still has a pass/fail bar a human wrote.</p>
+      <p class="meta">For Jayverse this reads less like a founder story and more like three checklists: one for deciding whether a feature is worth building, one for deciding how small a v1 can be, and one for keeping a human as the actual reviewer when Claude or Cursor is doing most of the typing.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Blotato's solo playbook — validate with a post, ship one feature, grade every draft before it goes out\n\nSabrina, founder of the AI micro-SaaS Blotato, sat down with the Product Faculty YouTube channel for a roughly 46-minute conversation, \"She Built Two AI Businesses Solo, Here's the exact System\" (youtube.com/watch?v=l5-xNKNaVPA). After a first Silicon Valley startup exit and the burnout that followed, she bootstrapped Blotato — a tool that turns one piece of content into multiple platform-ready posts — largely solo, using Cursor and Claude Code for both the product and her own content pipeline, to a reported $2M–$3M ARR (00:07, 00:21, 22:45). The value of the talk isn't the revenue number; it's three repeatable systems underneath it: validate with a cheap public test instead of a private waitlist, cut the first version down to one transformation, and put a grading skill in the loop so an AI-assisted pipeline still has a pass/fail bar a human wrote.\n\nFor Jayverse this reads less like a founder story and more like three checklists: one for deciding whether a feature is worth building, one for deciding how small a v1 can be, and one for keeping a human as the actual reviewer when Claude or Cursor is doing most of the typing.\n\n## Why\n\nThe default failure mode with AI coding tools isn't writing bad code, it's writing too much of it, too early, for a feature nobody asked for. When the tool can generate a full feature in an afternoon, the temptation is to build everything you can imagine instead of the one thing a stranger will pay for tomorrow. Sabrina's account is useful because it names the same failure at three different points in the lifecycle — validation, scoping, and production quality — and gives a cheap, concrete countermeasure for each one instead of a general \"move fast\" slogan. The common thread is that AI removes the cost of building, not the cost of being wrong about what to build, so the discipline has to move earlier: into a 30-second post, into a pruned feature list, into a rubric a skill checks before anything ships.\n\n## How it works\n\n### Validate with a post, not a waitlist\n\nBefore writing a line of product code, she posted an unscripted, 30-second TikTok essentially asking \"would anyone use an app like this?\" (04:28, 05:43) and read the comments as the signal. She then got 10–20 of the commenters on 1:1 calls (05:54). Earlier, a pre-launch waitlist of 50 hand-picked people had produced the opposite of clarity: what people said they wanted and what they actually did once given access diverged enough to be actively misleading (10:49, 11:04). Her stated lesson is that a short public post plus direct conversations beats an elaborate private waitlist program — skip the waitlist machinery and go straight toward something people can react to (11:45).\n\n### Prune the v1 to one transformation\n\nThe summary calls out the classic new-vibe-coder mistake: because AI can build almost anything you describe, the temptation is to cram every feature into the first release (08:53). Her original plan — simultaneous publishing to LinkedIn, Twitter, and Facebook — got cut down to exactly one transformation: paste a blog or newsletter post in, get one Facebook post out, built in Cursor (08:18, 09:04, 09:54). That single-feature v1 reached $10K MRR ten days after launch (09:16, 12:59).\n\n### Vibe coding's real ceiling: the human stays the architect\n\nShe's explicit that vibe coding doesn't replace engineers; it compresses the time to validate an idea and land the first 10–100 paying customers (19:21, 20:11). Handing Claude or Cursor full autonomy produces invisible spaghetti logic, runaway queues, and broken production — the failure is silent until it isn't (21:04, 21:15). Her working split is roughly 50–60% AI-assisted, with a human remaining the architect who controls every change (20:58): before implementation, a person maps the system-wide impact, lists three alternative approaches, and weighs the tradeoffs, then hands the AI a clear, scoped spec to implement (21:50, 22:09).\n\n### Watch sessions before you build a funnel dashboard\n\nAn early onboarding that dropped users into a blank canvas produced churn above 30% (15:56, 17:22). Before building a funnel dashboard, she watched PostHog session replays for about two hours a day, looking specifically for rage clicks and failed payments (15:03, 15:38). The fix was a guided three-step flow: paste a video link, choose up to five platforms, confirm the draft (16:02, 16:20).\n\n### One filming day, a grader-in-the-loop skill for the rest\n\nShe calls herself \"the world's laziest creator\": she films once a week, on Sundays, and lets a system carry the rest (00:44, 35:51, 40:49). Each piece leans on a strong first 5–10 second hook and templates that already tested well (29:14, 29:27, 31:29). The quality control is two Claude Skills working as a closed loop: a `Brand Brief` skill holds tone, audience, and context as persistent memory (33:03), and a `Post Grader` skill scores each draft against a rubric — curiosity, specificity, share-worthiness (33:27) — with the draft revised three to five times, swapping the hook each time, until the grader returns 9/10 (33:45, 33:57). Production runs local Whisper for transcription (35:21), and Remotion/Hyperframes scripts auto-compose labeled B-roll and tier-list animations, leaving close to zero manual editing (36:49, 38:12, 39:50).\n\n### Where it lands in Jayverse\n\n- **Verex or Number: run the pruning test before the next feature, don't let me pick the answer for you.** The test is Sabrina's, not mine: if you could only ship one transformation and had to charge for it tomorrow, which one is it — a single market-resolution flow in Verex, or a single reading/indicator export in Number? Answer that before adding a second path.\n- **Knowledge Notes / alice: a Post Grader-style skill for these items.** A grading rubric already exists implicitly in this file's own rules — key expressions present, landing section specific and non-generic, verified/unverified honestly separated — so it can become an actual `Item Grader` skill that scores a draft item before publishing, the same closed-loop pattern as `Brand Brief` + `Post Grader`.\n- **Rabbit: session replay before a funnel dashboard for portal onboarding.** Watching real jaylabs.xyz sessions for rage clicks and failed transactions is cheaper than instrumenting a full funnel and catches the specific step where a wallet or session-key flow confuses someone.\n- **Eng: an interview answer to have ready.** \"Describe a validation you ran before building\" is exactly the kind of question this talk hands you a real answer for — a cheap public test plus direct calls, not a spec document.\n- **Dark Horse: bootstrapped solo micro-SaaS as a candidate path**, not a funded startup — consistent with Life's `greene-through-line-focus` resource-accumulation phase and the Harvard talk's `product-company-gap-mvs-slip` point that a minimum viable slice, not a full product, is what earns the next stage.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Blotato is a real content-repurposing and social-posting SaaS product; PostHog offers session replay as a documented feature; Remotion is a real framework for rendering video from React code; Whisper is OpenAI's open-source speech-to-text model; Claude Skills exist as reusable, named instruction bundles that Claude can load. Taken from the video summary and not independently checked: the $2M–$3M ARR and $10K MRR figures, the exact spelling of the founder's name, the >30% churn figure, and all timestamps. Sources: [YouTube — Product Faculty, \"She Built Two AI Businesses Solo, Here's the exact System\"](https://www.youtube.com/watch?v=l5-xNKNaVPA) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #98 (Shopify), the harness-engineering-shift-left item (same closed-loop grader pattern), the pocock-fundamentals-matter-more item (same \"human architect, AI implements\" rule), Life `greene-through-line-focus`.\n"</script>
+<h2>Why</h2>
+<p>The default failure mode with AI coding tools isn&#39;t writing bad code, it&#39;s writing too much of it, too early, for a feature nobody asked for. When the tool can generate a full feature in an afternoon, the temptation is to build everything you can imagine instead of the one thing a stranger will pay for tomorrow. Sabrina&#39;s account is useful because it names the same failure at three different points in the lifecycle — validation, scoping, and production quality — and gives a cheap, concrete countermeasure for each one instead of a general "move fast" slogan. The common thread is that AI removes the cost of building, not the cost of being wrong about what to build, so the discipline has to move earlier: into a 30-second post, into a pruned feature list, into a rubric a skill checks before anything ships.</p>
+<h2>How it works</h2>
+<h3>Validate with a post, not a waitlist</h3>
+<p>Before writing a line of product code, she posted an unscripted, 30-second TikTok essentially asking "would anyone use an app like this?" (04:28, 05:43) and read the comments as the signal. She then got 10–20 of the commenters on 1:1 calls (05:54). Earlier, a pre-launch waitlist of 50 hand-picked people had produced the opposite of clarity: what people said they wanted and what they actually did once given access diverged enough to be actively misleading (10:49, 11:04). Her stated lesson is that a short public post plus direct conversations beats an elaborate private waitlist program — skip the waitlist machinery and go straight toward something people can react to (11:45).</p>
+<h3>Prune the v1 to one transformation</h3>
+<p>The summary calls out the classic new-vibe-coder mistake: because AI can build almost anything you describe, the temptation is to cram every feature into the first release (08:53). Her original plan — simultaneous publishing to LinkedIn, Twitter, and Facebook — got cut down to exactly one transformation: paste a blog or newsletter post in, get one Facebook post out, built in Cursor (08:18, 09:04, 09:54). That single-feature v1 reached $10K MRR ten days after launch (09:16, 12:59).</p>
+<h3>Vibe coding&#39;s real ceiling: the human stays the architect</h3>
+<p>She&#39;s explicit that vibe coding doesn&#39;t replace engineers; it compresses the time to validate an idea and land the first 10–100 paying customers (19:21, 20:11). Handing Claude or Cursor full autonomy produces invisible spaghetti logic, runaway queues, and broken production — the failure is silent until it isn&#39;t (21:04, 21:15). Her working split is roughly 50–60% AI-assisted, with a human remaining the architect who controls every change (20:58): before implementation, a person maps the system-wide impact, lists three alternative approaches, and weighs the tradeoffs, then hands the AI a clear, scoped spec to implement (21:50, 22:09).</p>
+<h3>Watch sessions before you build a funnel dashboard</h3>
+<p>An early onboarding that dropped users into a blank canvas produced churn above 30% (15:56, 17:22). Before building a funnel dashboard, she watched PostHog session replays for about two hours a day, looking specifically for rage clicks and failed payments (15:03, 15:38). The fix was a guided three-step flow: paste a video link, choose up to five platforms, confirm the draft (16:02, 16:20).</p>
+<h3>One filming day, a grader-in-the-loop skill for the rest</h3>
+<p>She calls herself "the world&#39;s laziest creator": she films once a week, on Sundays, and lets a system carry the rest (00:44, 35:51, 40:49). Each piece leans on a strong first 5–10 second hook and templates that already tested well (29:14, 29:27, 31:29). The quality control is two Claude Skills working as a closed loop: a <code>Brand Brief</code> skill holds tone, audience, and context as persistent memory (33:03), and a <code>Post Grader</code> skill scores each draft against a rubric — curiosity, specificity, share-worthiness (33:27) — with the draft revised three to five times, swapping the hook each time, until the grader returns 9/10 (33:45, 33:57). Production runs local Whisper for transcription (35:21), and Remotion/Hyperframes scripts auto-compose labeled B-roll and tier-list animations, leaving close to zero manual editing (36:49, 38:12, 39:50).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex or Number: run the pruning test before the next feature, don&#39;t let me pick the answer for you.</strong> The test is Sabrina&#39;s, not mine: if you could only ship one transformation and had to charge for it tomorrow, which one is it — a single market-resolution flow in Verex, or a single reading/indicator export in Number? Answer that before adding a second path.</li><li><strong>Knowledge Notes / alice: a Post Grader-style skill for these items.</strong> A grading rubric already exists implicitly in this file&#39;s own rules — key expressions present, landing section specific and non-generic, verified/unverified honestly separated — so it can become an actual <code>Item Grader</code> skill that scores a draft item before publishing, the same closed-loop pattern as <code>Brand Brief</code> + <code>Post Grader</code>.</li><li><strong>Rabbit: session replay before a funnel dashboard for portal onboarding.</strong> Watching real jaylabs.xyz sessions for rage clicks and failed transactions is cheaper than instrumenting a full funnel and catches the specific step where a wallet or session-key flow confuses someone.</li><li><strong>Eng: an interview answer to have ready.</strong> "Describe a validation you ran before building" is exactly the kind of question this talk hands you a real answer for — a cheap public test plus direct calls, not a spec document.</li><li><strong>Dark Horse: bootstrapped solo micro-SaaS as a candidate path</strong>, not a funded startup — consistent with Life&#39;s <code>greene-through-line-focus</code> resource-accumulation phase and the Harvard talk&#39;s <code>product-company-gap-mvs-slip</code> point that a minimum viable slice, not a full product, is what earns the next stage.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Blotato is a real content-repurposing and social-posting SaaS product; PostHog offers session replay as a documented feature; Remotion is a real framework for rendering video from React code; Whisper is OpenAI&#39;s open-source speech-to-text model; Claude Skills exist as reusable, named instruction bundles that Claude can load. Taken from the video summary and not independently checked: the $2M–$3M ARR and $10K MRR figures, the exact spelling of the founder&#39;s name, the &gt;30% churn figure, and all timestamps. Sources: <a href="https://www.youtube.com/watch?v=l5-xNKNaVPA">YouTube — Product Faculty, "She Built Two AI Businesses Solo, Here&#39;s the exact System"</a> · related items: Tech #62 (agentic engineering writes the boundaries), Tech #98 (Shopify), the harness-engineering-shift-left item (same closed-loop grader pattern), the pocock-fundamentals-matter-more item (same "human architect, AI implements" rule), Life <code>greene-through-line-focus</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bootstrap (v.)</strong></td><td>외부 투자 없이 자체 자금·매출로 창업하다 · 펀딩 없는 창업을 가리킬 때. "she bootstrapped Blotato"</td></tr><tr><td><strong>micro-SaaS</strong></td><td>소규모 1인·소팀 SaaS 제품(광범위한 기능보다 좁고 깊은 문제 하나를 판다) · 이 항목 전체의 주제. "the AI micro-SaaS Blotato"</td></tr><tr><td><strong>ARR</strong></td><td>Annual Recurring Revenue(연간 반복 매출) · SaaS 매출 규모를 말할 때 표준 지표. "$2M–$3M ARR"</td></tr><tr><td><strong>MRR</strong></td><td>Monthly Recurring Revenue(월간 반복 매출) · ARR보다 짧은 주기로 초기 성장 속도를 잴 때. "$10K MRR ten days after launch"</td></tr><tr><td><strong>waitlist</strong></td><td>대기자 명단(출시 전 관심 있는 사람을 미리 모으는 명단) · 이 항목에서는 반례로 등장. "a pre-launch waitlist of 50 hand-picked people"</td></tr><tr><td><strong>say/do gap</strong></td><td>말과 행동의 괴리(설문·인터뷰 응답과 실제 행동이 다른 현상) · 대기자 명단이 오해를 부르는 이유. "diverged enough to be actively misleading"</td></tr><tr><td><strong>vibe coding</strong></td><td>바이브 코딩(자연어 지시로 AI에 코드 생성을 맡기는 개발 방식) · 이 항목의 핵심 개발 방법론. "vibe coding doesn&#39;t replace engineers"</td></tr><tr><td><strong>v1</strong></td><td>첫 번째 출시 버전 · 기능을 최소로 좁힌 최초 릴리스를 가리킬 때. "prune the v1 to one transformation"</td></tr><tr><td><strong>spaghetti (logic/code)</strong></td><td>스파게티 코드(구조 없이 얽혀 추적하기 어려운 코드) · AI에 전권을 줬을 때의 실패 결과. "invisible spaghetti logic"</td></tr><tr><td><strong>architect (n., role)</strong></td><td>아키텍트(시스템 설계와 모든 변경을 통제하는 역할) · 사람이 유지해야 할 역할. "the human remaining the architect"</td></tr><tr><td><strong>spec</strong></td><td>스펙(구현 전에 범위를 명확히 적은 요구사항 문서) · AI에게 구현을 맡기기 전 사람이 주는 것. "a clear, scoped spec to implement"</td></tr><tr><td><strong>session replay</strong></td><td>세션 리플레이(사용자의 실제 화면 조작을 녹화해 재생하는 기능) · PostHog의 기능, 퍼널 대시보드보다 먼저 보는 것. "watched PostHog session replays"</td></tr><tr><td><strong>rage click</strong></td><td>분노 클릭(같은 요소를 반복해서 빠르게 클릭하는 행동, 막힘의 신호) · 세션 리플레이에서 찾는 핵심 패턴. "looking specifically for rage clicks"</td></tr><tr><td><strong>churn</strong></td><td>이탈률(가입·구독한 사용자가 떠나는 비율) · 온보딩 실패를 수치로 보여주는 지표. "churn above 30%"</td></tr><tr><td><strong>funnel</strong></td><td>퍼널(가입부터 결제까지 단계별 전환 흐름) · 세션 리플레이와 대비되는, 나중에 만든 지표 도구. "a funnel dashboard"</td></tr><tr><td><strong>hook</strong></td><td>후크(영상 도입부 몇 초 안에 시청자를 붙잡는 요소) · 콘텐츠 품질의 핵심 변수, 채점 루프에서 매번 교체하는 대상. "a strong first 5–10 second hook"</td></tr><tr><td><strong>B-roll</strong></td><td>보조 영상 소재(주 화면 위에 겹쳐 쓰는 배경·설명용 클립) · 자동 합성되는 편집 소재. "labeled B-roll and tier-list animations"</td></tr><tr><td><strong>closed loop</strong></td><td>폐루프(출력을 다시 입력으로 평가해 기준을 만족할 때까지 반복하는 구조) · Brand Brief + Post Grader의 작동 방식. "two Claude Skills working as a closed loop"</td></tr><tr><td><strong>rubric</strong></td><td>루브릭(채점 기준을 항목별로 나눈 평가표) · Post Grader가 점수를 매기는 기준. "curiosity, specificity, share-worthiness"</td></tr><tr><td><strong>STT</strong></td><td>Speech-to-Text(음성을 텍스트로 변환) · Whisper가 수행하는 작업. "local Whisper for transcription"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# Blotato의 솔로 플레이북 — 포스트 하나로 검증하고, 기능 하나로 출시하고, 나가기 전 모든 초안을 채점한다\n\nAI micro-SaaS Blotato의 창업자 사브리나(Sabrina)가 Product Faculty 유튜브 채널과 약 46분간 나눈 대화 \"She Built Two AI Businesses Solo, Here's the exact System\"(youtube.com/watch?v=l5-xNKNaVPA)의 내용이다. 실리콘밸리 첫 스타트업 엑싯과 그 뒤의 번아웃을 겪은 뒤, 그는 하나의 콘텐츠를 여러 플랫폼용 포스트로 바꿔 주는 Blotato를 Cursor와 Claude Code로 제품 개발과 자신의 콘텐츠 제작 파이프라인 모두에 쓰면서 거의 혼자 부트스트랩해 ARR $2M~$3M 규모로 키웠다고 밝힌다(00:07, 00:21, 22:45). 이 영상의 값어치는 매출 숫자가 아니라 그 밑에 있는 세 가지 반복 가능한 시스템이다. 비공개 대기자 명단 대신 값싼 공개 테스트로 검증하고, 첫 버전을 단 하나의 변환 기능으로 잘라내고, AI가 대부분의 코드를 쓰는 파이프라인에도 사람이 정한 합격선이 남아 있도록 채점 스킬을 루프 안에 둔다.\n\nJayverse에서 이것은 창업 일화라기보다 세 개의 체크리스트다. 기능을 만들 가치가 있는지 판단하는 체크리스트, v1이 얼마나 작을 수 있는지 판단하는 체크리스트, Claude나 Cursor가 타이핑 대부분을 맡을 때도 사람이 실제 검수자로 남는 체크리스트.\n\n## 왜\n\nAI 코딩 도구를 쓸 때 기본 실패 모드는 나쁜 코드를 쓰는 게 아니라, 너무 많은 것을 너무 일찍, 아무도 요청하지 않은 기능에 쓰는 것이다. 도구가 오후 한나절이면 기능 하나를 통째로 생성해 주면, 내일 낯선 사람이 돈을 낼 단 하나의 것 대신 상상할 수 있는 모든 것을 만들고 싶은 유혹이 생긴다. 사브리나의 이야기가 유용한 이유는 같은 실패를 생애주기의 세 지점 — 검증, 범위 설정, 프로덕션 품질 — 에서 각각 짚어내고, \"빨리 움직여라\"는 일반론이 아니라 각 지점마다 값싸고 구체적인 대응책을 준다는 데 있다. 공통된 맥락은 AI가 제거하는 것은 만드는 비용이지 무엇을 만들지 잘못 판단하는 비용이 아니라는 것이고, 그래서 규율은 더 일찍 — 30초짜리 포스트 안에, 가지치기한 기능 목록 안에, 무엇이든 나가기 전에 스킬이 확인하는 루브릭 안에 — 옮겨가야 한다.\n\n## 동작 방식\n\n### 대기자 명단이 아니라 포스트로 검증한다\n\n제품 코드를 한 줄도 쓰기 전, 그는 대본 없는 30초짜리 틱톡으로 사실상 \"이런 앱을 쓸 사람 있나요?\"를 올리고 댓글을 신호로 읽었다(04:28, 05:43). 그런 다음 댓글 작성자 10~20명과 1:1 통화를 했다(05:54). 이보다 앞서, 출시 전 선별한 50명짜리 대기자 명단은 명확함과 정반대의 결과를 낳았다. 사람들이 원한다고 말한 것과 실제로 접근 권한을 받았을 때 한 행동 사이의 괴리가 오히려 오해를 불러올 만큼 컸다(10:49, 11:04). 그가 얻은 교훈은, 짧은 공개 포스트에 직접 대화를 더하는 쪽이 정교한 비공개 대기자 프로그램보다 낫다는 것 — 대기자 명단 장치를 건너뛰고 사람들이 바로 반응할 수 있는 것으로 직행하라는 것이다(11:45).\n\n### v1을 변환 기능 하나로 가지치기한다\n\n요약이 짚는 전형적인 초보 바이브 코더의 실수는, AI가 묘사한 거의 모든 것을 만들어 줄 수 있기 때문에 첫 출시에 모든 기능을 욱여넣고 싶어진다는 것이다(08:53). 원래 계획이었던 링크드인·트위터·페이스북 동시 발행은 정확히 변환 기능 하나로 잘려나갔다. 블로그나 뉴스레터 글을 붙이면 페이스북 포스트 하나가 나오는 것, 이것만 Cursor로 개발했다(08:18, 09:04, 09:54). 이 기능 하나짜리 v1이 출시 10일 만에 MRR $10K에 도달했다(09:16, 12:59).\n\n### 바이브 코딩의 진짜 한계: 사람이 아키텍트로 남는다\n\n그는 바이브 코딩이 개발자를 대체하지 않는다고 분명히 말한다. 다만 아이디어를 검증하고 초기 유료 고객 10~100명을 확보하는 시간을 압축해 준다(19:21, 20:11). Claude나 Cursor에게 전권을 넘기면 눈에 보이지 않는 스파게티 로직과 통제 불능의 큐가 생기고 프로덕션이 깨진다 — 그 실패는 터지기 전까지 보이지 않는다(21:04, 21:15). 그의 작업 비율은 대략 AI 보조 50~60%이고, 모든 변경을 통제하는 아키텍트 역할은 사람이 유지한다(20:58). 구현 전에 사람이 시스템 전반에 미치는 영향을 파악하고, 대안 세 가지를 나열하고, 트레이드오프를 검토한 뒤, 명확하게 범위를 정한 스펙을 AI에게 주어 구현을 맡긴다(21:50, 22:09).\n\n### 퍼널 대시보드보다 먼저 세션을 지켜본다\n\n빈 캔버스에 사용자를 던져두던 초기 온보딩은 이탈률 30%를 넘겼다(15:56, 17:22). 퍼널 대시보드를 만들기 전, 그는 하루 약 2시간씩 PostHog 세션 녹화를 보며 rage click과 결제 실패를 구체적으로 찾아봤다(15:03, 15:38). 해결책은 손잡아 주는 3단계 흐름이었다. 영상 링크 붙이기 → 최대 5개 플랫폼 선택 → 초안 확인(16:02, 16:20).\n\n### 촬영은 하루, 나머지는 채점기가 루프 안에 있는 스킬\n\n그는 스스로를 \"세상에서 가장 게으른 크리에이터\"라 부른다. 일요일 하루만 촬영하고 나머지는 시스템에 맡긴다(00:44, 35:51, 40:49). 각 영상은 첫 5~10초의 강한 후크와 이미 검증된 템플릿에 의존한다(29:14, 29:27, 31:29). 품질 관리는 폐루프로 동작하는 두 개의 Claude Skills가 맡는다. `Brand Brief` 스킬이 톤, 타깃, 맥락을 지속 메모리로 보관하고(33:03), `Post Grader` 스킬이 각 초안을 호기심, 구체성, 공유 가치라는 루브릭으로 채점한다(33:27). 매번 후크를 바꿔가며 3~5회 리비전해 채점기가 9/10을 낼 때까지 반복한다(33:45, 33:57). 제작 단계에서는 로컬 Whisper로 음성을 텍스트로 옮기고(35:21), Remotion/Hyperframes 스크립트가 라벨링된 B-roll과 티어 리스트 애니메이션을 자동으로 합성해 수작업 편집이 거의 0에 가깝다(36:49, 38:12, 39:50).\n\n### Jayverse에서의 위치\n\n- **Verex 또는 Number: 다음 기능을 만들기 전에 가지치기 테스트를 돌려라. 답은 내가 대신 고르지 않는다.** 이 테스트는 사브리나의 것이지 내 것이 아니다. 변환 기능 하나만 출시하고 내일 당장 돈을 받아야 한다면 어느 것인가 — Verex의 단일 마켓 정산 흐름인가, Number의 단일 리딩/지표 배포인가? 두 번째 경로를 추가하기 전에 이 질문에 먼저 답하라.\n- **Knowledge Notes / alice: Post Grader 스타일의 스킬.** 이 파일의 규칙 자체가 이미 암묵적인 채점 루브릭이다 — 핵심 표현이 있는지, landing 섹션이 구체적이고 일반론이 아닌지, verified/unverified가 정직하게 분리되어 있는지. 이것을 실제 `Item Grader` 스킬로 만들어 발행 전 초안 항목을 채점하게 할 수 있다. `Brand Brief` + `Post Grader`와 같은 폐루프 패턴이다.\n- **Rabbit: 포털 온보딩에서 퍼널 대시보드보다 먼저 세션 녹화.** jaylabs.xyz의 실제 세션에서 rage click과 실패한 트랜잭션을 지켜보는 쪽이 완전한 퍼널을 계측하는 것보다 싸고, 지갑이나 세션 키 흐름에서 사용자가 정확히 어느 단계에서 헤매는지 잡아낸다.\n- **Eng: 준비해 둘 인터뷰 답변.** \"만들기 전에 실행한 검증을 설명하라\"는 질문에 이 영상이 실제 답을 하나 쥐여준다 — 스펙 문서가 아니라 값싼 공개 테스트에 직접 통화를 더한 것.\n- **Dark Horse: 펀딩받은 스타트업이 아니라 부트스트랩 1인 micro-SaaS를 후보 경로로.** Life의 `greene-through-line-focus` 자원 축적 단계, 그리고 하버드 강연 `product-company-gap-mvs-slip`이 말하는 다음 단계로 가는 것은 완전한 제품이 아니라 최소한의 실행 가능한 조각이라는 지점과 일치한다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: Blotato는 실제 콘텐츠 재가공·소셜 발행 SaaS 제품이고, PostHog는 세션 녹화 기능을 공식 문서화된 기능으로 제공하며, Remotion은 React 코드로 영상을 렌더링하는 실제 프레임워크이고, Whisper는 OpenAI의 오픈소스 음성-텍스트 모델이며, Claude Skills는 Claude가 불러올 수 있는 재사용 가능한 명명된 지침 번들로 실제 존재한다. 영상 요약에서 가져왔고 독립 확인하지 않은 것: ARR $2M~$3M과 MRR $10K 수치, 창업자 이름의 정확한 철자, 이탈률 30% 초과 수치, 모든 타임스탬프. 출처: [YouTube — Product Faculty, \"She Built Two AI Businesses Solo, Here's the exact System\"](https://www.youtube.com/watch?v=l5-xNKNaVPA) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #98(Shopify), harness-engineering-shift-left 항목(같은 폐루프 채점 패턴), pocock-fundamentals-matter-more 항목(같은 \"인간이 아키텍트, AI가 구현\" 규칙), Life `greene-through-line-focus`.\n"</script>
+      <h1>Blotato의 솔로 플레이북 — 포스트 하나로 검증하고, 기능 하나로 출시하고, 나가기 전 모든 초안을 채점한다</h1>
+      <p class="lead">AI micro-SaaS Blotato의 창업자 사브리나(Sabrina)가 Product Faculty 유튜브 채널과 약 46분간 나눈 대화 "She Built Two AI Businesses Solo, Here&#39;s the exact System"(youtube.com/watch?v=l5-xNKNaVPA)의 내용이다. 실리콘밸리 첫 스타트업 엑싯과 그 뒤의 번아웃을 겪은 뒤, 그는 하나의 콘텐츠를 여러 플랫폼용 포스트로 바꿔 주는 Blotato를 Cursor와 Claude Code로 제품 개발과 자신의 콘텐츠 제작 파이프라인 모두에 쓰면서 거의 혼자 부트스트랩해 ARR $2M~$3M 규모로 키웠다고 밝힌다(00:07, 00:21, 22:45). 이 영상의 값어치는 매출 숫자가 아니라 그 밑에 있는 세 가지 반복 가능한 시스템이다. 비공개 대기자 명단 대신 값싼 공개 테스트로 검증하고, 첫 버전을 단 하나의 변환 기능으로 잘라내고, AI가 대부분의 코드를 쓰는 파이프라인에도 사람이 정한 합격선이 남아 있도록 채점 스킬을 루프 안에 둔다.</p>
+      <p class="meta">Jayverse에서 이것은 창업 일화라기보다 세 개의 체크리스트다. 기능을 만들 가치가 있는지 판단하는 체크리스트, v1이 얼마나 작을 수 있는지 판단하는 체크리스트, Claude나 Cursor가 타이핑 대부분을 맡을 때도 사람이 실제 검수자로 남는 체크리스트.</p>
+<h2>왜</h2>
+<p>AI 코딩 도구를 쓸 때 기본 실패 모드는 나쁜 코드를 쓰는 게 아니라, 너무 많은 것을 너무 일찍, 아무도 요청하지 않은 기능에 쓰는 것이다. 도구가 오후 한나절이면 기능 하나를 통째로 생성해 주면, 내일 낯선 사람이 돈을 낼 단 하나의 것 대신 상상할 수 있는 모든 것을 만들고 싶은 유혹이 생긴다. 사브리나의 이야기가 유용한 이유는 같은 실패를 생애주기의 세 지점 — 검증, 범위 설정, 프로덕션 품질 — 에서 각각 짚어내고, "빨리 움직여라"는 일반론이 아니라 각 지점마다 값싸고 구체적인 대응책을 준다는 데 있다. 공통된 맥락은 AI가 제거하는 것은 만드는 비용이지 무엇을 만들지 잘못 판단하는 비용이 아니라는 것이고, 그래서 규율은 더 일찍 — 30초짜리 포스트 안에, 가지치기한 기능 목록 안에, 무엇이든 나가기 전에 스킬이 확인하는 루브릭 안에 — 옮겨가야 한다.</p>
+<h2>동작 방식</h2>
+<h3>대기자 명단이 아니라 포스트로 검증한다</h3>
+<p>제품 코드를 한 줄도 쓰기 전, 그는 대본 없는 30초짜리 틱톡으로 사실상 "이런 앱을 쓸 사람 있나요?"를 올리고 댓글을 신호로 읽었다(04:28, 05:43). 그런 다음 댓글 작성자 10~20명과 1:1 통화를 했다(05:54). 이보다 앞서, 출시 전 선별한 50명짜리 대기자 명단은 명확함과 정반대의 결과를 낳았다. 사람들이 원한다고 말한 것과 실제로 접근 권한을 받았을 때 한 행동 사이의 괴리가 오히려 오해를 불러올 만큼 컸다(10:49, 11:04). 그가 얻은 교훈은, 짧은 공개 포스트에 직접 대화를 더하는 쪽이 정교한 비공개 대기자 프로그램보다 낫다는 것 — 대기자 명단 장치를 건너뛰고 사람들이 바로 반응할 수 있는 것으로 직행하라는 것이다(11:45).</p>
+<h3>v1을 변환 기능 하나로 가지치기한다</h3>
+<p>요약이 짚는 전형적인 초보 바이브 코더의 실수는, AI가 묘사한 거의 모든 것을 만들어 줄 수 있기 때문에 첫 출시에 모든 기능을 욱여넣고 싶어진다는 것이다(08:53). 원래 계획이었던 링크드인·트위터·페이스북 동시 발행은 정확히 변환 기능 하나로 잘려나갔다. 블로그나 뉴스레터 글을 붙이면 페이스북 포스트 하나가 나오는 것, 이것만 Cursor로 개발했다(08:18, 09:04, 09:54). 이 기능 하나짜리 v1이 출시 10일 만에 MRR $10K에 도달했다(09:16, 12:59).</p>
+<h3>바이브 코딩의 진짜 한계: 사람이 아키텍트로 남는다</h3>
+<p>그는 바이브 코딩이 개발자를 대체하지 않는다고 분명히 말한다. 다만 아이디어를 검증하고 초기 유료 고객 10~100명을 확보하는 시간을 압축해 준다(19:21, 20:11). Claude나 Cursor에게 전권을 넘기면 눈에 보이지 않는 스파게티 로직과 통제 불능의 큐가 생기고 프로덕션이 깨진다 — 그 실패는 터지기 전까지 보이지 않는다(21:04, 21:15). 그의 작업 비율은 대략 AI 보조 50~60%이고, 모든 변경을 통제하는 아키텍트 역할은 사람이 유지한다(20:58). 구현 전에 사람이 시스템 전반에 미치는 영향을 파악하고, 대안 세 가지를 나열하고, 트레이드오프를 검토한 뒤, 명확하게 범위를 정한 스펙을 AI에게 주어 구현을 맡긴다(21:50, 22:09).</p>
+<h3>퍼널 대시보드보다 먼저 세션을 지켜본다</h3>
+<p>빈 캔버스에 사용자를 던져두던 초기 온보딩은 이탈률 30%를 넘겼다(15:56, 17:22). 퍼널 대시보드를 만들기 전, 그는 하루 약 2시간씩 PostHog 세션 녹화를 보며 rage click과 결제 실패를 구체적으로 찾아봤다(15:03, 15:38). 해결책은 손잡아 주는 3단계 흐름이었다. 영상 링크 붙이기 → 최대 5개 플랫폼 선택 → 초안 확인(16:02, 16:20).</p>
+<h3>촬영은 하루, 나머지는 채점기가 루프 안에 있는 스킬</h3>
+<p>그는 스스로를 "세상에서 가장 게으른 크리에이터"라 부른다. 일요일 하루만 촬영하고 나머지는 시스템에 맡긴다(00:44, 35:51, 40:49). 각 영상은 첫 5~10초의 강한 후크와 이미 검증된 템플릿에 의존한다(29:14, 29:27, 31:29). 품질 관리는 폐루프로 동작하는 두 개의 Claude Skills가 맡는다. <code>Brand Brief</code> 스킬이 톤, 타깃, 맥락을 지속 메모리로 보관하고(33:03), <code>Post Grader</code> 스킬이 각 초안을 호기심, 구체성, 공유 가치라는 루브릭으로 채점한다(33:27). 매번 후크를 바꿔가며 3~5회 리비전해 채점기가 9/10을 낼 때까지 반복한다(33:45, 33:57). 제작 단계에서는 로컬 Whisper로 음성을 텍스트로 옮기고(35:21), Remotion/Hyperframes 스크립트가 라벨링된 B-roll과 티어 리스트 애니메이션을 자동으로 합성해 수작업 편집이 거의 0에 가깝다(36:49, 38:12, 39:50).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex 또는 Number: 다음 기능을 만들기 전에 가지치기 테스트를 돌려라. 답은 내가 대신 고르지 않는다.</strong> 이 테스트는 사브리나의 것이지 내 것이 아니다. 변환 기능 하나만 출시하고 내일 당장 돈을 받아야 한다면 어느 것인가 — Verex의 단일 마켓 정산 흐름인가, Number의 단일 리딩/지표 배포인가? 두 번째 경로를 추가하기 전에 이 질문에 먼저 답하라.</li><li><strong>Knowledge Notes / alice: Post Grader 스타일의 스킬.</strong> 이 파일의 규칙 자체가 이미 암묵적인 채점 루브릭이다 — 핵심 표현이 있는지, landing 섹션이 구체적이고 일반론이 아닌지, verified/unverified가 정직하게 분리되어 있는지. 이것을 실제 <code>Item Grader</code> 스킬로 만들어 발행 전 초안 항목을 채점하게 할 수 있다. <code>Brand Brief</code> + <code>Post Grader</code>와 같은 폐루프 패턴이다.</li><li><strong>Rabbit: 포털 온보딩에서 퍼널 대시보드보다 먼저 세션 녹화.</strong> jaylabs.xyz의 실제 세션에서 rage click과 실패한 트랜잭션을 지켜보는 쪽이 완전한 퍼널을 계측하는 것보다 싸고, 지갑이나 세션 키 흐름에서 사용자가 정확히 어느 단계에서 헤매는지 잡아낸다.</li><li><strong>Eng: 준비해 둘 인터뷰 답변.</strong> "만들기 전에 실행한 검증을 설명하라"는 질문에 이 영상이 실제 답을 하나 쥐여준다 — 스펙 문서가 아니라 값싼 공개 테스트에 직접 통화를 더한 것.</li><li><strong>Dark Horse: 펀딩받은 스타트업이 아니라 부트스트랩 1인 micro-SaaS를 후보 경로로.</strong> Life의 <code>greene-through-line-focus</code> 자원 축적 단계, 그리고 하버드 강연 <code>product-company-gap-mvs-slip</code>이 말하는 다음 단계로 가는 것은 완전한 제품이 아니라 최소한의 실행 가능한 조각이라는 지점과 일치한다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: Blotato는 실제 콘텐츠 재가공·소셜 발행 SaaS 제품이고, PostHog는 세션 녹화 기능을 공식 문서화된 기능으로 제공하며, Remotion은 React 코드로 영상을 렌더링하는 실제 프레임워크이고, Whisper는 OpenAI의 오픈소스 음성-텍스트 모델이며, Claude Skills는 Claude가 불러올 수 있는 재사용 가능한 명명된 지침 번들로 실제 존재한다. 영상 요약에서 가져왔고 독립 확인하지 않은 것: ARR $2M~$3M과 MRR $10K 수치, 창업자 이름의 정확한 철자, 이탈률 30% 초과 수치, 모든 타임스탬프. 출처: <a href="https://www.youtube.com/watch?v=l5-xNKNaVPA">YouTube — Product Faculty, "She Built Two AI Businesses Solo, Here&#39;s the exact System"</a> · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #98(Shopify), harness-engineering-shift-left 항목(같은 폐루프 채점 패턴), pocock-fundamentals-matter-more 항목(같은 "인간이 아키텍트, AI가 구현" 규칙), Life <code>greene-through-line-focus</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>bootstrap (v.)</strong></td><td>외부 투자 없이 자체 자금·매출로 창업하다 · 펀딩 없는 창업을 가리킬 때. "she bootstrapped Blotato"</td></tr><tr><td><strong>micro-SaaS</strong></td><td>소규모 1인·소팀 SaaS 제품(광범위한 기능보다 좁고 깊은 문제 하나를 판다) · 이 항목 전체의 주제. "the AI micro-SaaS Blotato"</td></tr><tr><td><strong>ARR</strong></td><td>Annual Recurring Revenue(연간 반복 매출) · SaaS 매출 규모를 말할 때 표준 지표. "$2M–$3M ARR"</td></tr><tr><td><strong>MRR</strong></td><td>Monthly Recurring Revenue(월간 반복 매출) · ARR보다 짧은 주기로 초기 성장 속도를 잴 때. "$10K MRR ten days after launch"</td></tr><tr><td><strong>waitlist</strong></td><td>대기자 명단(출시 전 관심 있는 사람을 미리 모으는 명단) · 이 항목에서는 반례로 등장. "a pre-launch waitlist of 50 hand-picked people"</td></tr><tr><td><strong>say/do gap</strong></td><td>말과 행동의 괴리(설문·인터뷰 응답과 실제 행동이 다른 현상) · 대기자 명단이 오해를 부르는 이유. "diverged enough to be actively misleading"</td></tr><tr><td><strong>vibe coding</strong></td><td>바이브 코딩(자연어 지시로 AI에 코드 생성을 맡기는 개발 방식) · 이 항목의 핵심 개발 방법론. "vibe coding doesn&#39;t replace engineers"</td></tr><tr><td><strong>v1</strong></td><td>첫 번째 출시 버전 · 기능을 최소로 좁힌 최초 릴리스를 가리킬 때. "prune the v1 to one transformation"</td></tr><tr><td><strong>spaghetti (logic/code)</strong></td><td>스파게티 코드(구조 없이 얽혀 추적하기 어려운 코드) · AI에 전권을 줬을 때의 실패 결과. "invisible spaghetti logic"</td></tr><tr><td><strong>architect (n., role)</strong></td><td>아키텍트(시스템 설계와 모든 변경을 통제하는 역할) · 사람이 유지해야 할 역할. "the human remaining the architect"</td></tr><tr><td><strong>spec</strong></td><td>스펙(구현 전에 범위를 명확히 적은 요구사항 문서) · AI에게 구현을 맡기기 전 사람이 주는 것. "a clear, scoped spec to implement"</td></tr><tr><td><strong>session replay</strong></td><td>세션 리플레이(사용자의 실제 화면 조작을 녹화해 재생하는 기능) · PostHog의 기능, 퍼널 대시보드보다 먼저 보는 것. "watched PostHog session replays"</td></tr><tr><td><strong>rage click</strong></td><td>분노 클릭(같은 요소를 반복해서 빠르게 클릭하는 행동, 막힘의 신호) · 세션 리플레이에서 찾는 핵심 패턴. "looking specifically for rage clicks"</td></tr><tr><td><strong>churn</strong></td><td>이탈률(가입·구독한 사용자가 떠나는 비율) · 온보딩 실패를 수치로 보여주는 지표. "churn above 30%"</td></tr><tr><td><strong>funnel</strong></td><td>퍼널(가입부터 결제까지 단계별 전환 흐름) · 세션 리플레이와 대비되는, 나중에 만든 지표 도구. "a funnel dashboard"</td></tr><tr><td><strong>hook</strong></td><td>후크(영상 도입부 몇 초 안에 시청자를 붙잡는 요소) · 콘텐츠 품질의 핵심 변수, 채점 루프에서 매번 교체하는 대상. "a strong first 5–10 second hook"</td></tr><tr><td><strong>B-roll</strong></td><td>보조 영상 소재(주 화면 위에 겹쳐 쓰는 배경·설명용 클립) · 자동 합성되는 편집 소재. "labeled B-roll and tier-list animations"</td></tr><tr><td><strong>closed loop</strong></td><td>폐루프(출력을 다시 입력으로 평가해 기준을 만족할 때까지 반복하는 구조) · Brand Brief + Post Grader의 작동 방식. "two Claude Skills working as a closed loop"</td></tr><tr><td><strong>rubric</strong></td><td>루브릭(채점 기준을 항목별로 나눈 평가표) · Post Grader가 점수를 매기는 기준. "curiosity, specificity, share-worthiness"</td></tr><tr><td><strong>STT</strong></td><td>Speech-to-Text(음성을 텍스트로 변환) · Whisper가 수행하는 작업. "local Whisper for transcription"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-wef-top-10-emerging-tech-2026.html">&larr; 117. WEF&#39;s Top 10 Emerging Technologies 2026 — a five-year mainstream bet, and two lines Jayverse can act on now</a><a href="pocs-claude-for-cfos-verify-not-summarize.html">119. Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="blotato-solo-micro-saas-system";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

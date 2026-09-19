@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#119</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart</h1>
+      <p class="lead">Luke Finance, a YouTube channel covering AI use cases in finance, published a roughly 28-minute walkthrough called "Claude For CFOs: 3 INSANE Use Cases" (https://www.youtube.com/watch?v=araz7e2DzX8), running Claude on three CFO-office tasks against a demo company&#39;s financial documents. The video&#39;s real claim is a prompting philosophy, not a feature list: hand Claude a whole folder of documents instead of one file at a time, tell it to reconcile them rather than summarize any one of them, and force it to label every claim as either "proven by a file" or "inferred by me" (03:39, 03:57). Across a monthly financial review, a $25M capacity-expansion request, and a 13-week liquidity forecast, the same move repeats: Claude cross-reads documents an executive never puts side by side, and the gap between them is where the real finding sits.</p>
+      <p class="meta">For Jayverse this is not about finance software — it is a template for how the Auditor should be run and how a "reading" in Number should be produced: don&#39;t ask a model to summarize one artifact, ask it to reconcile several and state which of its conclusions are proven versus inferred.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart\n\nLuke Finance, a YouTube channel covering AI use cases in finance, published a roughly 28-minute walkthrough called \"Claude For CFOs: 3 INSANE Use Cases\" (https://www.youtube.com/watch?v=araz7e2DzX8), running Claude on three CFO-office tasks against a demo company's financial documents. The video's real claim is a prompting philosophy, not a feature list: hand Claude a whole folder of documents instead of one file at a time, tell it to reconcile them rather than summarize any one of them, and force it to label every claim as either \"proven by a file\" or \"inferred by me\" (03:39, 03:57). Across a monthly financial review, a $25M capacity-expansion request, and a 13-week liquidity forecast, the same move repeats: Claude cross-reads documents an executive never puts side by side, and the gap between them is where the real finding sits.\n\nFor Jayverse this is not about finance software — it is a template for how the Auditor should be run and how a \"reading\" in Number should be produced: don't ask a model to summarize one artifact, ask it to reconcile several and state which of its conclusions are proven versus inferred.\n\n## Why\n\nA single-file summary can only restate what is in that file; it cannot catch the thing that is true in one document and false in another. The video's structural point is that the useful failure mode for an LLM in a finance role is not \"wrong number\" — it is \"plausible number that contradicts a different document nobody cross-read.\" A monthly P&L looks fine in isolation; a factory KPI pack looks fine in isolation; only reading both against the strategy document's trigger thresholds surfaces the margin problem (14:33). The same applies to a capex request: the request's own NPV model looks internally consistent until it is checked against a constraint the requester's own strategy document states elsewhere. This is why the video insists a multi-step cross-analysis needs an Opus-class model (07:08, 07:23) — the task is not compressing text, it is holding several documents' claims in tension and finding where they disagree.\n\n## How it works\n\n### Four prompt rules, one philosophy\n\nThe video states these as a reusable pattern, independent of the three demos:\n- **Folder, not files.** Upload the whole set of documents together so the model can find inconsistencies and hidden mechanisms across them, not summarize each in isolation (03:39, 03:48).\n- **The prompt defines the nature of the work, not the output shape.** Telling Claude \"write a report\" gets a report; telling it \"reconcile these and tell me what doesn't add up\" gets an audit (03:57).\n- **Separate proven from inferred.** Every claim in the output should be labeled as either directly supported by a file or reasoned by the model from what the files imply (04:25).\n- **Don't accept management's framing.** The prompt explicitly tells Claude to challenge the executive's stated assumptions rather than work inside them (14:33).\n\n### Case 1 — the monthly review finds a margin leak the P&L alone would not show\n\nFour inputs: May ERP actuals by segment (revenue and cost), a factory KPI pack (utilization, defect rate, unit cost, plant-manager commentary), the prior month's CFO report with its open issues, and the 2026 CFO strategy document with its action-trigger thresholds (02:18–02:54). Reading them together, Claude found consolidated gross margin down 348 basis points versus budget; the Monterrey plant's April problem had genuinely improved but not enough to offset the overall decline (07:37, 07:46); and unit raw-material cost had risen faster than the price increases meant to cover it, meaning the order backlog was growing while margin on that same backlog was eroding (07:30, 12:05). A chart, built with a Higgsfield MCP tool server, put the diverging backlog-up / margin-down lines on one image for the report cover (05:05, 08:42). The resulting actions: reprice the backlog before it ships, gate new orders on margin rather than volume, and don't let anyone declare Monterrey \"fixed\" (12:21, 12:29).\n\n### Case 2 — rebuilding someone else's NPV instead of trusting it\n\nOperations requested a $25M line expansion at the Dayton plant, citing 91.7% utilization and rising order volume, backed by their own model showing NPV $14.4M and IRR 17.5% (13:14–15:32). Claude rebuilt the model from the same source documents and got NPV −$2.3M, IRR 8.5% (15:24, 15:46). The gap came from checking the request's assumptions against the company's own other documents: the strategy doc states a sustainable utilization ceiling of 90%, but the capex model assumed 100% (16:06); stabilization was documented elsewhere as taking over a year, but the model assumed three months (16:15); and the model priced in an 8% premium with no signed contracts behind it (16:21). Most tellingly, six of the seven value drivers in the request were price and cost assumptions, not volume — meaning this was never a capacity problem, it was a pricing-and-cost-spread problem dressed up as one (16:41, 16:50). The recommendation was not a flat no: stage it. Approve only the $1.18M for site work and design to preserve the option, and freeze the remaining $23.82M until long-term fixed-price supply contracts are actually signed (17:27, 19:03).\n\n### Case 3 — the bottleneck was the revolver, not the cash\n\nInputs were end-of-May cash and debt balances, AR aging and collection schedule, AP payment schedule, and payroll/tax/debt-service schedule (20:23, 20:49). Treasury had reported $66.58M of available liquidity, but the revolving credit facility's limit is $60M — collateral value above that does not matter, the facility caps the draw regardless (22:06). That one check found a $6.58M overstatement and forced a recalculation of the true limit (22:14, 22:25). Under stress, week 11's payroll collides with a capital call and breaches the $15M minimum-liquidity covenant; by week 13 the revolver is essentially at its floor (23:52, 24:21, 24:37). The bottleneck is not operating cash flow, it is revolver headroom, down to roughly $123K at the tightest point (24:37, 26:02). The forecast also states its own limits in writing: second-half new business is not reflected, term-loan interest is missing, and anything past week 6 should not be used for a decision without rebuilding the model first (26:38, 26:51).\n\n### Where it lands in Jayverse\n\n- **Auditor: \"prove versus infer\" becomes a required line.** Every Auditor entry should state which findings are directly supported by the source it read and which are the Auditor's own inference from them — the same separation the CFO prompt enforces, applied to our own checks.\n- **Verex: run the monthly reconciliation, and a 13-week liquidity view, on the market maker.** A monthly review that reconciles CLOB fill exports, fee revenue and market-maker P&L across their separate sources is case 1's shape; a liquidity-style rolling forecast of the market maker's inventory and margin headroom is case 3's shape, with the same instruction to flag any period past its confidence window instead of pretending it is reliable.\n- **Invest: rebuild the NPV instead of reading it.** Case 2 is a template for the \"which value drivers are price versus volume\" test on any investment pitch, and for treating a reading as reconstructing someone else's number from the same inputs, not summarizing their conclusion.\n- **Dark Horse: the strategy document with thresholds is the boundary file.** For any finance-adjacent agent we build, the document that states the constraints (utilization ceilings, minimum covenants, action triggers) is the boundary file the agent must be given and checked against, not just background reading.\n\n### Verified and unverified\n\nVerified on 2026-09-19: NPV, IRR, revolving-credit-facility limits, minimum-liquidity covenants and 13-week cash-flow forecasts are standard corporate-finance tools in real use; Claude supports uploading a folder or multiple files as shared context and can call MCP tool servers during a session; instructing a model to separate what a source document proves from what it infers is a recognized prompting technique, not specific to this video. Taken from the video and not independently checked: all company figures (this is a demo dataset built for the walkthrough and reads as synthetic rather than a real company's books), the \"Higgsfield MCP\" tool's specific capabilities, the exact model name/tier used, and every timestamp cited above. Sources: [YouTube — Luke Finance, \"Claude For CFOs: 3 INSANE Use Cases\"](https://www.youtube.com/watch?v=araz7e2DzX8) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #102 (MLflow — evaluation), Tech #98 (Shopify: operating income), the ontology item `agentic-systems-need-ontologies` (validators), Invest `mit-financial-markets-terms-edge`.\n"</script>
+<h2>Why</h2>
+<p>A single-file summary can only restate what is in that file; it cannot catch the thing that is true in one document and false in another. The video&#39;s structural point is that the useful failure mode for an LLM in a finance role is not "wrong number" — it is "plausible number that contradicts a different document nobody cross-read." A monthly P&amp;L looks fine in isolation; a factory KPI pack looks fine in isolation; only reading both against the strategy document&#39;s trigger thresholds surfaces the margin problem (14:33). The same applies to a capex request: the request&#39;s own NPV model looks internally consistent until it is checked against a constraint the requester&#39;s own strategy document states elsewhere. This is why the video insists a multi-step cross-analysis needs an Opus-class model (07:08, 07:23) — the task is not compressing text, it is holding several documents&#39; claims in tension and finding where they disagree.</p>
+<h2>How it works</h2>
+<h3>Four prompt rules, one philosophy</h3>
+<p>The video states these as a reusable pattern, independent of the three demos:</p>
+<ul><li><strong>Folder, not files.</strong> Upload the whole set of documents together so the model can find inconsistencies and hidden mechanisms across them, not summarize each in isolation (03:39, 03:48).</li><li><strong>The prompt defines the nature of the work, not the output shape.</strong> Telling Claude "write a report" gets a report; telling it "reconcile these and tell me what doesn&#39;t add up" gets an audit (03:57).</li><li><strong>Separate proven from inferred.</strong> Every claim in the output should be labeled as either directly supported by a file or reasoned by the model from what the files imply (04:25).</li><li><strong>Don&#39;t accept management&#39;s framing.</strong> The prompt explicitly tells Claude to challenge the executive&#39;s stated assumptions rather than work inside them (14:33).</li></ul>
+<h3>Case 1 — the monthly review finds a margin leak the P&amp;L alone would not show</h3>
+<p>Four inputs: May ERP actuals by segment (revenue and cost), a factory KPI pack (utilization, defect rate, unit cost, plant-manager commentary), the prior month&#39;s CFO report with its open issues, and the 2026 CFO strategy document with its action-trigger thresholds (02:18–02:54). Reading them together, Claude found consolidated gross margin down 348 basis points versus budget; the Monterrey plant&#39;s April problem had genuinely improved but not enough to offset the overall decline (07:37, 07:46); and unit raw-material cost had risen faster than the price increases meant to cover it, meaning the order backlog was growing while margin on that same backlog was eroding (07:30, 12:05). A chart, built with a Higgsfield MCP tool server, put the diverging backlog-up / margin-down lines on one image for the report cover (05:05, 08:42). The resulting actions: reprice the backlog before it ships, gate new orders on margin rather than volume, and don&#39;t let anyone declare Monterrey "fixed" (12:21, 12:29).</p>
+<h3>Case 2 — rebuilding someone else&#39;s NPV instead of trusting it</h3>
+<p>Operations requested a $25M line expansion at the Dayton plant, citing 91.7% utilization and rising order volume, backed by their own model showing NPV $14.4M and IRR 17.5% (13:14–15:32). Claude rebuilt the model from the same source documents and got NPV −$2.3M, IRR 8.5% (15:24, 15:46). The gap came from checking the request&#39;s assumptions against the company&#39;s own other documents: the strategy doc states a sustainable utilization ceiling of 90%, but the capex model assumed 100% (16:06); stabilization was documented elsewhere as taking over a year, but the model assumed three months (16:15); and the model priced in an 8% premium with no signed contracts behind it (16:21). Most tellingly, six of the seven value drivers in the request were price and cost assumptions, not volume — meaning this was never a capacity problem, it was a pricing-and-cost-spread problem dressed up as one (16:41, 16:50). The recommendation was not a flat no: stage it. Approve only the $1.18M for site work and design to preserve the option, and freeze the remaining $23.82M until long-term fixed-price supply contracts are actually signed (17:27, 19:03).</p>
+<h3>Case 3 — the bottleneck was the revolver, not the cash</h3>
+<p>Inputs were end-of-May cash and debt balances, AR aging and collection schedule, AP payment schedule, and payroll/tax/debt-service schedule (20:23, 20:49). Treasury had reported $66.58M of available liquidity, but the revolving credit facility&#39;s limit is $60M — collateral value above that does not matter, the facility caps the draw regardless (22:06). That one check found a $6.58M overstatement and forced a recalculation of the true limit (22:14, 22:25). Under stress, week 11&#39;s payroll collides with a capital call and breaches the $15M minimum-liquidity covenant; by week 13 the revolver is essentially at its floor (23:52, 24:21, 24:37). The bottleneck is not operating cash flow, it is revolver headroom, down to roughly $123K at the tightest point (24:37, 26:02). The forecast also states its own limits in writing: second-half new business is not reflected, term-loan interest is missing, and anything past week 6 should not be used for a decision without rebuilding the model first (26:38, 26:51).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: "prove versus infer" becomes a required line.</strong> Every Auditor entry should state which findings are directly supported by the source it read and which are the Auditor&#39;s own inference from them — the same separation the CFO prompt enforces, applied to our own checks.</li><li><strong>Verex: run the monthly reconciliation, and a 13-week liquidity view, on the market maker.</strong> A monthly review that reconciles CLOB fill exports, fee revenue and market-maker P&amp;L across their separate sources is case 1&#39;s shape; a liquidity-style rolling forecast of the market maker&#39;s inventory and margin headroom is case 3&#39;s shape, with the same instruction to flag any period past its confidence window instead of pretending it is reliable.</li><li><strong>Invest: rebuild the NPV instead of reading it.</strong> Case 2 is a template for the "which value drivers are price versus volume" test on any investment pitch, and for treating a reading as reconstructing someone else&#39;s number from the same inputs, not summarizing their conclusion.</li><li><strong>Dark Horse: the strategy document with thresholds is the boundary file.</strong> For any finance-adjacent agent we build, the document that states the constraints (utilization ceilings, minimum covenants, action triggers) is the boundary file the agent must be given and checked against, not just background reading.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: NPV, IRR, revolving-credit-facility limits, minimum-liquidity covenants and 13-week cash-flow forecasts are standard corporate-finance tools in real use; Claude supports uploading a folder or multiple files as shared context and can call MCP tool servers during a session; instructing a model to separate what a source document proves from what it infers is a recognized prompting technique, not specific to this video. Taken from the video and not independently checked: all company figures (this is a demo dataset built for the walkthrough and reads as synthetic rather than a real company&#39;s books), the "Higgsfield MCP" tool&#39;s specific capabilities, the exact model name/tier used, and every timestamp cited above. Sources: <a href="https://www.youtube.com/watch?v=araz7e2DzX8">YouTube — Luke Finance, "Claude For CFOs: 3 INSANE Use Cases"</a> · related items: Tech #62 (agentic engineering writes the boundaries), Tech #102 (MLflow — evaluation), Tech #98 (Shopify: operating income), the ontology item <code>agentic-systems-need-ontologies</code> (validators), Invest <code>mit-financial-markets-terms-edge</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>prove vs. infer</strong></td><td>증명된 것과 추론된 것의 분리(팩트와 모델의 판단을 구분해 표시) · 이 항목 전체의 핵심 규율. "label every claim as either proven by a file or inferred by me"</td></tr><tr><td><strong>folder, not files</strong></td><td>파일 하나씩이 아니라 폴더 통째로 준다 · 문서 간 불일치를 찾게 하는 프롬프트 규칙. "Folder, not files"</td></tr><tr><td><strong>cross-read(ing)</strong></td><td>교차로 읽기(여러 문서를 대조해서 읽음) · 요약과 대비되는 핵심 동작. "Claude cross-reads documents an executive never puts side by side"</td></tr><tr><td><strong>NPV (Net Present Value)</strong></td><td>순현재가치(미래 현금흐름을 현재가치로 할인해 합산한 값) · 투자 타당성 평가의 기본 지표. "NPV $14.4M"</td></tr><tr><td><strong>IRR (Internal Rate of Return)</strong></td><td>내부수익률(NPV를 0으로 만드는 할인율) · NPV와 짝을 이루는 투자 평가 지표. "IRR 17.5%"</td></tr><tr><td><strong>ASP (Average Selling Price)</strong></td><td>평균판매가 · 원가 상승분을 가격에 전가했는지 볼 때 쓰는 지표. "the price increases meant to cover it"</td></tr><tr><td><strong>bp (basis point)</strong></td><td>베이시스 포인트(1bp = 0.01%p) · 마진율 변화처럼 작은 변화를 정밀하게 말할 때. "down 348 basis points versus budget"</td></tr><tr><td><strong>ERP (Enterprise Resource Planning)</strong></td><td>전사자원관리 시스템(매출·원가 등 실적 데이터가 나오는 회사 기간 시스템) · 월간 실적 데이터의 출처. "May ERP actuals by segment"</td></tr><tr><td><strong>KPI (Key Performance Indicator)</strong></td><td>핵심성과지표 · 공장 가동률·불량률처럼 운영 성과를 추적하는 숫자. "a factory KPI pack"</td></tr><tr><td><strong>P&amp;L (Profit and Loss statement)</strong></td><td>손익계산서 · 매출·비용·이익을 보여주는 기본 재무제표. "the monthly P&amp;L looks fine in isolation"</td></tr><tr><td><strong>AR (Accounts Receivable)</strong></td><td>매출채권(아직 못 받은 매출 대금) · 유동성 예측의 현금 유입 쪽 입력. "AR aging and collection schedule"</td></tr><tr><td><strong>AP (Accounts Payable)</strong></td><td>매입채무(아직 안 낸 매입 대금) · 유동성 예측의 현금 유출 쪽 입력. "AP payment schedule"</td></tr><tr><td><strong>MCP (Model Context Protocol)</strong></td><td>모델이 외부 도구·서버를 호출하도록 연결하는 표준 프로토콜 · 이 영상에서 차트 생성에 쓰인 도구 서버 방식. "built with a Higgsfield MCP tool server"</td></tr><tr><td><strong>capex (capital expenditure)</strong></td><td>설비투자(공장 증설처럼 자산에 들어가는 지출) · 사례 2의 주제. "a $25M capacity-expansion request"</td></tr><tr><td><strong>revolver / RCF (revolving credit facility)</strong></td><td>리볼빙 신용한도(한도 내에서 자유롭게 빌리고 갚는 여신) · 담보가 있어도 한도 이상 못 빌리는 게 핵심. "the revolving credit facility&#39;s limit is $60M"</td></tr><tr><td><strong>covenant</strong></td><td>대출 약정 조건(위반 시 채무불이행 사유가 되는 조건) · 최소 유동성 약정처럼 반드시 지켜야 하는 선. "the $15M minimum-liquidity covenant"</td></tr><tr><td><strong>headroom</strong></td><td>여력(한도까지 남은 여유분) · 병목이 현금이 아니라 이것이었다는 사례 3의 핵심 표현. "revolver headroom, down to roughly $123K"</td></tr><tr><td><strong>backlog</strong></td><td>수주 잔고(아직 이행하지 않은 주문) · 늘어나도 마진이 나쁘면 위험 신호. "the order backlog was growing while margin on that same backlog was eroding"</td></tr><tr><td><strong>value driver</strong></td><td>가치 동인(NPV·IRR을 움직이는 개별 가정 변수) · 가격 변수인지 물량 변수인지 구분하는 테스트의 단위. "six of the seven value drivers ... were price and cost assumptions, not volume"</td></tr><tr><td><strong>boundary file</strong></td><td>경계 파일(에이전트가 반드시 대조 검증해야 하는, 제약을 명시한 문서) · Dark Horse 랜딩에서 쓴 표현. "the strategy document with thresholds is the boundary file"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# CFO를 위한 Claude — 규율은 더 멋진 차트가 아니라 팩트-대-추론 분리다\n\n금융 분야 AI 활용 사례를 다루는 YouTube 채널 Luke Finance가 약 28분짜리 영상 \"Claude For CFOs: 3 INSANE Use Cases\"(https://www.youtube.com/watch?v=araz7e2DzX8)를 올렸다. 데모 회사의 재무 문서를 놓고 Claude에게 CFO 사무실의 업무 세 가지를 맡기는 내용이다. 영상의 진짜 주장은 기능 목록이 아니라 프롬프트 철학이다. 파일을 하나씩 올리지 말고 문서 폴더를 통째로 준다, 문서 하나를 요약시키지 말고 서로 대조시켜 불일치를 찾게 한다, 그리고 출력의 모든 주장을 \"파일이 증명한 것\"과 \"내가 추론한 것\"으로 나눠 표시하게 강제한다(03:39, 03:57). 월간 재무 검토, 2,500만 달러 증설 요청, 13주 유동성 예측이라는 세 사례 모두에서 같은 동작이 반복된다. 경영진이 나란히 놓고 보지 않는 문서들을 Claude가 교차로 읽고, 그 사이의 간극에 진짜 발견이 있다.\n\nJayverse에서 이것은 재무 소프트웨어 이야기가 아니라 Auditor를 어떻게 운영해야 하는지, Number의 \"읽기\"를 어떻게 만들어야 하는지에 대한 템플릿이다. 모델에게 자료 하나를 요약시키지 말고 여러 개를 대조시켜, 어느 결론이 증명된 것이고 어느 것이 추론인지 말하게 하라.\n\n## 왜\n\n파일 하나만 놓고 요약하면 그 파일에 적힌 내용을 되풀이할 뿐, 한 문서에서는 맞고 다른 문서에서는 틀린 것을 잡아낼 수 없다. 영상의 구조적 핵심은 재무 역할을 맡은 LLM에서 정말 위험한 실패 유형이 \"틀린 숫자\"가 아니라 \"그럴듯하지만 아무도 대조해 보지 않은 다른 문서와 모순되는 숫자\"라는 점이다. 월간 손익계산서는 그것만 보면 괜찮아 보이고, 공장 KPI 팩도 그것만 보면 괜찮아 보인다. 둘을 전략 문서의 조치 트리거 임계값과 함께 읽어야만 마진 문제가 드러난다(14:33). 설비투자 요청도 마찬가지다. 요청 측 자체 NPV 모델은 그 자체로는 일관돼 보이지만, 요청자 자신의 전략 문서 다른 부분에 적힌 제약과 대조하면 무너진다. 영상이 다단계 교차 분석에는 Opus급 모델이 필요하다고 강조하는 이유가 여기 있다(07:08, 07:23). 이 작업은 텍스트를 압축하는 것이 아니라 여러 문서의 주장을 긴장 상태로 붙잡아 두고 어디서 서로 어긋나는지 찾는 일이기 때문이다.\n\n## 동작 방식\n\n### 프롬프트 네 가지 규칙, 철학은 하나\n\n영상은 세 데모와 별개로 이것을 재사용 가능한 패턴으로 제시한다.\n- **파일이 아니라 폴더.** 문서 전체를 한 번에 올려 모델이 문서 각각을 따로 요약하는 게 아니라 그 사이의 불일치와 숨은 메커니즘을 찾게 한다(03:39, 03:48).\n- **프롬프트는 출력 형태가 아니라 작업의 성격을 정의한다.** \"보고서를 써라\"라고 하면 보고서가 나오고, \"이것들을 대조해서 안 맞는 걸 말해라\"라고 하면 감사가 나온다(03:57).\n- **증명된 것과 추론된 것을 분리한다.** 출력의 모든 주장은 파일이 직접 뒷받침하는지, 아니면 모델이 파일이 암시하는 바에서 추론한 것인지 표시돼야 한다(04:25).\n- **경영진의 프레이밍을 그대로 받지 않는다.** 프롬프트는 Claude에게 경영진이 말한 가정 안에서 일하지 말고 그 가정을 비판하라고 명시적으로 지시한다(14:33).\n\n### 사례 1 — 월간 검토가 손익계산서만으로는 안 보이는 마진 누수를 찾다\n\n입력은 네 가지다. 부문별 5월 ERP 실적(매출·원가), 공장 KPI 팩(가동률, 불량률, 단위원가, 공장장 코멘터리), 오픈 이슈가 담긴 전월 CFO 보고서, 조치 트리거 임계값이 있는 2026 CFO 전략 문서(02:18–02:54). 이것들을 함께 읽은 Claude는 연결 매출총이익률이 예산 대비 348bp 하락했다는 것, 몬테레이 공장의 4월 문제는 실제로 개선됐지만 전체 하락을 막기엔 부족했다는 것(07:37, 07:46), 단위 원자재 비용이 이를 상쇄하려던 가격 인상보다 더 빠르게 올라 수주 잔고는 쌓이는데 같은 잔고의 마진은 갉아 먹히고 있었다는 것을 발견했다(07:30, 12:05). Higgsfield MCP 도구 서버로 만든 차트가 수주 잔고 상승선과 마진 하락선의 괴리를 보고서 표지 한 장에 담았다(05:05, 08:42). 결과 액션은 이렇다. 수주 잔고를 출하 전에 재가격하고, 신규 수주는 물량이 아니라 마진으로 게이트를 걸고, 누구도 몬테레이를 \"정상화됐다\"고 선언하지 못하게 한다(12:21, 12:29).\n\n### 사례 2 — 남의 NPV를 믿지 않고 다시 만들다\n\n운영팀은 가동률 91.7%와 늘어나는 수주량을 근거로 데이턴 공장 라인 증설 2,500만 달러를 요청했고, 자체 모델은 NPV 1,440만 달러, IRR 17.5%를 보여줬다(13:14–15:32). Claude는 같은 소스 문서로 모델을 재구축해 NPV −230만 달러, IRR 8.5%를 얻었다(15:24, 15:46). 그 간극은 요청의 가정을 회사 자신의 다른 문서와 대조한 데서 나왔다. 전략 문서는 지속 가능한 가동률 상한을 90%로 명시했지만 증설 모델은 100%를 가정했고(16:06), 안정화에 1년 넘게 걸린다고 다른 곳에 적혀 있었지만 모델은 3개월을 가정했으며(16:15), 확정 계약이 하나도 없는 상태에서 8% 프리미엄 가격을 반영했다(16:21). 가장 결정적인 것은 요청 안의 가치 동인 7개 중 6개가 물량이 아니라 가격·원가 가정이었다는 점이다. 즉 이것은 애초에 케파 문제가 아니라 가격-원가 스프레드 문제를 케파 문제로 포장한 것이었다(16:41, 16:50). 권고는 단순한 불허가 아니었다. 단계적으로 승인하라. 옵션을 유지하기 위한 부지·설계 비용 118만 달러만 먼저 승인하고, 나머지 2,382만 달러는 장기 고정가 공급 계약이 실제로 체결될 때까지 동결한다(17:27, 19:03).\n\n### 사례 3 — 병목은 현금이 아니라 리볼버였다\n\n입력은 5월 말 현금·부채 잔액, AR 연체 및 회수 일정, AP 지급 일정, 급여·세금·부채 상환 스케줄이다(20:23, 20:49). 트레저리는 가용 유동성을 6,658만 달러로 보고했지만, 리볼빙 신용한도 자체가 6,000만 달러다. 담보 가치가 그보다 높아도 소용없다. 한도가 인출을 그대로 막기 때문이다(22:06). 이 확인 하나로 658만 달러의 과대표시를 적발하고 실제 한도를 다시 계산했다(22:14, 22:25). 스트레스 시나리오에서는 11주 차 급여와 캐피털 콜이 겹치면서 최소 유동성 약정 1,500만 달러를 위반하고, 13주 차에는 리볼버가 사실상 바닥을 친다(23:52, 24:21, 24:37). 병목은 영업 현금흐름이 아니라 리볼버 여력이다. 가장 빠듯한 시점에는 약 12만 3천 달러까지 내려간다(24:37, 26:02). 예측은 스스로의 한계도 적어 놓았다. 하반기 신규 사업은 반영되지 않았고, 기간 대출 이자가 누락됐으며, 6주 차 이후 수치는 모델을 다시 만들지 않고는 의사결정에 쓰지 말라고 명시했다(26:38, 26:51).\n\n### Jayverse에서의 위치\n\n- **Auditor: \"증명 대 추론\"이 필수 항목이 된다.** Auditor의 모든 항목은 어느 발견이 읽은 소스가 직접 뒷받침하는 것이고 어느 것이 Auditor 자신의 추론인지 명시해야 한다. CFO 프롬프트가 강제하는 것과 같은 분리를 우리 자신의 검사에도 적용하는 것이다.\n- **Verex: 마켓 메이커에 월간 대조와 13주 유동성 뷰를 돌려라.** CLOB 체결 익스포트, 수수료 수익, 마켓 메이커 손익을 각자 다른 소스에서 대조하는 월간 검토는 사례 1의 형태이고, 마켓 메이커 재고와 마진 여력을 롤링으로 예측하는 유동성 스타일 뷰는 사례 3의 형태다. 신뢰 구간을 벗어난 구간은 믿을 만한 척하지 말고 그대로 표시하라는 지시도 함께 가져온다.\n- **Invest: NPV를 읽지 말고 다시 만들어라.** 사례 2는 어떤 투자 피치에든 적용할 \"가치 동인 중 어느 것이 가격이고 어느 것이 물량인가\" 테스트의 템플릿이고, 읽기를 상대의 결론을 요약하는 일이 아니라 같은 입력으로 상대의 숫자를 재구성하는 일로 다루라는 틀이다.\n- **Dark Horse: 임계값이 적힌 전략 문서가 경계 파일이다.** 재무와 맞닿은 어떤 에이전트를 만들든, 제약(가동률 상한, 최소 약정, 조치 트리거)을 명시한 문서는 배경 자료가 아니라 에이전트에게 반드시 주어지고 그것에 대조 검증되어야 하는 경계 파일이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: NPV, IRR, 리볼빙 신용한도, 최소 유동성 약정, 13주 현금흐름 예측은 실제로 쓰이는 표준 기업재무 도구다. Claude는 폴더나 여러 파일을 공유 컨텍스트로 업로드하는 것을 지원하고, 세션 중 MCP 도구 서버를 호출할 수 있다. 소스 문서가 증명하는 것과 모델이 추론한 것을 분리하라는 지시는 이 영상만의 것이 아니라 널리 알려진 프롬프팅 기법이다. 영상에서 가져왔고 독립적으로 확인하지 않은 것: 모든 회사 수치(이는 시연을 위해 만든 데모 데이터셋이며 실제 회사의 장부라기보다 합성 데이터로 보인다), \"Higgsfield MCP\" 도구의 구체적 기능, 사용된 정확한 모델명/등급, 위에 인용된 모든 타임스탬프.\n\n출처: [YouTube — Luke Finance, \"Claude For CFOs: 3 INSANE Use Cases\"](https://www.youtube.com/watch?v=araz7e2DzX8) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #102(MLflow — 평가), Tech #98(Shopify: 영업이익), 온톨로지 항목 `agentic-systems-need-ontologies`(검증자), Invest `mit-financial-markets-terms-edge`.\n"</script>
+      <h1>CFO를 위한 Claude — 규율은 더 멋진 차트가 아니라 팩트-대-추론 분리다</h1>
+      <p class="lead">금융 분야 AI 활용 사례를 다루는 YouTube 채널 Luke Finance가 약 28분짜리 영상 "Claude For CFOs: 3 INSANE Use Cases"(https://www.youtube.com/watch?v=araz7e2DzX8)를 올렸다. 데모 회사의 재무 문서를 놓고 Claude에게 CFO 사무실의 업무 세 가지를 맡기는 내용이다. 영상의 진짜 주장은 기능 목록이 아니라 프롬프트 철학이다. 파일을 하나씩 올리지 말고 문서 폴더를 통째로 준다, 문서 하나를 요약시키지 말고 서로 대조시켜 불일치를 찾게 한다, 그리고 출력의 모든 주장을 "파일이 증명한 것"과 "내가 추론한 것"으로 나눠 표시하게 강제한다(03:39, 03:57). 월간 재무 검토, 2,500만 달러 증설 요청, 13주 유동성 예측이라는 세 사례 모두에서 같은 동작이 반복된다. 경영진이 나란히 놓고 보지 않는 문서들을 Claude가 교차로 읽고, 그 사이의 간극에 진짜 발견이 있다.</p>
+      <p class="meta">Jayverse에서 이것은 재무 소프트웨어 이야기가 아니라 Auditor를 어떻게 운영해야 하는지, Number의 "읽기"를 어떻게 만들어야 하는지에 대한 템플릿이다. 모델에게 자료 하나를 요약시키지 말고 여러 개를 대조시켜, 어느 결론이 증명된 것이고 어느 것이 추론인지 말하게 하라.</p>
+<h2>왜</h2>
+<p>파일 하나만 놓고 요약하면 그 파일에 적힌 내용을 되풀이할 뿐, 한 문서에서는 맞고 다른 문서에서는 틀린 것을 잡아낼 수 없다. 영상의 구조적 핵심은 재무 역할을 맡은 LLM에서 정말 위험한 실패 유형이 "틀린 숫자"가 아니라 "그럴듯하지만 아무도 대조해 보지 않은 다른 문서와 모순되는 숫자"라는 점이다. 월간 손익계산서는 그것만 보면 괜찮아 보이고, 공장 KPI 팩도 그것만 보면 괜찮아 보인다. 둘을 전략 문서의 조치 트리거 임계값과 함께 읽어야만 마진 문제가 드러난다(14:33). 설비투자 요청도 마찬가지다. 요청 측 자체 NPV 모델은 그 자체로는 일관돼 보이지만, 요청자 자신의 전략 문서 다른 부분에 적힌 제약과 대조하면 무너진다. 영상이 다단계 교차 분석에는 Opus급 모델이 필요하다고 강조하는 이유가 여기 있다(07:08, 07:23). 이 작업은 텍스트를 압축하는 것이 아니라 여러 문서의 주장을 긴장 상태로 붙잡아 두고 어디서 서로 어긋나는지 찾는 일이기 때문이다.</p>
+<h2>동작 방식</h2>
+<h3>프롬프트 네 가지 규칙, 철학은 하나</h3>
+<p>영상은 세 데모와 별개로 이것을 재사용 가능한 패턴으로 제시한다.</p>
+<ul><li><strong>파일이 아니라 폴더.</strong> 문서 전체를 한 번에 올려 모델이 문서 각각을 따로 요약하는 게 아니라 그 사이의 불일치와 숨은 메커니즘을 찾게 한다(03:39, 03:48).</li><li><strong>프롬프트는 출력 형태가 아니라 작업의 성격을 정의한다.</strong> "보고서를 써라"라고 하면 보고서가 나오고, "이것들을 대조해서 안 맞는 걸 말해라"라고 하면 감사가 나온다(03:57).</li><li><strong>증명된 것과 추론된 것을 분리한다.</strong> 출력의 모든 주장은 파일이 직접 뒷받침하는지, 아니면 모델이 파일이 암시하는 바에서 추론한 것인지 표시돼야 한다(04:25).</li><li><strong>경영진의 프레이밍을 그대로 받지 않는다.</strong> 프롬프트는 Claude에게 경영진이 말한 가정 안에서 일하지 말고 그 가정을 비판하라고 명시적으로 지시한다(14:33).</li></ul>
+<h3>사례 1 — 월간 검토가 손익계산서만으로는 안 보이는 마진 누수를 찾다</h3>
+<p>입력은 네 가지다. 부문별 5월 ERP 실적(매출·원가), 공장 KPI 팩(가동률, 불량률, 단위원가, 공장장 코멘터리), 오픈 이슈가 담긴 전월 CFO 보고서, 조치 트리거 임계값이 있는 2026 CFO 전략 문서(02:18–02:54). 이것들을 함께 읽은 Claude는 연결 매출총이익률이 예산 대비 348bp 하락했다는 것, 몬테레이 공장의 4월 문제는 실제로 개선됐지만 전체 하락을 막기엔 부족했다는 것(07:37, 07:46), 단위 원자재 비용이 이를 상쇄하려던 가격 인상보다 더 빠르게 올라 수주 잔고는 쌓이는데 같은 잔고의 마진은 갉아 먹히고 있었다는 것을 발견했다(07:30, 12:05). Higgsfield MCP 도구 서버로 만든 차트가 수주 잔고 상승선과 마진 하락선의 괴리를 보고서 표지 한 장에 담았다(05:05, 08:42). 결과 액션은 이렇다. 수주 잔고를 출하 전에 재가격하고, 신규 수주는 물량이 아니라 마진으로 게이트를 걸고, 누구도 몬테레이를 "정상화됐다"고 선언하지 못하게 한다(12:21, 12:29).</p>
+<h3>사례 2 — 남의 NPV를 믿지 않고 다시 만들다</h3>
+<p>운영팀은 가동률 91.7%와 늘어나는 수주량을 근거로 데이턴 공장 라인 증설 2,500만 달러를 요청했고, 자체 모델은 NPV 1,440만 달러, IRR 17.5%를 보여줬다(13:14–15:32). Claude는 같은 소스 문서로 모델을 재구축해 NPV −230만 달러, IRR 8.5%를 얻었다(15:24, 15:46). 그 간극은 요청의 가정을 회사 자신의 다른 문서와 대조한 데서 나왔다. 전략 문서는 지속 가능한 가동률 상한을 90%로 명시했지만 증설 모델은 100%를 가정했고(16:06), 안정화에 1년 넘게 걸린다고 다른 곳에 적혀 있었지만 모델은 3개월을 가정했으며(16:15), 확정 계약이 하나도 없는 상태에서 8% 프리미엄 가격을 반영했다(16:21). 가장 결정적인 것은 요청 안의 가치 동인 7개 중 6개가 물량이 아니라 가격·원가 가정이었다는 점이다. 즉 이것은 애초에 케파 문제가 아니라 가격-원가 스프레드 문제를 케파 문제로 포장한 것이었다(16:41, 16:50). 권고는 단순한 불허가 아니었다. 단계적으로 승인하라. 옵션을 유지하기 위한 부지·설계 비용 118만 달러만 먼저 승인하고, 나머지 2,382만 달러는 장기 고정가 공급 계약이 실제로 체결될 때까지 동결한다(17:27, 19:03).</p>
+<h3>사례 3 — 병목은 현금이 아니라 리볼버였다</h3>
+<p>입력은 5월 말 현금·부채 잔액, AR 연체 및 회수 일정, AP 지급 일정, 급여·세금·부채 상환 스케줄이다(20:23, 20:49). 트레저리는 가용 유동성을 6,658만 달러로 보고했지만, 리볼빙 신용한도 자체가 6,000만 달러다. 담보 가치가 그보다 높아도 소용없다. 한도가 인출을 그대로 막기 때문이다(22:06). 이 확인 하나로 658만 달러의 과대표시를 적발하고 실제 한도를 다시 계산했다(22:14, 22:25). 스트레스 시나리오에서는 11주 차 급여와 캐피털 콜이 겹치면서 최소 유동성 약정 1,500만 달러를 위반하고, 13주 차에는 리볼버가 사실상 바닥을 친다(23:52, 24:21, 24:37). 병목은 영업 현금흐름이 아니라 리볼버 여력이다. 가장 빠듯한 시점에는 약 12만 3천 달러까지 내려간다(24:37, 26:02). 예측은 스스로의 한계도 적어 놓았다. 하반기 신규 사업은 반영되지 않았고, 기간 대출 이자가 누락됐으며, 6주 차 이후 수치는 모델을 다시 만들지 않고는 의사결정에 쓰지 말라고 명시했다(26:38, 26:51).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: "증명 대 추론"이 필수 항목이 된다.</strong> Auditor의 모든 항목은 어느 발견이 읽은 소스가 직접 뒷받침하는 것이고 어느 것이 Auditor 자신의 추론인지 명시해야 한다. CFO 프롬프트가 강제하는 것과 같은 분리를 우리 자신의 검사에도 적용하는 것이다.</li><li><strong>Verex: 마켓 메이커에 월간 대조와 13주 유동성 뷰를 돌려라.</strong> CLOB 체결 익스포트, 수수료 수익, 마켓 메이커 손익을 각자 다른 소스에서 대조하는 월간 검토는 사례 1의 형태이고, 마켓 메이커 재고와 마진 여력을 롤링으로 예측하는 유동성 스타일 뷰는 사례 3의 형태다. 신뢰 구간을 벗어난 구간은 믿을 만한 척하지 말고 그대로 표시하라는 지시도 함께 가져온다.</li><li><strong>Invest: NPV를 읽지 말고 다시 만들어라.</strong> 사례 2는 어떤 투자 피치에든 적용할 "가치 동인 중 어느 것이 가격이고 어느 것이 물량인가" 테스트의 템플릿이고, 읽기를 상대의 결론을 요약하는 일이 아니라 같은 입력으로 상대의 숫자를 재구성하는 일로 다루라는 틀이다.</li><li><strong>Dark Horse: 임계값이 적힌 전략 문서가 경계 파일이다.</strong> 재무와 맞닿은 어떤 에이전트를 만들든, 제약(가동률 상한, 최소 약정, 조치 트리거)을 명시한 문서는 배경 자료가 아니라 에이전트에게 반드시 주어지고 그것에 대조 검증되어야 하는 경계 파일이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: NPV, IRR, 리볼빙 신용한도, 최소 유동성 약정, 13주 현금흐름 예측은 실제로 쓰이는 표준 기업재무 도구다. Claude는 폴더나 여러 파일을 공유 컨텍스트로 업로드하는 것을 지원하고, 세션 중 MCP 도구 서버를 호출할 수 있다. 소스 문서가 증명하는 것과 모델이 추론한 것을 분리하라는 지시는 이 영상만의 것이 아니라 널리 알려진 프롬프팅 기법이다. 영상에서 가져왔고 독립적으로 확인하지 않은 것: 모든 회사 수치(이는 시연을 위해 만든 데모 데이터셋이며 실제 회사의 장부라기보다 합성 데이터로 보인다), "Higgsfield MCP" 도구의 구체적 기능, 사용된 정확한 모델명/등급, 위에 인용된 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=araz7e2DzX8">YouTube — Luke Finance, "Claude For CFOs: 3 INSANE Use Cases"</a> · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #102(MLflow — 평가), Tech #98(Shopify: 영업이익), 온톨로지 항목 <code>agentic-systems-need-ontologies</code>(검증자), Invest <code>mit-financial-markets-terms-edge</code>.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>prove vs. infer</strong></td><td>증명된 것과 추론된 것의 분리(팩트와 모델의 판단을 구분해 표시) · 이 항목 전체의 핵심 규율. "label every claim as either proven by a file or inferred by me"</td></tr><tr><td><strong>folder, not files</strong></td><td>파일 하나씩이 아니라 폴더 통째로 준다 · 문서 간 불일치를 찾게 하는 프롬프트 규칙. "Folder, not files"</td></tr><tr><td><strong>cross-read(ing)</strong></td><td>교차로 읽기(여러 문서를 대조해서 읽음) · 요약과 대비되는 핵심 동작. "Claude cross-reads documents an executive never puts side by side"</td></tr><tr><td><strong>NPV (Net Present Value)</strong></td><td>순현재가치(미래 현금흐름을 현재가치로 할인해 합산한 값) · 투자 타당성 평가의 기본 지표. "NPV $14.4M"</td></tr><tr><td><strong>IRR (Internal Rate of Return)</strong></td><td>내부수익률(NPV를 0으로 만드는 할인율) · NPV와 짝을 이루는 투자 평가 지표. "IRR 17.5%"</td></tr><tr><td><strong>ASP (Average Selling Price)</strong></td><td>평균판매가 · 원가 상승분을 가격에 전가했는지 볼 때 쓰는 지표. "the price increases meant to cover it"</td></tr><tr><td><strong>bp (basis point)</strong></td><td>베이시스 포인트(1bp = 0.01%p) · 마진율 변화처럼 작은 변화를 정밀하게 말할 때. "down 348 basis points versus budget"</td></tr><tr><td><strong>ERP (Enterprise Resource Planning)</strong></td><td>전사자원관리 시스템(매출·원가 등 실적 데이터가 나오는 회사 기간 시스템) · 월간 실적 데이터의 출처. "May ERP actuals by segment"</td></tr><tr><td><strong>KPI (Key Performance Indicator)</strong></td><td>핵심성과지표 · 공장 가동률·불량률처럼 운영 성과를 추적하는 숫자. "a factory KPI pack"</td></tr><tr><td><strong>P&amp;L (Profit and Loss statement)</strong></td><td>손익계산서 · 매출·비용·이익을 보여주는 기본 재무제표. "the monthly P&amp;L looks fine in isolation"</td></tr><tr><td><strong>AR (Accounts Receivable)</strong></td><td>매출채권(아직 못 받은 매출 대금) · 유동성 예측의 현금 유입 쪽 입력. "AR aging and collection schedule"</td></tr><tr><td><strong>AP (Accounts Payable)</strong></td><td>매입채무(아직 안 낸 매입 대금) · 유동성 예측의 현금 유출 쪽 입력. "AP payment schedule"</td></tr><tr><td><strong>MCP (Model Context Protocol)</strong></td><td>모델이 외부 도구·서버를 호출하도록 연결하는 표준 프로토콜 · 이 영상에서 차트 생성에 쓰인 도구 서버 방식. "built with a Higgsfield MCP tool server"</td></tr><tr><td><strong>capex (capital expenditure)</strong></td><td>설비투자(공장 증설처럼 자산에 들어가는 지출) · 사례 2의 주제. "a $25M capacity-expansion request"</td></tr><tr><td><strong>revolver / RCF (revolving credit facility)</strong></td><td>리볼빙 신용한도(한도 내에서 자유롭게 빌리고 갚는 여신) · 담보가 있어도 한도 이상 못 빌리는 게 핵심. "the revolving credit facility&#39;s limit is $60M"</td></tr><tr><td><strong>covenant</strong></td><td>대출 약정 조건(위반 시 채무불이행 사유가 되는 조건) · 최소 유동성 약정처럼 반드시 지켜야 하는 선. "the $15M minimum-liquidity covenant"</td></tr><tr><td><strong>headroom</strong></td><td>여력(한도까지 남은 여유분) · 병목이 현금이 아니라 이것이었다는 사례 3의 핵심 표현. "revolver headroom, down to roughly $123K"</td></tr><tr><td><strong>backlog</strong></td><td>수주 잔고(아직 이행하지 않은 주문) · 늘어나도 마진이 나쁘면 위험 신호. "the order backlog was growing while margin on that same backlog was eroding"</td></tr><tr><td><strong>value driver</strong></td><td>가치 동인(NPV·IRR을 움직이는 개별 가정 변수) · 가격 변수인지 물량 변수인지 구분하는 테스트의 단위. "six of the seven value drivers ... were price and cost assumptions, not volume"</td></tr><tr><td><strong>boundary file</strong></td><td>경계 파일(에이전트가 반드시 대조 검증해야 하는, 제약을 명시한 문서) · Dark Horse 랜딩에서 쓴 표현. "the strategy document with thresholds is the boundary file"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-blotato-solo-micro-saas-system.html">&larr; 118. Blotato&#39;s solo playbook — validate with a post, ship one feature, grade every draft before it goes out</a><a href="pocs-product-company-gap-mvs-slip.html">120. A working product isn&#39;t a scalable company — distribution and business model decide the rest &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="claude-for-cfos-verify-not-summarize";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

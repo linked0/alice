@@ -27,3 +27,51 @@ Source docs: `docs/topics/README.md` (rules: Key expressions, landing section, s
 
 - **Cause:** the one-conversation-per-day rule; today's items made tail latency the natural subject.
 - **Change:** `docs/topics/english/english-35.md` (Interview): a Berlin payments system-design interview where Jay rejects the mean, asks for p99 per region, names two hypotheses in check order (FIFO queue behind large payloads; a fixed-timeout retry), states the falsifying condition, and proposes p99 next to the mean on the dashboard; three techniques, eleven expressions. Built with `english-notes.py` (Eng 1/35).
+
+### Life 1304: Andrew Ng — tasks, not jobs
+
+- **Cause:** jay pasted the Andrew Ng briefing; it is about how to work, so Life rather than Tech.
+- **Change:** `add-tech-item.py --section mindset --type Talk` → Life 1304 `ng-tasks-not-jobs-context-advantage` (NEW): AI automates tasks, not jobs; what you offload you do not retain; domain context is the remaining edge.
+- **Result:** Life 0/5 at the time; Key expressions and landing section present.
+
+### Tech #103–#119: seventeen items from the evening's briefings
+
+- **Cause:** jay kept pasting YouTube briefings ("add this", "add that") and gave standing push permission ("You can push at your will").
+- **Reasoning:** all engineering or industry talks → Tech NEW, slots after the last NEW so they sit before the PLANNED block; drafted by parallel subagents from `scratchpad/ITEM-INSTRUCTIONS.md`, validated for headings, summary/meta blocks and ≥16 vocab rows; "Foundations" wording replaced by Theory on every new page.
+- **Change:** #103 twenty-one-bank dollar stablecoin venture · #104 Pocock: fundamentals matter more · #105 agentic systems need ontologies · #106 harness engineering, shift left · #107 GEN-1.5 one-shot physical prompting · #108 Obsidian three levels / LLM wiki · #109 code graph cuts agent context (Graft) · #110 Chelsea Finn, π0.7 · #111 Gemini Robotics 2 whole-body · #112 MLX local agentic AI on Mac · #113 LeCun world models / JEPA · #114 Vercel Eve filesystem agents · #115 Managed Agents build-vs-buy harness · #116 Tech With Tim local AI weights/quantization/engines · #117 WEF top 10 emerging tech 2026 · #118 Blotato solo micro-SaaS system · #119 Claude for CFOs: verify, not summarize. (Numbers as they stand after tonight's reorder.)
+- **Result:** Tech 61 done / 264 at the end of that batch; rail = card = kicker = nav verified.
+
+### Life 1305–1309 and Invest 815
+
+- **Change:** Life: 1305 systems thinking (Cynefin, DART) · 1306 research any topic like a PhD (Fraza) · 1307 Greene: the through line · 1308 Greene: reading leaves the prison · 1309 Djokovic: watch the loss. Invest 815 `mit-financial-markets-terms-edge` (`--tag Invest --type Lecture`).
+- **Result:** Life 0/10, Invest 0/16.
+
+### Tech #62 "Learning greed on a full calendar" — the most important item
+
+- **Cause:** jay: "add the most important thing. How can I fulfill my learning dream even though I have not much time… This one should be the most important thing in Tech section."
+- **Reasoning:** not one video but a synthesis of today's sources (Ng, Greene, Fraza, Djokovic, Karpathy's LLM wiki, Pocock): one through line decides depth (deep / converse / file bins), a fixed daily slot that ends in an artefact, three closing questions in the history file, replay the interval, let the system hold the index, accept the ratio in the rail. Written by hand (`learn-en/ko/vocab.md`).
+- **Change:** `--status important --slot 62` → Tech #62 `learning-greed-with-no-time`, first Important slot. To keep the ten-per-section cap, the previous tenth Important, `supported-means-three-things` (Anvil / testnet / wallet), was demoted to PLANNED; `reorder-by-status.py` moved it to #127 (first PLANNED).
+- **Result:** Tech Important = 10 again; the item's landing section proposes a `docs/topics/raw/` layer and a generated `index.md`.
+
+### Tech #120–#126, Invest 816, Theory 516: eight more briefings
+
+- **Cause:** jay's pastes continued ("add this", "add"); the Simonyan system-design video turned out to be the same curriculum as the freeCodeCamp course, so it was merged into one item as a second source instead of a duplicate.
+- **Change:** Tech #120 Harvard product-company gap (MVS, SLIP) · #121 system-design course (freeCodeCamp + Simonyan original; adds the "why system design in the AI era" framing to Why) · #122 microfactory: small task models, clutch, rollback · #123 YC pick one idea and go deep · #124 YC first users: search not persuasion, MEP · #125 XenoSphere the art of design: constraints, layers, interfaces, choice architecture · #126 OpenAI data agent demo, read sceptically (evidence panel: source, query, rows, window). Invest 816 Dalio economic machine / holy grail (`--tag Invest --type Lecture`). Theory 516 MIT decision theory: vNM, risk aversion (`--section fundamentals --tag Math --type Lecture`; sits after the ten Important).
+- **Result:** Tech 61/273, Invest 0/17, Theory 6/189.
+
+### Life 1310–1326: seventeen items on reading, thinking and the body
+
+- **Cause:** jay's book-list and psychology briefings, all about how to think, read and live → Life (`--section mindset --type Talk`).
+- **Change:** 1310 Fei-Fei Li agency / barbell / spatial · 1311 박혜진 ten books · 1312 정영수 ten books · 1313 subscribers' top novels · 1314 공백 foreign literature top 7 · 1315 락서 classics top 10 · 1316 황석영 read the classics · 1317 언어의 정원 roof–pillars–foundation summarising · 1318 Lacan RSI, desire, signifier · 1319 Herjavec: they buy you, be heard · 1320 Santos three rules, time affluence · 1321 Rometty resilience · 1322 Bremmer strategic thinking · 1323 Damour: emotions have a seat, not the vote · 1324 BBC dancing and cognitive reserve · 1325 Kotler flow on command · 1326 Lieberman exercise myths, healthspan. Health items (1–6) keep their own numbering.
+- **Result:** Life 0/27, overall 68/541 (13%).
+
+### Life 1327, Tech #127–#128: Tang, Nazarov, Amodei
+
+- **Change:** Life 1327 Mandy Tang: tell the truth, follow your gut, follow through (the producing half of #62) · Tech #127 Nazarov at the CFTC–SEC roundtable: tokenization and the US 60% equity share (oracle freshness as an Auditor invariant; Korea's ~2% share) · Tech #128 KBS on Amodei's "Pacing the Frontier": embedded evaluators, democratic then global coordination, the antitrust convener problem (written as a note on a news report, not on Anthropic's internal position). `supported-means-three-things` now #129 (first PLANNED).
+- **Result:** Tech 61/275, Life 0/28. Still drafting at push time: Ueda BOJ underlying inflation (Invest) and BBC reading rewires the brain (Life, jay: "today's last item") — next push.
+
+### Closing three lines (the new habit from #62)
+
+- **Learned:** a status change (Important → Planned) is two edits, the rail dot in `notes.html` and the `_nav.js` entry; `reorder-by-status.py` does the rest.
+- **Unclear:** whether the "raw layer" (`docs/topics/raw/`) should store jay's pasted briefings verbatim; not built yet.
+- **Next:** add the four in-flight items, then the `index.md` generator proposed in #62.

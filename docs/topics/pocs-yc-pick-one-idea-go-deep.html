@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pick one idea and go deep — the idea only appears after contact with reality, not before it — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Pick one idea and go deep — the idea only appears after contact with reality, not before it</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#123</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Pick one idea and go deep — the idea only appears after contact with reality, not before it</h1>
+      <p class="lead">YC partner John lays out, in an eleven-minute YouTube video titled "Pick One Idea and Go Deep," why founders waste months looking for the right starting point instead of finding it by starting. His claim: the idea itself is not something you can think your way to in advance; it only comes into focus once you are talking to customers and writing code against their feedback. Everything else in the talk — why running multiple ideas in parallel fails, what "founder-market fit" actually requires, and what makes an idea fit the current moment in AI — follows from that one premise.</p>
+      <p class="meta">For Jayverse this lands less as startup advice and more as a test of how jay allocates attention across five active services plus Devnet, Wallet, Number and Dark Horse: the video&#39;s argument is that spreading attention thin produces weak signal on all of them, while committing to one produces the kind of data that actually tells you whether to keep going.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Pick one idea and go deep — the idea only appears after contact with reality, not before it\n\nYC partner John lays out, in an eleven-minute YouTube video titled \"Pick One Idea and Go Deep,\" why founders waste months looking for the right starting point instead of finding it by starting. His claim: the idea itself is not something you can think your way to in advance; it only comes into focus once you are talking to customers and writing code against their feedback. Everything else in the talk — why running multiple ideas in parallel fails, what \"founder-market fit\" actually requires, and what makes an idea fit the current moment in AI — follows from that one premise.\n\nFor Jayverse this lands less as startup advice and more as a test of how jay allocates attention across five active services plus Devnet, Wallet, Number and Dark Horse: the video's argument is that spreading attention thin produces weak signal on all of them, while committing to one produces the kind of data that actually tells you whether to keep going.\n\n## Why\n\nThe cost of never starting isn't visible the way a bug or an outage is, so it's easy to underweight. John's point is that both of the delaying moves — waiting for a \"perfect\" idea, and waiting to accumulate years of domain experience before acting on one (01:26–02:14) — feel like due diligence but are actually stalling, because the only source of the information you're waiting for is contact with a real customer. Boom Supersonic's Blake Scholl is the counterexample: he came from ad tech at Amazon and Groupon, nowhere near supersonic aircraft, and built founder-market fit through curiosity and customer conversations rather than a résumé (01:26–02:14). Skipping this and jumping straight to \"go deep\" without understanding why shallow effort fails is the mistake the talk is built to prevent.\n\n## How it works\n\n### Two ways to overthink your way out of starting\n\nJohn names two specific overthinking errors, both flagged around 00:52. The first is \"I'll start once I find the perfect idea\" — but the idea is only revealed by contact with reality and customer feedback, not by more thinking in isolation (00:58–01:18). The second is a weaponized version of founder-market fit: \"I need ten years in the domain first.\" His answer is that curiosity plus a real run of customer conversations builds usable domain depth fast, and Blake Scholl's ad-tech-to-aerospace path is the evidence (01:26–02:14).\n\n### Why running several ideas at once produces bad data\n\nJuggling two or three ideas in parallel feels like hedging, but John argues it produces noisy, low-quality signal on every one of them (02:38–03:10): with attention split, it's hard to tell whether a lukewarm response means the idea is weak or means it only got a fifth of the week. The practical failure mode is dropping a genuinely good idea too early because its early signal looked weak, or dragging out a bad one because it never got a clean enough test to kill it.\n\n### Go deep: burn the boats\n\nThe fix is foreclosing the other options on purpose. John's phrase is \"burn the other boats\" — tell existing customers about a pivot, change the company name, email and website, rewrite the mission, and treat the new direction as a new skin rather than an experiment bolted onto the old one (03:23–03:54). GovDash is the example: five pivots, a rename each time, ending up as procurement specialists and, per the summary, raising a Series B (04:00–04:21) — the renames are what made each pivot a real commitment instead of a side branch of the same company.\n\n### Two tests for real depth\n\nJohn gives two concrete tests for whether you're actually deep in a problem rather than circling it (04:41). First: could you run the customer's business tomorrow morning — do you know their daily fires, whether a missed phone call is a top-five problem for them, and what a missed call costs them in dollars (04:48–05:14)? Second: could you teach a class as the world's foremost expert on this specific problem (05:21)? Neither test is answered by reading more; both require a tight loop of writing code and having customer conversations, not a hundred interviews conducted before writing a line of it (05:41–05:57).\n\n### Three properties of a good idea in the AI era\n\nJohn closes with three properties he looks for now (06:12). First, the idea should sit at the frontier model's edge — barely working today, and getting dramatically better with the next model release; understanding exactly where the current bottleneck is matters, because the tool you build yourself to work around that bottleneck can become the company, echoing Paul Graham's \"live in the future and build what's missing\" (06:19–06:48). Second, verticalize and sell the outcome, not the tool: generic SaaS tooling loses value as the cost of writing code falls toward zero, so the moat has to be trust, a regulatory license, or ownership of the outcome — \"be the insurer, be the bank.\" Corgi Insurance, a YC W24 company, is the example: it acquired a real insurance company during the batch specifically to own underwriting rather than sell software to insurers (06:54–07:57). Third, aim for the most ambitious version of the idea available, because the pain of building a modest version is often close to the pain of building a world-changing one — regulated healthcare and finance, a $10B legacy SaaS incumbent, or space robotics are the examples given (08:22–09:08). Even when the specific hypothesis fails, going deep leaves conviction-grade data instead of a shrug, and only founders who actually dig reach the real structural problem sitting underneath the obvious surface complaint (09:15–10:00). The closing frame is to maximize information gained per unit of time by running hard in one direction instead of sampling several (10:28–11:10).\n\n### Where it lands in Jayverse\n\n- **Verex / Auditor: \"sell the outcome, be the bank\" is a concrete instruction, not a slogan.** Don't sell Verex as audit or resolution tooling that others plug into their own markets; the defensible version is owning the verified settlement itself, the way Corgi owns underwriting instead of selling software to insurers.\n- **Auditor: the two depth tests double as a target-customer check.** Before writing another rule, John's tests apply directly — could jay run a resolution-consuming customer's business tomorrow morning, and is missing or wrong resolution data actually in their top five problems, at a known cost?\n- **Life: the same trap, applied to projects instead of study.** This is the sharpest version yet of the `learning-greed-with-no-time` item (Tech, Important) — jay's actual failure mode is closer to \"juggling several ideas\" across five-plus services than to picking the wrong one; the fix John proposes is the same one: pick a through-line and burn the other boats for a stretch, not add a sixth thing to sample.\n- **Eng: \"information per unit of time\" is a clean interview phrase.** It's a compact way to explain a prioritization decision — why one direction was chosen and pursued hard rather than three explored shallowly — without needing the startup framing around it.\n\n### Verified and unverified\n\nVerified on 2026-09-19: Blake Scholl's background in ad tech at Amazon and Groupon before founding Boom Supersonic is public and documented; GovDash and Corgi Insurance are real YC portfolio companies; Paul Graham's essay \"How to Get Startup Ideas\" (2012) contains the \"live in the future\" framing this talk echoes. Taken from the summary and not independently checked: the exact number of GovDash's pivots (five) and its Series B claim, the specific Corgi-acquires-an-insurer detail as described, and all timestamps. The talk's exact publication date and John's surname were not given in the source paste.\n\nSources: [YouTube — Y Combinator, \"Pick One Idea and Go Deep\"](https://www.youtube.com/watch?v=R56RJFZBasQ) (~11 min) · Paul Graham, [\"How to Get Startup Ideas\"](http://www.paulgraham.com/startupideas.html) (2012) · related items: the Harvard MVS/SLIP item (`product-company-gap-mvs-slip`, Tech), Sabrina's AI micro-SaaS system (`blotato-solo-micro-saas-system`, Tech), the Fei-Fei Li agency item (`feifei-li-agency-barbell-spatial`, Life), and `learning-greed-with-no-time` (Tech, Important).\n"</script>
+<h2>Why</h2>
+<p>The cost of never starting isn&#39;t visible the way a bug or an outage is, so it&#39;s easy to underweight. John&#39;s point is that both of the delaying moves — waiting for a "perfect" idea, and waiting to accumulate years of domain experience before acting on one (01:26–02:14) — feel like due diligence but are actually stalling, because the only source of the information you&#39;re waiting for is contact with a real customer. Boom Supersonic&#39;s Blake Scholl is the counterexample: he came from ad tech at Amazon and Groupon, nowhere near supersonic aircraft, and built founder-market fit through curiosity and customer conversations rather than a résumé (01:26–02:14). Skipping this and jumping straight to "go deep" without understanding why shallow effort fails is the mistake the talk is built to prevent.</p>
+<h2>How it works</h2>
+<h3>Two ways to overthink your way out of starting</h3>
+<p>John names two specific overthinking errors, both flagged around 00:52. The first is "I&#39;ll start once I find the perfect idea" — but the idea is only revealed by contact with reality and customer feedback, not by more thinking in isolation (00:58–01:18). The second is a weaponized version of founder-market fit: "I need ten years in the domain first." His answer is that curiosity plus a real run of customer conversations builds usable domain depth fast, and Blake Scholl&#39;s ad-tech-to-aerospace path is the evidence (01:26–02:14).</p>
+<h3>Why running several ideas at once produces bad data</h3>
+<p>Juggling two or three ideas in parallel feels like hedging, but John argues it produces noisy, low-quality signal on every one of them (02:38–03:10): with attention split, it&#39;s hard to tell whether a lukewarm response means the idea is weak or means it only got a fifth of the week. The practical failure mode is dropping a genuinely good idea too early because its early signal looked weak, or dragging out a bad one because it never got a clean enough test to kill it.</p>
+<h3>Go deep: burn the boats</h3>
+<p>The fix is foreclosing the other options on purpose. John&#39;s phrase is "burn the other boats" — tell existing customers about a pivot, change the company name, email and website, rewrite the mission, and treat the new direction as a new skin rather than an experiment bolted onto the old one (03:23–03:54). GovDash is the example: five pivots, a rename each time, ending up as procurement specialists and, per the summary, raising a Series B (04:00–04:21) — the renames are what made each pivot a real commitment instead of a side branch of the same company.</p>
+<h3>Two tests for real depth</h3>
+<p>John gives two concrete tests for whether you&#39;re actually deep in a problem rather than circling it (04:41). First: could you run the customer&#39;s business tomorrow morning — do you know their daily fires, whether a missed phone call is a top-five problem for them, and what a missed call costs them in dollars (04:48–05:14)? Second: could you teach a class as the world&#39;s foremost expert on this specific problem (05:21)? Neither test is answered by reading more; both require a tight loop of writing code and having customer conversations, not a hundred interviews conducted before writing a line of it (05:41–05:57).</p>
+<h3>Three properties of a good idea in the AI era</h3>
+<p>John closes with three properties he looks for now (06:12). First, the idea should sit at the frontier model&#39;s edge — barely working today, and getting dramatically better with the next model release; understanding exactly where the current bottleneck is matters, because the tool you build yourself to work around that bottleneck can become the company, echoing Paul Graham&#39;s "live in the future and build what&#39;s missing" (06:19–06:48). Second, verticalize and sell the outcome, not the tool: generic SaaS tooling loses value as the cost of writing code falls toward zero, so the moat has to be trust, a regulatory license, or ownership of the outcome — "be the insurer, be the bank." Corgi Insurance, a YC W24 company, is the example: it acquired a real insurance company during the batch specifically to own underwriting rather than sell software to insurers (06:54–07:57). Third, aim for the most ambitious version of the idea available, because the pain of building a modest version is often close to the pain of building a world-changing one — regulated healthcare and finance, a $10B legacy SaaS incumbent, or space robotics are the examples given (08:22–09:08). Even when the specific hypothesis fails, going deep leaves conviction-grade data instead of a shrug, and only founders who actually dig reach the real structural problem sitting underneath the obvious surface complaint (09:15–10:00). The closing frame is to maximize information gained per unit of time by running hard in one direction instead of sampling several (10:28–11:10).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Verex / Auditor: "sell the outcome, be the bank" is a concrete instruction, not a slogan.</strong> Don&#39;t sell Verex as audit or resolution tooling that others plug into their own markets; the defensible version is owning the verified settlement itself, the way Corgi owns underwriting instead of selling software to insurers.</li><li><strong>Auditor: the two depth tests double as a target-customer check.</strong> Before writing another rule, John&#39;s tests apply directly — could jay run a resolution-consuming customer&#39;s business tomorrow morning, and is missing or wrong resolution data actually in their top five problems, at a known cost?</li><li><strong>Life: the same trap, applied to projects instead of study.</strong> This is the sharpest version yet of the <code>learning-greed-with-no-time</code> item (Tech, Important) — jay&#39;s actual failure mode is closer to "juggling several ideas" across five-plus services than to picking the wrong one; the fix John proposes is the same one: pick a through-line and burn the other boats for a stretch, not add a sixth thing to sample.</li><li><strong>Eng: "information per unit of time" is a clean interview phrase.</strong> It&#39;s a compact way to explain a prioritization decision — why one direction was chosen and pursued hard rather than three explored shallowly — without needing the startup framing around it.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: Blake Scholl&#39;s background in ad tech at Amazon and Groupon before founding Boom Supersonic is public and documented; GovDash and Corgi Insurance are real YC portfolio companies; Paul Graham&#39;s essay "How to Get Startup Ideas" (2012) contains the "live in the future" framing this talk echoes. Taken from the summary and not independently checked: the exact number of GovDash&#39;s pivots (five) and its Series B claim, the specific Corgi-acquires-an-insurer detail as described, and all timestamps. The talk&#39;s exact publication date and John&#39;s surname were not given in the source paste.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=R56RJFZBasQ">YouTube — Y Combinator, "Pick One Idea and Go Deep"</a> (~11 min) · Paul Graham, <a href="http://www.paulgraham.com/startupideas.html">"How to Get Startup Ideas"</a> (2012) · related items: the Harvard MVS/SLIP item (<code>product-company-gap-mvs-slip</code>, Tech), Sabrina&#39;s AI micro-SaaS system (<code>blotato-solo-micro-saas-system</code>, Tech), the Fei-Fei Li agency item (<code>feifei-li-agency-barbell-spatial</code>, Life), and <code>learning-greed-with-no-time</code> (Tech, Important).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>go deep</strong></td><td>깊이 판다(한 문제·아이디어에 집중해 파고들다) · 이 영상의 핵심 명령. "Pick One Idea and Go Deep"</td></tr><tr><td><strong>burn the (other) boats</strong></td><td>다른 배를 불태우다(퇴로를 스스로 끊다) · 다른 선택지를 일부러 봉쇄하는 결단을 부르는 관용구. "burn the other boats"</td></tr><tr><td><strong>founder-market fit</strong></td><td>창업자-시장 적합성(창업자가 그 문제·시장에 맞는 이유) · 창업 평가의 핵심 축. "weaponised founder-market fit"</td></tr><tr><td><strong>weaponize (v.)</strong></td><td>무기화하다(원래 좋은 개념을 핑계·회피 도구로 오용하다) · 여기서는 도메인 경험 요구를 미루는 핑계로 쓰는 것. "a weaponized version of founder-market fit"</td></tr><tr><td><strong>contact with reality</strong></td><td>현실과의 접촉(생각이 아니라 실제 고객·시장과 부딪히는 경험) · 아이디어가 드러나는 유일한 경로로 제시됨. "revealed by contact with reality"</td></tr><tr><td><strong>frontier model</strong></td><td>프런티어 모델(현재 가장 앞선 세대의 AI 모델) · 좋은 AI 시대 아이디어의 첫 조건. "sits at the frontier model&#39;s edge"</td></tr><tr><td><strong>live in the future</strong></td><td>미래에 산다(먼저 도착해서 아직 없는 것을 알아채는 자세) · 폴 그레이엄의 유명한 표현. "live in the future and build what&#39;s missing"</td></tr><tr><td><strong>verticalize (v.)</strong></td><td>수직화하다(범용 도구 대신 특정 업종에 맞춘 전체 솔루션을 만들다) · 세 조건 중 두 번째. "verticalise and sell the outcome"</td></tr><tr><td><strong>sell the outcome</strong></td><td>결과물을 판다(도구가 아니라 최종 성과·책임 자체를 판매) · 수직화 전략의 핵심 문구. "sell the outcome, be the bank"</td></tr><tr><td><strong>be the bank / be the insurer</strong></td><td>은행이 되어라 / 보험사가 되어라 · 소프트웨어 판매자가 아니라 리스크를 직접 지는 당사자가 되라는 은유. "be the insurer, be the bank"</td></tr><tr><td><strong>moat</strong></td><td>해자(경쟁자가 넘기 어려운 방어 장벽) · 여기서는 신뢰·라이선스·결과물 소유. "the moat has to be trust"</td></tr><tr><td><strong>regulatory license</strong></td><td>규제 라이선스(정부·규제기관이 발급하는 영업 허가) · 소프트웨어만으로는 못 만드는 방어력의 원천. "a regulatory licence, or ownership of the outcome"</td></tr><tr><td><strong>conviction-grade data</strong></td><td>확신 등급의 데이터(가설이 틀려도 다음 결정을 뒷받침할 만큼 단단한 데이터) · 얕은 시도로는 못 얻는 것. "conviction-grade data instead of a shrug"</td></tr><tr><td><strong>structural problem</strong></td><td>구조적 문제(표면 불만 아래 있는 근본 원인) · 깊이 파야만 도달하는 층. "the real structural problem sitting underneath"</td></tr><tr><td><strong>information per unit of time</strong></td><td>시간당 정보량 · 여러 방향을 얕게 보는 대신 한 방향으로 밀어붙일 때 얻는 것을 최대화하라는 마무리 프레임. "maximise information gained per unit of time"</td></tr><tr><td><strong>through-line</strong></td><td>관통선(여러 활동을 하나로 꿰는 일관된 줄기) · jay의 다섯-플러스 서비스 사이 우선순위를 가리킬 때 씀. "pick a through-line"</td></tr><tr><td><strong>SaaS</strong></td><td>Software as a Service(구독형으로 제공되는 소프트웨어) · 범용 툴의 대표 형태, 코드 비용이 낮아질수록 가치가 줄어드는 대상. "generic SaaS tooling loses value"</td></tr><tr><td><strong>YC</strong></td><td>Y Combinator(스타트업 액셀러레이터) · 이 영상을 만든 조직이자 GovDash·Corgi의 투자자. "a YC W24 company"</td></tr><tr><td><strong>W24</strong></td><td>Winter 2024(YC의 2024년 겨울 배치 기수) · YC 배치를 가리키는 표준 표기. "Corgi Insurance, a YC W24 company"</td></tr><tr><td><strong>top-five problem</strong></td><td>상위 5개 문제(고객이 실제로 가장 신경 쓰는 문제 목록 안에 드는가) · 깊이 테스트에서 쓰는 구체적 기준. "a top-five problem for them"</td></tr><tr><td><strong>tight loop</strong></td><td>촘촘한 루프(짧은 주기로 반복되는 작업 흐름) · 코드 작성과 고객 대화를 번갈아 빠르게 반복하는 방식. "a tight loop of writing code and having customer conversations"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 한 가지 아이디어를 골라 깊이 판다 — 아이디어는 현실과 부딪힌 뒤에야 드러난다, 그 전이 아니라\n\nY Combinator 파트너 존(John)이 \"Pick One Idea and Go Deep\"이라는 11분짜리 YouTube 영상에서, 창업자들이 왜 시작 대신 '올바른 시작점 찾기'에 몇 달을 낭비하는지 설명한다. 그의 주장은 이렇다. 아이디어 자체는 미리 생각만으로 도달할 수 있는 것이 아니고, 고객과 대화하고 그 피드백에 맞춰 코드를 쓸 때에야 비로소 또렷해진다. 강연의 나머지 내용 — 왜 여러 아이디어를 동시에 굴리면 실패하는지, '창업자-시장 적합성(founder-market fit)'이 실제로 무엇을 요구하는지, AI 시대에 지금 순간에 맞는 아이디어는 무엇인지 — 은 모두 이 전제 하나에서 나온다.\n\nJayverse에서 이것은 창업 조언이라기보다, jay가 다섯 개 서비스에 데브넷·월렛·Number·Dark Horse까지 얹어 주의를 어떻게 배분하는지에 대한 테스트로 읽힌다. 영상의 주장은 주의를 얇게 펴면 전부에서 약한 신호만 나오고, 하나에 전념해야 계속할지 말지를 실제로 알려 주는 데이터가 나온다는 것이다.\n\n## 왜\n\n시작하지 않는 데 드는 비용은 버그나 장애처럼 눈에 보이지 않아서 과소평가하기 쉽다. 존의 핵심은, '완벽한' 아이디어를 기다리는 것과 어떤 아이디어에 뛰어들기 전에 도메인 경험을 몇 년 쌓아 두려는 것(01:26–02:14) 둘 다 실사(due diligence)처럼 느껴지지만 사실은 지연일 뿐이라는 점이다. 기다리는 정보의 유일한 원천은 실제 고객과의 접촉이기 때문이다. Boom Supersonic의 블레이크 숄(Blake Scholl)이 반례다. 그는 초음속 항공기와 무관한 아마존·Groupon의 애드테크 출신이었고, 이력서가 아니라 호기심과 고객 대화로 창업자-시장 적합성을 만들었다(01:26–02:14). 이 대목을 건너뛰고 왜 얕은 노력이 실패하는지 이해하지 못한 채 바로 \"깊이 파라\"로 넘어가는 것이야말로 이 강연이 막으려는 실수다.\n\n## 동작 방식\n\n### 시작을 미루는 두 가지 과잉 사고\n\n존은 00:52 부근에서 구체적인 과잉 사고 오류 두 가지를 짚는다. 첫째는 \"완벽한 아이디어를 찾으면 그때 시작하겠다\"인데, 아이디어는 고립된 상태의 더 많은 생각이 아니라 현실과의 접촉, 고객 피드백을 통해서만 드러난다(00:58–01:18). 둘째는 창업자-시장 적합성을 무기화한 버전으로 \"이 도메인에서 10년은 있어야 한다\"는 것이다. 그의 답은, 호기심에 실제 고객 대화를 더하면 쓸 만한 도메인 깊이가 빠르게 쌓인다는 것이고, 블레이크 숄의 애드테크에서 항공우주로의 경로가 그 증거다(01:26–02:14).\n\n### 동시에 여러 아이디어를 굴리면 데이터가 나빠지는 이유\n\n아이디어 두세 개를 동시에 굴리는 것은 헤지처럼 느껴지지만, 존은 이것이 모든 아이디어에서 잡음 섞인 저품질 신호를 만든다고 주장한다(02:38–03:10). 주의가 나뉘면 미온적인 반응이 아이디어가 약해서인지, 그저 한 주의 5분의 1만 받아서인지 구분하기 어렵다. 실제로 일어나는 실패는, 초기 신호가 약해 보인다는 이유로 진짜 좋은 아이디어를 너무 일찍 버리거나, 죽일 만큼 깨끗한 테스트를 받아 본 적이 없어서 나쁜 아이디어를 질질 끄는 것이다.\n\n### 깊이 파기: 배를 불태운다\n\n해법은 다른 선택지들을 일부러 봉쇄하는 것이다. 존의 표현은 \"다른 배를 불태워라(burn the other boats)\"다. 기존 고객에게 피벗을 알리고, 회사 이름·이메일·웹사이트를 바꾸고, 미션을 다시 쓰고, 새 방향을 기존 것에 덧붙인 실험이 아니라 새로운 피부처럼 대하라는 것이다(03:23–03:54). GovDash가 예시다. 다섯 번 피벗하면서 매번 이름을 바꿨고, 결국 조달(procurement) 전문가가 되어 요약에 따르면 시리즈 B를 유치했다(04:00–04:21). 매번의 리네이밍이 각 피벗을 같은 회사의 곁가지가 아니라 진짜 커밋으로 만든 장치였다.\n\n### 진짜 깊이인지 확인하는 두 가지 테스트\n\n존은 어떤 문제를 맴도는 것이 아니라 실제로 깊이 들어가 있는지 확인하는 구체적 테스트 두 가지를 제시한다(04:41). 첫째, 그 고객의 사업을 내일 아침 당장 운영할 수 있는가 — 그들의 일상적인 위기를 알고, 전화를 놓치는 것이 그들에게 상위 5개 문제 중 하나인지, 놓친 전화 한 건의 비용이 얼마인지 아는가(04:48–05:14). 둘째, 이 특정 문제에 대해 세계 최고 전문가로서 수업을 가르칠 수 있는가(05:21). 두 테스트 모두 더 많이 읽는다고 답이 나오지 않는다. 둘 다 코드를 쓰는 것과 고객 대화를 촘촘히 반복하는 루프가 필요하고, 코드를 쓰기 전에 인터뷰 백 건을 먼저 하는 방식이 아니다(05:41–05:57).\n\n### AI 시대에 좋은 아이디어의 세 가지 조건\n\n존은 지금 그가 찾는 세 가지 속성으로 마무리한다(06:12). 첫째, 아이디어는 프런티어 모델의 한계선에 있어야 한다 — 오늘은 간신히 작동하고, 다음 모델이 나오면 극적으로 좋아지는 것. 지금 병목이 정확히 어디인지 이해하는 것이 중요한데, 그 병목을 우회하려고 스스로 만든 도구가 회사 자체가 될 수 있기 때문이다. 폴 그레이엄(Paul Graham)의 \"미래에 살면서 빠진 것을 만들어라\"는 말과 같은 맥락이다(06:19–06:48). 둘째, 수직화해서 결과물을 팔아라, 도구를 팔지 말고. 범용 SaaS 도구는 코드를 쓰는 비용이 0에 가까워질수록 가치가 사라지므로, 해자(moat)는 신뢰, 규제 라이선스, 또는 결과물 자체의 소유여야 한다 — \"보험사가 되어라, 은행이 되어라.\" YC W24 기업 Corgi Insurance가 예시다. 배치 기간 중 실제 보험사를 인수해, 보험사에 소프트웨어를 파는 대신 언더라이팅 자체를 소유했다(06:54–07:57). 셋째, 가능한 가장 야심 찬 버전을 노려라. 소박한 버전을 만드는 고통과 세상을 바꾸는 버전을 만드는 고통이 의외로 비슷한 경우가 많기 때문이다 — 규제받는 헬스케어·금융, 100억 달러 규모의 레거시 SaaS 강자 공략, 우주 로보틱스가 제시된 예다(08:22–09:08). 특정 가설이 틀리더라도 깊이 파고들면 어깨를 으쓱하는 대신 확신 등급의 데이터가 남고, 실제로 파고든 창업자만이 겉으로 드러난 불만 아래 진짜 구조적 문제에 도달한다(09:15–10:00). 마지막 프레임은, 여러 방향을 얕게 샘플링하는 대신 한 방향으로 세게 밀어붙여서 시간당 얻는 정보량을 최대화하라는 것이다(10:28–11:10).\n\n### Jayverse에서의 위치\n\n- **Verex / Auditor: \"결과물을 팔아라, 은행이 되어라\"는 구호가 아니라 구체적 지시다.** Verex를 다른 마켓이 끼워 쓰는 감사·정산 툴로 팔지 말 것. 방어 가능한 버전은 검증된 정산 그 자체를 소유하는 것이다. Corgi가 보험사에 소프트웨어를 파는 대신 언더라이팅을 소유한 것과 같다.\n- **Auditor: 두 가지 깊이 테스트가 타깃 고객 체크로도 쓰인다.** 규칙을 하나 더 쓰기 전에 존의 테스트를 그대로 적용해 본다 — jay가 정산 데이터를 쓰는 고객의 사업을 내일 아침 운영할 수 있는가, 잘못되거나 빠진 정산 데이터가 그들의 상위 5개 문제 중 하나이고 그 비용이 알려져 있는가.\n- **Life: 같은 함정을, 공부가 아니라 프로젝트에 적용.** 이것은 `learning-greed-with-no-time` 항목(Tech, Important)의 가장 날카로운 버전이다. jay의 실제 실패 패턴은 잘못된 것을 고르는 게 아니라 다섯 개 이상의 서비스에서 \"여러 아이디어를 동시에 굴리는\" 쪽에 더 가깝다. 존이 제안하는 해법도 같다. 한동안 하나의 줄기를 고르고 다른 배들을 불태우는 것이지, 여섯 번째 대상을 추가로 샘플링하는 것이 아니다.\n- **Eng: \"시간당 정보량\"은 깔끔한 인터뷰 표현이다.** 세 방향을 얕게 탐색하는 대신 한 방향을 골라 세게 밀어붙인 우선순위 결정을 설명할 때, 창업 프레이밍 없이도 쓸 수 있는 압축된 표현이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 블레이크 숄이 Boom Supersonic을 창업하기 전 아마존과 Groupon의 애드테크에서 일한 경력은 공개된 사실이다. GovDash와 Corgi Insurance는 실제 YC 포트폴리오 기업이다. 폴 그레이엄의 에세이 \"How to Get Startup Ideas\"(2012)에는 이 강연이 반향하는 \"미래에 살라\"는 프레임이 실제로 들어 있다. 요약에서 가져왔고 독립 확인하지 않은 것: GovDash의 정확한 피벗 횟수(다섯 번)와 시리즈 B 유치 주장, 설명된 그대로의 Corgi 보험사 인수 디테일, 모든 타임스탬프. 강연의 정확한 게시일과 존의 성(姓)은 원본 요약에 없었다.\n\n출처: [YouTube — Y Combinator, \"Pick One Idea and Go Deep\"](https://www.youtube.com/watch?v=R56RJFZBasQ) (약 11분) · Paul Graham, [\"How to Get Startup Ideas\"](http://www.paulgraham.com/startupideas.html) (2012) · 관련 항목: 하버드 MVS/SLIP 항목(`product-company-gap-mvs-slip`, Tech), 사브리나의 AI 마이크로 SaaS 시스템(`blotato-solo-micro-saas-system`, Tech), 페이페이 리 에이전시 항목(`feifei-li-agency-barbell-spatial`, Life), `learning-greed-with-no-time`(Tech, Important).\n"</script>
+      <h1>한 가지 아이디어를 골라 깊이 판다 — 아이디어는 현실과 부딪힌 뒤에야 드러난다, 그 전이 아니라</h1>
+      <p class="lead">Y Combinator 파트너 존(John)이 "Pick One Idea and Go Deep"이라는 11분짜리 YouTube 영상에서, 창업자들이 왜 시작 대신 &#39;올바른 시작점 찾기&#39;에 몇 달을 낭비하는지 설명한다. 그의 주장은 이렇다. 아이디어 자체는 미리 생각만으로 도달할 수 있는 것이 아니고, 고객과 대화하고 그 피드백에 맞춰 코드를 쓸 때에야 비로소 또렷해진다. 강연의 나머지 내용 — 왜 여러 아이디어를 동시에 굴리면 실패하는지, &#39;창업자-시장 적합성(founder-market fit)&#39;이 실제로 무엇을 요구하는지, AI 시대에 지금 순간에 맞는 아이디어는 무엇인지 — 은 모두 이 전제 하나에서 나온다.</p>
+      <p class="meta">Jayverse에서 이것은 창업 조언이라기보다, jay가 다섯 개 서비스에 데브넷·월렛·Number·Dark Horse까지 얹어 주의를 어떻게 배분하는지에 대한 테스트로 읽힌다. 영상의 주장은 주의를 얇게 펴면 전부에서 약한 신호만 나오고, 하나에 전념해야 계속할지 말지를 실제로 알려 주는 데이터가 나온다는 것이다.</p>
+<h2>왜</h2>
+<p>시작하지 않는 데 드는 비용은 버그나 장애처럼 눈에 보이지 않아서 과소평가하기 쉽다. 존의 핵심은, &#39;완벽한&#39; 아이디어를 기다리는 것과 어떤 아이디어에 뛰어들기 전에 도메인 경험을 몇 년 쌓아 두려는 것(01:26–02:14) 둘 다 실사(due diligence)처럼 느껴지지만 사실은 지연일 뿐이라는 점이다. 기다리는 정보의 유일한 원천은 실제 고객과의 접촉이기 때문이다. Boom Supersonic의 블레이크 숄(Blake Scholl)이 반례다. 그는 초음속 항공기와 무관한 아마존·Groupon의 애드테크 출신이었고, 이력서가 아니라 호기심과 고객 대화로 창업자-시장 적합성을 만들었다(01:26–02:14). 이 대목을 건너뛰고 왜 얕은 노력이 실패하는지 이해하지 못한 채 바로 "깊이 파라"로 넘어가는 것이야말로 이 강연이 막으려는 실수다.</p>
+<h2>동작 방식</h2>
+<h3>시작을 미루는 두 가지 과잉 사고</h3>
+<p>존은 00:52 부근에서 구체적인 과잉 사고 오류 두 가지를 짚는다. 첫째는 "완벽한 아이디어를 찾으면 그때 시작하겠다"인데, 아이디어는 고립된 상태의 더 많은 생각이 아니라 현실과의 접촉, 고객 피드백을 통해서만 드러난다(00:58–01:18). 둘째는 창업자-시장 적합성을 무기화한 버전으로 "이 도메인에서 10년은 있어야 한다"는 것이다. 그의 답은, 호기심에 실제 고객 대화를 더하면 쓸 만한 도메인 깊이가 빠르게 쌓인다는 것이고, 블레이크 숄의 애드테크에서 항공우주로의 경로가 그 증거다(01:26–02:14).</p>
+<h3>동시에 여러 아이디어를 굴리면 데이터가 나빠지는 이유</h3>
+<p>아이디어 두세 개를 동시에 굴리는 것은 헤지처럼 느껴지지만, 존은 이것이 모든 아이디어에서 잡음 섞인 저품질 신호를 만든다고 주장한다(02:38–03:10). 주의가 나뉘면 미온적인 반응이 아이디어가 약해서인지, 그저 한 주의 5분의 1만 받아서인지 구분하기 어렵다. 실제로 일어나는 실패는, 초기 신호가 약해 보인다는 이유로 진짜 좋은 아이디어를 너무 일찍 버리거나, 죽일 만큼 깨끗한 테스트를 받아 본 적이 없어서 나쁜 아이디어를 질질 끄는 것이다.</p>
+<h3>깊이 파기: 배를 불태운다</h3>
+<p>해법은 다른 선택지들을 일부러 봉쇄하는 것이다. 존의 표현은 "다른 배를 불태워라(burn the other boats)"다. 기존 고객에게 피벗을 알리고, 회사 이름·이메일·웹사이트를 바꾸고, 미션을 다시 쓰고, 새 방향을 기존 것에 덧붙인 실험이 아니라 새로운 피부처럼 대하라는 것이다(03:23–03:54). GovDash가 예시다. 다섯 번 피벗하면서 매번 이름을 바꿨고, 결국 조달(procurement) 전문가가 되어 요약에 따르면 시리즈 B를 유치했다(04:00–04:21). 매번의 리네이밍이 각 피벗을 같은 회사의 곁가지가 아니라 진짜 커밋으로 만든 장치였다.</p>
+<h3>진짜 깊이인지 확인하는 두 가지 테스트</h3>
+<p>존은 어떤 문제를 맴도는 것이 아니라 실제로 깊이 들어가 있는지 확인하는 구체적 테스트 두 가지를 제시한다(04:41). 첫째, 그 고객의 사업을 내일 아침 당장 운영할 수 있는가 — 그들의 일상적인 위기를 알고, 전화를 놓치는 것이 그들에게 상위 5개 문제 중 하나인지, 놓친 전화 한 건의 비용이 얼마인지 아는가(04:48–05:14). 둘째, 이 특정 문제에 대해 세계 최고 전문가로서 수업을 가르칠 수 있는가(05:21). 두 테스트 모두 더 많이 읽는다고 답이 나오지 않는다. 둘 다 코드를 쓰는 것과 고객 대화를 촘촘히 반복하는 루프가 필요하고, 코드를 쓰기 전에 인터뷰 백 건을 먼저 하는 방식이 아니다(05:41–05:57).</p>
+<h3>AI 시대에 좋은 아이디어의 세 가지 조건</h3>
+<p>존은 지금 그가 찾는 세 가지 속성으로 마무리한다(06:12). 첫째, 아이디어는 프런티어 모델의 한계선에 있어야 한다 — 오늘은 간신히 작동하고, 다음 모델이 나오면 극적으로 좋아지는 것. 지금 병목이 정확히 어디인지 이해하는 것이 중요한데, 그 병목을 우회하려고 스스로 만든 도구가 회사 자체가 될 수 있기 때문이다. 폴 그레이엄(Paul Graham)의 "미래에 살면서 빠진 것을 만들어라"는 말과 같은 맥락이다(06:19–06:48). 둘째, 수직화해서 결과물을 팔아라, 도구를 팔지 말고. 범용 SaaS 도구는 코드를 쓰는 비용이 0에 가까워질수록 가치가 사라지므로, 해자(moat)는 신뢰, 규제 라이선스, 또는 결과물 자체의 소유여야 한다 — "보험사가 되어라, 은행이 되어라." YC W24 기업 Corgi Insurance가 예시다. 배치 기간 중 실제 보험사를 인수해, 보험사에 소프트웨어를 파는 대신 언더라이팅 자체를 소유했다(06:54–07:57). 셋째, 가능한 가장 야심 찬 버전을 노려라. 소박한 버전을 만드는 고통과 세상을 바꾸는 버전을 만드는 고통이 의외로 비슷한 경우가 많기 때문이다 — 규제받는 헬스케어·금융, 100억 달러 규모의 레거시 SaaS 강자 공략, 우주 로보틱스가 제시된 예다(08:22–09:08). 특정 가설이 틀리더라도 깊이 파고들면 어깨를 으쓱하는 대신 확신 등급의 데이터가 남고, 실제로 파고든 창업자만이 겉으로 드러난 불만 아래 진짜 구조적 문제에 도달한다(09:15–10:00). 마지막 프레임은, 여러 방향을 얕게 샘플링하는 대신 한 방향으로 세게 밀어붙여서 시간당 얻는 정보량을 최대화하라는 것이다(10:28–11:10).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Verex / Auditor: "결과물을 팔아라, 은행이 되어라"는 구호가 아니라 구체적 지시다.</strong> Verex를 다른 마켓이 끼워 쓰는 감사·정산 툴로 팔지 말 것. 방어 가능한 버전은 검증된 정산 그 자체를 소유하는 것이다. Corgi가 보험사에 소프트웨어를 파는 대신 언더라이팅을 소유한 것과 같다.</li><li><strong>Auditor: 두 가지 깊이 테스트가 타깃 고객 체크로도 쓰인다.</strong> 규칙을 하나 더 쓰기 전에 존의 테스트를 그대로 적용해 본다 — jay가 정산 데이터를 쓰는 고객의 사업을 내일 아침 운영할 수 있는가, 잘못되거나 빠진 정산 데이터가 그들의 상위 5개 문제 중 하나이고 그 비용이 알려져 있는가.</li><li><strong>Life: 같은 함정을, 공부가 아니라 프로젝트에 적용.</strong> 이것은 <code>learning-greed-with-no-time</code> 항목(Tech, Important)의 가장 날카로운 버전이다. jay의 실제 실패 패턴은 잘못된 것을 고르는 게 아니라 다섯 개 이상의 서비스에서 "여러 아이디어를 동시에 굴리는" 쪽에 더 가깝다. 존이 제안하는 해법도 같다. 한동안 하나의 줄기를 고르고 다른 배들을 불태우는 것이지, 여섯 번째 대상을 추가로 샘플링하는 것이 아니다.</li><li><strong>Eng: "시간당 정보량"은 깔끔한 인터뷰 표현이다.</strong> 세 방향을 얕게 탐색하는 대신 한 방향을 골라 세게 밀어붙인 우선순위 결정을 설명할 때, 창업 프레이밍 없이도 쓸 수 있는 압축된 표현이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 블레이크 숄이 Boom Supersonic을 창업하기 전 아마존과 Groupon의 애드테크에서 일한 경력은 공개된 사실이다. GovDash와 Corgi Insurance는 실제 YC 포트폴리오 기업이다. 폴 그레이엄의 에세이 "How to Get Startup Ideas"(2012)에는 이 강연이 반향하는 "미래에 살라"는 프레임이 실제로 들어 있다. 요약에서 가져왔고 독립 확인하지 않은 것: GovDash의 정확한 피벗 횟수(다섯 번)와 시리즈 B 유치 주장, 설명된 그대로의 Corgi 보험사 인수 디테일, 모든 타임스탬프. 강연의 정확한 게시일과 존의 성(姓)은 원본 요약에 없었다.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=R56RJFZBasQ">YouTube — Y Combinator, "Pick One Idea and Go Deep"</a> (약 11분) · Paul Graham, <a href="http://www.paulgraham.com/startupideas.html">"How to Get Startup Ideas"</a> (2012) · 관련 항목: 하버드 MVS/SLIP 항목(<code>product-company-gap-mvs-slip</code>, Tech), 사브리나의 AI 마이크로 SaaS 시스템(<code>blotato-solo-micro-saas-system</code>, Tech), 페이페이 리 에이전시 항목(<code>feifei-li-agency-barbell-spatial</code>, Life), <code>learning-greed-with-no-time</code>(Tech, Important).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>go deep</strong></td><td>깊이 판다(한 문제·아이디어에 집중해 파고들다) · 이 영상의 핵심 명령. "Pick One Idea and Go Deep"</td></tr><tr><td><strong>burn the (other) boats</strong></td><td>다른 배를 불태우다(퇴로를 스스로 끊다) · 다른 선택지를 일부러 봉쇄하는 결단을 부르는 관용구. "burn the other boats"</td></tr><tr><td><strong>founder-market fit</strong></td><td>창업자-시장 적합성(창업자가 그 문제·시장에 맞는 이유) · 창업 평가의 핵심 축. "weaponised founder-market fit"</td></tr><tr><td><strong>weaponize (v.)</strong></td><td>무기화하다(원래 좋은 개념을 핑계·회피 도구로 오용하다) · 여기서는 도메인 경험 요구를 미루는 핑계로 쓰는 것. "a weaponized version of founder-market fit"</td></tr><tr><td><strong>contact with reality</strong></td><td>현실과의 접촉(생각이 아니라 실제 고객·시장과 부딪히는 경험) · 아이디어가 드러나는 유일한 경로로 제시됨. "revealed by contact with reality"</td></tr><tr><td><strong>frontier model</strong></td><td>프런티어 모델(현재 가장 앞선 세대의 AI 모델) · 좋은 AI 시대 아이디어의 첫 조건. "sits at the frontier model&#39;s edge"</td></tr><tr><td><strong>live in the future</strong></td><td>미래에 산다(먼저 도착해서 아직 없는 것을 알아채는 자세) · 폴 그레이엄의 유명한 표현. "live in the future and build what&#39;s missing"</td></tr><tr><td><strong>verticalize (v.)</strong></td><td>수직화하다(범용 도구 대신 특정 업종에 맞춘 전체 솔루션을 만들다) · 세 조건 중 두 번째. "verticalise and sell the outcome"</td></tr><tr><td><strong>sell the outcome</strong></td><td>결과물을 판다(도구가 아니라 최종 성과·책임 자체를 판매) · 수직화 전략의 핵심 문구. "sell the outcome, be the bank"</td></tr><tr><td><strong>be the bank / be the insurer</strong></td><td>은행이 되어라 / 보험사가 되어라 · 소프트웨어 판매자가 아니라 리스크를 직접 지는 당사자가 되라는 은유. "be the insurer, be the bank"</td></tr><tr><td><strong>moat</strong></td><td>해자(경쟁자가 넘기 어려운 방어 장벽) · 여기서는 신뢰·라이선스·결과물 소유. "the moat has to be trust"</td></tr><tr><td><strong>regulatory license</strong></td><td>규제 라이선스(정부·규제기관이 발급하는 영업 허가) · 소프트웨어만으로는 못 만드는 방어력의 원천. "a regulatory licence, or ownership of the outcome"</td></tr><tr><td><strong>conviction-grade data</strong></td><td>확신 등급의 데이터(가설이 틀려도 다음 결정을 뒷받침할 만큼 단단한 데이터) · 얕은 시도로는 못 얻는 것. "conviction-grade data instead of a shrug"</td></tr><tr><td><strong>structural problem</strong></td><td>구조적 문제(표면 불만 아래 있는 근본 원인) · 깊이 파야만 도달하는 층. "the real structural problem sitting underneath"</td></tr><tr><td><strong>information per unit of time</strong></td><td>시간당 정보량 · 여러 방향을 얕게 보는 대신 한 방향으로 밀어붙일 때 얻는 것을 최대화하라는 마무리 프레임. "maximise information gained per unit of time"</td></tr><tr><td><strong>through-line</strong></td><td>관통선(여러 활동을 하나로 꿰는 일관된 줄기) · jay의 다섯-플러스 서비스 사이 우선순위를 가리킬 때 씀. "pick a through-line"</td></tr><tr><td><strong>SaaS</strong></td><td>Software as a Service(구독형으로 제공되는 소프트웨어) · 범용 툴의 대표 형태, 코드 비용이 낮아질수록 가치가 줄어드는 대상. "generic SaaS tooling loses value"</td></tr><tr><td><strong>YC</strong></td><td>Y Combinator(스타트업 액셀러레이터) · 이 영상을 만든 조직이자 GovDash·Corgi의 투자자. "a YC W24 company"</td></tr><tr><td><strong>W24</strong></td><td>Winter 2024(YC의 2024년 겨울 배치 기수) · YC 배치를 가리키는 표준 표기. "Corgi Insurance, a YC W24 company"</td></tr><tr><td><strong>top-five problem</strong></td><td>상위 5개 문제(고객이 실제로 가장 신경 쓰는 문제 목록 안에 드는가) · 깊이 테스트에서 쓰는 구체적 기준. "a top-five problem for them"</td></tr><tr><td><strong>tight loop</strong></td><td>촘촘한 루프(짧은 주기로 반복되는 작업 흐름) · 코드 작성과 고객 대화를 번갈아 빠르게 반복하는 방식. "a tight loop of writing code and having customer conversations"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-microfactory-small-models-clutch-rollback.html">&larr; 122. Microfactory — a small task model plus a human clutch beats a generalist foundation model on a repeating cell</a><a href="pocs-yc-first-users-search-not-persuasion-mep.html">124. First users are a search problem — not a persuasion problem &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="yc-pick-one-idea-go-deep";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

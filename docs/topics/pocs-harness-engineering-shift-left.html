@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#106</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself</h1>
+      <p class="lead">Google Cloud Tech published a roughly 30-minute video, "Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code &amp; Cursor," a conversation with a Google engineer (given in the source summary as Ryan Leopoldo) plus code walkthroughs. The core claim: an AI agent is two separate things, an LLM (the "brain") and an agent harness (the "body and toolset") (00:44). An LLM only takes in text and emits more text — it cannot run a tool or change the filesystem by itself (01:37, 20:07). Everything that turns that text into action — interpreting intent, reading and editing files, running the terminal, searching the web, holding memory, controlling the loop — is the harness sitting outside the model. Gemini Flash is a model; Antigravity, Claude Code and Cursor are harnesses (00:44, 00:51). The talk organizes the engineer&#39;s philosophy around a "lazy prompter" stance, three harness design patterns, and a three-layer stack that says where leverage sits as models turn over.</p>
+      <p class="meta">For Jayverse this names something jay already built rather than something to adopt: <code>CLAUDE.md</code> rules, the alice memory files, the <code>docs/topics/README.md</code> conventions, frozen lockfiles plus CI, and Claude Code skills are the shift-left half of harness engineering, and the Auditor row is literally the harness layer&#39;s independent-verifier role under a different name.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Harness engineering — the agent's reliability lives in the environment around the model, not the model itself\n\nGoogle Cloud Tech published a roughly 30-minute video, \"Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code & Cursor,\" a conversation with a Google engineer (given in the source summary as Ryan Leopoldo) plus code walkthroughs. The core claim: an AI agent is two separate things, an LLM (the \"brain\") and an agent harness (the \"body and toolset\") (00:44). An LLM only takes in text and emits more text — it cannot run a tool or change the filesystem by itself (01:37, 20:07). Everything that turns that text into action — interpreting intent, reading and editing files, running the terminal, searching the web, holding memory, controlling the loop — is the harness sitting outside the model. Gemini Flash is a model; Antigravity, Claude Code and Cursor are harnesses (00:44, 00:51). The talk organizes the engineer's philosophy around a \"lazy prompter\" stance, three harness design patterns, and a three-layer stack that says where leverage sits as models turn over.\n\nFor Jayverse this names something jay already built rather than something to adopt: `CLAUDE.md` rules, the alice memory files, the `docs/topics/README.md` conventions, frozen lockfiles plus CI, and Claude Code skills are the shift-left half of harness engineering, and the Auditor row is literally the harness layer's independent-verifier role under a different name.\n\n## Why\n\nThe habit this talk argues against is re-prompting after a failure — catching a bad output at the far right of the pipeline and typing a longer, more careful instruction next time. That doesn't scale past one person's memory of what went wrong last week, and it puts the correctness burden on whoever happens to be watching. The alternative — called \"shift-left\" here, borrowing the decades-old software-quality term — is to push the same guardrail earlier: into a document the model reads before acting, a linter or static check that runs before a tool call completes, a unit test or CI eval that catches the failure before a human ever sees it (05:14, 05:31, 06:05). The engineer describes himself as a \"lazy prompter\" (00:10): instead of writing the rule into every prompt, he writes it once into the environment — documentation, linters, tests — so the model can retrieve (\"ground\") it itself (04:28). The same idea explains why a team can eventually hand an agent something as large as a migration: small PRs plus an automated review loop build trust incrementally, and each cycle of trust expands the size of loop a human is willing to leave unsupervised (10:43, 11:38).\n\n## How it works\n\n### The two-part definition\nAn agent is model plus harness, not model alone. The model proposes; the harness is the only thing that can read a file, execute a command, or call an API, because the model itself has no hands (00:44, 01:37, 20:07).\n\n### Lazy prompter and shift-left\nWrite the constraint once, into something the model can look up on its own — a doc, a lint rule, a test — rather than into every prompt. Move validation as early in the pipeline as it will go: docs like `agents.md`, static verifiers, unit tests, CI evals (04:28, 05:31, 06:05).\n\n### Expanding the loop\nTrust is built incrementally through small, reviewable units of agent work. Each successful small-PR-plus-automated-review cycle raises the size of task a human will delegate without watching every step, which is how an agent eventually earns a large, long-running job like a migration (10:43, 11:38).\n\n### Don't over-scaffold the harness itself\nThe base harness features — read a file, `grep`, run a shell — are close to standard across tools. The talk's advice is not to spend the engineering budget re-inventing the shell, but on the environment around it: tool quality and context quality, because that's what keeps paying off across model upgrades (14:49, 16:00, 16:28).\n\n### Three harness design patterns, shown in code\n1. **Linear harness** — read a file once, answer, stop. Fits deterministic, single-shot tasks (21:39).\n2. **Closed-loop harness** — edit, test, capture the failure, feed it back into memory, retry up to a fixed limit or until it passes; a self-healing loop (22:40, 23:11).\n3. **Guardrail harness**, built on Google's Agent Development Kit (ADK) — an interceptor blocks destructive actions (a DB drop, a forced delete, an unauthorized push) before they run, with automatic memory compaction built in (23:30, 24:02).\n\n### Three-layer stack\n- **Model layer** (e.g., \"Gemini 3.8 Flash\" per the summary) — an agent loop makes 20–60 tool calls per task, so a fast, cheap model matters more than a slower, heavier one; speed and cost are what let the loop iterate (25:43, 26:12, 26:43).\n- **Harness layer** (e.g., Antigravity's \"Boost\" mode per the summary) — one model split into a team: an orchestrator, parallel specialist sub-agents, and an independent auditor that checks the others' work (27:17, 27:32).\n- **Knowledge layer** (Google Skills) — around a hundred structured, open-source skills for things like GCP, Firebase and Flutter, loaded on demand so the model has exact context instead of guessing (28:48, 29:26).\n\n### Where it lands in Jayverse\n\n- **Every repo: an `AGENTS.md`/`CLAUDE.md` is the shift-left artifact.** Alice already carries this pattern in `~/.claude/CLAUDE.md` (GitHub policy, history-logging rules, the English-check format) and in the per-project memory files under `~/.claude/projects/`; the talk gives that convention a name and a reason — it's cheaper to write the rule into the doc the agent reads than to retype it in every prompt.\n- **Rabbit: the destructive-command interceptor is the guardrail-harness pattern at tool-call level.** Rabbit's EIP-7715 session-key mandate check — refusing a \"send\" action without a valid mandate — is functionally the same ADK-style interceptor the talk shows blocking a DB drop or a forced push; both stop the harness from executing an action the caller wasn't authorized to request.\n- **CI: tests are the feedback loop, not just a gate.** A closed-loop harness's edit-test-capture-retry cycle only works if the test output is legible to the agent; that's the same requirement CI has to meet for an agent-driven PR, and it is the concrete version of the boundary-file idea in Dark Horse (e).\n- **The Auditor: this is literally the harness layer's independent verifier.** The talk's auditor sub-agent — checking the orchestrator's and specialists' work against a rule, separate from the agent that did the work — is the Auditor row's job description; \"what was checked, by which rule\" is exactly what an auditor sub-agent has to log to be useful.\n- **Eng: \"what is an agent harness\" is a fair 2026 interview question.** It's a clean way to test whether a candidate distinguishes the model's capabilities from the surrounding system's — the same distinction a team-lead role needs when deciding what to build in-house versus what a harness like Claude Code already provides.\n\n### Verified and unverified\n\nVerified on 2026-09-19: \"harness\" as the name for the runtime shell around a model is now standard usage — Claude Code, Cursor, Codex CLI and Google's Antigravity are all described as agent harnesses; Google's Agent Development Kit (ADK) is a real, documented agent framework whose callbacks can intercept tool calls before execution; \"shift left\" is a decades-old software-quality term for moving checks earlier in a pipeline; `AGENTS.md`/`CLAUDE.md` files are the de-facto convention for giving an agent standing instructions. Taken from the summary and not independently checked: the speaker's name and role as given (Ryan Leopoldo), the \"Gemini 3.8 Flash\" model name, the \"Boost mode\" name, the claimed count of roughly 100 Google Skills, and every timestamp above.\n\nSources: [YouTube — Google Cloud Tech, \"Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code & Cursor\"](https://www.youtube.com/watch?v=F8EZJAm9iO8) · related items: Tech #62 (agentic engineering writes the boundaries), Tech #97, the ontology item (`agentic-systems-need-ontologies`), the Pocock item (`pocock-fundamentals-matter-more`), Tech #101 (ADK voice).\n"</script>
+<h2>Why</h2>
+<p>The habit this talk argues against is re-prompting after a failure — catching a bad output at the far right of the pipeline and typing a longer, more careful instruction next time. That doesn&#39;t scale past one person&#39;s memory of what went wrong last week, and it puts the correctness burden on whoever happens to be watching. The alternative — called "shift-left" here, borrowing the decades-old software-quality term — is to push the same guardrail earlier: into a document the model reads before acting, a linter or static check that runs before a tool call completes, a unit test or CI eval that catches the failure before a human ever sees it (05:14, 05:31, 06:05). The engineer describes himself as a "lazy prompter" (00:10): instead of writing the rule into every prompt, he writes it once into the environment — documentation, linters, tests — so the model can retrieve ("ground") it itself (04:28). The same idea explains why a team can eventually hand an agent something as large as a migration: small PRs plus an automated review loop build trust incrementally, and each cycle of trust expands the size of loop a human is willing to leave unsupervised (10:43, 11:38).</p>
+<h2>How it works</h2>
+<h3>The two-part definition</h3>
+<p>An agent is model plus harness, not model alone. The model proposes; the harness is the only thing that can read a file, execute a command, or call an API, because the model itself has no hands (00:44, 01:37, 20:07).</p>
+<h3>Lazy prompter and shift-left</h3>
+<p>Write the constraint once, into something the model can look up on its own — a doc, a lint rule, a test — rather than into every prompt. Move validation as early in the pipeline as it will go: docs like <code>agents.md</code>, static verifiers, unit tests, CI evals (04:28, 05:31, 06:05).</p>
+<h3>Expanding the loop</h3>
+<p>Trust is built incrementally through small, reviewable units of agent work. Each successful small-PR-plus-automated-review cycle raises the size of task a human will delegate without watching every step, which is how an agent eventually earns a large, long-running job like a migration (10:43, 11:38).</p>
+<h3>Don&#39;t over-scaffold the harness itself</h3>
+<p>The base harness features — read a file, <code>grep</code>, run a shell — are close to standard across tools. The talk&#39;s advice is not to spend the engineering budget re-inventing the shell, but on the environment around it: tool quality and context quality, because that&#39;s what keeps paying off across model upgrades (14:49, 16:00, 16:28).</p>
+<h3>Three harness design patterns, shown in code</h3>
+<ol><li><strong>Linear harness</strong> — read a file once, answer, stop. Fits deterministic, single-shot tasks (21:39).</li><li><strong>Closed-loop harness</strong> — edit, test, capture the failure, feed it back into memory, retry up to a fixed limit or until it passes; a self-healing loop (22:40, 23:11).</li><li><strong>Guardrail harness</strong>, built on Google&#39;s Agent Development Kit (ADK) — an interceptor blocks destructive actions (a DB drop, a forced delete, an unauthorized push) before they run, with automatic memory compaction built in (23:30, 24:02).</li></ol>
+<h3>Three-layer stack</h3>
+<ul><li><strong>Model layer</strong> (e.g., "Gemini 3.8 Flash" per the summary) — an agent loop makes 20–60 tool calls per task, so a fast, cheap model matters more than a slower, heavier one; speed and cost are what let the loop iterate (25:43, 26:12, 26:43).</li><li><strong>Harness layer</strong> (e.g., Antigravity&#39;s "Boost" mode per the summary) — one model split into a team: an orchestrator, parallel specialist sub-agents, and an independent auditor that checks the others&#39; work (27:17, 27:32).</li><li><strong>Knowledge layer</strong> (Google Skills) — around a hundred structured, open-source skills for things like GCP, Firebase and Flutter, loaded on demand so the model has exact context instead of guessing (28:48, 29:26).</li></ul>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Every repo: an <code>AGENTS.md</code>/<code>CLAUDE.md</code> is the shift-left artifact.</strong> Alice already carries this pattern in <code>~/.claude/CLAUDE.md</code> (GitHub policy, history-logging rules, the English-check format) and in the per-project memory files under <code>~/.claude/projects/</code>; the talk gives that convention a name and a reason — it&#39;s cheaper to write the rule into the doc the agent reads than to retype it in every prompt.</li><li><strong>Rabbit: the destructive-command interceptor is the guardrail-harness pattern at tool-call level.</strong> Rabbit&#39;s EIP-7715 session-key mandate check — refusing a "send" action without a valid mandate — is functionally the same ADK-style interceptor the talk shows blocking a DB drop or a forced push; both stop the harness from executing an action the caller wasn&#39;t authorized to request.</li><li><strong>CI: tests are the feedback loop, not just a gate.</strong> A closed-loop harness&#39;s edit-test-capture-retry cycle only works if the test output is legible to the agent; that&#39;s the same requirement CI has to meet for an agent-driven PR, and it is the concrete version of the boundary-file idea in Dark Horse (e).</li><li><strong>The Auditor: this is literally the harness layer&#39;s independent verifier.</strong> The talk&#39;s auditor sub-agent — checking the orchestrator&#39;s and specialists&#39; work against a rule, separate from the agent that did the work — is the Auditor row&#39;s job description; "what was checked, by which rule" is exactly what an auditor sub-agent has to log to be useful.</li><li><strong>Eng: "what is an agent harness" is a fair 2026 interview question.</strong> It&#39;s a clean way to test whether a candidate distinguishes the model&#39;s capabilities from the surrounding system&#39;s — the same distinction a team-lead role needs when deciding what to build in-house versus what a harness like Claude Code already provides.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: "harness" as the name for the runtime shell around a model is now standard usage — Claude Code, Cursor, Codex CLI and Google&#39;s Antigravity are all described as agent harnesses; Google&#39;s Agent Development Kit (ADK) is a real, documented agent framework whose callbacks can intercept tool calls before execution; "shift left" is a decades-old software-quality term for moving checks earlier in a pipeline; <code>AGENTS.md</code>/<code>CLAUDE.md</code> files are the de-facto convention for giving an agent standing instructions. Taken from the summary and not independently checked: the speaker&#39;s name and role as given (Ryan Leopoldo), the "Gemini 3.8 Flash" model name, the "Boost mode" name, the claimed count of roughly 100 Google Skills, and every timestamp above.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=F8EZJAm9iO8">YouTube — Google Cloud Tech, "Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code &amp; Cursor"</a> · related items: Tech #62 (agentic engineering writes the boundaries), Tech #97, the ontology item (<code>agentic-systems-need-ontologies</code>), the Pocock item (<code>pocock-fundamentals-matter-more</code>), Tech #101 (ADK voice).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>agent harness</strong></td><td>에이전트 하네스(모델을 둘러싼 실행 껍질: 도구 호출, 루프 제어 등) · 이 글 전체의 핵심 용어. "an AI agent is two separate things, an LLM ... and an agent harness"</td></tr><tr><td><strong>LLM</strong></td><td>Large Language Model(대형 언어모델) · 텍스트만 주고받을 뿐 행동은 못 하는 "두뇌" 쪽. "An LLM only takes in text and emits more text"</td></tr><tr><td><strong>shift-left</strong></td><td>왼쪽으로 옮기기(검증·품질 관문을 파이프라인 앞단으로 당기는 것) · 오래된 소프트웨어 품질 용어. "push the same guardrail earlier"</td></tr><tr><td><strong>lazy prompter</strong></td><td>게으른 프롬프터(규칙을 매번 프롬프트에 적지 않고 환경에 한 번만 적어 두는 태도) · 이 엔지니어가 자칭한 철학. "he writes it once into the environment"</td></tr><tr><td><strong>grounding (v.)</strong></td><td>근거를 인출하다(모델이 답을 지어내지 않고 문서·환경에서 사실을 가져오는 것) · lazy prompter 철학의 목적어. "the model can retrieve (\"ground\") it itself"</td></tr><tr><td><strong>guardrail</strong></td><td>가드레일(위험한 행동을 사전에 막는 안전장치) · 세 번째 하네스 패턴의 이름. "Guardrail harness ... an interceptor blocks destructive actions"</td></tr><tr><td><strong>interceptor</strong></td><td>인터셉터(실행 전에 호출을 가로채 검사·차단하는 컴포넌트) · ADK 기반 가드레일 하네스의 핵심 부품. "an interceptor blocks destructive actions ... before they run"</td></tr><tr><td><strong>closed-loop</strong></td><td>폐루프(결과를 다시 입력으로 되먹이는 구조) · 두 번째 하네스 패턴. "edit, test, capture the failure, feed it back into memory"</td></tr><tr><td><strong>self-healing</strong></td><td>자가 치유(실패를 스스로 감지하고 재시도해 고치는 성질) · 폐루프 하네스를 요약하는 말. "a self-healing loop"</td></tr><tr><td><strong>linear harness</strong></td><td>선형 하네스(한 번 읽고 답하고 끝나는 가장 단순한 패턴) · 결정론적 단발 작업용. "read a file once, answer, stop"</td></tr><tr><td><strong>over-scaffold (v.)</strong></td><td>과잉으로 뼈대를 짜다(꼭 필요하지 않은 구조를 하네스에 덧붙이는 것) · 이 영상의 경고. "Don&#39;t over-scaffold the harness itself"</td></tr><tr><td><strong>tool call</strong></td><td>도구 호출(에이전트가 하네스를 통해 파일 읽기·명령 실행 등을 요청하는 한 스텝) · 루프 횟수를 셀 때 쓰는 단위. "an agent loop makes 20–60 tool calls per task"</td></tr><tr><td><strong>orchestrator</strong></td><td>오케스트레이터(다른 서브 에이전트들에 작업을 나눠 주고 조율하는 역할) · 하네스 계층 팀 구성의 한 축. "an orchestrator, parallel specialist sub-agents"</td></tr><tr><td><strong>sub-agent</strong></td><td>서브 에이전트(오케스트레이터 아래에서 특정 작업을 맡는 하위 에이전트) · 병렬로 도는 전문가 역할. "parallel specialist sub-agents"</td></tr><tr><td><strong>auditor (sub-agent)</strong></td><td>감사자(다른 에이전트의 작업을 규칙에 맞춰 독립적으로 검사하는 역할) · Jayverse의 Auditor 행과 직접 대응. "an independent auditor that checks the others&#39; work"</td></tr><tr><td><strong>ADK</strong></td><td>Agent Development Kit(구글의 에이전트 개발 프레임워크) · 콜백으로 도구 호출을 가로챌 수 있는 실제 프레임워크. "built on Google&#39;s Agent Development Kit (ADK)"</td></tr><tr><td><strong>CI</strong></td><td>Continuous Integration(지속적 통합, 코드 변경마다 자동으로 빌드·테스트를 도는 체계) · shift-left 가드레일의 대표 예. "unit test or CI eval that catches the failure"</td></tr><tr><td><strong>PR</strong></td><td>Pull Request(코드 변경을 검토·병합 요청하는 단위) · expanding-the-loop 신뢰 구축의 기본 단위. "small PRs plus an automated review loop"</td></tr><tr><td><strong>DB</strong></td><td>Database(데이터베이스) · 가드레일 하네스가 막는 파괴적 행동의 예. "a DB drop, a forced delete, an unauthorized push"</td></tr><tr><td><strong>GCP</strong></td><td>Google Cloud Platform(구글 클라우드 플랫폼) · Google Skills 지식 계층이 다루는 대표 영역. "things like GCP, Firebase and Flutter"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 하네스 엔지니어링 — 에이전트의 신뢰성은 모델 자체가 아니라 모델을 둘러싼 환경에 있다\n\nGoogle Cloud Tech가 약 30분짜리 영상 \"Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code & Cursor\"를 공개했다. 구글 엔지니어(원문 요약에는 Ryan Leopoldo로 표기)와의 대담에 코드 워크스루가 더해진 구성이다. 핵심 주장은 이렇다. AI 에이전트는 사실 두 개의 분리된 것, 즉 LLM(\"두뇌\")과 에이전트 하네스(\"몸체와 도구망\")로 이루어진다(00:44). LLM은 텍스트를 받아 다음 텍스트를 낼 뿐, 스스로 도구를 실행하거나 파일시스템을 바꾸지 못한다(01:37, 20:07). 그 텍스트를 실제 행동으로 바꾸는 모든 것 — 의도 해석, 파일 읽기·수정, 터미널 실행, 웹 검색, 메모리 유지, 루프 제어 — 이 모델 바깥에 앉아 있는 하네스다. Gemini Flash는 모델이고, Antigravity, Claude Code, Cursor는 하네스다(00:44, 00:51). 강연은 이 엔지니어의 철학을 \"게으른 프롬프터\" 태도, 세 가지 하네스 설계 패턴, 모델이 계속 바뀌어도 레버리지가 어디 있는지 말해 주는 3계층 스택으로 정리한다.\n\nJayverse에서 이것은 새로 도입할 무언가가 아니라, jay가 이미 만들어 둔 것에 이름을 붙여 준다. `CLAUDE.md` 규칙, alice의 메모리 파일들, `docs/topics/README.md` 컨벤션, 고정된 락파일과 CI, Claude Code 스킬들은 하네스 엔지니어링의 shift-left 절반이고, Auditor 행은 다른 이름으로 불리는 하네스 계층의 독립 검증자 역할 그 자체다.\n\n## 왜\n\n이 강연이 반대하는 습관은 실패 이후의 재프롬프팅이다. 파이프라인 맨 끝에서 나쁜 결과를 잡아내고 다음번엔 더 길고 조심스러운 지시문을 치는 것. 이는 지난주에 무엇이 잘못됐는지 기억하는 한 사람의 머릿속을 넘어서 확장되지 않고, 정확성의 부담을 그때그때 지켜보는 사람에게 떠넘긴다. 대안은 여기서 \"shift-left\"라 불리는 것 — 수십 년 된 소프트웨어 품질 용어를 빌려 온 것 — 으로, 같은 가드레일을 더 앞으로 옮기는 일이다. 모델이 행동하기 전에 읽는 문서, 도구 호출이 끝나기 전에 도는 린터나 정적 검사, 사람이 보기 전에 실패를 잡는 단위 테스트나 CI 평가(05:14, 05:31, 06:05). 엔지니어는 스스로를 \"게으른 프롬프터\"라 부른다(00:10). 매 프롬프트에 규칙을 다시 적는 대신 문서, 린터, 테스트 같은 환경에 한 번만 적어 두어 모델이 스스로 그것을 인출(grounding)하게 한다(04:28). 같은 발상이 팀이 결국 마이그레이션 같은 큰 일을 에이전트에 맡길 수 있는 이유를 설명한다. 작은 PR과 자동 리뷰 루프가 신뢰를 점진적으로 쌓고, 그 신뢰의 사이클마다 사람이 매 단계를 지켜보지 않고 맡길 수 있는 루프의 크기가 커진다(10:43, 11:38).\n\n## 동작 방식\n\n### 두 부분으로 된 정의\n에이전트는 모델 하나가 아니라 모델 더하기 하네스다. 모델은 제안하고, 파일을 읽거나 명령을 실행하거나 API를 호출할 수 있는 것은 하네스뿐이다. 모델 자체에는 손이 없기 때문이다(00:44, 01:37, 20:07).\n\n### 게으른 프롬프터와 shift-left\n제약을 매 프롬프트가 아니라 모델이 스스로 찾아볼 수 있는 곳 — 문서, 린트 규칙, 테스트 — 에 한 번만 적어 둔다. 검증을 파이프라인에서 갈 수 있는 만큼 앞으로 옮긴다. `agents.md` 같은 문서, 정적 검증기, 단위 테스트, CI 평가(04:28, 05:31, 06:05).\n\n### 루프 확장하기\n신뢰는 작고 검토 가능한 에이전트 작업 단위를 통해 점진적으로 쌓인다. 작은 PR과 자동 리뷰가 성공적으로 돌 때마다 사람이 매 단계를 지켜보지 않고 맡길 수 있는 작업 크기가 커지고, 이런 식으로 에이전트가 결국 마이그레이션 같은 크고 오래 걸리는 일을 맡게 된다(10:43, 11:38).\n\n### 하네스 자체를 과잉 스캐폴딩하지 말 것\n파일 읽기, `grep`, 셸 실행 같은 기본 하네스 기능은 도구마다 거의 표준화되어 있다. 강연의 조언은 엔지니어링 예산을 셸을 재발명하는 데 쓰지 말고, 그 주변의 환경 — 도구 품질과 컨텍스트 품질 — 에 쓰라는 것이다. 모델이 업그레이드되어도 계속 남는 레버리지는 거기 있기 때문이다(14:49, 16:00, 16:28).\n\n### 코드로 보여준 세 가지 하네스 설계 패턴\n1. **선형(linear) 하네스** — 파일을 한 번 읽고 답하고 종료. 결정론적인 단발성 작업에 맞다(21:39).\n2. **폐루프(closed-loop) 하네스** — 수정 → 테스트 → 실패 캡처 → 메모리에 피드백 → 통과하거나 정해진 횟수까지 재시도하는 자가 치유 루프(22:40, 23:11).\n3. **가드레일(guardrail) 하네스** — 구글 Agent Development Kit(ADK) 기반. 파괴적 행동(DB drop, 강제 삭제, 무단 push)을 실행 전에 막는 인터셉터가 있고, 자동 메모리 압축(compaction)이 내장되어 있다(23:30, 24:02).\n\n### 3계층 스택\n- **모델 계층** (요약에 따르면 \"Gemini 3.8 Flash\" 등) — 에이전트 루프 하나가 작업당 20~60회의 도구 호출을 돌리므로, 느리고 무거운 모델보다 빠르고 저렴한 모델이 더 중요하다. 속도와 비용이 루프의 반복 속도를 결정한다(25:43, 26:12, 26:43).\n- **하네스 계층** (요약에 따르면 Antigravity의 \"Boost\" 모드 등) — 모델 하나를 오케스트레이터, 병렬로 도는 전문 서브 에이전트들, 다른 둘의 작업을 검사하는 독립 검증자(auditor)로 이루어진 팀으로 구성한다(27:17, 27:32).\n- **지식 계층** (Google Skills) — GCP, Firebase, Flutter 등을 다루는 구조화된 오픈소스 스킬 약 100개를 필요할 때 로드해, 추측 대신 정확한 컨텍스트를 모델에 준다(28:48, 29:26).\n\n### Jayverse에서의 위치\n\n- **모든 레포: `AGENTS.md`/`CLAUDE.md`가 shift-left 산출물이다.** alice는 이미 `~/.claude/CLAUDE.md`(GitHub 정책, 히스토리 로깅 규칙, 영어 체크 포맷)와 `~/.claude/projects/` 아래 프로젝트별 메모리 파일에 이 패턴을 갖고 있다. 강연은 이 컨벤션에 이름과 이유를 붙여 준다. 매 프롬프트에 규칙을 다시 치는 것보다 에이전트가 읽는 문서에 한 번 적어 두는 쪽이 더 싸다.\n- **Rabbit: 파괴적 명령 인터셉터가 곧 도구 호출 단위의 가드레일 하네스 패턴이다.** Rabbit의 EIP-7715 세션 키 mandate 검사 — mandate 없이 \"send\" 액션을 거부하는 것 — 는 강연이 보여준, DB drop이나 강제 push를 막는 ADK 스타일 인터셉터와 기능적으로 같다. 둘 다 호출자가 요청할 권한이 없는 행동을 하네스가 실행하지 못하게 막는다.\n- **CI: 테스트는 단순한 게이트가 아니라 피드백 루프다.** 폐루프 하네스의 수정-테스트-캡처-재시도 사이클은 테스트 출력이 에이전트가 읽을 수 있게 되어 있어야만 작동한다. 이는 에이전트가 만드는 PR에서 CI가 만족해야 할 조건과 같고, Dark Horse (e)의 boundary-file 아이디어를 구체화한 버전이다.\n- **Auditor: 이것이 문자 그대로 하네스 계층의 독립 검증자다.** 강연의 auditor 서브 에이전트 — 작업을 한 오케스트레이터·전문가와 별개로, 규칙에 맞춰 그 작업을 검사하는 존재 — 가 바로 Auditor 행의 직무 설명이다. \"무엇을 어떤 규칙으로 확인했는지\"가 정확히 쓸모 있는 auditor 서브 에이전트가 기록해야 할 내용이다.\n- **Eng: \"에이전트 하네스가 무엇인가\"는 2026년다운 정당한 면접 질문이다.** 후보자가 모델의 능력과 그것을 둘러싼 시스템의 능력을 구분하는지 깔끔하게 테스트할 수 있다. 이는 팀 리드 역할이 무엇을 직접 만들고 무엇을 Claude Code 같은 기존 하네스에 맡길지 결정할 때 필요한 것과 같은 구분이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 모델을 둘러싼 런타임 껍질을 \"하네스\"라 부르는 것은 이제 표준 용법이다 — Claude Code, Cursor, Codex CLI, 구글의 Antigravity 모두 에이전트 하네스로 불린다. 구글의 Agent Development Kit(ADK)는 실행 전에 도구 호출을 가로챌 수 있는 콜백을 가진 실제 문서화된 에이전트 프레임워크다. \"shift left\"는 검증을 파이프라인 앞단으로 옮긴다는, 수십 년 된 소프트웨어 품질 용어다. `AGENTS.md`/`CLAUDE.md` 파일은 에이전트에게 상시 지침을 주는 사실상의 표준 컨벤션이다. 요약에서 가져왔고 독립 확인하지 않은 것: 화자의 이름과 역할(Ryan Leopoldo), \"Gemini 3.8 Flash\"라는 모델명, \"Boost 모드\"라는 이름, 약 100개라는 Google Skills 개수, 그리고 위의 모든 타임스탬프.\n\n출처: [YouTube — Google Cloud Tech, \"Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code & Cursor\"](https://www.youtube.com/watch?v=F8EZJAm9iO8) · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #97, 온톨로지 항목(`agentic-systems-need-ontologies`), Pocock 항목(`pocock-fundamentals-matter-more`), Tech #101(ADK voice).\n"</script>
+      <h1>하네스 엔지니어링 — 에이전트의 신뢰성은 모델 자체가 아니라 모델을 둘러싼 환경에 있다</h1>
+      <p class="lead">Google Cloud Tech가 약 30분짜리 영상 "Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code &amp; Cursor"를 공개했다. 구글 엔지니어(원문 요약에는 Ryan Leopoldo로 표기)와의 대담에 코드 워크스루가 더해진 구성이다. 핵심 주장은 이렇다. AI 에이전트는 사실 두 개의 분리된 것, 즉 LLM("두뇌")과 에이전트 하네스("몸체와 도구망")로 이루어진다(00:44). LLM은 텍스트를 받아 다음 텍스트를 낼 뿐, 스스로 도구를 실행하거나 파일시스템을 바꾸지 못한다(01:37, 20:07). 그 텍스트를 실제 행동으로 바꾸는 모든 것 — 의도 해석, 파일 읽기·수정, 터미널 실행, 웹 검색, 메모리 유지, 루프 제어 — 이 모델 바깥에 앉아 있는 하네스다. Gemini Flash는 모델이고, Antigravity, Claude Code, Cursor는 하네스다(00:44, 00:51). 강연은 이 엔지니어의 철학을 "게으른 프롬프터" 태도, 세 가지 하네스 설계 패턴, 모델이 계속 바뀌어도 레버리지가 어디 있는지 말해 주는 3계층 스택으로 정리한다.</p>
+      <p class="meta">Jayverse에서 이것은 새로 도입할 무언가가 아니라, jay가 이미 만들어 둔 것에 이름을 붙여 준다. <code>CLAUDE.md</code> 규칙, alice의 메모리 파일들, <code>docs/topics/README.md</code> 컨벤션, 고정된 락파일과 CI, Claude Code 스킬들은 하네스 엔지니어링의 shift-left 절반이고, Auditor 행은 다른 이름으로 불리는 하네스 계층의 독립 검증자 역할 그 자체다.</p>
+<h2>왜</h2>
+<p>이 강연이 반대하는 습관은 실패 이후의 재프롬프팅이다. 파이프라인 맨 끝에서 나쁜 결과를 잡아내고 다음번엔 더 길고 조심스러운 지시문을 치는 것. 이는 지난주에 무엇이 잘못됐는지 기억하는 한 사람의 머릿속을 넘어서 확장되지 않고, 정확성의 부담을 그때그때 지켜보는 사람에게 떠넘긴다. 대안은 여기서 "shift-left"라 불리는 것 — 수십 년 된 소프트웨어 품질 용어를 빌려 온 것 — 으로, 같은 가드레일을 더 앞으로 옮기는 일이다. 모델이 행동하기 전에 읽는 문서, 도구 호출이 끝나기 전에 도는 린터나 정적 검사, 사람이 보기 전에 실패를 잡는 단위 테스트나 CI 평가(05:14, 05:31, 06:05). 엔지니어는 스스로를 "게으른 프롬프터"라 부른다(00:10). 매 프롬프트에 규칙을 다시 적는 대신 문서, 린터, 테스트 같은 환경에 한 번만 적어 두어 모델이 스스로 그것을 인출(grounding)하게 한다(04:28). 같은 발상이 팀이 결국 마이그레이션 같은 큰 일을 에이전트에 맡길 수 있는 이유를 설명한다. 작은 PR과 자동 리뷰 루프가 신뢰를 점진적으로 쌓고, 그 신뢰의 사이클마다 사람이 매 단계를 지켜보지 않고 맡길 수 있는 루프의 크기가 커진다(10:43, 11:38).</p>
+<h2>동작 방식</h2>
+<h3>두 부분으로 된 정의</h3>
+<p>에이전트는 모델 하나가 아니라 모델 더하기 하네스다. 모델은 제안하고, 파일을 읽거나 명령을 실행하거나 API를 호출할 수 있는 것은 하네스뿐이다. 모델 자체에는 손이 없기 때문이다(00:44, 01:37, 20:07).</p>
+<h3>게으른 프롬프터와 shift-left</h3>
+<p>제약을 매 프롬프트가 아니라 모델이 스스로 찾아볼 수 있는 곳 — 문서, 린트 규칙, 테스트 — 에 한 번만 적어 둔다. 검증을 파이프라인에서 갈 수 있는 만큼 앞으로 옮긴다. <code>agents.md</code> 같은 문서, 정적 검증기, 단위 테스트, CI 평가(04:28, 05:31, 06:05).</p>
+<h3>루프 확장하기</h3>
+<p>신뢰는 작고 검토 가능한 에이전트 작업 단위를 통해 점진적으로 쌓인다. 작은 PR과 자동 리뷰가 성공적으로 돌 때마다 사람이 매 단계를 지켜보지 않고 맡길 수 있는 작업 크기가 커지고, 이런 식으로 에이전트가 결국 마이그레이션 같은 크고 오래 걸리는 일을 맡게 된다(10:43, 11:38).</p>
+<h3>하네스 자체를 과잉 스캐폴딩하지 말 것</h3>
+<p>파일 읽기, <code>grep</code>, 셸 실행 같은 기본 하네스 기능은 도구마다 거의 표준화되어 있다. 강연의 조언은 엔지니어링 예산을 셸을 재발명하는 데 쓰지 말고, 그 주변의 환경 — 도구 품질과 컨텍스트 품질 — 에 쓰라는 것이다. 모델이 업그레이드되어도 계속 남는 레버리지는 거기 있기 때문이다(14:49, 16:00, 16:28).</p>
+<h3>코드로 보여준 세 가지 하네스 설계 패턴</h3>
+<ol><li><strong>선형(linear) 하네스</strong> — 파일을 한 번 읽고 답하고 종료. 결정론적인 단발성 작업에 맞다(21:39).</li><li><strong>폐루프(closed-loop) 하네스</strong> — 수정 → 테스트 → 실패 캡처 → 메모리에 피드백 → 통과하거나 정해진 횟수까지 재시도하는 자가 치유 루프(22:40, 23:11).</li><li><strong>가드레일(guardrail) 하네스</strong> — 구글 Agent Development Kit(ADK) 기반. 파괴적 행동(DB drop, 강제 삭제, 무단 push)을 실행 전에 막는 인터셉터가 있고, 자동 메모리 압축(compaction)이 내장되어 있다(23:30, 24:02).</li></ol>
+<h3>3계층 스택</h3>
+<ul><li><strong>모델 계층</strong> (요약에 따르면 "Gemini 3.8 Flash" 등) — 에이전트 루프 하나가 작업당 20~60회의 도구 호출을 돌리므로, 느리고 무거운 모델보다 빠르고 저렴한 모델이 더 중요하다. 속도와 비용이 루프의 반복 속도를 결정한다(25:43, 26:12, 26:43).</li><li><strong>하네스 계층</strong> (요약에 따르면 Antigravity의 "Boost" 모드 등) — 모델 하나를 오케스트레이터, 병렬로 도는 전문 서브 에이전트들, 다른 둘의 작업을 검사하는 독립 검증자(auditor)로 이루어진 팀으로 구성한다(27:17, 27:32).</li><li><strong>지식 계층</strong> (Google Skills) — GCP, Firebase, Flutter 등을 다루는 구조화된 오픈소스 스킬 약 100개를 필요할 때 로드해, 추측 대신 정확한 컨텍스트를 모델에 준다(28:48, 29:26).</li></ul>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>모든 레포: <code>AGENTS.md</code>/<code>CLAUDE.md</code>가 shift-left 산출물이다.</strong> alice는 이미 <code>~/.claude/CLAUDE.md</code>(GitHub 정책, 히스토리 로깅 규칙, 영어 체크 포맷)와 <code>~/.claude/projects/</code> 아래 프로젝트별 메모리 파일에 이 패턴을 갖고 있다. 강연은 이 컨벤션에 이름과 이유를 붙여 준다. 매 프롬프트에 규칙을 다시 치는 것보다 에이전트가 읽는 문서에 한 번 적어 두는 쪽이 더 싸다.</li><li><strong>Rabbit: 파괴적 명령 인터셉터가 곧 도구 호출 단위의 가드레일 하네스 패턴이다.</strong> Rabbit의 EIP-7715 세션 키 mandate 검사 — mandate 없이 "send" 액션을 거부하는 것 — 는 강연이 보여준, DB drop이나 강제 push를 막는 ADK 스타일 인터셉터와 기능적으로 같다. 둘 다 호출자가 요청할 권한이 없는 행동을 하네스가 실행하지 못하게 막는다.</li><li><strong>CI: 테스트는 단순한 게이트가 아니라 피드백 루프다.</strong> 폐루프 하네스의 수정-테스트-캡처-재시도 사이클은 테스트 출력이 에이전트가 읽을 수 있게 되어 있어야만 작동한다. 이는 에이전트가 만드는 PR에서 CI가 만족해야 할 조건과 같고, Dark Horse (e)의 boundary-file 아이디어를 구체화한 버전이다.</li><li><strong>Auditor: 이것이 문자 그대로 하네스 계층의 독립 검증자다.</strong> 강연의 auditor 서브 에이전트 — 작업을 한 오케스트레이터·전문가와 별개로, 규칙에 맞춰 그 작업을 검사하는 존재 — 가 바로 Auditor 행의 직무 설명이다. "무엇을 어떤 규칙으로 확인했는지"가 정확히 쓸모 있는 auditor 서브 에이전트가 기록해야 할 내용이다.</li><li><strong>Eng: "에이전트 하네스가 무엇인가"는 2026년다운 정당한 면접 질문이다.</strong> 후보자가 모델의 능력과 그것을 둘러싼 시스템의 능력을 구분하는지 깔끔하게 테스트할 수 있다. 이는 팀 리드 역할이 무엇을 직접 만들고 무엇을 Claude Code 같은 기존 하네스에 맡길지 결정할 때 필요한 것과 같은 구분이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 모델을 둘러싼 런타임 껍질을 "하네스"라 부르는 것은 이제 표준 용법이다 — Claude Code, Cursor, Codex CLI, 구글의 Antigravity 모두 에이전트 하네스로 불린다. 구글의 Agent Development Kit(ADK)는 실행 전에 도구 호출을 가로챌 수 있는 콜백을 가진 실제 문서화된 에이전트 프레임워크다. "shift left"는 검증을 파이프라인 앞단으로 옮긴다는, 수십 년 된 소프트웨어 품질 용어다. <code>AGENTS.md</code>/<code>CLAUDE.md</code> 파일은 에이전트에게 상시 지침을 주는 사실상의 표준 컨벤션이다. 요약에서 가져왔고 독립 확인하지 않은 것: 화자의 이름과 역할(Ryan Leopoldo), "Gemini 3.8 Flash"라는 모델명, "Boost 모드"라는 이름, 약 100개라는 Google Skills 개수, 그리고 위의 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=F8EZJAm9iO8">YouTube — Google Cloud Tech, "Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code &amp; Cursor"</a> · 관련 항목: Tech #62(에이전틱 엔지니어링은 경계를 쓴다), Tech #97, 온톨로지 항목(<code>agentic-systems-need-ontologies</code>), Pocock 항목(<code>pocock-fundamentals-matter-more</code>), Tech #101(ADK voice).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>agent harness</strong></td><td>에이전트 하네스(모델을 둘러싼 실행 껍질: 도구 호출, 루프 제어 등) · 이 글 전체의 핵심 용어. "an AI agent is two separate things, an LLM ... and an agent harness"</td></tr><tr><td><strong>LLM</strong></td><td>Large Language Model(대형 언어모델) · 텍스트만 주고받을 뿐 행동은 못 하는 "두뇌" 쪽. "An LLM only takes in text and emits more text"</td></tr><tr><td><strong>shift-left</strong></td><td>왼쪽으로 옮기기(검증·품질 관문을 파이프라인 앞단으로 당기는 것) · 오래된 소프트웨어 품질 용어. "push the same guardrail earlier"</td></tr><tr><td><strong>lazy prompter</strong></td><td>게으른 프롬프터(규칙을 매번 프롬프트에 적지 않고 환경에 한 번만 적어 두는 태도) · 이 엔지니어가 자칭한 철학. "he writes it once into the environment"</td></tr><tr><td><strong>grounding (v.)</strong></td><td>근거를 인출하다(모델이 답을 지어내지 않고 문서·환경에서 사실을 가져오는 것) · lazy prompter 철학의 목적어. "the model can retrieve (\"ground\") it itself"</td></tr><tr><td><strong>guardrail</strong></td><td>가드레일(위험한 행동을 사전에 막는 안전장치) · 세 번째 하네스 패턴의 이름. "Guardrail harness ... an interceptor blocks destructive actions"</td></tr><tr><td><strong>interceptor</strong></td><td>인터셉터(실행 전에 호출을 가로채 검사·차단하는 컴포넌트) · ADK 기반 가드레일 하네스의 핵심 부품. "an interceptor blocks destructive actions ... before they run"</td></tr><tr><td><strong>closed-loop</strong></td><td>폐루프(결과를 다시 입력으로 되먹이는 구조) · 두 번째 하네스 패턴. "edit, test, capture the failure, feed it back into memory"</td></tr><tr><td><strong>self-healing</strong></td><td>자가 치유(실패를 스스로 감지하고 재시도해 고치는 성질) · 폐루프 하네스를 요약하는 말. "a self-healing loop"</td></tr><tr><td><strong>linear harness</strong></td><td>선형 하네스(한 번 읽고 답하고 끝나는 가장 단순한 패턴) · 결정론적 단발 작업용. "read a file once, answer, stop"</td></tr><tr><td><strong>over-scaffold (v.)</strong></td><td>과잉으로 뼈대를 짜다(꼭 필요하지 않은 구조를 하네스에 덧붙이는 것) · 이 영상의 경고. "Don&#39;t over-scaffold the harness itself"</td></tr><tr><td><strong>tool call</strong></td><td>도구 호출(에이전트가 하네스를 통해 파일 읽기·명령 실행 등을 요청하는 한 스텝) · 루프 횟수를 셀 때 쓰는 단위. "an agent loop makes 20–60 tool calls per task"</td></tr><tr><td><strong>orchestrator</strong></td><td>오케스트레이터(다른 서브 에이전트들에 작업을 나눠 주고 조율하는 역할) · 하네스 계층 팀 구성의 한 축. "an orchestrator, parallel specialist sub-agents"</td></tr><tr><td><strong>sub-agent</strong></td><td>서브 에이전트(오케스트레이터 아래에서 특정 작업을 맡는 하위 에이전트) · 병렬로 도는 전문가 역할. "parallel specialist sub-agents"</td></tr><tr><td><strong>auditor (sub-agent)</strong></td><td>감사자(다른 에이전트의 작업을 규칙에 맞춰 독립적으로 검사하는 역할) · Jayverse의 Auditor 행과 직접 대응. "an independent auditor that checks the others&#39; work"</td></tr><tr><td><strong>ADK</strong></td><td>Agent Development Kit(구글의 에이전트 개발 프레임워크) · 콜백으로 도구 호출을 가로챌 수 있는 실제 프레임워크. "built on Google&#39;s Agent Development Kit (ADK)"</td></tr><tr><td><strong>CI</strong></td><td>Continuous Integration(지속적 통합, 코드 변경마다 자동으로 빌드·테스트를 도는 체계) · shift-left 가드레일의 대표 예. "unit test or CI eval that catches the failure"</td></tr><tr><td><strong>PR</strong></td><td>Pull Request(코드 변경을 검토·병합 요청하는 단위) · expanding-the-loop 신뢰 구축의 기본 단위. "small PRs plus an automated review loop"</td></tr><tr><td><strong>DB</strong></td><td>Database(데이터베이스) · 가드레일 하네스가 막는 파괴적 행동의 예. "a DB drop, a forced delete, an unauthorized push"</td></tr><tr><td><strong>GCP</strong></td><td>Google Cloud Platform(구글 클라우드 플랫폼) · Google Skills 지식 계층이 다루는 대표 영역. "things like GCP, Firebase and Flutter"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-agentic-systems-need-ontologies.html">&larr; 105. Agentic systems need ontologies — validate types at the door, meaning at the ledger</a><a href="pocs-managed-agents-build-vs-buy-harness.html">107. Three founders shipped Claude Managed Agents to production — because the harness wasn&#39;t their edge &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="harness-engineering-shift-left";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A subscriber poll&#39;s #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/544</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A subscriber poll&#39;s #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1313</span><span>Talk</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <h1>A subscriber poll&#39;s #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean</h1>
+      <p class="lead">편집자K, a Korean YouTube channel run by a book editor, polled subscribers for their all-time favorite full-length novel (장편소설) and read the results in a video titled "편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)," about 26 minutes long. 319 subscribers voted, and ties at three of the five ranks turned a "top 5" into eight novels: joint 5th at 6 votes each (은희경&#39;s 새의 선물 and John Williams&#39;s *Stoner*), 4th alone at 7 votes (한강&#39;s 소년이 온다), joint 3rd at 10 votes each (최은영&#39;s 밝은 밤 and Romain Gary/Émile Ajar&#39;s 자기 앞의 생), joint 2nd at 11 votes each (박경리&#39;s 토지 and 정세랑&#39;s 시선으로부터,), and 1st at 12 votes (양귀자&#39;s 모순). Six of the eight are Korean, and the channel&#39;s own closing take groups them around two recurring shapes: a young narrator who already sees the world&#39;s contradictions, and a multi-generation family story that carries a historical wound (03:41, 11:18, 18:28).</p>
+      <p class="meta">For Jayverse this is not a book-club post, it is one data point in a small series on what people keep re-reading: two professionals&#39; curated top-ten lists live in or are planned for <code>park-hyejin-ten-books-breakthrough</code> and <code>jung-youngsu-ten-books-irony</code>. This item is the aggregate popular vote instead — 319 ballots instead of one curated list — and it is raw material for a later Knowledge Notes page that puts all three side by side. It also supplies two standalone lessons worth keeping independent of that page: what a no-marketing steady-seller looks like in publishing, and a blunt one-line counterweight to the postmortem habit in <code>djokovic-discipline-watch-the-loss</code>.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# A subscriber poll's #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean\n\n편집자K, a Korean YouTube channel run by a book editor, polled subscribers for their all-time favorite full-length novel (장편소설) and read the results in a video titled \"편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편),\" about 26 minutes long. 319 subscribers voted, and ties at three of the five ranks turned a \"top 5\" into eight novels: joint 5th at 6 votes each (은희경's 새의 선물 and John Williams's *Stoner*), 4th alone at 7 votes (한강's 소년이 온다), joint 3rd at 10 votes each (최은영's 밝은 밤 and Romain Gary/Émile Ajar's 자기 앞의 생), joint 2nd at 11 votes each (박경리's 토지 and 정세랑's 시선으로부터,), and 1st at 12 votes (양귀자's 모순). Six of the eight are Korean, and the channel's own closing take groups them around two recurring shapes: a young narrator who already sees the world's contradictions, and a multi-generation family story that carries a historical wound (03:41, 11:18, 18:28).\n\nFor Jayverse this is not a book-club post, it is one data point in a small series on what people keep re-reading: two professionals' curated top-ten lists live in or are planned for `park-hyejin-ten-books-breakthrough` and `jung-youngsu-ten-books-irony`. This item is the aggregate popular vote instead — 319 ballots instead of one curated list — and it is raw material for a later Knowledge Notes page that puts all three side by side. It also supplies two standalone lessons worth keeping independent of that page: what a no-marketing steady-seller looks like in publishing, and a blunt one-line counterweight to the postmortem habit in `djokovic-discipline-watch-the-loss`.\n\n## Why\n\nA poll like this is a natural experiment in demand that formed with no marketing budget behind it. 모순, the winner, has reportedly sold tens of thousands of copies a year for over two decades on word of mouth alone (19:58, 21:27, 21:40) — the same question a founder asks about a product that keeps growing without paid acquisition, asked about a book instead. And a structure that keeps winning across 319 uncoordinated votes — a clear-eyed young narrator, a family saga split by a historical rupture — is a pattern worth naming, not a coincidence to wave past. It also produces two pieces of usable output outside of book talk: an honest answer to \"what mistakes did you learn\" style postmortem questions in Life and Eng, and small-talk material for the \"what should I read from Korea\" question that comes up abroad.\n\n## How it works\n\n### The eight, in order, with what the poll counted\n\n1. **새의 선물** (lit. \"The Bird's Gift\"), 은희경 — joint 5th, 6 votes. A growth novel past 100 printings, told by 진희, 12 years old but reading the adults around her with a cynic's clarity (00:36, 00:48, 00:59, 01:31). Written after the author's 1995 debut dried up her commissions; she finished it on retreat at a mountain temple, trading two meals a day for a place to write, and it won the first 문학동네소설상 (02:49, 03:21).\n2. **Stoner**, John Williams — joint 5th, 6 votes. The one non-Korean pick, an ordinary professor's life told from birth to death (04:03, 04:17). Published 1965, forgotten through the author's 1994 death, then revived by NYRB Classics into an international word-of-mouth hit (04:38, 05:02).\n3. **소년이 온다** (English title *Human Acts*), 한강 — 4th alone, 7 votes. Ten days in Gwangju in May 1980 and the people left afterward, narrated in part through the middle-schooler 동호 (08:00, 08:09, 10:19). Critic 신형철's blurb, quoted in the video, calls it writing that performs \"a poetic invocation and a prosaic testimony at once, as if Paul Celan and Primo Levi wrote it together\" (08:35, 09:32).\n4. **밝은 밤** (lit. \"A Bright Night\"), 최은영 — joint 3rd, 10 votes, the author's first full-length novel (10:43, 10:54, 11:04). Four generations, great-grandmother to narrator, and 100 years, reconstructing family pain against Korea's modern history (11:18, 11:42).\n5. **자기 앞의 생** (English title *The Life Before Us*), Émile Ajar / Romain Gary — joint 3rd, 10 votes. A 14-year-old, 모모, in a Paris slum, and Madame Rosa, a retired sex worker who raises him (12:35, 13:07, 13:16), told with a child's plainness about a hard subject (12:57, 13:26).\n6. **토지** (lit. \"Land\"), 박경리 — joint 2nd, 11 votes. Written 1969–1994, 26 years, 20 volumes, a reported 40,000 manuscript pages (15:08, 15:29, 17:00, 17:16), spanning late Joseon through liberation with hundreds of named characters (17:16, 17:26).\n7. **시선으로부터,**, 정세랑 — joint 2nd, 11 votes. Three generations gather in Hawaii for the 10th anniversary of matriarch 심시선's death — a title that puns on 시선 (\"gaze\") and her name (17:39, 18:02, 18:16, 19:15). The video's own line: \"a 21st-century love letter to the women who lived through the 20th century\" (18:28).\n8. **모순** (lit. \"Contradiction\"), 양귀자 — 1st, 12 votes. 안진진, mid-20s, has an identical twin born the same day whose life split from hers early: a hard-driving mother versus a wealthy, empty aunt (23:19, 23:41, 24:03), a conflict between two men, and a marriage (24:16, 24:38).\n\n### The two shapes the votes cluster into\n\nThree of the eight put a narrator too young to have earned cynicism in the middle of an adult mess anyway: 진희 at 12, 모모 at 14, 동호 at middle-school age. Three more are multi-generation family stories that carry the country's history inside a household: 밝은 밤 across four generations and a century, 토지 across 26 years of writing and most of a century of Korean history, 시선으로부터, across three generations converging on one matriarch. 모순 and *Stoner* sit outside both shapes — one an ordinary life told start to end, one a life split in two by an accident of timing — but the total effect the video lands on is the same: readers keep choosing books that walk straight through contradiction and loss instead of resolving them (01:21, 12:45, 21:49).\n\n### 모순 and the no-marketing steady-seller pattern\n\n모순 has stayed in print and in demand for over 20 years with, per the summary, no marketing push behind it (19:58, 20:10, 21:27, 21:40). That is the publishing version of the point in Tech #98 (Shopify's six decisions) — a product that survives on the strength of what it does, carried forward by the people who already use it, instead of by acquisition spend. A poll like this is a cheap way to see which books are doing that: a vote that costs the voter nothing still filters for what people are willing to name, unprompted, twenty years after publication.\n\n### 모순's aphorism against the postmortem habit\n\nThe novel's closing line, quoted in the video: \"인생은 탐구하면서 살아가는 것이 아니라 살아가면서 탐구하는 것이다. 실수는 되풀이된다. 그것이 인생이다\" — life is not something you investigate and then live, it is something you investigate by living it; mistakes repeat, and that is life (25:07, 25:43). That is a useful, deflating counterweight to `djokovic-discipline-watch-the-loss`'s replay-the-interval habit. A postmortem assumes the specific mistake is avoidable next time if the review is careful enough. 모순's line assumes something coarser and, over a long enough horizon, more honest: repetition is the baseline condition, not the exception the postmortem is trying to eliminate. Both are true at different timescales — the postmortem lowers how often a given mistake recurs; it does not retire the category of mistake.\n\n### Stoner's second life\n\n*Stoner* is the only non-Korean, non-tie-breaker pick to land in the top five, and its own history is a second illustration of a long horizon paying off after the fact: written in 1965, unnoticed through the author's death in 1994, revived by NYRB Classics into the international readership it never had while Williams was alive. Read next to `greene-reading-leaves-the-prison`, it is the same argument from the book's own plot rather than from a talk about reading: a life measured for what it built, seen properly only much later.\n\n### Where it lands in Jayverse\n\n- **Knowledge Notes: the eventual three-lists page.** This item, `park-hyejin-ten-books-breakthrough`, and `jung-youngsu-ten-books-irony` are the three inputs for a single later Life page comparing two curated professional lists against one aggregate popular vote — note the overlaps and the divergences when that page gets written, don't just concatenate them.\n- **Eng: a ready answer for \"what Korean novel should I read.\"** One sentence each, interview-safe: 모순 — a woman confronts her own twin life and concludes mistakes just repeat, that is the point. 소년이 온다 — ten days in Gwangju in 1980 told through a child who stayed. 토지 — 26 years of writing, most of a century of Korean history, one family.\n- **Invest: steady-seller economics as a business-model note.** 모순's 20-plus years of demand with no marketing spend is a case of a product that compounds through referral instead of acquisition cost; worth a line in whatever Invest note eventually covers demand curves that hold without paid growth.\n- **Life: sits between two already-written items.** Extends `greene-reading-leaves-the-prison` (why read at all) and answers back to `djokovic-discipline-watch-the-loss` (#1309) with 모순's harder claim that repetition, not correction, is the default.\n\n### Verified and unverified\n\nVerified on 2026-09-19: the eight novels and authors named exist as described; Han Kang's 소년이 온다 was published in English as *Human Acts* (tr. Deborah Smith, 2016) and Han Kang won the 2024 Nobel Prize in Literature; Romain Gary won the Prix Goncourt in 1956 and again in 1975 under the pseudonym Émile Ajar for *La Vie devant soi* (자기 앞의 생 / *The Life Before Us*), the only author to win it twice; *Stoner*'s neglect-then-NYRB-revival history is documented; 박경리's 토지 was written 1969–1994. Taken from the video summary and not independently checked: the exact vote counts and 319-subscriber figure, 새의 선물's \"over 100 printings,\" 은희경's mountain-temple writing story, 토지's \"40,000 manuscript pages,\" 모순's specific sales-without-marketing claim, and every timestamp above.\n\nSources: [YouTube — 편집자K, \"편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)\"](https://www.youtube.com/watch?v=oFhSgJHaj4I) · related items: `greene-reading-leaves-the-prison`, `djokovic-discipline-watch-the-loss` (#1309), `park-hyejin-ten-books-breakthrough`, `jung-youngsu-ten-books-irony`, Tech #98 (Shopify's six decisions).\n"</script>
+<h2>Why</h2>
+<p>A poll like this is a natural experiment in demand that formed with no marketing budget behind it. 모순, the winner, has reportedly sold tens of thousands of copies a year for over two decades on word of mouth alone (19:58, 21:27, 21:40) — the same question a founder asks about a product that keeps growing without paid acquisition, asked about a book instead. And a structure that keeps winning across 319 uncoordinated votes — a clear-eyed young narrator, a family saga split by a historical rupture — is a pattern worth naming, not a coincidence to wave past. It also produces two pieces of usable output outside of book talk: an honest answer to "what mistakes did you learn" style postmortem questions in Life and Eng, and small-talk material for the "what should I read from Korea" question that comes up abroad.</p>
+<h2>How it works</h2>
+<h3>The eight, in order, with what the poll counted</h3>
+<ol><li><strong>새의 선물</strong> (lit. "The Bird&#39;s Gift"), 은희경 — joint 5th, 6 votes. A growth novel past 100 printings, told by 진희, 12 years old but reading the adults around her with a cynic&#39;s clarity (00:36, 00:48, 00:59, 01:31). Written after the author&#39;s 1995 debut dried up her commissions; she finished it on retreat at a mountain temple, trading two meals a day for a place to write, and it won the first 문학동네소설상 (02:49, 03:21).</li><li><strong>Stoner</strong>, John Williams — joint 5th, 6 votes. The one non-Korean pick, an ordinary professor&#39;s life told from birth to death (04:03, 04:17). Published 1965, forgotten through the author&#39;s 1994 death, then revived by NYRB Classics into an international word-of-mouth hit (04:38, 05:02).</li><li><strong>소년이 온다</strong> (English title <em>Human Acts</em>), 한강 — 4th alone, 7 votes. Ten days in Gwangju in May 1980 and the people left afterward, narrated in part through the middle-schooler 동호 (08:00, 08:09, 10:19). Critic 신형철&#39;s blurb, quoted in the video, calls it writing that performs "a poetic invocation and a prosaic testimony at once, as if Paul Celan and Primo Levi wrote it together" (08:35, 09:32).</li><li><strong>밝은 밤</strong> (lit. "A Bright Night"), 최은영 — joint 3rd, 10 votes, the author&#39;s first full-length novel (10:43, 10:54, 11:04). Four generations, great-grandmother to narrator, and 100 years, reconstructing family pain against Korea&#39;s modern history (11:18, 11:42).</li><li><strong>자기 앞의 생</strong> (English title <em>The Life Before Us</em>), Émile Ajar / Romain Gary — joint 3rd, 10 votes. A 14-year-old, 모모, in a Paris slum, and Madame Rosa, a retired sex worker who raises him (12:35, 13:07, 13:16), told with a child&#39;s plainness about a hard subject (12:57, 13:26).</li><li><strong>토지</strong> (lit. "Land"), 박경리 — joint 2nd, 11 votes. Written 1969–1994, 26 years, 20 volumes, a reported 40,000 manuscript pages (15:08, 15:29, 17:00, 17:16), spanning late Joseon through liberation with hundreds of named characters (17:16, 17:26).</li><li><strong>시선으로부터,</strong>, 정세랑 — joint 2nd, 11 votes. Three generations gather in Hawaii for the 10th anniversary of matriarch 심시선&#39;s death — a title that puns on 시선 ("gaze") and her name (17:39, 18:02, 18:16, 19:15). The video&#39;s own line: "a 21st-century love letter to the women who lived through the 20th century" (18:28).</li><li><strong>모순</strong> (lit. "Contradiction"), 양귀자 — 1st, 12 votes. 안진진, mid-20s, has an identical twin born the same day whose life split from hers early: a hard-driving mother versus a wealthy, empty aunt (23:19, 23:41, 24:03), a conflict between two men, and a marriage (24:16, 24:38).</li></ol>
+<h3>The two shapes the votes cluster into</h3>
+<p>Three of the eight put a narrator too young to have earned cynicism in the middle of an adult mess anyway: 진희 at 12, 모모 at 14, 동호 at middle-school age. Three more are multi-generation family stories that carry the country&#39;s history inside a household: 밝은 밤 across four generations and a century, 토지 across 26 years of writing and most of a century of Korean history, 시선으로부터, across three generations converging on one matriarch. 모순 and <em>Stoner</em> sit outside both shapes — one an ordinary life told start to end, one a life split in two by an accident of timing — but the total effect the video lands on is the same: readers keep choosing books that walk straight through contradiction and loss instead of resolving them (01:21, 12:45, 21:49).</p>
+<h3>모순 and the no-marketing steady-seller pattern</h3>
+<p>모순 has stayed in print and in demand for over 20 years with, per the summary, no marketing push behind it (19:58, 20:10, 21:27, 21:40). That is the publishing version of the point in Tech #98 (Shopify&#39;s six decisions) — a product that survives on the strength of what it does, carried forward by the people who already use it, instead of by acquisition spend. A poll like this is a cheap way to see which books are doing that: a vote that costs the voter nothing still filters for what people are willing to name, unprompted, twenty years after publication.</p>
+<h3>모순&#39;s aphorism against the postmortem habit</h3>
+<p>The novel&#39;s closing line, quoted in the video: "인생은 탐구하면서 살아가는 것이 아니라 살아가면서 탐구하는 것이다. 실수는 되풀이된다. 그것이 인생이다" — life is not something you investigate and then live, it is something you investigate by living it; mistakes repeat, and that is life (25:07, 25:43). That is a useful, deflating counterweight to <code>djokovic-discipline-watch-the-loss</code>&#39;s replay-the-interval habit. A postmortem assumes the specific mistake is avoidable next time if the review is careful enough. 모순&#39;s line assumes something coarser and, over a long enough horizon, more honest: repetition is the baseline condition, not the exception the postmortem is trying to eliminate. Both are true at different timescales — the postmortem lowers how often a given mistake recurs; it does not retire the category of mistake.</p>
+<h3>Stoner&#39;s second life</h3>
+<p><em>Stoner</em> is the only non-Korean, non-tie-breaker pick to land in the top five, and its own history is a second illustration of a long horizon paying off after the fact: written in 1965, unnoticed through the author&#39;s death in 1994, revived by NYRB Classics into the international readership it never had while Williams was alive. Read next to <code>greene-reading-leaves-the-prison</code>, it is the same argument from the book&#39;s own plot rather than from a talk about reading: a life measured for what it built, seen properly only much later.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Knowledge Notes: the eventual three-lists page.</strong> This item, <code>park-hyejin-ten-books-breakthrough</code>, and <code>jung-youngsu-ten-books-irony</code> are the three inputs for a single later Life page comparing two curated professional lists against one aggregate popular vote — note the overlaps and the divergences when that page gets written, don&#39;t just concatenate them.</li><li><strong>Eng: a ready answer for "what Korean novel should I read."</strong> One sentence each, interview-safe: 모순 — a woman confronts her own twin life and concludes mistakes just repeat, that is the point. 소년이 온다 — ten days in Gwangju in 1980 told through a child who stayed. 토지 — 26 years of writing, most of a century of Korean history, one family.</li><li><strong>Invest: steady-seller economics as a business-model note.</strong> 모순&#39;s 20-plus years of demand with no marketing spend is a case of a product that compounds through referral instead of acquisition cost; worth a line in whatever Invest note eventually covers demand curves that hold without paid growth.</li><li><strong>Life: sits between two already-written items.</strong> Extends <code>greene-reading-leaves-the-prison</code> (why read at all) and answers back to <code>djokovic-discipline-watch-the-loss</code> (#1309) with 모순&#39;s harder claim that repetition, not correction, is the default.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-19: the eight novels and authors named exist as described; Han Kang&#39;s 소년이 온다 was published in English as <em>Human Acts</em> (tr. Deborah Smith, 2016) and Han Kang won the 2024 Nobel Prize in Literature; Romain Gary won the Prix Goncourt in 1956 and again in 1975 under the pseudonym Émile Ajar for <em>La Vie devant soi</em> (자기 앞의 생 / <em>The Life Before Us</em>), the only author to win it twice; <em>Stoner</em>&#39;s neglect-then-NYRB-revival history is documented; 박경리&#39;s 토지 was written 1969–1994. Taken from the video summary and not independently checked: the exact vote counts and 319-subscriber figure, 새의 선물&#39;s "over 100 printings," 은희경&#39;s mountain-temple writing story, 토지&#39;s "40,000 manuscript pages," 모순&#39;s specific sales-without-marketing claim, and every timestamp above.</p>
+<p>Sources: <a href="https://www.youtube.com/watch?v=oFhSgJHaj4I">YouTube — 편집자K, "편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)"</a> · related items: <code>greene-reading-leaves-the-prison</code>, <code>djokovic-discipline-watch-the-loss</code> (#1309), <code>park-hyejin-ten-books-breakthrough</code>, <code>jung-youngsu-ten-books-irony</code>, Tech #98 (Shopify&#39;s six decisions).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steady-seller</strong></td><td>스테디셀러(마케팅 없이 꾸준히 팔리는 책) · 이 항목의 핵심 경제 개념. "what a no-marketing steady-seller looks like"</td></tr><tr><td><strong>word of mouth</strong></td><td>입소문(광고 없이 사람에서 사람으로 퍼지는 추천) · 스테디셀러를 만드는 메커니즘. "on word of mouth alone"</td></tr><tr><td><strong>natural experiment</strong></td><td>자연 실험(의도적으로 설계하지 않았지만 통제된 것처럼 비교할 수 있는 상황) · 투표를 수요 실험으로 읽을 때 쓴 표현. "a natural experiment in demand"</td></tr><tr><td><strong>customer acquisition</strong></td><td>고객 획득(유료 마케팅으로 신규 사용자를 얻는 것) · 스타트업 용어를 출판에 빗댄 표현. "growing without paid acquisition"</td></tr><tr><td><strong>clear-eyed</strong></td><td>냉철한, 환상 없이 보는 · 어린 화자들의 시선을 묘사. "a clear-eyed young narrator"</td></tr><tr><td><strong>coming-of-age</strong></td><td>성장(소설 장르, 어린 화자가 세상을 알아가는 이야기) · 『새의 선물』 류를 가리킬 때. "a growth novel" (성장소설)</td></tr><tr><td><strong>multi-generation saga</strong></td><td>다세대 서사(여러 세대에 걸친 가족 이야기) · 『밝은 밤』, 『토지』, 『시선으로부터,』의 공통 형태. "a multi-generation family saga"</td></tr><tr><td><strong>historical wound</strong></td><td>역사적 상처(집단 역사의 아픔이 개인·가족 서사에 남긴 흔적) · 광주, 근현대사를 가리킬 때. "carries a historical wound"</td></tr><tr><td><strong>tie (n., poll)</strong></td><td>동점(투표에서 표가 같아 순위가 겹치는 것), 투표용지 한 표를 뜻하는 ballot과 함께 · 이 투표가 8편이 된 이유. "ties at three of the five ranks... 319 ballots"</td></tr><tr><td><strong>aphorism</strong></td><td>경구, 격언(짧고 압축된 진리 진술) · 『모순』의 마지막 문장을 가리킬 때. "the novel&#39;s closing line" (아포리즘)</td></tr><tr><td><strong>postmortem</strong></td><td>사후 복기(끝난 뒤에 무엇이 잘못됐는지 검토하는 것) · <code>djokovic-discipline-watch-the-loss</code>와 연결되는 핵심어. "a counterweight to the postmortem habit"</td></tr><tr><td><strong>counterweight</strong></td><td>반대추(한쪽 주장을 상쇄·균형 잡는 것) · 복기 습관에 대한 『모순』의 반론을 가리킴. "a blunt one-line counterweight"</td></tr><tr><td><strong>out of print / neglected</strong></td><td>절판된 / 외면받은 · 『스토너』가 재발견되기 전 상태. "forgotten through the author&#39;s 1994 death"</td></tr><tr><td><strong>revival</strong></td><td>부활, 재조명(잊혔던 것이 다시 주목받는 것) · NYRB의 『스토너』 재출간을 가리킴. "revived by NYRB Classics"</td></tr><tr><td><strong>NYRB</strong></td><td>New York Review Books(뉴욕 리뷰 북스, 절판·잊힌 명작을 재출간하는 미국 출판사) · 『스토너』 부활의 주체. "revived by NYRB Classics"</td></tr><tr><td><strong>pseudonym</strong></td><td>필명(본명을 숨기고 쓰는 이름) · 로맹 가리가 에밀 아자르로 활동한 이유. "under the pseudonym Émile Ajar"</td></tr><tr><td><strong>second life</strong></td><td>두 번째 삶(작품이나 인물이 시간이 지나 다시 주목받는 것) · 『스토너』의 사후 재조명을 가리킴. "Stoner&#39;s second life"</td></tr><tr><td><strong>matriarch</strong></td><td>가모장(집안의 중심이 되는 여성 어른) · 『시선으로부터,』의 심시선을 가리킴. "a matriarch&#39;s tenth anniversary"</td></tr><tr><td><strong>aggregate (vote)</strong></td><td>집계(개별 표를 모두 합친 결과) · 전문가 개인 리스트와 대비되는 대중 투표의 성격. "the aggregate popular vote"</td></tr><tr><td><strong>baseline condition</strong></td><td>기본 조건(예외가 아니라 늘 그러한 상태) · 『모순』이 말하는 반복의 위상을 가리킴. "the baseline condition, not the exception"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 구독자 투표에서 1위한 소설의 결론은 \"실수는 되풀이된다\"다 — 319명이 뽑은 인생소설 8편, 그중 6편이 한국 소설\n\n책 편집자가 운영하는 유튜브 채널 편집자K가 구독자들에게 인생 최고의 장편소설을 물었고, 그 결과를 약 26분 분량의 영상 \"편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)\"에서 발표했다. 319명이 투표했고, 5개 순위 중 3개에서 동점이 나오면서 \"TOP 5\"가 여덟 편으로 늘었다. 공동 5위 6표씩(은희경 『새의 선물』, 존 윌리엄스 『스토너』), 4위 단독 7표(한강 『소년이 온다』), 공동 3위 10표씩(최은영 『밝은 밤』, 에밀 아자르/로맹 가리 『자기 앞의 생』), 공동 2위 11표씩(박경리 『토지』, 정세랑 『시선으로부터,』), 1위 12표(양귀자 『모순』). 여덟 편 중 여섯 편이 한국 소설이고, 채널 자체의 마무리 발언은 이를 두 가지 반복되는 형태로 묶는다. 세상의 모순을 이미 다 아는 어린 화자, 그리고 역사적 상처를 안고 있는 다세대 가족 서사다(03:41, 11:18, 18:28).\n\nJayverse에서 이것은 독서 모임용 글이 아니라, 사람들이 계속 다시 찾는 것이 무엇인지를 다루는 작은 시리즈의 한 데이터 지점이다. 두 전문가의 큐레이션된 십선 리스트는 `park-hyejin-ten-books-breakthrough`와 `jung-youngsu-ten-books-irony`에 있거나 예정되어 있다. 이 항목은 그 대신 집계된 대중 투표다. 한 사람이 고른 리스트가 아니라 319장의 투표용지다. 이것은 이후 세 리스트를 나란히 놓을 Knowledge Notes 페이지 하나의 재료이기도 하다. 그 페이지와 별개로도 쓸 수 있는 두 가지 교훈을 준다. 출판에서 마케팅 없는 스테디셀러가 어떤 모습인지, 그리고 `djokovic-discipline-watch-the-loss`의 복기 습관에 대한 짧고 단호한 반론이다.\n\n## 왜\n\n이런 투표는 마케팅 예산 없이 형성된 수요를 보는 자연 실험이다. 1위인 『모순』은 알려진 바로는 20년 넘게 오직 입소문만으로 매년 수만 부씩 팔려 왔다(19:58, 21:27, 21:40). 유료 획득 없이 계속 성장하는 제품에 창업자가 던지는 질문과 같은 질문을, 책을 대상으로 던지는 셈이다. 그리고 조율되지 않은 319명의 표에서 계속 이기는 구조, 즉 세상을 꿰뚫어 보는 어린 화자, 역사적 단절로 갈라진 가족 서사는 우연으로 넘길 게 아니라 이름 붙일 가치가 있는 패턴이다. 이 항목은 책 이야기를 벗어난 쓸모도 두 가지 만든다. Life와 Eng에서 나오는 \"무엇을 배웠나\" 식 복기 질문에 대한 정직한 답, 그리고 해외에서 흔히 나오는 \"한국 소설 뭘 읽어야 하나\" 질문에 쓸 스몰토크 재료다.\n\n## 동작 방식\n\n### 순서대로 여덟 편, 투표가 센 것\n\n1. **새의 선물**, 은희경 — 공동 5위, 6표. 100쇄를 넘긴 성장소설로, 12세지만 주변 어른들을 냉소적으로 읽어내는 진희가 화자다(00:36, 00:48, 00:59, 01:31). 1995년 신춘문예 당선 후 청탁이 끊기자 작가는 해발 1,000m 산사에서 두 끼 밥을 얻어먹으며 이 소설을 완성했고, 제1회 문학동네소설상을 받았다(02:49, 03:21).\n2. **스토너**, 존 윌리엄스 — 공동 5위, 6표. 여덟 편 중 유일한 비한국 소설로, 평범한 교수의 일생을 태어남부터 죽음까지 그린다(04:03, 04:17). 1965년 출간되어 1994년 작가 사후까지 묻혀 있다가 NYRB 재출간으로 세계적인 입소문 히트가 됐다(04:38, 05:02).\n3. **소년이 온다**(영어판 제목 *Human Acts*), 한강 — 4위 단독, 7표. 1980년 5월 광주의 열흘과 그 이후 남은 사람들을, 부분적으로 중학생 동호의 시선으로 그린다(08:00, 08:09, 10:19). 영상이 인용한 평론가 신형철의 추천사는 이 소설을 \"시적 초혼과 산문적 증언을 동시에 감행하는, 마치 첼란과 레비가 함께 쓴 것 같은 문장\"이라 부른다(08:35, 09:32).\n4. **밝은 밤**, 최은영 — 공동 3위, 10표. 작가의 첫 장편소설이다(10:43, 10:54, 11:04). 증조모부터 나까지 4대, 100년에 걸쳐 집안의 아픔을 현대사와 겹쳐 복원한다(11:18, 11:42).\n5. **자기 앞의 생**(영어판 제목 *The Life Before Us*), 에밀 아자르(로맹 가리) — 공동 3위, 10표. 파리 빈민가에 사는 14세 모모와, 그를 키우는 은퇴한 매춘부 로자 아줌마의 이야기다(12:35, 13:07, 13:16). 무거운 주제를 아이다운 담백함으로 그린다(12:57, 13:26).\n6. **토지**, 박경리 — 공동 2위, 11표. 1969년부터 1994년까지 26년에 걸쳐 쓰였고, 전 20권, 원고지 4만 장에 달한다고 알려져 있다(15:08, 15:29, 17:00, 17:16). 조선 말부터 해방까지를 배경으로 수백 명의 인물이 등장한다(17:16, 17:26).\n7. **시선으로부터,**, 정세랑 — 공동 2위, 11표. 3대가 하와이에 모여 가모장 심시선의 10주기를 치른다. 제목은 \"시선\"(눈길)과 그녀의 이름을 겹친 말장난이다(17:39, 18:02, 18:16, 19:15). 영상 자체의 표현으로는 \"20세기를 꿋꿋이 살아낸 여성들에게 바치는 21세기의 사랑 이야기\"다(18:28).\n8. **모순**, 양귀자 — 1위, 12표. 20대 중반 안진진에게는 같은 날 태어난 일란성 쌍둥이가 있는데, 억척스러운 어머니와 부유하지만 공허한 이모 사이에서 일찍이 갈라진 삶을 살아왔다(23:19, 23:41, 24:03). 두 남자 사이의 갈등과 결혼이 이어진다(24:16, 24:38).\n\n### 표가 몰리는 두 가지 형태\n\n여덟 편 중 세 편은 냉소를 갖기엔 너무 어린 화자를 애초에 엉망인 어른들의 세계 한복판에 세운다. 12세 진희, 14세 모모, 중학생 또래인 동호다. 또 다른 세 편은 나라의 역사를 가족 안에 담은 다세대 서사다. 『밝은 밤』은 4대와 한 세기, 『토지』는 집필만 26년에 한국 근현대사 대부분, 『시선으로부터,』는 한 가모장에게 수렴하는 3대다. 『모순』과 『스토너』는 두 형태 어느 쪽에도 완전히 속하지 않는다. 하나는 처음부터 끝까지 그려진 평범한 삶이고, 다른 하나는 타이밍의 우연으로 둘로 갈린 삶이다. 그러나 영상이 도달하는 결론은 같다. 독자들은 계속해서 모순과 상실을 해소하기보다 정면으로 통과하는 책을 고른다는 것이다(01:21, 12:45, 21:49).\n\n### 『모순』과 마케팅 없는 스테디셀러 패턴\n\n『모순』은 요약에 따르면 마케팅 없이 20년 넘게 판매와 수요를 유지해 왔다(19:58, 20:10, 21:27, 21:40). 이것은 Tech #98(Shopify의 여섯 가지 결정)의 요점을 출판에 적용한 것과 같다. 획득 비용이 아니라 이미 쓰고 있는 사람들의 입을 타고 앞으로 나아가는, 그 자체의 힘으로 살아남는 제품이다. 이런 투표는 어떤 책이 그렇게 하고 있는지를 값싸게 볼 수 있는 방법이다. 투표자에게 비용이 전혀 없는 투표조차, 출간 20여 년이 지나 자발적으로 이름을 대는 것을 걸러낸다.\n\n### 『모순』의 문장과 복기 습관에 대한 반론\n\n영상이 인용하는 소설의 마지막 문장은 이렇다. \"인생은 탐구하면서 살아가는 것이 아니라 살아가면서 탐구하는 것이다. 실수는 되풀이된다. 그것이 인생이다\"(25:07, 25:43). 이는 `djokovic-discipline-watch-the-loss`의 구간 복기 습관에 대해 유용하고 김빠지게 만드는 반론이다. 복기는 검토를 충분히 꼼꼼히 하면 그 특정 실수는 다음번엔 피할 수 있다고 전제한다. 『모순』의 문장은 더 거칠고, 충분히 긴 시간 지평에서는 더 정직한 것을 전제한다. 반복은 복기가 없애려는 예외가 아니라 기본 조건이라는 것이다. 둘 다 서로 다른 시간 척도에서 참이다. 복기는 특정 실수의 재발 빈도를 낮춘다. 실수라는 범주 자체를 없애지는 못한다.\n\n### 『스토너』의 두 번째 삶\n\n『스토너』는 동점 없이 톱5에 든 유일한 비한국 소설이고, 그 자체의 역사가 긴 시간 지평이 사후에 결실을 맺는 또 하나의 사례다. 1965년에 쓰였고 1994년 작가 사후까지 주목받지 못하다가, NYRB 재출간으로 윌리엄스가 살아 있을 때는 갖지 못했던 세계적 독자층을 얻었다. `greene-reading-leaves-the-prison`과 나란히 읽으면, 독서에 대한 강연이 아니라 소설 자체의 줄거리로 같은 주장을 한다. 삶은 그것이 쌓아 올린 것으로 평가되며, 그것도 한참 뒤에야 제대로 보인다는 것이다.\n\n### Jayverse에서의 위치\n\n- **Knowledge Notes: 세 리스트를 모을 훗날의 페이지.** 이 항목과 `park-hyejin-ten-books-breakthrough`, `jung-youngsu-ten-books-irony`는 두 개의 큐레이션된 전문가 리스트와 하나의 집계 대중 투표를 비교할 훗날의 Life 페이지 하나에 들어갈 세 입력값이다. 그 페이지를 쓸 때는 단순히 이어붙이지 말고 겹치는 부분과 갈라지는 부분을 짚을 것.\n- **Eng: \"한국 소설 뭘 읽어야 하나\"에 바로 쓸 답.** 인터뷰에서 써도 될 한 문장씩. 『모순』 — 한 여성이 자신의 쌍둥이 같은 삶을 마주하고 실수는 그저 되풀이된다고 결론짓는다, 그게 요점이다. 『소년이 온다』 — 1980년 광주의 열흘을, 그곳에 남았던 아이의 시선으로. 『토지』 — 집필만 26년, 한국 근현대사 거의 전체, 한 가족.\n- **Invest: 스테디셀러 경제학을 비즈니스 모델 메모로.** 마케팅 없이 20년 넘게 유지된 『모순』의 수요는 획득 비용이 아니라 추천을 통해 복리로 성장하는 제품의 사례다. 언젠가 Invest에서 유료 성장 없이 유지되는 수요 곡선을 다룰 때 한 줄 넣을 만하다.\n- **Life: 이미 쓰인 두 항목 사이에 놓인다.** `greene-reading-leaves-the-prison`(왜 읽는가)을 확장하고, `djokovic-discipline-watch-the-loss`(#1309)에 『모순』의 더 강한 주장으로 응답한다. 교정이 아니라 반복이 기본값이라는 것이다.\n\n### 확인된 것과 미확인\n\n2026-09-19 확인: 언급된 여덟 편의 소설과 작가는 실제로 존재한다. 한강의 『소년이 온다』는 영어판 *Human Acts*(데버러 스미스 옮김, 2016)로 출간되었고, 한강은 2024년 노벨문학상을 받았다. 로맹 가리는 1956년 공쿠르상을 받았고, 1975년에는 필명 에밀 아자르로 『자기 앞의 생』(『La Vie devant soi』)으로 다시 받아, 공쿠르상을 두 번 받은 유일한 작가다. 『스토너』가 외면받다가 NYRB에서 재출간된 역사는 문서로 남아 있다. 박경리의 『토지』는 1969년부터 1994년까지 쓰였다. 영상 요약에서 가져왔고 독립적으로 확인하지 않은 것: 정확한 득표수와 319명이라는 구독자 수, 『새의 선물』의 \"100쇄 이상\", 은희경의 산사 집필 일화, 『토지』의 \"원고지 4만 장\", 『모순』의 마케팅 없는 판매량에 대한 구체적 주장, 그리고 위의 모든 타임스탬프.\n\n출처: [YouTube — 편집자K, \"편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)\"](https://www.youtube.com/watch?v=oFhSgJHaj4I) · 관련 항목: `greene-reading-leaves-the-prison`, `djokovic-discipline-watch-the-loss`(#1309), `park-hyejin-ten-books-breakthrough`, `jung-youngsu-ten-books-irony`, Tech #98(Shopify의 여섯 가지 결정).\n"</script>
+      <h1>구독자 투표에서 1위한 소설의 결론은 "실수는 되풀이된다"다 — 319명이 뽑은 인생소설 8편, 그중 6편이 한국 소설</h1>
+      <p class="lead">책 편집자가 운영하는 유튜브 채널 편집자K가 구독자들에게 인생 최고의 장편소설을 물었고, 그 결과를 약 26분 분량의 영상 "편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)"에서 발표했다. 319명이 투표했고, 5개 순위 중 3개에서 동점이 나오면서 "TOP 5"가 여덟 편으로 늘었다. 공동 5위 6표씩(은희경 『새의 선물』, 존 윌리엄스 『스토너』), 4위 단독 7표(한강 『소년이 온다』), 공동 3위 10표씩(최은영 『밝은 밤』, 에밀 아자르/로맹 가리 『자기 앞의 생』), 공동 2위 11표씩(박경리 『토지』, 정세랑 『시선으로부터,』), 1위 12표(양귀자 『모순』). 여덟 편 중 여섯 편이 한국 소설이고, 채널 자체의 마무리 발언은 이를 두 가지 반복되는 형태로 묶는다. 세상의 모순을 이미 다 아는 어린 화자, 그리고 역사적 상처를 안고 있는 다세대 가족 서사다(03:41, 11:18, 18:28).</p>
+      <p class="meta">Jayverse에서 이것은 독서 모임용 글이 아니라, 사람들이 계속 다시 찾는 것이 무엇인지를 다루는 작은 시리즈의 한 데이터 지점이다. 두 전문가의 큐레이션된 십선 리스트는 <code>park-hyejin-ten-books-breakthrough</code>와 <code>jung-youngsu-ten-books-irony</code>에 있거나 예정되어 있다. 이 항목은 그 대신 집계된 대중 투표다. 한 사람이 고른 리스트가 아니라 319장의 투표용지다. 이것은 이후 세 리스트를 나란히 놓을 Knowledge Notes 페이지 하나의 재료이기도 하다. 그 페이지와 별개로도 쓸 수 있는 두 가지 교훈을 준다. 출판에서 마케팅 없는 스테디셀러가 어떤 모습인지, 그리고 <code>djokovic-discipline-watch-the-loss</code>의 복기 습관에 대한 짧고 단호한 반론이다.</p>
+<h2>왜</h2>
+<p>이런 투표는 마케팅 예산 없이 형성된 수요를 보는 자연 실험이다. 1위인 『모순』은 알려진 바로는 20년 넘게 오직 입소문만으로 매년 수만 부씩 팔려 왔다(19:58, 21:27, 21:40). 유료 획득 없이 계속 성장하는 제품에 창업자가 던지는 질문과 같은 질문을, 책을 대상으로 던지는 셈이다. 그리고 조율되지 않은 319명의 표에서 계속 이기는 구조, 즉 세상을 꿰뚫어 보는 어린 화자, 역사적 단절로 갈라진 가족 서사는 우연으로 넘길 게 아니라 이름 붙일 가치가 있는 패턴이다. 이 항목은 책 이야기를 벗어난 쓸모도 두 가지 만든다. Life와 Eng에서 나오는 "무엇을 배웠나" 식 복기 질문에 대한 정직한 답, 그리고 해외에서 흔히 나오는 "한국 소설 뭘 읽어야 하나" 질문에 쓸 스몰토크 재료다.</p>
+<h2>동작 방식</h2>
+<h3>순서대로 여덟 편, 투표가 센 것</h3>
+<ol><li><strong>새의 선물</strong>, 은희경 — 공동 5위, 6표. 100쇄를 넘긴 성장소설로, 12세지만 주변 어른들을 냉소적으로 읽어내는 진희가 화자다(00:36, 00:48, 00:59, 01:31). 1995년 신춘문예 당선 후 청탁이 끊기자 작가는 해발 1,000m 산사에서 두 끼 밥을 얻어먹으며 이 소설을 완성했고, 제1회 문학동네소설상을 받았다(02:49, 03:21).</li><li><strong>스토너</strong>, 존 윌리엄스 — 공동 5위, 6표. 여덟 편 중 유일한 비한국 소설로, 평범한 교수의 일생을 태어남부터 죽음까지 그린다(04:03, 04:17). 1965년 출간되어 1994년 작가 사후까지 묻혀 있다가 NYRB 재출간으로 세계적인 입소문 히트가 됐다(04:38, 05:02).</li><li><strong>소년이 온다</strong>(영어판 제목 <em>Human Acts</em>), 한강 — 4위 단독, 7표. 1980년 5월 광주의 열흘과 그 이후 남은 사람들을, 부분적으로 중학생 동호의 시선으로 그린다(08:00, 08:09, 10:19). 영상이 인용한 평론가 신형철의 추천사는 이 소설을 "시적 초혼과 산문적 증언을 동시에 감행하는, 마치 첼란과 레비가 함께 쓴 것 같은 문장"이라 부른다(08:35, 09:32).</li><li><strong>밝은 밤</strong>, 최은영 — 공동 3위, 10표. 작가의 첫 장편소설이다(10:43, 10:54, 11:04). 증조모부터 나까지 4대, 100년에 걸쳐 집안의 아픔을 현대사와 겹쳐 복원한다(11:18, 11:42).</li><li><strong>자기 앞의 생</strong>(영어판 제목 <em>The Life Before Us</em>), 에밀 아자르(로맹 가리) — 공동 3위, 10표. 파리 빈민가에 사는 14세 모모와, 그를 키우는 은퇴한 매춘부 로자 아줌마의 이야기다(12:35, 13:07, 13:16). 무거운 주제를 아이다운 담백함으로 그린다(12:57, 13:26).</li><li><strong>토지</strong>, 박경리 — 공동 2위, 11표. 1969년부터 1994년까지 26년에 걸쳐 쓰였고, 전 20권, 원고지 4만 장에 달한다고 알려져 있다(15:08, 15:29, 17:00, 17:16). 조선 말부터 해방까지를 배경으로 수백 명의 인물이 등장한다(17:16, 17:26).</li><li><strong>시선으로부터,</strong>, 정세랑 — 공동 2위, 11표. 3대가 하와이에 모여 가모장 심시선의 10주기를 치른다. 제목은 "시선"(눈길)과 그녀의 이름을 겹친 말장난이다(17:39, 18:02, 18:16, 19:15). 영상 자체의 표현으로는 "20세기를 꿋꿋이 살아낸 여성들에게 바치는 21세기의 사랑 이야기"다(18:28).</li><li><strong>모순</strong>, 양귀자 — 1위, 12표. 20대 중반 안진진에게는 같은 날 태어난 일란성 쌍둥이가 있는데, 억척스러운 어머니와 부유하지만 공허한 이모 사이에서 일찍이 갈라진 삶을 살아왔다(23:19, 23:41, 24:03). 두 남자 사이의 갈등과 결혼이 이어진다(24:16, 24:38).</li></ol>
+<h3>표가 몰리는 두 가지 형태</h3>
+<p>여덟 편 중 세 편은 냉소를 갖기엔 너무 어린 화자를 애초에 엉망인 어른들의 세계 한복판에 세운다. 12세 진희, 14세 모모, 중학생 또래인 동호다. 또 다른 세 편은 나라의 역사를 가족 안에 담은 다세대 서사다. 『밝은 밤』은 4대와 한 세기, 『토지』는 집필만 26년에 한국 근현대사 대부분, 『시선으로부터,』는 한 가모장에게 수렴하는 3대다. 『모순』과 『스토너』는 두 형태 어느 쪽에도 완전히 속하지 않는다. 하나는 처음부터 끝까지 그려진 평범한 삶이고, 다른 하나는 타이밍의 우연으로 둘로 갈린 삶이다. 그러나 영상이 도달하는 결론은 같다. 독자들은 계속해서 모순과 상실을 해소하기보다 정면으로 통과하는 책을 고른다는 것이다(01:21, 12:45, 21:49).</p>
+<h3>『모순』과 마케팅 없는 스테디셀러 패턴</h3>
+<p>『모순』은 요약에 따르면 마케팅 없이 20년 넘게 판매와 수요를 유지해 왔다(19:58, 20:10, 21:27, 21:40). 이것은 Tech #98(Shopify의 여섯 가지 결정)의 요점을 출판에 적용한 것과 같다. 획득 비용이 아니라 이미 쓰고 있는 사람들의 입을 타고 앞으로 나아가는, 그 자체의 힘으로 살아남는 제품이다. 이런 투표는 어떤 책이 그렇게 하고 있는지를 값싸게 볼 수 있는 방법이다. 투표자에게 비용이 전혀 없는 투표조차, 출간 20여 년이 지나 자발적으로 이름을 대는 것을 걸러낸다.</p>
+<h3>『모순』의 문장과 복기 습관에 대한 반론</h3>
+<p>영상이 인용하는 소설의 마지막 문장은 이렇다. "인생은 탐구하면서 살아가는 것이 아니라 살아가면서 탐구하는 것이다. 실수는 되풀이된다. 그것이 인생이다"(25:07, 25:43). 이는 <code>djokovic-discipline-watch-the-loss</code>의 구간 복기 습관에 대해 유용하고 김빠지게 만드는 반론이다. 복기는 검토를 충분히 꼼꼼히 하면 그 특정 실수는 다음번엔 피할 수 있다고 전제한다. 『모순』의 문장은 더 거칠고, 충분히 긴 시간 지평에서는 더 정직한 것을 전제한다. 반복은 복기가 없애려는 예외가 아니라 기본 조건이라는 것이다. 둘 다 서로 다른 시간 척도에서 참이다. 복기는 특정 실수의 재발 빈도를 낮춘다. 실수라는 범주 자체를 없애지는 못한다.</p>
+<h3>『스토너』의 두 번째 삶</h3>
+<p>『스토너』는 동점 없이 톱5에 든 유일한 비한국 소설이고, 그 자체의 역사가 긴 시간 지평이 사후에 결실을 맺는 또 하나의 사례다. 1965년에 쓰였고 1994년 작가 사후까지 주목받지 못하다가, NYRB 재출간으로 윌리엄스가 살아 있을 때는 갖지 못했던 세계적 독자층을 얻었다. <code>greene-reading-leaves-the-prison</code>과 나란히 읽으면, 독서에 대한 강연이 아니라 소설 자체의 줄거리로 같은 주장을 한다. 삶은 그것이 쌓아 올린 것으로 평가되며, 그것도 한참 뒤에야 제대로 보인다는 것이다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Knowledge Notes: 세 리스트를 모을 훗날의 페이지.</strong> 이 항목과 <code>park-hyejin-ten-books-breakthrough</code>, <code>jung-youngsu-ten-books-irony</code>는 두 개의 큐레이션된 전문가 리스트와 하나의 집계 대중 투표를 비교할 훗날의 Life 페이지 하나에 들어갈 세 입력값이다. 그 페이지를 쓸 때는 단순히 이어붙이지 말고 겹치는 부분과 갈라지는 부분을 짚을 것.</li><li><strong>Eng: "한국 소설 뭘 읽어야 하나"에 바로 쓸 답.</strong> 인터뷰에서 써도 될 한 문장씩. 『모순』 — 한 여성이 자신의 쌍둥이 같은 삶을 마주하고 실수는 그저 되풀이된다고 결론짓는다, 그게 요점이다. 『소년이 온다』 — 1980년 광주의 열흘을, 그곳에 남았던 아이의 시선으로. 『토지』 — 집필만 26년, 한국 근현대사 거의 전체, 한 가족.</li><li><strong>Invest: 스테디셀러 경제학을 비즈니스 모델 메모로.</strong> 마케팅 없이 20년 넘게 유지된 『모순』의 수요는 획득 비용이 아니라 추천을 통해 복리로 성장하는 제품의 사례다. 언젠가 Invest에서 유료 성장 없이 유지되는 수요 곡선을 다룰 때 한 줄 넣을 만하다.</li><li><strong>Life: 이미 쓰인 두 항목 사이에 놓인다.</strong> <code>greene-reading-leaves-the-prison</code>(왜 읽는가)을 확장하고, <code>djokovic-discipline-watch-the-loss</code>(#1309)에 『모순』의 더 강한 주장으로 응답한다. 교정이 아니라 반복이 기본값이라는 것이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-19 확인: 언급된 여덟 편의 소설과 작가는 실제로 존재한다. 한강의 『소년이 온다』는 영어판 <em>Human Acts</em>(데버러 스미스 옮김, 2016)로 출간되었고, 한강은 2024년 노벨문학상을 받았다. 로맹 가리는 1956년 공쿠르상을 받았고, 1975년에는 필명 에밀 아자르로 『자기 앞의 생』(『La Vie devant soi』)으로 다시 받아, 공쿠르상을 두 번 받은 유일한 작가다. 『스토너』가 외면받다가 NYRB에서 재출간된 역사는 문서로 남아 있다. 박경리의 『토지』는 1969년부터 1994년까지 쓰였다. 영상 요약에서 가져왔고 독립적으로 확인하지 않은 것: 정확한 득표수와 319명이라는 구독자 수, 『새의 선물』의 "100쇄 이상", 은희경의 산사 집필 일화, 『토지』의 "원고지 4만 장", 『모순』의 마케팅 없는 판매량에 대한 구체적 주장, 그리고 위의 모든 타임스탬프.</p>
+<p>출처: <a href="https://www.youtube.com/watch?v=oFhSgJHaj4I">YouTube — 편집자K, "편집자K 구독자가 뽑은 내 인생의 소설 TOP 5 (장편소설 편)"</a> · 관련 항목: <code>greene-reading-leaves-the-prison</code>, <code>djokovic-discipline-watch-the-loss</code>(#1309), <code>park-hyejin-ten-books-breakthrough</code>, <code>jung-youngsu-ten-books-irony</code>, Tech #98(Shopify의 여섯 가지 결정).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>steady-seller</strong></td><td>스테디셀러(마케팅 없이 꾸준히 팔리는 책) · 이 항목의 핵심 경제 개념. "what a no-marketing steady-seller looks like"</td></tr><tr><td><strong>word of mouth</strong></td><td>입소문(광고 없이 사람에서 사람으로 퍼지는 추천) · 스테디셀러를 만드는 메커니즘. "on word of mouth alone"</td></tr><tr><td><strong>natural experiment</strong></td><td>자연 실험(의도적으로 설계하지 않았지만 통제된 것처럼 비교할 수 있는 상황) · 투표를 수요 실험으로 읽을 때 쓴 표현. "a natural experiment in demand"</td></tr><tr><td><strong>customer acquisition</strong></td><td>고객 획득(유료 마케팅으로 신규 사용자를 얻는 것) · 스타트업 용어를 출판에 빗댄 표현. "growing without paid acquisition"</td></tr><tr><td><strong>clear-eyed</strong></td><td>냉철한, 환상 없이 보는 · 어린 화자들의 시선을 묘사. "a clear-eyed young narrator"</td></tr><tr><td><strong>coming-of-age</strong></td><td>성장(소설 장르, 어린 화자가 세상을 알아가는 이야기) · 『새의 선물』 류를 가리킬 때. "a growth novel" (성장소설)</td></tr><tr><td><strong>multi-generation saga</strong></td><td>다세대 서사(여러 세대에 걸친 가족 이야기) · 『밝은 밤』, 『토지』, 『시선으로부터,』의 공통 형태. "a multi-generation family saga"</td></tr><tr><td><strong>historical wound</strong></td><td>역사적 상처(집단 역사의 아픔이 개인·가족 서사에 남긴 흔적) · 광주, 근현대사를 가리킬 때. "carries a historical wound"</td></tr><tr><td><strong>tie (n., poll)</strong></td><td>동점(투표에서 표가 같아 순위가 겹치는 것), 투표용지 한 표를 뜻하는 ballot과 함께 · 이 투표가 8편이 된 이유. "ties at three of the five ranks... 319 ballots"</td></tr><tr><td><strong>aphorism</strong></td><td>경구, 격언(짧고 압축된 진리 진술) · 『모순』의 마지막 문장을 가리킬 때. "the novel&#39;s closing line" (아포리즘)</td></tr><tr><td><strong>postmortem</strong></td><td>사후 복기(끝난 뒤에 무엇이 잘못됐는지 검토하는 것) · <code>djokovic-discipline-watch-the-loss</code>와 연결되는 핵심어. "a counterweight to the postmortem habit"</td></tr><tr><td><strong>counterweight</strong></td><td>반대추(한쪽 주장을 상쇄·균형 잡는 것) · 복기 습관에 대한 『모순』의 반론을 가리킴. "a blunt one-line counterweight"</td></tr><tr><td><strong>out of print / neglected</strong></td><td>절판된 / 외면받은 · 『스토너』가 재발견되기 전 상태. "forgotten through the author&#39;s 1994 death"</td></tr><tr><td><strong>revival</strong></td><td>부활, 재조명(잊혔던 것이 다시 주목받는 것) · NYRB의 『스토너』 재출간을 가리킴. "revived by NYRB Classics"</td></tr><tr><td><strong>NYRB</strong></td><td>New York Review Books(뉴욕 리뷰 북스, 절판·잊힌 명작을 재출간하는 미국 출판사) · 『스토너』 부활의 주체. "revived by NYRB Classics"</td></tr><tr><td><strong>pseudonym</strong></td><td>필명(본명을 숨기고 쓰는 이름) · 로맹 가리가 에밀 아자르로 활동한 이유. "under the pseudonym Émile Ajar"</td></tr><tr><td><strong>second life</strong></td><td>두 번째 삶(작품이나 인물이 시간이 지나 다시 주목받는 것) · 『스토너』의 사후 재조명을 가리킴. "Stoner&#39;s second life"</td></tr><tr><td><strong>matriarch</strong></td><td>가모장(집안의 중심이 되는 여성 어른) · 『시선으로부터,』의 심시선을 가리킴. "a matriarch&#39;s tenth anniversary"</td></tr><tr><td><strong>aggregate (vote)</strong></td><td>집계(개별 표를 모두 합친 결과) · 전문가 개인 리스트와 대비되는 대중 투표의 성격. "the aggregate popular vote"</td></tr><tr><td><strong>baseline condition</strong></td><td>기본 조건(예외가 아니라 늘 그러한 상태) · 『모순』이 말하는 반복의 위상을 가리킴. "the baseline condition, not the exception"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-jung-youngsu-ten-books-irony.html">&larr; 1312. Jung Youngsu&#39;s ten books — read the sequel, record without judging, and let the hedge be the honest sentence</a><a href="pocs-gongbaek-foreign-novels-top-7.html">1314. 공백의 책단장&#39;s foreign-novel top 7 — an outsider faces a system that already decided about them, seven times over &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="readers-top-novels-korean-canon";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
