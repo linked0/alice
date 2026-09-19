@@ -68,7 +68,13 @@ Source docs: `docs/topics/README.md` (rules: Key expressions, landing section, s
 ### Life 1327, Tech #127–#128: Tang, Nazarov, Amodei
 
 - **Change:** Life 1327 Mandy Tang: tell the truth, follow your gut, follow through (the producing half of #62) · Tech #127 Nazarov at the CFTC–SEC roundtable: tokenization and the US 60% equity share (oracle freshness as an Auditor invariant; Korea's ~2% share) · Tech #128 KBS on Amodei's "Pacing the Frontier": embedded evaluators, democratic then global coordination, the antitrust convener problem (written as a note on a news report, not on Anthropic's internal position). `supported-means-three-things` now #129 (first PLANNED).
-- **Result:** Tech 61/275, Life 0/28. Still drafting at push time: Ueda BOJ underlying inflation (Invest) and BBC reading rewires the brain (Life, jay: "today's last item") — next push.
+- **Result:** Tech 61/275, Life 0/28.
+
+### Invest 817, Life 1328: Ueda and deep reading — today's last two
+
+- **Cause:** jay: "add and push it which is today's last item".
+- **Change:** Invest 817 `ueda-boj-underlying-inflation-wage-loop` (`--tag Economics --type Lecture`): the 2023 CNBC interview; headline 3% vs underlying below 2%, wage growth as the anchor, MoF owns FX intervention; TradingView exercise on the 31 Jul 2024 hike / USDJPY / 5 Aug 2024 Nikkei gap. Life 1328 `reading-rewires-brain-deep-reading`: BBC on reading as a co-opted circuit (Wolf, Dehaene), script-dependent wiring, the anterior insula, skimming vs deep reading; the biological floor under today's book-list items and #62.
+- **Result:** Invest 0/18, Life 0/29; overall 68/546. Two pushes today (checkpoint at #128/1327, final with these two).
 
 ### Closing three lines (the new habit from #62)
 
