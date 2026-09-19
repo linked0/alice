@@ -81,3 +81,15 @@ Source docs: `docs/topics/README.md` (rules: Key expressions, landing section, s
 - **Learned:** a status change (Important → Planned) is two edits, the rail dot in `notes.html` and the `_nav.js` entry; `reorder-by-status.py` does the rest.
 - **Unclear:** whether the "raw layer" (`docs/topics/raw/`) should store jay's pasted briefings verbatim; not built yet.
 - **Next:** add the four in-flight items, then the `index.md` generator proposed in #62.
+
+### Re-check of today's items: four moved, Important marks set in every section
+
+- **Cause:** jay: "I know there are some items should belong to Invest or Life. So check the things that are added today. and make some of them important." then "Make some of eng items important also".
+- **Reasoning:** finance-industry items belong in Invest, focus/learning talks in Life; the ten-per-section Important cap holds, so each promotion in a full section demotes one older Important to NEW (not PLANNED, they are still unread).
+- **Change:**
+  - Moved Tech → Invest (tag Economics): 818 twenty-one-banks stablecoin JV, 819 Nazarov CFTC tokenization. Moved Tech → Life: 1329 Pocock fundamentals, 1330 YC pick one idea and go deep. Move = drop the rail entry, card and `_nav.js` entry from Tech, re-add with `--section`; the page file keeps its `pocs-` name.
+  - Tech Important now: #62 learning greed, #63 agent-team workflow, #64 KB Kookmin + Kinexys, #65 agent payments Korea, #66 graph & loop, #67 invariant is a stop, #68 MCP three sides, **#69 MLflow tracing / LLM-as-judge, #70 harness engineering, #71 system-design course** (new). Demoted to NEW: aa-two-standards-capability-matrix (#72), articulation-idea-library (#73), fast-ethereum-is-a-delivery-chain (#74).
+  - Invest: **809 Dalio economic machine** promoted; tv-fibonacci-retracement-confluence demoted to NEW (810), the most advanced of the TradingView ten.
+  - Life Important (9, Life keeps chronological numbering): 1304 Ng, 1307 Greene through line, 1317 roof–pillars–foundation, 1320 Santos, 1322 Bremmer, 1323 Damour, 1328 deep reading, 1329 Pocock, 1330 YC go deep.
+  - Eng Important (10, `status: important` in the .md, rebuilt with `english-notes.py`): #21, #22, #23, #24, #25, #27, #30, #32, #33, #35 — the interview, negotiation, first-weeks and planning conversations that target the job abroad.
+- **Result:** Tech 61/271, Invest 0/20, Life 0/31, Eng 1/35, Theory 6/189; overall 68/546. Important = 10 / 10 / 10 / 10 / 9 across Tech · Theory · Invest · Eng · Life. Note: item numbers in Tech shifted again (Important block re-sorted), so "Tech #62 = boundaries" citations inside older pages now point at the learning item; numbering by rank means citations by number drift — a known cost of the design.

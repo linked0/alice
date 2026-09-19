@@ -4,7 +4,7 @@ situation: A panel interview for a team lead role at a Copenhagen fintech. Sofie
 situation_ko: 코펜하겐 핀테크 팀 리드 패널 면접. 엔지니어링 헤드 Sofie가 2026년 모든 면접에 들어 있는 질문을 한다. "일에서 AI를 어떻게 쓰나요?" 틀린 답은 "전부에"와 "믿지 않습니다". Jay는 열의가 아니라 판단력을 보여야 한다.
 why: This question is a proxy for whether you will let a team's fundamentals rot. The answer that works names what you delegate, what you keep, and why the line is where it is, with one example where the line saved you.
 why_ko: 이 질문은 팀의 기본기를 썩게 둘 사람인지의 대리 지표다. 되는 답은 무엇을 위임하고 무엇을 지키는지, 왜 선이 거기 있는지를 말하고, 그 선이 자신을 구한 사례 하나를 붙인다.
-status: planned
+status: important
 
 ## Dialogue
 Sofie: How do you use AI in your work? Be specific.

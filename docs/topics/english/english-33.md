@@ -4,7 +4,7 @@ situation: Jay's first sprint planning as lead of a distributed team in Berlin. 
 situation_ko: 베를린 분산 팀 리드로서 첫 스프린트 계획. 시니어 엔지니어 Nadia가 에이전트와 20분 만에 새 지급 서비스 계획을 썼고 시작하길 원한다. Jay는 그 계획이 아무도 합의하지 않은 가정을 담고 있다고 의심한다. 작업을 깎아내리지 않고 속도를 늦춰야 한다.
 why: The most common failure of agent-assisted teams is a plan that looks finished before the team shares a picture. A lead's job is to make the questions happen before the code does, and to do it in a way that makes the author look thorough, not careless.
 why_ko: 에이전트 보조 팀의 가장 흔한 실패는 팀이 그림을 공유하기 전에 완성된 것처럼 보이는 계획이다. 리드의 일은 코드 전에 질문이 일어나게 하는 것이고, 저자가 부주의한 게 아니라 철저해 보이게 하는 방식으로 하는 것이다.
-status: planned
+status: important
 
 ## Dialogue
 Nadia: The plan's in the doc. Agent and I went through it this morning. Can we start after standup?

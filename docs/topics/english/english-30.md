@@ -4,7 +4,7 @@ situation: Final interview for a team lead role at a London payments company. Th
 situation_ko: 런던 결제 회사 팀 리드 최종 면접. 마지막 면접관은 엔지니어가 아닌 COO Priya. Jay가 만든 정산 시스템을 설명하라고 하고, 이사회와 대화할 수 있는지를 판단한다. Jay에게는 3분과 화이트보드 없음.
 why: Team leads are hired for the conversations engineers cannot have. The test is whether you can drop every noun the listener does not own and keep every consequence they care about, and whether you stop when the question is answered.
 why_ko: 팀 리드는 엔지니어가 할 수 없는 대화 때문에 채용된다. 시험은 듣는 사람이 모르는 명사를 모두 버리고 그들이 신경 쓰는 결과를 모두 남길 수 있는지, 질문에 답했으면 멈추는지다.
-status: planned
+status: important
 
 ## Dialogue
 Priya: Tell me about the settlement system you built. Assume I don't know what a blockchain is, because I mostly don't.

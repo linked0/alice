@@ -402,7 +402,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; MLflow Tracing — a 200 OK on the dashboard is not proof the agent gave the right answer</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#102</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <p class="topic-kicker"><span class="topic-no">#69</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
       <h1>MLflow Tracing — a 200 OK on the dashboard is not proof the agent gave the right answer</h1>
       <p class="lead">IBM Technology&#39;s YouTube channel published a walkthrough, "What Is MLflow? Tracing AI Agents &amp; LLM Workflows," on observability and evaluation for multi-agent and LLM systems. The opening claim: an HTTP monitoring dashboard can show 200 OK and a fine response time while the user still received a wrong answer, because standard infrastructure metrics never look inside the request (00:39). The video names four silent failure modes specific to multi-agent systems, then walks through MLflow Tracing (built on OpenTelemetry) as the record-keeping layer and LLM-as-a-judge as the grading layer, plus four settings the video argues are mandatory before any of this runs in production.</p>
       <p class="meta">For Jayverse this is the missing half of what the Auditor row already does. The Auditor states what was checked and by which rule; tracing plus evaluation is the mechanism that produces the evidence the Auditor checks against, and the CI gate is where that evidence gets enforced before a change ships.</p>
@@ -465,7 +465,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-adk-gemini-live-voice-agent.html">&larr; 101. Real-time voice agents — replace the STT→LLM→TTS pipeline with one open bidirectional stream</a><a href="pocs-twenty-one-banks-stablecoin-venture.html">103. Twenty-one banks are forming a joint venture to issue a dollar stablecoin — betting on regulatory standing, not on liquidity &rarr;</a></div>
+    <div class="pager"><a href="pocs-mcp-three-sides.html">&larr; 68. MCP from three sides — build one, consume one, wrap an agent as one</a><a href="pocs-harness-engineering-shift-left.html">70. Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself &rarr;</a></div>
   </div>
   </main>
 </div>

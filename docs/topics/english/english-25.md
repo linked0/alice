@@ -4,7 +4,7 @@ situation: Take-home debrief for a senior engineer role at a Berlin exchange. Ja
 situation_ko: 베를린 거래소 시니어 엔지니어 과제 디브리프. Jay는 주문 매칭 서비스를 제출했다. 리뷰어 Tomasz가 Jay가 놓친 레이스 컨디션으로 시작한다. 같은 주문에 대한 취소 둘이 모두 성공할 수 있다. 40분이 남았고, 처음 2분이 가장 중요하다.
 why: The take-home debrief is not graded on the code you sent. It is graded on what you do when someone shows you it is wrong. Defending, over-apologising, and "I would have fixed that with more time" all lose. Diagnosing out loud wins.
 why_ko: 과제 디브리프는 제출한 코드로 채점되지 않는다. 누군가 틀렸다고 보여줄 때 무엇을 하는지로 채점된다. 방어, 과한 사과, "시간이 더 있었으면 고쳤을 것"은 모두 진다. 소리 내어 진단하는 것이 이긴다.
-status: planned
+status: important
 
 ## Dialogue
 Tomasz: I ran two concurrent cancels against the same order id. Both returned 200 and the order book went negative. Talk me through that.

@@ -4,7 +4,7 @@ situation: Jay's second week as team lead at a Dublin fintech. Fiona has been on
 situation_ko: 더블린 핀테크에서 팀 리드 2주 차. Fiona는 이 팀에 9년 있었고, 모든 시스템을 알고, Jay가 지금 맡은 리드 자리에서 밀렸다. 첫 일대일. 이게 틀어지면 Jay는 가장 중요한 엔지니어가 자기를 우회하는 팀을 이끌게 된다.
 why: The first one-on-one with a passed-over senior decides the next year. The winning move is not authority and not flattery; it is naming the situation plainly, asking for a specific kind of help, and giving something real in return.
 why_ko: 밀린 시니어와의 첫 일대일이 다음 1년을 결정한다. 이기는 수는 권위도 아첨도 아니다. 상황을 있는 그대로 부르고, 특정한 종류의 도움을 요청하고, 실질적인 무엇을 돌려주는 것.
-status: planned
+status: important
 
 ## Dialogue
 Jay: Thanks for making time. I want to start with the obvious thing rather than pretend it isn't there: you've been here nine years, you went for this role, and they gave it to someone from outside. I'd understand if that's frustrating.

@@ -402,7 +402,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#106</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
+      <p class="topic-kicker"><span class="topic-no">#70</span><span>PoC</span><span title="added">2026-09-19</span><span title="source">chat</span></p>
       <h1>Harness engineering — the agent&#39;s reliability lives in the environment around the model, not the model itself</h1>
       <p class="lead">Google Cloud Tech published a roughly 30-minute video, "Harness Engineering Explained: Inside the Stack Behind Antigravity, Claude Code &amp; Cursor," a conversation with a Google engineer (given in the source summary as Ryan Leopoldo) plus code walkthroughs. The core claim: an AI agent is two separate things, an LLM (the "brain") and an agent harness (the "body and toolset") (00:44). An LLM only takes in text and emits more text — it cannot run a tool or change the filesystem by itself (01:37, 20:07). Everything that turns that text into action — interpreting intent, reading and editing files, running the terminal, searching the web, holding memory, controlling the loop — is the harness sitting outside the model. Gemini Flash is a model; Antigravity, Claude Code and Cursor are harnesses (00:44, 00:51). The talk organizes the engineer&#39;s philosophy around a "lazy prompter" stance, three harness design patterns, and a three-layer stack that says where leverage sits as models turn over.</p>
       <p class="meta">For Jayverse this names something jay already built rather than something to adopt: <code>CLAUDE.md</code> rules, the alice memory files, the <code>docs/topics/README.md</code> conventions, frozen lockfiles plus CI, and Claude Code skills are the shift-left half of harness engineering, and the Auditor row is literally the harness layer&#39;s independent-verifier role under a different name.</p>
@@ -469,7 +469,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-agentic-systems-need-ontologies.html">&larr; 105. Agentic systems need ontologies — validate types at the door, meaning at the ledger</a><a href="pocs-managed-agents-build-vs-buy-harness.html">107. Three founders shipped Claude Managed Agents to production — because the harness wasn&#39;t their edge &rarr;</a></div>
+    <div class="pager"><a href="pocs-mlflow-tracing-llm-as-judge.html">&larr; 69. MLflow Tracing — a 200 OK on the dashboard is not proof the agent gave the right answer</a><a href="pocs-system-design-course-single-server-to-scale.html">71. System Design Course — a two-hour walk from one server to the seven decisions every design interview tests &rarr;</a></div>
   </div>
   </main>
 </div>

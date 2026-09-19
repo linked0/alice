@@ -4,7 +4,7 @@ situation: Final-round interview with the VP of Engineering at a Stockholm payme
 situation_ko: 스톡홀름 결제 회사 엔지니어링 VP와의 최종 면접. 질문은 친근하고 위험하다. "서울의 좋은 직장을 왜 떠나 여기로?" 현 직장, 나라, 문화를 비판하는 답은 이탈 위험으로 읽힌다. "경험을 위해"만인 답은 관광객으로 읽힌다.
 why: The motivation question is where candidates abroad most often disqualify themselves, by being too honest about the past or too vague about the future. The answer that works is specific about the work, generous about the past, and clear that the move is a decision already made.
 why_ko: 동기 질문은 해외 후보가 스스로를 가장 자주 탈락시키는 자리다. 과거에 너무 정직하거나 미래에 너무 막연해서. 되는 답은 일에 대해 구체적이고, 과거에 관대하고, 이 이동이 이미 내린 결정임을 분명히 한다.
-status: planned
+status: important
 
 ## Dialogue
 Erik: You have a senior role, a team, a good company. Why leave Seoul for this?
