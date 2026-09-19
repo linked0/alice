@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/548</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#125</span><span>Essay</span><span title="added">2026-09-20</span><span title="source">chat</span></p>
+      <h1>Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth</h1>
+      <p class="lead">Vitalik Buterin&#39;s essay "Galaxy brain resistance" (vitalik.eth.limo, 2025-11-07, about 4,800 words) names a property of a style of reasoning: how hard it is to abuse that style to argue for whatever you had already decided for other reasons. The spirit is falsifiability turned on argument itself. "If your arguments can justify anything, then your arguments imply nothing." The essay&#39;s move is to stop treating such arguments as logic to refute and to treat them as what they usually are in the wild, rationalisation: a conclusion reached first, for self-interest or emotion, with clever reasons attached afterwards to convince the speaker&#39;s own higher mind and to recruit smart people. It then walks through six low-resistance patterns, each with a real case, and closes with two defences: have hard rules, and hold the right bags.</p>
+      <p class="meta">For Jayverse this is the philosophical floor under the Auditor. "By which rule" is the whole design, and Buterin&#39;s own example of a category with teeth, "low-risk DeFi" rather than "good DeFi", is exactly the kind of rule the Auditor can check and a marketing page cannot bend.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth\n\nVitalik Buterin's essay \"Galaxy brain resistance\" (vitalik.eth.limo, 2025-11-07, about 4,800 words) names a property of a style of reasoning: how hard it is to abuse that style to argue for whatever you had already decided for other reasons. The spirit is falsifiability turned on argument itself. \"If your arguments can justify anything, then your arguments imply nothing.\" The essay's move is to stop treating such arguments as logic to refute and to treat them as what they usually are in the wild, rationalisation: a conclusion reached first, for self-interest or emotion, with clever reasons attached afterwards to convince the speaker's own higher mind and to recruit smart people. It then walks through six low-resistance patterns, each with a real case, and closes with two defences: have hard rules, and hold the right bags.\n\nFor Jayverse this is the philosophical floor under the Auditor. \"By which rule\" is the whole design, and Buterin's own example of a category with teeth, \"low-risk DeFi\" rather than \"good DeFi\", is exactly the kind of rule the Auditor can check and a marketing page cannot bend.\n\n## Why\n\nEvery builder meets these arguments weekly, and most of them arrive dressed as strategy. The token pitch that captures one percent of a trillion-dollar market, the \"it is inevitable so we should hasten it\" tweet, the \"I can do more from inside\" career move, the \"give me power now so I can do the right thing later\" plan. Refuting each on its merits is slow and rarely works, because the argument was never the cause of the belief. Buterin's test is faster: ask whether the same argument would have worked for the opposite conclusion, or for any conclusion. If yes, the argument carries no information, and what remains to examine is the speaker's incentive. The essay matters to jay for two reasons. It is a disciplined way to read the daily briefings this site is built from, most of which come from people with bags. And it is a design principle: a rule is only worth automating if it has teeth, meaning it is hard to argue around. That is the Auditor's selection criterion for which invariants to encode.\n\n## How it works\n\n### The six low-resistance patterns\n\n- **Inevitabilism.** A recent AI-booster tweet from a company whose business is automating labour: automation is coming, therefore hasten it. Three refutations: AI progress is made by few actors, so one stopping does slow things; decisions are collective and one stand sets examples; the choice space is wider than continue or quit, including partial automation that keeps humans in the loop. But the real mitigation is noticing the incentive: \"the moment when people have the strongest incentive to make you give up opposing them is exactly the moment when you have the most leverage.\"\n- **Longtermism.** The long term is genuinely important, which is why chains do not hard-fork after every hack, why economic growth compounds (Tyler Cowen, Stubborn Attachments), why technical debt is worth fighting. The catch is that \"the long term is far away, and you can make beautiful stories about how if you do X, just about anything will happen.\" Low interest rates in markets and bridges to nowhere in politics are the same failure: an argument about long-term benefit \"does not have to be correct, it just has to sound correct.\" Rule of thumb: does the action have a solid long-term track record of producing the benefit? Growth and not driving species extinct do. One-world government does not. And \"we really are living in unprecedented times\" itself has very low galaxy brain resistance.\n- **Aesthetic bans in disguise.** Banning uni because it is disgusting, banning cultured meat because \"real meat is made by God\", anti-LGBT crusades, all wrapped in \"the moral fabric of society\" or \"global elites\". Scott Alexander's Loose Principle of Harm shows why: once indirect harm counts, every side can ban the other forever. Buterin's moderate libertarianism follows: a ban needs a clear story of harm to identified victims, contestable in court.\n- **Apologia for bad finance.** \"Poor people need the 10x\" as a moral case for speculative tokens. Casinos are zero-sum, and with a concave utility of money a large coin flip is on average bad: from $200k, winning $100k is half a social class up, losing it is a full class down. This is why he pushes low-risk DeFi. Asked why not \"good DeFi\": \"if you say 'low-risk defi', that's a categorization that has teeth.\" Prediction markets get a defence, a thirty-year intellectual tradition predating any profit, but they are still a side dish, not half a net worth.\n- **Power maximisation.** \"Give me power so I can do X\" is equally convincing for any X, and until the pivotal moment the altruist's actions and the egomaniac's are identical. The inside view always feels righteous; the outside view says everyone thinks they are the ethical one. The humble counter from the EA forum: wealth compounds at about 7 percent a year, but measured value drift in the community is about 10 percent a year, and public intellectuals have a shelf life of 10 to 15 years (Tanner Greer). Your future self may spend the accumulated power on something you do not support.\n- **I'm-doing-more-from-within-ism.** Joining a frontier lab to make it safer from inside is a hybrid of the previous two. The Russian technocrats (Gref, Nabiullina) are the case: reformers who stayed, learned of the invasion on television, and became the machinery that held the wartime economy together. \"I'm doing more from within\" is sayable regardless of what you actually do from within.\n\n### The two defences\n\n**Have principles.** Hard rules about what you will not do, with a very high bar for exceptions. This is deontological ethics, and the essay explains why it beats case-by-case consequentialism: \"Our brains are really good at coming up with arguments why, in this particular case, the thing that you already want for other reasons happens to also be great for humanity.\" Rule utilitarianism is the compromise, choose rules by their consequences, then follow the rules when choosing actions.\n\n**Hold the right bags.** Incentives set behaviour, so do not give yourself bad ones, financial or social. You cannot avoid social bags, but you can diversify them, and the single biggest lever is where you live. His two recommendations for people who care about AI safety: do not work for a company accelerating frontier fully-autonomous capabilities, and do not live in the San Francisco Bay Area.\n\n### A test you can run on any briefing\n\n| Question | If the answer is yes |\n|---|---|\n| Would this argument work equally well for the opposite conclusion? | It carries no information; look at the bags |\n| Does it appeal to the far future, inevitability, or \"unprecedented times\"? | Ask for the long-term track record instead |\n| Does it ask for power or position now, benefit later? | Same actions as the selfish version; apply the outside view |\n| Is the key term vague enough to fit anything (\"good\", \"moral fabric\", \"elites\")? | Replace it with a category that has teeth (\"low-risk\", \"identified victim\") |\n\n### Where it lands in Jayverse\n\n- **Auditor: encode only rules with teeth.** The selection criterion for an invariant is Buterin's: it must be hard to argue around. \"Settlement matched the ledger within one block\" has teeth. \"Behaved reasonably\" does not. Tech #67 (an invariant is a stop, not an alarm) and #1 (governance capture) are the same idea from the other side; this essay supplies the reason.\n- **Verex: name the risk tier, not the virtue.** Following \"low-risk DeFi\" over \"good DeFi\", Verex markets should be described by a checkable property, collateral ratio, settlement finality, oracle deviation bound, never by \"safe\" or \"fair\". The Nazarov item (Invest 819) and the 21-bank stablecoin item (Invest 818) are pitches; run the table above on both.\n- **Knowledge Notes: a galaxy-brain check in Verified and unverified.** Every item already separates verified facts from claims. Add one line when the source is a pitch: whose bags, and would the argument survive the opposite conclusion. Today's YC items (#123 first users, Life 1330 go deep) and the Blotato playbook (#118) are the first candidates.\n- **Life: this is the other half of #62.** The learning item chose one through line; this essay explains how to refuse the arguments that will keep trying to widen it, especially inevitabilism (\"everyone is learning X\") and doing-more-from-within (\"I will learn it on the job\"). It also sharpens Bremmer (Life 1322): his standing question \"what would make me abandon this\" is a galaxy-brain check on your own worldview.\n- **Eng: the interview version.** \"That argument would work for any conclusion, so let me ask about the incentive instead\" is a sentence a team lead abroad needs. Eng #36 practises it.\n\n### Verified and unverified\n\nVerified on 2026-09-20 from the essay itself (read in full): title, date, the definition and the falsifiability analogy, the six patterns and their named cases (Mechanize as the inevitability example, 80,000 Hours for EA longtermism, Tyler Cowen, Dentacoin at over $1.8 billion market cap, Vitaly Mironov, Florida SB 1084, Scott Alexander's Loose Principle of Harm, the EA-forum 7 percent versus 10 percent value-drift figures, Tanner Greer's shelf life, the Financial Times on Gref and Nabiullina), the two defences and the two closing recommendations. Not independently verified: the figures Buterin quotes from third parties (Dentacoin's market cap, the value-drift studies, the S&P return), and the tweets he screenshots, which did not survive the text extraction. The reading of the essay as the Auditor's philosophical floor is this note's interpretation, not the author's.\n\nSources: [Vitalik Buterin, \"Galaxy brain resistance\", 2025-11-07](https://vitalik.eth.limo/general/2025/11/07/galaxybrain.html) · related: Tech #67 (an invariant is a stop), #1 (governance capture), #62 (learning greed), #118 (Blotato), #123 (YC first users); Invest 818, 819; Life 1322 (Bremmer), 1330 (YC go deep); Eng #36.\n"</script>
+<h2>Why</h2>
+<p>Every builder meets these arguments weekly, and most of them arrive dressed as strategy. The token pitch that captures one percent of a trillion-dollar market, the "it is inevitable so we should hasten it" tweet, the "I can do more from inside" career move, the "give me power now so I can do the right thing later" plan. Refuting each on its merits is slow and rarely works, because the argument was never the cause of the belief. Buterin&#39;s test is faster: ask whether the same argument would have worked for the opposite conclusion, or for any conclusion. If yes, the argument carries no information, and what remains to examine is the speaker&#39;s incentive. The essay matters to jay for two reasons. It is a disciplined way to read the daily briefings this site is built from, most of which come from people with bags. And it is a design principle: a rule is only worth automating if it has teeth, meaning it is hard to argue around. That is the Auditor&#39;s selection criterion for which invariants to encode.</p>
+<h2>How it works</h2>
+<h3>The six low-resistance patterns</h3>
+<ul><li><strong>Inevitabilism.</strong> A recent AI-booster tweet from a company whose business is automating labour: automation is coming, therefore hasten it. Three refutations: AI progress is made by few actors, so one stopping does slow things; decisions are collective and one stand sets examples; the choice space is wider than continue or quit, including partial automation that keeps humans in the loop. But the real mitigation is noticing the incentive: "the moment when people have the strongest incentive to make you give up opposing them is exactly the moment when you have the most leverage."</li><li><strong>Longtermism.</strong> The long term is genuinely important, which is why chains do not hard-fork after every hack, why economic growth compounds (Tyler Cowen, Stubborn Attachments), why technical debt is worth fighting. The catch is that "the long term is far away, and you can make beautiful stories about how if you do X, just about anything will happen." Low interest rates in markets and bridges to nowhere in politics are the same failure: an argument about long-term benefit "does not have to be correct, it just has to sound correct." Rule of thumb: does the action have a solid long-term track record of producing the benefit? Growth and not driving species extinct do. One-world government does not. And "we really are living in unprecedented times" itself has very low galaxy brain resistance.</li><li><strong>Aesthetic bans in disguise.</strong> Banning uni because it is disgusting, banning cultured meat because "real meat is made by God", anti-LGBT crusades, all wrapped in "the moral fabric of society" or "global elites". Scott Alexander&#39;s Loose Principle of Harm shows why: once indirect harm counts, every side can ban the other forever. Buterin&#39;s moderate libertarianism follows: a ban needs a clear story of harm to identified victims, contestable in court.</li><li><strong>Apologia for bad finance.</strong> "Poor people need the 10x" as a moral case for speculative tokens. Casinos are zero-sum, and with a concave utility of money a large coin flip is on average bad: from $200k, winning $100k is half a social class up, losing it is a full class down. This is why he pushes low-risk DeFi. Asked why not "good DeFi": "if you say &#39;low-risk defi&#39;, that&#39;s a categorization that has teeth." Prediction markets get a defence, a thirty-year intellectual tradition predating any profit, but they are still a side dish, not half a net worth.</li><li><strong>Power maximisation.</strong> "Give me power so I can do X" is equally convincing for any X, and until the pivotal moment the altruist&#39;s actions and the egomaniac&#39;s are identical. The inside view always feels righteous; the outside view says everyone thinks they are the ethical one. The humble counter from the EA forum: wealth compounds at about 7 percent a year, but measured value drift in the community is about 10 percent a year, and public intellectuals have a shelf life of 10 to 15 years (Tanner Greer). Your future self may spend the accumulated power on something you do not support.</li><li><strong>I&#39;m-doing-more-from-within-ism.</strong> Joining a frontier lab to make it safer from inside is a hybrid of the previous two. The Russian technocrats (Gref, Nabiullina) are the case: reformers who stayed, learned of the invasion on television, and became the machinery that held the wartime economy together. "I&#39;m doing more from within" is sayable regardless of what you actually do from within.</li></ul>
+<h3>The two defences</h3>
+<p><strong>Have principles.</strong> Hard rules about what you will not do, with a very high bar for exceptions. This is deontological ethics, and the essay explains why it beats case-by-case consequentialism: "Our brains are really good at coming up with arguments why, in this particular case, the thing that you already want for other reasons happens to also be great for humanity." Rule utilitarianism is the compromise, choose rules by their consequences, then follow the rules when choosing actions.</p>
+<p><strong>Hold the right bags.</strong> Incentives set behaviour, so do not give yourself bad ones, financial or social. You cannot avoid social bags, but you can diversify them, and the single biggest lever is where you live. His two recommendations for people who care about AI safety: do not work for a company accelerating frontier fully-autonomous capabilities, and do not live in the San Francisco Bay Area.</p>
+<h3>A test you can run on any briefing</h3>
+<table><thead><tr><th>Question</th><th>If the answer is yes</th></tr></thead><tbody><tr><td>Would this argument work equally well for the opposite conclusion?</td><td>It carries no information; look at the bags</td></tr><tr><td>Does it appeal to the far future, inevitability, or "unprecedented times"?</td><td>Ask for the long-term track record instead</td></tr><tr><td>Does it ask for power or position now, benefit later?</td><td>Same actions as the selfish version; apply the outside view</td></tr><tr><td>Is the key term vague enough to fit anything ("good", "moral fabric", "elites")?</td><td>Replace it with a category that has teeth ("low-risk", "identified victim")</td></tr></tbody></table>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: encode only rules with teeth.</strong> The selection criterion for an invariant is Buterin&#39;s: it must be hard to argue around. "Settlement matched the ledger within one block" has teeth. "Behaved reasonably" does not. Tech #67 (an invariant is a stop, not an alarm) and #1 (governance capture) are the same idea from the other side; this essay supplies the reason.</li><li><strong>Verex: name the risk tier, not the virtue.</strong> Following "low-risk DeFi" over "good DeFi", Verex markets should be described by a checkable property, collateral ratio, settlement finality, oracle deviation bound, never by "safe" or "fair". The Nazarov item (Invest 819) and the 21-bank stablecoin item (Invest 818) are pitches; run the table above on both.</li><li><strong>Knowledge Notes: a galaxy-brain check in Verified and unverified.</strong> Every item already separates verified facts from claims. Add one line when the source is a pitch: whose bags, and would the argument survive the opposite conclusion. Today&#39;s YC items (#123 first users, Life 1330 go deep) and the Blotato playbook (#118) are the first candidates.</li><li><strong>Life: this is the other half of #62.</strong> The learning item chose one through line; this essay explains how to refuse the arguments that will keep trying to widen it, especially inevitabilism ("everyone is learning X") and doing-more-from-within ("I will learn it on the job"). It also sharpens Bremmer (Life 1322): his standing question "what would make me abandon this" is a galaxy-brain check on your own worldview.</li><li><strong>Eng: the interview version.</strong> "That argument would work for any conclusion, so let me ask about the incentive instead" is a sentence a team lead abroad needs. Eng #36 practises it.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-20 from the essay itself (read in full): title, date, the definition and the falsifiability analogy, the six patterns and their named cases (Mechanize as the inevitability example, 80,000 Hours for EA longtermism, Tyler Cowen, Dentacoin at over $1.8 billion market cap, Vitaly Mironov, Florida SB 1084, Scott Alexander&#39;s Loose Principle of Harm, the EA-forum 7 percent versus 10 percent value-drift figures, Tanner Greer&#39;s shelf life, the Financial Times on Gref and Nabiullina), the two defences and the two closing recommendations. Not independently verified: the figures Buterin quotes from third parties (Dentacoin&#39;s market cap, the value-drift studies, the S&amp;P return), and the tweets he screenshots, which did not survive the text extraction. The reading of the essay as the Auditor&#39;s philosophical floor is this note&#39;s interpretation, not the author&#39;s.</p>
+<p>Sources: <a href="https://vitalik.eth.limo/general/2025/11/07/galaxybrain.html">Vitalik Buterin, "Galaxy brain resistance", 2025-11-07</a> · related: Tech #67 (an invariant is a stop), #1 (governance capture), #62 (learning greed), #118 (Blotato), #123 (YC first users); Invest 818, 819; Life 1322 (Bremmer), 1330 (YC go deep); Eng #36.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>galaxy brain</strong></td><td>갤럭시 브레인(너무 똑똑하게 굴다가 뻔히 틀린 결론에 이르는 것; 인터넷 밈) · 에세이의 제목 개념. "galaxy brain resistance"</td></tr><tr><td><strong>resistance to abuse</strong></td><td>악용에 대한 내성 · 사고 방식의 속성으로. "how difficult is it to abuse that style of thinking"</td></tr><tr><td><strong>falsifiability</strong></td><td>반증 가능성(틀렸음을 보일 수 있는 성질) · 과학철학 용어, 여기서는 논증에 적용. "the spirit here is similar to falsifiability"</td></tr><tr><td><strong>rationalization</strong></td><td>합리화(먼저 정한 결론에 이유를 뒤에 붙이는 것) · reasoning과 대비. "not reasoning - they are rationalization"</td></tr><tr><td><strong>inevitabilism</strong></td><td>불가피론(어차피 올 일이니 앞당기자는 논법) · 에세이의 조어. "the inevitability fallacy"</td></tr><tr><td><strong>hasten (v.)</strong></td><td>앞당기다, 재촉하다 · 불가피론의 동사. "should therefore be actively hastened"</td></tr><tr><td><strong>leverage (n.)</strong></td><td>지렛대, 협상력 · 저항이 가장 유리한 순간을 말할 때. "the moment when you have the most leverage"</td></tr><tr><td><strong>longtermism</strong></td><td>장기주의(먼 미래의 큰 이해관계를 강조하는 사고) · EA(Effective Altruism, 효과적 이타주의) 용어. "effective altruist longtermism"</td></tr><tr><td><strong>compound (v.)</strong></td><td>복리로 쌓이다 · 성장이 중요한 이유. "reliably compounds forever into the future"</td></tr><tr><td><strong>technical debt</strong></td><td>기술 부채(단기 목표만 좇아 쌓이는 코드의 부실) · 장기 무시의 예. "A major one I fight against is technical debt"</td></tr><tr><td><strong>bridge to nowhere</strong></td><td>어디로도 가지 않는 다리(장기 가치 이야기로 정당화됐지만 실현되지 않는 사업) · 정치의 장기주의 실패. "the idea of a &#39;bridge to nowhere&#39;"</td></tr><tr><td><strong>track record</strong></td><td>실적, 이력 · 장기 이익 주장의 검사 기준. "a solid long-term track record"</td></tr><tr><td><strong>wisdom of repugnance</strong></td><td>혐오의 지혜(역겨움 자체를 도덕적 근거로 삼는 태도) · 생명윤리 논쟁 용어. "appeals to the &#39;wisdom of repugnance&#39;"</td></tr><tr><td><strong>moral fabric of society</strong></td><td>사회의 도덕적 직물(사회 질서·도덕의 결) · 금지를 포장하는 모호한 말. "Weaken The Moral Fabric Of Society"</td></tr><tr><td><strong>zero-sum</strong></td><td>제로섬(한쪽이 얻으면 다른 쪽이 잃는) · 카지노·투기의 성질. "casinos are zero-sum games"</td></tr><tr><td><strong>concave utility</strong></td><td>오목한 효용(부가 늘수록 1달러의 가치가 줄어듦) · 후생경제학의 첫 개념. "a person&#39;s utility function in money is concave"</td></tr><tr><td><strong>has teeth</strong></td><td>이빨이 있다(실효성이 있다, 돌아갈 수 없다) · 범주·규칙의 실효를 말할 때. "a categorization that has teeth"</td></tr><tr><td><strong>side dish</strong></td><td>곁반찬(주식이 아닌 부수적인 것) · 고위험 DeFi의 자리. "high-risk defi is the side dish"</td></tr><tr><td><strong>pivotal moment</strong></td><td>결정적 순간 · 권력 극대화론의 가정. "when some kind of &#39;pivotal moment&#39; comes"</td></tr><tr><td><strong>outside view</strong></td><td>바깥 시점(자기 사례가 아니라 같은 부류의 기저율로 판단하기) · 안 시점(inside view)과 대비. "it&#39;s healthy to take an outside view"</td></tr><tr><td><strong>value drift</strong></td><td>가치 이탈(시간이 가며 신념이 바뀌는 것) · EA 포럼 수치. "a yearly value drift rate of ~10%"</td></tr><tr><td><strong>shelf life</strong></td><td>유통기한 · 공적 지식인의 아이디어에 비유. "a &#39;shelf life&#39; of about 10-15 years"</td></tr><tr><td><strong>cog in the machine</strong></td><td>기계의 톱니(대체 가능한 부품 같은 사람) · 안에서-더-많이 논법의 결말. "just being a cog in the machine"</td></tr><tr><td><strong>deontological ethics</strong></td><td>의무론 윤리(결과가 아니라 규칙으로 옳음을 정하는 윤리) · 두 방어 중 첫째. "Philosophers generally call this deontological ethics"</td></tr><tr><td><strong>rule utilitarianism</strong></td><td>규칙 공리주의(규칙은 결과로 고르고 행동은 규칙을 따름) · 타협점. "One form of deontology ... is rule utilitarianism"</td></tr><tr><td><strong>hold the bags</strong></td><td>가방을 들다(포지션을 갖고 있다, 이해관계가 있다) · 크립토 속어. "what bags you hold"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 갤럭시 브레인 내성 — 무엇이든 정당화할 수 있는 논증은 아무것도 말해 주지 않으니, 이빨이 있는 범주와 규칙을 고르라\n\n비탈릭 부테린의 에세이 \"Galaxy brain resistance\"(vitalik.eth.limo, 2025-11-07, 약 4,800단어)는 사고 방식의 한 속성에 이름을 붙인다. 다른 이유로 이미 정해 둔 결론이 무엇이든 그것을 옹호하는 데 그 사고 방식을 악용하기가 얼마나 어려운가. 과학의 반증 가능성을 논증 자체에 돌린 것이다. \"당신의 논증이 무엇이든 정당화할 수 있다면, 당신의 논증은 아무것도 함의하지 않는다.\" 에세이의 수는 그런 논증을 반박할 논리로 다루기를 멈추고, 현실에서 대개 그것인 바, 즉 합리화로 다루는 것이다. 자기 이익이나 감정으로 먼저 결론에 이르고, 자기 상위 정신을 설득하고 똑똑한 사람들을 끌어들이기 위해 그럴싸한 이유를 뒤에 붙인 것. 그다음 내성이 낮은 여섯 패턴을 실제 사례와 함께 훑고, 두 가지 방어로 끝낸다. 단단한 규칙을 가지라, 그리고 올바른 가방을 들라.\n\nJayverse에서 이것은 Auditor 아래의 철학적 바닥이다. \"어느 규칙에 의해\"가 설계의 전부이고, 부테린이 든 이빨 있는 범주의 예, \"좋은 DeFi\"가 아닌 \"저위험 DeFi\"는 Auditor가 검사할 수 있고 마케팅 페이지가 구부릴 수 없는 바로 그런 규칙이다.\n\n## 왜\n\n모든 빌더가 이런 논증을 매주 만나고, 대부분은 전략의 옷을 입고 온다. 조 단위 시장의 1퍼센트를 잡겠다는 토큰 피칭, \"불가피하니 앞당겨야 한다\"는 트윗, \"안에서 더 많이 할 수 있다\"는 이직, \"지금 힘을 주면 나중에 옳은 일을 하겠다\"는 계획. 하나하나 내용으로 반박하는 것은 느리고 잘 통하지 않는다. 논증이 믿음의 원인이었던 적이 없기 때문이다. 부테린의 검사는 더 빠르다. 같은 논증이 반대 결론에도, 어떤 결론에도 똑같이 통하는지 물어라. 그렇다면 그 논증은 정보를 담고 있지 않고, 살펴볼 것은 말하는 이의 인센티브뿐이다. 이 에세이가 jay에게 중요한 이유는 둘이다. 이 사이트의 재료인 일일 브리핑, 대부분 가방을 든 사람들이 만든 그것을 읽는 규율이라는 점. 그리고 설계 원칙이라는 점. 규칙은 이빨이 있을 때, 즉 돌아가기 어려울 때만 자동화할 가치가 있다. 그것이 어느 불변식을 코드로 옮길지 고르는 Auditor의 기준이다.\n\n## 동작 방식\n\n### 내성이 낮은 여섯 패턴\n\n- **불가피론.** 노동 자동화가 사업인 회사의 AI 부스터 트윗. 자동화는 오니 앞당기자. 반박 셋. AI 진보는 소수가 만들므로 하나가 멈추면 실제로 느려진다. 결정은 집단적이고 한 번의 저항이 선례가 된다. 선택지는 계속이냐 중단이냐보다 넓고, 사람을 루프에 남기는 부분 자동화가 있다. 그러나 진짜 완화책은 인센티브를 알아보는 것이다. \"사람들이 당신을 포기시키려는 인센티브가 가장 강한 순간이 바로 당신의 지렛대가 가장 큰 순간이다.\"\n- **장기주의.** 장기는 진짜로 중요하다. 그래서 해킹마다 하드포크하지 않고, 성장은 복리로 쌓이며(타일러 코웬, Stubborn Attachments), 기술 부채와 싸울 가치가 있다. 함정은 \"장기는 멀리 있어서, X를 하면 거의 무엇이든 일어난다는 아름다운 이야기를 만들 수 있다\"는 것. 시장의 저금리와 정치의 \"어디로도 가지 않는 다리\"는 같은 실패다. 장기 이익 논증은 \"맞을 필요가 없고, 맞게 들리기만 하면 된다.\" 경험 규칙: 그 행동이 그 이익을 낸 탄탄한 장기 실적이 있는가. 성장과 종을 멸종시키지 않기는 있다. 세계 정부는 없다. 그리고 \"우리는 정말 전례 없는 시대에 살고 있다\" 자체가 내성이 매우 낮다.\n- **미학적 금지의 변장.** 우니가 역겨워서 금지, 배양육은 \"진짜 고기는 신이 만드셨다\"며 금지, 반LGBT 운동. 모두 \"사회의 도덕적 직물\"이나 \"글로벌 엘리트\"로 포장된다. 스콧 알렉산더의 느슨한 피해 원칙이 이유를 보여 준다. 간접 피해를 인정하면 모든 쪽이 서로를 영원히 금지할 수 있다. 부테린의 온건 자유주의가 따라온다. 금지에는 특정된 피해자에 대한 명확한 피해 이야기가 필요하고, 법정에서 다툴 수 있어야 한다.\n- **나쁜 금융의 변호.** \"가난한 이들에게는 10배가 필요하다\"는 투기 토큰의 도덕론. 카지노는 제로섬이고, 돈의 효용이 오목하면 큰 동전 던지기는 평균적으로 손해다. 20만 달러에서 10만을 이기면 반 계급 위, 잃으면 한 계급 아래. 그래서 그는 저위험 DeFi를 밀어 왔다. 왜 \"좋은 DeFi\"가 아니냐는 질문에, \"'저위험 DeFi'라고 하면 그것은 이빨이 있는 범주다.\" 예측 시장은 이익 가능성보다 앞선 30년의 지적 전통으로 변호되지만, 여전히 곁반찬이고 순자산의 절반을 넣을 곳이 아니다.\n- **권력 극대화.** \"X를 할 수 있게 힘을 주라\"는 어떤 X에도 똑같이 설득력이 있고, 결정적 순간 전까지 이타주의자와 이기주의자의 행동은 동일하다. 안에서 보면 늘 정의롭게 느껴지고, 밖에서 보면 모두가 자기가 더 윤리적이라 생각한다. EA 포럼의 겸손한 반론: 부는 연 7퍼센트로 복리 성장하지만 공동체에서 측정된 가치 이탈은 연 약 10퍼센트이고, 공적 지식인의 유통기한은 10~15년(태너 그리어)이다. 미래의 당신은 모은 힘을 지금의 당신이 지지하지 않는 곳에 쓸 수 있다.\n- **안에서-더-많이-한다주의.** 프론티어 랩에 들어가 안에서 안전하게 만들겠다는 것은 앞의 둘의 혼합이다. 러시아 테크노크라트(그레프, 나비울리나)가 사례다. 남아 있던 개혁가들이 침공을 텔레비전으로 알게 되고, 전시 경제를 버티게 하는 기계가 되었다. \"안에서 더 많이 한다\"는 안에서 실제로 무엇을 하든 말할 수 있다.\n\n### 두 가지 방어\n\n**원칙을 가지라.** 하지 않을 것에 대한 단단한 규칙과, 예외에 대한 매우 높은 문턱. 의무론 윤리다. 에세이는 그것이 사안별 결과주의를 이기는 이유를 설명한다. \"우리 뇌는 바로 이 경우에는 다른 이유로 이미 원하던 것이 마침 인류에게도 훌륭하다는 논증을 만들어 내는 데 아주 능하다.\" 규칙 공리주의가 타협점이다. 규칙은 결과로 고르고, 행동을 고를 때는 규칙을 따른다.\n\n**올바른 가방을 들라.** 인센티브가 행동을 정하니 나쁜 인센티브를 스스로에게 주지 마라. 금전적으로도, 사회적으로도. 사회적 가방을 피할 수는 없지만 분산할 수는 있고, 가장 큰 레버 하나는 사는 곳이다. AI 안전에 관심 있는 이에게 주는 그의 권고 둘. 프론티어 완전 자율 능력을 앞당기는 회사에서 일하지 마라. 샌프란시스코 베이 지역에 살지 마라.\n\n### 어떤 브리핑에도 돌릴 수 있는 검사\n\n| 질문 | 답이 예라면 |\n|---|---|\n| 이 논증이 반대 결론에도 똑같이 통하는가? | 정보가 없다. 가방을 보라 |\n| 먼 미래, 불가피성, \"전례 없는 시대\"에 호소하는가? | 대신 장기 실적을 요구하라 |\n| 지금 힘이나 자리를 요구하고 이익은 나중인가? | 이기적 버전과 행동이 같다. 바깥 시점을 적용하라 |\n| 핵심 용어가 무엇에나 맞을 만큼 모호한가(\"좋은\", \"도덕적 직물\", \"엘리트\")? | 이빨 있는 범주로 바꾸라(\"저위험\", \"특정된 피해자\") |\n\n### Jayverse에서의 위치\n\n- **Auditor: 이빨 있는 규칙만 코드로.** 불변식의 선정 기준은 부테린의 것이다. 돌아가기 어려워야 한다. \"결제가 한 블록 안에 원장과 일치했다\"는 이빨이 있다. \"합리적으로 행동했다\"는 없다. Tech #67(불변식은 알람이 아니라 정지)과 #1(거버넌스 포획)은 반대편에서 본 같은 생각이고, 이 에세이가 그 이유를 준다.\n- **Verex: 덕목이 아니라 위험 등급을 이름 붙인다.** \"좋은 DeFi\" 대신 \"저위험 DeFi\"를 따라, Verex 시장은 담보 비율, 결제 최종성, 오라클 편차 한도처럼 검사 가능한 속성으로 설명하고 \"안전한\", \"공정한\"으로는 절대 설명하지 않는다. 나자로프 항목(Invest 819)과 21개 은행 스테이블코인 항목(Invest 818)은 피칭이다. 위 표를 둘에 돌려 보라.\n- **Knowledge Notes: 확인된 것과 미확인에 갤럭시 브레인 검사 한 줄.** 모든 항목은 이미 확인된 사실과 주장을 나눈다. 출처가 피칭일 때 한 줄을 더한다. 누구의 가방인가, 반대 결론에도 논증이 살아남는가. 오늘의 YC 항목들(#123 첫 사용자, Life 1330 깊이 파기)과 Blotato 플레이북(#118)이 첫 후보다.\n- **Life: #62의 나머지 절반.** 학습 항목은 관통선 하나를 골랐고, 이 에세이는 그것을 계속 넓히려 드는 논증을 거절하는 법을 설명한다. 특히 불가피론(\"모두가 X를 배운다\")과 안에서-더-많이(\"일하면서 배우겠다\"). 브레머(Life 1322)도 날카롭게 한다. 그의 상시 질문 \"무엇이 나타나면 이것을 버릴 것인가\"는 자기 세계관에 대한 갤럭시 브레인 검사다.\n- **Eng: 면접 버전.** \"그 논증은 어떤 결론에도 통하니, 대신 인센티브를 묻겠습니다\"는 해외 팀 리드에게 필요한 문장이다. Eng #36이 연습한다.\n\n### 확인된 것과 미확인\n\n2026-09-20 에세이 전문을 읽어 확인: 제목, 날짜, 정의와 반증 가능성 비유, 여섯 패턴과 그 사례들(불가피론의 Mechanize, EA 장기주의의 80,000 Hours, 타일러 코웬, 시가총액 18억 달러를 넘었던 Dentacoin, 비탈리 미로노프, 플로리다 SB 1084, 스콧 알렉산더의 느슨한 피해 원칙, EA 포럼의 7퍼센트 대 10퍼센트 가치 이탈 수치, 태너 그리어의 유통기한, 그레프와 나비울리나에 관한 파이낸셜 타임스), 두 방어와 두 마무리 권고. 독립 확인하지 않은 것: 부테린이 제3자에서 인용한 수치(Dentacoin 시가총액, 가치 이탈 연구, S&P 수익률)와 그가 캡처한 트윗들(텍스트 추출에서 살아남지 않았다). 에세이를 Auditor의 철학적 바닥으로 읽는 것은 이 노트의 해석이고 저자의 것이 아니다.\n\n출처: [Vitalik Buterin, \"Galaxy brain resistance\", 2025-11-07](https://vitalik.eth.limo/general/2025/11/07/galaxybrain.html) · 관련: Tech #67(불변식은 정지), #1(거버넌스 포획), #62(학습 욕심), #118(Blotato), #123(YC 첫 사용자); Invest 818, 819; Life 1322(브레머), 1330(YC 깊이 파기); Eng #36.\n"</script>
+      <h1>갤럭시 브레인 내성 — 무엇이든 정당화할 수 있는 논증은 아무것도 말해 주지 않으니, 이빨이 있는 범주와 규칙을 고르라</h1>
+      <p class="lead">비탈릭 부테린의 에세이 "Galaxy brain resistance"(vitalik.eth.limo, 2025-11-07, 약 4,800단어)는 사고 방식의 한 속성에 이름을 붙인다. 다른 이유로 이미 정해 둔 결론이 무엇이든 그것을 옹호하는 데 그 사고 방식을 악용하기가 얼마나 어려운가. 과학의 반증 가능성을 논증 자체에 돌린 것이다. "당신의 논증이 무엇이든 정당화할 수 있다면, 당신의 논증은 아무것도 함의하지 않는다." 에세이의 수는 그런 논증을 반박할 논리로 다루기를 멈추고, 현실에서 대개 그것인 바, 즉 합리화로 다루는 것이다. 자기 이익이나 감정으로 먼저 결론에 이르고, 자기 상위 정신을 설득하고 똑똑한 사람들을 끌어들이기 위해 그럴싸한 이유를 뒤에 붙인 것. 그다음 내성이 낮은 여섯 패턴을 실제 사례와 함께 훑고, 두 가지 방어로 끝낸다. 단단한 규칙을 가지라, 그리고 올바른 가방을 들라.</p>
+      <p class="meta">Jayverse에서 이것은 Auditor 아래의 철학적 바닥이다. "어느 규칙에 의해"가 설계의 전부이고, 부테린이 든 이빨 있는 범주의 예, "좋은 DeFi"가 아닌 "저위험 DeFi"는 Auditor가 검사할 수 있고 마케팅 페이지가 구부릴 수 없는 바로 그런 규칙이다.</p>
+<h2>왜</h2>
+<p>모든 빌더가 이런 논증을 매주 만나고, 대부분은 전략의 옷을 입고 온다. 조 단위 시장의 1퍼센트를 잡겠다는 토큰 피칭, "불가피하니 앞당겨야 한다"는 트윗, "안에서 더 많이 할 수 있다"는 이직, "지금 힘을 주면 나중에 옳은 일을 하겠다"는 계획. 하나하나 내용으로 반박하는 것은 느리고 잘 통하지 않는다. 논증이 믿음의 원인이었던 적이 없기 때문이다. 부테린의 검사는 더 빠르다. 같은 논증이 반대 결론에도, 어떤 결론에도 똑같이 통하는지 물어라. 그렇다면 그 논증은 정보를 담고 있지 않고, 살펴볼 것은 말하는 이의 인센티브뿐이다. 이 에세이가 jay에게 중요한 이유는 둘이다. 이 사이트의 재료인 일일 브리핑, 대부분 가방을 든 사람들이 만든 그것을 읽는 규율이라는 점. 그리고 설계 원칙이라는 점. 규칙은 이빨이 있을 때, 즉 돌아가기 어려울 때만 자동화할 가치가 있다. 그것이 어느 불변식을 코드로 옮길지 고르는 Auditor의 기준이다.</p>
+<h2>동작 방식</h2>
+<h3>내성이 낮은 여섯 패턴</h3>
+<ul><li><strong>불가피론.</strong> 노동 자동화가 사업인 회사의 AI 부스터 트윗. 자동화는 오니 앞당기자. 반박 셋. AI 진보는 소수가 만들므로 하나가 멈추면 실제로 느려진다. 결정은 집단적이고 한 번의 저항이 선례가 된다. 선택지는 계속이냐 중단이냐보다 넓고, 사람을 루프에 남기는 부분 자동화가 있다. 그러나 진짜 완화책은 인센티브를 알아보는 것이다. "사람들이 당신을 포기시키려는 인센티브가 가장 강한 순간이 바로 당신의 지렛대가 가장 큰 순간이다."</li><li><strong>장기주의.</strong> 장기는 진짜로 중요하다. 그래서 해킹마다 하드포크하지 않고, 성장은 복리로 쌓이며(타일러 코웬, Stubborn Attachments), 기술 부채와 싸울 가치가 있다. 함정은 "장기는 멀리 있어서, X를 하면 거의 무엇이든 일어난다는 아름다운 이야기를 만들 수 있다"는 것. 시장의 저금리와 정치의 "어디로도 가지 않는 다리"는 같은 실패다. 장기 이익 논증은 "맞을 필요가 없고, 맞게 들리기만 하면 된다." 경험 규칙: 그 행동이 그 이익을 낸 탄탄한 장기 실적이 있는가. 성장과 종을 멸종시키지 않기는 있다. 세계 정부는 없다. 그리고 "우리는 정말 전례 없는 시대에 살고 있다" 자체가 내성이 매우 낮다.</li><li><strong>미학적 금지의 변장.</strong> 우니가 역겨워서 금지, 배양육은 "진짜 고기는 신이 만드셨다"며 금지, 반LGBT 운동. 모두 "사회의 도덕적 직물"이나 "글로벌 엘리트"로 포장된다. 스콧 알렉산더의 느슨한 피해 원칙이 이유를 보여 준다. 간접 피해를 인정하면 모든 쪽이 서로를 영원히 금지할 수 있다. 부테린의 온건 자유주의가 따라온다. 금지에는 특정된 피해자에 대한 명확한 피해 이야기가 필요하고, 법정에서 다툴 수 있어야 한다.</li><li><strong>나쁜 금융의 변호.</strong> "가난한 이들에게는 10배가 필요하다"는 투기 토큰의 도덕론. 카지노는 제로섬이고, 돈의 효용이 오목하면 큰 동전 던지기는 평균적으로 손해다. 20만 달러에서 10만을 이기면 반 계급 위, 잃으면 한 계급 아래. 그래서 그는 저위험 DeFi를 밀어 왔다. 왜 "좋은 DeFi"가 아니냐는 질문에, "&#39;저위험 DeFi&#39;라고 하면 그것은 이빨이 있는 범주다." 예측 시장은 이익 가능성보다 앞선 30년의 지적 전통으로 변호되지만, 여전히 곁반찬이고 순자산의 절반을 넣을 곳이 아니다.</li><li><strong>권력 극대화.</strong> "X를 할 수 있게 힘을 주라"는 어떤 X에도 똑같이 설득력이 있고, 결정적 순간 전까지 이타주의자와 이기주의자의 행동은 동일하다. 안에서 보면 늘 정의롭게 느껴지고, 밖에서 보면 모두가 자기가 더 윤리적이라 생각한다. EA 포럼의 겸손한 반론: 부는 연 7퍼센트로 복리 성장하지만 공동체에서 측정된 가치 이탈은 연 약 10퍼센트이고, 공적 지식인의 유통기한은 10~15년(태너 그리어)이다. 미래의 당신은 모은 힘을 지금의 당신이 지지하지 않는 곳에 쓸 수 있다.</li><li><strong>안에서-더-많이-한다주의.</strong> 프론티어 랩에 들어가 안에서 안전하게 만들겠다는 것은 앞의 둘의 혼합이다. 러시아 테크노크라트(그레프, 나비울리나)가 사례다. 남아 있던 개혁가들이 침공을 텔레비전으로 알게 되고, 전시 경제를 버티게 하는 기계가 되었다. "안에서 더 많이 한다"는 안에서 실제로 무엇을 하든 말할 수 있다.</li></ul>
+<h3>두 가지 방어</h3>
+<p><strong>원칙을 가지라.</strong> 하지 않을 것에 대한 단단한 규칙과, 예외에 대한 매우 높은 문턱. 의무론 윤리다. 에세이는 그것이 사안별 결과주의를 이기는 이유를 설명한다. "우리 뇌는 바로 이 경우에는 다른 이유로 이미 원하던 것이 마침 인류에게도 훌륭하다는 논증을 만들어 내는 데 아주 능하다." 규칙 공리주의가 타협점이다. 규칙은 결과로 고르고, 행동을 고를 때는 규칙을 따른다.</p>
+<p><strong>올바른 가방을 들라.</strong> 인센티브가 행동을 정하니 나쁜 인센티브를 스스로에게 주지 마라. 금전적으로도, 사회적으로도. 사회적 가방을 피할 수는 없지만 분산할 수는 있고, 가장 큰 레버 하나는 사는 곳이다. AI 안전에 관심 있는 이에게 주는 그의 권고 둘. 프론티어 완전 자율 능력을 앞당기는 회사에서 일하지 마라. 샌프란시스코 베이 지역에 살지 마라.</p>
+<h3>어떤 브리핑에도 돌릴 수 있는 검사</h3>
+<table><thead><tr><th>질문</th><th>답이 예라면</th></tr></thead><tbody><tr><td>이 논증이 반대 결론에도 똑같이 통하는가?</td><td>정보가 없다. 가방을 보라</td></tr><tr><td>먼 미래, 불가피성, "전례 없는 시대"에 호소하는가?</td><td>대신 장기 실적을 요구하라</td></tr><tr><td>지금 힘이나 자리를 요구하고 이익은 나중인가?</td><td>이기적 버전과 행동이 같다. 바깥 시점을 적용하라</td></tr><tr><td>핵심 용어가 무엇에나 맞을 만큼 모호한가("좋은", "도덕적 직물", "엘리트")?</td><td>이빨 있는 범주로 바꾸라("저위험", "특정된 피해자")</td></tr></tbody></table>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: 이빨 있는 규칙만 코드로.</strong> 불변식의 선정 기준은 부테린의 것이다. 돌아가기 어려워야 한다. "결제가 한 블록 안에 원장과 일치했다"는 이빨이 있다. "합리적으로 행동했다"는 없다. Tech #67(불변식은 알람이 아니라 정지)과 #1(거버넌스 포획)은 반대편에서 본 같은 생각이고, 이 에세이가 그 이유를 준다.</li><li><strong>Verex: 덕목이 아니라 위험 등급을 이름 붙인다.</strong> "좋은 DeFi" 대신 "저위험 DeFi"를 따라, Verex 시장은 담보 비율, 결제 최종성, 오라클 편차 한도처럼 검사 가능한 속성으로 설명하고 "안전한", "공정한"으로는 절대 설명하지 않는다. 나자로프 항목(Invest 819)과 21개 은행 스테이블코인 항목(Invest 818)은 피칭이다. 위 표를 둘에 돌려 보라.</li><li><strong>Knowledge Notes: 확인된 것과 미확인에 갤럭시 브레인 검사 한 줄.</strong> 모든 항목은 이미 확인된 사실과 주장을 나눈다. 출처가 피칭일 때 한 줄을 더한다. 누구의 가방인가, 반대 결론에도 논증이 살아남는가. 오늘의 YC 항목들(#123 첫 사용자, Life 1330 깊이 파기)과 Blotato 플레이북(#118)이 첫 후보다.</li><li><strong>Life: #62의 나머지 절반.</strong> 학습 항목은 관통선 하나를 골랐고, 이 에세이는 그것을 계속 넓히려 드는 논증을 거절하는 법을 설명한다. 특히 불가피론("모두가 X를 배운다")과 안에서-더-많이("일하면서 배우겠다"). 브레머(Life 1322)도 날카롭게 한다. 그의 상시 질문 "무엇이 나타나면 이것을 버릴 것인가"는 자기 세계관에 대한 갤럭시 브레인 검사다.</li><li><strong>Eng: 면접 버전.</strong> "그 논증은 어떤 결론에도 통하니, 대신 인센티브를 묻겠습니다"는 해외 팀 리드에게 필요한 문장이다. Eng #36이 연습한다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-20 에세이 전문을 읽어 확인: 제목, 날짜, 정의와 반증 가능성 비유, 여섯 패턴과 그 사례들(불가피론의 Mechanize, EA 장기주의의 80,000 Hours, 타일러 코웬, 시가총액 18억 달러를 넘었던 Dentacoin, 비탈리 미로노프, 플로리다 SB 1084, 스콧 알렉산더의 느슨한 피해 원칙, EA 포럼의 7퍼센트 대 10퍼센트 가치 이탈 수치, 태너 그리어의 유통기한, 그레프와 나비울리나에 관한 파이낸셜 타임스), 두 방어와 두 마무리 권고. 독립 확인하지 않은 것: 부테린이 제3자에서 인용한 수치(Dentacoin 시가총액, 가치 이탈 연구, S&amp;P 수익률)와 그가 캡처한 트윗들(텍스트 추출에서 살아남지 않았다). 에세이를 Auditor의 철학적 바닥으로 읽는 것은 이 노트의 해석이고 저자의 것이 아니다.</p>
+<p>출처: <a href="https://vitalik.eth.limo/general/2025/11/07/galaxybrain.html">Vitalik Buterin, "Galaxy brain resistance", 2025-11-07</a> · 관련: Tech #67(불변식은 정지), #1(거버넌스 포획), #62(학습 욕심), #118(Blotato), #123(YC 첫 사용자); Invest 818, 819; Life 1322(브레머), 1330(YC 깊이 파기); Eng #36.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>galaxy brain</strong></td><td>갤럭시 브레인(너무 똑똑하게 굴다가 뻔히 틀린 결론에 이르는 것; 인터넷 밈) · 에세이의 제목 개념. "galaxy brain resistance"</td></tr><tr><td><strong>resistance to abuse</strong></td><td>악용에 대한 내성 · 사고 방식의 속성으로. "how difficult is it to abuse that style of thinking"</td></tr><tr><td><strong>falsifiability</strong></td><td>반증 가능성(틀렸음을 보일 수 있는 성질) · 과학철학 용어, 여기서는 논증에 적용. "the spirit here is similar to falsifiability"</td></tr><tr><td><strong>rationalization</strong></td><td>합리화(먼저 정한 결론에 이유를 뒤에 붙이는 것) · reasoning과 대비. "not reasoning - they are rationalization"</td></tr><tr><td><strong>inevitabilism</strong></td><td>불가피론(어차피 올 일이니 앞당기자는 논법) · 에세이의 조어. "the inevitability fallacy"</td></tr><tr><td><strong>hasten (v.)</strong></td><td>앞당기다, 재촉하다 · 불가피론의 동사. "should therefore be actively hastened"</td></tr><tr><td><strong>leverage (n.)</strong></td><td>지렛대, 협상력 · 저항이 가장 유리한 순간을 말할 때. "the moment when you have the most leverage"</td></tr><tr><td><strong>longtermism</strong></td><td>장기주의(먼 미래의 큰 이해관계를 강조하는 사고) · EA(Effective Altruism, 효과적 이타주의) 용어. "effective altruist longtermism"</td></tr><tr><td><strong>compound (v.)</strong></td><td>복리로 쌓이다 · 성장이 중요한 이유. "reliably compounds forever into the future"</td></tr><tr><td><strong>technical debt</strong></td><td>기술 부채(단기 목표만 좇아 쌓이는 코드의 부실) · 장기 무시의 예. "A major one I fight against is technical debt"</td></tr><tr><td><strong>bridge to nowhere</strong></td><td>어디로도 가지 않는 다리(장기 가치 이야기로 정당화됐지만 실현되지 않는 사업) · 정치의 장기주의 실패. "the idea of a &#39;bridge to nowhere&#39;"</td></tr><tr><td><strong>track record</strong></td><td>실적, 이력 · 장기 이익 주장의 검사 기준. "a solid long-term track record"</td></tr><tr><td><strong>wisdom of repugnance</strong></td><td>혐오의 지혜(역겨움 자체를 도덕적 근거로 삼는 태도) · 생명윤리 논쟁 용어. "appeals to the &#39;wisdom of repugnance&#39;"</td></tr><tr><td><strong>moral fabric of society</strong></td><td>사회의 도덕적 직물(사회 질서·도덕의 결) · 금지를 포장하는 모호한 말. "Weaken The Moral Fabric Of Society"</td></tr><tr><td><strong>zero-sum</strong></td><td>제로섬(한쪽이 얻으면 다른 쪽이 잃는) · 카지노·투기의 성질. "casinos are zero-sum games"</td></tr><tr><td><strong>concave utility</strong></td><td>오목한 효용(부가 늘수록 1달러의 가치가 줄어듦) · 후생경제학의 첫 개념. "a person&#39;s utility function in money is concave"</td></tr><tr><td><strong>has teeth</strong></td><td>이빨이 있다(실효성이 있다, 돌아갈 수 없다) · 범주·규칙의 실효를 말할 때. "a categorization that has teeth"</td></tr><tr><td><strong>side dish</strong></td><td>곁반찬(주식이 아닌 부수적인 것) · 고위험 DeFi의 자리. "high-risk defi is the side dish"</td></tr><tr><td><strong>pivotal moment</strong></td><td>결정적 순간 · 권력 극대화론의 가정. "when some kind of &#39;pivotal moment&#39; comes"</td></tr><tr><td><strong>outside view</strong></td><td>바깥 시점(자기 사례가 아니라 같은 부류의 기저율로 판단하기) · 안 시점(inside view)과 대비. "it&#39;s healthy to take an outside view"</td></tr><tr><td><strong>value drift</strong></td><td>가치 이탈(시간이 가며 신념이 바뀌는 것) · EA 포럼 수치. "a yearly value drift rate of ~10%"</td></tr><tr><td><strong>shelf life</strong></td><td>유통기한 · 공적 지식인의 아이디어에 비유. "a &#39;shelf life&#39; of about 10-15 years"</td></tr><tr><td><strong>cog in the machine</strong></td><td>기계의 톱니(대체 가능한 부품 같은 사람) · 안에서-더-많이 논법의 결말. "just being a cog in the machine"</td></tr><tr><td><strong>deontological ethics</strong></td><td>의무론 윤리(결과가 아니라 규칙으로 옳음을 정하는 윤리) · 두 방어 중 첫째. "Philosophers generally call this deontological ethics"</td></tr><tr><td><strong>rule utilitarianism</strong></td><td>규칙 공리주의(규칙은 결과로 고르고 행동은 규칙을 따름) · 타협점. "One form of deontology ... is rule utilitarianism"</td></tr><tr><td><strong>hold the bags</strong></td><td>가방을 들다(포지션을 갖고 있다, 이해관계가 있다) · 크립토 속어. "what bags you hold"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-amodei-pacing-frontier-embedded-evaluators.html">&larr; 124. Pacing the Frontier — Amodei&#39;s plan starts with an evaluator inside the building, not a treaty</a><a href="pocs-supported-means-three-things.html">126. Anvil proves the protocol, a testnet proves the chain, only a wallet proves the user &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="galaxy-brain-resistance-principles-with-teeth";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
