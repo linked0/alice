@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/556</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#126</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span></p>
+      <h1>Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</h1>
+      <p class="lead">Maarten Grootendorst, a data scientist known for the O&#39;Reilly book *Hands-On Large Language Models* and his visual-guide blog series, published a roughly 20-minute video ("A Visual Guide to Mixture of Experts (MoE) in LLMs," 19:44) walking through how MoE replaces a Transformer&#39;s dense feed-forward layer with a set of specialised sub-networks and a router that picks a few of them per token. The core numbers: Mixtral 8x7B holds about 47 billion parameters in memory but only runs about 13 billion of them for any given token, because the router activates 2 of its 8 experts per layer. The video also covers the router&#39;s softmax-and-top-K math, the auxiliary loss that keeps experts from collapsing onto a favoured few, and the capacity limit that can cause tokens to be dropped.</p>
+      <p class="meta">For Jayverse this is the missing theory behind two earlier Tech items: #112 (MLX local AI) and #116 (local AI weights and quantization). It explains, in one architectural fact, why a model can feel fast to run and still refuse to fit on a Mac&#39;s unified memory — the two numbers that matter are different, and only one of them is the one you can budget against.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them\n\nMaarten Grootendorst, a data scientist known for the O'Reilly book *Hands-On Large Language Models* and his visual-guide blog series, published a roughly 20-minute video (\"A Visual Guide to Mixture of Experts (MoE) in LLMs,\" 19:44) walking through how MoE replaces a Transformer's dense feed-forward layer with a set of specialised sub-networks and a router that picks a few of them per token. The core numbers: Mixtral 8x7B holds about 47 billion parameters in memory but only runs about 13 billion of them for any given token, because the router activates 2 of its 8 experts per layer. The video also covers the router's softmax-and-top-K math, the auxiliary loss that keeps experts from collapsing onto a favoured few, and the capacity limit that can cause tokens to be dropped.\n\nFor Jayverse this is the missing theory behind two earlier Tech items: #112 (MLX local AI) and #116 (local AI weights and quantization). It explains, in one architectural fact, why a model can feel fast to run and still refuse to fit on a Mac's unified memory — the two numbers that matter are different, and only one of them is the one you can budget against.\n\n## Why\n\nA dense Transformer ties compute cost to total parameter count: every added parameter is activated for every token, so scaling the model scales latency and FLOPs in lockstep. MoE breaks that coupling. It lets a model hold far more total knowledge — more experts, each specialised on some slice of syntax or token pattern — while keeping the per-token compute close to that of a much smaller dense model, because only a handful of experts run on any given token. The failure this prevents is a purchasing or deployment mistake: judging a model's requirements by one parameter count when two different counts govern two different resources. VRAM has to hold every expert whether or not it is used this token; latency and FLOPs only care about the experts actually selected. Conflating the two is how a \"13B-class\" model turns out to need 47B worth of memory.\n\n## How it works\n\n### Dense FFN vs. sparse experts\nIn a standard decoder block, self-attention is followed by a feed-forward network (FFN) that every token passes through in full — compute is proportional to total model size. MoE replaces that single FFN with several parallel FFNs, the experts, each a complete but independent feed-forward network. A gating mechanism, the router, decides at each layer which experts a given token actually visits, so most of the network's weights sit idle for most tokens.\n\n### The router: logits, softmax, top-K\nThe router is a linear layer: it projects the token representation `X` through a weight matrix `W` to produce logits `H(x) = X · W`. A softmax turns these logits into a probability distribution `G(x)` over experts. In top-K routing, only the K highest-scoring experts keep a non-zero weight; every other expert's logit is masked to −∞ before the softmax, which drives its probability to zero. The layer's output is the weighted sum of the outputs of just the selected experts: `Y = Σ G(x)_i · Expert_i(X)` for `i` in the top-K set. A detail worth keeping: experts do not specialise into human-legible domains like \"the medical expert\" or \"the code expert.\" Empirically they specialise in syntactic and token-level patterns — punctuation, verb forms, numeric tokens — not subject matter.\n\n### Keeping experts busy: load balancing\nLeft alone, training MoE models produces a \"rich get richer\" failure: an expert that gets a slightly better random start attracts more tokens from the router early on, gets more gradient updates, becomes more attractive to the router, and the rest starve. The fix is an auxiliary load-balancing loss added to the training objective, computed from the coefficient of variation (standard deviation over mean) of routing probabilities across experts — a high coefficient of variation means routing is uneven, and the loss penalises that. It's a governance mechanism baked into training, not a hyperparameter you tune once and forget.\n\n### Expert capacity and token dropping\nBecause GPU memory allocation has to be fixed ahead of time, each expert gets a hard capacity limit: `C = (tokens / experts) × capacity factor`. If more tokens route to an expert than its capacity allows in a batch, the overflow tokens either fall through to a secondary expert or bypass the FFN entirely via a residual connection — they get dropped from expert computation, not from the sequence. This is a real, if usually small, source of representational noise, and it is one reason routing entropy is worth monitoring during training.\n\n### Sparse vs. active parameters\nThis is the number that matters for deployment. \"Sparse parameters\" (or total parameters) is everything loaded into memory — every expert, used or not; for Mixtral 8x7B that's roughly 47B. \"Active parameters\" is what actually runs per token — for Mixtral, about 13B, since only 2 of 8 experts fire per layer. VRAM sizing is governed by the sparse count; inference latency and FLOPs are governed by the active count. The same architecture also extends past language: Soft-MoE applies the same idea to Vision Transformers, routing image patches to specialised encoders instead of discrete tokens.\n\n### Where it lands in Jayverse\n\n- **alice / local AI: choose models by two numbers, not one.** When picking a local model for the Mac (the #112/#116 thread), check both sparse (total, drives whether it fits in unified memory) and active (drives generation speed) parameter counts before downloading — a model advertised as fast because of a low active count can still be too large to load.\n- **Auditor: an auxiliary loss is an encoded rule.** The load-balancing loss is training-time enforcement of a fairness invariant across experts, the same shape as #67's \"an invariant is a stop\" — a rule that fires automatically rather than one a reviewer has to remember to check. Worth naming as a pattern the Auditor row should recognise even outside MoE: penalty terms that keep a system from drifting into an unbalanced state.\n- **Knowledge Notes (Theory cross-link): softmax and coefficient of variation.** Both are reusable primitives — softmax turns any score vector into a probability distribution (also used in attention), and coefficient of variation is a general dispersion metric for \"how uneven is this allocation,\" useful anywhere load or resource distribution needs a single number.\n- **Eng: a three-sentence interview answer.** MoE replaces one big feed-forward layer with many small expert FFNs and a router that activates only the top-K per token; a router computes `softmax(X·W)` and masks the rest to −∞; the payoff is that a model can hold, say, 47B parameters in memory while only computing with about 13B per token, which is why Mixtral 8x7B is described as \"a 47B model that runs like a 13B one.\"\n\n### Verified and unverified\n\nVerified on 2026-09-21: Maarten Grootendorst co-authored *Hands-On Large Language Models* (O'Reilly, 2024) and writes a visual-guide blog series on ML topics. Mixtral 8x7B (Mistral AI, released December 2023) is a real sparse MoE model, documented at 46.7B total parameters and 12.9B active parameters per token (2 of 8 experts per layer) — close to the video's rounded \"47B / 13B.\" The Switch Transformer (Fedus, Zoph, Shazeer, 2021) is the paper that introduced the capacity-factor formulation and an auxiliary load-balancing loss in this form; Shazeer et al. (2017) introduced sparsely-gated Mixture-of-Experts layers for neural networks, the lineage this design descends from. DeepSeek-V3 (671B total parameters, 37B active) is a current, real example of the same sparse/active split at much larger scale. GPT-4 being an MoE model is a persistent rumor in the field, not a confirmed architectural fact, and should be treated as such rather than cited as a MoE example.\n\nTaken from the summary and not independently checked: the video's own framing and pacing, the exact claim that \"experts specialise in syntactic rather than semantic patterns\" as stated (this matches published MoE interpretability findings in general but was not re-verified against this specific video's sources), and the video's discussion of Soft-MoE for vision beyond the general fact that Soft-MoE exists as a published architecture (Puigcerver et al., 2023).\n\nSources: [YouTube — Maarten Grootendorst, \"A Visual Guide to Mixture of Experts (MoE) in LLMs\"](http://www.youtube.com/watch?v=sOPDGQjFcuM) · Fedus, Zoph, Shazeer, \"Switch Transformers,\" 2021 · Shazeer et al., \"Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer,\" 2017 · Mistral AI, Mixtral 8x7B model card · related items: Tech #112 (MLX local AI), Tech #116 (local AI weights and quantization), Tech #63 (governed workflows: route, then act), Tech #96 (Homa — SRPT and priority queues, routing decisions by size), #67 (an invariant is a stop).\n"</script>
+<h2>Why</h2>
+<p>A dense Transformer ties compute cost to total parameter count: every added parameter is activated for every token, so scaling the model scales latency and FLOPs in lockstep. MoE breaks that coupling. It lets a model hold far more total knowledge — more experts, each specialised on some slice of syntax or token pattern — while keeping the per-token compute close to that of a much smaller dense model, because only a handful of experts run on any given token. The failure this prevents is a purchasing or deployment mistake: judging a model&#39;s requirements by one parameter count when two different counts govern two different resources. VRAM has to hold every expert whether or not it is used this token; latency and FLOPs only care about the experts actually selected. Conflating the two is how a "13B-class" model turns out to need 47B worth of memory.</p>
+<h2>How it works</h2>
+<h3>Dense FFN vs. sparse experts</h3>
+<p>In a standard decoder block, self-attention is followed by a feed-forward network (FFN) that every token passes through in full — compute is proportional to total model size. MoE replaces that single FFN with several parallel FFNs, the experts, each a complete but independent feed-forward network. A gating mechanism, the router, decides at each layer which experts a given token actually visits, so most of the network&#39;s weights sit idle for most tokens.</p>
+<h3>The router: logits, softmax, top-K</h3>
+<p>The router is a linear layer: it projects the token representation <code>X</code> through a weight matrix <code>W</code> to produce logits <code>H(x) = X · W</code>. A softmax turns these logits into a probability distribution <code>G(x)</code> over experts. In top-K routing, only the K highest-scoring experts keep a non-zero weight; every other expert&#39;s logit is masked to −∞ before the softmax, which drives its probability to zero. The layer&#39;s output is the weighted sum of the outputs of just the selected experts: <code>Y = Σ G(x)_i · Expert_i(X)</code> for <code>i</code> in the top-K set. A detail worth keeping: experts do not specialise into human-legible domains like "the medical expert" or "the code expert." Empirically they specialise in syntactic and token-level patterns — punctuation, verb forms, numeric tokens — not subject matter.</p>
+<h3>Keeping experts busy: load balancing</h3>
+<p>Left alone, training MoE models produces a "rich get richer" failure: an expert that gets a slightly better random start attracts more tokens from the router early on, gets more gradient updates, becomes more attractive to the router, and the rest starve. The fix is an auxiliary load-balancing loss added to the training objective, computed from the coefficient of variation (standard deviation over mean) of routing probabilities across experts — a high coefficient of variation means routing is uneven, and the loss penalises that. It&#39;s a governance mechanism baked into training, not a hyperparameter you tune once and forget.</p>
+<h3>Expert capacity and token dropping</h3>
+<p>Because GPU memory allocation has to be fixed ahead of time, each expert gets a hard capacity limit: <code>C = (tokens / experts) × capacity factor</code>. If more tokens route to an expert than its capacity allows in a batch, the overflow tokens either fall through to a secondary expert or bypass the FFN entirely via a residual connection — they get dropped from expert computation, not from the sequence. This is a real, if usually small, source of representational noise, and it is one reason routing entropy is worth monitoring during training.</p>
+<h3>Sparse vs. active parameters</h3>
+<p>This is the number that matters for deployment. "Sparse parameters" (or total parameters) is everything loaded into memory — every expert, used or not; for Mixtral 8x7B that&#39;s roughly 47B. "Active parameters" is what actually runs per token — for Mixtral, about 13B, since only 2 of 8 experts fire per layer. VRAM sizing is governed by the sparse count; inference latency and FLOPs are governed by the active count. The same architecture also extends past language: Soft-MoE applies the same idea to Vision Transformers, routing image patches to specialised encoders instead of discrete tokens.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>alice / local AI: choose models by two numbers, not one.</strong> When picking a local model for the Mac (the #112/#116 thread), check both sparse (total, drives whether it fits in unified memory) and active (drives generation speed) parameter counts before downloading — a model advertised as fast because of a low active count can still be too large to load.</li><li><strong>Auditor: an auxiliary loss is an encoded rule.</strong> The load-balancing loss is training-time enforcement of a fairness invariant across experts, the same shape as #67&#39;s "an invariant is a stop" — a rule that fires automatically rather than one a reviewer has to remember to check. Worth naming as a pattern the Auditor row should recognise even outside MoE: penalty terms that keep a system from drifting into an unbalanced state.</li><li><strong>Knowledge Notes (Theory cross-link): softmax and coefficient of variation.</strong> Both are reusable primitives — softmax turns any score vector into a probability distribution (also used in attention), and coefficient of variation is a general dispersion metric for "how uneven is this allocation," useful anywhere load or resource distribution needs a single number.</li><li><strong>Eng: a three-sentence interview answer.</strong> MoE replaces one big feed-forward layer with many small expert FFNs and a router that activates only the top-K per token; a router computes <code>softmax(X·W)</code> and masks the rest to −∞; the payoff is that a model can hold, say, 47B parameters in memory while only computing with about 13B per token, which is why Mixtral 8x7B is described as "a 47B model that runs like a 13B one."</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-21: Maarten Grootendorst co-authored <em>Hands-On Large Language Models</em> (O&#39;Reilly, 2024) and writes a visual-guide blog series on ML topics. Mixtral 8x7B (Mistral AI, released December 2023) is a real sparse MoE model, documented at 46.7B total parameters and 12.9B active parameters per token (2 of 8 experts per layer) — close to the video&#39;s rounded "47B / 13B." The Switch Transformer (Fedus, Zoph, Shazeer, 2021) is the paper that introduced the capacity-factor formulation and an auxiliary load-balancing loss in this form; Shazeer et al. (2017) introduced sparsely-gated Mixture-of-Experts layers for neural networks, the lineage this design descends from. DeepSeek-V3 (671B total parameters, 37B active) is a current, real example of the same sparse/active split at much larger scale. GPT-4 being an MoE model is a persistent rumor in the field, not a confirmed architectural fact, and should be treated as such rather than cited as a MoE example.</p>
+<p>Taken from the summary and not independently checked: the video&#39;s own framing and pacing, the exact claim that "experts specialise in syntactic rather than semantic patterns" as stated (this matches published MoE interpretability findings in general but was not re-verified against this specific video&#39;s sources), and the video&#39;s discussion of Soft-MoE for vision beyond the general fact that Soft-MoE exists as a published architecture (Puigcerver et al., 2023).</p>
+<p>Sources: <a href="http://www.youtube.com/watch?v=sOPDGQjFcuM">YouTube — Maarten Grootendorst, "A Visual Guide to Mixture of Experts (MoE) in LLMs"</a> · Fedus, Zoph, Shazeer, "Switch Transformers," 2021 · Shazeer et al., "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer," 2017 · Mistral AI, Mixtral 8x7B model card · related items: Tech #112 (MLX local AI), Tech #116 (local AI weights and quantization), Tech #63 (governed workflows: route, then act), Tech #96 (Homa — SRPT and priority queues, routing decisions by size), #67 (an invariant is a stop).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>Mixture of Experts (MoE)</strong></td><td>여러 전문화된 서브 네트워크와 라우터로 구성된 아키텍처 · 이 항목 전체의 주제. "how MoE replaces a Transformer&#39;s dense feed-forward layer"</td></tr><tr><td><strong>dense (model)</strong></td><td>밀집(모든 파라미터가 매 토큰에 활성화되는 모델) · sparse와 대비되는 기준 아키텍처. "A dense Transformer ties compute cost to total parameter count"</td></tr><tr><td><strong>feed-forward network (FFN)</strong></td><td>피드포워드 네트워크(트랜스포머 블록에서 어텐션 다음에 오는 층) · MoE가 대체하는 대상. "a feed-forward network (FFN) that every token passes through"</td></tr><tr><td><strong>router / gating (mechanism)</strong></td><td>라우터 / 게이팅(토큰마다 어느 전문가를 쓸지 정하는 장치) · MoE의 핵심 구성요소. "A gating mechanism, the router, decides"</td></tr><tr><td><strong>logits</strong></td><td>로짓(softmax 이전의 원점수) · 분류·라우팅에서 공통으로 쓰는 용어. "producing logits H(x) = X · W"</td></tr><tr><td><strong>softmax</strong></td><td>점수 벡터를 확률 분포로 바꾸는 함수 · 라우팅과 어텐션 모두에 쓰이는 재사용 가능한 도구. "A softmax turns these logits into a probability distribution"</td></tr><tr><td><strong>top-K routing</strong></td><td>상위 K개만 선택하는 라우팅 방식 · 나머지는 마스킹되어 계산에서 빠짐. "In top-K routing, only the K highest-scoring experts keep a non-zero weight"</td></tr><tr><td><strong>masked to −∞</strong></td><td>음의 무한대로 마스킹(softmax 전에 로짓을 −∞로 만들어 확률을 0으로 만드는 방법) · top-K 구현의 표준 트릭. "every other expert&#39;s logit is masked to −∞"</td></tr><tr><td><strong>load-balancing loss / auxiliary loss</strong></td><td>로드 밸런싱 손실 / 보조 손실(전문가 쏠림을 막는 학습 시 벌점 항) · Auditor 비유의 핵심. "an auxiliary load-balancing loss added to the training objective"</td></tr><tr><td><strong>coefficient of variation</strong></td><td>변동 계수(표준편차/평균, 고르지 않음을 재는 지표) · 로드 밸런싱 손실 계산의 기반. "computed from the coefficient of variation... of routing probabilities"</td></tr><tr><td><strong>rich get richer</strong></td><td>부익부(초기에 앞선 쪽이 계속 더 유리해지는 현상) · 로드 밸런싱이 막으려는 실패 모드를 부르는 관용구. "a &#39;rich get richer&#39; failure"</td></tr><tr><td><strong>expert capacity</strong></td><td>전문가 용량(한 배치에서 전문가가 받을 수 있는 토큰 수의 상한) · GPU 메모리를 고정 배정하기 위한 제약. "each expert gets a hard capacity limit"</td></tr><tr><td><strong>capacity factor</strong></td><td>용량 계수(용량 공식의 배수 항) · Switch Transformer가 도입한 튜닝 파라미터. "C = (tokens / experts) × capacity factor"</td></tr><tr><td><strong>token dropping</strong></td><td>토큰 드롭(용량 초과 시 토큰이 전문가 계산에서 빠지는 것) · 용량 제한의 직접적 결과. "overflow tokens either fall through... or bypass the FFN"</td></tr><tr><td><strong>residual bypass</strong></td><td>잔차 우회(FFN을 건너뛰고 잔차 연결만 통과시키는 경로) · 드롭된 토큰의 대안 경로. "bypass the FFN entirely via a residual connection"</td></tr><tr><td><strong>sparse parameters</strong></td><td>sparse 파라미터(모델에 로드된 전체 파라미터 수, 쓰이든 안 쓰이든) · VRAM 요구량을 정하는 숫자. "&#39;Sparse parameters&#39;... is everything loaded into memory"</td></tr><tr><td><strong>active parameters</strong></td><td>active 파라미터(토큰 하나당 실제로 실행되는 파라미터 수) · 지연 시간과 FLOPs를 정하는 숫자. "&#39;Active parameters&#39; is what actually runs per token"</td></tr><tr><td><strong>VRAM</strong></td><td>그래픽 메모리(모델 가중치를 올려두는 GPU 메모리) · sparse 파라미터 수가 정하는 제약. "VRAM sizing is governed by the sparse count"</td></tr><tr><td><strong>FLOPs</strong></td><td>초당 부동소수점 연산 수(연산량의 표준 단위) · active 파라미터 수가 정하는 비용. "inference latency and FLOPs are governed by the active count"</td></tr><tr><td><strong>routing entropy</strong></td><td>라우팅 엔트로피(라우터가 전문가들에 얼마나 고르게 분산해서 배정하는지 재는 지표) · 학습 중 모니터링 대상. "one reason routing entropy is worth monitoring"</td></tr><tr><td><strong>Soft-MoE</strong></td><td>소프트 MoE(비전 트랜스포머용 MoE 변형, 이미지 패치를 라우팅) · 텍스트 밖으로의 확장 사례. "Soft-MoE applies the same idea to Vision Transformers"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# Mixture of Experts — 모델은 470억 파라미터를 메모리에 올려두고도 130억 파라미터만으로 계산할 수 있다\n\nO'Reilly의 *Hands-On Large Language Models*를 공저했고 비주얼 가이드 블로그 시리즈로 알려진 데이터 사이언티스트 마르턴 흐로턴도르스트(Maarten Grootendorst)가 약 20분짜리 영상(\"A Visual Guide to Mixture of Experts (MoE) in LLMs\", 19:44)에서 MoE가 트랜스포머의 dense 피드포워드 층을 여러 전문화된 서브 네트워크와, 토큰마다 그중 일부만 고르는 라우터로 어떻게 대체하는지 설명한다. 핵심 숫자는 이렇다. Mixtral 8x7B는 메모리에 약 470억 파라미터를 올려두지만, 각 층에서 8개 전문가 중 2개만 라우터가 활성화하기 때문에 토큰 하나당 실제로 계산하는 것은 약 130억 파라미터뿐이다. 영상은 라우터의 softmax-and-top-K 수식, 전문가가 소수에게 쏠리지 않게 막는 보조 손실(auxiliary loss), 토큰이 드롭될 수 있는 용량 한계도 함께 다룬다.\n\nJayverse에서 이것은 이전 Tech 항목 두 개, #112(MLX 로컬 AI)와 #116(로컬 AI 가중치와 양자화)의 빠진 이론이다. 모델이 실행은 빠르게 느껴지면서도 Mac의 통합 메모리에는 올라가지 않는 이유를 아키텍처 사실 하나로 설명한다. 중요한 숫자는 두 개이고, 예산을 세울 수 있는 것은 그중 하나뿐이다.\n\n## 왜\n\nDense 트랜스포머는 계산 비용을 전체 파라미터 수에 묶는다. 추가된 파라미터 하나하나가 모든 토큰에 대해 활성화되므로, 모델을 키우면 지연 시간과 FLOPs가 함께 늘어난다. MoE는 이 결합을 끊는다. 전문가마다 구문이나 토큰 패턴의 한 조각에 특화되게 하여, 모델이 훨씬 많은 총 지식을 담으면서도 토큰당 계산량은 훨씬 작은 dense 모델에 가깝게 유지할 수 있다. 어느 토큰이든 소수의 전문가만 실행되기 때문이다. 이것이 막는 실패는 구매나 배포 판단의 실수다. 서로 다른 두 자원을 지배하는 서로 다른 두 파라미터 수 중 하나만 보고 모델의 요구 사항을 판단하는 것. VRAM은 이번 토큰에 쓰이든 아니든 모든 전문가를 담고 있어야 하고, 지연 시간과 FLOPs는 실제로 선택된 전문가만 신경 쓴다. 이 둘을 혼동하면 \"13B급\"이라던 모델이 알고 보니 47B만큼의 메모리를 요구하는 일이 생긴다.\n\n## 동작 방식\n\n### Dense FFN 대 sparse 전문가\n표준 디코더 블록에서는 셀프 어텐션 다음에 피드포워드 네트워크(FFN)가 오고, 모든 토큰이 전부를 통과한다. 계산량은 전체 모델 크기에 비례한다. MoE는 이 단일 FFN을 여러 개의 병렬 FFN, 즉 전문가로 대체한다. 각 전문가는 완결되어 있지만 독립적인 피드포워드 네트워크다. 게이팅 메커니즘인 라우터가 각 층에서 주어진 토큰이 실제로 어느 전문가를 방문할지 정하므로, 네트워크 가중치 대부분은 대부분의 토큰에 대해 놀고 있다.\n\n### 라우터: 로짓, softmax, top-K\n라우터는 선형 층이다. 토큰 표현 `X`를 가중치 행렬 `W`로 투영해 로짓 `H(x) = X · W`를 만든다. softmax가 이 로짓을 전문가에 대한 확률 분포 `G(x)`로 바꾼다. top-K 라우팅에서는 점수가 가장 높은 K개 전문가만 0이 아닌 가중치를 유지하고, 나머지 전문가의 로짓은 softmax 전에 −∞로 마스킹되어 확률이 0으로 밀린다. 층의 출력은 선택된 전문가들의 출력만의 가중합이다. top-K 집합의 `i`에 대해 `Y = Σ G(x)_i · Expert_i(X)`. 기억할 만한 디테일 하나: 전문가는 \"의료 전문가\"나 \"코드 전문가\"처럼 사람이 읽을 수 있는 분야로 특화되지 않는다. 경험적으로는 구두점, 동사 형태, 숫자 토큰 같은 구문·토큰 수준 패턴에 특화된다. 주제가 아니다.\n\n### 전문가를 고르게 쓰게 하기: 로드 밸런싱\n그냥 두면 MoE 모델 학습은 \"부익부\" 실패를 낳는다. 어떤 전문가가 무작위 초기화에서 약간 더 좋은 출발을 하면 초기에 라우터로부터 더 많은 토큰을 끌어오고, 더 많은 그래디언트 업데이트를 받고, 라우터에게 더 매력적으로 보이게 되며, 나머지는 굶는다. 해법은 학습 목적함수에 보조 로드 밸런싱 손실을 더하는 것이다. 이는 전문가 전체에 걸친 라우팅 확률의 변동 계수(표준편차를 평균으로 나눈 값)로 계산된다. 변동 계수가 크다는 것은 라우팅이 고르지 않다는 뜻이고, 손실이 이를 벌점으로 매긴다. 이것은 한 번 튜닝하고 잊는 하이퍼파라미터가 아니라 학습에 내장된 거버넌스 장치다.\n\n### 전문가 용량과 토큰 드롭\nGPU 메모리 할당은 미리 고정되어야 하므로, 각 전문가에는 엄격한 용량 한계가 주어진다. `C = (토큰 수 / 전문가 수) × 용량 계수`. 배치 안에서 한 전문가로 용량보다 더 많은 토큰이 라우팅되면, 넘친 토큰은 보조 전문가로 넘어가거나 잔차 연결을 통해 FFN 계산을 아예 건너뛴다. 시퀀스에서 빠지는 게 아니라 전문가 계산에서 빠지는 것이다. 이것은 보통 작지만 실제로 존재하는 표현 잡음의 원천이고, 학습 중 라우팅 엔트로피를 모니터링할 가치가 있는 이유 중 하나다.\n\n### Sparse 파라미터 대 active 파라미터\n배포에서 중요한 숫자는 이것이다. \"sparse 파라미터\"(또는 전체 파라미터)는 쓰이든 안 쓰이든 메모리에 올라가는 모든 것이다. Mixtral 8x7B라면 대략 47B. \"active 파라미터\"는 토큰 하나당 실제로 실행되는 것이다. Mixtral의 경우 층마다 8개 중 2개 전문가만 발화하므로 약 13B. VRAM 크기는 sparse 수가 정하고, 추론 지연과 FLOPs는 active 수가 정한다. 같은 아이디어는 언어를 넘어서도 확장된다. Soft-MoE는 같은 아이디어를 비전 트랜스포머에 적용해, 개별 토큰 대신 이미지 패치를 특화된 인코더로 라우팅한다.\n\n### Jayverse에서의 위치\n\n- **alice / 로컬 AI: 숫자 하나가 아니라 둘로 모델을 고른다.** Mac용 로컬 모델을 고를 때(#112/#116 흐름) 다운로드 전에 sparse(전체, 통합 메모리에 들어가는지를 정함)와 active(생성 속도를 정함) 파라미터 수를 둘 다 확인한다. active 수가 낮아 빠르다고 홍보된 모델도 sparse 수 때문에 로드가 안 될 수 있다.\n- **Auditor: 보조 손실은 코드화된 규칙이다.** 로드 밸런싱 손실은 전문가 간 공정성 불변식을 학습 시점에 강제하는 장치로, #67의 \"불변식은 정지 지점이다\"와 같은 형태다. 리뷰어가 기억해서 체크하는 규칙이 아니라 자동으로 발동하는 규칙. Auditor 행이 MoE 밖에서도 인식해야 할 패턴이다. 시스템이 불균형 상태로 흘러가지 않게 막는 벌점 항.\n- **Knowledge Notes(Theory 교차 링크): softmax와 변동 계수.** 둘 다 재사용 가능한 기본 도구다. softmax는 어떤 점수 벡터든 확률 분포로 바꾼다(어텐션에서도 쓰인다). 변동 계수는 \"이 배분이 얼마나 고르지 않은가\"를 하나의 숫자로 주는 일반적인 분산 지표로, 부하나 자원 분배가 문제될 때 어디에나 쓸 수 있다.\n- **Eng: 세 문장짜리 인터뷰 답변.** MoE는 하나의 큰 피드포워드 층을 여러 개의 작은 전문가 FFN과, 토큰마다 top-K만 활성화하는 라우터로 대체한다. 라우터는 `softmax(X·W)`를 계산하고 나머지는 −∞로 마스킹한다. 그 결과 모델은 예컨대 47B 파라미터를 메모리에 담고도 토큰당 약 13B만으로 계산할 수 있고, 이것이 Mixtral 8x7B가 \"13B처럼 돌아가는 47B 모델\"로 불리는 이유다.\n\n### 확인된 것과 미확인\n\n2026-09-21 확인: 마르턴 흐로턴도르스트는 *Hands-On Large Language Models*(O'Reilly, 2024)를 공저했고 ML 주제의 비주얼 가이드 블로그 시리즈를 쓴다. Mixtral 8x7B(Mistral AI, 2023년 12월 출시)는 실제 sparse MoE 모델로, 전체 46.7B 파라미터에 토큰당 12.9B active 파라미터(층마다 8개 중 2개 전문가)로 문서화되어 있다. 영상이 반올림한 \"47B / 13B\"와 가깝다. Switch Transformer(Fedus, Zoph, Shazeer, 2021)는 이런 형태의 용량 계수 공식과 보조 로드 밸런싱 손실을 도입한 논문이다. Shazeer 외(2017)는 이 계보가 시작된, 신경망을 위한 sparsely-gated Mixture-of-Experts 층을 도입했다. DeepSeek-V3(전체 671B, active 37B)는 같은 sparse/active 구분이 훨씬 큰 규모에서 실재하는 현재 예시다. GPT-4가 MoE라는 것은 업계에서 꾸준히 도는 루머이지 확인된 아키텍처 사실이 아니며, MoE 예시로 인용하기보다는 루머로 다뤄야 한다.\n\n강연 요약에서 가져왔고 독립 확인하지 않은 것: 영상 자체의 구성과 전개, \"전문가는 의미가 아니라 구문에 특화된다\"는 서술이 정확히 이 영상의 출처를 재검증한 것은 아니라는 점(일반적인 MoE 해석가능성 연구 결과와는 부합한다), 그리고 Soft-MoE가 발표된 아키텍처로 실재한다는 사실 외에 영상이 다룬 비전 확장 논의의 세부.\n\n출처: [YouTube — 마르턴 흐로턴도르스트, \"A Visual Guide to Mixture of Experts (MoE) in LLMs\"](http://www.youtube.com/watch?v=sOPDGQjFcuM) · Fedus, Zoph, Shazeer, \"Switch Transformers,\" 2021 · Shazeer 외, \"Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer,\" 2017 · Mistral AI, Mixtral 8x7B 모델 카드 · 관련 항목: Tech #112(MLX 로컬 AI), Tech #116(로컬 AI 가중치와 양자화), Tech #63(거버넌스 워크플로: 경로를 정하고 실행한다), Tech #96(Homa — SRPT와 우선순위 큐, 크기에 따른 라우팅 결정), #67(불변식은 정지 지점이다).\n"</script>
+      <h1>Mixture of Experts — 모델은 470억 파라미터를 메모리에 올려두고도 130억 파라미터만으로 계산할 수 있다</h1>
+      <p class="lead">O&#39;Reilly의 *Hands-On Large Language Models*를 공저했고 비주얼 가이드 블로그 시리즈로 알려진 데이터 사이언티스트 마르턴 흐로턴도르스트(Maarten Grootendorst)가 약 20분짜리 영상("A Visual Guide to Mixture of Experts (MoE) in LLMs", 19:44)에서 MoE가 트랜스포머의 dense 피드포워드 층을 여러 전문화된 서브 네트워크와, 토큰마다 그중 일부만 고르는 라우터로 어떻게 대체하는지 설명한다. 핵심 숫자는 이렇다. Mixtral 8x7B는 메모리에 약 470억 파라미터를 올려두지만, 각 층에서 8개 전문가 중 2개만 라우터가 활성화하기 때문에 토큰 하나당 실제로 계산하는 것은 약 130억 파라미터뿐이다. 영상은 라우터의 softmax-and-top-K 수식, 전문가가 소수에게 쏠리지 않게 막는 보조 손실(auxiliary loss), 토큰이 드롭될 수 있는 용량 한계도 함께 다룬다.</p>
+      <p class="meta">Jayverse에서 이것은 이전 Tech 항목 두 개, #112(MLX 로컬 AI)와 #116(로컬 AI 가중치와 양자화)의 빠진 이론이다. 모델이 실행은 빠르게 느껴지면서도 Mac의 통합 메모리에는 올라가지 않는 이유를 아키텍처 사실 하나로 설명한다. 중요한 숫자는 두 개이고, 예산을 세울 수 있는 것은 그중 하나뿐이다.</p>
+<h2>왜</h2>
+<p>Dense 트랜스포머는 계산 비용을 전체 파라미터 수에 묶는다. 추가된 파라미터 하나하나가 모든 토큰에 대해 활성화되므로, 모델을 키우면 지연 시간과 FLOPs가 함께 늘어난다. MoE는 이 결합을 끊는다. 전문가마다 구문이나 토큰 패턴의 한 조각에 특화되게 하여, 모델이 훨씬 많은 총 지식을 담으면서도 토큰당 계산량은 훨씬 작은 dense 모델에 가깝게 유지할 수 있다. 어느 토큰이든 소수의 전문가만 실행되기 때문이다. 이것이 막는 실패는 구매나 배포 판단의 실수다. 서로 다른 두 자원을 지배하는 서로 다른 두 파라미터 수 중 하나만 보고 모델의 요구 사항을 판단하는 것. VRAM은 이번 토큰에 쓰이든 아니든 모든 전문가를 담고 있어야 하고, 지연 시간과 FLOPs는 실제로 선택된 전문가만 신경 쓴다. 이 둘을 혼동하면 "13B급"이라던 모델이 알고 보니 47B만큼의 메모리를 요구하는 일이 생긴다.</p>
+<h2>동작 방식</h2>
+<h3>Dense FFN 대 sparse 전문가</h3>
+<p>표준 디코더 블록에서는 셀프 어텐션 다음에 피드포워드 네트워크(FFN)가 오고, 모든 토큰이 전부를 통과한다. 계산량은 전체 모델 크기에 비례한다. MoE는 이 단일 FFN을 여러 개의 병렬 FFN, 즉 전문가로 대체한다. 각 전문가는 완결되어 있지만 독립적인 피드포워드 네트워크다. 게이팅 메커니즘인 라우터가 각 층에서 주어진 토큰이 실제로 어느 전문가를 방문할지 정하므로, 네트워크 가중치 대부분은 대부분의 토큰에 대해 놀고 있다.</p>
+<h3>라우터: 로짓, softmax, top-K</h3>
+<p>라우터는 선형 층이다. 토큰 표현 <code>X</code>를 가중치 행렬 <code>W</code>로 투영해 로짓 <code>H(x) = X · W</code>를 만든다. softmax가 이 로짓을 전문가에 대한 확률 분포 <code>G(x)</code>로 바꾼다. top-K 라우팅에서는 점수가 가장 높은 K개 전문가만 0이 아닌 가중치를 유지하고, 나머지 전문가의 로짓은 softmax 전에 −∞로 마스킹되어 확률이 0으로 밀린다. 층의 출력은 선택된 전문가들의 출력만의 가중합이다. top-K 집합의 <code>i</code>에 대해 <code>Y = Σ G(x)_i · Expert_i(X)</code>. 기억할 만한 디테일 하나: 전문가는 "의료 전문가"나 "코드 전문가"처럼 사람이 읽을 수 있는 분야로 특화되지 않는다. 경험적으로는 구두점, 동사 형태, 숫자 토큰 같은 구문·토큰 수준 패턴에 특화된다. 주제가 아니다.</p>
+<h3>전문가를 고르게 쓰게 하기: 로드 밸런싱</h3>
+<p>그냥 두면 MoE 모델 학습은 "부익부" 실패를 낳는다. 어떤 전문가가 무작위 초기화에서 약간 더 좋은 출발을 하면 초기에 라우터로부터 더 많은 토큰을 끌어오고, 더 많은 그래디언트 업데이트를 받고, 라우터에게 더 매력적으로 보이게 되며, 나머지는 굶는다. 해법은 학습 목적함수에 보조 로드 밸런싱 손실을 더하는 것이다. 이는 전문가 전체에 걸친 라우팅 확률의 변동 계수(표준편차를 평균으로 나눈 값)로 계산된다. 변동 계수가 크다는 것은 라우팅이 고르지 않다는 뜻이고, 손실이 이를 벌점으로 매긴다. 이것은 한 번 튜닝하고 잊는 하이퍼파라미터가 아니라 학습에 내장된 거버넌스 장치다.</p>
+<h3>전문가 용량과 토큰 드롭</h3>
+<p>GPU 메모리 할당은 미리 고정되어야 하므로, 각 전문가에는 엄격한 용량 한계가 주어진다. <code>C = (토큰 수 / 전문가 수) × 용량 계수</code>. 배치 안에서 한 전문가로 용량보다 더 많은 토큰이 라우팅되면, 넘친 토큰은 보조 전문가로 넘어가거나 잔차 연결을 통해 FFN 계산을 아예 건너뛴다. 시퀀스에서 빠지는 게 아니라 전문가 계산에서 빠지는 것이다. 이것은 보통 작지만 실제로 존재하는 표현 잡음의 원천이고, 학습 중 라우팅 엔트로피를 모니터링할 가치가 있는 이유 중 하나다.</p>
+<h3>Sparse 파라미터 대 active 파라미터</h3>
+<p>배포에서 중요한 숫자는 이것이다. "sparse 파라미터"(또는 전체 파라미터)는 쓰이든 안 쓰이든 메모리에 올라가는 모든 것이다. Mixtral 8x7B라면 대략 47B. "active 파라미터"는 토큰 하나당 실제로 실행되는 것이다. Mixtral의 경우 층마다 8개 중 2개 전문가만 발화하므로 약 13B. VRAM 크기는 sparse 수가 정하고, 추론 지연과 FLOPs는 active 수가 정한다. 같은 아이디어는 언어를 넘어서도 확장된다. Soft-MoE는 같은 아이디어를 비전 트랜스포머에 적용해, 개별 토큰 대신 이미지 패치를 특화된 인코더로 라우팅한다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>alice / 로컬 AI: 숫자 하나가 아니라 둘로 모델을 고른다.</strong> Mac용 로컬 모델을 고를 때(#112/#116 흐름) 다운로드 전에 sparse(전체, 통합 메모리에 들어가는지를 정함)와 active(생성 속도를 정함) 파라미터 수를 둘 다 확인한다. active 수가 낮아 빠르다고 홍보된 모델도 sparse 수 때문에 로드가 안 될 수 있다.</li><li><strong>Auditor: 보조 손실은 코드화된 규칙이다.</strong> 로드 밸런싱 손실은 전문가 간 공정성 불변식을 학습 시점에 강제하는 장치로, #67의 "불변식은 정지 지점이다"와 같은 형태다. 리뷰어가 기억해서 체크하는 규칙이 아니라 자동으로 발동하는 규칙. Auditor 행이 MoE 밖에서도 인식해야 할 패턴이다. 시스템이 불균형 상태로 흘러가지 않게 막는 벌점 항.</li><li><strong>Knowledge Notes(Theory 교차 링크): softmax와 변동 계수.</strong> 둘 다 재사용 가능한 기본 도구다. softmax는 어떤 점수 벡터든 확률 분포로 바꾼다(어텐션에서도 쓰인다). 변동 계수는 "이 배분이 얼마나 고르지 않은가"를 하나의 숫자로 주는 일반적인 분산 지표로, 부하나 자원 분배가 문제될 때 어디에나 쓸 수 있다.</li><li><strong>Eng: 세 문장짜리 인터뷰 답변.</strong> MoE는 하나의 큰 피드포워드 층을 여러 개의 작은 전문가 FFN과, 토큰마다 top-K만 활성화하는 라우터로 대체한다. 라우터는 <code>softmax(X·W)</code>를 계산하고 나머지는 −∞로 마스킹한다. 그 결과 모델은 예컨대 47B 파라미터를 메모리에 담고도 토큰당 약 13B만으로 계산할 수 있고, 이것이 Mixtral 8x7B가 "13B처럼 돌아가는 47B 모델"로 불리는 이유다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-21 확인: 마르턴 흐로턴도르스트는 <em>Hands-On Large Language Models</em>(O&#39;Reilly, 2024)를 공저했고 ML 주제의 비주얼 가이드 블로그 시리즈를 쓴다. Mixtral 8x7B(Mistral AI, 2023년 12월 출시)는 실제 sparse MoE 모델로, 전체 46.7B 파라미터에 토큰당 12.9B active 파라미터(층마다 8개 중 2개 전문가)로 문서화되어 있다. 영상이 반올림한 "47B / 13B"와 가깝다. Switch Transformer(Fedus, Zoph, Shazeer, 2021)는 이런 형태의 용량 계수 공식과 보조 로드 밸런싱 손실을 도입한 논문이다. Shazeer 외(2017)는 이 계보가 시작된, 신경망을 위한 sparsely-gated Mixture-of-Experts 층을 도입했다. DeepSeek-V3(전체 671B, active 37B)는 같은 sparse/active 구분이 훨씬 큰 규모에서 실재하는 현재 예시다. GPT-4가 MoE라는 것은 업계에서 꾸준히 도는 루머이지 확인된 아키텍처 사실이 아니며, MoE 예시로 인용하기보다는 루머로 다뤄야 한다.</p>
+<p>강연 요약에서 가져왔고 독립 확인하지 않은 것: 영상 자체의 구성과 전개, "전문가는 의미가 아니라 구문에 특화된다"는 서술이 정확히 이 영상의 출처를 재검증한 것은 아니라는 점(일반적인 MoE 해석가능성 연구 결과와는 부합한다), 그리고 Soft-MoE가 발표된 아키텍처로 실재한다는 사실 외에 영상이 다룬 비전 확장 논의의 세부.</p>
+<p>출처: <a href="http://www.youtube.com/watch?v=sOPDGQjFcuM">YouTube — 마르턴 흐로턴도르스트, "A Visual Guide to Mixture of Experts (MoE) in LLMs"</a> · Fedus, Zoph, Shazeer, "Switch Transformers," 2021 · Shazeer 외, "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer," 2017 · Mistral AI, Mixtral 8x7B 모델 카드 · 관련 항목: Tech #112(MLX 로컬 AI), Tech #116(로컬 AI 가중치와 양자화), Tech #63(거버넌스 워크플로: 경로를 정하고 실행한다), Tech #96(Homa — SRPT와 우선순위 큐, 크기에 따른 라우팅 결정), #67(불변식은 정지 지점이다).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>Mixture of Experts (MoE)</strong></td><td>여러 전문화된 서브 네트워크와 라우터로 구성된 아키텍처 · 이 항목 전체의 주제. "how MoE replaces a Transformer&#39;s dense feed-forward layer"</td></tr><tr><td><strong>dense (model)</strong></td><td>밀집(모든 파라미터가 매 토큰에 활성화되는 모델) · sparse와 대비되는 기준 아키텍처. "A dense Transformer ties compute cost to total parameter count"</td></tr><tr><td><strong>feed-forward network (FFN)</strong></td><td>피드포워드 네트워크(트랜스포머 블록에서 어텐션 다음에 오는 층) · MoE가 대체하는 대상. "a feed-forward network (FFN) that every token passes through"</td></tr><tr><td><strong>router / gating (mechanism)</strong></td><td>라우터 / 게이팅(토큰마다 어느 전문가를 쓸지 정하는 장치) · MoE의 핵심 구성요소. "A gating mechanism, the router, decides"</td></tr><tr><td><strong>logits</strong></td><td>로짓(softmax 이전의 원점수) · 분류·라우팅에서 공통으로 쓰는 용어. "producing logits H(x) = X · W"</td></tr><tr><td><strong>softmax</strong></td><td>점수 벡터를 확률 분포로 바꾸는 함수 · 라우팅과 어텐션 모두에 쓰이는 재사용 가능한 도구. "A softmax turns these logits into a probability distribution"</td></tr><tr><td><strong>top-K routing</strong></td><td>상위 K개만 선택하는 라우팅 방식 · 나머지는 마스킹되어 계산에서 빠짐. "In top-K routing, only the K highest-scoring experts keep a non-zero weight"</td></tr><tr><td><strong>masked to −∞</strong></td><td>음의 무한대로 마스킹(softmax 전에 로짓을 −∞로 만들어 확률을 0으로 만드는 방법) · top-K 구현의 표준 트릭. "every other expert&#39;s logit is masked to −∞"</td></tr><tr><td><strong>load-balancing loss / auxiliary loss</strong></td><td>로드 밸런싱 손실 / 보조 손실(전문가 쏠림을 막는 학습 시 벌점 항) · Auditor 비유의 핵심. "an auxiliary load-balancing loss added to the training objective"</td></tr><tr><td><strong>coefficient of variation</strong></td><td>변동 계수(표준편차/평균, 고르지 않음을 재는 지표) · 로드 밸런싱 손실 계산의 기반. "computed from the coefficient of variation... of routing probabilities"</td></tr><tr><td><strong>rich get richer</strong></td><td>부익부(초기에 앞선 쪽이 계속 더 유리해지는 현상) · 로드 밸런싱이 막으려는 실패 모드를 부르는 관용구. "a &#39;rich get richer&#39; failure"</td></tr><tr><td><strong>expert capacity</strong></td><td>전문가 용량(한 배치에서 전문가가 받을 수 있는 토큰 수의 상한) · GPU 메모리를 고정 배정하기 위한 제약. "each expert gets a hard capacity limit"</td></tr><tr><td><strong>capacity factor</strong></td><td>용량 계수(용량 공식의 배수 항) · Switch Transformer가 도입한 튜닝 파라미터. "C = (tokens / experts) × capacity factor"</td></tr><tr><td><strong>token dropping</strong></td><td>토큰 드롭(용량 초과 시 토큰이 전문가 계산에서 빠지는 것) · 용량 제한의 직접적 결과. "overflow tokens either fall through... or bypass the FFN"</td></tr><tr><td><strong>residual bypass</strong></td><td>잔차 우회(FFN을 건너뛰고 잔차 연결만 통과시키는 경로) · 드롭된 토큰의 대안 경로. "bypass the FFN entirely via a residual connection"</td></tr><tr><td><strong>sparse parameters</strong></td><td>sparse 파라미터(모델에 로드된 전체 파라미터 수, 쓰이든 안 쓰이든) · VRAM 요구량을 정하는 숫자. "&#39;Sparse parameters&#39;... is everything loaded into memory"</td></tr><tr><td><strong>active parameters</strong></td><td>active 파라미터(토큰 하나당 실제로 실행되는 파라미터 수) · 지연 시간과 FLOPs를 정하는 숫자. "&#39;Active parameters&#39; is what actually runs per token"</td></tr><tr><td><strong>VRAM</strong></td><td>그래픽 메모리(모델 가중치를 올려두는 GPU 메모리) · sparse 파라미터 수가 정하는 제약. "VRAM sizing is governed by the sparse count"</td></tr><tr><td><strong>FLOPs</strong></td><td>초당 부동소수점 연산 수(연산량의 표준 단위) · active 파라미터 수가 정하는 비용. "inference latency and FLOPs are governed by the active count"</td></tr><tr><td><strong>routing entropy</strong></td><td>라우팅 엔트로피(라우터가 전문가들에 얼마나 고르게 분산해서 배정하는지 재는 지표) · 학습 중 모니터링 대상. "one reason routing entropy is worth monitoring"</td></tr><tr><td><strong>Soft-MoE</strong></td><td>소프트 MoE(비전 트랜스포머용 MoE 변형, 이미지 패치를 라우팅) · 텍스트 밖으로의 확장 사례. "Soft-MoE applies the same idea to Vision Transformers"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-galaxy-brain-resistance-principles-with-teeth.html">&larr; 125. Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth</a><a href="pocs-rag-vs-long-context-hybrid-filter-then-attend.html">127. RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="moe-sparse-vs-active-parameters-router";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

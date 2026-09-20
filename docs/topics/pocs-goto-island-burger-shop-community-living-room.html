@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A remote-island burger shop — the product is the tool, the community is the point — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/556</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A remote-island burger shop — the product is the tool, the community is the point</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1332</span><span>Vlog</span><span title="added">2026-09-21</span><span title="source">gemini</span></p>
+      <h1>A remote-island burger shop — the product is the tool, the community is the point</h1>
+      <p class="lead">Japanese Food Craftsman&#39;s video "Japan&#39;s Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki" (20:25) follows Kaito and Ruka Kawaguchi, a couple who left Kyoto to reopen an 80-year-old storefront, Tsuruta Shoten, in Tamanoura, a village on Fukue Island in the Goto Archipelago, Nagasaki Prefecture. The patties are 100% Goto beef from Yamaguchi Farm, kneaded as little as possible so the fat crisps on the outside and the inside stays juicy, dressed in a sauce built on the previous shop master&#39;s recipe plus yuzu kosho. The couple states their purpose directly: "the hamburger is simply a tool; our real purpose is to create a community living room." Children do homework on the sofas, fishermen trade sashimi for burgers, and travelers pass through — the shop works as the village&#39;s shared room, not just a restaurant.</p>
+      <p class="meta">For Jayverse this is a small, concrete case of two things jay already tracks from other angles: that where you live and who you spend time with shapes your judgment, and that a product can be designed as social infrastructure for a place instead of a thing sold to strangers passing through.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# A remote-island burger shop — the product is the tool, the community is the point\n\nJapanese Food Craftsman's video \"Japan's Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki\" (20:25) follows Kaito and Ruka Kawaguchi, a couple who left Kyoto to reopen an 80-year-old storefront, Tsuruta Shoten, in Tamanoura, a village on Fukue Island in the Goto Archipelago, Nagasaki Prefecture. The patties are 100% Goto beef from Yamaguchi Farm, kneaded as little as possible so the fat crisps on the outside and the inside stays juicy, dressed in a sauce built on the previous shop master's recipe plus yuzu kosho. The couple states their purpose directly: \"the hamburger is simply a tool; our real purpose is to create a community living room.\" Children do homework on the sofas, fishermen trade sashimi for burgers, and travelers pass through — the shop works as the village's shared room, not just a restaurant.\n\nFor Jayverse this is a small, concrete case of two things jay already tracks from other angles: that where you live and who you spend time with shapes your judgment, and that a product can be designed as social infrastructure for a place instead of a thing sold to strangers passing through.\n\n## Why\n\nJapan's outer islands are depopulating, and the standard response is either abandonment or heritage tourism that treats a village as a museum. Tsuruta Shoten is neither. The couple picked a specific remote place on purpose, took over a specific 80-year-old building, and built a business whose stated output is a room where different generations already in that place meet — not a destination that imports visitors and exports nothing back. The failure this prevents is the common one in \"move somewhere quiet and slow down\" narratives: treating the move as a private retreat. A retreat has no community-load-bearing function and can vanish without the village noticing. A community living room is load-bearing; if it closes, people lose a place to be. That distinction — infrastructure versus retreat — is the reusable idea here, independent of burgers or Japan.\n\n## How it works\n\n### Craft with restraint, not spectacle\n\nThe shop sources a named, local, single-origin beef (Goto beef, Yamaguchi Farm) rather than a generic supply chain, and the craft move is subtraction: minimal kneading so the fat sears crisp outside while the muscle fibers stay intact inside. The sauce is not invented from scratch either — it extends the previous master's recipe with one regional addition, yuzu kosho. Nothing here is showmanship; every choice is in service of a plain product made carefully and tied to the specific place it is served in.\n\n### The room, not the burger, is the product\n\nThe owners' own framing — the burger as tool, the room as purpose — inverts the usual food-business logic, where the room exists to sell more food. Here the food funds the room. The evidence is who uses it and how: kids doing homework on the sofas is a use case with no transaction attached; sashimi traded for burgers is barter, not a sale; travelers sitting alongside islanders is proximity a normal restaurant's turnover doesn't allow. A \"third place\" (not home, not work) only functions as one if people can occupy it without buying something new each time, and the video's details suggest this one does.\n\n### Earning membership, not just occupying space\n\nThe couple joined the local Kagura preservation society and the Obon dances, and they display the Baramon kite that villagers made for the shop's opening. This is the part easy to skip when copying the \"move to a small place and open a shop\" pattern: showing up physically is not the same as being accepted into the place's rituals. Participating in Kagura and Obon, and accepting a gift the village made rather than one the couple bought, are costly, ongoing signals of commitment that a sign on the door cannot substitute for.\n\n### Where it lands in Jayverse\n\n- **Life: the deliberate-place-and-bags case study.** Vitalik's argument (Tech #125) is that your social bags and where you live shape your judgment more than you'd like to admit; this couple picked a place and then actively diversified their bags into it (Kagura, Obon) instead of staying Kyoto-transplants who happen to live on an island. It also reads as the quiet counter-example to Life 1330's \"most ambitious version of you\": a business built as social infrastructure, product as the tool, not the goal — and as Santos's time affluence (Life 1320) actually lived instead of argued for.\n- **Game #7: the third-place design brief.** The street service is literally a place with boards; if it is meant to function as a hangout rather than a billboard wall, the burger shop's pattern — a reason to sit that isn't a transaction, and repeat presence from people who aren't there to buy — is a concrete brief for what \"third place\" should mean in the 3D street, not just an aesthetic.\n- **Verex: a market with no price feed, on purpose.** Sashimi traded for burgers is barter between neighbors who know each other, with no order book and no resolution rule — a useful contrast to what Verex formalizes. It is a reminder that not every exchange needs, or benefits from, a priced market.\n- **Eng: a small-talk prompt.** \"A place you'd like to live, and why\" is a natural conversational topic for interview and small-talk practice, and this item supplies a concrete, non-generic answer to reference instead of a vague \"somewhere quiet.\"\n\n### Verified and unverified\n\nVerified on 2026-09-21: the Goto Islands (五島列島) and Fukue Island exist in the Goto Archipelago, Nagasaki Prefecture; Tamanoura (玉之浦) is a real place on Fukue Island; Goto beef (五島牛) is a recognized Nagasaki wagyu brand; Baramon kites (バラモン凧) are a genuine Goto folk craft, traditionally associated with celebrating a boy's birth or new beginnings; and Japan's outer islands generally face depopulation, a widely documented trend. Taken from the summary and not independently checked: the Kawaguchis' names, that they moved from Kyoto, the shop name Tsuruta Shoten and its 80-year age, the Yamaguchi Farm sourcing, the specific sauce recipe and its origin, the quote about the hamburger as a tool, and all details about the sofas, the sashimi barter, and the couple joining the Kagura society and Obon dances.\n\nSources: [YouTube — Japanese Food Craftsman, \"Japan's Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki\"](http://www.youtube.com/watch?v=BHIqnrGH71E) · related items: Tech #125 (Vitalik on social bags and where you live), Life 1330 (YC's \"most ambitious version of you\"), Life 1320 (Santos on time affluence).\n"</script>
+<h2>Why</h2>
+<p>Japan&#39;s outer islands are depopulating, and the standard response is either abandonment or heritage tourism that treats a village as a museum. Tsuruta Shoten is neither. The couple picked a specific remote place on purpose, took over a specific 80-year-old building, and built a business whose stated output is a room where different generations already in that place meet — not a destination that imports visitors and exports nothing back. The failure this prevents is the common one in "move somewhere quiet and slow down" narratives: treating the move as a private retreat. A retreat has no community-load-bearing function and can vanish without the village noticing. A community living room is load-bearing; if it closes, people lose a place to be. That distinction — infrastructure versus retreat — is the reusable idea here, independent of burgers or Japan.</p>
+<h2>How it works</h2>
+<h3>Craft with restraint, not spectacle</h3>
+<p>The shop sources a named, local, single-origin beef (Goto beef, Yamaguchi Farm) rather than a generic supply chain, and the craft move is subtraction: minimal kneading so the fat sears crisp outside while the muscle fibers stay intact inside. The sauce is not invented from scratch either — it extends the previous master&#39;s recipe with one regional addition, yuzu kosho. Nothing here is showmanship; every choice is in service of a plain product made carefully and tied to the specific place it is served in.</p>
+<h3>The room, not the burger, is the product</h3>
+<p>The owners&#39; own framing — the burger as tool, the room as purpose — inverts the usual food-business logic, where the room exists to sell more food. Here the food funds the room. The evidence is who uses it and how: kids doing homework on the sofas is a use case with no transaction attached; sashimi traded for burgers is barter, not a sale; travelers sitting alongside islanders is proximity a normal restaurant&#39;s turnover doesn&#39;t allow. A "third place" (not home, not work) only functions as one if people can occupy it without buying something new each time, and the video&#39;s details suggest this one does.</p>
+<h3>Earning membership, not just occupying space</h3>
+<p>The couple joined the local Kagura preservation society and the Obon dances, and they display the Baramon kite that villagers made for the shop&#39;s opening. This is the part easy to skip when copying the "move to a small place and open a shop" pattern: showing up physically is not the same as being accepted into the place&#39;s rituals. Participating in Kagura and Obon, and accepting a gift the village made rather than one the couple bought, are costly, ongoing signals of commitment that a sign on the door cannot substitute for.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Life: the deliberate-place-and-bags case study.</strong> Vitalik&#39;s argument (Tech #125) is that your social bags and where you live shape your judgment more than you&#39;d like to admit; this couple picked a place and then actively diversified their bags into it (Kagura, Obon) instead of staying Kyoto-transplants who happen to live on an island. It also reads as the quiet counter-example to Life 1330&#39;s "most ambitious version of you": a business built as social infrastructure, product as the tool, not the goal — and as Santos&#39;s time affluence (Life 1320) actually lived instead of argued for.</li><li><strong>Game #7: the third-place design brief.</strong> The street service is literally a place with boards; if it is meant to function as a hangout rather than a billboard wall, the burger shop&#39;s pattern — a reason to sit that isn&#39;t a transaction, and repeat presence from people who aren&#39;t there to buy — is a concrete brief for what "third place" should mean in the 3D street, not just an aesthetic.</li><li><strong>Verex: a market with no price feed, on purpose.</strong> Sashimi traded for burgers is barter between neighbors who know each other, with no order book and no resolution rule — a useful contrast to what Verex formalizes. It is a reminder that not every exchange needs, or benefits from, a priced market.</li><li><strong>Eng: a small-talk prompt.</strong> "A place you&#39;d like to live, and why" is a natural conversational topic for interview and small-talk practice, and this item supplies a concrete, non-generic answer to reference instead of a vague "somewhere quiet."</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-21: the Goto Islands (五島列島) and Fukue Island exist in the Goto Archipelago, Nagasaki Prefecture; Tamanoura (玉之浦) is a real place on Fukue Island; Goto beef (五島牛) is a recognized Nagasaki wagyu brand; Baramon kites (バラモン凧) are a genuine Goto folk craft, traditionally associated with celebrating a boy&#39;s birth or new beginnings; and Japan&#39;s outer islands generally face depopulation, a widely documented trend. Taken from the summary and not independently checked: the Kawaguchis&#39; names, that they moved from Kyoto, the shop name Tsuruta Shoten and its 80-year age, the Yamaguchi Farm sourcing, the specific sauce recipe and its origin, the quote about the hamburger as a tool, and all details about the sofas, the sashimi barter, and the couple joining the Kagura society and Obon dances.</p>
+<p>Sources: <a href="http://www.youtube.com/watch?v=BHIqnrGH71E">YouTube — Japanese Food Craftsman, "Japan&#39;s Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki"</a> · related items: Tech #125 (Vitalik on social bags and where you live), Life 1330 (YC&#39;s "most ambitious version of you"), Life 1320 (Santos on time affluence).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>third place</strong></td><td>제3의 장소(집·직장이 아닌 머무는 곳) · 사회학 용어, 커뮤니티 공간을 설명할 때. "A &#39;third place&#39; (not home, not work) only functions as one"</td></tr><tr><td><strong>community living room</strong></td><td>공동체의 거실(누구나 들를 수 있는 공유 공간이라는 비유) · 이 항목의 핵심 인용구. "our real purpose is to create a community living room"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 떠받치는(비유적으로 "없으면 무너지는 핵심 기능") · 건축 용어를 조직·공동체 논의에 빌려 쓴 표현. "A community living room is load-bearing"</td></tr><tr><td><strong>costly signal(ing)</strong></td><td>값비싼 신호(말로만이 아니라 대가를 치러야 증명되는 헌신의 표시) · 진화생물학·사회학에서 온 개념. "costly, ongoing signals of commitment"</td></tr><tr><td><strong>barter</strong></td><td>물물교환(화폐 없이 물건과 물건을 맞바꾸는 거래) · 가격 시장과 대비할 때. "sashimi traded for burgers is barter, not a sale"</td></tr><tr><td><strong>single-origin</strong></td><td>단일 산지(원료가 특정 한 곳에서만 온다는 뜻) · 커피·식재료 품질을 말할 때 흔한 표현. "a named, local, single-origin beef"</td></tr><tr><td><strong>heritage tourism</strong></td><td>유산 관광(과거·전통을 관광 상품으로 전시하는 관광 형태) · 마을을 "박물관화"하는 방식을 가리킬 때. "heritage tourism that treats a village as a museum"</td></tr><tr><td><strong>outer islands</strong></td><td>외딴섬들(본토에서 먼 섬 지역) · 일본 지리·정책 논의에서 자주 쓰는 표현. "Japan&#39;s outer islands are depopulating"</td></tr><tr><td><strong>depopulation</strong></td><td>인구 감소(지역에서 사람이 줄어드는 현상) · 지방 소멸 논의의 핵심 명사. "a widely documented trend"</td></tr><tr><td><strong>preservation society</strong></td><td>보존회(전통·기술을 지키기 위해 모인 단체) · 지역 문화 활동을 가리킬 때. "the local Kagura preservation society"</td></tr><tr><td><strong>wagyu</strong></td><td>와규(일본산 소고기 브랜드 총칭) · 고토규처럼 지역별 브랜드가 있는 상위 범주. "a recognized Nagasaki wagyu brand"</td></tr><tr><td><strong>storefront</strong></td><td>점포(길가에 면한 가게 건물) · 오래된 건물을 가리킬 때. "an 80-year-old storefront"</td></tr><tr><td><strong>turnover</strong></td><td>회전율(손님이 얼마나 빨리 바뀌는지, 식당 매출 회전) · 요식업 용어. "proximity a normal restaurant&#39;s turnover doesn&#39;t allow"</td></tr><tr><td><strong>transplant (n.)</strong></td><td>이주민(다른 지역에서 옮겨 온 사람) · "심은 사람"이라는 원뜻에서 온 비유. "Kyoto-transplants who happen to live on an island"</td></tr><tr><td><strong>proximity</strong></td><td>근접성(물리적으로 가까이 있음) · 서로 다른 집단이 한 공간에 섞이는 것을 설명할 때. "proximity a normal restaurant&#39;s turnover doesn&#39;t allow"</td></tr><tr><td><strong>showmanship</strong></td><td>과시(보여주기 위한 기교, 실속보다 인상 위주의 연출) · 절제된 장인정신과 대비할 때. "Nothing here is showmanship"</td></tr><tr><td><strong>subtraction</strong></td><td>뺄셈(더하지 않고 덜어내는 방식의 디자인 전략) · 최소 반죽 같은 절제된 기법을 가리킬 때. "the craft move is subtraction"</td></tr><tr><td><strong>ritual</strong></td><td>의례(정해진 절차로 반복되는 문화 행사) · 가구라·오봉 같은 지역 전통을 가리킬 때. "being accepted into the place&#39;s rituals"</td></tr><tr><td><strong>on purpose</strong></td><td>의도적으로, 일부러 · 우연이 아니라 선택했음을 강조. "picked a specific remote place on purpose"</td></tr><tr><td><strong>pass through (phrasal verb)</strong></td><td>잠시 들렀다 지나가다 · 정착하지 않고 오가는 여행자를 가리킬 때. "travelers pass through"</td></tr><tr><td><strong>retreat (n.)</strong></td><td>은신처, 도피처(혼자 조용히 쉬러 가는 곳) · "community living room"과 대비되는, 공동체 기능이 없는 이주의 실패 양상. "treating the move as a private retreat"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 외딴섬의 버거 가게 — 제품은 도구이고, 공동체가 목적이다\n\nJapanese Food Craftsman 채널의 영상 \"Japan's Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki\"(20:25)는 교토를 떠나 나가사키현 고토 열도 후쿠에섬 다마노우라(玉之浦)의 80년 된 점포 츠루타 쇼텐(鶴田商店)을 다시 연 가와구치 가이토·루카 부부를 담는다. 패티는 야마구치 농장(Yamaguchi Farm)의 100% 고토규(五島牛)이고, 반죽은 최소한만 해서 겉의 지방은 바삭하게, 속은 촉촉하게 익힌다. 소스는 이전 주인의 레시피에 유자고쇼(유자후추)를 더한 것이다. 부부는 목적을 직접 말한다. \"햄버거는 그저 도구일 뿐이고, 우리의 진짜 목적은 공동체의 거실을 만드는 것이다.\" 아이들이 소파에서 숙제를 하고, 어부들은 사시미와 버거를 맞바꾸고, 여행자들이 오가며 머문다. 이 가게는 그냥 식당이 아니라 마을의 공유 거실로 작동한다.\n\nJayverse에서 이 항목은 다른 곳에서 이미 다루던 두 가지 주장의 작고 구체적인 사례다. 어디서 살고 누구와 시간을 보내는지가 판단을 형성한다는 것, 그리고 제품이 지나가는 낯선 사람에게 파는 물건이 아니라 그 장소를 위한 사회 인프라로 설계될 수 있다는 것이다.\n\n## 왜\n\n일본의 외딴섬들은 인구가 줄고 있고, 흔한 대응은 방치 아니면 마을을 박물관처럼 다루는 유산 관광이다. 츠루타 쇼텐은 둘 다 아니다. 부부는 특정한 외딴 장소를 의도적으로 골랐고, 특정한 80년 된 건물을 인수했으며, 그 결과물을 그 장소에 이미 있던 세대들이 만나는 방으로 삼는 사업을 만들었다. 방문객을 수입만 하고 아무것도 돌려주지 않는 목적지가 아니다. 이것이 막는 실패는 \"조용한 곳으로 옮겨 속도를 늦춘다\"는 서사에서 흔한 것, 즉 이주를 개인적 은신처로 취급하는 것이다. 은신처는 공동체를 떠받치는 기능이 없고, 마을이 눈치채지 못한 채 사라질 수 있다. 공동체의 거실은 떠받치는 존재다. 문을 닫으면 사람들이 있을 곳을 잃는다. 인프라 대 은신처, 이 구분이 버거나 일본과 무관하게 재사용 가능한 핵심이다.\n\n## 동작 방식\n\n### 절제된 장인정신, 과시가 아니다\n\n가게는 일반 공급망 대신 이름 있는 단일 산지 소고기(고토규, 야마구치 농장)를 쓰고, 장인정신의 핵심은 뺄셈이다. 반죽을 최소화해 겉의 지방은 바삭하게 굽고 근섬유는 그대로 둔다. 소스도 처음부터 새로 만든 게 아니라 이전 주인의 레시피에 유자고쇼 하나를 더해 확장한 것이다. 여기 과시는 없다. 모든 선택은 그 장소에 묶인, 정성껏 만든 평범한 제품을 위한 것이다.\n\n### 버거가 아니라 방이 제품이다\n\n주인들 스스로의 표현 — 버거는 도구, 방이 목적 — 은 보통의 식당 사업 논리를 뒤집는다. 보통은 방이 음식을 더 팔기 위해 존재하는데, 여기서는 음식이 방의 자금을 댄다. 근거는 누가 어떻게 쓰는지다. 소파에서 숙제하는 아이들은 거래가 붙지 않은 사용 사례이고, 사시미와 버거를 맞바꾸는 것은 판매가 아니라 물물교환이며, 여행자와 섬 주민이 나란히 앉는 것은 보통 식당의 회전율이 허락하지 않는 근접성이다. \"제3의 장소\"(집도 직장도 아닌 곳)는 매번 뭔가를 새로 사지 않고도 머물 수 있어야 기능하는데, 영상의 디테일들은 이 가게가 그렇다는 것을 보여준다.\n\n### 자리를 차지하는 것이 아니라 자격을 얻는 것\n\n부부는 지역 가구라(神楽, 신도 의식 무용) 보존회에 들어갔고 오봉 춤에 참여했으며, 마을 사람들이 가게 개업을 위해 만들어 준 바라몬 연(バラモン凧)을 걸어 둔다. \"작은 곳으로 옮겨 가게를 연다\"는 패턴을 따라 할 때 놓치기 쉬운 부분이 바로 이것이다. 물리적으로 그곳에 있는 것과 그곳의 의례에 받아들여지는 것은 다르다. 가구라와 오봉에 참여하는 것, 자신이 산 것이 아니라 마을이 만들어 준 선물을 받아들이는 것은 문 앞의 간판으로는 대체할 수 없는, 비용이 드는 지속적 헌신의 신호다.\n\n### Jayverse에서의 위치\n\n- **Life: 의도적 장소와 '가방'의 사례 연구.** 비탈릭의 주장(Tech #125)은 당신의 사회적 가방들과 사는 곳이 인정하고 싶은 것보다 더 판단을 형성한다는 것이다. 이 부부는 장소를 고른 뒤 그 안으로 가방을 적극적으로 다변화했다(가구라, 오봉). 섬에 살 뿐인 교토 이주민으로 남지 않았다. 이는 또한 Life 1330의 \"가장 야심찬 버전의 나\"에 대한 조용한 반례이기도 하다. 사회 인프라로 설계된 사업, 목표가 아니라 도구인 제품 — 그리고 주장이 아니라 실제로 산 산투스의 시간적 풍요(Life 1320)이기도 하다.\n- **Game #7: 제3의 장소 설계 브리프.** 스트리트 서비스는 말 그대로 게시판이 있는 하나의 거리다. 그것이 광고판 벽이 아니라 아지트로 기능하길 바란다면, 이 버거 가게의 패턴 — 거래가 아닌 앉을 이유, 사러 온 게 아닌 사람들의 반복적 등장 — 은 3D 거리에서 \"제3의 장소\"가 무엇을 뜻해야 하는지에 대한 구체적 브리프이지, 단순한 미감이 아니다.\n- **Verex: 의도적으로 가격 피드가 없는 시장.** 사시미와 버거를 맞바꾸는 것은 서로 아는 이웃 사이의 물물교환이고, 오더북도 정산 규칙도 없다. Verex가 형식화하는 것과 대비되는 유용한 사례다. 모든 교환이 가격이 매겨진 시장을 필요로 하거나 그로부터 이득을 보는 건 아니라는 상기다.\n- **Eng: 스몰토크 소재.** \"살고 싶은 장소와 그 이유\"는 인터뷰와 스몰토크 연습에 자연스러운 대화 주제이고, 이 항목은 막연한 \"조용한 어딘가\" 대신 참고할 구체적이고 진부하지 않은 답을 제공한다.\n\n### 확인된 것과 미확인\n\n2026-09-21 확인: 고토 열도(五島列島)와 후쿠에섬은 나가사키현 고토 열도에 실재하고, 다마노우라(玉之浦)는 후쿠에섬의 실제 지명이며, 고토규(五島牛)는 인정된 나가사키 와규 브랜드이고, 바라몬 연(バラモン凧)은 전통적으로 남아의 출생이나 새 출발을 축하하는 데 쓰이는 실제 고토 지방의 민속 공예이며, 일본 외딴섬들의 인구 감소는 널리 문서화된 경향이다. 요약에서 가져왔고 독립 확인하지 않은 것: 가와구치 부부의 이름, 교토에서 이주했다는 사실, 가게 이름 츠루타 쇼텐과 80년이라는 연식, 야마구치 농장 소싱, 구체적 소스 레시피와 그 출처, 햄버거가 도구라는 인용문, 소파·사시미 물물교환·가구라 보존회 및 오봉 참여에 관한 모든 세부 사항.\n\n출처: [YouTube — Japanese Food Craftsman, \"Japan's Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki\"](http://www.youtube.com/watch?v=BHIqnrGH71E) · 관련 항목: Tech #125(비탈릭, 사회적 가방과 사는 곳), Life 1330(YC의 \"가장 야심찬 버전의 나\"), Life 1320(산투스, 시간적 풍요).\n"</script>
+      <h1>외딴섬의 버거 가게 — 제품은 도구이고, 공동체가 목적이다</h1>
+      <p class="lead">Japanese Food Craftsman 채널의 영상 "Japan&#39;s Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki"(20:25)는 교토를 떠나 나가사키현 고토 열도 후쿠에섬 다마노우라(玉之浦)의 80년 된 점포 츠루타 쇼텐(鶴田商店)을 다시 연 가와구치 가이토·루카 부부를 담는다. 패티는 야마구치 농장(Yamaguchi Farm)의 100% 고토규(五島牛)이고, 반죽은 최소한만 해서 겉의 지방은 바삭하게, 속은 촉촉하게 익힌다. 소스는 이전 주인의 레시피에 유자고쇼(유자후추)를 더한 것이다. 부부는 목적을 직접 말한다. "햄버거는 그저 도구일 뿐이고, 우리의 진짜 목적은 공동체의 거실을 만드는 것이다." 아이들이 소파에서 숙제를 하고, 어부들은 사시미와 버거를 맞바꾸고, 여행자들이 오가며 머문다. 이 가게는 그냥 식당이 아니라 마을의 공유 거실로 작동한다.</p>
+      <p class="meta">Jayverse에서 이 항목은 다른 곳에서 이미 다루던 두 가지 주장의 작고 구체적인 사례다. 어디서 살고 누구와 시간을 보내는지가 판단을 형성한다는 것, 그리고 제품이 지나가는 낯선 사람에게 파는 물건이 아니라 그 장소를 위한 사회 인프라로 설계될 수 있다는 것이다.</p>
+<h2>왜</h2>
+<p>일본의 외딴섬들은 인구가 줄고 있고, 흔한 대응은 방치 아니면 마을을 박물관처럼 다루는 유산 관광이다. 츠루타 쇼텐은 둘 다 아니다. 부부는 특정한 외딴 장소를 의도적으로 골랐고, 특정한 80년 된 건물을 인수했으며, 그 결과물을 그 장소에 이미 있던 세대들이 만나는 방으로 삼는 사업을 만들었다. 방문객을 수입만 하고 아무것도 돌려주지 않는 목적지가 아니다. 이것이 막는 실패는 "조용한 곳으로 옮겨 속도를 늦춘다"는 서사에서 흔한 것, 즉 이주를 개인적 은신처로 취급하는 것이다. 은신처는 공동체를 떠받치는 기능이 없고, 마을이 눈치채지 못한 채 사라질 수 있다. 공동체의 거실은 떠받치는 존재다. 문을 닫으면 사람들이 있을 곳을 잃는다. 인프라 대 은신처, 이 구분이 버거나 일본과 무관하게 재사용 가능한 핵심이다.</p>
+<h2>동작 방식</h2>
+<h3>절제된 장인정신, 과시가 아니다</h3>
+<p>가게는 일반 공급망 대신 이름 있는 단일 산지 소고기(고토규, 야마구치 농장)를 쓰고, 장인정신의 핵심은 뺄셈이다. 반죽을 최소화해 겉의 지방은 바삭하게 굽고 근섬유는 그대로 둔다. 소스도 처음부터 새로 만든 게 아니라 이전 주인의 레시피에 유자고쇼 하나를 더해 확장한 것이다. 여기 과시는 없다. 모든 선택은 그 장소에 묶인, 정성껏 만든 평범한 제품을 위한 것이다.</p>
+<h3>버거가 아니라 방이 제품이다</h3>
+<p>주인들 스스로의 표현 — 버거는 도구, 방이 목적 — 은 보통의 식당 사업 논리를 뒤집는다. 보통은 방이 음식을 더 팔기 위해 존재하는데, 여기서는 음식이 방의 자금을 댄다. 근거는 누가 어떻게 쓰는지다. 소파에서 숙제하는 아이들은 거래가 붙지 않은 사용 사례이고, 사시미와 버거를 맞바꾸는 것은 판매가 아니라 물물교환이며, 여행자와 섬 주민이 나란히 앉는 것은 보통 식당의 회전율이 허락하지 않는 근접성이다. "제3의 장소"(집도 직장도 아닌 곳)는 매번 뭔가를 새로 사지 않고도 머물 수 있어야 기능하는데, 영상의 디테일들은 이 가게가 그렇다는 것을 보여준다.</p>
+<h3>자리를 차지하는 것이 아니라 자격을 얻는 것</h3>
+<p>부부는 지역 가구라(神楽, 신도 의식 무용) 보존회에 들어갔고 오봉 춤에 참여했으며, 마을 사람들이 가게 개업을 위해 만들어 준 바라몬 연(バラモン凧)을 걸어 둔다. "작은 곳으로 옮겨 가게를 연다"는 패턴을 따라 할 때 놓치기 쉬운 부분이 바로 이것이다. 물리적으로 그곳에 있는 것과 그곳의 의례에 받아들여지는 것은 다르다. 가구라와 오봉에 참여하는 것, 자신이 산 것이 아니라 마을이 만들어 준 선물을 받아들이는 것은 문 앞의 간판으로는 대체할 수 없는, 비용이 드는 지속적 헌신의 신호다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Life: 의도적 장소와 &#39;가방&#39;의 사례 연구.</strong> 비탈릭의 주장(Tech #125)은 당신의 사회적 가방들과 사는 곳이 인정하고 싶은 것보다 더 판단을 형성한다는 것이다. 이 부부는 장소를 고른 뒤 그 안으로 가방을 적극적으로 다변화했다(가구라, 오봉). 섬에 살 뿐인 교토 이주민으로 남지 않았다. 이는 또한 Life 1330의 "가장 야심찬 버전의 나"에 대한 조용한 반례이기도 하다. 사회 인프라로 설계된 사업, 목표가 아니라 도구인 제품 — 그리고 주장이 아니라 실제로 산 산투스의 시간적 풍요(Life 1320)이기도 하다.</li><li><strong>Game #7: 제3의 장소 설계 브리프.</strong> 스트리트 서비스는 말 그대로 게시판이 있는 하나의 거리다. 그것이 광고판 벽이 아니라 아지트로 기능하길 바란다면, 이 버거 가게의 패턴 — 거래가 아닌 앉을 이유, 사러 온 게 아닌 사람들의 반복적 등장 — 은 3D 거리에서 "제3의 장소"가 무엇을 뜻해야 하는지에 대한 구체적 브리프이지, 단순한 미감이 아니다.</li><li><strong>Verex: 의도적으로 가격 피드가 없는 시장.</strong> 사시미와 버거를 맞바꾸는 것은 서로 아는 이웃 사이의 물물교환이고, 오더북도 정산 규칙도 없다. Verex가 형식화하는 것과 대비되는 유용한 사례다. 모든 교환이 가격이 매겨진 시장을 필요로 하거나 그로부터 이득을 보는 건 아니라는 상기다.</li><li><strong>Eng: 스몰토크 소재.</strong> "살고 싶은 장소와 그 이유"는 인터뷰와 스몰토크 연습에 자연스러운 대화 주제이고, 이 항목은 막연한 "조용한 어딘가" 대신 참고할 구체적이고 진부하지 않은 답을 제공한다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-21 확인: 고토 열도(五島列島)와 후쿠에섬은 나가사키현 고토 열도에 실재하고, 다마노우라(玉之浦)는 후쿠에섬의 실제 지명이며, 고토규(五島牛)는 인정된 나가사키 와규 브랜드이고, 바라몬 연(バラモン凧)은 전통적으로 남아의 출생이나 새 출발을 축하하는 데 쓰이는 실제 고토 지방의 민속 공예이며, 일본 외딴섬들의 인구 감소는 널리 문서화된 경향이다. 요약에서 가져왔고 독립 확인하지 않은 것: 가와구치 부부의 이름, 교토에서 이주했다는 사실, 가게 이름 츠루타 쇼텐과 80년이라는 연식, 야마구치 농장 소싱, 구체적 소스 레시피와 그 출처, 햄버거가 도구라는 인용문, 소파·사시미 물물교환·가구라 보존회 및 오봉 참여에 관한 모든 세부 사항.</p>
+<p>출처: <a href="http://www.youtube.com/watch?v=BHIqnrGH71E">YouTube — Japanese Food Craftsman, "Japan&#39;s Most Laid-Back Burger Shop Is on a Remote Island in Nagasaki"</a> · 관련 항목: Tech #125(비탈릭, 사회적 가방과 사는 곳), Life 1330(YC의 "가장 야심찬 버전의 나"), Life 1320(산투스, 시간적 풍요).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>third place</strong></td><td>제3의 장소(집·직장이 아닌 머무는 곳) · 사회학 용어, 커뮤니티 공간을 설명할 때. "A &#39;third place&#39; (not home, not work) only functions as one"</td></tr><tr><td><strong>community living room</strong></td><td>공동체의 거실(누구나 들를 수 있는 공유 공간이라는 비유) · 이 항목의 핵심 인용구. "our real purpose is to create a community living room"</td></tr><tr><td><strong>load-bearing</strong></td><td>하중을 떠받치는(비유적으로 "없으면 무너지는 핵심 기능") · 건축 용어를 조직·공동체 논의에 빌려 쓴 표현. "A community living room is load-bearing"</td></tr><tr><td><strong>costly signal(ing)</strong></td><td>값비싼 신호(말로만이 아니라 대가를 치러야 증명되는 헌신의 표시) · 진화생물학·사회학에서 온 개념. "costly, ongoing signals of commitment"</td></tr><tr><td><strong>barter</strong></td><td>물물교환(화폐 없이 물건과 물건을 맞바꾸는 거래) · 가격 시장과 대비할 때. "sashimi traded for burgers is barter, not a sale"</td></tr><tr><td><strong>single-origin</strong></td><td>단일 산지(원료가 특정 한 곳에서만 온다는 뜻) · 커피·식재료 품질을 말할 때 흔한 표현. "a named, local, single-origin beef"</td></tr><tr><td><strong>heritage tourism</strong></td><td>유산 관광(과거·전통을 관광 상품으로 전시하는 관광 형태) · 마을을 "박물관화"하는 방식을 가리킬 때. "heritage tourism that treats a village as a museum"</td></tr><tr><td><strong>outer islands</strong></td><td>외딴섬들(본토에서 먼 섬 지역) · 일본 지리·정책 논의에서 자주 쓰는 표현. "Japan&#39;s outer islands are depopulating"</td></tr><tr><td><strong>depopulation</strong></td><td>인구 감소(지역에서 사람이 줄어드는 현상) · 지방 소멸 논의의 핵심 명사. "a widely documented trend"</td></tr><tr><td><strong>preservation society</strong></td><td>보존회(전통·기술을 지키기 위해 모인 단체) · 지역 문화 활동을 가리킬 때. "the local Kagura preservation society"</td></tr><tr><td><strong>wagyu</strong></td><td>와규(일본산 소고기 브랜드 총칭) · 고토규처럼 지역별 브랜드가 있는 상위 범주. "a recognized Nagasaki wagyu brand"</td></tr><tr><td><strong>storefront</strong></td><td>점포(길가에 면한 가게 건물) · 오래된 건물을 가리킬 때. "an 80-year-old storefront"</td></tr><tr><td><strong>turnover</strong></td><td>회전율(손님이 얼마나 빨리 바뀌는지, 식당 매출 회전) · 요식업 용어. "proximity a normal restaurant&#39;s turnover doesn&#39;t allow"</td></tr><tr><td><strong>transplant (n.)</strong></td><td>이주민(다른 지역에서 옮겨 온 사람) · "심은 사람"이라는 원뜻에서 온 비유. "Kyoto-transplants who happen to live on an island"</td></tr><tr><td><strong>proximity</strong></td><td>근접성(물리적으로 가까이 있음) · 서로 다른 집단이 한 공간에 섞이는 것을 설명할 때. "proximity a normal restaurant&#39;s turnover doesn&#39;t allow"</td></tr><tr><td><strong>showmanship</strong></td><td>과시(보여주기 위한 기교, 실속보다 인상 위주의 연출) · 절제된 장인정신과 대비할 때. "Nothing here is showmanship"</td></tr><tr><td><strong>subtraction</strong></td><td>뺄셈(더하지 않고 덜어내는 방식의 디자인 전략) · 최소 반죽 같은 절제된 기법을 가리킬 때. "the craft move is subtraction"</td></tr><tr><td><strong>ritual</strong></td><td>의례(정해진 절차로 반복되는 문화 행사) · 가구라·오봉 같은 지역 전통을 가리킬 때. "being accepted into the place&#39;s rituals"</td></tr><tr><td><strong>on purpose</strong></td><td>의도적으로, 일부러 · 우연이 아니라 선택했음을 강조. "picked a specific remote place on purpose"</td></tr><tr><td><strong>pass through (phrasal verb)</strong></td><td>잠시 들렀다 지나가다 · 정착하지 않고 오가는 여행자를 가리킬 때. "travelers pass through"</td></tr><tr><td><strong>retreat (n.)</strong></td><td>은신처, 도피처(혼자 조용히 쉬러 가는 곳) · "community living room"과 대비되는, 공동체 기능이 없는 이주의 실패 양상. "treating the move as a private retreat"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-jocko-discipline-comes-from-within.html">&larr; 1331. Discipline is not inherited — it is the order you give yourself with no one watching</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="goto-island-burger-shop-community-living-room";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/556</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#127</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span></p>
+      <h1>RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context</h1>
+      <p class="lead">IBM Technology published an 11-minute video, "Is RAG Still Needed? Choosing the Best Approach for LLMs" (youtube.com/watch?v=UabBYexBD4k), that lays out both sides now that frontier context windows reach 1–2 million tokens. The case for long context: it removes RAG&#39;s pipeline (parsing, chunking, embeddings, a vector database, re-rankers) and its silent-failure mode, where the right chunk is never retrieved and the model answers confidently without it. The case for RAG: full-context prompting pays a quadratic "rereading tax" on every request, suffers measurable attention dilution on needle-in-a-haystack lookups, and cannot hold terabyte-to-petabyte enterprise data no matter how large the window gets. The video&#39;s own conclusion is a decision matrix plus a hybrid pattern: use RAG to filter an unbounded corpus down to a 50,000–100,000-token cluster, then run long-context attention over that cluster for the actual reasoning.</p>
+      <p class="meta">For Jayverse this is not abstract. The alice repo&#39;s Knowledge Notes already holds 550+ items across roughly 1,300 markdown files, and "have I already written about this" is a retrieval query jay answers by hand every day.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# RAG or long context isn't a choice — the production pattern is filter with RAG, then attend with long context\n\nIBM Technology published an 11-minute video, \"Is RAG Still Needed? Choosing the Best Approach for LLMs\" (youtube.com/watch?v=UabBYexBD4k), that lays out both sides now that frontier context windows reach 1–2 million tokens. The case for long context: it removes RAG's pipeline (parsing, chunking, embeddings, a vector database, re-rankers) and its silent-failure mode, where the right chunk is never retrieved and the model answers confidently without it. The case for RAG: full-context prompting pays a quadratic \"rereading tax\" on every request, suffers measurable attention dilution on needle-in-a-haystack lookups, and cannot hold terabyte-to-petabyte enterprise data no matter how large the window gets. The video's own conclusion is a decision matrix plus a hybrid pattern: use RAG to filter an unbounded corpus down to a 50,000–100,000-token cluster, then run long-context attention over that cluster for the actual reasoning.\n\nFor Jayverse this is not abstract. The alice repo's Knowledge Notes already holds 550+ items across roughly 1,300 markdown files, and \"have I already written about this\" is a retrieval query jay answers by hand every day.\n\n## Why\n\nRAG exists because early context windows (2–4K tokens) could not hold enough of a document to answer a question, so Lewis et al.'s 2020 paper wired a retriever to a generator: fetch the relevant passages first, then generate from them. That constraint is largely gone — Gemini's 1M–2M-token windows and Claude's 1M-token window (2025) can hold a mid-size codebase or a few hundred pages outright — so the reflex \"always RAG\" is now often wrong, and the reflex \"always long-context\" is wrong in a different way. Getting the choice wrong either burns money and latency stuffing irrelevant tokens into every call, or produces a system that answers confidently from whichever chunk scored highest on cosine similarity while the chunk that actually held the fact sat one rank lower and was never fetched. That second failure has no error, no stack trace, nothing to grep for — it just looks like a correct answer that happens to be wrong.\n\n## How it works\n\n### The case for long context\n\n- **No pipeline.** Skip document parsing, chunking heuristics, embedding models, a vector database, and cross-encoder re-rankers — stream the raw text into the prompt.\n- **No retrieval lottery.** Vector search can miss the right chunk on vocabulary mismatch or a weak embedding, and the model never sees the fact it needed. That is a silent failure, not a crash.\n- **Whole-document synthesis.** A question that needs two non-contiguous sections compared — an early spec against a later release note — needs the model attending over both at once. Retrieval returns fragments of each but not the gap between them, and the gap is usually the answer.\n\n### The case for RAG\n\n- **The rereading tax.** Feeding 500k tokens on every query means paying quadratic self-attention cost on every request. Prompt caching only discounts a static prefix; a corpus that changes turn to turn gets no discount.\n- **Attention dilution.** Even at 1M+ tokens, needle-in-a-haystack recall on a specific fact buried in a huge context measurably drops — the effect behind \"Lost in the Middle\" (Liu et al., 2023) and the broader NIAH benchmark family. RAG hands the model pure signal instead of signal plus haystack.\n- **Enterprise scale.** A 1M-token window holds roughly 750k words. Enterprise data is measured in terabytes to petabytes. No window holds a corporate data lake, so an index is mandatory, not optional.\n\n### Decision matrix\n\n| Factor | Long context | RAG |\n|---|---|---|\n| Data scope | bounded (a contract, a book) | unbounded, dynamic |\n| Reasoning type | global synthesis, cross-document comparison | targeted fact lookup, Q&A |\n| Cost profile | high per-query compute, high latency | low per-query cost, upfront indexing |\n| Infrastructure | a direct API call | embeddings + vector DB + re-rankers |\n\nRead this as a cost curve, not a rulebook: RAG pays once, at index time, and charges little per query; long context pays a little to set up and charges more on every single query. Below a certain corpus size, or above a certain reasoning complexity, the curves cross.\n\n### The hybrid: filter, then attend\n\nUse RAG as a coarse filter over the unbounded corpus, narrowing it to a 50k–100k-token cluster of plausibly relevant material, then run a long-context pass over just that cluster. The model gets to do real cross-section reasoning inside the cluster instead of stitching disconnected fragments together. The vector index does not disappear in this pattern — it stays the semantic warehouse for the whole corpus, it just stops being the last step before an answer. Chunk boundaries should still follow semantic units (a function, a doc section) rather than a fixed character count, because a boundary that splits a unit in half degrades both the retrieval step and whatever the long-context pass does with the result afterward.\n\n### Where it lands in Jayverse\n\n- **alice: an index.md plus grep-before-add is the RAG half of the pattern.** Before writing a new Knowledge Notes item, grep the existing markdown for the topic and check a generated index instead of re-skimming 1,300 files; that index is the retrieval layer, and the new item is what a long-context pass would need read whole anyway.\n- **Auditor: rules never get RAG'd.** A rule that is not retrieved is a rule that is not checked, and that failure is silent — no error, just an unaudited change slipping through. Rules are small; they belong whole in context on every run, never behind a similarity search that can miss.\n- **Knowledge Notes: the add script needs an \"already covered?\" check.** That is the retrieval-lottery risk made concrete — adding a new item is itself a RAG query against 550+ existing ones, and a missed hit produces a silent duplicate, not an error.\n- **Eng: \"when would you not use RAG\" is a real interview question now.** The honest answer is the decision matrix above — bounded data and cross-document synthesis argue for long context, unbounded data and targeted lookups argue for RAG, and most production systems need both.\n\n### Verified and unverified\n\nVerified on 2026-09-21: IBM Technology is a real YouTube channel and this video exists (youtube.com/watch?v=UabBYexBD4k, 11:10); frontier context windows of 1M+ tokens are real and shipped (Gemini 1.5/2.x, Claude with a 1M-token window in 2025); \"Lost in the Middle\" (Liu et al., 2023) and needle-in-a-haystack benchmarks document attention dilution over long contexts as a measured, reproducible effect; prompt caching for static prompt prefixes is offered by both Anthropic and OpenAI; the RAG architecture traces to Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\" (2020). Taken from the video summary and not independently checked: the specific 50k–100k-token figure given for the hybrid filter step, and any exact numbers or timestamps the video itself uses beyond the general claims above (no timestamps were given in the source summary for this item). Sources: [YouTube — IBM Technology, \"Is RAG Still Needed? Choosing the Best Approach for LLMs\"](http://www.youtube.com/watch?v=UabBYexBD4k) · Lewis et al., \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,\" 2020 · Liu et al., \"Lost in the Middle: How Language Models Use Long Contexts,\" 2023 · related items: Tech #62 (learning greed — raw layer plus generated index.md), Tech #109 (code graph, Graft), Tech #102 (first silent failure, MLflow).\n"</script>
+<h2>Why</h2>
+<p>RAG exists because early context windows (2–4K tokens) could not hold enough of a document to answer a question, so Lewis et al.&#39;s 2020 paper wired a retriever to a generator: fetch the relevant passages first, then generate from them. That constraint is largely gone — Gemini&#39;s 1M–2M-token windows and Claude&#39;s 1M-token window (2025) can hold a mid-size codebase or a few hundred pages outright — so the reflex "always RAG" is now often wrong, and the reflex "always long-context" is wrong in a different way. Getting the choice wrong either burns money and latency stuffing irrelevant tokens into every call, or produces a system that answers confidently from whichever chunk scored highest on cosine similarity while the chunk that actually held the fact sat one rank lower and was never fetched. That second failure has no error, no stack trace, nothing to grep for — it just looks like a correct answer that happens to be wrong.</p>
+<h2>How it works</h2>
+<h3>The case for long context</h3>
+<ul><li><strong>No pipeline.</strong> Skip document parsing, chunking heuristics, embedding models, a vector database, and cross-encoder re-rankers — stream the raw text into the prompt.</li><li><strong>No retrieval lottery.</strong> Vector search can miss the right chunk on vocabulary mismatch or a weak embedding, and the model never sees the fact it needed. That is a silent failure, not a crash.</li><li><strong>Whole-document synthesis.</strong> A question that needs two non-contiguous sections compared — an early spec against a later release note — needs the model attending over both at once. Retrieval returns fragments of each but not the gap between them, and the gap is usually the answer.</li></ul>
+<h3>The case for RAG</h3>
+<ul><li><strong>The rereading tax.</strong> Feeding 500k tokens on every query means paying quadratic self-attention cost on every request. Prompt caching only discounts a static prefix; a corpus that changes turn to turn gets no discount.</li><li><strong>Attention dilution.</strong> Even at 1M+ tokens, needle-in-a-haystack recall on a specific fact buried in a huge context measurably drops — the effect behind "Lost in the Middle" (Liu et al., 2023) and the broader NIAH benchmark family. RAG hands the model pure signal instead of signal plus haystack.</li><li><strong>Enterprise scale.</strong> A 1M-token window holds roughly 750k words. Enterprise data is measured in terabytes to petabytes. No window holds a corporate data lake, so an index is mandatory, not optional.</li></ul>
+<h3>Decision matrix</h3>
+<table><thead><tr><th>Factor</th><th>Long context</th><th>RAG</th></tr></thead><tbody><tr><td>Data scope</td><td>bounded (a contract, a book)</td><td>unbounded, dynamic</td></tr><tr><td>Reasoning type</td><td>global synthesis, cross-document comparison</td><td>targeted fact lookup, Q&amp;A</td></tr><tr><td>Cost profile</td><td>high per-query compute, high latency</td><td>low per-query cost, upfront indexing</td></tr><tr><td>Infrastructure</td><td>a direct API call</td><td>embeddings + vector DB + re-rankers</td></tr></tbody></table>
+<p>Read this as a cost curve, not a rulebook: RAG pays once, at index time, and charges little per query; long context pays a little to set up and charges more on every single query. Below a certain corpus size, or above a certain reasoning complexity, the curves cross.</p>
+<h3>The hybrid: filter, then attend</h3>
+<p>Use RAG as a coarse filter over the unbounded corpus, narrowing it to a 50k–100k-token cluster of plausibly relevant material, then run a long-context pass over just that cluster. The model gets to do real cross-section reasoning inside the cluster instead of stitching disconnected fragments together. The vector index does not disappear in this pattern — it stays the semantic warehouse for the whole corpus, it just stops being the last step before an answer. Chunk boundaries should still follow semantic units (a function, a doc section) rather than a fixed character count, because a boundary that splits a unit in half degrades both the retrieval step and whatever the long-context pass does with the result afterward.</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>alice: an index.md plus grep-before-add is the RAG half of the pattern.</strong> Before writing a new Knowledge Notes item, grep the existing markdown for the topic and check a generated index instead of re-skimming 1,300 files; that index is the retrieval layer, and the new item is what a long-context pass would need read whole anyway.</li><li><strong>Auditor: rules never get RAG&#39;d.</strong> A rule that is not retrieved is a rule that is not checked, and that failure is silent — no error, just an unaudited change slipping through. Rules are small; they belong whole in context on every run, never behind a similarity search that can miss.</li><li><strong>Knowledge Notes: the add script needs an "already covered?" check.</strong> That is the retrieval-lottery risk made concrete — adding a new item is itself a RAG query against 550+ existing ones, and a missed hit produces a silent duplicate, not an error.</li><li><strong>Eng: "when would you not use RAG" is a real interview question now.</strong> The honest answer is the decision matrix above — bounded data and cross-document synthesis argue for long context, unbounded data and targeted lookups argue for RAG, and most production systems need both.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-21: IBM Technology is a real YouTube channel and this video exists (youtube.com/watch?v=UabBYexBD4k, 11:10); frontier context windows of 1M+ tokens are real and shipped (Gemini 1.5/2.x, Claude with a 1M-token window in 2025); "Lost in the Middle" (Liu et al., 2023) and needle-in-a-haystack benchmarks document attention dilution over long contexts as a measured, reproducible effect; prompt caching for static prompt prefixes is offered by both Anthropic and OpenAI; the RAG architecture traces to Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (2020). Taken from the video summary and not independently checked: the specific 50k–100k-token figure given for the hybrid filter step, and any exact numbers or timestamps the video itself uses beyond the general claims above (no timestamps were given in the source summary for this item). Sources: <a href="http://www.youtube.com/watch?v=UabBYexBD4k">YouTube — IBM Technology, "Is RAG Still Needed? Choosing the Best Approach for LLMs"</a> · Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," 2020 · Liu et al., "Lost in the Middle: How Language Models Use Long Contexts," 2023 · related items: Tech #62 (learning greed — raw layer plus generated index.md), Tech #109 (code graph, Graft), Tech #102 (first silent failure, MLflow).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>RAG</strong></td><td>Retrieval-Augmented Generation(검색 증강 생성, 검색기+생성기 결합 아키텍처) · 이 항목 전체의 주제. "Is RAG Still Needed?"</td></tr><tr><td><strong>LLM</strong></td><td>Large Language Model(거대 언어 모델) · 컨텍스트 윈도우 논의의 대상. "Choosing the Best Approach for LLMs"</td></tr><tr><td><strong>NIAH</strong></td><td>Needle-In-A-Haystack(건초더미 속 바늘 찾기, 긴 컨텍스트 회상 벤치마크) · 주의 희석을 측정하는 표준 테스트군. "the broader NIAH benchmark family"</td></tr><tr><td><strong>rereading tax</strong></td><td>다시 읽기 세금(같은 텍스트를 매 요청마다 다시 처리하는 비용) · 긴 컨텍스트의 핵심 단점을 부르는 말. "a quadratic &#39;rereading tax&#39; on every request"</td></tr><tr><td><strong>retrieval lottery</strong></td><td>검색 로또(맞는 청크가 뽑힐지 운에 달린 상황) · RAG의 조용한 실패 모드를 가리키는 표현. "No retrieval lottery."</td></tr><tr><td><strong>silent failure</strong></td><td>조용한 실패(에러 없이 틀린 결과가 나오는 것) · 이 항목에서 가장 중요한 위험 개념. "That is a silent failure, not a crash."</td></tr><tr><td><strong>attention dilution</strong></td><td>주의 희석(컨텍스트가 커질수록 특정 사실에 대한 집중이 흐려지는 현상) · RAG를 옹호하는 핵심 근거. "measurable attention dilution on needle-in-a-haystack lookups"</td></tr><tr><td><strong>needle-in-a-haystack</strong></td><td>건초더미 속 바늘 찾기(거대한 컨텍스트 속 특정 사실 회상 과제) · NIAH 벤치마크의 별칭이자 관용구. "needle-in-a-haystack lookups"</td></tr><tr><td><strong>cosine similarity</strong></td><td>코사인 유사도(두 벡터 방향의 유사성 측정값) · 벡터 검색의 표준 유사도 지표. "whichever chunk scored highest on cosine similarity"</td></tr><tr><td><strong>cross-encoder re-ranker</strong></td><td>크로스 인코더 재순위화기(검색 결과를 다시 정밀하게 순위 매기는 모델) · RAG 파이프라인의 마지막 단계. "cross-encoder re-rankers"</td></tr><tr><td><strong>quadratic cost</strong></td><td>제곱 비용(입력 길이의 제곱에 비례하는 연산 비용) · 셀프어텐션의 근본적 한계를 설명하는 말. "quadratic self-attention cost on every request"</td></tr><tr><td><strong>prompt caching</strong></td><td>프롬프트 캐싱(고정된 프롬프트 앞부분을 재사용해 비용을 아끼는 기법) · 긴 컨텍스트 비용을 부분적으로 완화하는 수단. "Prompt caching only discounts a static prefix"</td></tr><tr><td><strong>context window</strong></td><td>컨텍스트 윈도우(모델이 한 번에 볼 수 있는 토큰 범위) · 이 논쟁 전체를 가능하게 만든 변수. "frontier context windows reach 1–2 million tokens"</td></tr><tr><td><strong>vector database</strong></td><td>벡터 데이터베이스(임베딩을 저장하고 유사도 검색하는 저장소) · RAG 인프라의 중심 구성요소. "a vector database"</td></tr><tr><td><strong>chunking</strong></td><td>청킹(문서를 검색 단위로 잘게 나누는 작업) · RAG 파이프라인의 첫 단계이자 흔한 실패 지점. "chunking heuristics"</td></tr><tr><td><strong>decision matrix</strong></td><td>의사결정 매트릭스(선택 기준을 표로 정리한 것) · RAG vs 긴 컨텍스트 선택을 위한 도구. "### Decision matrix"</td></tr><tr><td><strong>hybrid pattern</strong></td><td>하이브리드 패턴(두 접근을 순서대로 결합하는 설계) · 이 항목이 최종적으로 권하는 답. "a hybrid pattern"</td></tr><tr><td><strong>semantic unit</strong></td><td>의미 단위(함수, 절 등 의미가 온전한 최소 덩어리) · 좋은 청킹 기준. "chunk boundaries should still follow semantic units"</td></tr><tr><td><strong>index time</strong></td><td>색인 시점(질의 시점이 아니라 데이터를 미리 색인해 두는 단계) · RAG의 비용이 발생하는 시점. "RAG pays once, at index time"</td></tr><tr><td><strong>coarse filter</strong></td><td>성긴 필터(정밀하지 않아도 되는 1차 거르기 단계) · 하이브리드 패턴에서 RAG의 역할. "Use RAG as a coarse filter over the unbounded corpus"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# RAG냐 긴 컨텍스트냐는 선택이 아니다 — 실전 패턴은 RAG로 거르고 긴 컨텍스트로 주의를 기울이는 것이다\n\nIBM Technology가 11분짜리 영상 \"Is RAG Still Needed? Choosing the Best Approach for LLMs\"(youtube.com/watch?v=UabBYexBD4k)에서, 최상위 모델의 컨텍스트 윈도우가 100만~200만 토큰에 이른 지금 양쪽 주장을 정리한다. 긴 컨텍스트 쪽 주장은 이렇다. RAG의 파이프라인(파싱, 청킹, 임베딩, 벡터 데이터베이스, 재순위화)과 그 조용한 실패 모드—맞는 청크가 아예 검색되지 않았는데 모델이 태연히 답하는 것—를 없앤다. RAG 쪽 주장은 이렇다. 전체 컨텍스트를 매번 프롬프트에 넣으면 요청마다 제곱 비용의 \"다시 읽기 세금\"을 내야 하고, 건초더미 속 바늘 찾기 회상에서 측정 가능한 주의 희석이 일어나며, 윈도우가 아무리 커져도 테라바이트~페타바이트 규모의 기업 데이터는 담을 수 없다. 영상 자신의 결론은 의사결정 매트릭스에 더해 하이브리드 패턴이다. RAG로 무한한 코퍼스를 5만~10만 토큰 클러스터로 걸러낸 다음, 그 클러스터에 대해 긴 컨텍스트 어텐션으로 실제 추론을 돌리라는 것.\n\nJayverse에서 이것은 추상적인 이야기가 아니다. alice 저장소의 Knowledge Notes는 이미 550개 이상의 항목과 약 1,300개의 마크다운 파일을 갖고 있고, \"이거 이미 썼던가\"는 jay가 매일 손으로 답하는 검색 질의다.\n\n## 왜\n\nRAG가 존재하는 이유는 초기 컨텍스트 윈도우(2K~4K 토큰)가 질문에 답할 만큼 문서를 담지 못했기 때문이다. 그래서 Lewis 외(2020) 논문은 검색기를 생성기에 연결했다. 먼저 관련 구절을 찾고, 그다음 그것으로부터 생성한다. 그 제약은 이제 대체로 사라졌다. Gemini의 100만~200만 토큰 윈도우와 Claude의 100만 토큰 윈도우(2025)는 중간 규모 코드베이스나 몇백 페이지를 통째로 담을 수 있다. 그래서 \"항상 RAG\"라는 반사는 이제 종종 틀리고, \"항상 긴 컨텍스트\"라는 반사는 다른 방식으로 틀린다. 선택을 잘못하면 매 호출에 무관한 토큰을 채워 넣어 돈과 지연을 태우거나, 코사인 유사도 점수가 가장 높았던 청크로부터 자신 있게 답하는 시스템을 만들게 된다. 정작 사실을 담고 있던 청크는 한 순위 아래에 있었고 끝내 검색되지 않았는데도 말이다. 이 두 번째 실패에는 에러도 스택 트레이스도 grep할 대상도 없다. 그저 맞는 답처럼 보이는, 사실은 틀린 답일 뿐이다.\n\n## 동작 방식\n\n### 긴 컨텍스트 쪽 주장\n\n- **파이프라인이 없다.** 문서 파싱, 청킹 휴리스틱, 임베딩 모델, 벡터 데이터베이스, 크로스 인코더 재순위화를 건너뛰고, 원문을 그대로 프롬프트에 흘려 넣는다.\n- **검색 로또가 없다.** 벡터 검색은 어휘 불일치나 약한 임베딩 때문에 맞는 청크를 놓칠 수 있고, 모델은 필요했던 사실을 아예 보지 못한다. 이는 크래시가 아니라 조용한 실패다.\n- **문서 전체 종합.** 서로 떨어진 두 구간을 비교해야 하는 질문—초기 명세서와 나중의 릴리스 로그의 차이—은 모델이 둘을 동시에 주시해야 한다. 검색은 각각의 조각을 돌려줄 뿐 그 사이의 간극은 돌려주지 못하는데, 보통 그 간극이 곧 답이다.\n\n### RAG 쪽 주장\n\n- **다시 읽기 세금.** 매 질의마다 50만 토큰을 넣는다는 것은 요청마다 제곱 자기어텐션 비용을 낸다는 뜻이다. 프롬프트 캐싱은 고정된 프리픽스만 할인해 주고, 턴마다 바뀌는 코퍼스에는 할인이 없다.\n- **주의 희석.** 100만 토큰이 넘어도, 거대한 컨텍스트 안에 묻힌 특정 사실에 대한 건초더미 속 바늘 찾기 회상은 측정 가능하게 떨어진다. \"Lost in the Middle\"(Liu 외, 2023)과 더 넓은 NIAH 벤치마크 군이 보여주는 효과다. RAG는 건초더미 대신 순수한 신호만 모델에 건넨다.\n- **기업 규모.** 100만 토큰 윈도우는 약 75만 단어를 담는다. 기업 데이터는 테라바이트에서 페타바이트 단위로 측정된다. 어떤 윈도우도 기업 데이터 레이크를 담지 못하므로, 색인은 선택이 아니라 필수다.\n\n### 의사결정 매트릭스\n\n| 요인 | 긴 컨텍스트 | RAG |\n|---|---|---|\n| 데이터 범위 | 경계가 있음(계약서 한 건, 책 한 권) | 무한, 동적 |\n| 추론 유형 | 전역 종합, 문서 간 비교 | 표적 사실 검색, Q&A |\n| 비용 구조 | 질의당 연산 비용 높음, 지연 높음 | 질의당 비용 낮음, 선행 색인 비용 |\n| 인프라 | API 직접 호출 | 임베딩 + 벡터 DB + 재순위화 |\n\n이 표는 규칙집이 아니라 비용 곡선으로 읽어야 한다. RAG는 색인 시점에 한 번 비용을 내고 질의당 비용은 적다. 긴 컨텍스트는 준비 비용은 작지만 질의마다 더 낸다. 코퍼스 크기가 어떤 임계값 아래거나 추론 복잡도가 어떤 임계값 위면, 두 곡선이 교차한다.\n\n### 하이브리드: 거르고 나서 주의를 기울인다\n\nRAG를 무한한 코퍼스 위의 성긴 필터로 써서 그럴듯하게 관련 있는 5만~10만 토큰 클러스터로 좁힌 다음, 그 클러스터에만 긴 컨텍스트 패스를 돌린다. 모델은 끊어진 조각들을 이어붙이는 대신 클러스터 안에서 진짜 구간 간 추론을 할 수 있다. 이 패턴에서 벡터 색인은 사라지지 않는다. 코퍼스 전체의 의미 창고로 계속 남고, 다만 답으로 가는 마지막 단계가 아니게 될 뿐이다. 청크 경계는 여전히 고정 글자 수가 아니라 의미 단위(함수 하나, 문서 한 절)를 따라야 한다. 한 단위를 반으로 자르는 경계는 검색 단계와 이후 긴 컨텍스트 패스가 그 결과로 하는 일 모두를 나쁘게 만들기 때문이다.\n\n### Jayverse에서의 위치\n\n- **alice: index.md와 추가 전 grep이 이 패턴의 RAG 절반이다.** 새 Knowledge Notes 항목을 쓰기 전에 기존 마크다운을 주제로 grep하고 생성된 색인을 확인하라, 1,300개 파일을 다시 훑는 대신. 그 색인이 검색 계층이고, 새로 쓸 항목은 어차피 긴 컨텍스트 패스가 통째로 읽어야 할 대상이다.\n- **Auditor: 규칙은 절대 RAG하지 않는다.** 검색되지 않은 규칙은 확인되지 않은 규칙이고, 그 실패는 조용하다. 에러 없이 그냥 감사받지 않은 변경이 통과할 뿐이다. 규칙은 작다. 매 실행마다 통째로 컨텍스트에 있어야 하며, 놓칠 수 있는 유사도 검색 뒤에 숨어서는 안 된다.\n- **Knowledge Notes: 추가 스크립트에 \"이미 다뤘나?\" 확인이 필요하다.** 이것이 검색 로또 위험의 구체적인 모습이다. 새 항목을 추가하는 것 자체가 기존 550개 이상에 대한 RAG 질의이고, 놓친 히트는 에러가 아니라 조용한 중복을 낳는다.\n- **Eng: \"언제 RAG를 쓰지 않겠는가\"는 이제 실제 면접 질문이다.** 정직한 답은 위의 의사결정 매트릭스다. 경계가 있는 데이터와 문서 간 종합은 긴 컨텍스트를, 무한한 데이터와 표적 검색은 RAG를 지지하며, 대부분의 실전 시스템은 둘 다 필요하다.\n\n### 확인된 것과 미확인\n\n2026-09-21 확인: IBM Technology는 실제 YouTube 채널이고 이 영상은 존재한다(youtube.com/watch?v=UabBYexBD4k, 11:10). 100만 토큰 이상의 최상위 컨텍스트 윈도우는 실재하고 출시되어 있다(Gemini 1.5/2.x, 2025년 100만 토큰 윈도우를 갖춘 Claude). \"Lost in the Middle\"(Liu 외, 2023)과 건초더미 속 바늘 찾기 벤치마크들은 긴 컨텍스트에서의 주의 희석을 측정 가능하고 재현 가능한 효과로 문서화한다. 고정 프롬프트 프리픽스에 대한 프롬프트 캐싱은 Anthropic과 OpenAI 둘 다 제공한다. RAG 아키텍처는 Lewis 외, \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\"(2020)로 거슬러 올라간다. 영상 요약에서 가져왔고 독립적으로 확인하지 않은 것: 하이브리드 필터 단계에 제시된 5만~10만 토큰이라는 구체적 수치, 그리고 위의 일반적 주장 이상으로 영상 자체가 사용하는 정확한 수치나 타임스탬프(이 항목의 출처 요약에는 타임스탬프가 없었다).\n\n출처: [YouTube — IBM Technology, \"Is RAG Still Needed? Choosing the Best Approach for LLMs\"](http://www.youtube.com/watch?v=UabBYexBD4k) · Lewis 외, \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,\" 2020 · Liu 외, \"Lost in the Middle: How Language Models Use Long Contexts,\" 2023 · 관련 항목: Tech #62(학습 탐욕 — 원자료 레이어와 생성된 index.md), Tech #109(코드 그래프, Graft), Tech #102(첫 조용한 실패, MLflow).\n"</script>
+      <h1>RAG냐 긴 컨텍스트냐는 선택이 아니다 — 실전 패턴은 RAG로 거르고 긴 컨텍스트로 주의를 기울이는 것이다</h1>
+      <p class="lead">IBM Technology가 11분짜리 영상 "Is RAG Still Needed? Choosing the Best Approach for LLMs"(youtube.com/watch?v=UabBYexBD4k)에서, 최상위 모델의 컨텍스트 윈도우가 100만~200만 토큰에 이른 지금 양쪽 주장을 정리한다. 긴 컨텍스트 쪽 주장은 이렇다. RAG의 파이프라인(파싱, 청킹, 임베딩, 벡터 데이터베이스, 재순위화)과 그 조용한 실패 모드—맞는 청크가 아예 검색되지 않았는데 모델이 태연히 답하는 것—를 없앤다. RAG 쪽 주장은 이렇다. 전체 컨텍스트를 매번 프롬프트에 넣으면 요청마다 제곱 비용의 "다시 읽기 세금"을 내야 하고, 건초더미 속 바늘 찾기 회상에서 측정 가능한 주의 희석이 일어나며, 윈도우가 아무리 커져도 테라바이트~페타바이트 규모의 기업 데이터는 담을 수 없다. 영상 자신의 결론은 의사결정 매트릭스에 더해 하이브리드 패턴이다. RAG로 무한한 코퍼스를 5만~10만 토큰 클러스터로 걸러낸 다음, 그 클러스터에 대해 긴 컨텍스트 어텐션으로 실제 추론을 돌리라는 것.</p>
+      <p class="meta">Jayverse에서 이것은 추상적인 이야기가 아니다. alice 저장소의 Knowledge Notes는 이미 550개 이상의 항목과 약 1,300개의 마크다운 파일을 갖고 있고, "이거 이미 썼던가"는 jay가 매일 손으로 답하는 검색 질의다.</p>
+<h2>왜</h2>
+<p>RAG가 존재하는 이유는 초기 컨텍스트 윈도우(2K~4K 토큰)가 질문에 답할 만큼 문서를 담지 못했기 때문이다. 그래서 Lewis 외(2020) 논문은 검색기를 생성기에 연결했다. 먼저 관련 구절을 찾고, 그다음 그것으로부터 생성한다. 그 제약은 이제 대체로 사라졌다. Gemini의 100만~200만 토큰 윈도우와 Claude의 100만 토큰 윈도우(2025)는 중간 규모 코드베이스나 몇백 페이지를 통째로 담을 수 있다. 그래서 "항상 RAG"라는 반사는 이제 종종 틀리고, "항상 긴 컨텍스트"라는 반사는 다른 방식으로 틀린다. 선택을 잘못하면 매 호출에 무관한 토큰을 채워 넣어 돈과 지연을 태우거나, 코사인 유사도 점수가 가장 높았던 청크로부터 자신 있게 답하는 시스템을 만들게 된다. 정작 사실을 담고 있던 청크는 한 순위 아래에 있었고 끝내 검색되지 않았는데도 말이다. 이 두 번째 실패에는 에러도 스택 트레이스도 grep할 대상도 없다. 그저 맞는 답처럼 보이는, 사실은 틀린 답일 뿐이다.</p>
+<h2>동작 방식</h2>
+<h3>긴 컨텍스트 쪽 주장</h3>
+<ul><li><strong>파이프라인이 없다.</strong> 문서 파싱, 청킹 휴리스틱, 임베딩 모델, 벡터 데이터베이스, 크로스 인코더 재순위화를 건너뛰고, 원문을 그대로 프롬프트에 흘려 넣는다.</li><li><strong>검색 로또가 없다.</strong> 벡터 검색은 어휘 불일치나 약한 임베딩 때문에 맞는 청크를 놓칠 수 있고, 모델은 필요했던 사실을 아예 보지 못한다. 이는 크래시가 아니라 조용한 실패다.</li><li><strong>문서 전체 종합.</strong> 서로 떨어진 두 구간을 비교해야 하는 질문—초기 명세서와 나중의 릴리스 로그의 차이—은 모델이 둘을 동시에 주시해야 한다. 검색은 각각의 조각을 돌려줄 뿐 그 사이의 간극은 돌려주지 못하는데, 보통 그 간극이 곧 답이다.</li></ul>
+<h3>RAG 쪽 주장</h3>
+<ul><li><strong>다시 읽기 세금.</strong> 매 질의마다 50만 토큰을 넣는다는 것은 요청마다 제곱 자기어텐션 비용을 낸다는 뜻이다. 프롬프트 캐싱은 고정된 프리픽스만 할인해 주고, 턴마다 바뀌는 코퍼스에는 할인이 없다.</li><li><strong>주의 희석.</strong> 100만 토큰이 넘어도, 거대한 컨텍스트 안에 묻힌 특정 사실에 대한 건초더미 속 바늘 찾기 회상은 측정 가능하게 떨어진다. "Lost in the Middle"(Liu 외, 2023)과 더 넓은 NIAH 벤치마크 군이 보여주는 효과다. RAG는 건초더미 대신 순수한 신호만 모델에 건넨다.</li><li><strong>기업 규모.</strong> 100만 토큰 윈도우는 약 75만 단어를 담는다. 기업 데이터는 테라바이트에서 페타바이트 단위로 측정된다. 어떤 윈도우도 기업 데이터 레이크를 담지 못하므로, 색인은 선택이 아니라 필수다.</li></ul>
+<h3>의사결정 매트릭스</h3>
+<table><thead><tr><th>요인</th><th>긴 컨텍스트</th><th>RAG</th></tr></thead><tbody><tr><td>데이터 범위</td><td>경계가 있음(계약서 한 건, 책 한 권)</td><td>무한, 동적</td></tr><tr><td>추론 유형</td><td>전역 종합, 문서 간 비교</td><td>표적 사실 검색, Q&amp;A</td></tr><tr><td>비용 구조</td><td>질의당 연산 비용 높음, 지연 높음</td><td>질의당 비용 낮음, 선행 색인 비용</td></tr><tr><td>인프라</td><td>API 직접 호출</td><td>임베딩 + 벡터 DB + 재순위화</td></tr></tbody></table>
+<p>이 표는 규칙집이 아니라 비용 곡선으로 읽어야 한다. RAG는 색인 시점에 한 번 비용을 내고 질의당 비용은 적다. 긴 컨텍스트는 준비 비용은 작지만 질의마다 더 낸다. 코퍼스 크기가 어떤 임계값 아래거나 추론 복잡도가 어떤 임계값 위면, 두 곡선이 교차한다.</p>
+<h3>하이브리드: 거르고 나서 주의를 기울인다</h3>
+<p>RAG를 무한한 코퍼스 위의 성긴 필터로 써서 그럴듯하게 관련 있는 5만~10만 토큰 클러스터로 좁힌 다음, 그 클러스터에만 긴 컨텍스트 패스를 돌린다. 모델은 끊어진 조각들을 이어붙이는 대신 클러스터 안에서 진짜 구간 간 추론을 할 수 있다. 이 패턴에서 벡터 색인은 사라지지 않는다. 코퍼스 전체의 의미 창고로 계속 남고, 다만 답으로 가는 마지막 단계가 아니게 될 뿐이다. 청크 경계는 여전히 고정 글자 수가 아니라 의미 단위(함수 하나, 문서 한 절)를 따라야 한다. 한 단위를 반으로 자르는 경계는 검색 단계와 이후 긴 컨텍스트 패스가 그 결과로 하는 일 모두를 나쁘게 만들기 때문이다.</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>alice: index.md와 추가 전 grep이 이 패턴의 RAG 절반이다.</strong> 새 Knowledge Notes 항목을 쓰기 전에 기존 마크다운을 주제로 grep하고 생성된 색인을 확인하라, 1,300개 파일을 다시 훑는 대신. 그 색인이 검색 계층이고, 새로 쓸 항목은 어차피 긴 컨텍스트 패스가 통째로 읽어야 할 대상이다.</li><li><strong>Auditor: 규칙은 절대 RAG하지 않는다.</strong> 검색되지 않은 규칙은 확인되지 않은 규칙이고, 그 실패는 조용하다. 에러 없이 그냥 감사받지 않은 변경이 통과할 뿐이다. 규칙은 작다. 매 실행마다 통째로 컨텍스트에 있어야 하며, 놓칠 수 있는 유사도 검색 뒤에 숨어서는 안 된다.</li><li><strong>Knowledge Notes: 추가 스크립트에 "이미 다뤘나?" 확인이 필요하다.</strong> 이것이 검색 로또 위험의 구체적인 모습이다. 새 항목을 추가하는 것 자체가 기존 550개 이상에 대한 RAG 질의이고, 놓친 히트는 에러가 아니라 조용한 중복을 낳는다.</li><li><strong>Eng: "언제 RAG를 쓰지 않겠는가"는 이제 실제 면접 질문이다.</strong> 정직한 답은 위의 의사결정 매트릭스다. 경계가 있는 데이터와 문서 간 종합은 긴 컨텍스트를, 무한한 데이터와 표적 검색은 RAG를 지지하며, 대부분의 실전 시스템은 둘 다 필요하다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-21 확인: IBM Technology는 실제 YouTube 채널이고 이 영상은 존재한다(youtube.com/watch?v=UabBYexBD4k, 11:10). 100만 토큰 이상의 최상위 컨텍스트 윈도우는 실재하고 출시되어 있다(Gemini 1.5/2.x, 2025년 100만 토큰 윈도우를 갖춘 Claude). "Lost in the Middle"(Liu 외, 2023)과 건초더미 속 바늘 찾기 벤치마크들은 긴 컨텍스트에서의 주의 희석을 측정 가능하고 재현 가능한 효과로 문서화한다. 고정 프롬프트 프리픽스에 대한 프롬프트 캐싱은 Anthropic과 OpenAI 둘 다 제공한다. RAG 아키텍처는 Lewis 외, "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"(2020)로 거슬러 올라간다. 영상 요약에서 가져왔고 독립적으로 확인하지 않은 것: 하이브리드 필터 단계에 제시된 5만~10만 토큰이라는 구체적 수치, 그리고 위의 일반적 주장 이상으로 영상 자체가 사용하는 정확한 수치나 타임스탬프(이 항목의 출처 요약에는 타임스탬프가 없었다).</p>
+<p>출처: <a href="http://www.youtube.com/watch?v=UabBYexBD4k">YouTube — IBM Technology, "Is RAG Still Needed? Choosing the Best Approach for LLMs"</a> · Lewis 외, "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," 2020 · Liu 외, "Lost in the Middle: How Language Models Use Long Contexts," 2023 · 관련 항목: Tech #62(학습 탐욕 — 원자료 레이어와 생성된 index.md), Tech #109(코드 그래프, Graft), Tech #102(첫 조용한 실패, MLflow).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>RAG</strong></td><td>Retrieval-Augmented Generation(검색 증강 생성, 검색기+생성기 결합 아키텍처) · 이 항목 전체의 주제. "Is RAG Still Needed?"</td></tr><tr><td><strong>LLM</strong></td><td>Large Language Model(거대 언어 모델) · 컨텍스트 윈도우 논의의 대상. "Choosing the Best Approach for LLMs"</td></tr><tr><td><strong>NIAH</strong></td><td>Needle-In-A-Haystack(건초더미 속 바늘 찾기, 긴 컨텍스트 회상 벤치마크) · 주의 희석을 측정하는 표준 테스트군. "the broader NIAH benchmark family"</td></tr><tr><td><strong>rereading tax</strong></td><td>다시 읽기 세금(같은 텍스트를 매 요청마다 다시 처리하는 비용) · 긴 컨텍스트의 핵심 단점을 부르는 말. "a quadratic &#39;rereading tax&#39; on every request"</td></tr><tr><td><strong>retrieval lottery</strong></td><td>검색 로또(맞는 청크가 뽑힐지 운에 달린 상황) · RAG의 조용한 실패 모드를 가리키는 표현. "No retrieval lottery."</td></tr><tr><td><strong>silent failure</strong></td><td>조용한 실패(에러 없이 틀린 결과가 나오는 것) · 이 항목에서 가장 중요한 위험 개념. "That is a silent failure, not a crash."</td></tr><tr><td><strong>attention dilution</strong></td><td>주의 희석(컨텍스트가 커질수록 특정 사실에 대한 집중이 흐려지는 현상) · RAG를 옹호하는 핵심 근거. "measurable attention dilution on needle-in-a-haystack lookups"</td></tr><tr><td><strong>needle-in-a-haystack</strong></td><td>건초더미 속 바늘 찾기(거대한 컨텍스트 속 특정 사실 회상 과제) · NIAH 벤치마크의 별칭이자 관용구. "needle-in-a-haystack lookups"</td></tr><tr><td><strong>cosine similarity</strong></td><td>코사인 유사도(두 벡터 방향의 유사성 측정값) · 벡터 검색의 표준 유사도 지표. "whichever chunk scored highest on cosine similarity"</td></tr><tr><td><strong>cross-encoder re-ranker</strong></td><td>크로스 인코더 재순위화기(검색 결과를 다시 정밀하게 순위 매기는 모델) · RAG 파이프라인의 마지막 단계. "cross-encoder re-rankers"</td></tr><tr><td><strong>quadratic cost</strong></td><td>제곱 비용(입력 길이의 제곱에 비례하는 연산 비용) · 셀프어텐션의 근본적 한계를 설명하는 말. "quadratic self-attention cost on every request"</td></tr><tr><td><strong>prompt caching</strong></td><td>프롬프트 캐싱(고정된 프롬프트 앞부분을 재사용해 비용을 아끼는 기법) · 긴 컨텍스트 비용을 부분적으로 완화하는 수단. "Prompt caching only discounts a static prefix"</td></tr><tr><td><strong>context window</strong></td><td>컨텍스트 윈도우(모델이 한 번에 볼 수 있는 토큰 범위) · 이 논쟁 전체를 가능하게 만든 변수. "frontier context windows reach 1–2 million tokens"</td></tr><tr><td><strong>vector database</strong></td><td>벡터 데이터베이스(임베딩을 저장하고 유사도 검색하는 저장소) · RAG 인프라의 중심 구성요소. "a vector database"</td></tr><tr><td><strong>chunking</strong></td><td>청킹(문서를 검색 단위로 잘게 나누는 작업) · RAG 파이프라인의 첫 단계이자 흔한 실패 지점. "chunking heuristics"</td></tr><tr><td><strong>decision matrix</strong></td><td>의사결정 매트릭스(선택 기준을 표로 정리한 것) · RAG vs 긴 컨텍스트 선택을 위한 도구. "### Decision matrix"</td></tr><tr><td><strong>hybrid pattern</strong></td><td>하이브리드 패턴(두 접근을 순서대로 결합하는 설계) · 이 항목이 최종적으로 권하는 답. "a hybrid pattern"</td></tr><tr><td><strong>semantic unit</strong></td><td>의미 단위(함수, 절 등 의미가 온전한 최소 덩어리) · 좋은 청킹 기준. "chunk boundaries should still follow semantic units"</td></tr><tr><td><strong>index time</strong></td><td>색인 시점(질의 시점이 아니라 데이터를 미리 색인해 두는 단계) · RAG의 비용이 발생하는 시점. "RAG pays once, at index time"</td></tr><tr><td><strong>coarse filter</strong></td><td>성긴 필터(정밀하지 않아도 되는 1차 거르기 단계) · 하이브리드 패턴에서 RAG의 역할. "Use RAG as a coarse filter over the unbounded corpus"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-moe-sparse-vs-active-parameters-router.html">&larr; 126. Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</a><a href="pocs-embeddings-vector-db-agent-loop-mcp-primitives.html">128. Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="rag-vs-long-context-hybrid-filter-then-attend";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    navEl.insertBefore(render(sec, false), anchor);
+    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
