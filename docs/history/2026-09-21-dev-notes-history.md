@@ -25,3 +25,10 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 
 - **Cause:** the one-conversation-per-day rule; #129 gave the subject.
 - **Change:** `docs/topics/english/english-37.md` (Interview, `status: important`): a Zurich medtech system-design interview where Jay sets a ~150 ms end-to-end budget before drawing, moves the question to the p99, proposes a p99-sized jitter buffer, a dead-man hold and an authority floor, and names the surgeon in the room as the fail-safe ("a privilege the link grants and the room can revoke"); three techniques, twelve expressions. Eng 1/37, 12 Important.
+
+### Tech #130: Ethlabs week 13 — Quick Slots, blobs, AA migration flows, FCR
+
+- **Cause:** jay: "https://x.com/ox_shaman/status/2101655774233592281 can read this and add". The X page returns 402 to fetchers, so the article text was pulled through the public tweet API (fxtwitter) — an X Article by Mislav (Ethlabs), 2026-09-20, ~1,070 words, read in full.
+- **Reasoning:** the update moves the three Ethereum threads the site tracks (#54 Quick Slots, #72/#79 native AA, #74 delivery chain) one link each, and the author's bags are visible, so it doubles as the second live use of the galaxy-brain reading (#125). Written by hand, type `Essay`.
+- **Change:** `add-tech-item.py --status new --type Essay --source chat` → Tech #130 `ethlabs-week13-quick-slots-blobs-aa-migration`: client tier list for EIP-8198 (Teku S, Prysm/Lighthouse A, Lodestar C, Nimbus/Grandine no), PFI → CFI target at the next ACDC in two weeks; L2 blob-demand survey and PeerDAS custody threshold; EIP-8130/8141 traced into three migration flows (Frames, SETCODEFROM, ECDSA key invalidation) plus the cosigner question; FCR gated by RPC providers, zk-provable FCR, decoupled consensus in Lean, three finality speed boosts (1/6, 1/6+, >50% compounded, all research claims). Landings: Rabbit #1 and Wallet #5 (the flows are the next spec), Devnet #6 (expose FCR first), Auditor (finality threshold as a rule with teeth), Knowledge Notes (fork calendar), Eng #4/#16. 26 vocab rows.
+- **Result:** Tech 61/277, overall 68/557.
