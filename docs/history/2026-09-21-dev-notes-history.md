@@ -158,6 +158,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** the rail renders all sections in `_nav.js` order; the current section keeps its place and the others still carry `data-other-section`, so the mode rules that hide them are unchanged. Template plus every detail page that renders the rail (string replacement).
 - **Result:** on any page, Important reads 65…71, 500…, 800…, 1001…1012, 1300…1308 top to bottom.
 
+### Life 1333: Chris Piech on EO Korea — a ten-minute human beat the chatbot
+
+- **Cause:** jay pasted the EO Korea summary of Stanford's Chris Piech (Code in Place) with "add it to know item". `notes-search.py --any piech "code in place"` → new to the site.
+- **Reasoning:** Life (learning method, not a tool), type Talk, source chat, bin `deep` — it is the education-side evidence for the learning-greed method (Tech #1): the measured result is that an AI chatbot alone raised dropout while a ten-minute human conversation raised completion by ten points, and the durable distinction is syntax (automated) versus decomposition and architecture (not). Written by hand from the paste; the paste is the raw file. Related-item numbers were looked up in `index.json` at write time (galaxy-brain is #109 now, boundaries #63) — numbers drift by design.
+- **Change:** `add-tech-item.py --section mindset --slot 34 --status new --type Talk --source chat --bin deep --raw <paste>` → Life 1333 `piech-ai-multiplier-foundations-ten-minute-human`: the experiment, syntax vs decomposition, code as falsifiable feedback (tied to the galaxy-brain test), automation slower than the headline (trucks), the calculator rule; landings — the weekly deep hour gets a human conversation, agents write syntax while jay owns the boundaries, the Auditor as falsifiable feedback, one Eng interview sentence. 18 vocab rows.
+- **Result:** Life 0/34, overall 71/561; New with Life selected shows it at the end of the run.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

@@ -1,0 +1,20 @@
+Summary of the EO Korea video featuring Stanford University Computer Science Professor Chris Piech (pasted by jay, 2026-09-21)
+
+1. Why We Still Need to Learn in the AI Era
+- Expanding Capabilities, Not Replacing Thinking: Even though AI can write code, compose essays, and calculate probabilities, giving up on learning these skills limits personal capability [00:43]. Learning core disciplines allows AI to act as a multiplier of your abilities rather than a crutch [01:01].
+- The Risk of Over-Outsourcing: Relying entirely on AI to solve problems separates learners from critical thinking [09:40]. If you don't understand the foundational logic and system architecture, you won't be able to fix subtle, critical bugs down the line [10:06].
+
+2. The Motivational Crisis & The Role of Human Mentorship
+- Future Uncertainty: Many students face a motivational crisis trying to predict how advanced AI will be when they graduate [01:19].
+- AI Tutors vs. Human Teachers: In Code in Place, a global coding initiative with over 17,000 students, simply providing an AI chatbot often led to demotivation and higher dropout rates [05:06].
+- The Power of Human Connection: Offering students just a 10-minute interaction with a human section leader increased course completion rates by 10 percentage points [05:39]. Professor Piech emphasizes that the true role of an educator is not merely answering questions, but sparking curiosity and inspiring the student [06:42].
+
+3. Syntax vs. Problem Solving
+- Overestimating Automation Speed: Society often overestimates how quickly automation fully displaces jobs (such as early predictions regarding self-driving vehicles and truck drivers) due to edge cases and the need for human responsibility [08:46].
+- Focus on Architecture: Coding involves both syntax (commands) and problem solving (structuring data, decomposition, and architecture) [10:54]. AI excels at syntax, but humans must master breaking down complex problems [11:17].
+- Falsifiable Feedback: Programming remains one of the best tools to learn structured thinking because code provides immediate, objective feedback when logic is incorrect [11:30].
+
+4. Advice for Junior Engineers and Learners
+- Do Not Skip Foundations: Just as calculators did not eliminate the need to understand multiplication, AI does not remove the need for core conceptual foundations [13:56].
+- Bridge Humans and Technology: Lower barriers to entry allow young engineers to build sophisticated software quickly [12:35]. The most valuable high-order skill is understanding real-world human problems and translating them into software [13:09].
+- Curiosity Over Anxiety: Instead of overthinking the existential future of AI, adopt the simple mindset of learning, creating things people love, and growing every single day [14:40].

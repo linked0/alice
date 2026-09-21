@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 71/561</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1333</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">chat</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-21-piech-ai-multiplier-foundations-ten-minute-human.txt">raw</a></span></p>
+      <h1>A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code</h1>
+      <p class="lead">Chris Piech, a Stanford computer science professor and a founder of Code in Place, the free global introduction-to-programming course, spoke on EO Korea about learning in the AI era. His argument runs on one experiment and one distinction. The experiment: in Code in Place, with more than 17,000 students, giving students an AI chatbot on its own often demotivated them and raised dropout (05:06), while a single ten-minute conversation with a human section leader raised completion by ten percentage points (05:39). The distinction: coding is syntax plus problem solving, and AI is excellent at the first while the second, decomposing a problem and choosing an architecture, is still the human&#39;s job (10:54, 11:17). Skip the foundations and you cannot fix the subtle bug later (10:06); keep them and AI is a multiplier rather than a crutch (01:01).</p>
+      <p class="meta">For Jayverse this is the education-side evidence for the learning-greed method (Tech #1): capture is cheap, understanding is not, and the artefact must come from your own hands. It also names what to protect while agents write more of the code: the decomposition, the boundaries, and the falsifiable check.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code\n\nChris Piech, a Stanford computer science professor and a founder of Code in Place, the free global introduction-to-programming course, spoke on EO Korea about learning in the AI era. His argument runs on one experiment and one distinction. The experiment: in Code in Place, with more than 17,000 students, giving students an AI chatbot on its own often demotivated them and raised dropout (05:06), while a single ten-minute conversation with a human section leader raised completion by ten percentage points (05:39). The distinction: coding is syntax plus problem solving, and AI is excellent at the first while the second, decomposing a problem and choosing an architecture, is still the human's job (10:54, 11:17). Skip the foundations and you cannot fix the subtle bug later (10:06); keep them and AI is a multiplier rather than a crutch (01:01).\n\nFor Jayverse this is the education-side evidence for the learning-greed method (Tech #1): capture is cheap, understanding is not, and the artefact must come from your own hands. It also names what to protect while agents write more of the code: the decomposition, the boundaries, and the falsifiable check.\n\n## Why\n\nThe tempting reading of AI in education is substitution: if the model can write the code, teaching people to write code is wasted effort. Piech's data says the opposite, twice. First, students who outsource the thinking lose the ability to reason about the system (09:40), which shows up later as the bug nobody can locate because nobody built the mental model. Second, the thing that actually kept students learning was not a better answer engine but a person who made them curious (06:42). The chatbot answered questions; completion fell. A human spent ten minutes; completion rose. That is a measured effect on a large cohort, not a sentiment, and it is the strongest argument in the talk because it is the one that could have gone the other way.\n\n## How it works\n\n### The experiment: one chatbot, one human, ten points\n\nCode in Place runs at a scale where small interventions can be measured. Two conditions matter here. Students given only an AI assistant tended to disengage and drop out at higher rates (05:06). Students who got a ten-minute interaction with a human section leader completed the course ten percentage points more often (05:39). Piech's reading is that the educator's job was never answering questions, which the model now does well, but sparking curiosity and holding the student to the work (06:42). The point transfers outside classrooms: any learning system that consists only of an answer engine should expect the dropout curve, not the completion curve.\n\n### Syntax is automated, decomposition is not\n\nPiech splits programming into two skills (10:54). Syntax is knowing the commands; problem solving is structuring the data, decomposing the task and choosing the architecture. AI has largely absorbed the first. The second is where the human has to be, because it is where the requirements meet the world: which parts talk to which, what is a boundary and what is a detail, what must never happen. A person who has only ever prompted has practised the syntax skill through a proxy and the architecture skill not at all, and the missing skill is the one that decides whether the system can be fixed when it breaks (10:06).\n\n### Code as falsifiable feedback\n\nThe reason programming is still one of the best ways to learn structured thinking is that the computer does not grade on effort: wrong logic fails immediately and objectively (11:30). Piech is making the same point about learning that Tech #109 makes about arguments, that a claim you cannot be wrong about teaches you nothing. This is also the honest reply to \"why learn it if the model can do it\": the model's output is only useful to someone who can tell when it is wrong, and that ability is built by being wrong yourself, cheaply and often.\n\n### Automation is slower than the headline\n\nPiech's example is self-driving trucks (08:46): the prediction that drivers would vanish within a few years missed the edge cases and the question of who is responsible when the system fails. Coding jobs will be reshaped on the same timetable, edge cases and responsibility included. That is not a reason for complacency; it is a reason to spend the interval learning the part that does not automate, which the talk names as understanding a real human problem and translating it into software (13:09), made more valuable, not less, by lower barriers to building (12:35).\n\n### The calculator rule\n\nCalculators did not remove the need to understand multiplication; they removed the need to do it by hand (13:56). The foundations remain because they are what let you check the tool. The advice to junior engineers follows: do not skip them, do not spend the energy on existential forecasting, and default to a simple loop of learning, making things people love, and growing a little every day (14:40).\n\n### Where it lands in Jayverse\n\n- **Knowledge Notes: the ten-minute human is the missing slot.** The learning-greed item (Tech #1) built the capture and the index; Piech's data says the completion rate depends on a person, not on the answer engine. The weekly deep-bin hour should include one conversation with a human about the item, a colleague, a mentor, or an Eng interview rehearsal, not only a re-read.\n- **Rabbit and the agent work: keep the decomposition.** Agents write the syntax; jay owns the boundaries (Tech #63), the data model and the check. A repo where the human has not written the architecture is the Code in Place chatbot condition at project scale.\n- **The Auditor: falsifiable feedback is the product.** The value of \"what was checked, by which rule\" is exactly Piech's value of code: a verdict that can be wrong in a way you can see. Rules that cannot fail teach nothing and should not ship.\n- **Eng: the interview sentence.** \"The high-order skill is translating a human problem into software; the syntax is now cheap\" is a line that carries a system-design interview and is true.\n\n### Verified and unverified\n\nVerified on 2026-09-21: Chris Piech is a Stanford computer science faculty member and a founder of Code in Place, a free introductory programming course taught with volunteer section leaders since 2020; EO is a Korean startup-media YouTube channel; the calculator analogy, the syntax-versus-problem-solving split and the self-driving-truck forecasts are as the talk describes. Taken from the pasted summary and not independently checked: the 17,000-student figure, the chatbot-only demotivation and dropout finding (05:06), the ten-minute human interaction and the ten-percentage-point completion gain (05:39), and every timestamp. The video itself was not watched; the summary was pasted by jay. Sources: the EO Korea interview with Chris Piech (YouTube; summary in raw); Code in Place, codeinplace.stanford.edu; related items: Tech #1 (learning greed), Life 1300 (Ng on offloading), Tech #109 (falsifiability), Life 1301 (the through line), Life 1308 (go deep), Tech #63 (boundaries).\n"</script>
+<h2>Why</h2>
+<p>The tempting reading of AI in education is substitution: if the model can write the code, teaching people to write code is wasted effort. Piech&#39;s data says the opposite, twice. First, students who outsource the thinking lose the ability to reason about the system (09:40), which shows up later as the bug nobody can locate because nobody built the mental model. Second, the thing that actually kept students learning was not a better answer engine but a person who made them curious (06:42). The chatbot answered questions; completion fell. A human spent ten minutes; completion rose. That is a measured effect on a large cohort, not a sentiment, and it is the strongest argument in the talk because it is the one that could have gone the other way.</p>
+<h2>How it works</h2>
+<h3>The experiment: one chatbot, one human, ten points</h3>
+<p>Code in Place runs at a scale where small interventions can be measured. Two conditions matter here. Students given only an AI assistant tended to disengage and drop out at higher rates (05:06). Students who got a ten-minute interaction with a human section leader completed the course ten percentage points more often (05:39). Piech&#39;s reading is that the educator&#39;s job was never answering questions, which the model now does well, but sparking curiosity and holding the student to the work (06:42). The point transfers outside classrooms: any learning system that consists only of an answer engine should expect the dropout curve, not the completion curve.</p>
+<h3>Syntax is automated, decomposition is not</h3>
+<p>Piech splits programming into two skills (10:54). Syntax is knowing the commands; problem solving is structuring the data, decomposing the task and choosing the architecture. AI has largely absorbed the first. The second is where the human has to be, because it is where the requirements meet the world: which parts talk to which, what is a boundary and what is a detail, what must never happen. A person who has only ever prompted has practised the syntax skill through a proxy and the architecture skill not at all, and the missing skill is the one that decides whether the system can be fixed when it breaks (10:06).</p>
+<h3>Code as falsifiable feedback</h3>
+<p>The reason programming is still one of the best ways to learn structured thinking is that the computer does not grade on effort: wrong logic fails immediately and objectively (11:30). Piech is making the same point about learning that Tech #109 makes about arguments, that a claim you cannot be wrong about teaches you nothing. This is also the honest reply to "why learn it if the model can do it": the model&#39;s output is only useful to someone who can tell when it is wrong, and that ability is built by being wrong yourself, cheaply and often.</p>
+<h3>Automation is slower than the headline</h3>
+<p>Piech&#39;s example is self-driving trucks (08:46): the prediction that drivers would vanish within a few years missed the edge cases and the question of who is responsible when the system fails. Coding jobs will be reshaped on the same timetable, edge cases and responsibility included. That is not a reason for complacency; it is a reason to spend the interval learning the part that does not automate, which the talk names as understanding a real human problem and translating it into software (13:09), made more valuable, not less, by lower barriers to building (12:35).</p>
+<h3>The calculator rule</h3>
+<p>Calculators did not remove the need to understand multiplication; they removed the need to do it by hand (13:56). The foundations remain because they are what let you check the tool. The advice to junior engineers follows: do not skip them, do not spend the energy on existential forecasting, and default to a simple loop of learning, making things people love, and growing a little every day (14:40).</p>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Knowledge Notes: the ten-minute human is the missing slot.</strong> The learning-greed item (Tech #1) built the capture and the index; Piech&#39;s data says the completion rate depends on a person, not on the answer engine. The weekly deep-bin hour should include one conversation with a human about the item, a colleague, a mentor, or an Eng interview rehearsal, not only a re-read.</li><li><strong>Rabbit and the agent work: keep the decomposition.</strong> Agents write the syntax; jay owns the boundaries (Tech #63), the data model and the check. A repo where the human has not written the architecture is the Code in Place chatbot condition at project scale.</li><li><strong>The Auditor: falsifiable feedback is the product.</strong> The value of "what was checked, by which rule" is exactly Piech&#39;s value of code: a verdict that can be wrong in a way you can see. Rules that cannot fail teach nothing and should not ship.</li><li><strong>Eng: the interview sentence.</strong> "The high-order skill is translating a human problem into software; the syntax is now cheap" is a line that carries a system-design interview and is true.</li></ul>
+<h3>Verified and unverified</h3>
+<p>Verified on 2026-09-21: Chris Piech is a Stanford computer science faculty member and a founder of Code in Place, a free introductory programming course taught with volunteer section leaders since 2020; EO is a Korean startup-media YouTube channel; the calculator analogy, the syntax-versus-problem-solving split and the self-driving-truck forecasts are as the talk describes. Taken from the pasted summary and not independently checked: the 17,000-student figure, the chatbot-only demotivation and dropout finding (05:06), the ten-minute human interaction and the ten-percentage-point completion gain (05:39), and every timestamp. The video itself was not watched; the summary was pasted by jay. Sources: the EO Korea interview with Chris Piech (YouTube; summary in raw); Code in Place, codeinplace.stanford.edu; related items: Tech #1 (learning greed), Life 1300 (Ng on offloading), Tech #109 (falsifiability), Life 1301 (the through line), Life 1308 (go deep), Tech #63 (boundaries).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>multiplier, not a crutch</strong></td><td>목발이 아니라 곱셈기 · 도구가 능력을 키우는지 대신하는지 가를 때. "AI is a multiplier rather than a crutch"</td></tr><tr><td><strong>outsource the thinking</strong></td><td>생각을 외주 주다 · 모델에 판단을 넘기는 습관. "students who outsource the thinking"</td></tr><tr><td><strong>section leader</strong></td><td>섹션 리더(대형 강의를 소그룹으로 나눠 이끄는 조교) · Code in Place의 자원봉사 구조. "a human section leader"</td></tr><tr><td><strong>completion rate</strong></td><td>수료율 · 교육 효과의 척도. "raised completion by ten percentage points"</td></tr><tr><td><strong>percentage points</strong></td><td>%포인트(비율의 차이 단위; 10%가 아니라 10%p) · 비율 변화를 정확히 말할 때. "ten percentage points"</td></tr><tr><td><strong>dropout</strong></td><td>중도 탈락 · 반대편 지표. "raised dropout"</td></tr><tr><td><strong>spark curiosity</strong></td><td>호기심을 일으키다 · 교육자의 일. "sparking curiosity and holding the student to the work"</td></tr><tr><td><strong>decomposition</strong></td><td>분해(문제를 다룰 수 있는 조각으로 나누는 것) · 자동화되지 않는 기술. "decomposing the task and choosing the architecture"</td></tr><tr><td><strong>syntax</strong></td><td>문법(언어의 명령어와 형식) · AI가 흡수한 절반. "Syntax is knowing the commands"</td></tr><tr><td><strong>falsifiable</strong></td><td>반증 가능한(틀릴 수 있는 방식으로 진술된) · 코드와 논증의 공통 미덕. "Code as falsifiable feedback"</td></tr><tr><td><strong>grade on effort</strong></td><td>노력에 점수를 주다 · 컴퓨터가 하지 않는 일. "the computer does not grade on effort"</td></tr><tr><td><strong>edge case</strong></td><td>엣지 케이스(드물지만 시스템을 깨뜨리는 경우) · 자동화가 느린 이유. "missed the edge cases"</td></tr><tr><td><strong>responsibility</strong></td><td>책임(실패했을 때 누가 지는가) · 자동화의 두 번째 한계. "the question of who is responsible"</td></tr><tr><td><strong>complacency</strong></td><td>안일함 · 느린 자동화를 잘못 읽는 방식. "not a reason for complacency"</td></tr><tr><td><strong>barrier to entry</strong></td><td>진입 장벽 · 낮아질수록 고차 기술이 비싸진다. "lower barriers to building"</td></tr><tr><td><strong>high-order skill</strong></td><td>고차 기술(기초 위에서 여러 기술을 합쳐 쓰는 능력) · 면접 문장의 핵심. "the high-order skill is translating a human problem into software"</td></tr><tr><td><strong>mental model</strong></td><td>머릿속 모델(시스템이 어떻게 도는지에 대한 내 그림) · 버그를 찾는 전제. "nobody built the mental model"</td></tr><tr><td><strong>cohort</strong></td><td>코호트(같은 조건을 겪는 집단) · 실험 규모를 말할 때. "a measured effect on a large cohort"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크\n\n스탠퍼드 컴퓨터과학 교수이자 무료 전 세계 프로그래밍 입문 과정 Code in Place의 창립자인 크리스 피에크가 EO Korea에서 AI 시대의 학습을 이야기했다. 그의 주장은 실험 하나와 구분 하나 위에서 돈다. 실험: 학생 17,000명이 넘는 Code in Place에서 AI 챗봇만 주었더니 학생들은 자주 의욕을 잃고 중도 탈락이 늘었고(05:06), 사람 섹션 리더와의 단 10분 대화는 수료율을 10%포인트 올렸다(05:39). 구분: 코딩은 문법 더하기 문제 해결이고, AI는 앞의 것에 탁월하지만 문제를 쪼개고 아키텍처를 고르는 뒤의 것은 여전히 사람의 일이다(10:54, 11:17). 기초를 건너뛰면 나중에 미묘한 버그를 고칠 수 없고(10:06), 기초를 지키면 AI는 목발이 아니라 곱셈기가 된다(01:01).\n\nJayverse 입장에서 이것은 학습 욕심 방법(Tech #1)의 교육 쪽 증거다. 포착은 싸고 이해는 싸지 않으며, 결과물은 내 손에서 나와야 한다. 에이전트가 코드를 더 많이 쓰는 동안 지켜야 할 것의 이름도 준다. 분해, 경계, 그리고 반증 가능한 검사.\n\n## 왜\n\n교육에서 AI를 읽는 솔깃한 방식은 대체다. 모델이 코드를 쓸 수 있다면 사람에게 코딩을 가르치는 건 낭비라는 것. 피에크의 데이터는 두 번 반대로 말한다. 첫째, 생각을 외주 준 학생은 시스템에 대해 추론하는 능력을 잃고(09:40), 그것은 나중에 아무도 머릿속 모델을 만들지 않아서 아무도 위치를 못 찾는 버그로 나타난다. 둘째, 학생을 실제로 계속 배우게 한 것은 더 나은 답변 엔진이 아니라 호기심을 일으킨 사람이었다(06:42). 챗봇은 질문에 답했고 수료율은 떨어졌다. 사람이 10분을 썼고 수료율은 올랐다. 이것은 큰 집단에서 잰 효과이지 감상이 아니고, 반대로 나올 수도 있었던 결과라서 강연에서 가장 강한 논거다.\n\n## 동작 방식\n\n### 실험: 챗봇 하나, 사람 하나, 10포인트\n\nCode in Place는 작은 개입도 잴 수 있는 규모로 돈다. 여기서 중요한 조건은 둘이다. AI 보조만 받은 학생들은 이탈하고 더 높은 비율로 탈락하는 경향이 있었다(05:06). 사람 섹션 리더와 10분 상호작용을 한 학생들은 수료율이 10%포인트 높았다(05:39). 피에크의 해석은 교육자의 일은 애초에 질문에 답하는 것이 아니었다는 것이다. 그건 이제 모델이 잘한다. 교육자의 일은 호기심을 일으키고 학생을 작업에 붙들어 두는 것이다(06:42). 이 점은 교실 밖으로도 옮겨 간다. 답변 엔진만으로 이루어진 학습 시스템은 수료 곡선이 아니라 탈락 곡선을 기대해야 한다.\n\n### 문법은 자동화됐고, 분해는 아니다\n\n피에크는 프로그래밍을 두 기술로 나눈다(10:54). 문법은 명령어를 아는 것이고, 문제 해결은 데이터를 구조화하고 과제를 쪼개고 아키텍처를 고르는 것이다. AI는 앞의 것을 거의 흡수했다. 뒤의 것이 사람이 있어야 할 자리인데, 요구사항이 세상과 만나는 지점이기 때문이다. 어느 부분이 어느 부분과 이야기하는지, 무엇이 경계이고 무엇이 세부인지, 무엇이 절대 일어나면 안 되는지. 프롬프트만 해 본 사람은 문법 기술을 대리로 연습했고 아키텍처 기술은 전혀 연습하지 않았으며, 그 빠진 기술이 시스템이 고장 났을 때 고칠 수 있는지를 결정한다(10:06).\n\n### 반증 가능한 피드백으로서의 코드\n\n프로그래밍이 여전히 구조적 사고를 배우는 가장 좋은 방법 중 하나인 이유는 컴퓨터가 노력에 점수를 주지 않기 때문이다. 틀린 논리는 즉시, 객관적으로 실패한다(11:30). 피에크는 Tech #109가 논증에 대해 하는 말을 학습에 대해 하고 있다. 틀릴 수 없는 주장은 아무것도 가르치지 않는다. 이것은 \"모델이 할 수 있는데 왜 배우나\"에 대한 정직한 답이기도 하다. 모델의 출력은 그것이 틀렸을 때를 알아볼 수 있는 사람에게만 쓸모 있고, 그 능력은 스스로 싸게, 자주 틀려 보면서 만들어진다.\n\n### 자동화는 헤드라인보다 느리다\n\n피에크의 예는 자율주행 트럭이다(08:46). 몇 년 안에 운전사가 사라진다는 예측은 엣지 케이스와 시스템이 실패했을 때 누가 책임지는가라는 질문을 놓쳤다. 코딩 직업도 엣지 케이스와 책임을 포함해 같은 시간표로 재편될 것이다. 안심할 이유가 아니라, 그 사이에 자동화되지 않는 부분을 배우는 데 쓸 이유다. 강연은 그것을 실제 사람의 문제를 이해해 소프트웨어로 옮기는 일이라 부르고(13:09), 만들기의 문턱이 낮아질수록 더 가치 있어진다고 한다(12:35).\n\n### 계산기 규칙\n\n계산기는 곱셈을 이해할 필요를 없애지 않았다. 손으로 할 필요를 없앴다(13:56). 기초가 남는 이유는 그것이 도구를 검사하게 해 주는 것이기 때문이다. 주니어 엔지니어에게 주는 조언이 따라 나온다. 기초를 건너뛰지 말고, 실존적 예측에 에너지를 쓰지 말고, 배우고, 사람들이 사랑하는 것을 만들고, 매일 조금씩 자라는 단순한 루프를 기본으로 삼아라(14:40).\n\n### Jayverse에서의 위치\n\n- **Knowledge Notes: 10분짜리 사람이 빠진 슬롯이다.** 학습 욕심 항목(Tech #1)은 포착과 색인을 만들었다. 피에크의 데이터는 수료율이 답변 엔진이 아니라 사람에 달렸다고 말한다. 주 1회 deep 통의 한 시간에는 다시 읽기만이 아니라 그 항목에 대해 사람과 나누는 대화 하나, 동료든 멘토든 Eng 면접 리허설이든, 이 들어가야 한다.\n- **Rabbit과 에이전트 작업: 분해를 지킨다.** 에이전트는 문법을 쓰고, jay는 경계(Tech #63), 데이터 모델, 검사를 소유한다. 사람이 아키텍처를 쓰지 않은 저장소는 프로젝트 규모의 Code in Place 챗봇 조건이다.\n- **Auditor: 반증 가능한 피드백이 상품이다.** \"무엇을 어느 규칙으로 검사했는가\"의 가치는 정확히 피에크가 말한 코드의 가치다. 눈에 보이는 방식으로 틀릴 수 있는 판정. 실패할 수 없는 규칙은 아무것도 가르치지 않으니 내보내면 안 된다.\n- **Eng: 면접 문장.** \"고차 기술은 사람의 문제를 소프트웨어로 옮기는 것이고, 문법은 이제 싸다\"는 시스템 설계 면접을 끌고 가는 문장이고, 사실이다.\n\n### 확인된 것과 미확인\n\n2026-09-21에 확인한 것: 크리스 피에크는 스탠퍼드 컴퓨터과학 교수진이고 2020년부터 자원봉사 섹션 리더와 함께 가르치는 무료 프로그래밍 입문 과정 Code in Place의 창립자다. EO는 한국의 스타트업 미디어 유튜브 채널이다. 계산기 비유, 문법 대 문제 해결의 구분, 자율주행 트럭 예측은 강연이 말하는 그대로다. 붙여 넣은 요약에서 가져왔고 독립적으로 확인하지 않은 것: 학생 17,000명 수치, 챗봇만 주었을 때의 의욕 저하와 탈락 결과(05:06), 10분 사람 상호작용과 수료율 10%포인트 상승(05:39), 그리고 모든 타임스탬프. 영상 자체는 보지 않았고 요약은 jay가 붙여 넣었다. 출처: EO Korea의 크리스 피에크 인터뷰(YouTube; 요약은 raw에), Code in Place, codeinplace.stanford.edu; 관련 항목: Tech #1(학습 욕심), Life 1300(응의 오프로딩), Tech #109(반증 가능성), Life 1301(관통선), Life 1308(깊이 파기), Tech #63(경계).\n"</script>
+      <h1>10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크</h1>
+      <p class="lead">스탠퍼드 컴퓨터과학 교수이자 무료 전 세계 프로그래밍 입문 과정 Code in Place의 창립자인 크리스 피에크가 EO Korea에서 AI 시대의 학습을 이야기했다. 그의 주장은 실험 하나와 구분 하나 위에서 돈다. 실험: 학생 17,000명이 넘는 Code in Place에서 AI 챗봇만 주었더니 학생들은 자주 의욕을 잃고 중도 탈락이 늘었고(05:06), 사람 섹션 리더와의 단 10분 대화는 수료율을 10%포인트 올렸다(05:39). 구분: 코딩은 문법 더하기 문제 해결이고, AI는 앞의 것에 탁월하지만 문제를 쪼개고 아키텍처를 고르는 뒤의 것은 여전히 사람의 일이다(10:54, 11:17). 기초를 건너뛰면 나중에 미묘한 버그를 고칠 수 없고(10:06), 기초를 지키면 AI는 목발이 아니라 곱셈기가 된다(01:01).</p>
+      <p class="meta">Jayverse 입장에서 이것은 학습 욕심 방법(Tech #1)의 교육 쪽 증거다. 포착은 싸고 이해는 싸지 않으며, 결과물은 내 손에서 나와야 한다. 에이전트가 코드를 더 많이 쓰는 동안 지켜야 할 것의 이름도 준다. 분해, 경계, 그리고 반증 가능한 검사.</p>
+<h2>왜</h2>
+<p>교육에서 AI를 읽는 솔깃한 방식은 대체다. 모델이 코드를 쓸 수 있다면 사람에게 코딩을 가르치는 건 낭비라는 것. 피에크의 데이터는 두 번 반대로 말한다. 첫째, 생각을 외주 준 학생은 시스템에 대해 추론하는 능력을 잃고(09:40), 그것은 나중에 아무도 머릿속 모델을 만들지 않아서 아무도 위치를 못 찾는 버그로 나타난다. 둘째, 학생을 실제로 계속 배우게 한 것은 더 나은 답변 엔진이 아니라 호기심을 일으킨 사람이었다(06:42). 챗봇은 질문에 답했고 수료율은 떨어졌다. 사람이 10분을 썼고 수료율은 올랐다. 이것은 큰 집단에서 잰 효과이지 감상이 아니고, 반대로 나올 수도 있었던 결과라서 강연에서 가장 강한 논거다.</p>
+<h2>동작 방식</h2>
+<h3>실험: 챗봇 하나, 사람 하나, 10포인트</h3>
+<p>Code in Place는 작은 개입도 잴 수 있는 규모로 돈다. 여기서 중요한 조건은 둘이다. AI 보조만 받은 학생들은 이탈하고 더 높은 비율로 탈락하는 경향이 있었다(05:06). 사람 섹션 리더와 10분 상호작용을 한 학생들은 수료율이 10%포인트 높았다(05:39). 피에크의 해석은 교육자의 일은 애초에 질문에 답하는 것이 아니었다는 것이다. 그건 이제 모델이 잘한다. 교육자의 일은 호기심을 일으키고 학생을 작업에 붙들어 두는 것이다(06:42). 이 점은 교실 밖으로도 옮겨 간다. 답변 엔진만으로 이루어진 학습 시스템은 수료 곡선이 아니라 탈락 곡선을 기대해야 한다.</p>
+<h3>문법은 자동화됐고, 분해는 아니다</h3>
+<p>피에크는 프로그래밍을 두 기술로 나눈다(10:54). 문법은 명령어를 아는 것이고, 문제 해결은 데이터를 구조화하고 과제를 쪼개고 아키텍처를 고르는 것이다. AI는 앞의 것을 거의 흡수했다. 뒤의 것이 사람이 있어야 할 자리인데, 요구사항이 세상과 만나는 지점이기 때문이다. 어느 부분이 어느 부분과 이야기하는지, 무엇이 경계이고 무엇이 세부인지, 무엇이 절대 일어나면 안 되는지. 프롬프트만 해 본 사람은 문법 기술을 대리로 연습했고 아키텍처 기술은 전혀 연습하지 않았으며, 그 빠진 기술이 시스템이 고장 났을 때 고칠 수 있는지를 결정한다(10:06).</p>
+<h3>반증 가능한 피드백으로서의 코드</h3>
+<p>프로그래밍이 여전히 구조적 사고를 배우는 가장 좋은 방법 중 하나인 이유는 컴퓨터가 노력에 점수를 주지 않기 때문이다. 틀린 논리는 즉시, 객관적으로 실패한다(11:30). 피에크는 Tech #109가 논증에 대해 하는 말을 학습에 대해 하고 있다. 틀릴 수 없는 주장은 아무것도 가르치지 않는다. 이것은 "모델이 할 수 있는데 왜 배우나"에 대한 정직한 답이기도 하다. 모델의 출력은 그것이 틀렸을 때를 알아볼 수 있는 사람에게만 쓸모 있고, 그 능력은 스스로 싸게, 자주 틀려 보면서 만들어진다.</p>
+<h3>자동화는 헤드라인보다 느리다</h3>
+<p>피에크의 예는 자율주행 트럭이다(08:46). 몇 년 안에 운전사가 사라진다는 예측은 엣지 케이스와 시스템이 실패했을 때 누가 책임지는가라는 질문을 놓쳤다. 코딩 직업도 엣지 케이스와 책임을 포함해 같은 시간표로 재편될 것이다. 안심할 이유가 아니라, 그 사이에 자동화되지 않는 부분을 배우는 데 쓸 이유다. 강연은 그것을 실제 사람의 문제를 이해해 소프트웨어로 옮기는 일이라 부르고(13:09), 만들기의 문턱이 낮아질수록 더 가치 있어진다고 한다(12:35).</p>
+<h3>계산기 규칙</h3>
+<p>계산기는 곱셈을 이해할 필요를 없애지 않았다. 손으로 할 필요를 없앴다(13:56). 기초가 남는 이유는 그것이 도구를 검사하게 해 주는 것이기 때문이다. 주니어 엔지니어에게 주는 조언이 따라 나온다. 기초를 건너뛰지 말고, 실존적 예측에 에너지를 쓰지 말고, 배우고, 사람들이 사랑하는 것을 만들고, 매일 조금씩 자라는 단순한 루프를 기본으로 삼아라(14:40).</p>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Knowledge Notes: 10분짜리 사람이 빠진 슬롯이다.</strong> 학습 욕심 항목(Tech #1)은 포착과 색인을 만들었다. 피에크의 데이터는 수료율이 답변 엔진이 아니라 사람에 달렸다고 말한다. 주 1회 deep 통의 한 시간에는 다시 읽기만이 아니라 그 항목에 대해 사람과 나누는 대화 하나, 동료든 멘토든 Eng 면접 리허설이든, 이 들어가야 한다.</li><li><strong>Rabbit과 에이전트 작업: 분해를 지킨다.</strong> 에이전트는 문법을 쓰고, jay는 경계(Tech #63), 데이터 모델, 검사를 소유한다. 사람이 아키텍처를 쓰지 않은 저장소는 프로젝트 규모의 Code in Place 챗봇 조건이다.</li><li><strong>Auditor: 반증 가능한 피드백이 상품이다.</strong> "무엇을 어느 규칙으로 검사했는가"의 가치는 정확히 피에크가 말한 코드의 가치다. 눈에 보이는 방식으로 틀릴 수 있는 판정. 실패할 수 없는 규칙은 아무것도 가르치지 않으니 내보내면 안 된다.</li><li><strong>Eng: 면접 문장.</strong> "고차 기술은 사람의 문제를 소프트웨어로 옮기는 것이고, 문법은 이제 싸다"는 시스템 설계 면접을 끌고 가는 문장이고, 사실이다.</li></ul>
+<h3>확인된 것과 미확인</h3>
+<p>2026-09-21에 확인한 것: 크리스 피에크는 스탠퍼드 컴퓨터과학 교수진이고 2020년부터 자원봉사 섹션 리더와 함께 가르치는 무료 프로그래밍 입문 과정 Code in Place의 창립자다. EO는 한국의 스타트업 미디어 유튜브 채널이다. 계산기 비유, 문법 대 문제 해결의 구분, 자율주행 트럭 예측은 강연이 말하는 그대로다. 붙여 넣은 요약에서 가져왔고 독립적으로 확인하지 않은 것: 학생 17,000명 수치, 챗봇만 주었을 때의 의욕 저하와 탈락 결과(05:06), 10분 사람 상호작용과 수료율 10%포인트 상승(05:39), 그리고 모든 타임스탬프. 영상 자체는 보지 않았고 요약은 jay가 붙여 넣었다. 출처: EO Korea의 크리스 피에크 인터뷰(YouTube; 요약은 raw에), Code in Place, codeinplace.stanford.edu; 관련 항목: Tech #1(학습 욕심), Life 1300(응의 오프로딩), Tech #109(반증 가능성), Life 1301(관통선), Life 1308(깊이 파기), Tech #63(경계).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>multiplier, not a crutch</strong></td><td>목발이 아니라 곱셈기 · 도구가 능력을 키우는지 대신하는지 가를 때. "AI is a multiplier rather than a crutch"</td></tr><tr><td><strong>outsource the thinking</strong></td><td>생각을 외주 주다 · 모델에 판단을 넘기는 습관. "students who outsource the thinking"</td></tr><tr><td><strong>section leader</strong></td><td>섹션 리더(대형 강의를 소그룹으로 나눠 이끄는 조교) · Code in Place의 자원봉사 구조. "a human section leader"</td></tr><tr><td><strong>completion rate</strong></td><td>수료율 · 교육 효과의 척도. "raised completion by ten percentage points"</td></tr><tr><td><strong>percentage points</strong></td><td>%포인트(비율의 차이 단위; 10%가 아니라 10%p) · 비율 변화를 정확히 말할 때. "ten percentage points"</td></tr><tr><td><strong>dropout</strong></td><td>중도 탈락 · 반대편 지표. "raised dropout"</td></tr><tr><td><strong>spark curiosity</strong></td><td>호기심을 일으키다 · 교육자의 일. "sparking curiosity and holding the student to the work"</td></tr><tr><td><strong>decomposition</strong></td><td>분해(문제를 다룰 수 있는 조각으로 나누는 것) · 자동화되지 않는 기술. "decomposing the task and choosing the architecture"</td></tr><tr><td><strong>syntax</strong></td><td>문법(언어의 명령어와 형식) · AI가 흡수한 절반. "Syntax is knowing the commands"</td></tr><tr><td><strong>falsifiable</strong></td><td>반증 가능한(틀릴 수 있는 방식으로 진술된) · 코드와 논증의 공통 미덕. "Code as falsifiable feedback"</td></tr><tr><td><strong>grade on effort</strong></td><td>노력에 점수를 주다 · 컴퓨터가 하지 않는 일. "the computer does not grade on effort"</td></tr><tr><td><strong>edge case</strong></td><td>엣지 케이스(드물지만 시스템을 깨뜨리는 경우) · 자동화가 느린 이유. "missed the edge cases"</td></tr><tr><td><strong>responsibility</strong></td><td>책임(실패했을 때 누가 지는가) · 자동화의 두 번째 한계. "the question of who is responsible"</td></tr><tr><td><strong>complacency</strong></td><td>안일함 · 느린 자동화를 잘못 읽는 방식. "not a reason for complacency"</td></tr><tr><td><strong>barrier to entry</strong></td><td>진입 장벽 · 낮아질수록 고차 기술이 비싸진다. "lower barriers to building"</td></tr><tr><td><strong>high-order skill</strong></td><td>고차 기술(기초 위에서 여러 기술을 합쳐 쓰는 능력) · 면접 문장의 핵심. "the high-order skill is translating a human problem into software"</td></tr><tr><td><strong>mental model</strong></td><td>머릿속 모델(시스템이 어떻게 도는지에 대한 내 그림) · 버그를 찾는 전제. "nobody built the mental model"</td></tr><tr><td><strong>cohort</strong></td><td>코호트(같은 조건을 겪는 집단) · 실험 규모를 말할 때. "a measured effect on a large cohort"</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-goto-island-burger-shop-community-living-room.html">&larr; 1332. A remote-island burger shop — the product is the tool, the community is the point</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="piech-ai-multiplier-foundations-ten-minute-human";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

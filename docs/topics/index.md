@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 12:15 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 13:38 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 71/560
+Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 34 · done 71/561
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -566,3 +566,4 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 71/560
 | 1330 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Show up for yourself — truth, gut and follow-through are a production pipeline, not a mood](pocs-tang-show-up-truth-gut-follow-through.html) | 자신을 위해 나타나라 — 진실, 직감, 끝맺음은 기분이 아니라 하나의 생산 파이프라인이다 | `tang-show-up-truth-gut-follow-through` |  |
 | 1331 | Life | NEW | 2026-09-21 |  | Talk | gemini | file | [Discipline is not inherited — it is the order you give yourself with no one watching](pocs-jocko-discipline-comes-from-within.html) | 규율은 물려받는 게 아니다 — 아무도 보지 않을 때 스스로에게 내리는 명령이다 | `jocko-discipline-comes-from-within` | [raw](raw/2026-09-21-gemini-youtube.md) |
 | 1332 | Life | NEW | 2026-09-21 |  | Vlog | gemini | file | [A remote-island burger shop — the product is the tool, the community is the point](pocs-goto-island-burger-shop-community-living-room.html) | 외딴섬의 버거 가게 — 제품은 도구이고, 공동체가 목적이다 | `goto-island-burger-shop-community-living-room` | [raw](raw/2026-09-21-gemini-youtube.md) |
+| 1333 | Life | NEW | 2026-09-21 |  | Talk | chat | deep | [A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code](pocs-piech-ai-multiplier-foundations-ten-minute-human.html) | 10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크 | `piech-ai-multiplier-foundations-ten-minute-human` | [raw](raw/2026-09-21-piech-ai-multiplier-foundations-ten-minute-human.txt) |

@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-21 12:15 KST",
+"generated": "2026-09-21 13:38 KST",
 "counts": {
 "Tech": 279,
 "Theory": 189,
 "Invest": 21,
 "Eng": 38,
-"Life": 33
+"Life": 34
 },
 "done": 71,
-"all": 560,
+"all": 561,
 "items": [
 {
 "no": 1,
@@ -14244,6 +14244,49 @@
 "on purpose",
 "pass through (phrasal verb)",
 "retreat (n.)"
+]
+},
+{
+"no": 1333,
+"section": "Life",
+"key": "piech-ai-multiplier-foundations-ten-minute-human",
+"href": "pocs-piech-ai-multiplier-foundations-ten-minute-human.html",
+"status": "NEW",
+"position": 34,
+"title_en": "A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code",
+"type": "Talk",
+"date": "2026-09-21",
+"source": "chat",
+"bin": "deep",
+"raw": "raw/2026-09-21-piech-ai-multiplier-foundations-ten-minute-human.txt",
+"title_ko": "10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크",
+"related": [
+"1",
+"63",
+"109",
+"Life 1300",
+"Life 1301",
+"Life 1308"
+],
+"vocab": [
+"multiplier, not a crutch",
+"outsource the thinking",
+"section leader",
+"completion rate",
+"percentage points",
+"dropout",
+"spark curiosity",
+"decomposition",
+"syntax",
+"falsifiable",
+"grade on effort",
+"edge case",
+"responsibility",
+"complacency",
+"barrier to entry",
+"high-order skill",
+"mental model",
+"cohort"
 ]
 }
 ]
