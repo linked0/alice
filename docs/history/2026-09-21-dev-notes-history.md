@@ -179,6 +179,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** Eng group before `no-results`, Eng article before `<p class="src">`, Eng pill after the Life pill, nav/jump index +1; NEXT: Invest → Life → Eng; README section-order heading rewritten, old text kept below it as history.
 - **Result:** rail, pills, articles, `_nav.js` sections and jump all Tech · Theory · Invest · Life · Eng; numbers ascend 1 · 500 · 800 · 900 · 1000.
 
+### Eng #39 (1014): the NAVER word book as one Drama conversation
+
+- **Cause:** jay pasted a NAVER 영어단어장 export (미암기, 최신순, page 1 of 4: 20 cards, saved 2026-03-24 → 09-21) with "add this eng items". Each card carries a dictionary headword and a memo that analyses one drama-subtitle line (run yourself ragged, have the nerve to, live it up, think little of, Just because A doesn't mean B, judging by / someone's lot, rack your brain, smooth talker, knee-deep in its clutches, get taken away, second conditional, have someone do, deafening, fizzy, …); two memos are duplicated in the export.
+- **Reasoning:** the Eng format is a conversation, not a list, so the twenty cards became one item: a lunch retelling of the drama (postwar Ginza, Kazuko) in which Jay uses the saved lines verbatim, three techniques (say the saved sentence whole; answer in the shape the other person used; compress a plot to three turning points), and an expressions table that carries every headword and idiom from the paste with Korean glosses. Second Eng item today — jay asked for it; the one-per-day rule is a default, not a cap. `status: new` so it shows under Eng · New. The export is the raw file.
+- **Change:** `docs/topics/english/english-39.md` (Drama, added 2026-09-21, source + raw), `raw/2026-09-21-english-39.txt`; `english-notes.py` rebuilt 39 pages.
+- **Result:** Eng 1000 Yesterday done, 1001–1012 Important, **1013–1014 New** (#38 travel, #39 word book), 1015–1038 Planned; 54 expression rows; overall 71/562.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

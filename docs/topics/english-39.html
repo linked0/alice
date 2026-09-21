@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run yourself ragged, have the nerve to, live it up — the word book comes to lunch — Eng — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 71/562</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; Run yourself ragged, have the nerve to, live it up — the word book comes to lunch</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1014</span><span>Drama</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-39.txt">raw</a></span></p>
+      <h1>Run yourself ragged, have the nerve to, live it up — the word book comes to lunch</h1>
+      <p class="lead">Jay has been watching a Japanese period drama set in postwar Ginza and Shinbashi with English subtitles, saving a word and one subtitle line to the NAVER word book every few days. Over lunch a British colleague, Tom, asks what he watches, and Jay tries to tell the story of the drama&#39;s heroine, Kazuko, using the lines he saved instead of paraphrasing around them.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
+      <script type="application/json" id="copy-en">"# 39 · Drama — Run yourself ragged, have the nerve to, live it up — the word book comes to lunch\ntitle_ko: run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다\nsituation: Jay has been watching a Japanese period drama set in postwar Ginza and Shinbashi with English subtitles, saving a word and one subtitle line to the NAVER word book every few days. Over lunch a British colleague, Tom, asks what he watches, and Jay tries to tell the story of the drama's heroine, Kazuko, using the lines he saved instead of paraphrasing around them.\nsituation_ko: Jay는 전후 긴자와 신바시가 배경인 일본 시대극을 영어 자막으로 보면서, 며칠에 한 번 단어 하나와 자막 한 줄을 NAVER 단어장에 저장해 왔다. 점심에 영국인 동료 Tom이 뭘 보느냐고 묻자, Jay는 저장해 둔 문장들을 에둘러 바꾸지 않고 그대로 써서 드라마의 주인공 카즈코의 이야기를 해 보려 한다.\nwhy: A word book fills up faster than it empties. The only way an idiom leaves the list is to be said out loud in a sentence of your own, in front of someone who will react to it. A drama plot is the cheapest such sentence: it has stakes, characters and reversals, so **run yourself ragged**, **have the nerve to**, **live it up** and **Just because A doesn't mean B** all have somewhere to go. Retelling a story you care about is also the interview skill in disguise: compressing a long thing into lines a listener can follow.\nwhy_ko: 단어장은 비는 속도보다 차는 속도가 빠르다. 관용구가 목록에서 나가는 유일한 길은 반응해 줄 사람 앞에서 내 문장으로 소리 내어 말하는 것이다. 드라마 줄거리는 가장 값싼 그런 문장이다. 이해관계, 인물, 반전이 있어서 run yourself ragged, have the nerve to, live it up, Just because A doesn't mean B가 모두 갈 곳을 얻는다. 아끼는 이야기를 다시 들려주는 것은 변장한 면접 기술이기도 하다. 긴 것을 듣는 사람이 따라올 수 있는 문장들로 압축하는 일.\nstatus: new\nadded: 2026-09-21\nsource: jay's NAVER 영어단어장 (영어단어장 › 미암기, 최신순), 20 cards saved 2026-03-24 to 2026-09-21, pasted into chat on 2026-09-21. Each card is a dictionary headword (옥스퍼드 영한사전, 동아 프라임, NE능률, BBI) plus jay's 암기메모, which analyses one drama-subtitle line in the Original / Corrected / Korean Translation / Recommended / Natural Version format. The dialogue, techniques and the Korean glosses in the table are new; every headword and idiom in the table comes from the paste, two memos appear twice in it and are counted once.\nsource_ko: jay의 NAVER 영어단어장(미암기, 최신순) 카드 20장, 2026-03-24~2026-09-21 저장분, 2026-09-21 채팅에 붙여 넣음. 카드마다 사전 표제어(옥스퍼드 영한사전, 동아 프라임, NE능률, BBI)와 드라마 자막 한 줄을 Original / Corrected / Korean Translation / Recommended / Natural Version 형식으로 분석한 암기메모가 있다. 대화, 기법, 표의 한국어 풀이는 새로 썼고, 표의 표제어와 관용구는 전부 붙여 넣은 글에서 왔다. 메모 둘은 두 번 나오는데 한 번으로 셌다.\nraw: 2026-09-21-english-39.txt\n\n## Dialogue\nTom: You've had that drama face all week. What are you watching?\n> 일주일 내내 그 드라마 보는 표정이던데. 뭘 보고 있어?\nJay: A Japanese period piece. Postwar Ginza. The heroine, Kazuko, grows up hungry, so once she has anything she's never letting it go.\n> 일본 시대극이야. 전후 긴자. 주인공 카즈코는 굶으며 자라서, 뭔가를 손에 넣으면 절대 놓지 않아.\nTom: Judging by your face, she's not having an easy time of it.\n> 네 표정을 보아하니 그 사람 인생이 순탄하진 않은가 보네.\nJay: No. She starts out working in a lounge in Shinbashi, running herself ragged for someone else's business. One night the owner asks her, \"Are you going to run yourself ragged for someone else forever?\" and that's the line that turns her.\n> 응. 신바시의 라운지에서 남의 가게를 위해 몸이 축나도록 일하며 시작해. 어느 날 밤 주인이 \"언제까지 남을 위해 그렇게 뛰어다닐 거야?\"라고 묻는데, 그 한마디가 그 사람을 바꿔.\nTom: So she goes out on her own.\n> 그래서 독립하는구나.\nJay: She racks her brain trying to figure out what kind of business to start, and lands on a bar in Ginza. She'd saved over three million yen, and the men around her assume she must have been living it up. She hadn't. She'd been eating the same rice ball every night.\n> 무슨 사업을 할지 머리를 쥐어짜다가 긴자의 바로 정하지. 300만 엔 넘게 모아 뒀는데, 주변 남자들은 그 돈으로 호화롭게 살았겠거니 해. 아니었어. 매일 밤 같은 주먹밥만 먹었지.\nTom: This one's got pickled plum, I bet.\n> 그 주먹밥엔 우메보시가 들었겠지, 안 봐도 알겠다.\nJay: Every time. Then a regular, Nishioka, warns her that Ginza has demons, people who'll take it all away from her, and she says she'll protect everything so it doesn't get taken away. That's when she stops being laid-back about money.\n> 매번. 그러다 단골인 니시오카가 긴자에는 악마들이 있다고, 전부 빼앗아 가는 사람들이라고 경고하고, 그 사람은 아무것도 빼앗기지 않게 지키겠다고 말해. 그때부터 돈에 느긋하던 태도를 버려.\nTom: Is Nishioka a friend or one of the demons?\n> 니시오카는 친구야, 악마 중 하나야?\nJay: A smooth talker, so nobody can tell. He compliments her, she says \"You're such a smooth talker,\" and you can see her deciding not to trust him. Later a rival's people, Takiguchi's lot, start leaning on her, and a novelist friend tells her she thinks she's free. She answers, \"Just because I'm my own boss doesn't mean I'm free.\"\n> 말을 능글맞게 잘하는 사람이라 아무도 몰라. 칭찬을 하면 그 사람은 \"말씀 참 잘하시네요\"라고 받고, 믿지 않기로 하는 게 보여. 나중엔 경쟁자 쪽 사람들, 타키구치 패거리가 압박해 오고, 소설가 친구는 자유롭다고 생각하느냐고 물어. 그 사람 대답이 \"내 가게 사장이라고 해서 자유로운 건 아니야\"야.\nTom: That's a good line. And the rival, does she chicken out?\n> 좋은 대사네. 그 경쟁자 앞에서, 그 사람 꽁무니 빼?\nJay: The opposite. When a drunk grabs her and says, \"My hand barely grazed you, don't make a fuss,\" she has the nerve to throw him out of her own bar in front of Takiguchi. The narration says, \"And inside that stagnation, knee-deep in its clutches, was me,\" and then she isn't any more.\n> 반대야. 취객이 붙잡고 \"살짝 스쳤을 뿐인데 소란 피우지 마\"라고 하자, 타키구치 앞에서 자기 바에서 그 남자를 감히 내쫓아. 내레이션이 \"그 정체의 늪에 깊숙이 빠져 있던 건 바로 나였다\"라고 하고, 그다음부터는 더는 그렇지 않아.\nTom: If you could get out of a life like that, would you do it? That's what the show is asking, isn't it.\n> 그런 삶에서 벗어날 수 있다면 그렇게 하겠느냐. 그게 드라마가 묻는 거지.\nJay: That's exactly it. And it's the same question as the owner's at the start. I saved both lines the day I heard them.\n> 정확해. 그리고 처음 주인이 던진 질문과 같은 질문이야. 두 대사를 들은 날 둘 다 저장했어.\nTom: You realise you just told me the whole plot without saying \"like, you know\" once.\n> 너 방금 \"like, you know\" 한 번 없이 줄거리 전체를 말한 거 알아?\nJay: That's the point of the word book. If anything, the lines were easier to say than my own.\n> 단어장이 그래서 있는 거지. 오히려 그 대사들이 내 문장보다 말하기 쉬웠어.\n\n## Techniques\n1. **저장한 문장을 통째로 써서 이야기를 한다.** \"Are you going to run yourself ragged for someone else forever?\"를 인용문으로 넣으면 관용구를 설명할 필요가 없다. 줄거리가 문맥이 되고, 듣는 사람의 반응(\"That's a good line\")이 그 표현이 통했다는 확인이다. 단어장 항목은 이렇게 한 번 소리 내어 쓰인 뒤에야 미암기에서 나간다.\n2. **상대의 추측형 문장을 받아 되풀이한다.** Tom의 \"Judging by your face…\", \"This one's got pickled plum, I bet\", \"If you could…, would you…?\"는 각각 판단 근거, has-got 축약, 가정법 과거다. 같은 형태로 답하면(\"must have been living it up\", \"doesn't get taken away\") 문법을 외운 것이 아니라 대화의 리듬으로 쓴 것이 된다.\n3. **줄거리는 전환점 세 개로 압축한다.** 라운지에서의 질문 → 바를 여는 결정 → 취객을 내쫓는 장면. 등장인물이 아니라 전환점으로 자르면 15줄 안에 끝나고, 면접에서 프로젝트를 설명할 때 쓰는 것과 같은 압축이다.\n\n## Expressions\n| Expression | 뜻 · 쓰이는 자리 |\n|---|---|\n| run yourself ragged (for someone else) | 몸이 축날 정도로 뛰어다니다 — 특히 남을 위해서. \"Are you going to run yourself ragged for someone else?\" |\n| work yourself to the bone | 뼈 빠지게 일하다 — ragged보다 고된 노동의 이미지 |\n| have the nerve to do something | 감히·뻔뻔하게 ~하다 — 못마땅함이 들어간다; have the guts to(배짱)와 다르다 |\n| live it up | 돈 쓰며 호화롭게 즐기다. \"You must have been living it up\" |\n| must have been -ing | 과거에 한동안 ~했겠구나 — 과거 지속에 대한 강한 추측 |\n| think (so) little of someone | ~을 (그렇게까지) 낮게 보다; 반대는 think highly of |\n| Just because A doesn't mean B | A라고 해서 B인 건 아니다 — 통째로 외우는 구조 |\n| judging by / from … | ~으로 미루어 보아 |\n| get along with someone | ~와 잘 지내다 |\n| someone's lot | 그 사람의 패거리·일당 (영국식, 약간 못마땅한 뉘앙스) |\n| rack your brain(s) | 머리를 쥐어짜다. \"racked my brain trying to figure out what kind of business to start\" |\n| what kind of X to do | 의문사 + to부정사 — 어떤 X를 해야 할지 |\n| This one's got … | 's = has: 이건 ~이 들어 있다 (This one's good의 's = is와 구별) |\n| pickled plum | 우메보시(梅干し)의 자막식 번역 |\n| a smooth talker | 상대 마음을 사는 말을 능숙하게 하는 사람 — 칭찬일 수도, 경계일 수도 |\n| Goodness! / My goodness! | 어머! 세상에! (감탄사) |\n| barely grazed you | 살짝 스쳤을 뿐이다 — graze는 touch보다 훨씬 약한 접촉 |\n| make a fuss / make a big deal out of it | 소란을 피우다 / 일을 크게 만들다 |\n| knee-deep in its clutches | 그것에 깊이 빠져 손아귀에서 못 벗어난 — 두 비유를 겹친 문학적 표현 |\n| stagnation | 정체, 침체 (economic stagnation) |\n| … was me | 도치문의 마지막 주어 — 문학적 서술에서 was I 대신 자연스럽다 |\n| get taken away from me | 빼앗기다 — get + p.p.의 회화 수동태 (get fired, get caught) |\n| so that it doesn't … | ~하지 않도록 |\n| If you could …, would you …? | 가정법 과거 — 현실과 거리를 둔 가정; can/will은 현실 쪽 |\n| have someone do something | ~에게 ~을 해달라고 하다 (의뢰). \"I had a fortune teller do a reading for you\" |\n| do a reading | 점을 봐주다 (tarot / palm / psychic reading) |\n| compared to how deafening the city was | 도시가 얼마나 시끄러웠는지에 비하면; deafening = 귀가 먹먹할 정도의 |\n| at Mita's | Mita의 집·가게 — 's 뒤 명사 생략 (at the dentist's) |\n| a lounge (in Shinbashi) | 일본식 접객 유흥주점 — 호텔 라운지가 아니다 |\n| the business I started | 목적격 관계대명사 생략 — 덩어리로 읽는다 |\n| fizzy | 거품이 보글거리는, 발포성의 (fizzy drink, fizzy bath bomb) |\n| leave (right) on time | 칼퇴하다 — 정확히 대응하는 단어가 없어 이렇게 |\n| except, perhaps, for Kim, and on deadline day | 예외가 둘이면 병렬로 분리한다 — 쉼표만으로는 scope가 모호해진다 |\n| if anything | 어느 편인가 하면, 오히려 — 부정문 뒤에서 반대가 사실임을 나타낸다 |\n| You think I'm made of money? | 내가 돈 찍어 내는 기계야? |\n| chicken out (of something) | 겁먹고 꽁무니를 빼다 |\n| laid-back | 느긋한, 태평스러운 |\n| flashy | 호화로운, 화려하게 치장한, 현란한 — \"flashy nouveau riche style\" |\n| parlay something into something | ~을 (더 큰 것으로) 늘리다·키우다 |\n| knock-on (effect) | 연쇄적인 (효과) |\n| imbue (someone/something with) | (감정·가치를) 가득 채우다 |\n| enjoin | 명하다; (법령으로) 금하다 |\n| pettifogging | 좀스러운, 사소한 |\n| empath | 공감 능력이 매우 뛰어난 사람 |\n| unobservant | 부주의한; 규칙·관례를 지키지 않는 |\n| contingent | 대표단·분견대; (형) ~의 여부에 따라 |\n| servitude | 노예 상태 |\n| simulacrum | 복제품, 모조품 |\n| narcotic | 마약; 진정제; (형) 마약인 |\n| amygdala | 편도체 |\n| dialysis | 투석 |\n| gall bladder | 쓸개, 담낭 |\n| disband | 해산하다 — \"The Standard trust eventually had to disband in 1899\" |\n"</script>
+<h2>Why this conversation</h2>
+<p>A word book fills up faster than it empties. The only way an idiom leaves the list is to be said out loud in a sentence of your own, in front of someone who will react to it. A drama plot is the cheapest such sentence: it has stakes, characters and reversals, so <strong>run yourself ragged</strong>, <strong>have the nerve to</strong>, <strong>live it up</strong> and <strong>Just because A doesn&#39;t mean B</strong> all have somewhere to go. Retelling a story you care about is also the interview skill in disguise: compressing a long thing into lines a listener can follow.</p>
+<h2>Dialogue</h2>
+<p><strong>Tom:</strong> You&#39;ve had that drama face all week. What are you watching?</p>
+<p><strong>Jay:</strong> A Japanese period piece. Postwar Ginza. The heroine, Kazuko, grows up hungry, so once she has anything she&#39;s never letting it go.</p>
+<p><strong>Tom:</strong> Judging by your face, she&#39;s not having an easy time of it.</p>
+<p><strong>Jay:</strong> No. She starts out working in a lounge in Shinbashi, running herself ragged for someone else&#39;s business. One night the owner asks her, "Are you going to run yourself ragged for someone else forever?" and that&#39;s the line that turns her.</p>
+<p><strong>Tom:</strong> So she goes out on her own.</p>
+<p><strong>Jay:</strong> She racks her brain trying to figure out what kind of business to start, and lands on a bar in Ginza. She&#39;d saved over three million yen, and the men around her assume she must have been living it up. She hadn&#39;t. She&#39;d been eating the same rice ball every night.</p>
+<p><strong>Tom:</strong> This one&#39;s got pickled plum, I bet.</p>
+<p><strong>Jay:</strong> Every time. Then a regular, Nishioka, warns her that Ginza has demons, people who&#39;ll take it all away from her, and she says she&#39;ll protect everything so it doesn&#39;t get taken away. That&#39;s when she stops being laid-back about money.</p>
+<p><strong>Tom:</strong> Is Nishioka a friend or one of the demons?</p>
+<p><strong>Jay:</strong> A smooth talker, so nobody can tell. He compliments her, she says "You&#39;re such a smooth talker," and you can see her deciding not to trust him. Later a rival&#39;s people, Takiguchi&#39;s lot, start leaning on her, and a novelist friend tells her she thinks she&#39;s free. She answers, "Just because I&#39;m my own boss doesn&#39;t mean I&#39;m free."</p>
+<p><strong>Tom:</strong> That&#39;s a good line. And the rival, does she chicken out?</p>
+<p><strong>Jay:</strong> The opposite. When a drunk grabs her and says, "My hand barely grazed you, don&#39;t make a fuss," she has the nerve to throw him out of her own bar in front of Takiguchi. The narration says, "And inside that stagnation, knee-deep in its clutches, was me," and then she isn&#39;t any more.</p>
+<p><strong>Tom:</strong> If you could get out of a life like that, would you do it? That&#39;s what the show is asking, isn&#39;t it.</p>
+<p><strong>Jay:</strong> That&#39;s exactly it. And it&#39;s the same question as the owner&#39;s at the start. I saved both lines the day I heard them.</p>
+<p><strong>Tom:</strong> You realise you just told me the whole plot without saying "like, you know" once.</p>
+<p><strong>Jay:</strong> That&#39;s the point of the word book. If anything, the lines were easier to say than my own.</p>
+<h2>Key expressions</h2>
+<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>Expression</strong></td><td>뜻 · 쓰이는 자리</td></tr><tr><td><strong>---</strong></td><td>---</td></tr><tr><td><strong>run yourself ragged (for someone else)</strong></td><td>몸이 축날 정도로 뛰어다니다 — 특히 남을 위해서. "Are you going to run yourself ragged for someone else?"</td></tr><tr><td><strong>work yourself to the bone</strong></td><td>뼈 빠지게 일하다 — ragged보다 고된 노동의 이미지</td></tr><tr><td><strong>have the nerve to do something</strong></td><td>감히·뻔뻔하게 ~하다 — 못마땅함이 들어간다; have the guts to(배짱)와 다르다</td></tr><tr><td><strong>live it up</strong></td><td>돈 쓰며 호화롭게 즐기다. "You must have been living it up"</td></tr><tr><td><strong>must have been -ing</strong></td><td>과거에 한동안 ~했겠구나 — 과거 지속에 대한 강한 추측</td></tr><tr><td><strong>think (so) little of someone</strong></td><td>~을 (그렇게까지) 낮게 보다; 반대는 think highly of</td></tr><tr><td><strong>Just because A doesn&#39;t mean B</strong></td><td>A라고 해서 B인 건 아니다 — 통째로 외우는 구조</td></tr><tr><td><strong>judging by / from …</strong></td><td>~으로 미루어 보아</td></tr><tr><td><strong>get along with someone</strong></td><td>~와 잘 지내다</td></tr><tr><td><strong>someone&#39;s lot</strong></td><td>그 사람의 패거리·일당 (영국식, 약간 못마땅한 뉘앙스)</td></tr><tr><td><strong>rack your brain(s)</strong></td><td>머리를 쥐어짜다. "racked my brain trying to figure out what kind of business to start"</td></tr><tr><td><strong>what kind of X to do</strong></td><td>의문사 + to부정사 — 어떤 X를 해야 할지</td></tr><tr><td><strong>This one&#39;s got …</strong></td><td>&#39;s = has: 이건 ~이 들어 있다 (This one&#39;s good의 &#39;s = is와 구별)</td></tr><tr><td><strong>pickled plum</strong></td><td>우메보시(梅干し)의 자막식 번역</td></tr><tr><td><strong>a smooth talker</strong></td><td>상대 마음을 사는 말을 능숙하게 하는 사람 — 칭찬일 수도, 경계일 수도</td></tr><tr><td><strong>Goodness! / My goodness!</strong></td><td>어머! 세상에! (감탄사)</td></tr><tr><td><strong>barely grazed you</strong></td><td>살짝 스쳤을 뿐이다 — graze는 touch보다 훨씬 약한 접촉</td></tr><tr><td><strong>make a fuss / make a big deal out of it</strong></td><td>소란을 피우다 / 일을 크게 만들다</td></tr><tr><td><strong>knee-deep in its clutches</strong></td><td>그것에 깊이 빠져 손아귀에서 못 벗어난 — 두 비유를 겹친 문학적 표현</td></tr><tr><td><strong>stagnation</strong></td><td>정체, 침체 (economic stagnation)</td></tr><tr><td><strong>… was me</strong></td><td>도치문의 마지막 주어 — 문학적 서술에서 was I 대신 자연스럽다</td></tr><tr><td><strong>get taken away from me</strong></td><td>빼앗기다 — get + p.p.의 회화 수동태 (get fired, get caught)</td></tr><tr><td><strong>so that it doesn&#39;t …</strong></td><td>~하지 않도록</td></tr><tr><td><strong>If you could …, would you …?</strong></td><td>가정법 과거 — 현실과 거리를 둔 가정; can/will은 현실 쪽</td></tr><tr><td><strong>have someone do something</strong></td><td>~에게 ~을 해달라고 하다 (의뢰). "I had a fortune teller do a reading for you"</td></tr><tr><td><strong>do a reading</strong></td><td>점을 봐주다 (tarot / palm / psychic reading)</td></tr><tr><td><strong>compared to how deafening the city was</strong></td><td>도시가 얼마나 시끄러웠는지에 비하면; deafening = 귀가 먹먹할 정도의</td></tr><tr><td><strong>at Mita&#39;s</strong></td><td>Mita의 집·가게 — &#39;s 뒤 명사 생략 (at the dentist&#39;s)</td></tr><tr><td><strong>a lounge (in Shinbashi)</strong></td><td>일본식 접객 유흥주점 — 호텔 라운지가 아니다</td></tr><tr><td><strong>the business I started</strong></td><td>목적격 관계대명사 생략 — 덩어리로 읽는다</td></tr><tr><td><strong>fizzy</strong></td><td>거품이 보글거리는, 발포성의 (fizzy drink, fizzy bath bomb)</td></tr><tr><td><strong>leave (right) on time</strong></td><td>칼퇴하다 — 정확히 대응하는 단어가 없어 이렇게</td></tr><tr><td><strong>except, perhaps, for Kim, and on deadline day</strong></td><td>예외가 둘이면 병렬로 분리한다 — 쉼표만으로는 scope가 모호해진다</td></tr><tr><td><strong>if anything</strong></td><td>어느 편인가 하면, 오히려 — 부정문 뒤에서 반대가 사실임을 나타낸다</td></tr><tr><td><strong>You think I&#39;m made of money?</strong></td><td>내가 돈 찍어 내는 기계야?</td></tr><tr><td><strong>chicken out (of something)</strong></td><td>겁먹고 꽁무니를 빼다</td></tr><tr><td><strong>laid-back</strong></td><td>느긋한, 태평스러운</td></tr><tr><td><strong>flashy</strong></td><td>호화로운, 화려하게 치장한, 현란한 — "flashy nouveau riche style"</td></tr><tr><td><strong>parlay something into something</strong></td><td>~을 (더 큰 것으로) 늘리다·키우다</td></tr><tr><td><strong>knock-on (effect)</strong></td><td>연쇄적인 (효과)</td></tr><tr><td><strong>imbue (someone/something with)</strong></td><td>(감정·가치를) 가득 채우다</td></tr><tr><td><strong>enjoin</strong></td><td>명하다; (법령으로) 금하다</td></tr><tr><td><strong>pettifogging</strong></td><td>좀스러운, 사소한</td></tr><tr><td><strong>empath</strong></td><td>공감 능력이 매우 뛰어난 사람</td></tr><tr><td><strong>unobservant</strong></td><td>부주의한; 규칙·관례를 지키지 않는</td></tr><tr><td><strong>contingent</strong></td><td>대표단·분견대; (형) ~의 여부에 따라</td></tr><tr><td><strong>servitude</strong></td><td>노예 상태</td></tr><tr><td><strong>simulacrum</strong></td><td>복제품, 모조품</td></tr><tr><td><strong>narcotic</strong></td><td>마약; 진정제; (형) 마약인</td></tr><tr><td><strong>amygdala</strong></td><td>편도체</td></tr><tr><td><strong>dialysis</strong></td><td>투석</td></tr><tr><td><strong>gall bladder</strong></td><td>쓸개, 담낭</td></tr><tr><td><strong>disband</strong></td><td>해산하다 — "The Standard trust eventually had to disband in 1899"</td></tr></tbody></table>
+<h2>Source</h2>
+<p class="meta">jay&#39;s NAVER 영어단어장 (영어단어장 › 미암기, 최신순), 20 cards saved 2026-03-24 to 2026-09-21, pasted into chat on 2026-09-21. Each card is a dictionary headword (옥스퍼드 영한사전, 동아 프라임, NE능률, BBI) plus jay&#39;s 암기메모, which analyses one drama-subtitle line in the Original / Corrected / Korean Translation / Recommended / Natural Version format. The dialogue, techniques and the Korean glosses in the table are new; every headword and idiom in the table comes from the paste, two memos appear twice in it and are counted once. &middot; <a href="raw/2026-09-21-english-39.txt">raw</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다</h1>
+      <p class="lead">Jay는 전후 긴자와 신바시가 배경인 일본 시대극을 영어 자막으로 보면서, 며칠에 한 번 단어 하나와 자막 한 줄을 NAVER 단어장에 저장해 왔다. 점심에 영국인 동료 Tom이 뭘 보느냐고 묻자, Jay는 저장해 둔 문장들을 에둘러 바꾸지 않고 그대로 써서 드라마의 주인공 카즈코의 이야기를 해 보려 한다.</p>
+<h2>왜 이 대화인가</h2>
+<p>단어장은 비는 속도보다 차는 속도가 빠르다. 관용구가 목록에서 나가는 유일한 길은 반응해 줄 사람 앞에서 내 문장으로 소리 내어 말하는 것이다. 드라마 줄거리는 가장 값싼 그런 문장이다. 이해관계, 인물, 반전이 있어서 run yourself ragged, have the nerve to, live it up, Just because A doesn&#39;t mean B가 모두 갈 곳을 얻는다. 아끼는 이야기를 다시 들려주는 것은 변장한 면접 기술이기도 하다. 긴 것을 듣는 사람이 따라올 수 있는 문장들로 압축하는 일.</p>
+<h2>대화</h2>
+<p><strong>Tom:</strong> 일주일 내내 그 드라마 보는 표정이던데. 뭘 보고 있어?</p>
+<p><strong>Jay:</strong> 일본 시대극이야. 전후 긴자. 주인공 카즈코는 굶으며 자라서, 뭔가를 손에 넣으면 절대 놓지 않아.</p>
+<p><strong>Tom:</strong> 네 표정을 보아하니 그 사람 인생이 순탄하진 않은가 보네.</p>
+<p><strong>Jay:</strong> 응. 신바시의 라운지에서 남의 가게를 위해 몸이 축나도록 일하며 시작해. 어느 날 밤 주인이 "언제까지 남을 위해 그렇게 뛰어다닐 거야?"라고 묻는데, 그 한마디가 그 사람을 바꿔.</p>
+<p><strong>Tom:</strong> 그래서 독립하는구나.</p>
+<p><strong>Jay:</strong> 무슨 사업을 할지 머리를 쥐어짜다가 긴자의 바로 정하지. 300만 엔 넘게 모아 뒀는데, 주변 남자들은 그 돈으로 호화롭게 살았겠거니 해. 아니었어. 매일 밤 같은 주먹밥만 먹었지.</p>
+<p><strong>Tom:</strong> 그 주먹밥엔 우메보시가 들었겠지, 안 봐도 알겠다.</p>
+<p><strong>Jay:</strong> 매번. 그러다 단골인 니시오카가 긴자에는 악마들이 있다고, 전부 빼앗아 가는 사람들이라고 경고하고, 그 사람은 아무것도 빼앗기지 않게 지키겠다고 말해. 그때부터 돈에 느긋하던 태도를 버려.</p>
+<p><strong>Tom:</strong> 니시오카는 친구야, 악마 중 하나야?</p>
+<p><strong>Jay:</strong> 말을 능글맞게 잘하는 사람이라 아무도 몰라. 칭찬을 하면 그 사람은 "말씀 참 잘하시네요"라고 받고, 믿지 않기로 하는 게 보여. 나중엔 경쟁자 쪽 사람들, 타키구치 패거리가 압박해 오고, 소설가 친구는 자유롭다고 생각하느냐고 물어. 그 사람 대답이 "내 가게 사장이라고 해서 자유로운 건 아니야"야.</p>
+<p><strong>Tom:</strong> 좋은 대사네. 그 경쟁자 앞에서, 그 사람 꽁무니 빼?</p>
+<p><strong>Jay:</strong> 반대야. 취객이 붙잡고 "살짝 스쳤을 뿐인데 소란 피우지 마"라고 하자, 타키구치 앞에서 자기 바에서 그 남자를 감히 내쫓아. 내레이션이 "그 정체의 늪에 깊숙이 빠져 있던 건 바로 나였다"라고 하고, 그다음부터는 더는 그렇지 않아.</p>
+<p><strong>Tom:</strong> 그런 삶에서 벗어날 수 있다면 그렇게 하겠느냐. 그게 드라마가 묻는 거지.</p>
+<p><strong>Jay:</strong> 정확해. 그리고 처음 주인이 던진 질문과 같은 질문이야. 두 대사를 들은 날 둘 다 저장했어.</p>
+<p><strong>Tom:</strong> 너 방금 "like, you know" 한 번 없이 줄거리 전체를 말한 거 알아?</p>
+<p><strong>Jay:</strong> 단어장이 그래서 있는 거지. 오히려 그 대사들이 내 문장보다 말하기 쉬웠어.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong>저장한 문장을 통째로 써서 이야기를 한다.</strong> "Are you going to run yourself ragged for someone else forever?"를 인용문으로 넣으면 관용구를 설명할 필요가 없다. 줄거리가 문맥이 되고, 듣는 사람의 반응("That&#39;s a good line")이 그 표현이 통했다는 확인이다. 단어장 항목은 이렇게 한 번 소리 내어 쓰인 뒤에야 미암기에서 나간다.</li><li><strong>상대의 추측형 문장을 받아 되풀이한다.</strong> Tom의 "Judging by your face…", "This one&#39;s got pickled plum, I bet", "If you could…, would you…?"는 각각 판단 근거, has-got 축약, 가정법 과거다. 같은 형태로 답하면("must have been living it up", "doesn&#39;t get taken away") 문법을 외운 것이 아니라 대화의 리듬으로 쓴 것이 된다.</li><li><strong>줄거리는 전환점 세 개로 압축한다.</strong> 라운지에서의 질문 → 바를 여는 결정 → 취객을 내쫓는 장면. 등장인물이 아니라 전환점으로 자르면 15줄 안에 끝나고, 면접에서 프로젝트를 설명할 때 쓰는 것과 같은 압축이다.</li></ol>
+<h2>출처</h2>
+<p class="meta">jay의 NAVER 영어단어장(미암기, 최신순) 카드 20장, 2026-03-24~2026-09-21 저장분, 2026-09-21 채팅에 붙여 넣음. 카드마다 사전 표제어(옥스퍼드 영한사전, 동아 프라임, NE능률, BBI)와 드라마 자막 한 줄을 Original / Corrected / Korean Translation / Recommended / Natural Version 형식으로 분석한 암기메모가 있다. 대화, 기법, 표의 한국어 풀이는 새로 썼고, 표의 표제어와 관용구는 전부 붙여 넣은 글에서 왔다. 메모 둘은 두 번 나오는데 한 번으로 셌다. &middot; <a href="raw/2026-09-21-english-39.txt">raw</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="english-38.html">&larr; 1013. Connecting, transferring, or just stuck here?</a><a href="english-2.html">1015. Fail closed or fail open &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="english-39";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
