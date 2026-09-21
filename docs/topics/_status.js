@@ -77,6 +77,18 @@
   }
 
   // Reproduce a rebuild in the DOM: apply the queue, re-rank each section, renumber, repaint.
+  var last = null;                     // the totals we last asserted, for re-asserting after a repaint
+  function setBadge(done, all) {
+    if (!all) return;
+    last = { done: done, all: all };
+    if (typeof window.__RAIL_REPAINT__ === 'function') { try { window.__RAIL_REPAINT__(); } catch (e) {} }
+    var badge = document.querySelector('.rail-note[title="current"]');
+    if (badge) badge.textContent = 'All \u00b7 ' + Math.round(done * 100 / all) + '% \u00b7 ' + done + '/' + all;
+  }
+  // _progress.js repaints the badge when the all-sections toggle changes. Its listener is registered
+  // first, so ours runs after it and has the last word.
+  document.addEventListener('rail-all-change', function () { if (last) setBadge(last.done, last.all); });
+
   var touched = false;                 // has this page ever been repainted by the overlay?
   function apply() {
     if (!nav || !nav.sections) return { changed: 0, pendingCount: 0 };
@@ -158,13 +170,13 @@
       }
     });
 
-    // the rail-head badge: _progress.js owns its text shape ("All · 8% · 71/923") and repaints on
-    // click, so ask it to repaint from the nav.jump we just updated rather than writing over it.
-    if (typeof window.__RAIL_REPAINT__ === 'function') { try { window.__RAIL_REPAINT__(); } catch (e) {} }
-    else {
-      var badge = document.querySelector('.rail-note[title="current"]');
-      if (badge && totalAll) badge.textContent = 'All \u00b7 ' + Math.round(totalDone * 100 / totalAll) + '% \u00b7 ' + totalDone + '/' + totalAll;
-    }
+    // The rail-head badge. Two things write it and they are cached independently, so neither can be
+    // trusted alone: _progress.js owns the text shape and repaints on click, but a browser holding
+    // yesterday's copy of that file repaints from totals it captured at load and puts the old number
+    // straight back (jay, 2026-09-21: "the total count doesn't change"). So: ask it to repaint from
+    // the nav.jump we just updated, then assert the value ourselves regardless, and assert it again
+    // after any later repaint. With both files fresh the second write is a no-op.
+    setBadge(totalDone, totalAll);
 
     // and the number printed at the top of the item you are reading
     var cur = itemForThisPage();
