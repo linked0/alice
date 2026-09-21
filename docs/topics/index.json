@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-21 23:45 KST",
+"generated": "2026-09-22 08:08 KST",
 "counts": {
 "Tech": 281,
 "Theory": 189,
 "Invest": 21,
-"Eng": 398,
+"Eng": 399,
 "Life": 34
 },
 "done": 71,
-"all": 923,
+"all": 924,
 "items": [
 {
 "no": 1,
@@ -19084,10 +19084,23 @@
 {
 "no": 2375,
 "section": "Eng",
+"key": "english-399",
+"href": "english-399.html",
+"status": "NEW",
+"position": 375,
+"title_en": "A flapping node",
+"tag": "Interview",
+"type": "Interview",
+"date": "2026-09-22",
+"title_ko": "A flapping node — \"가장 어려웠던 디버깅\" 질문에 간헐적 장애를 영어로 설명하기"
+},
+{
+"no": 2376,
+"section": "Eng",
 "key": "english-2",
 "href": "english-2.html",
 "status": "PLANNED",
-"position": 375,
+"position": 376,
 "title_en": "Fail closed or fail open",
 "tag": "Design",
 "type": "Design",
@@ -19095,12 +19108,12 @@
 "title_ko": "막고 실패할까, 통과시키고 실패할까"
 },
 {
-"no": 2376,
+"no": 2377,
 "section": "Eng",
 "key": "english-3",
 "href": "english-3.html",
 "status": "PLANNED",
-"position": 376,
+"position": 377,
 "title_en": "Every transaction passed. The total was wrong.",
 "tag": "Incident",
 "type": "Incident",
@@ -19108,12 +19121,12 @@
 "title_ko": "모든 트랜잭션은 통과했다. 총량이 틀렸다."
 },
 {
-"no": 2377,
+"no": 2378,
 "section": "Eng",
 "key": "english-4",
 "href": "english-4.html",
 "status": "PLANNED",
-"position": 377,
+"position": 378,
 "title_en": "Does Quick Slots make finality faster?",
 "tag": "EIP",
 "type": "EIP",
@@ -19121,12 +19134,12 @@
 "title_ko": "Quick Slots가 최종성을 빠르게 하나?"
 },
 {
-"no": 2378,
+"no": 2379,
 "section": "Eng",
 "key": "english-5",
 "href": "english-5.html",
 "status": "PLANNED",
-"position": 378,
+"position": 379,
 "title_en": "Make it easy for them to say no",
 "tag": "BD",
 "type": "BD",
@@ -19134,12 +19147,12 @@
 "title_ko": "상대가 거절하기 쉽게 만들어라"
 },
 {
-"no": 2379,
+"no": 2380,
 "section": "Eng",
 "key": "english-6",
 "href": "english-6.html",
 "status": "PLANNED",
-"position": 379,
+"position": 380,
 "title_en": "Blocks are not seconds",
 "tag": "Review",
 "type": "Review",
@@ -19147,12 +19160,12 @@
 "title_ko": "블록은 초가 아니다"
 },
 {
-"no": 2380,
+"no": 2381,
 "section": "Eng",
 "key": "english-7",
 "href": "english-7.html",
 "status": "PLANNED",
-"position": 380,
+"position": 381,
 "title_en": "Why not just use 31337?",
 "tag": "Design",
 "type": "Design",
@@ -19160,12 +19173,12 @@
 "title_ko": "왜 그냥 31337을 쓰지 않나?"
 },
 {
-"no": 2381,
+"no": 2382,
 "section": "Eng",
 "key": "english-8",
 "href": "english-8.html",
 "status": "PLANNED",
-"position": 381,
+"position": 382,
 "title_en": "\"No answer\" is not \"broken\"",
 "tag": "Incident",
 "type": "Incident",
@@ -19173,12 +19186,12 @@
 "title_ko": "\"무응답\"은 \"고장\"이 아니다"
 },
 {
-"no": 2382,
+"no": 2383,
 "section": "Eng",
 "key": "english-9",
 "href": "english-9.html",
 "status": "PLANNED",
-"position": 382,
+"position": 383,
 "title_en": "7702 or 4337 for the wallet",
 "tag": "EIP",
 "type": "EIP",
@@ -19186,12 +19199,12 @@
 "title_ko": "지갑에 7702냐 4337이냐"
 },
 {
-"no": 2383,
+"no": 2384,
 "section": "Eng",
 "key": "english-10",
 "href": "english-10.html",
 "status": "PLANNED",
-"position": 383,
+"position": 384,
 "title_en": "There is no market price for JYVE",
 "tag": "BD",
 "type": "BD",
@@ -19199,12 +19212,12 @@
 "title_ko": "JYVE에는 시장 가격이 없다"
 },
 {
-"no": 2384,
+"no": 2385,
 "section": "Eng",
 "key": "english-11",
 "href": "english-11.html",
 "status": "PLANNED",
-"position": 384,
+"position": 385,
 "title_en": "The key leaked. What else does it open?",
 "tag": "Ops",
 "type": "Ops",
@@ -19212,12 +19225,12 @@
 "title_ko": "키가 유출됐다. 그 키가 또 무엇을 여나?"
 },
 {
-"no": 2385,
+"no": 2386,
 "section": "Eng",
 "key": "english-12",
 "href": "english-12.html",
 "status": "PLANNED",
-"position": 385,
+"position": 386,
 "title_en": "What's the number?",
 "tag": "Planning",
 "type": "Planning",
@@ -19225,12 +19238,12 @@
 "title_ko": "숫자가 뭔가?"
 },
 {
-"no": 2386,
+"no": 2387,
 "section": "Eng",
 "key": "english-13",
 "href": "english-13.html",
 "status": "PLANNED",
-"position": 386,
+"position": 387,
 "title_en": "The Dockerfile copies the whole repo",
 "tag": "Review",
 "type": "Review",
@@ -19238,12 +19251,12 @@
 "title_ko": "Dockerfile이 레포 전체를 복사한다"
 },
 {
-"no": 2387,
+"no": 2388,
 "section": "Eng",
 "key": "english-14",
 "href": "english-14.html",
 "status": "PLANNED",
-"position": 387,
+"position": 388,
 "title_en": "It looks like a stablecoin. It isn't one.",
 "tag": "Design",
 "type": "Design",
@@ -19251,12 +19264,12 @@
 "title_ko": "스테이블코인처럼 보인다. 아니다."
 },
 {
-"no": 2388,
+"no": 2389,
 "section": "Eng",
 "key": "english-15",
 "href": "english-15.html",
 "status": "PLANNED",
-"position": 388,
+"position": 389,
 "title_en": "The address was right yesterday",
 "tag": "Incident",
 "type": "Incident",
@@ -19264,12 +19277,12 @@
 "title_ko": "그 주소는 어제는 맞았다"
 },
 {
-"no": 2389,
+"no": 2390,
 "section": "Eng",
 "key": "english-16",
 "href": "english-16.html",
 "status": "PLANNED",
-"position": 389,
+"position": 390,
 "title_en": "The popup won't show on our chain",
 "tag": "EIP",
 "type": "EIP",
@@ -19277,12 +19290,12 @@
 "title_ko": "우리 체인에서는 팝업이 뜨지 않는다"
 },
 {
-"no": 2390,
+"no": 2391,
 "section": "Eng",
 "key": "english-17",
 "href": "english-17.html",
 "status": "PLANNED",
-"position": 390,
+"position": 391,
 "title_en": "Fast settlement is not fast payment",
 "tag": "BD",
 "type": "BD",
@@ -19290,12 +19303,12 @@
 "title_ko": "빠른 정산은 빠른 결제가 아니다"
 },
 {
-"no": 2391,
+"no": 2392,
 "section": "Eng",
 "key": "english-18",
 "href": "english-18.html",
 "status": "PLANNED",
-"position": 391,
+"position": 392,
 "title_en": "The PR is wrong and the person is fine",
 "tag": "1:1",
 "type": "1:1",
@@ -19303,12 +19316,12 @@
 "title_ko": "PR은 틀렸고 사람은 괜찮다"
 },
 {
-"no": 2392,
+"no": 2393,
 "section": "Eng",
 "key": "english-19",
 "href": "english-19.html",
 "status": "PLANNED",
-"position": 392,
+"position": 393,
 "title_en": "Who can reach that port?",
 "tag": "Ops",
 "type": "Ops",
@@ -19316,12 +19329,12 @@
 "title_ko": "그 포트에 누가 닿을 수 있나?"
 },
 {
-"no": 2393,
+"no": 2394,
 "section": "Eng",
 "key": "english-20",
 "href": "english-20.html",
 "status": "PLANNED",
-"position": 393,
+"position": 394,
 "title_en": "One fact, one home",
 "tag": "Design",
 "type": "Design",
@@ -19329,12 +19342,12 @@
 "title_ko": "사실 하나, 집 하나"
 },
 {
-"no": 2394,
+"no": 2395,
 "section": "Eng",
 "key": "english-26",
 "href": "english-26.html",
 "status": "PLANNED",
-"position": 394,
+"position": 395,
 "title_en": "Saying no to a date, with a counteroffer",
 "tag": "Stakeholders",
 "type": "Stakeholders",
@@ -19342,12 +19355,12 @@
 "title_ko": "날짜에 아니오라고 말하기, 대안과 함께"
 },
 {
-"no": 2395,
+"no": 2396,
 "section": "Eng",
 "key": "english-28",
 "href": "english-28.html",
 "status": "PLANNED",
-"position": 395,
+"position": 396,
 "title_en": "Telling a senior peer their design is wrong, in writing",
 "tag": "Feedback",
 "type": "Feedback",
@@ -19355,12 +19368,12 @@
 "title_ko": "시니어 동료의 설계가 틀렸다고 글로 말하기"
 },
 {
-"no": 2396,
+"no": 2397,
 "section": "Eng",
 "key": "english-29",
 "href": "english-29.html",
 "status": "PLANNED",
-"position": 396,
+"position": 397,
 "title_en": "Telling the CTO the dependency was ours to check",
 "tag": "Incident",
 "type": "Incident",
@@ -19368,12 +19381,12 @@
 "title_ko": "그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기"
 },
 {
-"no": 2397,
+"no": 2398,
 "section": "Eng",
 "key": "english-31",
 "href": "english-31.html",
 "status": "PLANNED",
-"position": 397,
+"position": 398,
 "title_en": "Your report wants to leave for a competitor",
 "tag": "One-on-one",
 "type": "One-on-one",
@@ -19381,12 +19394,12 @@
 "title_ko": "팀원이 경쟁사로 가려 한다"
 },
 {
-"no": 2398,
+"no": 2399,
 "section": "Eng",
 "key": "english-34",
 "href": "english-34.html",
 "status": "PLANNED",
-"position": 398,
+"position": 399,
 "title_en": "Which price are we settling on?",
 "tag": "Design",
 "type": "Design",

@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 23:45 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-22 08:08 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 281 · Theory 189 · Invest 21 · Eng 398 · Life 34 · done 71/923
+Counts: Tech 281 · Theory 189 · Invest 21 · Eng 399 · Life 34 · done 71/924
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -905,27 +905,28 @@ Counts: Tech 281 · Theory 189 · Invest 21 · Eng 398 · Life 34 · done 71/923
 | 2372 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Could you take one long shot photo so you get the background, and then zoom in on our faces for the second one?](english-395.html) | Could you take one long shot photo so you get the background, and then zoom in on our faces for the second one? — 한 장은 배경이 나오게 멀리서, 두 번째는 얼굴에 줌인해서 찍어 주시겠어요? | `english-395` | [raw](raw/2026-09-21-english-183.txt) |
 | 2373 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [connive in cheating somebody](english-396.html) | connive in cheating somebody — ~를 속이는 데 공모하다 | `english-396` | [raw](raw/2026-09-21-english-183.txt) |
 | 2374 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [poach](english-397.html) | poach — (사람·고객·아이디어를) 가로채다, 빼가다 | `english-397` | [raw](raw/2026-09-21-english-183.txt) |
-| 2375 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
-| 2376 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
-| 2377 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
-| 2378 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
-| 2379 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
-| 2380 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
-| 2381 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
-| 2382 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
-| 2383 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
-| 2384 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
-| 2385 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
-| 2386 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
-| 2387 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
-| 2388 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
-| 2389 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
-| 2390 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
-| 2391 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
-| 2392 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
-| 2393 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
-| 2394 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
-| 2395 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
-| 2396 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
-| 2397 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
-| 2398 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
+| 2375 | Eng · Interview | NEW | 2026-09-22 |  | Interview |  |  | [A flapping node](english-399.html) | A flapping node — "가장 어려웠던 디버깅" 질문에 간헐적 장애를 영어로 설명하기 | `english-399` |  |
+| 2376 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
+| 2377 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
+| 2378 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
+| 2379 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
+| 2380 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
+| 2381 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
+| 2382 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
+| 2383 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
+| 2384 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
+| 2385 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
+| 2386 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
+| 2387 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
+| 2388 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
+| 2389 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
+| 2390 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
+| 2391 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
+| 2392 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
+| 2393 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
+| 2394 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
+| 2395 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
+| 2396 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
+| 2397 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
+| 2398 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
+| 2399 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
