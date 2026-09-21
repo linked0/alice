@@ -33,6 +33,11 @@
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+  /* …but not across this page. It is ~762,000px tall, so a jump to the Eng section is 532 screenfuls
+     and smooth-scrolling it streams the whole catalogue past the eye (jay, 2026-09-21: "there's some
+     blinking going to the Eng list from the Eng card"). Measured: zero layout shift, so the flicker
+     was never a reflow — it was the animation. The script below keeps smooth for short hops and
+     switches to an instant jump for long ones, including the anchor the browser follows on load. */
   /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
      17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
   body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
@@ -1357,6 +1362,35 @@
     </nav>
     <div class="rail-foot"><a href="topics/health-1.html">&#9829; Health</a> &middot; <a href="index.html">Index</a> &middot; <a href="https://www.jaylabs.xyz/poc">Live PoCs</a></div>
   </aside>
+  <script>
+  // Long in-page jumps are instant; short ones keep the CSS smooth scroll (jay, 2026-09-21).
+  (function () {
+    var root = document.documentElement;
+    var FAR = 3;                                   // screens; beyond this an animation is just a blur
+    var instant = function (fn) {
+      var prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      try { fn(); } finally { setTimeout(function () { root.style.scrollBehavior = prev; }, 0); }
+    };
+    // 1. the anchor the browser follows on load — it runs before our listeners, so pre-empt it
+    if (location.hash) {
+      root.style.scrollBehavior = 'auto';
+      addEventListener('load', function () { setTimeout(function () { root.style.scrollBehavior = ''; }, 0); });
+    }
+    // 2. clicks on in-page anchors, measured before the browser starts animating
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute('href').slice(1);
+      var el = id && (document.getElementById(id) || document.getElementsByName(id)[0]);
+      if (!el) return;
+      if (Math.abs(el.getBoundingClientRect().top) > innerHeight * FAR) {
+        e.preventDefault();
+        instant(function () { el.scrollIntoView(); history.replaceState(null, '', '#' + id); });
+      }
+    }, true);
+  })();
+  </script>
   <script>
   // 진입은 상세 페이지로 (jay, 2026-09-18: "entering the notes goes to the detail page directly").
   // 목록은 왼쪽 레일이 이미 보여 주므로, 해시 없이 이 페이지를 열면 레일 순서상 첫 NEW/IMPORTANT
