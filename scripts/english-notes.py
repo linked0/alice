@@ -203,3 +203,5 @@ subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "r
 # rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")
 import subprocess, sys
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)
+# order by status last (NEW expires after a week there; jay, 2026-09-21)
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "reorder-by-status.py")], check=True)

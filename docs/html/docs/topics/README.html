@@ -274,6 +274,21 @@ jay: &quot;separate english and korean parts as others so that I don&#39;t read 
 under an English line any more. <code>scripts/english-notes.py</code> renders it from <code>docs/topics/english/english-N.md</code>; the
 source format is unchanged (<code>&gt; 한국어</code> under each line).</li>
 </ul>
+<h2 id="new-lasts-one-week-jay-2026-09-21-make-the-new-have-the-limit-which-is-only-one-week--because-its-too-long-for-each-category">NEW lasts one week (jay, 2026-09-21: &quot;Make the New have the limit which is only one week … because it&#39;s too long for each category&quot;)</h2>
+<ul>
+<li>An item is <strong>NEW</strong> for seven days from its added date, then rolls to <strong>PLANNED</strong> (grey) — the same idea as TODAY / YESTERDAY
+DONE rolling to DONE, applied at the front of the queue so the New button per category stays a week long.</li>
+<li><strong>Where:</strong> <code>reorder-by-status.py</code> does it before ranking (KST calendar days, <code>(today − added) ≥ 7</code>), then calls
+<code>roll-done-states.py</code> for the dots, counts, badge and card chips. <code>add-tech-item.py</code> and <code>english-notes.py</code> now end
+with <code>reorder-by-status.py</code>, so every run leaves the site sorted and expired. Idempotent.</li>
+<li><strong>The date it uses:</strong> <code>added</code> on the <code>_nav.js</code> item — written by <code>add-tech-item.py</code> (same value as the kicker&#39;s added
+date) and backfilled on 2026-09-21 for every existing item from its kicker, else from the page&#39;s git creation date.</li>
+<li><strong>Scope:</strong> every section except English (its statuses come from the <code>.md</code> files) and LOCKED Health cards. Life is
+included: its items are dated 09-16 or later today, so they will start expiring from 2026-09-23. Important, done and
+REVISIT items never expire; only NEW does.</li>
+<li><strong>To keep something NEW longer:</strong> mark it Important, or re-run it with a newer <code>--date</code>. Nothing is deleted — a rolled
+item sits at the top of PLANNED, directly under the NEW run.</li>
+</ul>
 <h2 id="order-by-status-at-most-10-important-per-section-jay-2026-09-18">Order by status; at most 10 Important per section (jay, 2026-09-18)</h2>
 <ul>
 <li>In Tech and Theory the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;

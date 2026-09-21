@@ -123,6 +123,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** the `data-tier-mode="done"` button line removed from `notes.html`, the template `rtd-shell.mjs` and the 411 detail pages that had the row (413 files, string removal; the `isDone` filter branch stays as dead code). Row 2 reads **Revisit · Yesterday · Today**. README updated in the REVISIT and done-state sections.
 - **Result:** no count changes; the Yesterday button keeps its smaller size from this morning.
 
+### NEW lasts one week — the New button was too long per category
+
+- **Cause:** jay: "Make the New have the limit which is only one week … because it's too long for each category." Tech had 61 NEW items, back to 2026-09-16.
+- **Reasoning:** the same mechanism as the done states: let the state expire instead of filtering the button, so the dot, the counts, the card and the button agree. Seven KST calendar days from the added date. Put in `reorder-by-status.py` because it is a rank change, and made that script the last step of `add-tech-item.py` and `english-notes.py` so numbering is final after any run; it calls `roll-done-states.py` afterwards for the dots (roll never calls back, so no loop). The date needed to exist on the nav item: `added` is now written by the add script and was backfilled for all 560 items (106 from kickers, 454 from git creation dates).
+- **Change:** `_nav.js` items carry `added`; `reorder-by-status.py` expires NEW → PLANNED (`#64748b`) before ranking and reports the keys; `add-tech-item.py` / `english-notes.py` end with reorder; README section "NEW lasts one week". English excluded (statuses come from the `.md`), LOCKED excluded.
+- **Result:** 20 items rolled on the first run (Tech 61 → 45 NEW, 16 of them; Theory and Invest the rest), 69 renumbered, all now at the top of PLANNED under the NEW run. Life's 24 NEW items are all dated 09-16 or later and start expiring on 09-23. Second run: 0.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

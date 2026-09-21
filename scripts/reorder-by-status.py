@@ -19,6 +19,18 @@ NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav
 n = ROOT / "topics" / "_nav.js"
 nav = json.loads(re.match(r'window\.__NAV__=(.*);\s*$', n.read_text(), re.S).group(1))
 s = (ROOT / "notes.html").read_text()
+# NEW lasts one week (jay, 2026-09-21: "Make the New have the limit which is only one week"): an item whose `added` date
+# is seven or more days old (KST calendar days) rolls to PLANNED before ranking. Every section except English (its
+# statuses come from the .md files) and LOCKED Health cards. Items without `added` are left alone.
+import datetime
+TODAY = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+NEW_DAYS = 7
+expired = []
+for sec in nav["sections"]:
+    if sec["navId"] == "nav-sec-english": continue
+    for x in sec["items"]:
+        if x["label"] == "NEW" and x.get("added") and (TODAY - datetime.date.fromisoformat(x["added"])).days >= NEW_DAYS:
+            x["label"], x["color"] = "PLANNED", "#64748b"; expired.append(x["key"])
 moved_total = 0
 for navid, artid in SECTIONS.items():
     sec = next(x for x in nav["sections"] if x["navId"] == navid)
@@ -68,7 +80,9 @@ for navid, artid in SECTIONS.items():
     print(f"{navid}: {moved} items changed number; order now " + "".join({-1: "R", 0: "D", 1: "I", 2: "N", 3: "P"}[RANK[x["label"]]] for x in items))
 (ROOT / "notes.html").write_text(s)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
-print(f"reorder-by-status: {moved_total} renumbered")
+print(f"reorder-by-status: {moved_total} renumbered; NEW → PLANNED after {NEW_DAYS} days: {len(expired)}" + (" (" + ", ".join(expired[:8]) + ("…" if len(expired) > 8 else "") + ")" if expired else ""))
+if expired:   # dots, counts, badge, card chips follow _nav.js (roll never calls back here, so no loop)
+    subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)
 # rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")
 import subprocess, sys
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)

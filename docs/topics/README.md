@@ -236,6 +236,21 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
   under an English line any more. `scripts/english-notes.py` renders it from `docs/topics/english/english-N.md`; the
   source format is unchanged (`> 한국어` under each line).
 
+## NEW lasts one week (jay, 2026-09-21: "Make the New have the limit which is only one week … because it's too long for each category")
+
+- An item is **NEW** for seven days from its added date, then rolls to **PLANNED** (grey) — the same idea as TODAY / YESTERDAY
+  DONE rolling to DONE, applied at the front of the queue so the New button per category stays a week long.
+- **Where:** `reorder-by-status.py` does it before ranking (KST calendar days, `(today − added) ≥ 7`), then calls
+  `roll-done-states.py` for the dots, counts, badge and card chips. `add-tech-item.py` and `english-notes.py` now end
+  with `reorder-by-status.py`, so every run leaves the site sorted and expired. Idempotent.
+- **The date it uses:** `added` on the `_nav.js` item — written by `add-tech-item.py` (same value as the kicker's added
+  date) and backfilled on 2026-09-21 for every existing item from its kicker, else from the page's git creation date.
+- **Scope:** every section except English (its statuses come from the `.md` files) and LOCKED Health cards. Life is
+  included: its items are dated 09-16 or later today, so they will start expiring from 2026-09-23. Important, done and
+  REVISIT items never expire; only NEW does.
+- **To keep something NEW longer:** mark it Important, or re-run it with a newer `--date`. Nothing is deleted — a rolled
+  item sits at the top of PLANNED, directly under the NEW run.
+
 ## Order by status; at most 10 Important per section (jay, 2026-09-18)
 
 - In Tech and Theory the numbers follow the status: **done (Done / Yesterday done / Today done) < Important <

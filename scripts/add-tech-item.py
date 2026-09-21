@@ -125,7 +125,7 @@ if existing:
     slot = position(SEC["nav"], int(re.search(r'topic-no">(\d+)<', existing["text"]).group(1))); items[:] = [x for x in items if x["key"] != KEY]
 else:
     assert A.slot, "--slot is required for a new item"; slot = A.slot
-new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE)}
+new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE), "added": DATE}   # `added` drives the one-week NEW limit in reorder-by-status.py (jay, 2026-09-21)
 if LABEL == "TODAY DONE": new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")
 elif existing and existing.get("done") and LABEL in ("DONE", "REVISIT"): new_item["done"] = existing["done"]
 if LABEL == "REVISIT" and not new_item.get("done"): new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")   # REVISIT is done: stamp the day
@@ -273,3 +273,5 @@ if A.bin == "converse" and A.sentence:
     if f"]({HREF})" not in bank.read_text(): bank.write_text(bank.read_text().rstrip("\n") + "\n" + row)
 # machine-readable index (docs/topics/index.json, index.md): "have I already learned this" is a search, not a memory
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)
+# order by status last, so a NEW item older than a week has already rolled to PLANNED and every number is final (jay, 2026-09-21: "Make the New have the limit which is only one week")
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "reorder-by-status.py")], check=True)
