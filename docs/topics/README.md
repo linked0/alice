@@ -166,7 +166,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   `add-tech-item.py` writes it for a new `recent` / `revisit` page; `roll-done-states.py` adds, updates or removes it on
   every page from the `_nav.js` stamp, so it never drifts. Items done before stamps existed (pre-2026-09-18) have no
   stamp and therefore no date. `index.md` has a Done column.
-- Rail buttons in two rows — **Important · New · All** / **Done · Yesterday · Today** (a `.tier-break` span forces the
+- Rail buttons in two rows — **Important · New · All** / **Revisit · Yesterday · Today** (Done button removed 2026-09-21) (a `.tier-break` span forces the
   break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
   Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
   2026-09-18: "make the important button only shows important"; the 2026-09-08/09 rule that Important also showed new
@@ -183,7 +183,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   DONE rule leaves REVISIT alone.
 - **Sorts before Done.** `reorder-by-status.py` ranks it −1, so in Tech, Theory and Invest the order is **REVISIT <
   done < IMPORTANT < NEW < PLANNED**. Marking an item REVISIT therefore moves it to the top of its section.
-- **Rail button:** row 2 is now **Revisit · Done · Yesterday · Today**, the Revisit button first — on the list page, on
+- **Rail button:** row 2 is now **Revisit · Yesterday · Today** (the Done button was removed on 2026-09-21, jay: "I don't think I need the Done button"; plain DONE items are reached through All), the Revisit button first — on the list page, on
   every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
   template `scripts/rtd-shell.mjs`. It shows REVISIT only.
 - **How to mark one:** `add-tech-item.py --key <k> --status revisit …` (re-run in place), or `status: revisit` in an

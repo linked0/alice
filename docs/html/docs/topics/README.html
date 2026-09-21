@@ -205,7 +205,7 @@ at the right of the card head on <code>notes.html</code> (jay, 2026-09-21: &quot
 <code>add-tech-item.py</code> writes it for a new <code>recent</code> / <code>revisit</code> page; <code>roll-done-states.py</code> adds, updates or removes it on
 every page from the <code>_nav.js</code> stamp, so it never drifts. Items done before stamps existed (pre-2026-09-18) have no
 stamp and therefore no date. <code>index.md</code> has a Done column.</li>
-<li>Rail buttons in two rows — <strong>Important · New · All</strong> / <strong>Done · Yesterday · Today</strong> (a <code>.tier-break</code> span forces the
+<li>Rail buttons in two rows — <strong>Important · New · All</strong> / <strong>Revisit · Yesterday · Today</strong> (Done button removed 2026-09-21) (a <code>.tier-break</code> span forces the
 break; list page, every detail page, template <code>rtd-shell.mjs</code>): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: &quot;Add done button also&quot; … &quot;Done before
 Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, <strong>Important = IMPORTANT only</strong> (jay,
 2026-09-18: &quot;make the important button only shows important&quot;; the 2026-09-08/09 rule that Important also showed new
@@ -222,7 +222,7 @@ First two, marked the same day: Tech #1 learning greed (bin <code>deep</code>) a
 DONE rule leaves REVISIT alone.</li>
 <li><strong>Sorts before Done.</strong> <code>reorder-by-status.py</code> ranks it −1, so in Tech, Theory and Invest the order is <strong>REVISIT &lt;
 done &lt; IMPORTANT &lt; NEW &lt; PLANNED</strong>. Marking an item REVISIT therefore moves it to the top of its section.</li>
-<li><strong>Rail button:</strong> row 2 is now <strong>Revisit · Done · Yesterday · Today</strong>, the Revisit button first — on the list page, on
+<li><strong>Rail button:</strong> row 2 is now <strong>Revisit · Yesterday · Today</strong> (the Done button was removed on 2026-09-21, jay: &quot;I don&#39;t think I need the Done button&quot;; plain DONE items are reached through All), the Revisit button first — on the list page, on
 every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
 template <code>scripts/rtd-shell.mjs</code>. It shows REVISIT only.</li>
 <li><strong>How to mark one:</strong> <code>add-tech-item.py --key &lt;k&gt; --status revisit …</code> (re-run in place), or <code>status: revisit</code> in an

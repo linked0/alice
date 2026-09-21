@@ -116,6 +116,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** new section "Why a bank needs Kinexys at all — jay's question, 2026-09-21" before the landing section, Korean parallel; three vocab rows (one entry on one balance sheet, a claim on the bank that holds it, network effect). `--status recent` → TODAY DONE, stamped now; the SWIFT row (5) is unchanged — the reworded version was offered in chat and not taken up.
 - **Result:** Tech 64/279, overall 71/559; #64 moves into the TODAY DONE run under the two REVISIT items and above the 09-18 six; kicker and card carry `done 2026-09-21`; 30 vocab rows.
 
+### Rail: the Done button is gone
+
+- **Cause:** jay: "I don't think I need the Done button."
+- **Reasoning:** with Revisit, Yesterday and Today each showing one fresh state, "finished before yesterday" is the long tail that All already shows in order; a button for it only took space on row 2. The DONE state, its green dot and its counting are untouched — only the button.
+- **Change:** the `data-tier-mode="done"` button line removed from `notes.html`, the template `rtd-shell.mjs` and the 411 detail pages that had the row (413 files, string removal; the `isDone` filter branch stays as dead code). Row 2 reads **Revisit · Yesterday · Today**. README updated in the REVISIT and done-state sections.
+- **Result:** no count changes; the Yesterday button keeps its smaller size from this morning.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.
