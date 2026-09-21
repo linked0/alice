@@ -130,6 +130,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `_nav.js` items carry `added`; `reorder-by-status.py` expires NEW → PLANNED (`#64748b`) before ranking and reports the keys; `add-tech-item.py` / `english-notes.py` end with reorder; README section "NEW lasts one week". English excluded (statuses come from the `.md`), LOCKED excluded.
 - **Result:** 20 items rolled on the first run (Tech 61 → 45 NEW, 16 of them; Theory and Invest the rest), 69 renumbered, all now at the top of PLANNED under the NEW run. Life's 24 NEW items are all dated 09-16 or later and start expiring on 09-23. Second run: 0.
 
+### Eng pages show their added date
+
+- **Cause:** jay, on Eng #38 "Connecting, transferring, or just stuck here?": "It is missing the date when the item is added." No English page had one — the Tech kicker got its date on 09-16, the English builder never did.
+- **Reasoning:** same source as everywhere else: an optional `added:` header in the `.md`, else the day the file entered git (the backfill rule used for the nav this morning), so no file needed editing. The value goes to the kicker and to the `_nav.js` item, which the index and the one-week NEW rule read.
+- **Change:** `english-notes.py` resolves `added` per item and renders `<span title="added">` after the tag; nav items carry `added`; `docs/topics/english/README.md` lists the optional header. All 38 Eng pages rebuilt.
+- **Result:** #38 reads `#1037 · Travel · 2026-09-21 · raw`; the 38 pages date from 09-16 (the first batch) to 09-21.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

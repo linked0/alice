@@ -23,7 +23,7 @@ Every time a Knowledge Notes item is added, one conversation is added here too; 
 the item. From #21 on, conversations target landing a developer / team-lead job abroad —
 interviews, negotiation, leading a team in English — critical and concrete.
 """
-import re, json, html, pathlib, glob, sys
+import re, json, html, pathlib, glob, sys, subprocess
 from notes_numbering import display
 shown = lambda x: display("nav-sec-english", x["n"])   # English numbers start at 1000 (jay, 2026-09-18); files stay english-N.md
 
@@ -62,6 +62,11 @@ def parse(path):
             cells = [c.strip() for c in l.strip().strip("|").split("|")]
             if len(cells) >= 2: it["expressions"].append(cells[:2])
     for k in ("title_ko", "situation", "situation_ko", "why", "why_ko"): assert k in it, (path, k)
+    # added date (jay, 2026-09-21: "It is missing the date when the item is added"): the optional `added:` header,
+    # else the day the .md file entered git — shown in the kicker and written to _nav.js (index, one-week NEW rule).
+    if not re.match(r"\d{4}-\d{2}-\d{2}$", it.get("added", "")):
+        out = subprocess.run(["git", "log", "--diff-filter=A", "--format=%ad", "--date=format:%Y-%m-%d", "--", str(path)], capture_output=True, text=True, cwd=str(path.parent)).stdout.split()
+        it["added"] = out[-1] if out else __import__("datetime").datetime.now(__import__("datetime").timezone(__import__("datetime").timedelta(hours=9))).strftime("%Y-%m-%d")
     return it
 
 items = sorted((parse(pathlib.Path(p)) for p in glob.glob(str(SRC / "english-*.md"))), key=lambda x: x["n"])
@@ -98,7 +103,7 @@ for idx, it in enumerate(items):
     page_tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', tail)
     mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">{LABEL}</a> &rsaquo; {E(it["title"])}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span>{raw_span}</p>
+      <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span><span title="added">{it["added"]}</span>{raw_span}</p>
       <h1>{E(it["title"])}</h1>
       <p class="lead">{E(it["situation"])}</p>
       {SWITCH(None)}
@@ -185,7 +190,7 @@ nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID]; na
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
                "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
-               **({"done": x["done"]} if x.get("done") else {})} for x in items]})
+               "added": x["added"], **({"done": x["done"]} if x.get("done") else {})} for x in items]})
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 
 # ---------------- static overall badge on every topic page ----------------

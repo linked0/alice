@@ -38,6 +38,7 @@ why_ko: 한국어
 status: planned
 source: 저자, "제목", 매체, 날짜 — 무엇을 가져왔고 무엇을 새로 썼는지 (선택)
 source_ko: 같은 내용, 한국어 (선택)
+added: YYYY-MM-DD — 추가한 날 (선택; 없으면 이 .md 파일이 git에 들어간 날을 쓴다. 키커와 _nav.js에 표시, 2026-09-21)
 raw: YYYY-MM-DD-english-N.txt (선택; docs/topics/raw/ 안의 원본 사본)
 
 ## Dialogue

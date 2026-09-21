@@ -1,6 +1,6 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 12:07 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 12:10 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
 Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 71/560
 
@@ -495,44 +495,44 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 71/560
 | 818 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Investing for Programmers — understanding markets through data and code](pocs-investing-for-programmers-book.html) | Investing for Programmers — 데이터와 코드로 시장 이해하기 | `investing-for-programmers-book` |  |
 | 819 | Invest · Economics | PLANNED |  |  | PoC |  |  | [ETH ETF outflows — read which window, not the size](pocs-which-etf-window-not-the-size.html) | ETH ETF 유출 — 규모가 아니라 어느 창구인지 읽어라 | `which-etf-window-not-the-size` |  |
 | 820 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Reading a PPI print — services is the bridge to core, not the headline](pocs-services-ppi-is-the-bridge-to-core.html) | PPI를 읽는 법 — 코어로 이어지는 다리는 헤드라인이 아니라 서비스 | `services-ppi-is-the-bridge-to-core` |  |
-| 1000 | Eng · Review | YESTERDAY DONE |  | 2026-09-18 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
-| 1001 | Eng · Design | PLANNED |  |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
-| 1002 | Eng · Incident | PLANNED |  |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
-| 1003 | Eng · EIP | PLANNED |  |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
-| 1004 | Eng · BD | PLANNED |  |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
-| 1005 | Eng · Review | PLANNED |  |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
-| 1006 | Eng · Design | PLANNED |  |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
-| 1007 | Eng · Incident | PLANNED |  |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
-| 1008 | Eng · EIP | PLANNED |  |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
-| 1009 | Eng · BD | PLANNED |  |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
-| 1010 | Eng · Ops | PLANNED |  |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
-| 1011 | Eng · Planning | PLANNED |  |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
-| 1012 | Eng · Review | PLANNED |  |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
-| 1013 | Eng · Design | PLANNED |  |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
-| 1014 | Eng · Incident | PLANNED |  |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
-| 1015 | Eng · EIP | PLANNED |  |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
-| 1016 | Eng · BD | PLANNED |  |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
-| 1017 | Eng · 1:1 | PLANNED |  |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
-| 1018 | Eng · Ops | PLANNED |  |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
-| 1019 | Eng · Design | PLANNED |  |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
-| 1020 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
-| 1021 | Eng · Negotiation | IMPORTANT |  |  | Negotiation |  |  | [The number that gets to yes](english-22.html) | 예스가 되는 숫자 | `english-22` |  |
-| 1022 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Tell me about a time you disagreed with your manager](english-23.html) | 매니저와 의견이 갈렸던 때를 말해 보세요 | `english-23` |  |
-| 1023 | Eng · First weeks | IMPORTANT |  |  | First weeks |  |  | [The senior who has been here nine years](english-24.html) | 9년 있었던 시니어 | `english-24` |  |
-| 1024 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [The reviewer found a bug in your take-home](english-25.html) | 리뷰어가 과제에서 버그를 찾았다 | `english-25` |  |
-| 1025 | Eng · Stakeholders | PLANNED |  |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
-| 1026 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Why do you want to leave Korea?](english-27.html) | 왜 한국을 떠나려 하나요? | `english-27` |  |
-| 1027 | Eng · Feedback | PLANNED |  |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
-| 1028 | Eng · Incident | PLANNED |  |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
-| 1029 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Explain your architecture to someone who won't read the diagram](english-30.html) | 다이어그램을 읽지 않을 사람에게 아키텍처 설명하기 | `english-30` |  |
-| 1030 | Eng · One-on-one | PLANNED |  |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
-| 1031 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [How do you use AI, and what do you refuse to hand it?](english-32.html) | AI를 어떻게 쓰고, 무엇은 넘기지 않나요? | `english-32` |  |
-| 1032 | Eng · Planning | IMPORTANT |  |  | Planning |  |  | [Grill me before you plan](english-33.html) | 계획하기 전에 나를 심문하라 | `english-33` |  |
-| 1033 | Eng · Design | PLANNED |  |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
-| 1034 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [The mean is fine. Which percentile hurts?](english-35.html) | 평균은 괜찮아요. 어느 백분위수가 아픈가요? | `english-35` |  |
-| 1035 | Eng · Design review | IMPORTANT |  |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
-| 1036 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
-| 1037 | Eng · Travel | PLANNED |  |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
+| 1000 | Eng · Review | YESTERDAY DONE | 2026-09-16 | 2026-09-18 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
+| 1001 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
+| 1002 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
+| 1003 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
+| 1004 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
+| 1005 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
+| 1006 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
+| 1007 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
+| 1008 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
+| 1009 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
+| 1010 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
+| 1011 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
+| 1012 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
+| 1013 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
+| 1014 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
+| 1015 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
+| 1016 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
+| 1017 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
+| 1018 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
+| 1019 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
+| 1020 | Eng · Interview | IMPORTANT | 2026-09-16 |  | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
+| 1021 | Eng · Negotiation | IMPORTANT | 2026-09-16 |  | Negotiation |  |  | [The number that gets to yes](english-22.html) | 예스가 되는 숫자 | `english-22` |  |
+| 1022 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Tell me about a time you disagreed with your manager](english-23.html) | 매니저와 의견이 갈렸던 때를 말해 보세요 | `english-23` |  |
+| 1023 | Eng · First weeks | IMPORTANT | 2026-09-18 |  | First weeks |  |  | [The senior who has been here nine years](english-24.html) | 9년 있었던 시니어 | `english-24` |  |
+| 1024 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [The reviewer found a bug in your take-home](english-25.html) | 리뷰어가 과제에서 버그를 찾았다 | `english-25` |  |
+| 1025 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
+| 1026 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Why do you want to leave Korea?](english-27.html) | 왜 한국을 떠나려 하나요? | `english-27` |  |
+| 1027 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
+| 1028 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
+| 1029 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Explain your architecture to someone who won't read the diagram](english-30.html) | 다이어그램을 읽지 않을 사람에게 아키텍처 설명하기 | `english-30` |  |
+| 1030 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
+| 1031 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [How do you use AI, and what do you refuse to hand it?](english-32.html) | AI를 어떻게 쓰고, 무엇은 넘기지 않나요? | `english-32` |  |
+| 1032 | Eng · Planning | IMPORTANT | 2026-09-18 |  | Planning |  |  | [Grill me before you plan](english-33.html) | 계획하기 전에 나를 심문하라 | `english-33` |  |
+| 1033 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
+| 1034 | Eng · Interview | IMPORTANT | 2026-09-19 |  | Interview |  |  | [The mean is fine. Which percentile hurts?](english-35.html) | 평균은 괜찮아요. 어느 백분위수가 아픈가요? | `english-35` |  |
+| 1035 | Eng · Design review | IMPORTANT | 2026-09-20 |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
+| 1036 | Eng · Interview | IMPORTANT | 2026-09-21 |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
+| 1037 | Eng · Travel | PLANNED | 2026-09-21 |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
 | 1300 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it](pocs-tao-helicopter-and-the-waterfall.html) | 헬리콥터는 폭포까지 데려다주지만 아무것도 가르치지 않는다 — 테렌스 타오가 말하는, AI가 사용하는 사람에게서 가져가는 것 | `tao-helicopter-and-the-waterfall` |  |
 | 1301 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The agent is a good sergeant, not a general — Matt Pocock on why fundamentals matter more with AI, not less](pocs-pocock-sergeant-not-general.html) | 에이전트는 좋은 하사관이지 장군이 아니다 — 맷 포콕이 말하는, AI와 함께라면 기본기가 덜이 아니라 더 중요한 이유 | `pocock-sergeant-not-general` |  |
 | 1302 | Life | NEW | 2026-09-18 |  | Talk | gemini |  | [You did not author your last thought — Harris on free will, and why that is a reason for compassion, not fatalism](pocs-harris-you-did-not-author-your-last-thought.html) | 당신은 마지막 생각의 저자가 아니었다 — 해리스의 자유의지론, 그리고 그것이 숙명론이 아니라 자비의 이유인 까닭 | `harris-you-did-not-author-your-last-thought` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |

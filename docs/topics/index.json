@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-21 12:07 KST",
+"generated": "2026-09-21 12:10 KST",
 "counts": {
 "Tech": 279,
 "Theory": 189,
@@ -12517,6 +12517,7 @@
 "tag": "Review",
 "done": "2026-09-18T15:08+09:00",
 "type": "Review",
+"date": "2026-09-16",
 "title_ko": "함수는 괜찮다. 누가 호출하나?"
 },
 {
@@ -12529,6 +12530,7 @@
 "title_en": "Fail closed or fail open",
 "tag": "Design",
 "type": "Design",
+"date": "2026-09-16",
 "title_ko": "막고 실패할까, 통과시키고 실패할까"
 },
 {
@@ -12541,6 +12543,7 @@
 "title_en": "Every transaction passed. The total was wrong.",
 "tag": "Incident",
 "type": "Incident",
+"date": "2026-09-16",
 "title_ko": "모든 트랜잭션은 통과했다. 총량이 틀렸다."
 },
 {
@@ -12553,6 +12556,7 @@
 "title_en": "Does Quick Slots make finality faster?",
 "tag": "EIP",
 "type": "EIP",
+"date": "2026-09-16",
 "title_ko": "Quick Slots가 최종성을 빠르게 하나?"
 },
 {
@@ -12565,6 +12569,7 @@
 "title_en": "Make it easy for them to say no",
 "tag": "BD",
 "type": "BD",
+"date": "2026-09-16",
 "title_ko": "상대가 거절하기 쉽게 만들어라"
 },
 {
@@ -12577,6 +12582,7 @@
 "title_en": "Blocks are not seconds",
 "tag": "Review",
 "type": "Review",
+"date": "2026-09-16",
 "title_ko": "블록은 초가 아니다"
 },
 {
@@ -12589,6 +12595,7 @@
 "title_en": "Why not just use 31337?",
 "tag": "Design",
 "type": "Design",
+"date": "2026-09-16",
 "title_ko": "왜 그냥 31337을 쓰지 않나?"
 },
 {
@@ -12601,6 +12608,7 @@
 "title_en": "\"No answer\" is not \"broken\"",
 "tag": "Incident",
 "type": "Incident",
+"date": "2026-09-16",
 "title_ko": "\"무응답\"은 \"고장\"이 아니다"
 },
 {
@@ -12613,6 +12621,7 @@
 "title_en": "7702 or 4337 for the wallet",
 "tag": "EIP",
 "type": "EIP",
+"date": "2026-09-16",
 "title_ko": "지갑에 7702냐 4337이냐"
 },
 {
@@ -12625,6 +12634,7 @@
 "title_en": "There is no market price for JYVE",
 "tag": "BD",
 "type": "BD",
+"date": "2026-09-16",
 "title_ko": "JYVE에는 시장 가격이 없다"
 },
 {
@@ -12637,6 +12647,7 @@
 "title_en": "The key leaked. What else does it open?",
 "tag": "Ops",
 "type": "Ops",
+"date": "2026-09-16",
 "title_ko": "키가 유출됐다. 그 키가 또 무엇을 여나?"
 },
 {
@@ -12649,6 +12660,7 @@
 "title_en": "What's the number?",
 "tag": "Planning",
 "type": "Planning",
+"date": "2026-09-16",
 "title_ko": "숫자가 뭔가?"
 },
 {
@@ -12661,6 +12673,7 @@
 "title_en": "The Dockerfile copies the whole repo",
 "tag": "Review",
 "type": "Review",
+"date": "2026-09-16",
 "title_ko": "Dockerfile이 레포 전체를 복사한다"
 },
 {
@@ -12673,6 +12686,7 @@
 "title_en": "It looks like a stablecoin. It isn't one.",
 "tag": "Design",
 "type": "Design",
+"date": "2026-09-16",
 "title_ko": "스테이블코인처럼 보인다. 아니다."
 },
 {
@@ -12685,6 +12699,7 @@
 "title_en": "The address was right yesterday",
 "tag": "Incident",
 "type": "Incident",
+"date": "2026-09-16",
 "title_ko": "그 주소는 어제는 맞았다"
 },
 {
@@ -12697,6 +12712,7 @@
 "title_en": "The popup won't show on our chain",
 "tag": "EIP",
 "type": "EIP",
+"date": "2026-09-16",
 "title_ko": "우리 체인에서는 팝업이 뜨지 않는다"
 },
 {
@@ -12709,6 +12725,7 @@
 "title_en": "Fast settlement is not fast payment",
 "tag": "BD",
 "type": "BD",
+"date": "2026-09-16",
 "title_ko": "빠른 정산은 빠른 결제가 아니다"
 },
 {
@@ -12721,6 +12738,7 @@
 "title_en": "The PR is wrong and the person is fine",
 "tag": "1:1",
 "type": "1:1",
+"date": "2026-09-16",
 "title_ko": "PR은 틀렸고 사람은 괜찮다"
 },
 {
@@ -12733,6 +12751,7 @@
 "title_en": "Who can reach that port?",
 "tag": "Ops",
 "type": "Ops",
+"date": "2026-09-16",
 "title_ko": "그 포트에 누가 닿을 수 있나?"
 },
 {
@@ -12745,6 +12764,7 @@
 "title_en": "One fact, one home",
 "tag": "Design",
 "type": "Design",
+"date": "2026-09-16",
 "title_ko": "사실 하나, 집 하나"
 },
 {
@@ -12757,6 +12777,7 @@
 "title_en": "Don't draw yet. Ask what the box is for.",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-16",
 "title_ko": "아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라."
 },
 {
@@ -12769,6 +12790,7 @@
 "title_en": "The number that gets to yes",
 "tag": "Negotiation",
 "type": "Negotiation",
+"date": "2026-09-16",
 "title_ko": "예스가 되는 숫자"
 },
 {
@@ -12781,6 +12803,7 @@
 "title_en": "Tell me about a time you disagreed with your manager",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-18",
 "title_ko": "매니저와 의견이 갈렸던 때를 말해 보세요"
 },
 {
@@ -12793,6 +12816,7 @@
 "title_en": "The senior who has been here nine years",
 "tag": "First weeks",
 "type": "First weeks",
+"date": "2026-09-18",
 "title_ko": "9년 있었던 시니어"
 },
 {
@@ -12805,6 +12829,7 @@
 "title_en": "The reviewer found a bug in your take-home",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-18",
 "title_ko": "리뷰어가 과제에서 버그를 찾았다"
 },
 {
@@ -12817,6 +12842,7 @@
 "title_en": "Saying no to a date, with a counteroffer",
 "tag": "Stakeholders",
 "type": "Stakeholders",
+"date": "2026-09-18",
 "title_ko": "날짜에 아니오라고 말하기, 대안과 함께"
 },
 {
@@ -12829,6 +12855,7 @@
 "title_en": "Why do you want to leave Korea?",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-18",
 "title_ko": "왜 한국을 떠나려 하나요?"
 },
 {
@@ -12841,6 +12868,7 @@
 "title_en": "Telling a senior peer their design is wrong, in writing",
 "tag": "Feedback",
 "type": "Feedback",
+"date": "2026-09-18",
 "title_ko": "시니어 동료의 설계가 틀렸다고 글로 말하기"
 },
 {
@@ -12853,6 +12881,7 @@
 "title_en": "Telling the CTO the dependency was ours to check",
 "tag": "Incident",
 "type": "Incident",
+"date": "2026-09-18",
 "title_ko": "그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기"
 },
 {
@@ -12865,6 +12894,7 @@
 "title_en": "Explain your architecture to someone who won't read the diagram",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-18",
 "title_ko": "다이어그램을 읽지 않을 사람에게 아키텍처 설명하기"
 },
 {
@@ -12877,6 +12907,7 @@
 "title_en": "Your report wants to leave for a competitor",
 "tag": "One-on-one",
 "type": "One-on-one",
+"date": "2026-09-18",
 "title_ko": "팀원이 경쟁사로 가려 한다"
 },
 {
@@ -12889,6 +12920,7 @@
 "title_en": "How do you use AI, and what do you refuse to hand it?",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-18",
 "title_ko": "AI를 어떻게 쓰고, 무엇은 넘기지 않나요?"
 },
 {
@@ -12901,6 +12933,7 @@
 "title_en": "Grill me before you plan",
 "tag": "Planning",
 "type": "Planning",
+"date": "2026-09-18",
 "title_ko": "계획하기 전에 나를 심문하라"
 },
 {
@@ -12913,6 +12946,7 @@
 "title_en": "Which price are we settling on?",
 "tag": "Design",
 "type": "Design",
+"date": "2026-09-18",
 "title_ko": "우리는 어느 가격으로 정산하나?"
 },
 {
@@ -12925,6 +12959,7 @@
 "title_en": "The mean is fine. Which percentile hurts?",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-19",
 "title_ko": "평균은 괜찮아요. 어느 백분위수가 아픈가요?"
 },
 {
@@ -12937,6 +12972,7 @@
 "title_en": "That argument works for any conclusion",
 "tag": "Design review",
 "type": "Design review",
+"date": "2026-09-20",
 "title_ko": "그 논증은 어떤 결론에도 통합니다"
 },
 {
@@ -12949,6 +12985,7 @@
 "title_en": "Start with the latency budget, then the fail-safe",
 "tag": "Interview",
 "type": "Interview",
+"date": "2026-09-21",
 "title_ko": "지연 예산부터, 그다음 안전장치"
 },
 {
@@ -12961,6 +12998,7 @@
 "title_en": "Connecting, transferring, or just stuck here?",
 "tag": "Travel",
 "type": "Travel",
+"date": "2026-09-21",
 "raw": "raw/2026-09-21-english-38.txt",
 "title_ko": "연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가"
 },
