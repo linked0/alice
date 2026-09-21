@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-21 15:08 KST",
+"generated": "2026-09-21 15:10 KST",
 "counts": {
 "Tech": 279,
 "Theory": 189,
@@ -7728,7 +7728,7 @@
 ]
 },
 {
-"no": 500,
+"no": 501,
 "section": "Theory",
 "key": "math-1",
 "href": "../html/docs/algorithms/geometric-series-dcf.html",
@@ -7738,7 +7738,7 @@
 "tag": "Math"
 },
 {
-"no": 501,
+"no": 502,
 "section": "Theory",
 "key": "math-2",
 "href": "../html/docs/algorithms/supply-demand-equilibrium.html",
@@ -7748,7 +7748,7 @@
 "tag": "Math"
 },
 {
-"no": 502,
+"no": 503,
 "section": "Theory",
 "key": "math-3",
 "href": "../topics/math-3.html",
@@ -7768,7 +7768,7 @@
 ]
 },
 {
-"no": 503,
+"no": 504,
 "section": "Theory",
 "key": "algorithms-1",
 "href": "../html/docs/algorithms/amortized-potential-function.html",
@@ -7778,7 +7778,7 @@
 "tag": "Algorithms"
 },
 {
-"no": 504,
+"no": 505,
 "section": "Theory",
 "key": "algorithms-2",
 "href": "../html/docs/algorithms/balanced-trees-concurrency.html",
@@ -7788,7 +7788,7 @@
 "tag": "Algorithms"
 },
 {
-"no": 505,
+"no": 506,
 "section": "Theory",
 "key": "algorithms-3",
 "href": "../html/docs/algorithms/persistent-structures-structural-sharing.html",
@@ -7798,7 +7798,7 @@
 "tag": "Algorithms"
 },
 {
-"no": 506,
+"no": 507,
 "section": "Theory",
 "key": "math-4",
 "href": "math-4.html",
@@ -7818,7 +7818,7 @@
 ]
 },
 {
-"no": 507,
+"no": 508,
 "section": "Theory",
 "key": "math-5",
 "href": "math-5.html",
@@ -7839,7 +7839,7 @@
 ]
 },
 {
-"no": 508,
+"no": 509,
 "section": "Theory",
 "key": "math-6",
 "href": "math-6.html",
@@ -7858,7 +7858,7 @@
 ]
 },
 {
-"no": 509,
+"no": 510,
 "section": "Theory",
 "key": "math-7",
 "href": "math-7.html",
@@ -7879,7 +7879,7 @@
 ]
 },
 {
-"no": 510,
+"no": 511,
 "section": "Theory",
 "key": "math-8",
 "href": "math-8.html",
@@ -7902,7 +7902,7 @@
 ]
 },
 {
-"no": 511,
+"no": 512,
 "section": "Theory",
 "key": "math-9",
 "href": "math-9.html",
@@ -7921,7 +7921,7 @@
 ]
 },
 {
-"no": 512,
+"no": 513,
 "section": "Theory",
 "key": "math-10",
 "href": "math-10.html",
@@ -7941,7 +7941,7 @@
 ]
 },
 {
-"no": 513,
+"no": 514,
 "section": "Theory",
 "key": "math-11",
 "href": "math-11.html",
@@ -7961,7 +7961,7 @@
 ]
 },
 {
-"no": 514,
+"no": 515,
 "section": "Theory",
 "key": "math-12",
 "href": "math-12.html",
@@ -7983,7 +7983,7 @@
 ]
 },
 {
-"no": 515,
+"no": 516,
 "section": "Theory",
 "key": "math-13",
 "href": "math-13.html",
@@ -8005,7 +8005,7 @@
 ]
 },
 {
-"no": 516,
+"no": 517,
 "section": "Theory",
 "key": "mit-decision-theory-vnm-risk-aversion",
 "href": "pocs-mit-decision-theory-vnm-risk-aversion.html",
@@ -8044,7 +8044,7 @@
 ]
 },
 {
-"no": 517,
+"no": 518,
 "section": "Theory",
 "key": "math-14",
 "href": "math-14.html",
@@ -8065,7 +8065,7 @@
 ]
 },
 {
-"no": 518,
+"no": 519,
 "section": "Theory",
 "key": "math-15",
 "href": "math-15.html",
@@ -8085,7 +8085,7 @@
 ]
 },
 {
-"no": 519,
+"no": 520,
 "section": "Theory",
 "key": "math-16",
 "href": "math-16.html",
@@ -8108,7 +8108,7 @@
 ]
 },
 {
-"no": 520,
+"no": 521,
 "section": "Theory",
 "key": "math-17",
 "href": "math-17.html",
@@ -8131,7 +8131,7 @@
 ]
 },
 {
-"no": 521,
+"no": 522,
 "section": "Theory",
 "key": "math-18",
 "href": "math-18.html",
@@ -8151,7 +8151,7 @@
 ]
 },
 {
-"no": 522,
+"no": 523,
 "section": "Theory",
 "key": "math-19",
 "href": "math-19.html",
@@ -8170,7 +8170,7 @@
 ]
 },
 {
-"no": 523,
+"no": 524,
 "section": "Theory",
 "key": "math-20",
 "href": "math-20.html",
@@ -8191,7 +8191,7 @@
 ]
 },
 {
-"no": 524,
+"no": 525,
 "section": "Theory",
 "key": "math-21",
 "href": "math-21.html",
@@ -8210,7 +8210,7 @@
 ]
 },
 {
-"no": 525,
+"no": 526,
 "section": "Theory",
 "key": "math-22",
 "href": "math-22.html",
@@ -8230,7 +8230,7 @@
 ]
 },
 {
-"no": 526,
+"no": 527,
 "section": "Theory",
 "key": "math-23",
 "href": "math-23.html",
@@ -8254,7 +8254,7 @@
 ]
 },
 {
-"no": 527,
+"no": 528,
 "section": "Theory",
 "key": "math-24",
 "href": "math-24.html",
@@ -8274,7 +8274,7 @@
 ]
 },
 {
-"no": 528,
+"no": 529,
 "section": "Theory",
 "key": "math-25",
 "href": "math-25.html",
@@ -8293,7 +8293,7 @@
 ]
 },
 {
-"no": 529,
+"no": 530,
 "section": "Theory",
 "key": "math-26",
 "href": "math-26.html",
@@ -8315,7 +8315,7 @@
 ]
 },
 {
-"no": 530,
+"no": 531,
 "section": "Theory",
 "key": "math-27",
 "href": "math-27.html",
@@ -8336,7 +8336,7 @@
 ]
 },
 {
-"no": 531,
+"no": 532,
 "section": "Theory",
 "key": "math-28",
 "href": "math-28.html",
@@ -8356,7 +8356,7 @@
 ]
 },
 {
-"no": 532,
+"no": 533,
 "section": "Theory",
 "key": "math-29",
 "href": "math-29.html",
@@ -8378,7 +8378,7 @@
 ]
 },
 {
-"no": 533,
+"no": 534,
 "section": "Theory",
 "key": "math-30",
 "href": "math-30.html",
@@ -8399,7 +8399,7 @@
 ]
 },
 {
-"no": 534,
+"no": 535,
 "section": "Theory",
 "key": "math-31",
 "href": "math-31.html",
@@ -8420,7 +8420,7 @@
 ]
 },
 {
-"no": 535,
+"no": 536,
 "section": "Theory",
 "key": "math-32",
 "href": "math-32.html",
@@ -8442,7 +8442,7 @@
 ]
 },
 {
-"no": 536,
+"no": 537,
 "section": "Theory",
 "key": "math-33",
 "href": "math-33.html",
@@ -8462,7 +8462,7 @@
 ]
 },
 {
-"no": 537,
+"no": 538,
 "section": "Theory",
 "key": "math-34",
 "href": "math-34.html",
@@ -8485,7 +8485,7 @@
 ]
 },
 {
-"no": 538,
+"no": 539,
 "section": "Theory",
 "key": "math-35",
 "href": "math-35.html",
@@ -8504,7 +8504,7 @@
 ]
 },
 {
-"no": 539,
+"no": 540,
 "section": "Theory",
 "key": "math-36",
 "href": "math-36.html",
@@ -8524,7 +8524,7 @@
 ]
 },
 {
-"no": 540,
+"no": 541,
 "section": "Theory",
 "key": "math-37",
 "href": "math-37.html",
@@ -8546,7 +8546,7 @@
 ]
 },
 {
-"no": 541,
+"no": 542,
 "section": "Theory",
 "key": "math-38",
 "href": "math-38.html",
@@ -8568,7 +8568,7 @@
 ]
 },
 {
-"no": 542,
+"no": 543,
 "section": "Theory",
 "key": "math-39",
 "href": "../html/docs/algorithms/random-walk-diffusion-black-scholes.html",
@@ -8578,7 +8578,7 @@
 "tag": "Math"
 },
 {
-"no": 543,
+"no": 544,
 "section": "Theory",
 "key": "math-40",
 "href": "math-40.html",
@@ -8600,7 +8600,7 @@
 ]
 },
 {
-"no": 544,
+"no": 545,
 "section": "Theory",
 "key": "math-41",
 "href": "math-41.html",
@@ -8620,7 +8620,7 @@
 ]
 },
 {
-"no": 545,
+"no": 546,
 "section": "Theory",
 "key": "math-42",
 "href": "math-42.html",
@@ -8638,7 +8638,7 @@
 ]
 },
 {
-"no": 546,
+"no": 547,
 "section": "Theory",
 "key": "math-43",
 "href": "math-43.html",
@@ -8659,7 +8659,7 @@
 ]
 },
 {
-"no": 547,
+"no": 548,
 "section": "Theory",
 "key": "math-44",
 "href": "math-44.html",
@@ -8680,7 +8680,7 @@
 ]
 },
 {
-"no": 548,
+"no": 549,
 "section": "Theory",
 "key": "math-45",
 "href": "math-45.html",
@@ -8701,7 +8701,7 @@
 ]
 },
 {
-"no": 549,
+"no": 550,
 "section": "Theory",
 "key": "math-46",
 "href": "math-46.html",
@@ -8720,7 +8720,7 @@
 ]
 },
 {
-"no": 550,
+"no": 551,
 "section": "Theory",
 "key": "math-47",
 "href": "math-47.html",
@@ -8742,7 +8742,7 @@
 ]
 },
 {
-"no": 551,
+"no": 552,
 "section": "Theory",
 "key": "math-48",
 "href": "math-48.html",
@@ -8763,7 +8763,7 @@
 ]
 },
 {
-"no": 552,
+"no": 553,
 "section": "Theory",
 "key": "math-49",
 "href": "math-49.html",
@@ -8783,7 +8783,7 @@
 ]
 },
 {
-"no": 553,
+"no": 554,
 "section": "Theory",
 "key": "math-50",
 "href": "math-50.html",
@@ -8807,7 +8807,7 @@
 ]
 },
 {
-"no": 554,
+"no": 555,
 "section": "Theory",
 "key": "math-51",
 "href": "math-51.html",
@@ -8826,7 +8826,7 @@
 ]
 },
 {
-"no": 555,
+"no": 556,
 "section": "Theory",
 "key": "math-52",
 "href": "math-52.html",
@@ -8849,7 +8849,7 @@
 ]
 },
 {
-"no": 556,
+"no": 557,
 "section": "Theory",
 "key": "algorithms-4",
 "href": "algorithms-4.html",
@@ -8872,7 +8872,7 @@
 ]
 },
 {
-"no": 557,
+"no": 558,
 "section": "Theory",
 "key": "algorithms-5",
 "href": "algorithms-5.html",
@@ -8895,7 +8895,7 @@
 ]
 },
 {
-"no": 558,
+"no": 559,
 "section": "Theory",
 "key": "algorithms-6",
 "href": "algorithms-6.html",
@@ -8918,7 +8918,7 @@
 ]
 },
 {
-"no": 559,
+"no": 560,
 "section": "Theory",
 "key": "algorithms-7",
 "href": "algorithms-7.html",
@@ -8939,7 +8939,7 @@
 ]
 },
 {
-"no": 560,
+"no": 561,
 "section": "Theory",
 "key": "algorithms-8",
 "href": "algorithms-8.html",
@@ -8961,7 +8961,7 @@
 ]
 },
 {
-"no": 561,
+"no": 562,
 "section": "Theory",
 "key": "algorithms-9",
 "href": "algorithms-9.html",
@@ -8982,7 +8982,7 @@
 ]
 },
 {
-"no": 562,
+"no": 563,
 "section": "Theory",
 "key": "algorithms-10",
 "href": "algorithms-10.html",
@@ -9002,7 +9002,7 @@
 ]
 },
 {
-"no": 563,
+"no": 564,
 "section": "Theory",
 "key": "algorithms-11",
 "href": "algorithms-11.html",
@@ -9024,7 +9024,7 @@
 ]
 },
 {
-"no": 564,
+"no": 565,
 "section": "Theory",
 "key": "algorithms-12",
 "href": "algorithms-12.html",
@@ -9046,7 +9046,7 @@
 ]
 },
 {
-"no": 565,
+"no": 566,
 "section": "Theory",
 "key": "algorithms-13",
 "href": "algorithms-13.html",
@@ -9067,7 +9067,7 @@
 ]
 },
 {
-"no": 566,
+"no": 567,
 "section": "Theory",
 "key": "algorithms-14",
 "href": "algorithms-14.html",
@@ -9089,7 +9089,7 @@
 ]
 },
 {
-"no": 567,
+"no": 568,
 "section": "Theory",
 "key": "algorithms-15",
 "href": "algorithms-15.html",
@@ -9112,7 +9112,7 @@
 ]
 },
 {
-"no": 568,
+"no": 569,
 "section": "Theory",
 "key": "algorithms-16",
 "href": "algorithms-16.html",
@@ -9134,7 +9134,7 @@
 ]
 },
 {
-"no": 569,
+"no": 570,
 "section": "Theory",
 "key": "algorithms-17",
 "href": "algorithms-17.html",
@@ -9155,7 +9155,7 @@
 ]
 },
 {
-"no": 570,
+"no": 571,
 "section": "Theory",
 "key": "algorithms-18",
 "href": "algorithms-18.html",
@@ -9176,7 +9176,7 @@
 ]
 },
 {
-"no": 571,
+"no": 572,
 "section": "Theory",
 "key": "algorithms-19",
 "href": "algorithms-19.html",
@@ -9196,7 +9196,7 @@
 ]
 },
 {
-"no": 572,
+"no": 573,
 "section": "Theory",
 "key": "algorithms-20",
 "href": "algorithms-20.html",
@@ -9222,7 +9222,7 @@
 ]
 },
 {
-"no": 573,
+"no": 574,
 "section": "Theory",
 "key": "algorithms-21",
 "href": "algorithms-21.html",
@@ -9245,7 +9245,7 @@
 ]
 },
 {
-"no": 574,
+"no": 575,
 "section": "Theory",
 "key": "algorithms-22",
 "href": "algorithms-22.html",
@@ -9266,7 +9266,7 @@
 ]
 },
 {
-"no": 575,
+"no": 576,
 "section": "Theory",
 "key": "algorithms-23",
 "href": "algorithms-23.html",
@@ -9286,7 +9286,7 @@
 ]
 },
 {
-"no": 576,
+"no": 577,
 "section": "Theory",
 "key": "algorithms-24",
 "href": "algorithms-24.html",
@@ -9305,7 +9305,7 @@
 ]
 },
 {
-"no": 577,
+"no": 578,
 "section": "Theory",
 "key": "algorithms-25",
 "href": "algorithms-25.html",
@@ -9324,7 +9324,7 @@
 ]
 },
 {
-"no": 578,
+"no": 579,
 "section": "Theory",
 "key": "algorithms-26",
 "href": "algorithms-26.html",
@@ -9345,7 +9345,7 @@
 ]
 },
 {
-"no": 579,
+"no": 580,
 "section": "Theory",
 "key": "algorithms-27",
 "href": "algorithms-27.html",
@@ -9365,7 +9365,7 @@
 ]
 },
 {
-"no": 580,
+"no": 581,
 "section": "Theory",
 "key": "algorithms-28",
 "href": "algorithms-28.html",
@@ -9386,7 +9386,7 @@
 ]
 },
 {
-"no": 581,
+"no": 582,
 "section": "Theory",
 "key": "algorithms-29",
 "href": "algorithms-29.html",
@@ -9410,7 +9410,7 @@
 ]
 },
 {
-"no": 582,
+"no": 583,
 "section": "Theory",
 "key": "algorithms-30",
 "href": "algorithms-30.html",
@@ -9431,7 +9431,7 @@
 ]
 },
 {
-"no": 583,
+"no": 584,
 "section": "Theory",
 "key": "algorithms-31",
 "href": "algorithms-31.html",
@@ -9456,7 +9456,7 @@
 ]
 },
 {
-"no": 584,
+"no": 585,
 "section": "Theory",
 "key": "algorithms-32",
 "href": "algorithms-32.html",
@@ -9477,7 +9477,7 @@
 ]
 },
 {
-"no": 585,
+"no": 586,
 "section": "Theory",
 "key": "algorithms-33",
 "href": "algorithms-33.html",
@@ -9498,7 +9498,7 @@
 ]
 },
 {
-"no": 586,
+"no": 587,
 "section": "Theory",
 "key": "algorithms-34",
 "href": "algorithms-34.html",
@@ -9525,7 +9525,7 @@
 ]
 },
 {
-"no": 587,
+"no": 588,
 "section": "Theory",
 "key": "algorithms-35",
 "href": "algorithms-35.html",
@@ -9546,7 +9546,7 @@
 ]
 },
 {
-"no": 588,
+"no": 589,
 "section": "Theory",
 "key": "algorithms-36",
 "href": "algorithms-36.html",
@@ -9569,7 +9569,7 @@
 ]
 },
 {
-"no": 589,
+"no": 590,
 "section": "Theory",
 "key": "algorithms-37",
 "href": "algorithms-37.html",
@@ -9591,7 +9591,7 @@
 ]
 },
 {
-"no": 590,
+"no": 591,
 "section": "Theory",
 "key": "algorithms-38",
 "href": "algorithms-38.html",
@@ -9612,7 +9612,7 @@
 ]
 },
 {
-"no": 591,
+"no": 592,
 "section": "Theory",
 "key": "algorithms-39",
 "href": "algorithms-39.html",
@@ -9631,7 +9631,7 @@
 ]
 },
 {
-"no": 592,
+"no": 593,
 "section": "Theory",
 "key": "algorithms-40",
 "href": "algorithms-40.html",
@@ -9652,7 +9652,7 @@
 ]
 },
 {
-"no": 593,
+"no": 594,
 "section": "Theory",
 "key": "algorithms-41",
 "href": "algorithms-41.html",
@@ -9676,7 +9676,7 @@
 ]
 },
 {
-"no": 594,
+"no": 595,
 "section": "Theory",
 "key": "algorithms-42",
 "href": "algorithms-42.html",
@@ -9698,7 +9698,7 @@
 ]
 },
 {
-"no": 595,
+"no": 596,
 "section": "Theory",
 "key": "algorithms-43",
 "href": "algorithms-43.html",
@@ -9720,7 +9720,7 @@
 ]
 },
 {
-"no": 596,
+"no": 597,
 "section": "Theory",
 "key": "algorithms-44",
 "href": "algorithms-44.html",
@@ -9742,7 +9742,7 @@
 ]
 },
 {
-"no": 597,
+"no": 598,
 "section": "Theory",
 "key": "algorithms-45",
 "href": "algorithms-45.html",
@@ -9767,7 +9767,7 @@
 ]
 },
 {
-"no": 598,
+"no": 599,
 "section": "Theory",
 "key": "algorithms-46",
 "href": "algorithms-46.html",
@@ -9788,7 +9788,7 @@
 ]
 },
 {
-"no": 599,
+"no": 600,
 "section": "Theory",
 "key": "algorithms-47",
 "href": "algorithms-47.html",
@@ -9811,7 +9811,7 @@
 ]
 },
 {
-"no": 600,
+"no": 601,
 "section": "Theory",
 "key": "algorithms-48",
 "href": "algorithms-48.html",
@@ -9831,7 +9831,7 @@
 ]
 },
 {
-"no": 601,
+"no": 602,
 "section": "Theory",
 "key": "algorithms-49",
 "href": "algorithms-49.html",
@@ -9852,7 +9852,7 @@
 ]
 },
 {
-"no": 602,
+"no": 603,
 "section": "Theory",
 "key": "algorithms-50",
 "href": "algorithms-50.html",
@@ -9871,7 +9871,7 @@
 ]
 },
 {
-"no": 603,
+"no": 604,
 "section": "Theory",
 "key": "algorithms-51",
 "href": "algorithms-51.html",
@@ -9890,7 +9890,7 @@
 ]
 },
 {
-"no": 604,
+"no": 605,
 "section": "Theory",
 "key": "algorithms-52",
 "href": "algorithms-52.html",
@@ -9912,7 +9912,7 @@
 ]
 },
 {
-"no": 605,
+"no": 606,
 "section": "Theory",
 "key": "algorithms-53",
 "href": "algorithms-53.html",
@@ -9934,7 +9934,7 @@
 ]
 },
 {
-"no": 606,
+"no": 607,
 "section": "Theory",
 "key": "algorithms-54",
 "href": "algorithms-54.html",
@@ -9955,7 +9955,7 @@
 ]
 },
 {
-"no": 607,
+"no": 608,
 "section": "Theory",
 "key": "algorithms-55",
 "href": "algorithms-55.html",
@@ -9977,7 +9977,7 @@
 ]
 },
 {
-"no": 608,
+"no": 609,
 "section": "Theory",
 "key": "algorithms-56",
 "href": "algorithms-56.html",
@@ -9999,7 +9999,7 @@
 ]
 },
 {
-"no": 609,
+"no": 610,
 "section": "Theory",
 "key": "algorithms-57",
 "href": "algorithms-57.html",
@@ -10022,7 +10022,7 @@
 ]
 },
 {
-"no": 610,
+"no": 611,
 "section": "Theory",
 "key": "algorithms-58",
 "href": "algorithms-58.html",
@@ -10042,7 +10042,7 @@
 ]
 },
 {
-"no": 611,
+"no": 612,
 "section": "Theory",
 "key": "algorithms-59",
 "href": "algorithms-59.html",
@@ -10064,7 +10064,7 @@
 ]
 },
 {
-"no": 612,
+"no": 613,
 "section": "Theory",
 "key": "algorithms-60",
 "href": "algorithms-60.html",
@@ -10085,7 +10085,7 @@
 ]
 },
 {
-"no": 613,
+"no": 614,
 "section": "Theory",
 "key": "algorithms-61",
 "href": "algorithms-61.html",
@@ -10106,7 +10106,7 @@
 ]
 },
 {
-"no": 614,
+"no": 615,
 "section": "Theory",
 "key": "algorithms-62",
 "href": "algorithms-62.html",
@@ -10127,7 +10127,7 @@
 ]
 },
 {
-"no": 615,
+"no": 616,
 "section": "Theory",
 "key": "algorithms-63",
 "href": "algorithms-63.html",
@@ -10147,7 +10147,7 @@
 ]
 },
 {
-"no": 616,
+"no": 617,
 "section": "Theory",
 "key": "algorithms-64",
 "href": "algorithms-64.html",
@@ -10167,7 +10167,7 @@
 ]
 },
 {
-"no": 617,
+"no": 618,
 "section": "Theory",
 "key": "algorithms-65",
 "href": "algorithms-65.html",
@@ -10187,7 +10187,7 @@
 ]
 },
 {
-"no": 618,
+"no": 619,
 "section": "Theory",
 "key": "algorithms-66",
 "href": "algorithms-66.html",
@@ -10209,7 +10209,7 @@
 ]
 },
 {
-"no": 619,
+"no": 620,
 "section": "Theory",
 "key": "algorithms-67",
 "href": "algorithms-67.html",
@@ -10228,7 +10228,7 @@
 ]
 },
 {
-"no": 620,
+"no": 621,
 "section": "Theory",
 "key": "algorithms-68",
 "href": "algorithms-68.html",
@@ -10252,7 +10252,7 @@
 ]
 },
 {
-"no": 621,
+"no": 622,
 "section": "Theory",
 "key": "algorithms-69",
 "href": "algorithms-69.html",
@@ -10273,7 +10273,7 @@
 ]
 },
 {
-"no": 622,
+"no": 623,
 "section": "Theory",
 "key": "algorithms-70",
 "href": "algorithms-70.html",
@@ -10295,7 +10295,7 @@
 ]
 },
 {
-"no": 623,
+"no": 624,
 "section": "Theory",
 "key": "algorithms-71",
 "href": "algorithms-71.html",
@@ -10319,7 +10319,7 @@
 ]
 },
 {
-"no": 624,
+"no": 625,
 "section": "Theory",
 "key": "algorithms-72",
 "href": "algorithms-72.html",
@@ -10342,7 +10342,7 @@
 ]
 },
 {
-"no": 625,
+"no": 626,
 "section": "Theory",
 "key": "algorithms-73",
 "href": "algorithms-73.html",
@@ -10363,7 +10363,7 @@
 ]
 },
 {
-"no": 626,
+"no": 627,
 "section": "Theory",
 "key": "algorithms-74",
 "href": "algorithms-74.html",
@@ -10383,7 +10383,7 @@
 ]
 },
 {
-"no": 627,
+"no": 628,
 "section": "Theory",
 "key": "algorithms-75",
 "href": "algorithms-75.html",
@@ -10404,7 +10404,7 @@
 ]
 },
 {
-"no": 628,
+"no": 629,
 "section": "Theory",
 "key": "algorithms-76",
 "href": "algorithms-76.html",
@@ -10428,7 +10428,7 @@
 ]
 },
 {
-"no": 629,
+"no": 630,
 "section": "Theory",
 "key": "algorithms-77",
 "href": "algorithms-77.html",
@@ -10448,7 +10448,7 @@
 ]
 },
 {
-"no": 630,
+"no": 631,
 "section": "Theory",
 "key": "algorithms-78",
 "href": "algorithms-78.html",
@@ -10471,7 +10471,7 @@
 ]
 },
 {
-"no": 631,
+"no": 632,
 "section": "Theory",
 "key": "algorithms-79",
 "href": "algorithms-79.html",
@@ -10491,7 +10491,7 @@
 ]
 },
 {
-"no": 632,
+"no": 633,
 "section": "Theory",
 "key": "algorithms-80",
 "href": "algorithms-80.html",
@@ -10511,7 +10511,7 @@
 ]
 },
 {
-"no": 633,
+"no": 634,
 "section": "Theory",
 "key": "algorithms-81",
 "href": "algorithms-81.html",
@@ -10529,7 +10529,7 @@
 ]
 },
 {
-"no": 634,
+"no": 635,
 "section": "Theory",
 "key": "algorithms-82",
 "href": "algorithms-82.html",
@@ -10553,7 +10553,7 @@
 ]
 },
 {
-"no": 635,
+"no": 636,
 "section": "Theory",
 "key": "algorithms-83",
 "href": "algorithms-83.html",
@@ -10574,7 +10574,7 @@
 ]
 },
 {
-"no": 636,
+"no": 637,
 "section": "Theory",
 "key": "algorithms-84",
 "href": "algorithms-84.html",
@@ -10599,7 +10599,7 @@
 ]
 },
 {
-"no": 637,
+"no": 638,
 "section": "Theory",
 "key": "algorithms-85",
 "href": "algorithms-85.html",
@@ -10623,7 +10623,7 @@
 ]
 },
 {
-"no": 638,
+"no": 639,
 "section": "Theory",
 "key": "algorithms-86",
 "href": "algorithms-86.html",
@@ -10646,7 +10646,7 @@
 ]
 },
 {
-"no": 639,
+"no": 640,
 "section": "Theory",
 "key": "algorithms-87",
 "href": "algorithms-87.html",
@@ -10669,7 +10669,7 @@
 ]
 },
 {
-"no": 640,
+"no": 641,
 "section": "Theory",
 "key": "algorithms-88",
 "href": "algorithms-88.html",
@@ -10690,7 +10690,7 @@
 ]
 },
 {
-"no": 641,
+"no": 642,
 "section": "Theory",
 "key": "algorithms-89",
 "href": "algorithms-89.html",
@@ -10713,7 +10713,7 @@
 ]
 },
 {
-"no": 642,
+"no": 643,
 "section": "Theory",
 "key": "algorithms-90",
 "href": "algorithms-90.html",
@@ -10736,7 +10736,7 @@
 ]
 },
 {
-"no": 643,
+"no": 644,
 "section": "Theory",
 "key": "algorithms-91",
 "href": "algorithms-91.html",
@@ -10759,7 +10759,7 @@
 ]
 },
 {
-"no": 644,
+"no": 645,
 "section": "Theory",
 "key": "algorithms-92",
 "href": "algorithms-92.html",
@@ -10788,7 +10788,7 @@
 ]
 },
 {
-"no": 645,
+"no": 646,
 "section": "Theory",
 "key": "algorithms-93",
 "href": "algorithms-93.html",
@@ -10808,7 +10808,7 @@
 ]
 },
 {
-"no": 646,
+"no": 647,
 "section": "Theory",
 "key": "algorithms-94",
 "href": "algorithms-94.html",
@@ -10833,7 +10833,7 @@
 ]
 },
 {
-"no": 647,
+"no": 648,
 "section": "Theory",
 "key": "algorithms-95",
 "href": "algorithms-95.html",
@@ -10854,7 +10854,7 @@
 ]
 },
 {
-"no": 648,
+"no": 649,
 "section": "Theory",
 "key": "algorithms-96",
 "href": "algorithms-96.html",
@@ -10873,7 +10873,7 @@
 ]
 },
 {
-"no": 649,
+"no": 650,
 "section": "Theory",
 "key": "algorithms-97",
 "href": "algorithms-97.html",
@@ -10897,7 +10897,7 @@
 ]
 },
 {
-"no": 650,
+"no": 651,
 "section": "Theory",
 "key": "algorithms-98",
 "href": "algorithms-98.html",
@@ -10919,7 +10919,7 @@
 ]
 },
 {
-"no": 651,
+"no": 652,
 "section": "Theory",
 "key": "algorithms-99",
 "href": "algorithms-99.html",
@@ -10939,7 +10939,7 @@
 ]
 },
 {
-"no": 652,
+"no": 653,
 "section": "Theory",
 "key": "algorithms-100",
 "href": "algorithms-100.html",
@@ -10959,7 +10959,7 @@
 ]
 },
 {
-"no": 653,
+"no": 654,
 "section": "Theory",
 "key": "won-stablecoin-fee-savings",
 "href": "pocs-won-stablecoin-fee-savings.html",
@@ -10988,7 +10988,7 @@
 ]
 },
 {
-"no": 654,
+"no": 655,
 "section": "Theory",
 "key": "onchain-settlement-funding",
 "href": "pocs-onchain-settlement-funding.html",
@@ -11015,7 +11015,7 @@
 ]
 },
 {
-"no": 655,
+"no": 656,
 "section": "Theory",
 "key": "a-good-bet-that-lost",
 "href": "pocs-a-good-bet-that-lost.html",
@@ -11043,7 +11043,7 @@
 ]
 },
 {
-"no": 656,
+"no": 657,
 "section": "Theory",
 "key": "where-yield-comes-from",
 "href": "pocs-where-yield-comes-from.html",
@@ -11067,7 +11067,7 @@
 ]
 },
 {
-"no": 657,
+"no": 658,
 "section": "Theory",
 "key": "gross-over-net",
 "href": "pocs-gross-over-net.html",
@@ -11091,7 +11091,7 @@
 ]
 },
 {
-"no": 658,
+"no": 659,
 "section": "Theory",
 "key": "risk-free-rate-is-the-floor",
 "href": "pocs-risk-free-rate-is-the-floor.html",
@@ -11114,7 +11114,7 @@
 ]
 },
 {
-"no": 659,
+"no": 660,
 "section": "Theory",
 "key": "m2-and-the-dollar",
 "href": "pocs-m2-and-the-dollar.html",
@@ -11138,7 +11138,7 @@
 ]
 },
 {
-"no": 660,
+"no": 661,
 "section": "Theory",
 "key": "lp-is-a-short-volatility-position",
 "href": "pocs-lp-is-a-short-volatility-position.html",
@@ -11164,7 +11164,7 @@
 ]
 },
 {
-"no": 661,
+"no": 662,
 "section": "Theory",
 "key": "indicators-add-a-decision",
 "href": "pocs-indicators-add-a-decision.html",
@@ -11195,7 +11195,7 @@
 ]
 },
 {
-"no": 662,
+"no": 663,
 "section": "Theory",
 "key": "fees-over-security-budget",
 "href": "pocs-fees-over-security-budget.html",
@@ -11218,7 +11218,7 @@
 ]
 },
 {
-"no": 663,
+"no": 664,
 "section": "Theory",
 "key": "two-channels-of-a-war",
 "href": "pocs-two-channels-of-a-war.html",
@@ -11247,7 +11247,7 @@
 ]
 },
 {
-"no": 664,
+"no": 665,
 "section": "Theory",
 "key": "eighty-percent-is-sports",
 "href": "pocs-eighty-percent-is-sports.html",
@@ -11271,7 +11271,7 @@
 ]
 },
 {
-"no": 665,
+"no": 666,
 "section": "Theory",
 "key": "ds-regression-ols",
 "href": "pocs-ds-regression-ols.html",
@@ -11291,7 +11291,7 @@
 ]
 },
 {
-"no": 666,
+"no": 667,
 "section": "Theory",
 "key": "ds-time-series-arima",
 "href": "pocs-ds-time-series-arima.html",
@@ -11312,7 +11312,7 @@
 ]
 },
 {
-"no": 667,
+"no": 668,
 "section": "Theory",
 "key": "ds-bayesian-inference",
 "href": "pocs-ds-bayesian-inference.html",
@@ -11331,7 +11331,7 @@
 ]
 },
 {
-"no": 668,
+"no": 669,
 "section": "Theory",
 "key": "ds-monte-carlo",
 "href": "pocs-ds-monte-carlo.html",
@@ -11352,7 +11352,7 @@
 ]
 },
 {
-"no": 669,
+"no": 670,
 "section": "Theory",
 "key": "ds-ab-testing",
 "href": "pocs-ds-ab-testing.html",
@@ -11371,7 +11371,7 @@
 ]
 },
 {
-"no": 670,
+"no": 671,
 "section": "Theory",
 "key": "ds-causal-inference",
 "href": "pocs-ds-causal-inference.html",
@@ -11393,7 +11393,7 @@
 ]
 },
 {
-"no": 671,
+"no": 672,
 "section": "Theory",
 "key": "ds-clustering",
 "href": "pocs-ds-clustering.html",
@@ -11413,7 +11413,7 @@
 ]
 },
 {
-"no": 672,
+"no": 673,
 "section": "Theory",
 "key": "ds-dimensionality-pca",
 "href": "pocs-ds-dimensionality-pca.html",
@@ -11432,7 +11432,7 @@
 ]
 },
 {
-"no": 673,
+"no": 674,
 "section": "Theory",
 "key": "ds-gradient-boosting",
 "href": "pocs-ds-gradient-boosting.html",
@@ -11453,7 +11453,7 @@
 ]
 },
 {
-"no": 674,
+"no": 675,
 "section": "Theory",
 "key": "ds-cross-validation",
 "href": "pocs-ds-cross-validation.html",
@@ -11473,7 +11473,7 @@
 ]
 },
 {
-"no": 675,
+"no": 676,
 "section": "Theory",
 "key": "ds-anomaly-detection",
 "href": "pocs-ds-anomaly-detection.html",
@@ -11494,7 +11494,7 @@
 ]
 },
 {
-"no": 676,
+"no": 677,
 "section": "Theory",
 "key": "ds-survival-analysis",
 "href": "pocs-ds-survival-analysis.html",
@@ -11515,7 +11515,7 @@
 ]
 },
 {
-"no": 677,
+"no": 678,
 "section": "Theory",
 "key": "ds-cohort-analysis",
 "href": "pocs-ds-cohort-analysis.html",
@@ -11534,7 +11534,7 @@
 ]
 },
 {
-"no": 678,
+"no": 679,
 "section": "Theory",
 "key": "ds-var-cointegration",
 "href": "pocs-ds-var-cointegration.html",
@@ -11558,7 +11558,7 @@
 ]
 },
 {
-"no": 679,
+"no": 680,
 "section": "Theory",
 "key": "ds-extreme-value",
 "href": "pocs-ds-extreme-value.html",
@@ -11579,7 +11579,7 @@
 ]
 },
 {
-"no": 680,
+"no": 681,
 "section": "Theory",
 "key": "ds-dune-analytics",
 "href": "pocs-ds-dune-analytics.html",
@@ -11598,7 +11598,7 @@
 ]
 },
 {
-"no": 681,
+"no": 682,
 "section": "Theory",
 "key": "ds-the-graph-subgraph",
 "href": "pocs-ds-the-graph-subgraph.html",
@@ -11618,7 +11618,7 @@
 ]
 },
 {
-"no": 682,
+"no": 683,
 "section": "Theory",
 "key": "ds-onchain-labels",
 "href": "pocs-ds-onchain-labels.html",
@@ -11639,7 +11639,7 @@
 ]
 },
 {
-"no": 683,
+"no": 684,
 "section": "Theory",
 "key": "ds-flipside-dbt",
 "href": "pocs-ds-flipside-dbt.html",
@@ -11660,7 +11660,7 @@
 ]
 },
 {
-"no": 684,
+"no": 685,
 "section": "Theory",
 "key": "ds-feature-engineering",
 "href": "pocs-ds-feature-engineering.html",
@@ -11680,7 +11680,7 @@
 ]
 },
 {
-"no": 685,
+"no": 686,
 "section": "Theory",
 "key": "revision-is-the-fourth-column",
 "href": "pocs-revision-is-the-fourth-column.html",
@@ -11705,7 +11705,7 @@
 ]
 },
 {
-"no": 686,
+"no": 687,
 "section": "Theory",
 "key": "chain-becomes-a-token",
 "href": "pocs-chain-becomes-a-token.html",
@@ -11731,7 +11731,7 @@
 ]
 },
 {
-"no": 687,
+"no": 688,
 "section": "Theory",
 "key": "eth-money-or-fuel",
 "href": "pocs-eth-money-or-fuel.html",
@@ -11754,7 +11754,7 @@
 ]
 },
 {
-"no": 688,
+"no": 689,
 "section": "Theory",
 "key": "stablecoin-mcap-is-repackaged-money",
 "href": "pocs-stablecoin-mcap-is-repackaged-money.html",
@@ -11782,7 +11782,7 @@
 ]
 },
 {
-"no": 800,
+"no": 801,
 "section": "Invest",
 "key": "tv-candlestick-four-prices",
 "href": "pocs-tv-candlestick-four-prices.html",
@@ -11817,7 +11817,7 @@
 ]
 },
 {
-"no": 801,
+"no": 802,
 "section": "Invest",
 "key": "tv-timeframes-top-down",
 "href": "pocs-tv-timeframes-top-down.html",
@@ -11852,7 +11852,7 @@
 ]
 },
 {
-"no": 802,
+"no": 803,
 "section": "Invest",
 "key": "tv-support-resistance-zones",
 "href": "pocs-tv-support-resistance-zones.html",
@@ -11887,7 +11887,7 @@
 ]
 },
 {
-"no": 803,
+"no": 804,
 "section": "Invest",
 "key": "tv-trend-structure-swings",
 "href": "pocs-tv-trend-structure-swings.html",
@@ -11922,7 +11922,7 @@
 ]
 },
 {
-"no": 804,
+"no": 805,
 "section": "Invest",
 "key": "tv-moving-averages-20-50-200",
 "href": "pocs-tv-moving-averages-20-50-200.html",
@@ -11956,7 +11956,7 @@
 ]
 },
 {
-"no": 805,
+"no": 806,
 "section": "Invest",
 "key": "tv-volume-confirms-price",
 "href": "pocs-tv-volume-confirms-price.html",
@@ -11990,7 +11990,7 @@
 ]
 },
 {
-"no": 806,
+"no": 807,
 "section": "Invest",
 "key": "tv-rsi-momentum-divergence",
 "href": "pocs-tv-rsi-momentum-divergence.html",
@@ -12024,7 +12024,7 @@
 ]
 },
 {
-"no": 807,
+"no": 808,
 "section": "Invest",
 "key": "tv-macd-momentum-shift",
 "href": "pocs-tv-macd-momentum-shift.html",
@@ -12058,7 +12058,7 @@
 ]
 },
 {
-"no": 808,
+"no": 809,
 "section": "Invest",
 "key": "tv-risk-on-the-chart",
 "href": "pocs-tv-risk-on-the-chart.html",
@@ -12093,7 +12093,7 @@
 ]
 },
 {
-"no": 809,
+"no": 810,
 "section": "Invest",
 "key": "dalio-economic-machine-holy-grail",
 "href": "pocs-dalio-economic-machine-holy-grail.html",
@@ -12131,7 +12131,7 @@
 ]
 },
 {
-"no": 810,
+"no": 811,
 "section": "Invest",
 "key": "tv-fibonacci-retracement-confluence",
 "href": "pocs-tv-fibonacci-retracement-confluence.html",
@@ -12164,7 +12164,7 @@
 ]
 },
 {
-"no": 811,
+"no": 812,
 "section": "Invest",
 "key": "max-pain-describes-not-pulls",
 "href": "pocs-max-pain-describes-not-pulls.html",
@@ -12195,7 +12195,7 @@
 ]
 },
 {
-"no": 812,
+"no": 813,
 "section": "Invest",
 "key": "mit-financial-markets-terms-edge",
 "href": "pocs-mit-financial-markets-terms-edge.html",
@@ -12236,7 +12236,7 @@
 ]
 },
 {
-"no": 813,
+"no": 814,
 "section": "Invest",
 "key": "ueda-boj-underlying-inflation-wage-loop",
 "href": "pocs-ueda-boj-underlying-inflation-wage-loop.html",
@@ -12277,7 +12277,7 @@
 ]
 },
 {
-"no": 814,
+"no": 815,
 "section": "Invest",
 "key": "twenty-one-banks-stablecoin-venture",
 "href": "pocs-twenty-one-banks-stablecoin-venture.html",
@@ -12317,7 +12317,7 @@
 ]
 },
 {
-"no": 815,
+"no": 816,
 "section": "Invest",
 "key": "nazarov-cftc-tokenization-us-60-percent",
 "href": "pocs-nazarov-cftc-tokenization-us-60-percent.html",
@@ -12358,7 +12358,7 @@
 ]
 },
 {
-"no": 816,
+"no": 817,
 "section": "Invest",
 "key": "goldstein-blackrock-tokenization-next-wrapper",
 "href": "pocs-goldstein-blackrock-tokenization-next-wrapper.html",
@@ -12403,7 +12403,7 @@
 ]
 },
 {
-"no": 817,
+"no": 818,
 "section": "Invest",
 "key": "automation-and-repression-acemoglu",
 "href": "pocs-automation-and-repression-acemoglu.html",
@@ -12428,7 +12428,7 @@
 ]
 },
 {
-"no": 818,
+"no": 819,
 "section": "Invest",
 "key": "investing-for-programmers-book",
 "href": "pocs-investing-for-programmers-book.html",
@@ -12451,7 +12451,7 @@
 ]
 },
 {
-"no": 819,
+"no": 820,
 "section": "Invest",
 "key": "which-etf-window-not-the-size",
 "href": "pocs-which-etf-window-not-the-size.html",
@@ -12479,7 +12479,7 @@
 ]
 },
 {
-"no": 820,
+"no": 821,
 "section": "Invest",
 "key": "services-ppi-is-the-bridge-to-core",
 "href": "pocs-services-ppi-is-the-bridge-to-core.html",
@@ -12507,7 +12507,7 @@
 ]
 },
 {
-"no": 900,
+"no": 901,
 "section": "Life",
 "key": "ng-tasks-not-jobs-context-advantage",
 "href": "pocs-ng-tasks-not-jobs-context-advantage.html",
@@ -12547,7 +12547,7 @@
 ]
 },
 {
-"no": 901,
+"no": 902,
 "section": "Life",
 "key": "greene-through-line-focus",
 "href": "pocs-greene-through-line-focus.html",
@@ -12588,7 +12588,7 @@
 ]
 },
 {
-"no": 902,
+"no": 903,
 "section": "Life",
 "key": "summarize-roof-pillars-foundation",
 "href": "pocs-summarize-roof-pillars-foundation.html",
@@ -12628,7 +12628,7 @@
 ]
 },
 {
-"no": 903,
+"no": 904,
 "section": "Life",
 "key": "santos-three-rules-time-affluence",
 "href": "pocs-santos-three-rules-time-affluence.html",
@@ -12666,7 +12666,7 @@
 ]
 },
 {
-"no": 904,
+"no": 905,
 "section": "Life",
 "key": "bremmer-strategic-thinking-update-worldview",
 "href": "pocs-bremmer-strategic-thinking-update-worldview.html",
@@ -12702,7 +12702,7 @@
 ]
 },
 {
-"no": 905,
+"no": 906,
 "section": "Life",
 "key": "damour-emotions-board-seat-empathy-tax",
 "href": "pocs-damour-emotions-board-seat-empathy-tax.html",
@@ -12741,7 +12741,7 @@
 ]
 },
 {
-"no": 906,
+"no": 907,
 "section": "Life",
 "key": "reading-rewires-brain-deep-reading",
 "href": "pocs-reading-rewires-brain-deep-reading.html",
@@ -12777,7 +12777,7 @@
 ]
 },
 {
-"no": 907,
+"no": 908,
 "section": "Life",
 "key": "pocock-fundamentals-matter-more",
 "href": "pocs-pocock-fundamentals-matter-more.html",
@@ -12819,7 +12819,7 @@
 ]
 },
 {
-"no": 908,
+"no": 909,
 "section": "Life",
 "key": "yc-pick-one-idea-go-deep",
 "href": "pocs-yc-pick-one-idea-go-deep.html",
@@ -12856,7 +12856,7 @@
 ]
 },
 {
-"no": 909,
+"no": 910,
 "section": "Life",
 "key": "tao-helicopter-and-the-waterfall",
 "href": "pocs-tao-helicopter-and-the-waterfall.html",
@@ -12882,7 +12882,7 @@
 ]
 },
 {
-"no": 910,
+"no": 911,
 "section": "Life",
 "key": "pocock-sergeant-not-general",
 "href": "pocs-pocock-sergeant-not-general.html",
@@ -12909,7 +12909,7 @@
 ]
 },
 {
-"no": 911,
+"no": 912,
 "section": "Life",
 "key": "harris-you-did-not-author-your-last-thought",
 "href": "pocs-harris-you-did-not-author-your-last-thought.html",
@@ -12938,7 +12938,7 @@
 ]
 },
 {
-"no": 912,
+"no": 913,
 "section": "Life",
 "key": "eat-the-same-dish-twice-tokyo",
 "href": "pocs-eat-the-same-dish-twice-tokyo.html",
@@ -12967,7 +12967,7 @@
 ]
 },
 {
-"no": 913,
+"no": 914,
 "section": "Life",
 "key": "systems-thinking-cynefin-dart",
 "href": "pocs-systems-thinking-cynefin-dart.html",
@@ -13008,7 +13008,7 @@
 ]
 },
 {
-"no": 914,
+"no": 915,
 "section": "Life",
 "key": "research-any-topic-like-a-phd",
 "href": "pocs-research-any-topic-like-a-phd.html",
@@ -13048,7 +13048,7 @@
 ]
 },
 {
-"no": 915,
+"no": 916,
 "section": "Life",
 "key": "greene-reading-leaves-the-prison",
 "href": "pocs-greene-reading-leaves-the-prison.html",
@@ -13086,7 +13086,7 @@
 ]
 },
 {
-"no": 916,
+"no": 917,
 "section": "Life",
 "key": "djokovic-discipline-watch-the-loss",
 "href": "pocs-djokovic-discipline-watch-the-loss.html",
@@ -13127,7 +13127,7 @@
 ]
 },
 {
-"no": 917,
+"no": 918,
 "section": "Life",
 "key": "feifei-li-agency-barbell-spatial",
 "href": "pocs-feifei-li-agency-barbell-spatial.html",
@@ -13164,7 +13164,7 @@
 ]
 },
 {
-"no": 918,
+"no": 919,
 "section": "Life",
 "key": "park-hyejin-ten-books-breakthrough",
 "href": "pocs-park-hyejin-ten-books-breakthrough.html",
@@ -13204,7 +13204,7 @@
 ]
 },
 {
-"no": 919,
+"no": 920,
 "section": "Life",
 "key": "jung-youngsu-ten-books-irony",
 "href": "pocs-jung-youngsu-ten-books-irony.html",
@@ -13240,7 +13240,7 @@
 ]
 },
 {
-"no": 920,
+"no": 921,
 "section": "Life",
 "key": "readers-top-novels-korean-canon",
 "href": "pocs-readers-top-novels-korean-canon.html",
@@ -13279,7 +13279,7 @@
 ]
 },
 {
-"no": 921,
+"no": 922,
 "section": "Life",
 "key": "gongbaek-foreign-novels-top-7",
 "href": "pocs-gongbaek-foreign-novels-top-7.html",
@@ -13317,7 +13317,7 @@
 ]
 },
 {
-"no": 922,
+"no": 923,
 "section": "Life",
 "key": "raksseo-classics-top-10-beginners",
 "href": "pocs-raksseo-classics-top-10-beginners.html",
@@ -13355,7 +13355,7 @@
 ]
 },
 {
-"no": 923,
+"no": 924,
 "section": "Life",
 "key": "hwang-sokyong-read-classics-ai-era",
 "href": "pocs-hwang-sokyong-read-classics-ai-era.html",
@@ -13396,7 +13396,7 @@
 ]
 },
 {
-"no": 924,
+"no": 925,
 "section": "Life",
 "key": "lacan-rsi-desire-signifier",
 "href": "pocs-lacan-rsi-desire-signifier.html",
@@ -13435,7 +13435,7 @@
 ]
 },
 {
-"no": 925,
+"no": 926,
 "section": "Life",
 "key": "herjavec-they-buy-you-be-heard",
 "href": "pocs-herjavec-they-buy-you-be-heard.html",
@@ -13471,7 +13471,7 @@
 ]
 },
 {
-"no": 926,
+"no": 927,
 "section": "Life",
 "key": "rometty-resilience-relationships-attitude",
 "href": "pocs-rometty-resilience-relationships-attitude.html",
@@ -13510,7 +13510,7 @@
 ]
 },
 {
-"no": 927,
+"no": 928,
 "section": "Life",
 "key": "dancing-brain-workout-cognitive-reserve",
 "href": "pocs-dancing-brain-workout-cognitive-reserve.html",
@@ -13548,7 +13548,7 @@
 ]
 },
 {
-"no": 928,
+"no": 929,
 "section": "Life",
 "key": "kotler-flow-on-command-triggers-motivators",
 "href": "pocs-kotler-flow-on-command-triggers-motivators.html",
@@ -13586,7 +13586,7 @@
 ]
 },
 {
-"no": 929,
+"no": 930,
 "section": "Life",
 "key": "lieberman-exercise-myths-healthspan",
 "href": "pocs-lieberman-exercise-myths-healthspan.html",
@@ -13624,7 +13624,7 @@
 ]
 },
 {
-"no": 930,
+"no": 931,
 "section": "Life",
 "key": "tang-show-up-truth-gut-follow-through",
 "href": "pocs-tang-show-up-truth-gut-follow-through.html",
@@ -13662,7 +13662,7 @@
 ]
 },
 {
-"no": 931,
+"no": 932,
 "section": "Life",
 "key": "jocko-discipline-comes-from-within",
 "href": "pocs-jocko-discipline-comes-from-within.html",
@@ -13708,7 +13708,7 @@
 ]
 },
 {
-"no": 932,
+"no": 933,
 "section": "Life",
 "key": "goto-island-burger-shop-community-living-room",
 "href": "pocs-goto-island-burger-shop-community-living-room.html",
@@ -13751,7 +13751,7 @@
 ]
 },
 {
-"no": 933,
+"no": 934,
 "section": "Life",
 "key": "piech-ai-multiplier-foundations-ten-minute-human",
 "href": "pocs-piech-ai-multiplier-foundations-ten-minute-human.html",
@@ -13794,7 +13794,7 @@
 ]
 },
 {
-"no": 1000,
+"no": 1001,
 "section": "Eng",
 "key": "english-1",
 "href": "english-1.html",
@@ -13808,7 +13808,7 @@
 "title_ko": "함수는 괜찮다. 누가 호출하나?"
 },
 {
-"no": 1001,
+"no": 1002,
 "section": "Eng",
 "key": "english-21",
 "href": "english-21.html",
@@ -13821,7 +13821,7 @@
 "title_ko": "아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라."
 },
 {
-"no": 1002,
+"no": 1003,
 "section": "Eng",
 "key": "english-22",
 "href": "english-22.html",
@@ -13834,7 +13834,7 @@
 "title_ko": "예스가 되는 숫자"
 },
 {
-"no": 1003,
+"no": 1004,
 "section": "Eng",
 "key": "english-23",
 "href": "english-23.html",
@@ -13847,7 +13847,7 @@
 "title_ko": "매니저와 의견이 갈렸던 때를 말해 보세요"
 },
 {
-"no": 1004,
+"no": 1005,
 "section": "Eng",
 "key": "english-24",
 "href": "english-24.html",
@@ -13860,7 +13860,7 @@
 "title_ko": "9년 있었던 시니어"
 },
 {
-"no": 1005,
+"no": 1006,
 "section": "Eng",
 "key": "english-25",
 "href": "english-25.html",
@@ -13873,7 +13873,7 @@
 "title_ko": "리뷰어가 과제에서 버그를 찾았다"
 },
 {
-"no": 1006,
+"no": 1007,
 "section": "Eng",
 "key": "english-27",
 "href": "english-27.html",
@@ -13886,7 +13886,7 @@
 "title_ko": "왜 한국을 떠나려 하나요?"
 },
 {
-"no": 1007,
+"no": 1008,
 "section": "Eng",
 "key": "english-30",
 "href": "english-30.html",
@@ -13899,7 +13899,7 @@
 "title_ko": "다이어그램을 읽지 않을 사람에게 아키텍처 설명하기"
 },
 {
-"no": 1008,
+"no": 1009,
 "section": "Eng",
 "key": "english-32",
 "href": "english-32.html",
@@ -13912,7 +13912,7 @@
 "title_ko": "AI를 어떻게 쓰고, 무엇은 넘기지 않나요?"
 },
 {
-"no": 1009,
+"no": 1010,
 "section": "Eng",
 "key": "english-33",
 "href": "english-33.html",
@@ -13925,7 +13925,7 @@
 "title_ko": "계획하기 전에 나를 심문하라"
 },
 {
-"no": 1010,
+"no": 1011,
 "section": "Eng",
 "key": "english-35",
 "href": "english-35.html",
@@ -13938,7 +13938,7 @@
 "title_ko": "평균은 괜찮아요. 어느 백분위수가 아픈가요?"
 },
 {
-"no": 1011,
+"no": 1012,
 "section": "Eng",
 "key": "english-36",
 "href": "english-36.html",
@@ -13951,7 +13951,7 @@
 "title_ko": "그 논증은 어떤 결론에도 통합니다"
 },
 {
-"no": 1012,
+"no": 1013,
 "section": "Eng",
 "key": "english-37",
 "href": "english-37.html",
@@ -13964,7 +13964,7 @@
 "title_ko": "지연 예산부터, 그다음 안전장치"
 },
 {
-"no": 1013,
+"no": 1014,
 "section": "Eng",
 "key": "english-38",
 "href": "english-38.html",
@@ -13978,7 +13978,7 @@
 "title_ko": "연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가"
 },
 {
-"no": 1014,
+"no": 1015,
 "section": "Eng",
 "key": "english-39",
 "href": "english-39.html",
@@ -13992,7 +13992,7 @@
 "title_ko": "run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다"
 },
 {
-"no": 1015,
+"no": 1016,
 "section": "Eng",
 "key": "english-2",
 "href": "english-2.html",
@@ -14005,7 +14005,7 @@
 "title_ko": "막고 실패할까, 통과시키고 실패할까"
 },
 {
-"no": 1016,
+"no": 1017,
 "section": "Eng",
 "key": "english-3",
 "href": "english-3.html",
@@ -14018,7 +14018,7 @@
 "title_ko": "모든 트랜잭션은 통과했다. 총량이 틀렸다."
 },
 {
-"no": 1017,
+"no": 1018,
 "section": "Eng",
 "key": "english-4",
 "href": "english-4.html",
@@ -14031,7 +14031,7 @@
 "title_ko": "Quick Slots가 최종성을 빠르게 하나?"
 },
 {
-"no": 1018,
+"no": 1019,
 "section": "Eng",
 "key": "english-5",
 "href": "english-5.html",
@@ -14044,7 +14044,7 @@
 "title_ko": "상대가 거절하기 쉽게 만들어라"
 },
 {
-"no": 1019,
+"no": 1020,
 "section": "Eng",
 "key": "english-6",
 "href": "english-6.html",
@@ -14057,7 +14057,7 @@
 "title_ko": "블록은 초가 아니다"
 },
 {
-"no": 1020,
+"no": 1021,
 "section": "Eng",
 "key": "english-7",
 "href": "english-7.html",
@@ -14070,7 +14070,7 @@
 "title_ko": "왜 그냥 31337을 쓰지 않나?"
 },
 {
-"no": 1021,
+"no": 1022,
 "section": "Eng",
 "key": "english-8",
 "href": "english-8.html",
@@ -14083,7 +14083,7 @@
 "title_ko": "\"무응답\"은 \"고장\"이 아니다"
 },
 {
-"no": 1022,
+"no": 1023,
 "section": "Eng",
 "key": "english-9",
 "href": "english-9.html",
@@ -14096,7 +14096,7 @@
 "title_ko": "지갑에 7702냐 4337이냐"
 },
 {
-"no": 1023,
+"no": 1024,
 "section": "Eng",
 "key": "english-10",
 "href": "english-10.html",
@@ -14109,7 +14109,7 @@
 "title_ko": "JYVE에는 시장 가격이 없다"
 },
 {
-"no": 1024,
+"no": 1025,
 "section": "Eng",
 "key": "english-11",
 "href": "english-11.html",
@@ -14122,7 +14122,7 @@
 "title_ko": "키가 유출됐다. 그 키가 또 무엇을 여나?"
 },
 {
-"no": 1025,
+"no": 1026,
 "section": "Eng",
 "key": "english-12",
 "href": "english-12.html",
@@ -14135,7 +14135,7 @@
 "title_ko": "숫자가 뭔가?"
 },
 {
-"no": 1026,
+"no": 1027,
 "section": "Eng",
 "key": "english-13",
 "href": "english-13.html",
@@ -14148,7 +14148,7 @@
 "title_ko": "Dockerfile이 레포 전체를 복사한다"
 },
 {
-"no": 1027,
+"no": 1028,
 "section": "Eng",
 "key": "english-14",
 "href": "english-14.html",
@@ -14161,7 +14161,7 @@
 "title_ko": "스테이블코인처럼 보인다. 아니다."
 },
 {
-"no": 1028,
+"no": 1029,
 "section": "Eng",
 "key": "english-15",
 "href": "english-15.html",
@@ -14174,7 +14174,7 @@
 "title_ko": "그 주소는 어제는 맞았다"
 },
 {
-"no": 1029,
+"no": 1030,
 "section": "Eng",
 "key": "english-16",
 "href": "english-16.html",
@@ -14187,7 +14187,7 @@
 "title_ko": "우리 체인에서는 팝업이 뜨지 않는다"
 },
 {
-"no": 1030,
+"no": 1031,
 "section": "Eng",
 "key": "english-17",
 "href": "english-17.html",
@@ -14200,7 +14200,7 @@
 "title_ko": "빠른 정산은 빠른 결제가 아니다"
 },
 {
-"no": 1031,
+"no": 1032,
 "section": "Eng",
 "key": "english-18",
 "href": "english-18.html",
@@ -14213,7 +14213,7 @@
 "title_ko": "PR은 틀렸고 사람은 괜찮다"
 },
 {
-"no": 1032,
+"no": 1033,
 "section": "Eng",
 "key": "english-19",
 "href": "english-19.html",
@@ -14226,7 +14226,7 @@
 "title_ko": "그 포트에 누가 닿을 수 있나?"
 },
 {
-"no": 1033,
+"no": 1034,
 "section": "Eng",
 "key": "english-20",
 "href": "english-20.html",
@@ -14239,7 +14239,7 @@
 "title_ko": "사실 하나, 집 하나"
 },
 {
-"no": 1034,
+"no": 1035,
 "section": "Eng",
 "key": "english-26",
 "href": "english-26.html",
@@ -14252,7 +14252,7 @@
 "title_ko": "날짜에 아니오라고 말하기, 대안과 함께"
 },
 {
-"no": 1035,
+"no": 1036,
 "section": "Eng",
 "key": "english-28",
 "href": "english-28.html",
@@ -14265,7 +14265,7 @@
 "title_ko": "시니어 동료의 설계가 틀렸다고 글로 말하기"
 },
 {
-"no": 1036,
+"no": 1037,
 "section": "Eng",
 "key": "english-29",
 "href": "english-29.html",
@@ -14278,7 +14278,7 @@
 "title_ko": "그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기"
 },
 {
-"no": 1037,
+"no": 1038,
 "section": "Eng",
 "key": "english-31",
 "href": "english-31.html",
@@ -14291,7 +14291,7 @@
 "title_ko": "팀원이 경쟁사로 가려 한다"
 },
 {
-"no": 1038,
+"no": 1039,
 "section": "Eng",
 "key": "english-34",
 "href": "english-34.html",

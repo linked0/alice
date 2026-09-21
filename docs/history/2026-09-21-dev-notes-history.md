@@ -186,6 +186,18 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `docs/topics/english/english-39.md` (Drama, added 2026-09-21, source + raw), `raw/2026-09-21-english-39.txt`; `english-notes.py` rebuilt 39 pages.
 - **Result:** Eng 1000 Yesterday done, 1001–1012 Important, **1013–1014 New** (#38 travel, #39 word book), 1015–1038 Planned; overall 71/562. Follow-up (jay: "I think the total number of these items should be forty" … "each of the 20 cards has a word and an unrelated sentence in the memo"): the table was 54 rows because memos had been split into sub-expressions and duplicates merged; rebuilt as exactly 40 rows — one word row and one sentence row per card, in card order, each tagged (카드 N, 단어/문장); the two duplicate-memo cards carry the second expression their memo gives (work yourself to the bone; think highly of).
 
+### Every section counts from its hundred + 1: 501 · 801 · 901 · 1001 · 1401
+
+- **Cause:** jay: "헤깔리니까, 각 카테고리를 1부터 시작하게 할래? 501, 801, 901, 1001 이런 식으로." With bases at 500 / 800 / 900 / 1000 the first item of a section carried a round hundred, so "Theory 500" read as a count, not a first item.
+- **Reasoning:** the hundred names the section and the last two digits count from 1, like Tech. One constant per section in `notes_numbering.py`; Health follows to 1401. The only hard-coded copy was the Health base inside the JS that `health-cards.py` emits for the detail-page rail (`1400 + i`), fixed there.
+- **Change:** `BASE` → Theory 501, Invest 801, Life 901, Eng 1001, Health 1401; `health-cards.py` comment and emitted JS; README numbering line (with the day's earlier moves as history); `reorder-by-status.py`, `english-notes.py`, `health-cards.py`, `roll-done-states.py` re-run.
+- **Result:** Tech 1–279, Theory 501–689, Invest 801–821, Life 901–934, Eng 1001–1039, Health 1401–1406; no 500 / 800 / 900 / 1000 / 1400 left on `notes.html`. Life now has 99 numbers before Eng.
+
+### Rule: a NAVER word-book card is two items
+
+- **Cause:** jay: "그래서 40개라는 의미", "이제부터 두개를 분리해서 생각해."
+- **Change:** rule written into `docs/topics/english/README.md` (word row + sentence row per card, card order, `(카드 N, 단어/문장)`, duplicate memos take the memo's own second expression) and into memory; Eng #39 is the example.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

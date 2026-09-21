@@ -55,3 +55,11 @@ Speaker: English line
 
 Tags so far: Review, Design, Incident, EIP, BD, Ops, Planning, 1:1. Add new ones freely
 (Interview, Negotiation, Onboarding, Standup, Stakeholders …).
+
+## NAVER 단어장 카드는 항목 두 개다 (jay, 2026-09-21)
+
+- jay의 NAVER 영어단어장 카드 한 장에는 **단어**(사전 표제어)와 **메모의 문장**(드라마 자막 한 줄을 분석한 노트)이 있고,
+  둘은 서로 무관하다. 카드 20장 = 항목 40개. jay: "20장의 카드가 단어와 메모에 무관한 문장 항목이 있어 … 이제부터 두개를
+  분리해서 생각해." 표현 표에는 카드마다 단어 한 줄과 문장 한 줄을 카드 순서대로 두고 `(카드 N, 단어/문장)`으로 표시한다.
+  메모가 앞 카드의 문장을 반복하면 그 메모가 든 둘째 표현을 쓴다 (Eng #39가 본보기).
+

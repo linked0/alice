@@ -271,7 +271,7 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
 
 ## Section numbering, goals, and the red badge (jay, 2026-09-18)
 
-- **Numbers start per section:** Tech **1**, Theory **500**, Invest **800**, Life **900** (was 1300 until 2026-09-21; jay: "make the start the Life from 900"), Eng **1000**, Health **1400**. Life has 100 numbers before it meets Eng at 1000 — at 34 items on the day of the move, that is the cap to watch
+- **Numbers start per section:** Tech **1**, Theory **501**, Invest **801**, Life **901**, Eng **1001**, Health **1401** (jay, 2026-09-21: "각 카테고리를 1부터 시작하게 할래? 501, 801, 901, 1001" — the hundred names the section, the last two digits count from 1; earlier the same day Life had moved from 1300 to 900, and before that the bases were 500 / 800 / 1000 / 1400). Life has 99 numbers before it meets Eng at 1001 — at 34 items, that is the cap to watch
   (jay: "make the Items from 1, Theory from 700, English 1000, Life 1300, Health 1400"). One table in
   `scripts/notes_numbering.py` (`BASE`, `display(navid, k)`, `position(navid, shown)`); `add-tech-item.py`,
   `reorder-by-status.py`, `english-notes.py` and `health-cards.py` all read it, so a number alone tells the section.

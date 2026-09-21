@@ -11,7 +11,7 @@ Key-expressions / "Where it lands in Jayverse" rules: their text is not in the r
 """
 import json, pathlib, re, html, glob, os, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent)); from notes_numbering import display
-HN = lambda i: display("health", i + 1)   # Health numbers start at 1400 (jay, 2026-09-18)
+HN = lambda i: display("health", i + 1)   # Health numbers start at 1401 (jay, 2026-09-18; +1 on 2026-09-21)
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 TOPICS = ROOT / "topics"
 P = json.loads(re.match(r'window\.__HEALTH__=(.*);\s*$', (TOPICS / "_health.js").read_text(), re.S).group(1))
@@ -68,7 +68,7 @@ NAV_PATCH = '''<script src="_health.js"></script>
   var s = null; for (var i = 0; i < d.sections.length; i++) if (d.sections[i].navId === 'nav-sec-mindset') s = d.sections[i];
   if (!s || s.items.some(function (it) { return it.key === 'health-1'; })) return;
   var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (1400 + i) + '</span>' + esc(l) }); });
+  P.tiles.forEach(function (l, i) { s.items.push({ key: 'health-' + (i + 1), href: 'health-' + (i + 1) + '.html', color: '#94a3b8', label: 'LOCKED', text: '<span class="topic-no">' + (1401 + i) + '</span>' + esc(l) }); });
 })();
 </script>
 '''

@@ -1,6 +1,6 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 15:08 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 15:10 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
 Counts: Tech 279 · Theory 189 · Invest 21 · Eng 39 · Life 34 · done 71/562
 
@@ -285,286 +285,286 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 39 · Life 34 · done 71/562
 | 277 | Tech | PLANNED |  |  | PoC |  |  | [Geometric series → DCF valuation](pocs-geometric-series-dcf.html) | 등비급수 → DCF 밸류에이션 | `geometric-series-dcf` |  |
 | 278 | Tech | PLANNED |  |  | PoC |  |  | [Amortized analysis via potential functions](pocs-amortized-potential-function.html) | 포텐셜 함수를 이용한 분할상환 분석 | `amortized-potential-function` |  |
 | 279 | Tech | PLANNED |  |  | PoC |  |  | [Moralis — wallet snapshot via API](pocs-moralis-wallet-api.html) | Moralis — API로 지갑 스냅샷 조회 | `moralis-wallet-api` |  |
-| 500 | Theory · Math | DONE |  |  |  |  |  | [수열·급수·시그마](../html/docs/algorithms/geometric-series-dcf.html) |  | `math-1` |  |
-| 501 | Theory · Math | DONE |  |  |  |  |  | [공급·수요·효용·시장균형](../html/docs/algorithms/supply-demand-equilibrium.html) |  | `math-2` |  |
-| 502 | Theory · Math | DONE |  |  |  |  |  | [명제논리·집합·함수·관계](../topics/math-3.html) |  | `math-3` |  |
-| 503 | Theory · Algorithms | DONE |  |  |  |  |  | [분할상환분석 심화](../html/docs/algorithms/amortized-potential-function.html) |  | `algorithms-1` |  |
-| 504 | Theory · Algorithms | DONE |  |  |  |  |  | [균형 트리 계열 비교](../html/docs/algorithms/balanced-trees-concurrency.html) |  | `algorithms-2` |  |
-| 505 | Theory · Algorithms | DONE |  |  |  |  |  | [영속(persistent) 자료구조와 구조 공유](../html/docs/algorithms/persistent-structures-structural-sharing.html) |  | `algorithms-3` |  |
-| 506 | Theory · Math | IMPORTANT |  |  |  |  |  | [귀납법/구조적 재귀](math-4.html) |  | `math-4` |  |
-| 507 | Theory · Math | IMPORTANT |  |  |  |  |  | [그래프 기초(DAG·트리·해시 링크)](math-5.html) |  | `math-5` |  |
-| 508 | Theory · Math | IMPORTANT |  |  |  |  |  | [비둘기집 원리](math-6.html) |  | `math-6` |  |
-| 509 | Theory · Math | IMPORTANT |  |  |  |  |  | [Big-O & 가스](math-7.html) |  | `math-7` |  |
-| 510 | Theory · Math | IMPORTANT |  |  |  |  |  | [관계와 동치류](math-8.html) |  | `math-8` |  |
-| 511 | Theory · Math | IMPORTANT |  |  |  |  |  | [카운팅 원리(순열·조합·이항계수)](math-9.html) |  | `math-9` |  |
-| 512 | Theory · Math | IMPORTANT |  |  |  |  |  | [재귀관계와 생성함수(가볍게)](math-10.html) |  | `math-10` |  |
-| 513 | Theory · Math | IMPORTANT |  |  |  |  |  | [내시균형·죄수의 딜레마](math-11.html) |  | `math-11` |  |
-| 514 | Theory · Math | IMPORTANT |  |  |  |  |  | [경매(1·2위가격, 수입동등정리)](math-12.html) |  | `math-12` |  |
-| 515 | Theory · Math | IMPORTANT |  |  |  |  |  | [메커니즘 디자인(VCG 개념)](math-13.html) |  | `math-13` |  |
-| 516 | Theory · Math | NEW | 2026-09-19 |  | Lecture | chat |  | [Under uncertainty a rational agent ranks lotteries, not outcomes — and risk aversion is just a concave utility function](pocs-mit-decision-theory-vnm-risk-aversion.html) | 불확실성 하에서 합리적 행위자는 결과가 아니라 복권을 고른다 — 위험 회피는 그저 오목한 효용함수일 뿐이다 | `mit-decision-theory-vnm-risk-aversion` |  |
-| 517 | Theory · Math | PLANNED |  |  |  |  |  | [EIP-1559 수수료시장(base fee = AIMD)](math-14.html) |  | `math-14` |  |
-| 518 | Theory · Math | PLANNED |  |  |  |  |  | [셸링 포인트](math-15.html) |  | `math-15` |  |
-| 519 | Theory · Math | PLANNED |  |  |  |  |  | [조합 게임이론(제로섬 vs 비제로섬)](math-16.html) |  | `math-16` |  |
-| 520 | Theory · Math | PLANNED |  |  |  |  |  | [반복게임과 평판](math-17.html) |  | `math-17` |  |
-| 521 | Theory · Math | PLANNED |  |  |  |  |  | [벡터·행렬·행렬곱·역행렬](math-18.html) |  | `math-18` |  |
-| 522 | Theory · Math | PLANNED |  |  |  |  |  | [내적·노름·코사인 유사도](math-19.html) |  | `math-19` |  |
-| 523 | Theory · Math | PLANNED |  |  |  |  |  | [유한체 GF(p) 위 선형대수 (12월 다리, 스레드 A)](math-20.html) |  | `math-20` |  |
-| 524 | Theory · Math | PLANNED |  |  |  |  |  | [리스크·포트폴리오 행렬(공분산·상관)](math-21.html) |  | `math-21` |  |
-| 525 | Theory · Math | PLANNED |  |  |  |  |  | [고유값/고유벡터](math-22.html) |  | `math-22` |  |
-| 526 | Theory · Math | PLANNED |  |  |  |  |  | [PCA·SVD](math-23.html) |  | `math-23` |  |
-| 527 | Theory · Math | PLANNED |  |  |  |  |  | [수치선형대수(조건수)](math-24.html) |  | `math-24` |  |
-| 528 | Theory · Math | PLANNED |  |  |  |  |  | [행렬식과 랭크](math-25.html) |  | `math-25` |  |
-| 529 | Theory · Math | PLANNED |  |  |  |  |  | [최소제곱법(Least Squares)](math-26.html) |  | `math-26` |  |
-| 530 | Theory · Math | PLANNED |  |  |  |  |  | [미분·기울기·연쇄법칙](math-27.html) |  | `math-27` |  |
-| 531 | Theory · Math | PLANNED |  |  |  |  |  | [편미분/그래디언트](math-28.html) |  | `math-28` |  |
-| 532 | Theory · Math | PLANNED |  |  |  |  |  | [Gradient Descent / Convex 직관](math-29.html) |  | `math-29` |  |
-| 533 | Theory · Math | PLANNED |  |  |  |  |  | [라그랑주/KKT(개념)](math-30.html) |  | `math-30` |  |
-| 534 | Theory · Math | PLANNED |  |  |  |  |  | [뉴턴법/고정점 반복(StableSwap 필수)](math-31.html) |  | `math-31` |  |
-| 535 | Theory · Math | PLANNED |  |  |  |  |  | [고정소수점 산술(Q64.96)](math-32.html) |  | `math-32` |  |
-| 536 | Theory · Math | PLANNED |  |  |  |  |  | [테일러 급수(1차 근사)](math-33.html) |  | `math-33` |  |
-| 537 | Theory · Math | PLANNED |  |  |  |  |  | [볼록집합/볼록함수 판별](math-34.html) |  | `math-34` |  |
-| 538 | Theory · Math | PLANNED |  |  |  |  |  | [조건부확률·베이즈·기대값·정규분포](math-35.html) |  | `math-35` |  |
-| 539 | Theory · Math | PLANNED |  |  |  |  |  | [로그수익률·변동성(σ)](math-36.html) |  | `math-36` |  |
-| 540 | Theory · Math | PLANNED |  |  |  |  |  | [집중부등식(Chebyshev·Hoeffding, 12월 다리)](math-37.html) |  | `math-37` |  |
-| 541 | Theory · Math | PLANNED |  |  |  |  |  | [랜덤워크/GBM(개념)](math-38.html) |  | `math-38` |  |
-| 542 | Theory · Math | PLANNED |  |  |  |  |  | [랜덤워크·열확산 방정식](../html/docs/algorithms/random-walk-diffusion-black-scholes.html) |  | `math-39` |  |
-| 543 | Theory · Math | PLANNED |  |  |  |  |  | [VaR·꼬리리스크](math-40.html) |  | `math-40` |  |
-| 544 | Theory · Math | PLANNED |  |  |  |  |  | [LMSR/마켓 스코어링(Verex 연결)](math-41.html) |  | `math-41` |  |
-| 545 | Theory · Math | PLANNED |  |  |  |  |  | [마르코프 체인(개념)](math-42.html) |  | `math-42` |  |
-| 546 | Theory · Math | PLANNED |  |  |  |  |  | [상관관계와 공적분(가볍게)](math-43.html) |  | `math-43` |  |
-| 547 | Theory · Math | PLANNED |  |  |  |  |  | [정수론·모듈러 산술](math-44.html) |  | `math-44` |  |
-| 548 | Theory · Math | PLANNED |  |  |  |  |  | [군론 기초(순환군·이산로그)](math-45.html) |  | `math-45` |  |
-| 549 | Theory · Math | PLANNED |  |  |  |  |  | [ECC·디지털 서명](math-46.html) |  | `math-46` |  |
-| 550 | Theory · Math | PLANNED |  |  |  |  |  | [라그랑주 보간 + Reed-Solomon (스레드 A 수확)](math-47.html) |  | `math-47` |  |
-| 551 | Theory · Math | PLANNED |  |  |  |  |  | [페어링/KZG(개념)](math-48.html) |  | `math-48` |  |
-| 552 | Theory · Math | PLANNED |  |  |  |  |  | [엔트로피·정보·코딩](math-49.html) |  | `math-49` |  |
-| 553 | Theory · Math | PLANNED |  |  |  |  |  | [해시함수 설계 원리(스펀지·머클-담고르)](math-50.html) |  | `math-50` |  |
-| 554 | Theory · Math | PLANNED |  |  |  |  |  | [영지식 증명의 3성질(완전성·건전성·영지식)](math-51.html) |  | `math-51` |  |
-| 555 | Theory · Math | PLANNED |  |  |  |  |  | [신뢰된 셋업 vs 투명성(STARK vs SNARK)](math-52.html) |  | `math-52` |  |
-| 556 | Theory · Algorithms | PLANNED |  |  |  |  |  | [함수형 업데이트와 상태 diff](algorithms-4.html) |  | `algorithms-4` |  |
-| 557 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Verkle tree](algorithms-5.html) |  | `algorithms-5` |  |
-| 558 | Theory · Algorithms | PLANNED |  |  |  |  |  | [확률적 자료구조](algorithms-6.html) |  | `algorithms-6` |  |
-| 559 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스트리밍/스케치 알고리즘](algorithms-7.html) |  | `algorithms-7` |  |
-| 560 | Theory · Algorithms | PLANNED |  |  |  |  |  | [순서 통계](algorithms-8.html) |  | `algorithms-8` |  |
-| 561 | Theory · Algorithms | PLANNED |  |  |  |  |  | [문자열 인덱스](algorithms-9.html) |  | `algorithms-9` |  |
-| 562 | Theory · Algorithms | PLANNED |  |  |  |  |  | [세그먼트 트리 심화](algorithms-10.html) |  | `algorithms-10` |  |
-| 563 | Theory · Algorithms | PLANNED |  |  |  |  |  | [위상정렬·DAG 스케줄링](algorithms-11.html) |  | `algorithms-11` |  |
-| 564 | Theory · Algorithms | PLANNED |  |  |  |  |  | [최대 유량·최소 컷과 매칭](algorithms-12.html) |  | `algorithms-12` |  |
-| 565 | Theory · Algorithms | PLANNED |  |  |  |  |  | [선형계획과 쌍대성 직관](algorithms-13.html) |  | `algorithms-13` |  |
-| 566 | Theory · Algorithms | PLANNED |  |  |  |  |  | [랜덤화·근사 알고리즘](algorithms-14.html) |  | `algorithms-14` |  |
-| 567 | Theory · Algorithms | PLANNED |  |  |  |  |  | [온라인 알고리즘과 경쟁비](algorithms-15.html) |  | `algorithms-15` |  |
-| 568 | Theory · Algorithms | PLANNED |  |  |  |  |  | [NP-난해와 환원](algorithms-16.html) |  | `algorithms-16` |  |
-| 569 | Theory · Algorithms | PLANNED |  |  |  |  |  | [병렬 알고리즘 모델](algorithms-17.html) |  | `algorithms-17` |  |
-| 570 | Theory · Algorithms | PLANNED |  |  |  |  |  | [조합 생성·그레이 코드·순열 열거 (TAOCP 4권)](algorithms-18.html) |  | `algorithms-18` |  |
-| 571 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 알고리즘 선택의 실전 기준표](algorithms-19.html) |  | `algorithms-19` |  |
-| 572 | Theory · Algorithms | PLANNED |  |  |  |  |  | [IR과 SSA 형식](algorithms-20.html) |  | `algorithms-20` |  |
-| 573 | Theory · Algorithms | PLANNED |  |  |  |  |  | [데이터플로 분석](algorithms-21.html) |  | `algorithms-21` |  |
-| 574 | Theory · Algorithms | PLANNED |  |  |  |  |  | [레지스터 할당(그래프 컬러링)과 스필 비용](algorithms-22.html) |  | `algorithms-22` |  |
-| 575 | Theory · Algorithms | PLANNED |  |  |  |  |  | [인라이닝·루프 변환·자동 벡터화](algorithms-23.html) |  | `algorithms-23` |  |
-| 576 | Theory · Algorithms | PLANNED |  |  |  |  |  | [JIT 계층화·워밍업·역최적화(deopt)](algorithms-24.html) |  | `algorithms-24` |  |
-| 577 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스택 머신 vs 레지스터 머신](algorithms-25.html) |  | `algorithms-25` |  |
-| 578 | Theory · Algorithms | PLANNED |  |  |  |  |  | [가스 회계 설계](algorithms-26.html) |  | `algorithms-26` |  |
-| 579 | Theory · Algorithms | PLANNED |  |  |  |  |  | [EVM 인터프리터 내부](algorithms-27.html) |  | `algorithms-27` |  |
-| 580 | Theory · Algorithms | PLANNED |  |  |  |  |  | [WASM 실행 모델과 샌드박싱 경계](algorithms-28.html) |  | `algorithms-28` |  |
-| 581 | Theory · Algorithms | PLANNED |  |  |  |  |  | [GC 심화](algorithms-29.html) |  | `algorithms-29` |  |
-| 582 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Rust 소유권·차용 검사기 내부(NLL)와 우회 패턴](algorithms-30.html) |  | `algorithms-30` |  |
-| 583 | Theory · Algorithms | PLANNED |  |  |  |  |  | [메모리 할당자 설계](algorithms-31.html) |  | `algorithms-31` |  |
-| 584 | Theory · Algorithms | PLANNED |  |  |  |  |  | [FFI·ABI 경계와 안전성(패닉·정렬·수명)](algorithms-32.html) |  | `algorithms-32` |  |
-| 585 | Theory · Algorithms | PLANNED |  |  |  |  |  | [결정론적 실행](algorithms-33.html) |  | `algorithms-33` |  |
-| 586 | Theory · Algorithms | PLANNED |  |  |  |  |  | [형식 검증](algorithms-34.html) |  | `algorithms-34` |  |
-| 587 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 실행 계층 지도 한 장으로](algorithms-35.html) |  | `algorithms-35` |  |
-| 588 | Theory · Algorithms | PLANNED |  |  |  |  |  | [메모리 모델과 원자성 순서](algorithms-36.html) |  | `algorithms-36` |  |
-| 589 | Theory · Algorithms | PLANNED |  |  |  |  |  | [락프리·wait-free, ABA 문제, 해저드 포인터·에포크 회수](algorithms-37.html) |  | `algorithms-37` |  |
-| 590 | Theory · Algorithms | PLANNED |  |  |  |  |  | [RCU](algorithms-38.html) |  | `algorithms-38` |  |
-| 591 | Theory · Algorithms | PLANNED |  |  |  |  |  | [false sharing·캐시라인 정렬·NUMA 지역성](algorithms-39.html) |  | `algorithms-39` |  |
-| 592 | Theory · Algorithms | PLANNED |  |  |  |  |  | [브랜치 예측·프리페치·데이터 지향 설계](algorithms-40.html) |  | `algorithms-40` |  |
-| 593 | Theory · Algorithms | PLANNED |  |  |  |  |  | [커널 바이패스와 zero-copy](algorithms-41.html) |  | `algorithms-41` |  |
-| 594 | Theory · Algorithms | PLANNED |  |  |  |  |  | [이벤트 루프 vs 스레드 vs 액터 모델](algorithms-42.html) |  | `algorithms-42` |  |
-| 595 | Theory · Algorithms | PLANNED |  |  |  |  |  | [백프레셔와 큐 이론](algorithms-43.html) |  | `algorithms-43` |  |
-| 596 | Theory · Algorithms | PLANNED |  |  |  |  |  | [테일 레이턴시](algorithms-44.html) |  | `algorithms-44` |  |
-| 597 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프로파일링 심화](algorithms-45.html) |  | `algorithms-45` |  |
-| 598 | Theory · Algorithms | PLANNED |  |  |  |  |  | [벤치마크 방법론](algorithms-46.html) |  | `algorithms-46` |  |
-| 599 | Theory · Algorithms | PLANNED |  |  |  |  |  | [eBPF로 프로덕션 관측](algorithms-47.html) |  | `algorithms-47` |  |
-| 600 | Theory · Algorithms | PLANNED |  |  |  |  |  | [분산 트레이싱과 샘플링 전략](algorithms-48.html) |  | `algorithms-48` |  |
-| 601 | Theory · Algorithms | PLANNED |  |  |  |  |  | [용량 계획·SLO와 에러 예산](algorithms-49.html) |  | `algorithms-49` |  |
-| 602 | Theory · Algorithms | PLANNED |  |  |  |  |  | [카오스 엔지니어링·장애 주입 설계](algorithms-50.html) |  | `algorithms-50` |  |
-| 603 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 성능 예산 문서 쓰기](algorithms-51.html) |  | `algorithms-51` |  |
-| 604 | Theory · Algorithms | PLANNED |  |  |  |  |  | [일관성 모델 지도](algorithms-52.html) |  | `algorithms-52` |  |
-| 605 | Theory · Algorithms | PLANNED |  |  |  |  |  | [논리 시계·벡터 시계·하이브리드 논리 시계(HLC)](algorithms-53.html) |  | `algorithms-53` |  |
-| 606 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Raft 심화](algorithms-54.html) |  | `algorithms-54` |  |
-| 607 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Multi-Paxos·Flexible Paxos](algorithms-55.html) |  | `algorithms-55` |  |
-| 608 | Theory · Algorithms | PLANNED |  |  |  |  |  | [비잔틴 정족수(3f+1)와 PBFT](algorithms-56.html) |  | `algorithms-56` |  |
-| 609 | Theory · Algorithms | PLANNED |  |  |  |  |  | [DAG 합의](algorithms-57.html) |  | `algorithms-57` |  |
-| 610 | Theory · Algorithms | PLANNED |  |  |  |  |  | [나카모토 합의의 확률적 최종성과 selfish mining](algorithms-58.html) |  | `algorithms-58` |  |
-| 611 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Casper FFG + LMD-GHOST](algorithms-59.html) |  | `algorithms-59` |  |
-| 612 | Theory · Algorithms | PLANNED |  |  |  |  |  | [싱글슬롯 파이널리티와 서명 집계 병목](algorithms-60.html) |  | `algorithms-60` |  |
-| 613 | Theory · Algorithms | PLANNED |  |  |  |  |  | [데이터 가용성 샘플링과 소거부호(Reed-Solomon)](algorithms-61.html) |  | `algorithms-61` |  |
-| 614 | Theory · Algorithms | PLANNED |  |  |  |  |  | [라이트 클라이언트와 상태 없는(stateless) 검증](algorithms-62.html) |  | `algorithms-62` |  |
-| 615 | Theory · Algorithms | PLANNED |  |  |  |  |  | [크로스체인 신뢰 가정 분류](algorithms-63.html) |  | `algorithms-63` |  |
-| 616 | Theory · Algorithms | PLANNED |  |  |  |  |  | [시퀀서 분산화와 강제 포함(force inclusion)](algorithms-64.html) |  | `algorithms-64` |  |
-| 617 | Theory · Algorithms | PLANNED |  |  |  |  |  | [사기 증명 vs 유효성 증명의 게임 이론](algorithms-65.html) |  | `algorithms-65` |  |
-| 618 | Theory · Algorithms | PLANNED |  |  |  |  |  | [PBS·MEV 경매·타이밍 게임](algorithms-66.html) |  | `algorithms-66` |  |
-| 619 | Theory · Algorithms | PLANNED |  |  |  |  |  | [멱등성과 "정확히 한 번"](algorithms-67.html) |  | `algorithms-67` |  |
-| 620 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 장애 모델과 신뢰 가정을 먼저 쓰는 습관](algorithms-68.html) |  | `algorithms-68` |  |
-| 621 | Theory · Algorithms | PLANNED |  |  |  |  |  | [MVCC 내부와 스냅샷 격리의 이상현상(write skew)](algorithms-69.html) |  | `algorithms-69` |  |
-| 622 | Theory · Algorithms | PLANNED |  |  |  |  |  | [WAL·그룹 커밋·fsync 비용](algorithms-70.html) |  | `algorithms-70` |  |
-| 623 | Theory · Algorithms | PLANNED |  |  |  |  |  | [LSM 트리 튜닝](algorithms-71.html) |  | `algorithms-71` |  |
-| 624 | Theory · Algorithms | PLANNED |  |  |  |  |  | [B+트리 vs LSM](algorithms-72.html) |  | `algorithms-72` |  |
-| 625 | Theory · Algorithms | PLANNED |  |  |  |  |  | [상태 트리 저장 문제](algorithms-73.html) |  | `algorithms-73` |  |
-| 626 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프루닝·아카이브·스냅 싱크](algorithms-74.html) |  | `algorithms-74` |  |
-| 627 | Theory · Algorithms | PLANNED |  |  |  |  |  | [인덱싱 파이프라인 설계](algorithms-75.html) |  | `algorithms-75` |  |
-| 628 | Theory · Algorithms | PLANNED |  |  |  |  |  | [컬럼 스토어와 벡터화 실행(OLAP)](algorithms-76.html) |  | `algorithms-76` |  |
-| 629 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스트리밍 처리 의미론](algorithms-77.html) |  | `algorithms-77` |  |
-| 630 | Theory · Algorithms | PLANNED |  |  |  |  |  | [벡터 DB와 ANN 인덱스(HNSW·IVF-PQ)](algorithms-78.html) |  | `algorithms-78` |  |
-| 631 | Theory · Algorithms | PLANNED |  |  |  |  |  | [캐시 일관성·무효화·스탬피드 방지](algorithms-79.html) |  | `algorithms-79` |  |
-| 632 | Theory · Algorithms | PLANNED |  |  |  |  |  | [외부 정렬·병합 전략과 병렬 정렬 (TAOCP 3권)](algorithms-80.html) |  | `algorithms-80` |  |
-| 633 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 데이터 모델이 성능을 정한다](algorithms-81.html) |  | `algorithms-81` |  |
-| 634 | Theory · Algorithms | PLANNED |  |  |  |  |  | [랜덤 오라클·길이 연장 공격·도메인 분리](algorithms-82.html) |  | `algorithms-82` |  |
-| 635 | Theory · Algorithms | PLANNED |  |  |  |  |  | [HMAC·AEAD와 nonce 오용 저항](algorithms-83.html) |  | `algorithms-83` |  |
-| 636 | Theory · Algorithms | PLANNED |  |  |  |  |  | [난수 생성과 CSPRNG 품질 (TAOCP 2권)](algorithms-84.html) |  | `algorithms-84` |  |
-| 637 | Theory · Algorithms | PLANNED |  |  |  |  |  | [서명 스킴 비교](algorithms-85.html) |  | `algorithms-85` |  |
-| 638 | Theory · Algorithms | PLANNED |  |  |  |  |  | [임계 서명·MPC·분산 키 생성(DKG)](algorithms-86.html) |  | `algorithms-86` |  |
-| 639 | Theory · Algorithms | PLANNED |  |  |  |  |  | [커밋먼트](algorithms-87.html) |  | `algorithms-87` |  |
-| 640 | Theory · Algorithms | PLANNED |  |  |  |  |  | [다중정밀 산술(bignum)](algorithms-88.html) |  | `algorithms-88` |  |
-| 641 | Theory · Algorithms | PLANNED |  |  |  |  |  | [고정소수점 산술과 반올림 정책](algorithms-89.html) |  | `algorithms-89` |  |
-| 642 | Theory · Algorithms | PLANNED |  |  |  |  |  | [유한체·다항식 산술과 NTT 구현 관점](algorithms-90.html) |  | `algorithms-90` |  |
-| 643 | Theory · Algorithms | PLANNED |  |  |  |  |  | [산술화](algorithms-91.html) |  | `algorithms-91` |  |
-| 644 | Theory · Algorithms | PLANNED |  |  |  |  |  | [다항식 IOP](algorithms-92.html) |  | `algorithms-92` |  |
-| 645 | Theory · Algorithms | PLANNED |  |  |  |  |  | [재귀 증명과 증명 집계](algorithms-93.html) |  | `algorithms-93` |  |
-| 646 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프라이버시 프리미티브](algorithms-94.html) |  | `algorithms-94` |  |
-| 647 | Theory · Algorithms | PLANNED |  |  |  |  |  | [포스트퀀텀 전환은 암호가 아니라 조정(coordination) 문제](algorithms-95.html) |  | `algorithms-95` |  |
-| 648 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 검증 가능한 시스템 설계 체크리스트](algorithms-96.html) |  | `algorithms-96` |  |
-| 649 | Theory · Algorithms | PLANNED |  |  |  |  |  | [트랜스포머 계산 구조·KV 캐시·추론 서빙(연속 배칭·PagedAttention)…](algorithms-97.html) |  | `algorithms-97` |  |
-| 650 | Theory · Algorithms | PLANNED |  |  |  |  |  | [RAG 설계·리트리버 품질 지표와 평가 하네스(골든·프로퍼티·회귀)](algorithms-98.html) |  | `algorithms-98` |  |
-| 651 | Theory · Algorithms | PLANNED |  |  |  |  |  | [에이전트 루프 설계](algorithms-99.html) |  | `algorithms-99` |  |
-| 652 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[Final] 내 스택의 ADR + 위협 모델 한 편 쓰기](algorithms-100.html) |  | `algorithms-100` |  |
-| 653 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money](pocs-won-stablecoin-fee-savings.html) | 원화 스테이블코인 '5조 절감'은 낙관 시나리오 한 칸 — 창출이 아니라 이전이다 | `won-stablecoin-fee-savings` |  |
-| 654 | Theory · Economics | PLANNED |  |  | PoC |  |  | [On-chain settlement funding — the card issuer's working capital, not the cardholder's payment](pocs-onchain-settlement-funding.html) | 온체인 정산 자금 조달 — 소비자의 결제가 아니라 카드 사업자의 운전자본 | `onchain-settlement-funding` |  |
-| 655 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A good bet that lost looks exactly like a bad bet that lost](pocs-a-good-bet-that-lost.html) | 잃은 좋은 베팅과 잃은 나쁜 베팅은 똑같이 생겼다 | `a-good-bet-that-lost` |  |
-| 656 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Every yield is somebody's cost — the three places it can come from](pocs-where-yield-comes-from.html) | 모든 수익률은 누군가의 비용이다 — 나올 수 있는 자리는 셋뿐 | `where-yield-comes-from` |  |
-| 657 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Gross over net — the recycling multiple](pocs-gross-over-net.html) | 총액 ÷ 순액 — 재활용 배수 | `gross-over-net` |  |
-| 658 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The risk-free rate is the floor under every yield](pocs-risk-free-rate-is-the-floor.html) | 무위험 이자율이 모든 수익률의 바닥이다 | `risk-free-rate-is-the-floor` |  |
-| 659 | Theory · Economics | PLANNED |  |  | PoC |  |  | [M2, the dollar, and why crypto is a liquidity trade](pocs-m2-and-the-dollar.html) | M2, 달러, 그리고 크립토가 유동성 트레이드인 이유 | `m2-and-the-dollar` |  |
-| 660 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Providing liquidity is selling volatility, and the loss is not impermanent](pocs-lp-is-a-short-volatility-position.html) | 유동성 공급은 변동성을 파는 것이고, 그 손실은 비영구적이지 않다 | `lp-is-a-short-volatility-position` |  |
-| 661 | Theory · Economics | PLANNED |  |  | PoC |  |  | [An indicator adds no information — it adds a decision](pocs-indicators-add-a-decision.html) | 지표는 정보를 더하지 않는다 — 결정을 더한다 | `indicators-add-a-decision` |  |
-| 662 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Does a chain pay for its own security?](pocs-fees-over-security-budget.html) | 체인은 자기 보안 비용을 자기가 내고 있는가 | `fees-over-security-budget` |  |
-| 663 | Theory · Economics | PLANNED |  |  | PoC |  |  | [War headlines, falling gold — a geopolitical shock arrives on two wires](pocs-two-channels-of-a-war.html) | 전쟁 헤드라인에 금이 떨어졌다 — 지정학 충격은 두 배선으로 온다 | `two-channels-of-a-war` |  |
-| 664 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Kalshi passes Polymarket — and 80% of the win is sports](pocs-eighty-percent-is-sports.html) | Kalshi 가 Polymarket 을 추월했다 — 그런데 이긴 것의 80% 가 스포츠다 | `eighty-percent-is-sports` |  |
-| 665 | Theory · Economics | PLANNED |  |  | PoC |  |  | [OLS regression — the line that assumes it caused something](pocs-ds-regression-ols.html) | OLS 회귀 — 무언가를 야기했다고 가정하는 직선 | `ds-regression-ols` |  |
-| 666 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Time-series forecasting — ARIMA and why most series are not stationary](pocs-ds-time-series-arima.html) | 시계열 예측 — ARIMA, 그리고 대부분의 시계열이 정상적이지 않은 이유 | `ds-time-series-arima` |  |
-| 667 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Bayesian inference — a prior is an assumption you have to write down](pocs-ds-bayesian-inference.html) | 베이지안 추론 — 사전분포는 적어 두어야 하는 가정이다 | `ds-bayesian-inference` |  |
-| 668 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Monte Carlo — simulating the distribution you cannot solve for](pocs-ds-monte-carlo.html) | 몬테카를로 — 풀 수 없는 분포를 시뮬레이션하기 | `ds-monte-carlo` |  |
-| 669 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A/B testing — the p-value that a peeked experiment inflates](pocs-ds-ab-testing.html) | A/B 테스트 — 훔쳐본 실험이 부풀리는 p-값 | `ds-ab-testing` |  |
-| 670 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Causal inference — DiD, IV, and RDD when you cannot randomize](pocs-ds-causal-inference.html) | 인과추론 — 무작위화가 불가능할 때의 DiD·IV·RDD | `ds-causal-inference` |  |
-| 671 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Clustering — k-means finds groups even when there are none](pocs-ds-clustering.html) | 군집화 — k-평균은 없는 집단도 찾아낸다 | `ds-clustering` |  |
-| 672 | Theory · Economics | PLANNED |  |  | PoC |  |  | [PCA — compressing dimensions and the meaning that leaks out](pocs-ds-dimensionality-pca.html) | PCA — 차원 압축과 새어 나가는 의미 | `ds-dimensionality-pca` |  |
-| 673 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Gradient boosting — XGBoost wins the leaderboard and hides the reason](pocs-ds-gradient-boosting.html) | 그래디언트 부스팅 — XGBoost는 리더보드를 이기고 이유를 숨긴다 | `ds-gradient-boosting` |  |
-| 674 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cross-validation — the honest way to fail before you ship](pocs-ds-cross-validation.html) | 교차검증 — 배포 전에 정직하게 실패하는 법 | `ds-cross-validation` |  |
-| 675 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Anomaly detection — the alert that fires on everything or nothing](pocs-ds-anomaly-detection.html) | 이상 탐지 — 전부에 울리거나 아무것에도 안 울리는 경보 | `ds-anomaly-detection` |  |
-| 676 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Survival analysis — churn is a time-to-event, not a yes/no](pocs-ds-survival-analysis.html) | 생존분석 — 이탈은 예/아니오가 아니라 사건까지의 시간이다 | `ds-survival-analysis` |  |
-| 677 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cohort analysis — the retention curve a single average hides](pocs-ds-cohort-analysis.html) | 코호트 분석 — 하나의 평균이 감추는 리텐션 곡선 | `ds-cohort-analysis` |  |
-| 678 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cointegration — two prices that wander together are a trade](pocs-ds-var-cointegration.html) | 공적분 — 함께 방황하는 두 가격은 하나의 거래다 | `ds-var-cointegration` |  |
-| 679 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Extreme value theory — the tail is a different distribution](pocs-ds-extreme-value.html) | 극단값 이론 — 꼬리는 다른 분포다 | `ds-extreme-value` |  |
-| 680 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Dune — on-chain analytics is SQL over a decoded ledger](pocs-ds-dune-analytics.html) | Dune — 온체인 분석은 디코딩된 원장 위의 SQL이다 | `ds-dune-analytics` |  |
-| 681 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The Graph — a subgraph is an index you have to design](pocs-ds-the-graph-subgraph.html) | The Graph — 서브그래프는 설계해야 하는 인덱스다 | `ds-the-graph-subgraph` |  |
-| 682 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Address labeling — analytics is only as good as its entity map](pocs-ds-onchain-labels.html) | 주소 라벨링 — 분석은 그 엔티티 지도만큼만 정확하다 | `ds-onchain-labels` |  |
-| 683 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Flipside and dbt — modeling on-chain data like a warehouse](pocs-ds-flipside-dbt.html) | Flipside와 dbt — 온체인 데이터를 웨어하우스처럼 모델링하기 | `ds-flipside-dbt` |  |
-| 684 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Feature engineering — the model is mostly the features](pocs-ds-feature-engineering.html) | 피처 엔지니어링 — 모델의 대부분은 피처다 | `ds-feature-engineering` |  |
-| 685 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The fourth column: the −23,000 that a dozen notes cited never existed](pocs-revision-is-the-fourth-column.html) | 네 번째 칸: 여러 글이 인용한 −23,000은 존재한 적이 없다 | `revision-is-the-fourth-column` |  |
-| 686 | Theory · Economics | PLANNED |  |  | PoC |  |  | [When a chain can't defend itself, it becomes a token on one that can](pocs-chain-becomes-a-token.html) | 체인이 스스로를 못 지키면, 지킬 수 있는 체인 위의 토큰이 된다 | `chain-becomes-a-token` |  |
-| 687 | Theory · Economics | PLANNED |  |  | PoC |  |  | [When nobody needs to hold ETH, is ETH money or fuel?](pocs-eth-money-or-fuel.html) | 아무도 ETH 를 쥘 필요가 없을 때, ETH 는 돈인가 연료인가 | `eth-money-or-fuel` |  |
-| 688 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A rising stablecoin cap is repackaged M2, not new money](pocs-stablecoin-mcap-is-repackaged-money.html) | 스테이블코인 시총 증가는 새 돈이 아니라 재포장된 M2다 | `stablecoin-mcap-is-repackaged-money` |  |
-| 800 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [A candle is four prices and a story — read the body before the wick](pocs-tv-candlestick-four-prices.html) | 캔들 하나는 네 가지 가격이자 이야기다 — 꼬리보다 몸통을 먼저 읽는다 | `tv-candlestick-four-prices` |  |
-| 801 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [The same chart tells three different stories on W, D, and 1h — read the higher one first](pocs-tv-timeframes-top-down.html) | 같은 차트가 W, D, 1h에서 서로 다른 이야기를 한다 — 상위부터 읽는다 | `tv-timeframes-top-down` |  |
-| 802 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [Support and resistance are zones, not lines — the more touches, the more watched, but each test weakens it](pocs-tv-support-resistance-zones.html) | 지지와 저항은 선이 아니라 구간이다 — 터치가 많을수록 더 주목받지만, 시험 한 번마다 약해진다 | `tv-support-resistance-zones` |  |
-| 803 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [An uptrend is a rule, not a slope — higher highs and higher lows, or it isn't one](pocs-tv-trend-structure-swings.html) | 상승 추세는 기울기가 아니라 규칙이다 — 고점도 저점도 높아져야 상승 추세다 | `tv-trend-structure-swings` |  |
-| 804 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [A moving average is last N closes smoothed — its length decides which trend it tracks](pocs-tv-moving-averages-20-50-200.html) | 이동평균은 최근 N개 종가를 평활한 선이다 — 길이가 어느 추세를 추적하는지를 정한다 | `tv-moving-averages-20-50-200` |  |
-| 805 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [Volume confirms price — a move nobody traded is a move you shouldn't trust](pocs-tv-volume-confirms-price.html) | 거래량이 가격을 확인한다 — 아무도 거래하지 않은 움직임은 믿을 게 못 된다 | `tv-volume-confirms-price` |  |
-| 806 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [RSI at 70 is not a sell signal — it is a question about the trend](pocs-tv-rsi-momentum-divergence.html) | RSI 70은 매도 신호가 아니다 — 추세에 대한 질문이다 | `tv-rsi-momentum-divergence` |  |
-| 807 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [MACD is two EMAs racing — the signal line only marks who is ahead](pocs-tv-macd-momentum-shift.html) | MACD는 두 EMA의 경주다 — 시그널선은 누가 앞서는지만 표시한다 | `tv-macd-momentum-shift` |  |
-| 808 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [The stop goes beyond structure — position size is what makes it survivable](pocs-tv-risk-on-the-chart.html) | 스탑은 구조 너머에 둔다 — 포지션 크기가 그것을 버틸 수 있게 만든다 | `tv-risk-on-the-chart` |  |
-| 809 | Invest · Invest | IMPORTANT | 2026-09-19 |  | Lecture | chat |  | [Dalio's Holy Grail — price is spending over quantity, and diversification means balancing risk, not dollars](pocs-dalio-economic-machine-holy-grail.html) | 달리오의 성배 — 가격은 지출을 수량으로 나눈 값이고, 분산투자는 금액이 아니라 위험을 맞추는 것이다 | `dalio-economic-machine-holy-grail` |  |
-| 810 | Invest · Invest | NEW | 2026-09-18 |  | Basics | chat |  | [A Fibonacci retracement is a pullback ruler, not a prophecy — anchor the swing, then confirm with structure](pocs-tv-fibonacci-retracement-confluence.html) | 피보나치 되돌림은 되돌림 자체를 재는 자다, 예언이 아니다 — 스윙을 먼저 고정하고 구조로 확인한다 | `tv-fibonacci-retracement-confluence` |  |
-| 811 | Invest · Economics | NEW | 2026-09-18 |  | PoC | chat |  | [Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target](pocs-max-pain-describes-not-pulls.html) | 맥스페인은 옵션 체인을 서술하지 가격을 끌어당기지 않는다 — 움직이는 표적을 지켜본 2주 | `max-pain-describes-not-pulls` |  |
-| 812 | Invest · Invest | NEW | 2026-09-19 |  | Lecture | chat |  | [Markets have a shared vocabulary — learn it before you look for an edge](pocs-mit-financial-markets-terms-edge.html) | 마켓에는 공통 용어가 있다 — 엣지를 찾기 전에 그 용어부터 배워라 | `mit-financial-markets-terms-edge` |  |
-| 813 | Invest · Economics | NEW | 2026-09-19 |  | Lecture | chat |  | [The Bank of Japan held rates against 3% headline inflation — because Ueda was reading a different number](pocs-ueda-boj-underlying-inflation-wage-loop.html) | 일본은행은 헤드라인 인플레이션 3%에도 금리를 동결했다 — 우에다가 보고 있던 숫자는 따로 있었다 | `ueda-boj-underlying-inflation-wage-loop` |  |
-| 814 | Invest · Economics | NEW | 2026-09-19 |  | PoC | chat |  | [Twenty-one banks are forming a joint venture to issue a dollar stablecoin — betting on regulatory standing, not on liquidity](pocs-twenty-one-banks-stablecoin-venture.html) | 글로벌 은행 21곳이 달러 스테이블코인 합작 법인을 만든다 — 유동성이 아니라 규제상 지위에 거는 베팅 | `twenty-one-banks-stablecoin-venture` |  |
-| 815 | Invest · Economics | NEW | 2026-09-19 |  | Talk | chat |  | [Nazarov at the CFTC — if global finance moves on-chain and the US doesn't move first, it loses the 60% share that makes it the center of finance](pocs-nazarov-cftc-tokenization-us-60-percent.html) | CFTC의 나자로프 — 글로벌 금융이 온체인으로 옮겨갈 때 미국이 먼저 움직이지 않으면, 미국을 금융 중심지로 만드는 60% 점유율을 잃는다 | `nazarov-cftc-tokenization-us-60-percent` |  |
-| 816 | Invest · Economics | NEW | 2026-09-21 |  | Talk | gemini | converse | [Tokenization is the next wrapper after the mutual fund and the ETF — BlackRock's COO makes the institutional case](pocs-goldstein-blackrock-tokenization-next-wrapper.html) | 토큰화는 뮤추얼펀드, ETF 다음의 새 래퍼다 — BlackRock COO가 기관 투자자 관점에서 이를 옹호한다 | `goldstein-blackrock-tokenization-next-wrapper` | [raw](raw/2026-09-21-gemini-youtube.md) |
-| 817 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Automation and Repression — when control gets cheaper than sharing](pocs-automation-and-repression-acemoglu.html) | Automation and Repression — 통제가 분배보다 싸질 때 | `automation-and-repression-acemoglu` |  |
-| 818 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Investing for Programmers — understanding markets through data and code](pocs-investing-for-programmers-book.html) | Investing for Programmers — 데이터와 코드로 시장 이해하기 | `investing-for-programmers-book` |  |
-| 819 | Invest · Economics | PLANNED |  |  | PoC |  |  | [ETH ETF outflows — read which window, not the size](pocs-which-etf-window-not-the-size.html) | ETH ETF 유출 — 규모가 아니라 어느 창구인지 읽어라 | `which-etf-window-not-the-size` |  |
-| 820 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Reading a PPI print — services is the bridge to core, not the headline](pocs-services-ppi-is-the-bridge-to-core.html) | PPI를 읽는 법 — 코어로 이어지는 다리는 헤드라인이 아니라 서비스 | `services-ppi-is-the-bridge-to-core` |  |
-| 900 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Andrew Ng: AI automates tasks, not jobs — and context is the edge that's left](pocs-ng-tasks-not-jobs-context-advantage.html) | 앤드류 응: AI는 직업이 아니라 태스크를 자동화한다 — 남는 우위는 맥락이다 | `ng-tasks-not-jobs-context-advantage` |  |
-| 901 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Nothing exceptional comes without a through line — Robert Greene on why "a bit of everything" is a trap](pocs-greene-through-line-focus.html) | 관통선 없이는 어떤 탁월함도 없다 — 로버트 그린, "이것저것 조금씩"이 함정인 이유 | `greene-through-line-focus` |  |
-| 902 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Roof, pillars, foundation — summarize by building a structure, not restating sentences](pocs-summarize-roof-pillars-foundation.html) | 지붕, 기둥, 기단 — 요약은 문장을 다시 쓰는 일이 아니라 구조를 짓는 일이다 | `summarize-roof-pillars-foundation` |  |
-| 903 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Laurie Santos's three rules for happiness — read negative emotions as data, swap self-criticism for self-compassion, and spend time like it's money](pocs-santos-three-rules-time-affluence.html) | 로리 산토스의 행복 3원칙 — 부정적 감정은 데이터로 읽고, 자기비판 대신 자기연민을 쓰고, 시간을 돈처럼 아껴라 | `santos-three-rules-time-affluence` |  |
-| 904 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Strategic thinking is meta-thinking — update your worldview before the world forces you to](pocs-bremmer-strategic-thinking-update-worldview.html) | 전략적 사고는 메타 사고다 — 세계가 강제하기 전에 자기 세계관을 갱신하라 | `bremmer-strategic-thinking-update-worldview` |  |
-| 905 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Damour on emotions — a seat on the board, never the deciding vote](pocs-damour-emotions-board-seat-empathy-tax.html) | 데이머의 감정론 — 이사회에 자리는 있어도 결정권은 없다 | `damour-emotions-board-seat-empathy-tax` |  |
-| 906 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Reading has no circuit of its own — the brain repurposes one, and skimming wires it worse](pocs-reading-rewires-brain-deep-reading.html) | 읽기는 전용 회로가 없다 — 뇌는 다른 회로를 빌려 쓰고, 훑어 읽으면 더 나쁘게 배선된다 | `reading-rewires-brain-deep-reading` |  |
-| 907 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Pocock — code got cheap to generate, which makes bad code the most expensive mistake in software history](pocs-pocock-fundamentals-matter-more.html) | Pocock — 코드를 찍어내는 비용이 싸졌기에, 나쁜 코드는 소프트웨어 역사상 가장 비싼 실수가 됐다 | `pocock-fundamentals-matter-more` |  |
-| 908 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Pick one idea and go deep — the idea only appears after contact with reality, not before it](pocs-yc-pick-one-idea-go-deep.html) | 한 가지 아이디어를 골라 깊이 판다 — 아이디어는 현실과 부딪힌 뒤에야 드러난다, 그 전이 아니라 | `yc-pick-one-idea-go-deep` |  |
-| 909 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it](pocs-tao-helicopter-and-the-waterfall.html) | 헬리콥터는 폭포까지 데려다주지만 아무것도 가르치지 않는다 — 테렌스 타오가 말하는, AI가 사용하는 사람에게서 가져가는 것 | `tao-helicopter-and-the-waterfall` |  |
-| 910 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The agent is a good sergeant, not a general — Matt Pocock on why fundamentals matter more with AI, not less](pocs-pocock-sergeant-not-general.html) | 에이전트는 좋은 하사관이지 장군이 아니다 — 맷 포콕이 말하는, AI와 함께라면 기본기가 덜이 아니라 더 중요한 이유 | `pocock-sergeant-not-general` |  |
-| 911 | Life | NEW | 2026-09-18 |  | Talk | gemini |  | [You did not author your last thought — Harris on free will, and why that is a reason for compassion, not fatalism](pocs-harris-you-did-not-author-your-last-thought.html) | 당신은 마지막 생각의 저자가 아니었다 — 해리스의 자유의지론, 그리고 그것이 숙명론이 아니라 자비의 이유인 까닭 | `harris-you-did-not-author-your-last-thought` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
-| 912 | Life | NEW | 2026-09-18 |  | Vlog | gemini |  | [Eat the same dish twice — a Tokyo vlog as a method for paying attention](pocs-eat-the-same-dish-twice-tokyo.html) | 같은 음식을 두 번 먹어라 — 주의를 기울이는 방법으로서의 도쿄 브이로그 | `eat-the-same-dish-twice-tokyo` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
-| 913 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Systems thinking — the four Cynefin domains decide whether you need a checklist, an analyst, a probe, or a pause](pocs-systems-thinking-cynefin-dart.html) | 시스템 사고 — 체크리스트, 분석, 프로브, 정지 중 무엇이 필요한지는 4가지 Cynefin 유형이 결정한다 | `systems-thinking-cynefin-dart` |  |
-| 914 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Research any topic like a PhD student — narrow the question until the literature narrows itself](pocs-research-any-topic-like-a-phd.html) | PhD 학생처럼 아무 주제나 연구하기 — 질문을 좁힐수록 문헌도 저절로 좁아진다 | `research-any-topic-like-a-phd` |  |
-| 915 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [A week of your own thoughts, printed out, would embarrass you — reading is the way out of that room](pocs-greene-reading-leaves-the-prison.html) | 일주일간의 내 생각을 인쇄해 보면 민망할 것이다 — 독서는 그 방에서 나가는 길이다 | `greene-reading-leaves-the-prison` |  |
-| 916 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Watch the exact interval where it turned — Novak Djokovic on discipline, and the Kobe Bryant habit of replaying the loss](pocs-djokovic-discipline-watch-the-loss.html) | 흐름이 뒤집힌 그 구간을 직접 본다 — 노박 조코비치의 규율, 그리고 패배를 복기하는 코비 브라이언트의 방법 | `djokovic-discipline-watch-the-loss` |  |
-| 917 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [The AI labor market is splitting into a barbell — the deciding variable is agency, not job title](pocs-feifei-li-agency-barbell-spatial.html) | AI 노동시장은 바벨형으로 갈라지고 있다 — 결정 변수는 직함이 아니라 주체성이다 | `feifei-li-agency-barbell-spatial` |  |
-| 918 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Park Hyejin's ten-book test — pick what breaks a life through, not what lets it hide](pocs-park-hyejin-ten-books-breakthrough.html) | 박혜진의 인생책 기준 — 숨을 곳이 아니라 돌파구가 되는 책을 고른다 | `park-hyejin-ten-books-breakthrough` |  |
-| 919 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Jung Youngsu's ten books — read the sequel, record without judging, and let the hedge be the honest sentence](pocs-jung-youngsu-ten-books-irony.html) | 정영수의 인생책 10권 — 속편을 읽고, 판단 없이 기록하고, 망설임을 정직한 문장으로 남긴다 | `jung-youngsu-ten-books-irony` |  |
-| 920 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [A subscriber poll's #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean](pocs-readers-top-novels-korean-canon.html) | 구독자 투표에서 1위한 소설의 결론은 "실수는 되풀이된다"다 — 319명이 뽑은 인생소설 8편, 그중 6편이 한국 소설 | `readers-top-novels-korean-canon` |  |
-| 921 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [공백의 책단장's foreign-novel top 7 — an outsider faces a system that already decided about them, seven times over](pocs-gongbaek-foreign-novels-top-7.html) | 공백의 책단장의 해외문학 TOP 7 — 일곱 번 반복되는 물음, 시스템이 이미 판단을 내린 사람은 어떻게 되는가 | `gongbaek-foreign-novels-top-7` |  |
-| 922 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [락서의 고전문학 톱10 — ten short classics, picked so a beginner finishes them and a foreigner recognizes them](pocs-raksseo-classics-top-10-beginners.html) | 락서의 고전문학 톱10 — 진입장벽이 낮아 완독하고, 외국에서도 통하는 고전 열 권 | `raksseo-classics-top-10-beginners` |  |
-| 923 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask](pocs-hwang-sokyong-read-classics-ai-era.html) | 황석영: AI에게 묻기 전에 고전을 읽어라 — 질문의 수준은 자신의 독서가 정한다 | `hwang-sokyong-read-classics-ai-era` |  |
-| 924 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Desire is demand minus need — Lacan's gap that no feature ever closes](pocs-lacan-rsi-desire-signifier.html) | 욕망은 요구에서 필요를 뺀 것이다 — 어떤 기능도 채우지 못하는 라캉의 간극 | `lacan-rsi-desire-signifier` |  |
-| 925 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [People don't buy the idea — they buy whether you can be heard](pocs-herjavec-they-buy-you-be-heard.html) | 사람들은 아이디어를 사지 않는다 — 당신이 들리게 할 수 있는지를 산다 | `herjavec-they-buy-you-be-heard` |  |
-| 926 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Rometty on resilience — feed the network before the crisis, then control what you can and box what you can't](pocs-rometty-resilience-relationships-attitude.html) | 로메티의 회복탄력성 — 위기 전에 관계망을 채우고, 통제할 수 있는 것은 통제하고 나머지는 상자에 넣는다 | `rometty-resilience-relationships-attitude` |  |
-| 927 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Dance beats the treadmill — because once a movement stops requiring a decision, it stops training the brain](pocs-dancing-brain-workout-cognitive-reserve.html) | 춤이 트레드밀을 이긴다 — 동작이 결정을 요구하지 않게 되는 순간, 뇌 훈련도 멈춘다 | `dancing-brain-workout-cognitive-reserve` |  |
-| 928 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Flow is not a mood — it's a challenge-skill ratio you can set on purpose](pocs-kotler-flow-on-command-triggers-motivators.html) | 플로우는 기분이 아니다 — 의도적으로 맞출 수 있는 도전-역량 비율이다 | `kotler-flow-on-command-triggers-motivators` |  |
-| 929 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Lieberman on exercise myths — running doesn't wreck knees, slowing down with age does](pocs-lieberman-exercise-myths-healthspan.html) | 리버먼의 운동 신화 반박 — 달리기는 무릎을 망가뜨리지 않는다, 나이 들며 속도를 늦추는 쪽이 망가뜨린다 | `lieberman-exercise-myths-healthspan` |  |
-| 930 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Show up for yourself — truth, gut and follow-through are a production pipeline, not a mood](pocs-tang-show-up-truth-gut-follow-through.html) | 자신을 위해 나타나라 — 진실, 직감, 끝맺음은 기분이 아니라 하나의 생산 파이프라인이다 | `tang-show-up-truth-gut-follow-through` |  |
-| 931 | Life | NEW | 2026-09-21 |  | Talk | gemini | file | [Discipline is not inherited — it is the order you give yourself with no one watching](pocs-jocko-discipline-comes-from-within.html) | 규율은 물려받는 게 아니다 — 아무도 보지 않을 때 스스로에게 내리는 명령이다 | `jocko-discipline-comes-from-within` | [raw](raw/2026-09-21-gemini-youtube.md) |
-| 932 | Life | NEW | 2026-09-21 |  | Vlog | gemini | file | [A remote-island burger shop — the product is the tool, the community is the point](pocs-goto-island-burger-shop-community-living-room.html) | 외딴섬의 버거 가게 — 제품은 도구이고, 공동체가 목적이다 | `goto-island-burger-shop-community-living-room` | [raw](raw/2026-09-21-gemini-youtube.md) |
-| 933 | Life | NEW | 2026-09-21 |  | Talk | chat | deep | [A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code](pocs-piech-ai-multiplier-foundations-ten-minute-human.html) | 10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크 | `piech-ai-multiplier-foundations-ten-minute-human` | [raw](raw/2026-09-21-piech-ai-multiplier-foundations-ten-minute-human.txt) |
-| 1000 | Eng · Review | YESTERDAY DONE | 2026-09-16 | 2026-09-18 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
-| 1001 | Eng · Interview | IMPORTANT | 2026-09-16 |  | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
-| 1002 | Eng · Negotiation | IMPORTANT | 2026-09-16 |  | Negotiation |  |  | [The number that gets to yes](english-22.html) | 예스가 되는 숫자 | `english-22` |  |
-| 1003 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Tell me about a time you disagreed with your manager](english-23.html) | 매니저와 의견이 갈렸던 때를 말해 보세요 | `english-23` |  |
-| 1004 | Eng · First weeks | IMPORTANT | 2026-09-18 |  | First weeks |  |  | [The senior who has been here nine years](english-24.html) | 9년 있었던 시니어 | `english-24` |  |
-| 1005 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [The reviewer found a bug in your take-home](english-25.html) | 리뷰어가 과제에서 버그를 찾았다 | `english-25` |  |
-| 1006 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Why do you want to leave Korea?](english-27.html) | 왜 한국을 떠나려 하나요? | `english-27` |  |
-| 1007 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Explain your architecture to someone who won't read the diagram](english-30.html) | 다이어그램을 읽지 않을 사람에게 아키텍처 설명하기 | `english-30` |  |
-| 1008 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [How do you use AI, and what do you refuse to hand it?](english-32.html) | AI를 어떻게 쓰고, 무엇은 넘기지 않나요? | `english-32` |  |
-| 1009 | Eng · Planning | IMPORTANT | 2026-09-18 |  | Planning |  |  | [Grill me before you plan](english-33.html) | 계획하기 전에 나를 심문하라 | `english-33` |  |
-| 1010 | Eng · Interview | IMPORTANT | 2026-09-19 |  | Interview |  |  | [The mean is fine. Which percentile hurts?](english-35.html) | 평균은 괜찮아요. 어느 백분위수가 아픈가요? | `english-35` |  |
-| 1011 | Eng · Design review | IMPORTANT | 2026-09-20 |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
-| 1012 | Eng · Interview | IMPORTANT | 2026-09-21 |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
-| 1013 | Eng · Travel | NEW | 2026-09-21 |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
-| 1014 | Eng · Drama | NEW | 2026-09-21 |  | Drama |  |  | [Run yourself ragged, have the nerve to, live it up — the word book comes to lunch](english-39.html) | run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다 | `english-39` | [raw](raw/2026-09-21-english-39.txt) |
-| 1015 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
-| 1016 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
-| 1017 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
-| 1018 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
-| 1019 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
-| 1020 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
-| 1021 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
-| 1022 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
-| 1023 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
-| 1024 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
-| 1025 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
-| 1026 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
-| 1027 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
-| 1028 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
-| 1029 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
-| 1030 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
-| 1031 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
-| 1032 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
-| 1033 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
-| 1034 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
-| 1035 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
-| 1036 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
-| 1037 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
-| 1038 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
+| 501 | Theory · Math | DONE |  |  |  |  |  | [수열·급수·시그마](../html/docs/algorithms/geometric-series-dcf.html) |  | `math-1` |  |
+| 502 | Theory · Math | DONE |  |  |  |  |  | [공급·수요·효용·시장균형](../html/docs/algorithms/supply-demand-equilibrium.html) |  | `math-2` |  |
+| 503 | Theory · Math | DONE |  |  |  |  |  | [명제논리·집합·함수·관계](../topics/math-3.html) |  | `math-3` |  |
+| 504 | Theory · Algorithms | DONE |  |  |  |  |  | [분할상환분석 심화](../html/docs/algorithms/amortized-potential-function.html) |  | `algorithms-1` |  |
+| 505 | Theory · Algorithms | DONE |  |  |  |  |  | [균형 트리 계열 비교](../html/docs/algorithms/balanced-trees-concurrency.html) |  | `algorithms-2` |  |
+| 506 | Theory · Algorithms | DONE |  |  |  |  |  | [영속(persistent) 자료구조와 구조 공유](../html/docs/algorithms/persistent-structures-structural-sharing.html) |  | `algorithms-3` |  |
+| 507 | Theory · Math | IMPORTANT |  |  |  |  |  | [귀납법/구조적 재귀](math-4.html) |  | `math-4` |  |
+| 508 | Theory · Math | IMPORTANT |  |  |  |  |  | [그래프 기초(DAG·트리·해시 링크)](math-5.html) |  | `math-5` |  |
+| 509 | Theory · Math | IMPORTANT |  |  |  |  |  | [비둘기집 원리](math-6.html) |  | `math-6` |  |
+| 510 | Theory · Math | IMPORTANT |  |  |  |  |  | [Big-O & 가스](math-7.html) |  | `math-7` |  |
+| 511 | Theory · Math | IMPORTANT |  |  |  |  |  | [관계와 동치류](math-8.html) |  | `math-8` |  |
+| 512 | Theory · Math | IMPORTANT |  |  |  |  |  | [카운팅 원리(순열·조합·이항계수)](math-9.html) |  | `math-9` |  |
+| 513 | Theory · Math | IMPORTANT |  |  |  |  |  | [재귀관계와 생성함수(가볍게)](math-10.html) |  | `math-10` |  |
+| 514 | Theory · Math | IMPORTANT |  |  |  |  |  | [내시균형·죄수의 딜레마](math-11.html) |  | `math-11` |  |
+| 515 | Theory · Math | IMPORTANT |  |  |  |  |  | [경매(1·2위가격, 수입동등정리)](math-12.html) |  | `math-12` |  |
+| 516 | Theory · Math | IMPORTANT |  |  |  |  |  | [메커니즘 디자인(VCG 개념)](math-13.html) |  | `math-13` |  |
+| 517 | Theory · Math | NEW | 2026-09-19 |  | Lecture | chat |  | [Under uncertainty a rational agent ranks lotteries, not outcomes — and risk aversion is just a concave utility function](pocs-mit-decision-theory-vnm-risk-aversion.html) | 불확실성 하에서 합리적 행위자는 결과가 아니라 복권을 고른다 — 위험 회피는 그저 오목한 효용함수일 뿐이다 | `mit-decision-theory-vnm-risk-aversion` |  |
+| 518 | Theory · Math | PLANNED |  |  |  |  |  | [EIP-1559 수수료시장(base fee = AIMD)](math-14.html) |  | `math-14` |  |
+| 519 | Theory · Math | PLANNED |  |  |  |  |  | [셸링 포인트](math-15.html) |  | `math-15` |  |
+| 520 | Theory · Math | PLANNED |  |  |  |  |  | [조합 게임이론(제로섬 vs 비제로섬)](math-16.html) |  | `math-16` |  |
+| 521 | Theory · Math | PLANNED |  |  |  |  |  | [반복게임과 평판](math-17.html) |  | `math-17` |  |
+| 522 | Theory · Math | PLANNED |  |  |  |  |  | [벡터·행렬·행렬곱·역행렬](math-18.html) |  | `math-18` |  |
+| 523 | Theory · Math | PLANNED |  |  |  |  |  | [내적·노름·코사인 유사도](math-19.html) |  | `math-19` |  |
+| 524 | Theory · Math | PLANNED |  |  |  |  |  | [유한체 GF(p) 위 선형대수 (12월 다리, 스레드 A)](math-20.html) |  | `math-20` |  |
+| 525 | Theory · Math | PLANNED |  |  |  |  |  | [리스크·포트폴리오 행렬(공분산·상관)](math-21.html) |  | `math-21` |  |
+| 526 | Theory · Math | PLANNED |  |  |  |  |  | [고유값/고유벡터](math-22.html) |  | `math-22` |  |
+| 527 | Theory · Math | PLANNED |  |  |  |  |  | [PCA·SVD](math-23.html) |  | `math-23` |  |
+| 528 | Theory · Math | PLANNED |  |  |  |  |  | [수치선형대수(조건수)](math-24.html) |  | `math-24` |  |
+| 529 | Theory · Math | PLANNED |  |  |  |  |  | [행렬식과 랭크](math-25.html) |  | `math-25` |  |
+| 530 | Theory · Math | PLANNED |  |  |  |  |  | [최소제곱법(Least Squares)](math-26.html) |  | `math-26` |  |
+| 531 | Theory · Math | PLANNED |  |  |  |  |  | [미분·기울기·연쇄법칙](math-27.html) |  | `math-27` |  |
+| 532 | Theory · Math | PLANNED |  |  |  |  |  | [편미분/그래디언트](math-28.html) |  | `math-28` |  |
+| 533 | Theory · Math | PLANNED |  |  |  |  |  | [Gradient Descent / Convex 직관](math-29.html) |  | `math-29` |  |
+| 534 | Theory · Math | PLANNED |  |  |  |  |  | [라그랑주/KKT(개념)](math-30.html) |  | `math-30` |  |
+| 535 | Theory · Math | PLANNED |  |  |  |  |  | [뉴턴법/고정점 반복(StableSwap 필수)](math-31.html) |  | `math-31` |  |
+| 536 | Theory · Math | PLANNED |  |  |  |  |  | [고정소수점 산술(Q64.96)](math-32.html) |  | `math-32` |  |
+| 537 | Theory · Math | PLANNED |  |  |  |  |  | [테일러 급수(1차 근사)](math-33.html) |  | `math-33` |  |
+| 538 | Theory · Math | PLANNED |  |  |  |  |  | [볼록집합/볼록함수 판별](math-34.html) |  | `math-34` |  |
+| 539 | Theory · Math | PLANNED |  |  |  |  |  | [조건부확률·베이즈·기대값·정규분포](math-35.html) |  | `math-35` |  |
+| 540 | Theory · Math | PLANNED |  |  |  |  |  | [로그수익률·변동성(σ)](math-36.html) |  | `math-36` |  |
+| 541 | Theory · Math | PLANNED |  |  |  |  |  | [집중부등식(Chebyshev·Hoeffding, 12월 다리)](math-37.html) |  | `math-37` |  |
+| 542 | Theory · Math | PLANNED |  |  |  |  |  | [랜덤워크/GBM(개념)](math-38.html) |  | `math-38` |  |
+| 543 | Theory · Math | PLANNED |  |  |  |  |  | [랜덤워크·열확산 방정식](../html/docs/algorithms/random-walk-diffusion-black-scholes.html) |  | `math-39` |  |
+| 544 | Theory · Math | PLANNED |  |  |  |  |  | [VaR·꼬리리스크](math-40.html) |  | `math-40` |  |
+| 545 | Theory · Math | PLANNED |  |  |  |  |  | [LMSR/마켓 스코어링(Verex 연결)](math-41.html) |  | `math-41` |  |
+| 546 | Theory · Math | PLANNED |  |  |  |  |  | [마르코프 체인(개념)](math-42.html) |  | `math-42` |  |
+| 547 | Theory · Math | PLANNED |  |  |  |  |  | [상관관계와 공적분(가볍게)](math-43.html) |  | `math-43` |  |
+| 548 | Theory · Math | PLANNED |  |  |  |  |  | [정수론·모듈러 산술](math-44.html) |  | `math-44` |  |
+| 549 | Theory · Math | PLANNED |  |  |  |  |  | [군론 기초(순환군·이산로그)](math-45.html) |  | `math-45` |  |
+| 550 | Theory · Math | PLANNED |  |  |  |  |  | [ECC·디지털 서명](math-46.html) |  | `math-46` |  |
+| 551 | Theory · Math | PLANNED |  |  |  |  |  | [라그랑주 보간 + Reed-Solomon (스레드 A 수확)](math-47.html) |  | `math-47` |  |
+| 552 | Theory · Math | PLANNED |  |  |  |  |  | [페어링/KZG(개념)](math-48.html) |  | `math-48` |  |
+| 553 | Theory · Math | PLANNED |  |  |  |  |  | [엔트로피·정보·코딩](math-49.html) |  | `math-49` |  |
+| 554 | Theory · Math | PLANNED |  |  |  |  |  | [해시함수 설계 원리(스펀지·머클-담고르)](math-50.html) |  | `math-50` |  |
+| 555 | Theory · Math | PLANNED |  |  |  |  |  | [영지식 증명의 3성질(완전성·건전성·영지식)](math-51.html) |  | `math-51` |  |
+| 556 | Theory · Math | PLANNED |  |  |  |  |  | [신뢰된 셋업 vs 투명성(STARK vs SNARK)](math-52.html) |  | `math-52` |  |
+| 557 | Theory · Algorithms | PLANNED |  |  |  |  |  | [함수형 업데이트와 상태 diff](algorithms-4.html) |  | `algorithms-4` |  |
+| 558 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Verkle tree](algorithms-5.html) |  | `algorithms-5` |  |
+| 559 | Theory · Algorithms | PLANNED |  |  |  |  |  | [확률적 자료구조](algorithms-6.html) |  | `algorithms-6` |  |
+| 560 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스트리밍/스케치 알고리즘](algorithms-7.html) |  | `algorithms-7` |  |
+| 561 | Theory · Algorithms | PLANNED |  |  |  |  |  | [순서 통계](algorithms-8.html) |  | `algorithms-8` |  |
+| 562 | Theory · Algorithms | PLANNED |  |  |  |  |  | [문자열 인덱스](algorithms-9.html) |  | `algorithms-9` |  |
+| 563 | Theory · Algorithms | PLANNED |  |  |  |  |  | [세그먼트 트리 심화](algorithms-10.html) |  | `algorithms-10` |  |
+| 564 | Theory · Algorithms | PLANNED |  |  |  |  |  | [위상정렬·DAG 스케줄링](algorithms-11.html) |  | `algorithms-11` |  |
+| 565 | Theory · Algorithms | PLANNED |  |  |  |  |  | [최대 유량·최소 컷과 매칭](algorithms-12.html) |  | `algorithms-12` |  |
+| 566 | Theory · Algorithms | PLANNED |  |  |  |  |  | [선형계획과 쌍대성 직관](algorithms-13.html) |  | `algorithms-13` |  |
+| 567 | Theory · Algorithms | PLANNED |  |  |  |  |  | [랜덤화·근사 알고리즘](algorithms-14.html) |  | `algorithms-14` |  |
+| 568 | Theory · Algorithms | PLANNED |  |  |  |  |  | [온라인 알고리즘과 경쟁비](algorithms-15.html) |  | `algorithms-15` |  |
+| 569 | Theory · Algorithms | PLANNED |  |  |  |  |  | [NP-난해와 환원](algorithms-16.html) |  | `algorithms-16` |  |
+| 570 | Theory · Algorithms | PLANNED |  |  |  |  |  | [병렬 알고리즘 모델](algorithms-17.html) |  | `algorithms-17` |  |
+| 571 | Theory · Algorithms | PLANNED |  |  |  |  |  | [조합 생성·그레이 코드·순열 열거 (TAOCP 4권)](algorithms-18.html) |  | `algorithms-18` |  |
+| 572 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 알고리즘 선택의 실전 기준표](algorithms-19.html) |  | `algorithms-19` |  |
+| 573 | Theory · Algorithms | PLANNED |  |  |  |  |  | [IR과 SSA 형식](algorithms-20.html) |  | `algorithms-20` |  |
+| 574 | Theory · Algorithms | PLANNED |  |  |  |  |  | [데이터플로 분석](algorithms-21.html) |  | `algorithms-21` |  |
+| 575 | Theory · Algorithms | PLANNED |  |  |  |  |  | [레지스터 할당(그래프 컬러링)과 스필 비용](algorithms-22.html) |  | `algorithms-22` |  |
+| 576 | Theory · Algorithms | PLANNED |  |  |  |  |  | [인라이닝·루프 변환·자동 벡터화](algorithms-23.html) |  | `algorithms-23` |  |
+| 577 | Theory · Algorithms | PLANNED |  |  |  |  |  | [JIT 계층화·워밍업·역최적화(deopt)](algorithms-24.html) |  | `algorithms-24` |  |
+| 578 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스택 머신 vs 레지스터 머신](algorithms-25.html) |  | `algorithms-25` |  |
+| 579 | Theory · Algorithms | PLANNED |  |  |  |  |  | [가스 회계 설계](algorithms-26.html) |  | `algorithms-26` |  |
+| 580 | Theory · Algorithms | PLANNED |  |  |  |  |  | [EVM 인터프리터 내부](algorithms-27.html) |  | `algorithms-27` |  |
+| 581 | Theory · Algorithms | PLANNED |  |  |  |  |  | [WASM 실행 모델과 샌드박싱 경계](algorithms-28.html) |  | `algorithms-28` |  |
+| 582 | Theory · Algorithms | PLANNED |  |  |  |  |  | [GC 심화](algorithms-29.html) |  | `algorithms-29` |  |
+| 583 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Rust 소유권·차용 검사기 내부(NLL)와 우회 패턴](algorithms-30.html) |  | `algorithms-30` |  |
+| 584 | Theory · Algorithms | PLANNED |  |  |  |  |  | [메모리 할당자 설계](algorithms-31.html) |  | `algorithms-31` |  |
+| 585 | Theory · Algorithms | PLANNED |  |  |  |  |  | [FFI·ABI 경계와 안전성(패닉·정렬·수명)](algorithms-32.html) |  | `algorithms-32` |  |
+| 586 | Theory · Algorithms | PLANNED |  |  |  |  |  | [결정론적 실행](algorithms-33.html) |  | `algorithms-33` |  |
+| 587 | Theory · Algorithms | PLANNED |  |  |  |  |  | [형식 검증](algorithms-34.html) |  | `algorithms-34` |  |
+| 588 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 실행 계층 지도 한 장으로](algorithms-35.html) |  | `algorithms-35` |  |
+| 589 | Theory · Algorithms | PLANNED |  |  |  |  |  | [메모리 모델과 원자성 순서](algorithms-36.html) |  | `algorithms-36` |  |
+| 590 | Theory · Algorithms | PLANNED |  |  |  |  |  | [락프리·wait-free, ABA 문제, 해저드 포인터·에포크 회수](algorithms-37.html) |  | `algorithms-37` |  |
+| 591 | Theory · Algorithms | PLANNED |  |  |  |  |  | [RCU](algorithms-38.html) |  | `algorithms-38` |  |
+| 592 | Theory · Algorithms | PLANNED |  |  |  |  |  | [false sharing·캐시라인 정렬·NUMA 지역성](algorithms-39.html) |  | `algorithms-39` |  |
+| 593 | Theory · Algorithms | PLANNED |  |  |  |  |  | [브랜치 예측·프리페치·데이터 지향 설계](algorithms-40.html) |  | `algorithms-40` |  |
+| 594 | Theory · Algorithms | PLANNED |  |  |  |  |  | [커널 바이패스와 zero-copy](algorithms-41.html) |  | `algorithms-41` |  |
+| 595 | Theory · Algorithms | PLANNED |  |  |  |  |  | [이벤트 루프 vs 스레드 vs 액터 모델](algorithms-42.html) |  | `algorithms-42` |  |
+| 596 | Theory · Algorithms | PLANNED |  |  |  |  |  | [백프레셔와 큐 이론](algorithms-43.html) |  | `algorithms-43` |  |
+| 597 | Theory · Algorithms | PLANNED |  |  |  |  |  | [테일 레이턴시](algorithms-44.html) |  | `algorithms-44` |  |
+| 598 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프로파일링 심화](algorithms-45.html) |  | `algorithms-45` |  |
+| 599 | Theory · Algorithms | PLANNED |  |  |  |  |  | [벤치마크 방법론](algorithms-46.html) |  | `algorithms-46` |  |
+| 600 | Theory · Algorithms | PLANNED |  |  |  |  |  | [eBPF로 프로덕션 관측](algorithms-47.html) |  | `algorithms-47` |  |
+| 601 | Theory · Algorithms | PLANNED |  |  |  |  |  | [분산 트레이싱과 샘플링 전략](algorithms-48.html) |  | `algorithms-48` |  |
+| 602 | Theory · Algorithms | PLANNED |  |  |  |  |  | [용량 계획·SLO와 에러 예산](algorithms-49.html) |  | `algorithms-49` |  |
+| 603 | Theory · Algorithms | PLANNED |  |  |  |  |  | [카오스 엔지니어링·장애 주입 설계](algorithms-50.html) |  | `algorithms-50` |  |
+| 604 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 성능 예산 문서 쓰기](algorithms-51.html) |  | `algorithms-51` |  |
+| 605 | Theory · Algorithms | PLANNED |  |  |  |  |  | [일관성 모델 지도](algorithms-52.html) |  | `algorithms-52` |  |
+| 606 | Theory · Algorithms | PLANNED |  |  |  |  |  | [논리 시계·벡터 시계·하이브리드 논리 시계(HLC)](algorithms-53.html) |  | `algorithms-53` |  |
+| 607 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Raft 심화](algorithms-54.html) |  | `algorithms-54` |  |
+| 608 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Multi-Paxos·Flexible Paxos](algorithms-55.html) |  | `algorithms-55` |  |
+| 609 | Theory · Algorithms | PLANNED |  |  |  |  |  | [비잔틴 정족수(3f+1)와 PBFT](algorithms-56.html) |  | `algorithms-56` |  |
+| 610 | Theory · Algorithms | PLANNED |  |  |  |  |  | [DAG 합의](algorithms-57.html) |  | `algorithms-57` |  |
+| 611 | Theory · Algorithms | PLANNED |  |  |  |  |  | [나카모토 합의의 확률적 최종성과 selfish mining](algorithms-58.html) |  | `algorithms-58` |  |
+| 612 | Theory · Algorithms | PLANNED |  |  |  |  |  | [Casper FFG + LMD-GHOST](algorithms-59.html) |  | `algorithms-59` |  |
+| 613 | Theory · Algorithms | PLANNED |  |  |  |  |  | [싱글슬롯 파이널리티와 서명 집계 병목](algorithms-60.html) |  | `algorithms-60` |  |
+| 614 | Theory · Algorithms | PLANNED |  |  |  |  |  | [데이터 가용성 샘플링과 소거부호(Reed-Solomon)](algorithms-61.html) |  | `algorithms-61` |  |
+| 615 | Theory · Algorithms | PLANNED |  |  |  |  |  | [라이트 클라이언트와 상태 없는(stateless) 검증](algorithms-62.html) |  | `algorithms-62` |  |
+| 616 | Theory · Algorithms | PLANNED |  |  |  |  |  | [크로스체인 신뢰 가정 분류](algorithms-63.html) |  | `algorithms-63` |  |
+| 617 | Theory · Algorithms | PLANNED |  |  |  |  |  | [시퀀서 분산화와 강제 포함(force inclusion)](algorithms-64.html) |  | `algorithms-64` |  |
+| 618 | Theory · Algorithms | PLANNED |  |  |  |  |  | [사기 증명 vs 유효성 증명의 게임 이론](algorithms-65.html) |  | `algorithms-65` |  |
+| 619 | Theory · Algorithms | PLANNED |  |  |  |  |  | [PBS·MEV 경매·타이밍 게임](algorithms-66.html) |  | `algorithms-66` |  |
+| 620 | Theory · Algorithms | PLANNED |  |  |  |  |  | [멱등성과 "정확히 한 번"](algorithms-67.html) |  | `algorithms-67` |  |
+| 621 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 장애 모델과 신뢰 가정을 먼저 쓰는 습관](algorithms-68.html) |  | `algorithms-68` |  |
+| 622 | Theory · Algorithms | PLANNED |  |  |  |  |  | [MVCC 내부와 스냅샷 격리의 이상현상(write skew)](algorithms-69.html) |  | `algorithms-69` |  |
+| 623 | Theory · Algorithms | PLANNED |  |  |  |  |  | [WAL·그룹 커밋·fsync 비용](algorithms-70.html) |  | `algorithms-70` |  |
+| 624 | Theory · Algorithms | PLANNED |  |  |  |  |  | [LSM 트리 튜닝](algorithms-71.html) |  | `algorithms-71` |  |
+| 625 | Theory · Algorithms | PLANNED |  |  |  |  |  | [B+트리 vs LSM](algorithms-72.html) |  | `algorithms-72` |  |
+| 626 | Theory · Algorithms | PLANNED |  |  |  |  |  | [상태 트리 저장 문제](algorithms-73.html) |  | `algorithms-73` |  |
+| 627 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프루닝·아카이브·스냅 싱크](algorithms-74.html) |  | `algorithms-74` |  |
+| 628 | Theory · Algorithms | PLANNED |  |  |  |  |  | [인덱싱 파이프라인 설계](algorithms-75.html) |  | `algorithms-75` |  |
+| 629 | Theory · Algorithms | PLANNED |  |  |  |  |  | [컬럼 스토어와 벡터화 실행(OLAP)](algorithms-76.html) |  | `algorithms-76` |  |
+| 630 | Theory · Algorithms | PLANNED |  |  |  |  |  | [스트리밍 처리 의미론](algorithms-77.html) |  | `algorithms-77` |  |
+| 631 | Theory · Algorithms | PLANNED |  |  |  |  |  | [벡터 DB와 ANN 인덱스(HNSW·IVF-PQ)](algorithms-78.html) |  | `algorithms-78` |  |
+| 632 | Theory · Algorithms | PLANNED |  |  |  |  |  | [캐시 일관성·무효화·스탬피드 방지](algorithms-79.html) |  | `algorithms-79` |  |
+| 633 | Theory · Algorithms | PLANNED |  |  |  |  |  | [외부 정렬·병합 전략과 병렬 정렬 (TAOCP 3권)](algorithms-80.html) |  | `algorithms-80` |  |
+| 634 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 데이터 모델이 성능을 정한다](algorithms-81.html) |  | `algorithms-81` |  |
+| 635 | Theory · Algorithms | PLANNED |  |  |  |  |  | [랜덤 오라클·길이 연장 공격·도메인 분리](algorithms-82.html) |  | `algorithms-82` |  |
+| 636 | Theory · Algorithms | PLANNED |  |  |  |  |  | [HMAC·AEAD와 nonce 오용 저항](algorithms-83.html) |  | `algorithms-83` |  |
+| 637 | Theory · Algorithms | PLANNED |  |  |  |  |  | [난수 생성과 CSPRNG 품질 (TAOCP 2권)](algorithms-84.html) |  | `algorithms-84` |  |
+| 638 | Theory · Algorithms | PLANNED |  |  |  |  |  | [서명 스킴 비교](algorithms-85.html) |  | `algorithms-85` |  |
+| 639 | Theory · Algorithms | PLANNED |  |  |  |  |  | [임계 서명·MPC·분산 키 생성(DKG)](algorithms-86.html) |  | `algorithms-86` |  |
+| 640 | Theory · Algorithms | PLANNED |  |  |  |  |  | [커밋먼트](algorithms-87.html) |  | `algorithms-87` |  |
+| 641 | Theory · Algorithms | PLANNED |  |  |  |  |  | [다중정밀 산술(bignum)](algorithms-88.html) |  | `algorithms-88` |  |
+| 642 | Theory · Algorithms | PLANNED |  |  |  |  |  | [고정소수점 산술과 반올림 정책](algorithms-89.html) |  | `algorithms-89` |  |
+| 643 | Theory · Algorithms | PLANNED |  |  |  |  |  | [유한체·다항식 산술과 NTT 구현 관점](algorithms-90.html) |  | `algorithms-90` |  |
+| 644 | Theory · Algorithms | PLANNED |  |  |  |  |  | [산술화](algorithms-91.html) |  | `algorithms-91` |  |
+| 645 | Theory · Algorithms | PLANNED |  |  |  |  |  | [다항식 IOP](algorithms-92.html) |  | `algorithms-92` |  |
+| 646 | Theory · Algorithms | PLANNED |  |  |  |  |  | [재귀 증명과 증명 집계](algorithms-93.html) |  | `algorithms-93` |  |
+| 647 | Theory · Algorithms | PLANNED |  |  |  |  |  | [프라이버시 프리미티브](algorithms-94.html) |  | `algorithms-94` |  |
+| 648 | Theory · Algorithms | PLANNED |  |  |  |  |  | [포스트퀀텀 전환은 암호가 아니라 조정(coordination) 문제](algorithms-95.html) |  | `algorithms-95` |  |
+| 649 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[복습] 검증 가능한 시스템 설계 체크리스트](algorithms-96.html) |  | `algorithms-96` |  |
+| 650 | Theory · Algorithms | PLANNED |  |  |  |  |  | [트랜스포머 계산 구조·KV 캐시·추론 서빙(연속 배칭·PagedAttention)…](algorithms-97.html) |  | `algorithms-97` |  |
+| 651 | Theory · Algorithms | PLANNED |  |  |  |  |  | [RAG 설계·리트리버 품질 지표와 평가 하네스(골든·프로퍼티·회귀)](algorithms-98.html) |  | `algorithms-98` |  |
+| 652 | Theory · Algorithms | PLANNED |  |  |  |  |  | [에이전트 루프 설계](algorithms-99.html) |  | `algorithms-99` |  |
+| 653 | Theory · Algorithms | PLANNED |  |  |  |  |  | [[Final] 내 스택의 ADR + 위협 모델 한 편 쓰기](algorithms-100.html) |  | `algorithms-100` |  |
+| 654 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The ₩5T card-fee 'saving' is one optimistic cell — and a transfer, not free money](pocs-won-stablecoin-fee-savings.html) | 원화 스테이블코인 '5조 절감'은 낙관 시나리오 한 칸 — 창출이 아니라 이전이다 | `won-stablecoin-fee-savings` |  |
+| 655 | Theory · Economics | PLANNED |  |  | PoC |  |  | [On-chain settlement funding — the card issuer's working capital, not the cardholder's payment](pocs-onchain-settlement-funding.html) | 온체인 정산 자금 조달 — 소비자의 결제가 아니라 카드 사업자의 운전자본 | `onchain-settlement-funding` |  |
+| 656 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A good bet that lost looks exactly like a bad bet that lost](pocs-a-good-bet-that-lost.html) | 잃은 좋은 베팅과 잃은 나쁜 베팅은 똑같이 생겼다 | `a-good-bet-that-lost` |  |
+| 657 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Every yield is somebody's cost — the three places it can come from](pocs-where-yield-comes-from.html) | 모든 수익률은 누군가의 비용이다 — 나올 수 있는 자리는 셋뿐 | `where-yield-comes-from` |  |
+| 658 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Gross over net — the recycling multiple](pocs-gross-over-net.html) | 총액 ÷ 순액 — 재활용 배수 | `gross-over-net` |  |
+| 659 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The risk-free rate is the floor under every yield](pocs-risk-free-rate-is-the-floor.html) | 무위험 이자율이 모든 수익률의 바닥이다 | `risk-free-rate-is-the-floor` |  |
+| 660 | Theory · Economics | PLANNED |  |  | PoC |  |  | [M2, the dollar, and why crypto is a liquidity trade](pocs-m2-and-the-dollar.html) | M2, 달러, 그리고 크립토가 유동성 트레이드인 이유 | `m2-and-the-dollar` |  |
+| 661 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Providing liquidity is selling volatility, and the loss is not impermanent](pocs-lp-is-a-short-volatility-position.html) | 유동성 공급은 변동성을 파는 것이고, 그 손실은 비영구적이지 않다 | `lp-is-a-short-volatility-position` |  |
+| 662 | Theory · Economics | PLANNED |  |  | PoC |  |  | [An indicator adds no information — it adds a decision](pocs-indicators-add-a-decision.html) | 지표는 정보를 더하지 않는다 — 결정을 더한다 | `indicators-add-a-decision` |  |
+| 663 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Does a chain pay for its own security?](pocs-fees-over-security-budget.html) | 체인은 자기 보안 비용을 자기가 내고 있는가 | `fees-over-security-budget` |  |
+| 664 | Theory · Economics | PLANNED |  |  | PoC |  |  | [War headlines, falling gold — a geopolitical shock arrives on two wires](pocs-two-channels-of-a-war.html) | 전쟁 헤드라인에 금이 떨어졌다 — 지정학 충격은 두 배선으로 온다 | `two-channels-of-a-war` |  |
+| 665 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Kalshi passes Polymarket — and 80% of the win is sports](pocs-eighty-percent-is-sports.html) | Kalshi 가 Polymarket 을 추월했다 — 그런데 이긴 것의 80% 가 스포츠다 | `eighty-percent-is-sports` |  |
+| 666 | Theory · Economics | PLANNED |  |  | PoC |  |  | [OLS regression — the line that assumes it caused something](pocs-ds-regression-ols.html) | OLS 회귀 — 무언가를 야기했다고 가정하는 직선 | `ds-regression-ols` |  |
+| 667 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Time-series forecasting — ARIMA and why most series are not stationary](pocs-ds-time-series-arima.html) | 시계열 예측 — ARIMA, 그리고 대부분의 시계열이 정상적이지 않은 이유 | `ds-time-series-arima` |  |
+| 668 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Bayesian inference — a prior is an assumption you have to write down](pocs-ds-bayesian-inference.html) | 베이지안 추론 — 사전분포는 적어 두어야 하는 가정이다 | `ds-bayesian-inference` |  |
+| 669 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Monte Carlo — simulating the distribution you cannot solve for](pocs-ds-monte-carlo.html) | 몬테카를로 — 풀 수 없는 분포를 시뮬레이션하기 | `ds-monte-carlo` |  |
+| 670 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A/B testing — the p-value that a peeked experiment inflates](pocs-ds-ab-testing.html) | A/B 테스트 — 훔쳐본 실험이 부풀리는 p-값 | `ds-ab-testing` |  |
+| 671 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Causal inference — DiD, IV, and RDD when you cannot randomize](pocs-ds-causal-inference.html) | 인과추론 — 무작위화가 불가능할 때의 DiD·IV·RDD | `ds-causal-inference` |  |
+| 672 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Clustering — k-means finds groups even when there are none](pocs-ds-clustering.html) | 군집화 — k-평균은 없는 집단도 찾아낸다 | `ds-clustering` |  |
+| 673 | Theory · Economics | PLANNED |  |  | PoC |  |  | [PCA — compressing dimensions and the meaning that leaks out](pocs-ds-dimensionality-pca.html) | PCA — 차원 압축과 새어 나가는 의미 | `ds-dimensionality-pca` |  |
+| 674 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Gradient boosting — XGBoost wins the leaderboard and hides the reason](pocs-ds-gradient-boosting.html) | 그래디언트 부스팅 — XGBoost는 리더보드를 이기고 이유를 숨긴다 | `ds-gradient-boosting` |  |
+| 675 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cross-validation — the honest way to fail before you ship](pocs-ds-cross-validation.html) | 교차검증 — 배포 전에 정직하게 실패하는 법 | `ds-cross-validation` |  |
+| 676 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Anomaly detection — the alert that fires on everything or nothing](pocs-ds-anomaly-detection.html) | 이상 탐지 — 전부에 울리거나 아무것에도 안 울리는 경보 | `ds-anomaly-detection` |  |
+| 677 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Survival analysis — churn is a time-to-event, not a yes/no](pocs-ds-survival-analysis.html) | 생존분석 — 이탈은 예/아니오가 아니라 사건까지의 시간이다 | `ds-survival-analysis` |  |
+| 678 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cohort analysis — the retention curve a single average hides](pocs-ds-cohort-analysis.html) | 코호트 분석 — 하나의 평균이 감추는 리텐션 곡선 | `ds-cohort-analysis` |  |
+| 679 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Cointegration — two prices that wander together are a trade](pocs-ds-var-cointegration.html) | 공적분 — 함께 방황하는 두 가격은 하나의 거래다 | `ds-var-cointegration` |  |
+| 680 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Extreme value theory — the tail is a different distribution](pocs-ds-extreme-value.html) | 극단값 이론 — 꼬리는 다른 분포다 | `ds-extreme-value` |  |
+| 681 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Dune — on-chain analytics is SQL over a decoded ledger](pocs-ds-dune-analytics.html) | Dune — 온체인 분석은 디코딩된 원장 위의 SQL이다 | `ds-dune-analytics` |  |
+| 682 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The Graph — a subgraph is an index you have to design](pocs-ds-the-graph-subgraph.html) | The Graph — 서브그래프는 설계해야 하는 인덱스다 | `ds-the-graph-subgraph` |  |
+| 683 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Address labeling — analytics is only as good as its entity map](pocs-ds-onchain-labels.html) | 주소 라벨링 — 분석은 그 엔티티 지도만큼만 정확하다 | `ds-onchain-labels` |  |
+| 684 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Flipside and dbt — modeling on-chain data like a warehouse](pocs-ds-flipside-dbt.html) | Flipside와 dbt — 온체인 데이터를 웨어하우스처럼 모델링하기 | `ds-flipside-dbt` |  |
+| 685 | Theory · Economics | PLANNED |  |  | PoC |  |  | [Feature engineering — the model is mostly the features](pocs-ds-feature-engineering.html) | 피처 엔지니어링 — 모델의 대부분은 피처다 | `ds-feature-engineering` |  |
+| 686 | Theory · Economics | PLANNED |  |  | PoC |  |  | [The fourth column: the −23,000 that a dozen notes cited never existed](pocs-revision-is-the-fourth-column.html) | 네 번째 칸: 여러 글이 인용한 −23,000은 존재한 적이 없다 | `revision-is-the-fourth-column` |  |
+| 687 | Theory · Economics | PLANNED |  |  | PoC |  |  | [When a chain can't defend itself, it becomes a token on one that can](pocs-chain-becomes-a-token.html) | 체인이 스스로를 못 지키면, 지킬 수 있는 체인 위의 토큰이 된다 | `chain-becomes-a-token` |  |
+| 688 | Theory · Economics | PLANNED |  |  | PoC |  |  | [When nobody needs to hold ETH, is ETH money or fuel?](pocs-eth-money-or-fuel.html) | 아무도 ETH 를 쥘 필요가 없을 때, ETH 는 돈인가 연료인가 | `eth-money-or-fuel` |  |
+| 689 | Theory · Economics | PLANNED |  |  | PoC |  |  | [A rising stablecoin cap is repackaged M2, not new money](pocs-stablecoin-mcap-is-repackaged-money.html) | 스테이블코인 시총 증가는 새 돈이 아니라 재포장된 M2다 | `stablecoin-mcap-is-repackaged-money` |  |
+| 801 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [A candle is four prices and a story — read the body before the wick](pocs-tv-candlestick-four-prices.html) | 캔들 하나는 네 가지 가격이자 이야기다 — 꼬리보다 몸통을 먼저 읽는다 | `tv-candlestick-four-prices` |  |
+| 802 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [The same chart tells three different stories on W, D, and 1h — read the higher one first](pocs-tv-timeframes-top-down.html) | 같은 차트가 W, D, 1h에서 서로 다른 이야기를 한다 — 상위부터 읽는다 | `tv-timeframes-top-down` |  |
+| 803 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [Support and resistance are zones, not lines — the more touches, the more watched, but each test weakens it](pocs-tv-support-resistance-zones.html) | 지지와 저항은 선이 아니라 구간이다 — 터치가 많을수록 더 주목받지만, 시험 한 번마다 약해진다 | `tv-support-resistance-zones` |  |
+| 804 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [An uptrend is a rule, not a slope — higher highs and higher lows, or it isn't one](pocs-tv-trend-structure-swings.html) | 상승 추세는 기울기가 아니라 규칙이다 — 고점도 저점도 높아져야 상승 추세다 | `tv-trend-structure-swings` |  |
+| 805 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [A moving average is last N closes smoothed — its length decides which trend it tracks](pocs-tv-moving-averages-20-50-200.html) | 이동평균은 최근 N개 종가를 평활한 선이다 — 길이가 어느 추세를 추적하는지를 정한다 | `tv-moving-averages-20-50-200` |  |
+| 806 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [Volume confirms price — a move nobody traded is a move you shouldn't trust](pocs-tv-volume-confirms-price.html) | 거래량이 가격을 확인한다 — 아무도 거래하지 않은 움직임은 믿을 게 못 된다 | `tv-volume-confirms-price` |  |
+| 807 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [RSI at 70 is not a sell signal — it is a question about the trend](pocs-tv-rsi-momentum-divergence.html) | RSI 70은 매도 신호가 아니다 — 추세에 대한 질문이다 | `tv-rsi-momentum-divergence` |  |
+| 808 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [MACD is two EMAs racing — the signal line only marks who is ahead](pocs-tv-macd-momentum-shift.html) | MACD는 두 EMA의 경주다 — 시그널선은 누가 앞서는지만 표시한다 | `tv-macd-momentum-shift` |  |
+| 809 | Invest · Invest | IMPORTANT | 2026-09-18 |  | Basics | chat |  | [The stop goes beyond structure — position size is what makes it survivable](pocs-tv-risk-on-the-chart.html) | 스탑은 구조 너머에 둔다 — 포지션 크기가 그것을 버틸 수 있게 만든다 | `tv-risk-on-the-chart` |  |
+| 810 | Invest · Invest | IMPORTANT | 2026-09-19 |  | Lecture | chat |  | [Dalio's Holy Grail — price is spending over quantity, and diversification means balancing risk, not dollars](pocs-dalio-economic-machine-holy-grail.html) | 달리오의 성배 — 가격은 지출을 수량으로 나눈 값이고, 분산투자는 금액이 아니라 위험을 맞추는 것이다 | `dalio-economic-machine-holy-grail` |  |
+| 811 | Invest · Invest | NEW | 2026-09-18 |  | Basics | chat |  | [A Fibonacci retracement is a pullback ruler, not a prophecy — anchor the swing, then confirm with structure](pocs-tv-fibonacci-retracement-confluence.html) | 피보나치 되돌림은 되돌림 자체를 재는 자다, 예언이 아니다 — 스윙을 먼저 고정하고 구조로 확인한다 | `tv-fibonacci-retracement-confluence` |  |
+| 812 | Invest · Economics | NEW | 2026-09-18 |  | PoC | chat |  | [Max pain describes the options chain, it does not pull the price — two weeks of watching a moving target](pocs-max-pain-describes-not-pulls.html) | 맥스페인은 옵션 체인을 서술하지 가격을 끌어당기지 않는다 — 움직이는 표적을 지켜본 2주 | `max-pain-describes-not-pulls` |  |
+| 813 | Invest · Invest | NEW | 2026-09-19 |  | Lecture | chat |  | [Markets have a shared vocabulary — learn it before you look for an edge](pocs-mit-financial-markets-terms-edge.html) | 마켓에는 공통 용어가 있다 — 엣지를 찾기 전에 그 용어부터 배워라 | `mit-financial-markets-terms-edge` |  |
+| 814 | Invest · Economics | NEW | 2026-09-19 |  | Lecture | chat |  | [The Bank of Japan held rates against 3% headline inflation — because Ueda was reading a different number](pocs-ueda-boj-underlying-inflation-wage-loop.html) | 일본은행은 헤드라인 인플레이션 3%에도 금리를 동결했다 — 우에다가 보고 있던 숫자는 따로 있었다 | `ueda-boj-underlying-inflation-wage-loop` |  |
+| 815 | Invest · Economics | NEW | 2026-09-19 |  | PoC | chat |  | [Twenty-one banks are forming a joint venture to issue a dollar stablecoin — betting on regulatory standing, not on liquidity](pocs-twenty-one-banks-stablecoin-venture.html) | 글로벌 은행 21곳이 달러 스테이블코인 합작 법인을 만든다 — 유동성이 아니라 규제상 지위에 거는 베팅 | `twenty-one-banks-stablecoin-venture` |  |
+| 816 | Invest · Economics | NEW | 2026-09-19 |  | Talk | chat |  | [Nazarov at the CFTC — if global finance moves on-chain and the US doesn't move first, it loses the 60% share that makes it the center of finance](pocs-nazarov-cftc-tokenization-us-60-percent.html) | CFTC의 나자로프 — 글로벌 금융이 온체인으로 옮겨갈 때 미국이 먼저 움직이지 않으면, 미국을 금융 중심지로 만드는 60% 점유율을 잃는다 | `nazarov-cftc-tokenization-us-60-percent` |  |
+| 817 | Invest · Economics | NEW | 2026-09-21 |  | Talk | gemini | converse | [Tokenization is the next wrapper after the mutual fund and the ETF — BlackRock's COO makes the institutional case](pocs-goldstein-blackrock-tokenization-next-wrapper.html) | 토큰화는 뮤추얼펀드, ETF 다음의 새 래퍼다 — BlackRock COO가 기관 투자자 관점에서 이를 옹호한다 | `goldstein-blackrock-tokenization-next-wrapper` | [raw](raw/2026-09-21-gemini-youtube.md) |
+| 818 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Automation and Repression — when control gets cheaper than sharing](pocs-automation-and-repression-acemoglu.html) | Automation and Repression — 통제가 분배보다 싸질 때 | `automation-and-repression-acemoglu` |  |
+| 819 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Investing for Programmers — understanding markets through data and code](pocs-investing-for-programmers-book.html) | Investing for Programmers — 데이터와 코드로 시장 이해하기 | `investing-for-programmers-book` |  |
+| 820 | Invest · Economics | PLANNED |  |  | PoC |  |  | [ETH ETF outflows — read which window, not the size](pocs-which-etf-window-not-the-size.html) | ETH ETF 유출 — 규모가 아니라 어느 창구인지 읽어라 | `which-etf-window-not-the-size` |  |
+| 821 | Invest · Economics | PLANNED |  |  | PoC |  |  | [Reading a PPI print — services is the bridge to core, not the headline](pocs-services-ppi-is-the-bridge-to-core.html) | PPI를 읽는 법 — 코어로 이어지는 다리는 헤드라인이 아니라 서비스 | `services-ppi-is-the-bridge-to-core` |  |
+| 901 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Andrew Ng: AI automates tasks, not jobs — and context is the edge that's left](pocs-ng-tasks-not-jobs-context-advantage.html) | 앤드류 응: AI는 직업이 아니라 태스크를 자동화한다 — 남는 우위는 맥락이다 | `ng-tasks-not-jobs-context-advantage` |  |
+| 902 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Nothing exceptional comes without a through line — Robert Greene on why "a bit of everything" is a trap](pocs-greene-through-line-focus.html) | 관통선 없이는 어떤 탁월함도 없다 — 로버트 그린, "이것저것 조금씩"이 함정인 이유 | `greene-through-line-focus` |  |
+| 903 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Roof, pillars, foundation — summarize by building a structure, not restating sentences](pocs-summarize-roof-pillars-foundation.html) | 지붕, 기둥, 기단 — 요약은 문장을 다시 쓰는 일이 아니라 구조를 짓는 일이다 | `summarize-roof-pillars-foundation` |  |
+| 904 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Laurie Santos's three rules for happiness — read negative emotions as data, swap self-criticism for self-compassion, and spend time like it's money](pocs-santos-three-rules-time-affluence.html) | 로리 산토스의 행복 3원칙 — 부정적 감정은 데이터로 읽고, 자기비판 대신 자기연민을 쓰고, 시간을 돈처럼 아껴라 | `santos-three-rules-time-affluence` |  |
+| 905 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Strategic thinking is meta-thinking — update your worldview before the world forces you to](pocs-bremmer-strategic-thinking-update-worldview.html) | 전략적 사고는 메타 사고다 — 세계가 강제하기 전에 자기 세계관을 갱신하라 | `bremmer-strategic-thinking-update-worldview` |  |
+| 906 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Damour on emotions — a seat on the board, never the deciding vote](pocs-damour-emotions-board-seat-empathy-tax.html) | 데이머의 감정론 — 이사회에 자리는 있어도 결정권은 없다 | `damour-emotions-board-seat-empathy-tax` |  |
+| 907 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Reading has no circuit of its own — the brain repurposes one, and skimming wires it worse](pocs-reading-rewires-brain-deep-reading.html) | 읽기는 전용 회로가 없다 — 뇌는 다른 회로를 빌려 쓰고, 훑어 읽으면 더 나쁘게 배선된다 | `reading-rewires-brain-deep-reading` |  |
+| 908 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Pocock — code got cheap to generate, which makes bad code the most expensive mistake in software history](pocs-pocock-fundamentals-matter-more.html) | Pocock — 코드를 찍어내는 비용이 싸졌기에, 나쁜 코드는 소프트웨어 역사상 가장 비싼 실수가 됐다 | `pocock-fundamentals-matter-more` |  |
+| 909 | Life | IMPORTANT | 2026-09-19 |  | Talk | chat |  | [Pick one idea and go deep — the idea only appears after contact with reality, not before it](pocs-yc-pick-one-idea-go-deep.html) | 한 가지 아이디어를 골라 깊이 판다 — 아이디어는 현실과 부딪힌 뒤에야 드러난다, 그 전이 아니라 | `yc-pick-one-idea-go-deep` |  |
+| 910 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it](pocs-tao-helicopter-and-the-waterfall.html) | 헬리콥터는 폭포까지 데려다주지만 아무것도 가르치지 않는다 — 테렌스 타오가 말하는, AI가 사용하는 사람에게서 가져가는 것 | `tao-helicopter-and-the-waterfall` |  |
+| 911 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The agent is a good sergeant, not a general — Matt Pocock on why fundamentals matter more with AI, not less](pocs-pocock-sergeant-not-general.html) | 에이전트는 좋은 하사관이지 장군이 아니다 — 맷 포콕이 말하는, AI와 함께라면 기본기가 덜이 아니라 더 중요한 이유 | `pocock-sergeant-not-general` |  |
+| 912 | Life | NEW | 2026-09-18 |  | Talk | gemini |  | [You did not author your last thought — Harris on free will, and why that is a reason for compassion, not fatalism](pocs-harris-you-did-not-author-your-last-thought.html) | 당신은 마지막 생각의 저자가 아니었다 — 해리스의 자유의지론, 그리고 그것이 숙명론이 아니라 자비의 이유인 까닭 | `harris-you-did-not-author-your-last-thought` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
+| 913 | Life | NEW | 2026-09-18 |  | Vlog | gemini |  | [Eat the same dish twice — a Tokyo vlog as a method for paying attention](pocs-eat-the-same-dish-twice-tokyo.html) | 같은 음식을 두 번 먹어라 — 주의를 기울이는 방법으로서의 도쿄 브이로그 | `eat-the-same-dish-twice-tokyo` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
+| 914 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Systems thinking — the four Cynefin domains decide whether you need a checklist, an analyst, a probe, or a pause](pocs-systems-thinking-cynefin-dart.html) | 시스템 사고 — 체크리스트, 분석, 프로브, 정지 중 무엇이 필요한지는 4가지 Cynefin 유형이 결정한다 | `systems-thinking-cynefin-dart` |  |
+| 915 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Research any topic like a PhD student — narrow the question until the literature narrows itself](pocs-research-any-topic-like-a-phd.html) | PhD 학생처럼 아무 주제나 연구하기 — 질문을 좁힐수록 문헌도 저절로 좁아진다 | `research-any-topic-like-a-phd` |  |
+| 916 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [A week of your own thoughts, printed out, would embarrass you — reading is the way out of that room](pocs-greene-reading-leaves-the-prison.html) | 일주일간의 내 생각을 인쇄해 보면 민망할 것이다 — 독서는 그 방에서 나가는 길이다 | `greene-reading-leaves-the-prison` |  |
+| 917 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Watch the exact interval where it turned — Novak Djokovic on discipline, and the Kobe Bryant habit of replaying the loss](pocs-djokovic-discipline-watch-the-loss.html) | 흐름이 뒤집힌 그 구간을 직접 본다 — 노박 조코비치의 규율, 그리고 패배를 복기하는 코비 브라이언트의 방법 | `djokovic-discipline-watch-the-loss` |  |
+| 918 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [The AI labor market is splitting into a barbell — the deciding variable is agency, not job title](pocs-feifei-li-agency-barbell-spatial.html) | AI 노동시장은 바벨형으로 갈라지고 있다 — 결정 변수는 직함이 아니라 주체성이다 | `feifei-li-agency-barbell-spatial` |  |
+| 919 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Park Hyejin's ten-book test — pick what breaks a life through, not what lets it hide](pocs-park-hyejin-ten-books-breakthrough.html) | 박혜진의 인생책 기준 — 숨을 곳이 아니라 돌파구가 되는 책을 고른다 | `park-hyejin-ten-books-breakthrough` |  |
+| 920 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Jung Youngsu's ten books — read the sequel, record without judging, and let the hedge be the honest sentence](pocs-jung-youngsu-ten-books-irony.html) | 정영수의 인생책 10권 — 속편을 읽고, 판단 없이 기록하고, 망설임을 정직한 문장으로 남긴다 | `jung-youngsu-ten-books-irony` |  |
+| 921 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [A subscriber poll's #1 novel argues that mistakes just repeat — 319 readers picked eight all-time favorites, six of them Korean](pocs-readers-top-novels-korean-canon.html) | 구독자 투표에서 1위한 소설의 결론은 "실수는 되풀이된다"다 — 319명이 뽑은 인생소설 8편, 그중 6편이 한국 소설 | `readers-top-novels-korean-canon` |  |
+| 922 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [공백의 책단장's foreign-novel top 7 — an outsider faces a system that already decided about them, seven times over](pocs-gongbaek-foreign-novels-top-7.html) | 공백의 책단장의 해외문학 TOP 7 — 일곱 번 반복되는 물음, 시스템이 이미 판단을 내린 사람은 어떻게 되는가 | `gongbaek-foreign-novels-top-7` |  |
+| 923 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [락서의 고전문학 톱10 — ten short classics, picked so a beginner finishes them and a foreigner recognizes them](pocs-raksseo-classics-top-10-beginners.html) | 락서의 고전문학 톱10 — 진입장벽이 낮아 완독하고, 외국에서도 통하는 고전 열 권 | `raksseo-classics-top-10-beginners` |  |
+| 924 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask](pocs-hwang-sokyong-read-classics-ai-era.html) | 황석영: AI에게 묻기 전에 고전을 읽어라 — 질문의 수준은 자신의 독서가 정한다 | `hwang-sokyong-read-classics-ai-era` |  |
+| 925 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Desire is demand minus need — Lacan's gap that no feature ever closes](pocs-lacan-rsi-desire-signifier.html) | 욕망은 요구에서 필요를 뺀 것이다 — 어떤 기능도 채우지 못하는 라캉의 간극 | `lacan-rsi-desire-signifier` |  |
+| 926 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [People don't buy the idea — they buy whether you can be heard](pocs-herjavec-they-buy-you-be-heard.html) | 사람들은 아이디어를 사지 않는다 — 당신이 들리게 할 수 있는지를 산다 | `herjavec-they-buy-you-be-heard` |  |
+| 927 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Rometty on resilience — feed the network before the crisis, then control what you can and box what you can't](pocs-rometty-resilience-relationships-attitude.html) | 로메티의 회복탄력성 — 위기 전에 관계망을 채우고, 통제할 수 있는 것은 통제하고 나머지는 상자에 넣는다 | `rometty-resilience-relationships-attitude` |  |
+| 928 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Dance beats the treadmill — because once a movement stops requiring a decision, it stops training the brain](pocs-dancing-brain-workout-cognitive-reserve.html) | 춤이 트레드밀을 이긴다 — 동작이 결정을 요구하지 않게 되는 순간, 뇌 훈련도 멈춘다 | `dancing-brain-workout-cognitive-reserve` |  |
+| 929 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Flow is not a mood — it's a challenge-skill ratio you can set on purpose](pocs-kotler-flow-on-command-triggers-motivators.html) | 플로우는 기분이 아니다 — 의도적으로 맞출 수 있는 도전-역량 비율이다 | `kotler-flow-on-command-triggers-motivators` |  |
+| 930 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Lieberman on exercise myths — running doesn't wreck knees, slowing down with age does](pocs-lieberman-exercise-myths-healthspan.html) | 리버먼의 운동 신화 반박 — 달리기는 무릎을 망가뜨리지 않는다, 나이 들며 속도를 늦추는 쪽이 망가뜨린다 | `lieberman-exercise-myths-healthspan` |  |
+| 931 | Life | NEW | 2026-09-19 |  | Talk | chat |  | [Show up for yourself — truth, gut and follow-through are a production pipeline, not a mood](pocs-tang-show-up-truth-gut-follow-through.html) | 자신을 위해 나타나라 — 진실, 직감, 끝맺음은 기분이 아니라 하나의 생산 파이프라인이다 | `tang-show-up-truth-gut-follow-through` |  |
+| 932 | Life | NEW | 2026-09-21 |  | Talk | gemini | file | [Discipline is not inherited — it is the order you give yourself with no one watching](pocs-jocko-discipline-comes-from-within.html) | 규율은 물려받는 게 아니다 — 아무도 보지 않을 때 스스로에게 내리는 명령이다 | `jocko-discipline-comes-from-within` | [raw](raw/2026-09-21-gemini-youtube.md) |
+| 933 | Life | NEW | 2026-09-21 |  | Vlog | gemini | file | [A remote-island burger shop — the product is the tool, the community is the point](pocs-goto-island-burger-shop-community-living-room.html) | 외딴섬의 버거 가게 — 제품은 도구이고, 공동체가 목적이다 | `goto-island-burger-shop-community-living-room` | [raw](raw/2026-09-21-gemini-youtube.md) |
+| 934 | Life | NEW | 2026-09-21 |  | Talk | chat | deep | [A ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code](pocs-piech-ai-multiplier-foundations-ten-minute-human.html) | 10분짜리 사람이 챗봇을 이겼다 — AI가 코드를 써 주는 시대에도 기초는 내 것이어야 하는 이유, 크리스 피에크 | `piech-ai-multiplier-foundations-ten-minute-human` | [raw](raw/2026-09-21-piech-ai-multiplier-foundations-ten-minute-human.txt) |
+| 1001 | Eng · Review | YESTERDAY DONE | 2026-09-16 | 2026-09-18 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
+| 1002 | Eng · Interview | IMPORTANT | 2026-09-16 |  | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
+| 1003 | Eng · Negotiation | IMPORTANT | 2026-09-16 |  | Negotiation |  |  | [The number that gets to yes](english-22.html) | 예스가 되는 숫자 | `english-22` |  |
+| 1004 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Tell me about a time you disagreed with your manager](english-23.html) | 매니저와 의견이 갈렸던 때를 말해 보세요 | `english-23` |  |
+| 1005 | Eng · First weeks | IMPORTANT | 2026-09-18 |  | First weeks |  |  | [The senior who has been here nine years](english-24.html) | 9년 있었던 시니어 | `english-24` |  |
+| 1006 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [The reviewer found a bug in your take-home](english-25.html) | 리뷰어가 과제에서 버그를 찾았다 | `english-25` |  |
+| 1007 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Why do you want to leave Korea?](english-27.html) | 왜 한국을 떠나려 하나요? | `english-27` |  |
+| 1008 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [Explain your architecture to someone who won't read the diagram](english-30.html) | 다이어그램을 읽지 않을 사람에게 아키텍처 설명하기 | `english-30` |  |
+| 1009 | Eng · Interview | IMPORTANT | 2026-09-18 |  | Interview |  |  | [How do you use AI, and what do you refuse to hand it?](english-32.html) | AI를 어떻게 쓰고, 무엇은 넘기지 않나요? | `english-32` |  |
+| 1010 | Eng · Planning | IMPORTANT | 2026-09-18 |  | Planning |  |  | [Grill me before you plan](english-33.html) | 계획하기 전에 나를 심문하라 | `english-33` |  |
+| 1011 | Eng · Interview | IMPORTANT | 2026-09-19 |  | Interview |  |  | [The mean is fine. Which percentile hurts?](english-35.html) | 평균은 괜찮아요. 어느 백분위수가 아픈가요? | `english-35` |  |
+| 1012 | Eng · Design review | IMPORTANT | 2026-09-20 |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
+| 1013 | Eng · Interview | IMPORTANT | 2026-09-21 |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
+| 1014 | Eng · Travel | NEW | 2026-09-21 |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
+| 1015 | Eng · Drama | NEW | 2026-09-21 |  | Drama |  |  | [Run yourself ragged, have the nerve to, live it up — the word book comes to lunch](english-39.html) | run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다 | `english-39` | [raw](raw/2026-09-21-english-39.txt) |
+| 1016 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
+| 1017 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
+| 1018 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
+| 1019 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
+| 1020 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
+| 1021 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
+| 1022 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
+| 1023 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
+| 1024 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
+| 1025 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
+| 1026 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
+| 1027 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
+| 1028 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
+| 1029 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
+| 1030 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
+| 1031 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
+| 1032 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
+| 1033 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
+| 1034 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
+| 1035 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
+| 1036 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
+| 1037 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
+| 1038 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
+| 1039 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
