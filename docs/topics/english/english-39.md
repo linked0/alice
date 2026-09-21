@@ -6,8 +6,8 @@ why: A word book fills up faster than it empties. The only way an idiom leaves t
 why_ko: 단어장은 비는 속도보다 차는 속도가 빠르다. 관용구가 목록에서 나가는 유일한 길은 반응해 줄 사람 앞에서 내 문장으로 소리 내어 말하는 것이다. 드라마 줄거리는 가장 값싼 그런 문장이다. 이해관계, 인물, 반전이 있어서 run yourself ragged, have the nerve to, live it up, Just because A doesn't mean B가 모두 갈 곳을 얻는다. 아끼는 이야기를 다시 들려주는 것은 변장한 면접 기술이기도 하다. 긴 것을 듣는 사람이 따라올 수 있는 문장들로 압축하는 일.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장 (영어단어장 › 미암기, 최신순), 20 cards saved 2026-03-24 to 2026-09-21, pasted into chat on 2026-09-21. Each card is a dictionary headword (옥스퍼드 영한사전, 동아 프라임, NE능률, BBI) plus jay's 암기메모, which analyses one drama-subtitle line in the Original / Corrected / Korean Translation / Recommended / Natural Version format. The dialogue, techniques and the Korean glosses in the table are new; every headword and idiom in the table comes from the paste, two memos appear twice in it and are counted once.
-source_ko: jay의 NAVER 영어단어장(미암기, 최신순) 카드 20장, 2026-03-24~2026-09-21 저장분, 2026-09-21 채팅에 붙여 넣음. 카드마다 사전 표제어(옥스퍼드 영한사전, 동아 프라임, NE능률, BBI)와 드라마 자막 한 줄을 Original / Corrected / Korean Translation / Recommended / Natural Version 형식으로 분석한 암기메모가 있다. 대화, 기법, 표의 한국어 풀이는 새로 썼고, 표의 표제어와 관용구는 전부 붙여 넣은 글에서 왔다. 메모 둘은 두 번 나오는데 한 번으로 셌다.
+source: jay's NAVER 영어단어장 (영어단어장 › 미암기, 최신순), 20 cards saved 2026-03-24 to 2026-09-21, pasted into chat on 2026-09-21. Each card is a dictionary headword (옥스퍼드 영한사전, 동아 프라임, NE능률, BBI) plus jay's 암기메모, which analyses one drama-subtitle line in the Original / Corrected / Korean Translation / Recommended / Natural Version format. The dialogue, techniques and the Korean glosses in the table are new; the table has exactly 40 rows — one word row and one sentence row per card, in card order (jay: "each of the 20 cards has a word and an unrelated sentence in the memo"); the two cards whose memo repeats an earlier card's sentence carry the second expression that memo itself gives (work yourself to the bone; think highly of).
+source_ko: jay의 NAVER 영어단어장(미암기, 최신순) 카드 20장, 2026-03-24~2026-09-21 저장분, 2026-09-21 채팅에 붙여 넣음. 카드마다 사전 표제어(옥스퍼드 영한사전, 동아 프라임, NE능률, BBI)와 드라마 자막 한 줄을 Original / Corrected / Korean Translation / Recommended / Natural Version 형식으로 분석한 암기메모가 있다. 대화, 기법, 표의 한국어 풀이는 새로 썼고, 표는 정확히 40줄이다. 카드마다 단어 한 줄과 문장 한 줄, 카드 순서대로(jay: "20장의 카드가 단어와 메모에 무관한 문장 항목이 있어"). 메모가 앞 카드의 문장을 반복하는 카드 둘은 그 메모 자신이 든 둘째 표현(work yourself to the bone; think highly of)을 둔다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue
@@ -52,56 +52,43 @@ Jay: That's the point of the word book. If anything, the lines were easier to sa
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|
-| run yourself ragged (for someone else) | 몸이 축날 정도로 뛰어다니다 — 특히 남을 위해서. "Are you going to run yourself ragged for someone else?" |
-| work yourself to the bone | 뼈 빠지게 일하다 — ragged보다 고된 노동의 이미지 |
-| have the nerve to do something | 감히·뻔뻔하게 ~하다 — 못마땅함이 들어간다; have the guts to(배짱)와 다르다 |
-| live it up | 돈 쓰며 호화롭게 즐기다. "You must have been living it up" |
-| must have been -ing | 과거에 한동안 ~했겠구나 — 과거 지속에 대한 강한 추측 |
-| think (so) little of someone | ~을 (그렇게까지) 낮게 보다; 반대는 think highly of |
-| Just because A doesn't mean B | A라고 해서 B인 건 아니다 — 통째로 외우는 구조 |
-| judging by / from … | ~으로 미루어 보아 |
-| get along with someone | ~와 잘 지내다 |
-| someone's lot | 그 사람의 패거리·일당 (영국식, 약간 못마땅한 뉘앙스) |
-| rack your brain(s) | 머리를 쥐어짜다. "racked my brain trying to figure out what kind of business to start" |
-| what kind of X to do | 의문사 + to부정사 — 어떤 X를 해야 할지 |
-| This one's got … | 's = has: 이건 ~이 들어 있다 (This one's good의 's = is와 구별) |
-| pickled plum | 우메보시(梅干し)의 자막식 번역 |
-| a smooth talker | 상대 마음을 사는 말을 능숙하게 하는 사람 — 칭찬일 수도, 경계일 수도 |
-| Goodness! / My goodness! | 어머! 세상에! (감탄사) |
-| barely grazed you | 살짝 스쳤을 뿐이다 — graze는 touch보다 훨씬 약한 접촉 |
-| make a fuss / make a big deal out of it | 소란을 피우다 / 일을 크게 만들다 |
-| knee-deep in its clutches | 그것에 깊이 빠져 손아귀에서 못 벗어난 — 두 비유를 겹친 문학적 표현 |
-| stagnation | 정체, 침체 (economic stagnation) |
-| … was me | 도치문의 마지막 주어 — 문학적 서술에서 was I 대신 자연스럽다 |
-| get taken away from me | 빼앗기다 — get + p.p.의 회화 수동태 (get fired, get caught) |
-| so that it doesn't … | ~하지 않도록 |
-| If you could …, would you …? | 가정법 과거 — 현실과 거리를 둔 가정; can/will은 현실 쪽 |
-| have someone do something | ~에게 ~을 해달라고 하다 (의뢰). "I had a fortune teller do a reading for you" |
-| do a reading | 점을 봐주다 (tarot / palm / psychic reading) |
-| compared to how deafening the city was | 도시가 얼마나 시끄러웠는지에 비하면; deafening = 귀가 먹먹할 정도의 |
-| at Mita's | Mita의 집·가게 — 's 뒤 명사 생략 (at the dentist's) |
-| a lounge (in Shinbashi) | 일본식 접객 유흥주점 — 호텔 라운지가 아니다 |
-| the business I started | 목적격 관계대명사 생략 — 덩어리로 읽는다 |
-| fizzy | 거품이 보글거리는, 발포성의 (fizzy drink, fizzy bath bomb) |
-| leave (right) on time | 칼퇴하다 — 정확히 대응하는 단어가 없어 이렇게 |
-| except, perhaps, for Kim, and on deadline day | 예외가 둘이면 병렬로 분리한다 — 쉼표만으로는 scope가 모호해진다 |
-| if anything | 어느 편인가 하면, 오히려 — 부정문 뒤에서 반대가 사실임을 나타낸다 |
-| You think I'm made of money? | 내가 돈 찍어 내는 기계야? |
-| chicken out (of something) | 겁먹고 꽁무니를 빼다 |
-| laid-back | 느긋한, 태평스러운 |
-| flashy | 호화로운, 화려하게 치장한, 현란한 — "flashy nouveau riche style" |
-| parlay something into something | ~을 (더 큰 것으로) 늘리다·키우다 |
-| knock-on (effect) | 연쇄적인 (효과) |
-| imbue (someone/something with) | (감정·가치를) 가득 채우다 |
-| enjoin | 명하다; (법령으로) 금하다 |
-| pettifogging | 좀스러운, 사소한 |
-| empath | 공감 능력이 매우 뛰어난 사람 |
-| unobservant | 부주의한; 규칙·관례를 지키지 않는 |
-| contingent | 대표단·분견대; (형) ~의 여부에 따라 |
-| servitude | 노예 상태 |
-| simulacrum | 복제품, 모조품 |
-| narcotic | 마약; 진정제; (형) 마약인 |
-| amygdala | 편도체 |
-| dialysis | 투석 |
-| gall bladder | 쓸개, 담낭 |
-| disband | 해산하다 — "The Standard trust eventually had to disband in 1899" |
+| if anything | 어느 편인가 하면, 오히려 — 부정문 뒤에서 그 반대가 사실임을 나타낸다 (카드 1, 단어) |
+| Except, perhaps, for Kim, and on deadline day. | 예외가 둘이면 병렬로 분리한다 — "Except, perhaps for Kim, on the deadline day"는 쉼표만으로 scope가 모호; 칼퇴하다 = leave (right) on time (카드 1, 문장) |
+| imbue | (강한 감정·의견·가치를) 가득 채우다 (카드 2, 단어) |
+| Are you going to **run yourself ragged** for someone else? | 남을 위해서 네 몸이 축나도록 일할 거야? — run yourself ragged = 너무 많은 일로 완전히 지치다; ragged = 너덜너덜한 (카드 2, 문장) |
+| dialysis | (신장병 환자의) 투석 (카드 3, 단어) |
+| **This one's got** pickled plum. | 이건 우메보시가 들어 있어 — 's = has (This one's good의 's = is와 구별); X has got Y = X에 Y가 있다 (카드 3, 문장) |
+| enjoin | (하도록) 명하다; (법령으로) 금하다 (카드 4, 단어) |
+| The next business I started was a **lounge** in Shinbashi. | 그다음 시작한 사업은 신바시의 라운지였어 — 일본식 접객 유흥주점; the business I started = 목적격 관계대명사 생략 (카드 4, 문장) |
+| amygdala | 편도체 (카드 5, 단어) |
+| I **worked myself to the bone**. | 뼈 빠지게 일했다 — 카드 5의 메모는 카드 2와 같은 문장이라, 그 메모가 비교로 든 둘째 표현을 둔다; run yourself ragged(정신없이 뛰어다녀 지침)보다 고된 노동의 이미지 (카드 5, 문장) |
+| parlay (something) into | …로 늘리다·키우다 (카드 6, 단어) |
+| But she **had the nerve to** offer to help the young master. | 감히 도련님 일을 돕겠다고 나섰다 — have the nerve to = 뻔뻔하게도·감히 ~하다, 못마땅함이 들어간다; have the guts to(배짱)와 다름 (카드 6, 문장) |
+| laid-back | 느긋한, 태평스러운 (카드 7, 단어) |
+| Wow! You **must have been** really **living it up**, I bet. | 그때 정말 호화롭게 즐기며 살았겠네 — live it up = 돈 쓰며 신나게 즐기다; must have been -ing = 과거 지속에 대한 강한 추측; I bet = 안 봐도 알겠다 (카드 7, 문장) |
+| flashy | 호화로운, 화려하게 치장한, 현란한 — "flashy nouveau riche style" (카드 8, 단어) |
+| You must **think so little of** me, Kazuko. | 넌 나를 정말 형편없이 보는구나 — think little of ↔ think highly of; 여기 must는 의무가 아니라 강한 추측 (카드 8, 문장) |
+| pettifogging | 좀스러운; 사소한 (카드 9, 단어) |
+| And inside that stagnation, **knee-deep in its clutches**, was me. | 그 정체의 늪에 깊숙이 빠져 있던 건 바로 나였다 — 문학적 도치; knee-deep in(깊이 빠진) + in the clutches of(손아귀에) 두 비유를 겹침; stagnation = 정체 (카드 9, 문장) |
+| empath | 공감 능력이 매우 뛰어난 사람 (카드 10, 단어) |
+| My hand **barely grazed** you. Don't **make a fuss**. | 살짝 스쳤을 뿐이야, 소란 피우지 마 — graze = touch보다 훨씬 약한 접촉; make a fuss / make a big deal out of it (카드 10, 문장) |
+| gall bladder | 쓸개, 담낭 (카드 11, 단어) |
+| **Judging by** last time, he doesn't **get along with** Takiguchi's **lot**. | 지난번을 보면 타키구치 패거리와 사이가 안 좋다 — judging by / from = ~으로 미루어; get along with; someone's lot = 패거리·일당(영국식, 못마땅한 뉘앙스) (카드 11, 문장) |
+| servitude | 노예 상태 (카드 12, 단어) |
+| **Just because** you're a novelist **doesn't mean** you're free. | 소설가라고 해서 자유로운 건 아니야 — Just because A doesn't mean B, 통째로 외우는 구조; 'cause = because (카드 12, 문장) |
+| knock-on | 연쇄 반응을 일으키는, 연쇄적인 (카드 13, 단어) |
+| I'll do my best to protect everything **so that it doesn't get taken away** from me. | 빼앗기지 않도록 최선을 다해 지킬 거예요 — get + p.p.의 회화 수동태(get fired, get caught); so that = ~하도록; everything → it (카드 13, 문장) |
+| chicken out (of something) | 겁을 먹고 그만두다, 꽁무니를 빼다 (카드 14, 단어) |
+| **If you could** get out of here, **would you** do it? | 여기서 벗어날 수 있다면 그러겠어? — 가정법 과거(second conditional): could/would는 과거가 아니라 현실과의 거리; outta = out of (카드 14, 문장) |
+| The Standard trust eventually had to **disband** in 1899. | 스탠더드 트러스트는 결국 1899년 해산되었다 — disband = 해산하다 (카드 15, 단어) |
+| Tomorrow, can I use the **fizzy** bath bear? | 내일 그 거품 나는 곰돌이 입욕제 써도 돼? — fizzy = 발포성의(fizzy drink, fizzy bath bomb); bear = 곰 모양 입욕제 (카드 15, 문장) |
+| You think I'm **made of money**? | 내가 돈 찍어 내는 기계야? (카드 16, 단어) |
+| Nishioka-san, you're such a **smooth talker**. Goodness! | 말씀 참 능글맞게 잘하시네요, 어머! — smooth talker = 상대 마음을 사는 말을 능숙하게 하는 사람(칭찬도 경계도 됨); Goodness! = 감탄사 (카드 16, 문장) |
+| unobservant | 부주의한; 규칙·관례를 지키지 않는 (카드 17, 단어) |
+| My boss **thinks highly of** her. | 상사는 그녀를 높이 평가한다 — 카드 17의 메모는 카드 8과 같은 문장이라, 그 메모가 반대말로 든 표현을 둔다; think highly of ↔ think little of (카드 17, 문장) |
+| narcotic | 마약; 진정제·진통제; (형) 마약인 (카드 18, 단어) |
+| I **had a fortune teller do a reading** for you today. | 점쟁이한테 네 점을 봐달라고 했어 — have + 사람 + 동사원형 = ~에게 ~해 달라고 하다(의뢰); a reading = 점을 봐주는 것 (카드 18, 문장) |
+| simulacrum | 복제품; 모조품 (카드 19, 단어) |
+| The silence at Mita's almost didn't feel real **compared to how deafening** the city was. | 도시의 굉음에 비하면 미타의 고요함이 비현실적으로 느껴졌다 — compared to how + 형용사 + 주어 + be; deafening = 귀가 먹먹할 정도의; at Mita's = 's 뒤 장소 명사 생략 (카드 19, 문장) |
+| contingent | 대표단; 분견대; (형) (~의) 여부에 따라 (카드 20, 단어) |
+| So I **racked my brain** trying to figure out what kind of business to start. | 무슨 사업을 할지 알아내려고 머리를 쥐어짰어 — rack your brain(s); figure out; what kind of X to do = 의문사 + to부정사 (카드 20, 문장) |
