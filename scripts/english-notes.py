@@ -82,7 +82,10 @@ import datetime
 _today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
 for x in items:
     if x["status"] == "new" and (_today - datetime.date.fromisoformat(x["added"])).days >= 7: x["status"] = "planned"
-items = sorted(items, key=lambda x: (RANK[x["status"]], x["n"])); POS.update({x["n"]: i + 1 for i, x in enumerate(items)})
+# `pin: true` puts an item first inside its own status group (jay, 2026-09-21: "Make it first" … "it's a new one so it
+# cannot beat a done item"). Without it a group is ordered by file number, so a newly added item always lands last.
+_pin = lambda x: 0 if str(x.get("pin", "")).strip().lower() in ("1", "true", "yes") else 1
+items = sorted(items, key=lambda x: (RANK[x["status"]], _pin(x), x["n"])); POS.update({x["n"]: i + 1 for i, x in enumerate(items)})
 N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 

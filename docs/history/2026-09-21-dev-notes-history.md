@@ -219,6 +219,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `BASE` in `scripts/notes_numbering.py`; the hard-coded Health base in the JS that `health-cards.py` emits (1401 → 3001); the numbering line in `docs/topics/README.md` with the block table and the earlier bases as history.
 - **Result:** Tech 1–279, Theory 1001–1189, Invest 1501–1521, Life 1801–1834, Eng 2001–2397, Health 3001–3006. No 5xx, 8xx or 9xx item numbers left on `notes.html`; `index.md` counts 920 items.
 
+### Eng #398: The Economist on AI trickle-down, and a `pin:` key
+
+- **Cause:** jay pasted The Economist's 2026-09-17 piece comparing Taiwan and South Korea ("Trickle-down chiponomics" in print) and asked for the original text, a translation, the key expressions and the words, locked behind his password because it is an Economist article; then "It should be on Eng" and "Make it first".
+- **Reasoning:** the body text was not copied into the repo and no raw file was made. The Health-style lock does not fit here: the ciphertext still ships in a public GitHub repo, so encrypting a copyrighted article is still distributing it, and a full translation is a reproduction too. What the item carries instead is the headline and exact citation, a summary in my own words, the article's figures (facts are not the copyright), short attributed quotations, and the vocabulary — which is the part jay is actually studying. That rule is now in the English README. "Make it first" could not mean above the done item (jay said so himself), so the item is `important` and the builder gained an optional `pin: true` that puts an item first *inside* its own status group; without it a group is ordered by file number and anything new lands last.
+- **Change:** `docs/topics/english/english-398.md` (tag `Article`, 18 expression rows); `scripts/english-notes.py` sort key gains the pin tiebreaker; English README documents `pin:` and the copyright rule for outside articles.
+- **Result:** Eng 398 items; the article shows at 2002, directly under the Yesterday-done item at 2001. Site total 921.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

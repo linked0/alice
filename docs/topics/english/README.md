@@ -17,6 +17,8 @@ the section on `docs/notes.html`, the nav data in `docs/topics/_nav.js`, and one
   offer negotiation, first weeks on a foreign team, running standups and one-on-ones, giving and
   receiving feedback, disagreeing with a manager, presenting to stakeholders. Critical and
   concrete: real stakes, real numbers, the sentence that wins or loses the moment.
+- **`pin: true`** (선택, jay 2026-09-21: "Make it first") — 같은 status 묶음 안에서 맨 앞에 둔다. 없으면 묶음은 파일 번호순이라 새로 추가한 항목이 항상 뒤에 붙는다. status 사이의 순서(REVISIT < done < IMPORTANT < NEW < PLANNED)는 바꾸지 않으므로, new 항목이 done 항목을 앞지를 수는 없다.
+- **바깥 글에서 온 항목의 저작권 (jay, 2026-09-21).** 저작권이 있는 기사(이코노미스트 등)는 본문을 저장소에 옮기지 않는다. 항목에는 제목과 정확한 출처, 내가 쓴 요약, 기사의 수치, 짧은 인용, 표현·어휘만 담고 raw 파일은 만들지 않으며 `source:`에 그 사실을 적는다. 저장소가 공개라서 암호화해 두어도 결국 공개 배포다.
 - **Status** is set in the file header (`status: planned | done | recent | important | new`);
   default `planned`. Mark `done` when jay says so.
 - **Source, when the conversation came from an outside text (jay, 2026-09-21).** Three optional header
