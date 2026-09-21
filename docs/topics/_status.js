@@ -137,6 +137,12 @@
       reorder(cardNodes);
       totalDone += done; totalAll += sec.items.length;
 
+      // nav.jump is what the rail badge reads, so update the data and let the badge repaint itself.
+      // Writing the badge text here instead would be overwritten by the next repaint, which is how
+      // the Eng pill came to say 3 while the badge still said 71 (jay, 2026-09-21).
+      if (nav.jump) nav.jump.forEach(function (j) {
+        if (j.id === sec.navId.replace('nav-', '')) { j.done = done; j.all = sec.items.length; }
+      });
       // per-section counts: the jump pill on notes.html and the heading inside the article
       var pill = document.querySelector('a[data-sec="' + esc(sec.navId) + '"]');
       if (pill) {
@@ -152,9 +158,13 @@
       }
     });
 
-    // the rail-head badge, which _progress.js wrote from the built numbers before we ran
-    var badge = document.querySelector('.rail-note[title="current"]');
-    if (badge && totalAll) badge.innerHTML = Math.round(totalDone * 100 / totalAll) + '% &middot; ' + totalDone + '/' + totalAll;
+    // the rail-head badge: _progress.js owns its text shape ("All · 8% · 71/923") and repaints on
+    // click, so ask it to repaint from the nav.jump we just updated rather than writing over it.
+    if (typeof window.__RAIL_REPAINT__ === 'function') { try { window.__RAIL_REPAINT__(); } catch (e) {} }
+    else {
+      var badge = document.querySelector('.rail-note[title="current"]');
+      if (badge && totalAll) badge.textContent = 'All \u00b7 ' + Math.round(totalDone * 100 / totalAll) + '% \u00b7 ' + totalDone + '/' + totalAll;
+    }
 
     // and the number printed at the top of the item you are reading
     var cur = itemForThisPage();

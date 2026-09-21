@@ -12,8 +12,14 @@
 (function () {
   var nav = window.__NAV__; if (!nav || !nav.jump) return;
   var head = document.querySelector('.rail-head'); if (!head) return;
-  var done = 0, all = 0;
-  nav.jump.forEach(function (j) { done += j.done; all += j.all; });
+  // Recomputed on every read, not captured once (jay, 2026-09-21: the Eng pill said 3 while the badge
+  // still said 71). The status overlay edits nav.jump when a change is queued, and a badge that
+  // cached its totals at load time repainted straight over the new number.
+  var totals = function () {
+    var done = 0, all = 0;
+    nav.jump.forEach(function (j) { done += j.done; all += j.all; });
+    return { done: done, all: all };
+  };
   var pct = function (d, a) { return a ? Math.round(d * 100 / a) : 0; };
   var cur = head.querySelector('.rail-note');
   // The red badge is a button (jay, 2026-09-18: "make it clickable and make the clicking shows all the categories for
@@ -25,7 +31,8 @@
   if (railAll) document.body.classList.add('rail-all');
   var paint = function () {
     if (!cur) return;
-    cur.textContent = 'All · ' + pct(done, all) + '% · ' + done + '/' + all;   // one fixed shape (jay, 2026-09-18: "don't change it when being clicked")
+    var n = totals();
+    cur.textContent = 'All · ' + pct(n.done, n.all) + '% · ' + n.done + '/' + n.all;   // one fixed shape (jay, 2026-09-18: "don't change it when being clicked")
     cur.setAttribute('aria-pressed', railAll ? 'true' : 'false');
     cur.style.boxShadow = railAll ? 'inset 0 0 0 2px #ef4444' : '';        // lit like a selected pill (jay: "have meaning of all category")
     cur.title = railAll ? 'All categories — click: back to this section only' : 'All categories — click: show every section in the rail';
@@ -42,6 +49,7 @@
     document.addEventListener('rail-all-change', function () { railAll = document.body.classList.contains('rail-all'); paint(); });
     cur.addEventListener('click', toggle);
     cur.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    window.__RAIL_REPAINT__ = paint;   // the status overlay calls this after editing nav.jump
     paint();
   }
   // Milestones (jay, 2026-09-18): 1,000 items done is the first turning point and gets a congratulation effect;
@@ -49,6 +57,7 @@
   // removed the same day — jay: "the numbers are shown in order and we don't need this part".)
   var GOALS = [1000, 2000];
   GOALS.forEach(function (g) {
+    var n = totals(), done = n.done, all = n.all;
     if (done < g) return;
     var k = 'milestone-' + g; try { if (localStorage.getItem(k)) return; } catch (e) {}
     var wrap = document.createElement('div'); wrap.className = 'milestone';
