@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#56</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">chat</span></p>
+      <p class="topic-kicker"><span class="topic-no">#58</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">chat</span><span title="done">done 2026-09-18</span></p>
       <h1>Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows</h1>
       <p class="lead">Bloomberg reported on 2026-08-16 that Stripe would buy OpenRouter for more than $7 billion; Stripe confirmed the agreement on 2026-08-19 without a price, and the New York Times put it at $7.5 billion, roughly $1.5 billion of it to the founders, five to six times the $1.3 billion Series B valuation of May 2026, Stripe&#39;s largest acquisition since 2010. OpenRouter is a single API in front of 400-plus models from 80-plus providers. Developers connect once, switch models per request, and pay the providers&#39; listed token prices plus a platform fee of about 5.5 percent on credit purchases. Sacra puts it at about $160 million annualised revenue in August 2026, from $50 million at the end of 2025, on roughly 250 trillion tokens a month. Stripe&#39;s stated reason is "both sides of profitability in the AI era": it already bills for AI usage (Token Billing) and now owns the meter on the cost side. Patrick Collison: "Tokens are the central currency for companies building with AI." OpenRouter&#39;s own note promises neutrality that "doesn&#39;t bend to any model, any provider, or any parent company", and said the deal would close "in the coming weeks"; whether it has closed is not confirmed as of 2026-09-18.</p>
       <p class="meta">Two facts underneath the headline matter more than the price. First, OpenRouter&#39;s per-token revenue fell about 60 percent over the year because Chinese open-weight models (DeepSeek, Tencent, Xiaomi, Z.ai) went from about 2 percent to more than half of its traffic and are far cheaper per token; a flat percentage fee on cheaper tokens means the router&#39;s economics push toward volume, which is exactly the business Stripe knows. Second, OpenRouter&#39;s public usage rankings were the industry&#39;s only open gauge of which labs&#39; models developers actually run, and that gauge now belongs to a US payments company with its own stake in the answer. For Jayverse: our agents and services call model APIs with per-provider keys and no shared budget or fallback, which is the "app key is a budget" problem from the Alchemy item with more zeros; a router with a spend cap, a fallback chain, and per-request model choice is worth a PoC. And the gauge problem is ours too: a dashboard is only trusted if the data behind it can be checked, which is the Auditor argument applied to someone else&#39;s numbers.</p>
@@ -460,7 +461,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-alchemy-app-is-a-budget.html">&larr; 55. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</a><a href="pocs-etf-outflows-sign-depends-on-window.html">57. Two days of ETF outflows after the hike — the sign of the number depends on the unit you read it in &rarr;</a></div>
+    <div class="pager"><a href="pocs-alchemy-app-is-a-budget.html">&larr; 57. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</a><a href="pocs-etf-outflows-sign-depends-on-window.html">59. Two days of ETF outflows after the hike — the sign of the number depends on the unit you read it in &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -490,7 +491,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -527,8 +528,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

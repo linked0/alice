@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The bill count is not the disagreement count</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#169</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#170</span><span>PoC</span></p>
       <h1>The bill count is not the disagreement count</h1>
       <p class="lead">Ten-plus digital asset bills sit in the National Assembly and the reporting counts them. Nobody publishes the number that matters: how many operative clauses actually conflict, and how many days of public comment the chosen legislative route removes.</p>
       <p class="meta">Not yet scoped — and the first task is verification, not a build. Does 의원입법 actually skip 입법예고 and 규제영향분석, and by how many days? If the answer is no, this card loses half its thesis. If yes, pull the pending bills from 의안정보시스템 (public API), diff their operative clauses, and publish two numbers: contested clauses ÷ bills, and comment-days removed. Sources: 한국경제 2026-08-24 (금융위원장 이억원 — 9월 내 목표, 대주주 지분 한도 사실상 확정, 의원입법 형태 선호), FSC 하반기 업무보고 2026-07-15, 민병덕 의원 디지털자산기본법 2025-06-10 — to verify.</p>
@@ -598,7 +599,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-address-to-identity-join.html">&larr; 168. The chain gives you the graph and never the names</a><a href="pocs-korea-spot-share-is-an-artifact.html">170. Thirty percent of spot is a restriction, not a market size &rarr;</a></div>
+    <div class="pager"><a href="pocs-address-to-identity-join.html">&larr; 169. The chain gives you the graph and never the names</a><a href="pocs-korea-spot-share-is-an-artifact.html">171. Thirty percent of spot is a restriction, not a market size &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -628,7 +629,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -665,8 +666,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

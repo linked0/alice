@@ -189,3 +189,6 @@ print(f"{LABEL}: {N} items ({DONE} done) → notes.html section + nav + pill; _n
 # TODAY DONE / YESTERDAY DONE roll (scripts/roll-done-states.py): stamped items bucket by 06:00 KST day; rail dots synced.
 import subprocess
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)
+# rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")
+import subprocess, sys
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)

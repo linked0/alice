@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Priced by the wrong thing — a question, an instrument, and the gap between them</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#175</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#176</span><span>PoC</span></p>
       <h1>Priced by the wrong thing — a question, an instrument, and the gap between them</h1>
       <p class="lead">Bitcoin rose about 22% in a week on a possibility the Treasury never committed to. A tokenised-equity desk&#39;s highest-volume instrument tracks a company that does not trade. Two clean questions, two instruments that answer something else — and in both cases the missing fact is what it settles against.</p>
       <p class="meta">Two write-downs, no model. First: write the question the macro market is actually trading, in the form a settlement contract would need — does the Treasury General Account balance fall by more than X between date A and date B, resolved against the published daily statement — then price the same claim two ways, implied from the move in an asset that responds to everything else, and directly as a binary. The gap between them is the measurement. Second: for SPCX, establish what the instrument settles against — a funding round mark, a secondary transfer price, a broker&#39;s internal quote, an index of private trades — then ask how often it updates, who can move it, and what happens to open positions between updates. Sources: Unchained, 2026-08-26 (TGA roughly $936B on 08-19; buyback operations raised from $2B to at least $4B each from 08-19; CNBC reporting on 08-24 that the balance was under consideration; expanded operations 09-09 to 11-04; $20B offered against $2B taken); a CryptoQuant insight by @CryptoOnchain, 2026-08-26, reporting Gate.com figures as of 08-24 (7-day average TradFi volume $436.8M/day against 30-day $386.4M and 90-day $320.4M; August $9.6B with six sessions left, above July&#39;s $8.3B and near March&#39;s $11.92B; US cumulative $25.6B (66.1%), Korea $13.2B (33.9%, +689.9% against 30 days) after a second liquidity session was added; SPCX at $378M over seven days). Treasury figures are published daily; the exchange figures are vendor-supplied in a promotional frame.</p>
@@ -646,7 +647,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-dsrv-portal.html">&larr; 174. Institutional custody study</a><a href="pocs-cre-cloud.html">176. CRE × Cloud — four hybrid patterns &rarr;</a></div>
+    <div class="pager"><a href="pocs-dsrv-portal.html">&larr; 175. Institutional custody study</a><a href="pocs-cre-cloud.html">177. CRE × Cloud — four hybrid patterns &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -676,7 +677,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -713,8 +714,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

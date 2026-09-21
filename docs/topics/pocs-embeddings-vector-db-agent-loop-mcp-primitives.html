@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#128</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span></p>
+      <p class="topic-kicker"><span class="topic-no">#128</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
       <h1>Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks</h1>
       <p class="lead">ByteMonk&#39;s video (YouTube, 10:03) ties together the four pieces that make up today&#39;s agent stack: embeddings, vector databases, the agent tool-calling loop, and Anthropic&#39;s Model Context Protocol (MCP). The claim is that modern AI is moving from standalone chat into autonomous agents that must reliably read and act on real data, and that requires all four pieces working together rather than any one of them in isolation. Embedding models project text, code and images into 768–1536-dimension vectors, where semantic similarity becomes geometric proximity, measured as cosine similarity, dot product or Euclidean distance. Because exact nearest-neighbor search across millions of vectors is an O(N) scan, production vector databases use approximate nearest-neighbor (ANN) indexes — HNSW graphs or IVF — to get sub-millisecond retrieval instead. The agent loop wraps a tool call around that retrieval: observe, reason, dispatch a structured JSON tool call, execute and feed the result back, repeat until the goal is verified. MCP is the standard that lets an agent reach any of those tools without one-off glue code for every model-tool pair.</p>
       <p class="meta">For Jayverse this is a primer rather than new ground: it names, in one place, the primitives that Tech #68 (MCP from three sides) and #99 (vibe modeling via Blender MCP) already touched separately. Worth reading before turning the Auditor into an actual MCP server, and worth keeping the four names straight — it&#39;s easy to talk about "RAG" when the real question is which of embeddings, ANN indexing, the loop, or MCP is the piece that&#39;s missing.</p>
@@ -492,7 +493,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -529,8 +530,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

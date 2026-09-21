@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Nigeria&#39;s first tele-robotic surgery — the 500 km distance was never the hard part, the loop was</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#129</span><span>PoC</span><span title="added">2026-09-21</span><span title="source">chat</span></p>
+      <p class="topic-kicker"><span class="topic-no">#129</span><span>PoC</span><span title="added">2026-09-21</span><span title="source">chat</span><span title="bin">converse</span></p>
       <h1>Nigeria&#39;s first tele-robotic surgery — the 500 km distance was never the hard part, the loop was</h1>
       <p class="lead">On Saturday 2026-09-20, a surgeon at Redeemer&#39;s Health Village (RHV) in Lagos operated a Toumai robotic console to perform a robot-assisted right radical nephrectomy on a patient about 500 km away at Nisa Premier Hospital, Abuja, removing a cancerous kidney tumour in roughly three hours — West Africa&#39;s first tele-robotic surgery. Lead surgeon Prof. Obi Ekwenna-Davis co-founded RoboMed Global, the US partner supplying the Toumai system (built by China&#39;s MicroPort MedBot); RHV&#39;s leadership and Nisa&#39;s founder Dr Ibrahim Wada backed a collaboration that also plans a robotic academy for 150+ surgeons over two years (Vanguard, Premium Times, NAN, 2026-09-20/21). A social-media post jay saw named Starlink as the link; none of the Nigerian press coverage does.</p>
       <p class="meta">For Jayverse this is a clean case study in reading a latency claim: the physical distance sets a floor that is almost irrelevant, the real number is the end-to-end loop including jitter, and the attention-grabbing detail in the social post (Starlink) is exactly the part no primary source confirms.</p>
@@ -494,7 +495,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -531,8 +532,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

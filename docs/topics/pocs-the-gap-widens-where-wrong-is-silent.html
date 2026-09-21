@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The gap widens only where being wrong is silent</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#190</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#191</span><span>PoC</span></p>
       <h1>The gap widens only where being wrong is silent</h1>
       <p class="lead">A widely shared post lists five competencies that survive the agent era and claims the gap between those who have them and those who do not is widening rather than closing. The list is right; the reason is sharper than stated. An agent multiplies production and not review, so the gap closes wherever a cheap oracle exists and opens wherever being wrong is silent — which reorders the five.</p>
       <p class="meta">Not yet scoped, and the deliverable is a five-row table rather than a study plan. For one component you actually own, take the five competencies and write the cheap oracle for each — the check that tells you within minutes that the agent&#39;s output is wrong. Where one exists (it compiles, the test fails, the page does not render, the endpoint returns 500), agent output can be accepted quickly and verified cheaply, and the gap between knowing and not knowing is small. Where the honest answer is &quot;none&quot; — the data model, the trust boundary, the structure that works at today&#39;s load, the cost curve at ten times the traffic — write &quot;none&quot; and then decide what to spend on it, because that is the entire budget the post is really talking about. Source: a Korean summary of an Andrew Ng post, seen 2026-08-29. Read the original before quoting the five, since a summary of a list is exactly where an item quietly changes shape.</p>
@@ -664,7 +665,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-share-the-code-you-write.html">&larr; 189. You can share the code you write, not the code you must obey</a><a href="pocs-steal-the-structure.html">191. Two reading lists, and the same instruction — steal the structure, not the content &rarr;</a></div>
+    <div class="pager"><a href="pocs-share-the-code-you-write.html">&larr; 190. You can share the code you write, not the code you must obey</a><a href="pocs-steal-the-structure.html">192. Two reading lists, and the same instruction — steal the structure, not the content &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -694,7 +695,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -731,8 +732,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

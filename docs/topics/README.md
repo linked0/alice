@@ -159,6 +159,13 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   `scripts/roll-done-states.py`, which buckets every stamped item by `(done − 6h).date()`, keeps the newest bucket as
   TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in `notes.html`
   with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
+- **Done date in the kicker (jay, 2026-09-21: "From now on, you should add the done date in a detail page").** Every
+  item with a `done` stamp shows `<span title="done">done YYYY-MM-DD</span>` at the end of its detail-page kicker (the
+  word "done" is visible, so it cannot be mistaken for the added date) and a `done YYYY-MM-DD` chip in its dot colour
+  at the right of the card head on `notes.html` (jay, 2026-09-21: "Add Done data to One employee, one agent …").
+  `add-tech-item.py` writes it for a new `recent` / `revisit` page; `roll-done-states.py` adds, updates or removes it on
+  every page from the `_nav.js` stamp, so it never drifts. Items done before stamps existed (pre-2026-09-18) have no
+  stamp and therefore no date. `index.md` has a Done column.
 - Rail buttons in two rows — **Important · New · All** / **Done · Yesterday · Today** (a `.tier-break` span forces the
   break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
   Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
@@ -170,7 +177,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - A sixth state for items that are **already done and still matter enough to be reminded of later**: label
   **REVISIT**, purple dot `#a855f7`, status key `revisit` (jay: "one more category before Done which is already done
   but that I should remind later … filled with very important thing"; the name was Claude's suggestion, accepted).
-  Empty on the day it was added — nothing is marked yet.
+  First two, marked the same day: Tech #1 learning greed (bin `deep`) and #2 the agent-team workflow.
 - **Counts as done** everywhere a done total is computed (section pill, section meta, `_nav.js` jump, overall badge):
   `add-tech-item.py`, `english-notes.py`, `roll-done-states.py` all include it. It never rolls: the TODAY / YESTERDAY
   DONE rule leaves REVISIT alone.
@@ -180,7 +187,46 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
   template `scripts/rtd-shell.mjs`. It shows REVISIT only.
 - **How to mark one:** `add-tech-item.py --key <k> --status revisit …` (re-run in place), or `status: revisit` in an
-  English item's markdown; then `reorder-by-status.py`. There is no cap.
+  English item's markdown; then `reorder-by-status.py`. An item older than 2026-09-18 has no "Where it lands in Jayverse"
+  section and the script refuses to rebuild it — for those, set `color` `#a855f7`, `label` `REVISIT` and a `done` stamp
+  on its `_nav.js` entry by hand, then run `reorder-by-status.py` and `roll-done-states.py`; the roll syncs the rail
+  dots, the counts, the overall badge on every page and the `index.html` landing card. There is no cap.
+- **The stamp is a done day.** Marking an item REVISIT stamps `done`, and that stamp counts when `roll-done-states.py`
+  picks the TODAY / YESTERDAY DONE days (jay, 2026-09-21: "today is KST 09-21"). The item keeps its purple dot and
+  REVISIT label, and the roll adds `day: today | yesterday` to its `_nav.js` entry, rendered as `data-day` on the rail
+  dot, so the **Today and Yesterday buttons show it too** (the filters match the label *or* `data-day`). It is still
+  never relabelled.
+
+## LLM-wiki layers — raw, index, search, bins, interview bank, closing three (jay, 2026-09-21)
+
+The learning-greed item (Tech #1, REVISIT) asked for Karpathy's LLM-wiki layers (Tech #109) on top of this site.
+jay: "make the alice Knowledge Notes system aligned with … Let the system hold the index". What exists now:
+
+- **Raw layer — [`raw/`](raw/README.md).** An append-only copy of every source an item was written from (pastes,
+  fetched article text, Gemini briefings, the morning reports). `add-tech-item.py --raw <file>` copies it to
+  `raw/YYYY-MM-DD-<key>.<ext>` and links it from the kicker as `raw`; a `--raw` path that is already inside `raw/`
+  (a morning report that feeds several items) is linked without copying. Never edited; a changed source is a new dated
+  file. Items from before 2026-09-21 mostly have none — the page is the record, and that is stated, not hidden.
+- **Index — [`index.md`](index.md) and [`index.json`](index.json), generated.** One row per item across every
+  section: number, section, status, added date, type, source, bin, English and Korean title, key, raw link (the JSON
+  also carries the lead, related item numbers and the key expressions). `scripts/build-index.py` rebuilds both and is
+  run at the end of `add-tech-item.py`, `english-notes.py`, `reorder-by-status.py` and `roll-done-states.py`, so the
+  index is never older than the last change. Do not edit the generated files.
+- **Search — `python3 scripts/notes-search.py <words>`** answers "have I already learned this?" before an item is
+  added (all words must match; `--any`, `--section`, `--status`, `--json`). Exit 1 with "new to the site" means go
+  ahead. Run it first for every new subject; it replaces remembering.
+- **Bins — `--bin deep | converse | file`** in the kicker and the index, set at capture time: *deep* moves the through
+  line and gets the hours; *converse* gets one interview sentence and no more until it touches a project; *file* gets
+  the card and the Key expressions and is released. Optional; items before 2026-09-21 have no bin.
+- **Interview bank — [`interview-bank.md`](interview-bank.md).** `--bin converse --sentence "…"` appends one row
+  (item, title, the sentence, date). Rows are never edited; a better sentence is a new row.
+- **Closing three.** Each day's `docs/history/YYYY-MM-DD-dev-notes-history.md` ends with a `### Closing three` block:
+  what I learned, what is still unclear, the next step (Fraza's three lines, from the learning-greed item). It is
+  appended last, after the day's final entry; when a later entry is added the block moves below it. The unclear line
+  is tomorrow's first candidate.
+- **What did not change:** the wiki is still `docs/topics/*.html`, the schema is still this README, the log is still
+  `docs/history/`. No page was regenerated for these layers; only the kickers of items added with `--bin` / `--raw`
+  carry the new spans.
 
 ## English pages: English first, Korean apart (jay, 2026-09-18)
 

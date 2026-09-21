@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#126</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span></p>
+      <p class="topic-kicker"><span class="topic-no">#126</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
       <h1>Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</h1>
       <p class="lead">Maarten Grootendorst, a data scientist known for the O&#39;Reilly book *Hands-On Large Language Models* and his visual-guide blog series, published a roughly 20-minute video ("A Visual Guide to Mixture of Experts (MoE) in LLMs," 19:44) walking through how MoE replaces a Transformer&#39;s dense feed-forward layer with a set of specialised sub-networks and a router that picks a few of them per token. The core numbers: Mixtral 8x7B holds about 47 billion parameters in memory but only runs about 13 billion of them for any given token, because the router activates 2 of its 8 experts per layer. The video also covers the router&#39;s softmax-and-top-K math, the auxiliary loss that keeps experts from collapsing onto a favoured few, and the capacity limit that can cause tokens to be dropped.</p>
       <p class="meta">For Jayverse this is the missing theory behind two earlier Tech items: #112 (MLX local AI) and #116 (local AI weights and quantization). It explains, in one architectural fact, why a model can feel fast to run and still refuse to fit on a Mac&#39;s unified memory — the two numbers that matter are different, and only one of them is the one you can budget against.</p>
@@ -498,7 +499,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -535,8 +536,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Hyperliquid paid for a public good — the amicus brief as a regulatory moat</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#50</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#52</span><span>PoC</span><span title="done">done 2026-09-12</span></p>
       <h1>Hyperliquid paid for a public good — the amicus brief as a regulatory moat</h1>
       <p class="lead">Reported (2026-09): Hyperliquid&#39;s Policy Center filed an amicus brief — via former US Solicitor General Elizabeth Prelogar (Cooley) — backing the CFTC against CME&#39;s suit over perpetual futures. Every perps venue benefits if CME loses, but only Hyperliquid paid. The bet: being the named party in the room when the rules get written is a moat that never shows up in a fee table. Observations, not advice; specifics unverified.</p>
       <p class="meta">Not a build — a strategy pattern to recognize. A legal outcome that helps a whole class (all perps venues) is a public good; the free-rider problem says nobody funds it. Someone funding it anyway is buying something other than the shared ruling. Separate the three things the payer gets that free-riders do not — shaping the record, standing with the rule-writing agency, recognition as a serious counterparty — from the ruling itself. Then apply the counter: regulator-recognition and user-recognition are different assets, and a favorable ruling helps the cheapest venue as much as the loudest. Verify the reported facts (the brief, Prelogar/Cooley, the CME suit, the dates, Kalshi&#39;s $HYPE filing) against primary sources before repeating; this is observation, not advice.</p>
@@ -524,7 +525,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-tokenized-stock-premium-needs-a-mint-redeem-path.html">&larr; 49. Why AMC's tokenized stock ran to a premium — the peg needs an open mint/redeem path</a><a href="pocs-jayverse-build-on-the-shortlist.html">51. What Jayverse can build on — the shortlist of rails, by need &rarr;</a></div>
+    <div class="pager"><a href="pocs-tokenized-stock-premium-needs-a-mint-redeem-path.html">&larr; 51. Why AMC's tokenized stock ran to a premium — the peg needs an open mint/redeem path</a><a href="pocs-jayverse-build-on-the-shortlist.html">53. What Jayverse can build on — the shortlist of rails, by need &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -554,7 +555,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -591,8 +592,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

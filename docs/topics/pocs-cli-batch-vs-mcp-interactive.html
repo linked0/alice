@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The CLI leaves an artifact; the MCP holds a conversation</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#267</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#268</span><span>PoC</span></p>
       <h1>The CLI leaves an artifact; the MCP holds a conversation</h1>
       <p class="lead">Two ways to drive Blender from Codex or Claude Code: the CLI generates Blender Python and runs it headless to an output, while MCP connects to a <em>running</em> Blender and operates it interactively, reading the live scene between steps. Their capabilities overlap — either can add a cube — but the workflow differs on one axis: the CLI leaves a re-runnable, reviewable script (batch, reproducibility, server execution); the MCP holds a stateful conversation with a live process (inspect, adjust, verify, repeat). The mature move is both — CLI to generate and batch-output, MCP to refine in the middle.</p>
       <p class="meta">Not yet scoped — a workflow decomposition, not a build. Take one real task (&quot;build a classroom scene, then export GLB&quot;) and route it across the two: <strong>CLI</strong> to generate the base scene as a Python script (durable, reviewable, re-runnable — floor, walls, desks, board, lights in one pass), <strong>MCP</strong> to adjust interactively against the live scene (&quot;fewer desks,&quot; &quot;bigger blackboard,&quot; &quot;light from the window&quot;), then <strong>CLI</strong> again to batch-output (multi-camera renders, GLB export, poly-count check). The discipline the article names is worth keeping: tell the AI not just <em>what to build</em> but <em>how to verify</em> — a fixed-camera render makes before/after comparable (the CLI&#39;s reproducible check), the live viewport makes it immediate (the MCP&#39;s stateful check). Deliverable: a decision table mapping task properties (batch? reproducible? stateful? interactive?) to CLI vs MCP, plus the combined CLI -&gt; MCP -&gt; CLI pipeline for a task that needs both. Source: npaka (note.com), &quot;AIでBlenderを操作する方法 — CLIとMCPの使い分け,&quot; 2026-09-03 — a practitioner how-to; Blender is the illustration, the CLI-vs-MCP axis is the transferable part.</p>
@@ -606,7 +607,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-agent-ask-not-write.html">&larr; 266. Give the agent the right to ask, not the right to write</a><a href="pocs-ai-engineering-is-framing-non-determinism.html">268. Every AI-engineering skill is framing the same non-determinism &rarr;</a></div>
+    <div class="pager"><a href="pocs-agent-ask-not-write.html">&larr; 267. Give the agent the right to ask, not the right to write</a><a href="pocs-ai-engineering-is-framing-non-determinism.html">269. Every AI-engineering skill is framing the same non-determinism &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -636,7 +637,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -673,8 +674,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

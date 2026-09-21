@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A one-person media company is six bots and one shared brain</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#136</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#137</span><span>PoC</span></p>
       <h1>A one-person media company is six bots and one shared brain</h1>
       <p class="lead">A viral how-to (&#39;build a one-person media company with six Hermes bots&#39;) buries a genuinely good multi-agent operations pattern. The claim worth keeping is not that AI writes faster — writing was never the bottleneck. The bottleneck is the loop: idea → research → angle → long-form → distribution → review → performance → updated playbooks. Six specialists each own one decision under a strict contract, a shared Obsidian &#39;content brain&#39; gives them compatible judgment, and structured handoffs on a durable board replace one fragile chat. Treat the impression numbers as marketing; steal the architecture.</p>
       <p class="meta">Not a one-day build. Order: (1) build the shared brain first — minimum voice / audience / proof / platform files in an Obsidian graph. (2) Stand up signal scout, researcher, and editor only, and run three real ideas through find → verify → review. (3) Add the strategist once evidence packets are consistently useful; add the writer when angle briefs are tight enough to constrain a draft; add distribution after one flagship format works. (4) Keep publishing approval human until the review queue is consistently boring, then move only the predictable decisions into the playbook. (5) Once a week, have the editor compare recent campaigns and return three lists — keep / test / stop — each naming the posts that support it; you approve before the shared brain updates. Tool-agnostic: any multi-agent runtime + a plain-markdown vault + a durable task board works; the vendor &#39;Hermes&#39; is one implementation, not the requirement.</p>
@@ -588,7 +589,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-x402-facilitator-market.html">&larr; 135. The middleman is optional in the spec — and standard in practice</a><a href="pocs-a-boolean-hides-a-state-machine.html">137. A boolean hides a state machine &rarr;</a></div>
+    <div class="pager"><a href="pocs-x402-facilitator-market.html">&larr; 136. The middleman is optional in the spec — and standard in practice</a><a href="pocs-a-boolean-hides-a-state-machine.html">138. A boolean hides a state machine &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -618,7 +619,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -655,8 +656,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

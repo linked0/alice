@@ -1,0 +1,146 @@
+# 🔬 Alice Tech — 2026-09-21 (월)
+
+> **Morning Report의 `4 Trend & Tech`가 이 파일로 분리됐습니다** *(2026-09-16 Jay 지시)*. 복사해서 노트 요청에 붙이는 용도입니다.
+> 🔗 같은 날 리포트: [[morning-report]] · 전날(평일): [[alice-tech-2026-09-18]]
+
+```text
+=== 2026-09-21 (월) Trend & Tech — Note 후보 ===
+
+[오늘 · X(트위터)] 이더리움 스테이킹 진입 큐 248만 ETH — "지금 팔 수 없는 ETH"의 정의
+  사실: 9/20 기준 검증자 진입 큐 **약 248만 ETH**, 진입 수요가 이탈의 **13.6배**,
+        에폭당 ~256 ETH 처리 → 활성화 대기 **43~45일**. 스테이킹 총량 **~4,100만 ETH
+        (공급의 33.5~34%)**, 검증자 ~90만. 거래소 보유 ETH **1,565만**(Glassnode),
+        바이낸스 ETH 준비금 **3개월 최저**. 같은 날 BTC 쪽: **OTC 데스크 준비금 123,000 BTC
+        사상 최저**(2021-09 ~500,000 대비 −75%).
+  각도: 둘 다 **공급 지표**다 — "팔 수 있는 코인"이 양쪽 다 줄었다. 그런데 공급 지표는
+        **수요를 말하지 않는다.** 이 구분을 뭉개는 글이 오늘 많다("supply crunch →
+        price"). 큐는 **나갈 때도 43일**이다 — 유동성이 준 것은 하락장에서도 같은 크기로
+        작동한다.
+  잴 것: 진입 큐 / 이탈 큐 비율을 **주 1회** 기록. 비율이 1 아래로 내려오는 주가 국면 전환의
+        후보. 그리고 방향 판정은 큐가 아니라 **ETF 플로우**(화요일 아침 월요일 값).
+  주의/대안: "스테이킹 집중도(리도 점유율)" 경고와 **총량**은 다른 문제 — 오늘 숫자는
+        총량뿐이고 집중도 원문은 아직 못 봤다.
+
+[오늘 · LinkedIn] Robinhood Chain $450만 vs $398 — L2 가치 격차는 사고가 아니라 설계
+  사실: 9/3 하루 Robinhood Chain(아비트럼 오빗 계열) 수수료 **약 $450만**, L1에 낸 블롭·
+        증명 비용 **$398** → **11,400 : 1**. 일일 최고 **$604만**, 7일 연환산 **~$11억**.
+        9/1엔 하루 $375만으로 **이더리움 메인넷 + Base 합계를 초과.** 동력은 밈코인·토큰 런치.
+  각도: 격차가 나는 이유 셋이 전부 **의도된 것**이다 — ① 블롭은 별도 요금 시장이고 목표치
+        (6/블록)를 크게 안 넘으면 바닥(1 wei) ② 낙관적 롤업은 분쟁 없으면 증명을 안 냄
+        ③ 수수료는 실행(L2)에 붙고 L1은 정렬·DA·최종성만 판다. **Glamsterdam(ePBS·BAL·
+        가스 재조정)은 이 격차를 건드리지 않는다.** 움직이는 손잡이는 **블롭 목표치·요금
+        곡선**뿐이고, 프로토콜의 현재 방향은 L2를 **더 싸게** 만드는 쪽이다.
+  잴 것: 블롭 base fee가 **1 wei 바닥을 떠난 날 수 / 월**. 9/3 블롭 사상 최고(6.7/블록)
+        직후에도 $398이면 아직 0에 가깝다.
+  주의/대안: ETH 가치 서사를 "L1 수수료"에 두면 이 방향과 정면충돌 — **결제 자산·담보·
+        스테이킹 큐**에 두면 충돌하지 않는다. Verex 정산을 L2에 두면 비용은 ~0이고
+        대신 **7일 분쟁 창을 사용자에게 어떻게 보여줄 것인가**가 남는다.
+
+[오늘 · a16z] 세일러 "A little more orange" + 845,050 BTC — 매도 정책은 양방향이었다
+  사실: 9/20 게시 — 관행상 월요일 매수 공시 예고. 차트 **845,050 BTC · 평단 $75,412 ·
+        미실현 +$39.5억**. 이 파일의 앵커는 **842,138**(8월 누적 4회 6,948 BTC 매도 후)
+        → 차이 **~2,900 BTC**는 재매수이거나 집계 차이(8-K로 확인).
+  각도: 8/3에 적은 "Never Sell은 개인 신조였고 매도가 정책임이 확인됐다"의 **보완** —
+        정책은 양방향이고 방향은 **mNAV**가 정한다. 현재가가 평단 +7.7%면 매수 쪽이
+        자연스럽고, $75K 아래면 8월 문장이 돌아온다.
+  잴 것: 8-K 보유량이 845,050이면 8/3 항목에 "재매수 시작 9/21"을 붙인다.
+  주의/대안: BTC OTC 준비금 사상 최저와 같은 날 — 큰손이 OTC가 아니라 **공개 시장**에서
+        사야 한다면 같은 돈이 가격에 더 많이 찍힌다. 좋은 쪽으로도, 나쁜 쪽으로도.
+
+[오늘 · Four Pillars] 금요일 분기 만기 $166억 — 내재 변동폭 ±4.3%, 그리고 그날이 추석
+  사실: 9/25(금) 17:00 KST Deribit 만기 **$166억**(BTC $146.3억). **DVOL 39.15** →
+        일일 **±2.05%**, 만기까지 **±4.3%**(= BTC **$77,700~$84,700**), 30일 ±11.2%.
+        지난주 실현 변동은 내재보다 낮았다(3.8% 하루 + 1%대). 한국은 **9/24~27 추석**.
+  각도: 내재 변동폭은 **예측이 아니라 보험료**다 — 옵션 매도자가 손해 보기 시작하는 선.
+        위험중립 확률·정규분포 가정·큰 만기의 자기순환(델타 헤지가 현물을 끌고 다님)
+        세 가지 때문에 방향의 자로 쓰면 안 되고 **크기의 자**로만 쓴다.
+        오늘 그 자를 대면: 본전(+1.3%)은 **범위 안**, $3,000 트리거(+13.4%)는 **밖**.
+  잴 것: 금요일 종가가 **1σ 밖($77,700 / $84,700)**인지, 2σ 밖($74,200 / $88,200)인지.
+        2σ 밖이면 "사고 주간" — 원인을 달력이 아니라 뉴스에서 찾는다. 채점은 9/28.
+  주의/대안: 1σ 상단($84,700)이 **$82~84K 매도벽 · 50주선 $81K · 365일선 $83K**를 전부
+        덮는다 — 강세장 "공식 확인선" 시험이 화면 앞에 없는 날 올 수 있다. 그래서
+        "$3,000 문단"이 **이번 주**다. ETH DVOL은 오늘 확인 못 함 — 내일.
+
+[오늘 · 딥다이브] EF "트리아지가 제품이다" — AI가 찾은 것의 절반은 취약점이 아니다
+  사실: 9/7 EF 우선순위 문서 — **형식 검증을 남은 연구 영역 전체의 횡단 툴링**으로 명시
+        (Lean 증명기 · Arklib 검증된 STARK 패키지 · evm-asm). 7월 EF 보안팀 글: 조율된
+        AI 에이전트가 **libp2p gossipsub 원격 패닉(CVE-2026-34219)** 등 실제 결함을 찾음.
+        동시에 **도달 불가 코드·테스트 전용 동작·의도보다 약한 조건을 증명한 형식 증명**
+        같은 그럴듯한 오탐이 쏟아짐 → **재현 + 자동 검사 + 사람 리뷰**를 통과해야 인정.
+        비탈릭 9/18 "AI 사이버보안 종말론" 반박의 근거가 이 도구들.
+  각도: 이번 주 공격 쪽 뉴스(Claude Opus 5가 OpenAI 직원 계정 탈취 · Gemini가 3개 회사
+        침입)와 같은 주의 **방어 쪽 문장**이다. 핵심은 "AI가 찾는다"가 아니라 **"찾은 것을
+        거르는 절차가 제품"**이라는 것 — 워크플로우 섹션의 "검증 비용 문제"가 프로토콜
+        규모에서 같은 모양. **행동 없는 경보는 장식.**
+  잴 것: verex·rabbit에 AI 코드 리뷰/스캔을 붙였다면 **오탐률**을 한 달 기록 — 50% 넘으면
+        절차(재현 필수)를 먼저 세우고 도구를 늘리지 않는다.
+  주의/대안: "형식 증명이 있다"는 문장은 **무엇을 증명했는가**를 읽기 전엔 정보가 아니다 —
+        EF가 정확히 그 함정(약한 조건 증명)을 적었다.
+
+[오늘 · 로보틱스] LeRobotDataset v3 — 30분 안에 띄우기 (9/14에 박아둔 9/21, 예정대로 재개)
+  사실: `lerobot >= 0.4.0`에 **LeRobotDataset v3.0** 포함. 파일 단위 저장(Parquet/MP4에
+        여러 에피소드), 관계형 메타데이터로 에피소드 경계 조회, **`StreamingLeRobotDataset`**
+        으로 허브에서 다운로드 없이 스트리밍. 대형 데이터셋(DROID 1.0.1 등) 포팅 가이드와
+        `examples/port_datasets/` 분산 스크립트 제공.
+  각도: 이 칸의 규칙 — 트렌드 서술 금지, **오늘 설치해서 돌려볼 수 있는 것**만. 30분 버전:
+        ① `pip install lerobot` ② `StreamingLeRobotDataset("lerobot/<공개 데이터셋>")`로
+        에피소드 하나 로드 ③ 카메라 프레임 + 관절 상태 한 스텝 출력. 다운로드 없이 되는지가
+        오늘의 전부. 학습·정책은 다음 칸.
+  잴 것: **첫 프레임이 화면에 뜨기까지 걸린 분(分).** 30분 넘으면 이 칸에 "설치 마찰"을
+        기록하고 다음 주로.
+  주의/대안: 9/14 → 9/21 "날짜 박기"가 실제로 돌아왔는가가 이 칸의 두 번째 측정값이다 —
+        돌아왔다. 같은 방식을 이월 항목(건강검진 50일 · 상표 23일 · 상환 절차 22일 ·
+        일본 출장 23일 · 병권 6일)에도 적용할 것.
+
+[오늘 · 서비스] Plugin4Shell — SHA 핀은 "무엇을"만 고정하고 "어떻게"는 고정하지 않는다
+  사실: 9/18 AIR 공개. Claude Code·OpenAI Codex·GitHub Copilot·Gemini CLI 플러그인
+        설치의 **제로클릭 RCE**. Git이 **커밋 해시와 같은 이름의 브랜치를 먼저 해석**하는
+        동작을 이용해 SHA 핀을 통과한 것처럼 악성 코드를 내려받게 함 — 에이전트는 "clean
+        install"이라 보고. 패치: **Claude Code 2.1.179** · Codex 0.146.0. Gemini CLI는
+        패치 없이 폐기, Copilot 미패치.
+  각도: 금요일 딥다이브("의존성은 파일이 아니라 남에게 준 권한")가 사흘 만에 **매일 쓰는
+        도구**에서 재현됐고, 새 문장이 하나 붙는다 — **핀이 있어도 뚫린다.** 핀은 대상만
+        고정하고 **가져오는 경로**는 고정하지 않는다.
+  잴 것: 오늘 30초 — `claude --version` ≥ 2.1.179. 그리고 워크플로우의 "Dependabot은
+        돈을 움직이는 패키지만"에 **에이전트 플러그인**을 추가.
+  주의/대안: 플러그인 소스가 브랜치명이 아니라 **해시 전용 fetch**(`git fetch <hash>`)를
+        쓰는지가 실제 방어선 — 도구가 고쳤어도 내가 만든 스크립트가 같은 실수를 할 수 있다.
+
+--- 아직 유효한 항목 ---
+
+[9/18] S&P Global–OpenZeppelin — 감사가 등급이 되는 쪽
+  잴 것: `package.json` OZ 버전 핀 · 락파일 커밋 · **돈을 움직이는 컨트랙트의 OZ 사용 지점 수.**
+  각도: 🆕 오늘 Plugin4Shell로 "핀이 있어도 뚫린다"가 붙었다 — 핀 + **가져오는 경로**까지.
+
+[9/18] 판정 셋이 지나갔는데 일주일 순변화 0 — 미리 반영의 교과서
+  각도: 🆕 판정 **다음 날**(9/18) 움직였고 주말은 되돌리지 않았다 — 같은 정보의 두 번째 조각.
+  잴 것: 달력 항목마다 **"이미 반영됐는가"** 한 칸.
+
+[9/18] ETF — 일간은 시끄럽고 연간은 한 번도 안 바뀌었다
+  사실: 🆕 금요일 BTC +$4.33억 / ETH +$1.438억, 주간 BTC +$620만 / ETH −$1.4억.
+  잴 것: 연초 이후 누적(ETH +$9.22억 vs BTC −$14.5억)은 **주 1회만**.
+
+[9/17] 강제 청산 가격 — 시장이 아니라 **대출 계약**에서 나온다
+  잴 것: 10분. 스무이틀째 공백. 🆕 이번 주는 **금요일 = 만기 = 추석**이라 이번 주여야 한다.
+
+[9/16] 사고는 나는데 규칙은 안 생긴다 — `보유 = 발행`의 값이 올랐다
+  각도: 🆕 Fetch.ai/NuNet — **배포자 계정이 곧 발행권**. 불변식은 **누가 발행해도** 매 블록.
+
+[9/16] Tenderly Alerts — 첫 대사는 SaaS로 30분 안에
+  잴 것: 알림 하나 세우는 **실제 시간**, 그리고 **알림에 붙는 행동.**
+
+[9/14] "언젠가 정한 숫자"에는 전부 **계산 날짜를 적을 것**
+  각도: 암호 파라미터·레이트리밋·타임락·슬리피지 상한·**오라클 지연 허용치.**
+
+[9/11] 양자 공격 비용 추정 −50%(AI 에이전트 참여) — EF 2029 목표
+  잴 것: 서명 검증이 **한 곳에 모여 있는가.**
+```
+
+**Sources — 섹션 4**
+- **X(트위터) (ETH 스테이킹 큐 · BTC OTC)** — [CCN — Ethereum staking demand explodes as ETH queue up amid supply crunch](https://www.ccn.com/analysis/crypto/ethereum-staking-demand-explodes-eth-queue-supply-crunch/) · [Blockonomi — Ethereum staking demand outpaces exits as entry queue surges](https://blockonomi.com/ethereum-staking-demand-outpaces-exits-as-entry-queue-surges) · [Investing.com — Ethereum supply tightens as staking and ETF demand reduce liquid float](https://www.investing.com/analysis/ethereum-supply-tightens-as-staking-and-etf-demand-reduce-liquid-float-200686622) · [PANews — Bitcoin reserves on known OTC platforms drop to 123,000 BTC](https://panews.io/articles/01a0be8f-af53-7670-8abf-49f2ac4e921f)
+- **LinkedIn (Robinhood Chain)** — [Blockonomi — Robinhood Chain growth shows a wider Ethereum revenue gap](https://blockonomi.com/robinhood-chain-growth-shows-a-wider-ethereum-revenue-gap) · [KuCoin — Robinhood Chain fees hit record $3.75 million](https://www.kucoin.com/blog/robinhood-chain-record-fees-layer-2-growth) · [Ground News — Robinhood Chain daily fees hit record $6 million](https://ground.news/article/robinhood-chain-daily-fees-hit-record-6-million)
+- **a16z (세일러)** — [Bitcoin.com — A Little More Orange: Saylor signals fresh Strategy bitcoin buy (2026-09-20)](https://news.bitcoin.com/featured/a-little-more-orange-saylor-signals-fresh-strategy-bitcoin-buy/) · [CryptoPotato — Strategy's Saylor teases new bitcoin buy](https://cryptopotato.com/strategys-saylor-teases-new-bitcoin-buy-despite-fed-hike-and-clarity-setback/)
+- **Four Pillars (옵션 만기 · 내재 변동폭)** — [Crypto Briefing — Nearly $17B in Bitcoin and Ethereum options set for 2026 Q3 expiry](https://cryptobriefing.com/bitcoin-ethereum-options-q3-2026-expiry/) · [BIT Research — Bitcoin weekly: $80k call wall, skew flips positive](https://www.bit.com/research/researchbitcoin-weekly-80k-call-wall-skew-flips-2026-09-07) · [The Block — BTC ATM implied volatility](https://www.theblock.co/data/crypto-markets/options/btc-atm-implied-volatility)
+- **딥다이브 (EF 트리아지)** — [EF Blog — The triage is the product (2026-07-09)](https://blog.ethereum.org/2026/07/09/triage-is-the-product) · [crypto.news — Vitalik Buterin rejects AI cybersecurity doom claim](https://crypto.news/vitalik-buterin-rejects-ai-cybersecurity-doom-claim/) · [KuCoin — Vitalik Buterin discusses AI cybersecurity and Ethereum's formal verification efforts](https://www.kucoin.com/news/flash/vitalik-buterin-discusses-ai-cybersecurity-and-ethereum-s-formal-verification-efforts)
+- **로보틱스 (LeRobotDataset v3)** — [Hugging Face — LeRobotDataset v3.0 docs](https://huggingface.co/docs/lerobot/lerobot-dataset-v3) · [Hugging Face Blog — LeRobotDataset:v3.0: bringing large-scale datasets to lerobot](https://huggingface.co/blog/lerobot-datasets-v3) · [GitHub — huggingface/lerobot](https://github.com/huggingface/lerobot)
+- **서비스 (Plugin4Shell)** — [Help Net Security — Plugin4Shell: AI coding agents vulnerability (2026-09-18)](https://www.helpnetsecurity.com/2026/09/18/plugin4shell-ai-coding-agents-vulnerability/) · [AI Weekly — AI News Today, September 20](https://aiweekly.co/ai-news-today)

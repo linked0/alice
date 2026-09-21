@@ -198,6 +198,13 @@ RECENTLY DONE (sky blue), which never rolled over.</li>
 <code>scripts/roll-done-states.py</code>, which buckets every stamped item by <code>(done − 6h).date()</code>, keeps the newest bucket as
 TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in <code>notes.html</code>
 with <code>_nav.js</code>, and collapses duplicate rail entries. The roll script is safe to run alone.</li>
+<li><strong>Done date in the kicker (jay, 2026-09-21: &quot;From now on, you should add the done date in a detail page&quot;).</strong> Every
+item with a <code>done</code> stamp shows <code>&lt;span title=&quot;done&quot;&gt;done YYYY-MM-DD&lt;/span&gt;</code> at the end of its detail-page kicker (the
+word &quot;done&quot; is visible, so it cannot be mistaken for the added date) and a <code>done YYYY-MM-DD</code> chip in its dot colour
+at the right of the card head on <code>notes.html</code> (jay, 2026-09-21: &quot;Add Done data to One employee, one agent …&quot;).
+<code>add-tech-item.py</code> writes it for a new <code>recent</code> / <code>revisit</code> page; <code>roll-done-states.py</code> adds, updates or removes it on
+every page from the <code>_nav.js</code> stamp, so it never drifts. Items done before stamps existed (pre-2026-09-18) have no
+stamp and therefore no date. <code>index.md</code> has a Done column.</li>
 <li>Rail buttons in two rows — <strong>Important · New · All</strong> / <strong>Done · Yesterday · Today</strong> (a <code>.tier-break</code> span forces the
 break; list page, every detail page, template <code>rtd-shell.mjs</code>): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: &quot;Add done button also&quot; … &quot;Done before
 Yesterday&quot;), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, <strong>Important = IMPORTANT only</strong> (jay,
@@ -209,7 +216,7 @@ and recently done items is retired). Each button shows exactly one state, inside
 <li>A sixth state for items that are <strong>already done and still matter enough to be reminded of later</strong>: label
 <strong>REVISIT</strong>, purple dot <code>#a855f7</code>, status key <code>revisit</code> (jay: &quot;one more category before Done which is already done
 but that I should remind later … filled with very important thing&quot;; the name was Claude&#39;s suggestion, accepted).
-Empty on the day it was added — nothing is marked yet.</li>
+First two, marked the same day: Tech #1 learning greed (bin <code>deep</code>) and #2 the agent-team workflow.</li>
 <li><strong>Counts as done</strong> everywhere a done total is computed (section pill, section meta, <code>_nav.js</code> jump, overall badge):
 <code>add-tech-item.py</code>, <code>english-notes.py</code>, <code>roll-done-states.py</code> all include it. It never rolls: the TODAY / YESTERDAY
 DONE rule leaves REVISIT alone.</li>
@@ -219,7 +226,45 @@ done &lt; IMPORTANT &lt; NEW &lt; PLANNED</strong>. Marking an item REVISIT ther
 every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
 template <code>scripts/rtd-shell.mjs</code>. It shows REVISIT only.</li>
 <li><strong>How to mark one:</strong> <code>add-tech-item.py --key &lt;k&gt; --status revisit …</code> (re-run in place), or <code>status: revisit</code> in an
-English item&#39;s markdown; then <code>reorder-by-status.py</code>. There is no cap.</li>
+English item&#39;s markdown; then <code>reorder-by-status.py</code>. An item older than 2026-09-18 has no &quot;Where it lands in Jayverse&quot;
+section and the script refuses to rebuild it — for those, set <code>color</code> <code>#a855f7</code>, <code>label</code> <code>REVISIT</code> and a <code>done</code> stamp
+on its <code>_nav.js</code> entry by hand, then run <code>reorder-by-status.py</code> and <code>roll-done-states.py</code>; the roll syncs the rail
+dots, the counts, the overall badge on every page and the <code>index.html</code> landing card. There is no cap.</li>
+<li><strong>The stamp is a done day.</strong> Marking an item REVISIT stamps <code>done</code>, and that stamp counts when <code>roll-done-states.py</code>
+picks the TODAY / YESTERDAY DONE days (jay, 2026-09-21: &quot;today is KST 09-21&quot;). The item keeps its purple dot and
+REVISIT label, and the roll adds <code>day: today | yesterday</code> to its <code>_nav.js</code> entry, rendered as <code>data-day</code> on the rail
+dot, so the <strong>Today and Yesterday buttons show it too</strong> (the filters match the label <em>or</em> <code>data-day</code>). It is still
+never relabelled.</li>
+</ul>
+<h2 id="llm-wiki-layers--raw-index-search-bins-interview-bank-closing-three-jay-2026-09-21">LLM-wiki layers — raw, index, search, bins, interview bank, closing three (jay, 2026-09-21)</h2>
+<p>The learning-greed item (Tech #1, REVISIT) asked for Karpathy&#39;s LLM-wiki layers (Tech #109) on top of this site.
+jay: &quot;make the alice Knowledge Notes system aligned with … Let the system hold the index&quot;. What exists now:</p>
+<ul>
+<li><strong>Raw layer — <a href="raw/README.html"><code>raw/</code></a>.</strong> An append-only copy of every source an item was written from (pastes,
+fetched article text, Gemini briefings, the morning reports). <code>add-tech-item.py --raw &lt;file&gt;</code> copies it to
+<code>raw/YYYY-MM-DD-&lt;key&gt;.&lt;ext&gt;</code> and links it from the kicker as <code>raw</code>; a <code>--raw</code> path that is already inside <code>raw/</code>
+(a morning report that feeds several items) is linked without copying. Never edited; a changed source is a new dated
+file. Items from before 2026-09-21 mostly have none — the page is the record, and that is stated, not hidden.</li>
+<li><strong>Index — <a href="index.html"><code>index.md</code></a> and <a href="../../../topics/index.json"><code>index.json</code></a>, generated.</strong> One row per item across every
+section: number, section, status, added date, type, source, bin, English and Korean title, key, raw link (the JSON
+also carries the lead, related item numbers and the key expressions). <code>scripts/build-index.py</code> rebuilds both and is
+run at the end of <code>add-tech-item.py</code>, <code>english-notes.py</code>, <code>reorder-by-status.py</code> and <code>roll-done-states.py</code>, so the
+index is never older than the last change. Do not edit the generated files.</li>
+<li><strong>Search — <code>python3 scripts/notes-search.py &lt;words&gt;</code></strong> answers &quot;have I already learned this?&quot; before an item is
+added (all words must match; <code>--any</code>, <code>--section</code>, <code>--status</code>, <code>--json</code>). Exit 1 with &quot;new to the site&quot; means go
+ahead. Run it first for every new subject; it replaces remembering.</li>
+<li><strong>Bins — <code>--bin deep | converse | file</code></strong> in the kicker and the index, set at capture time: <em>deep</em> moves the through
+line and gets the hours; <em>converse</em> gets one interview sentence and no more until it touches a project; <em>file</em> gets
+the card and the Key expressions and is released. Optional; items before 2026-09-21 have no bin.</li>
+<li><strong>Interview bank — <a href="interview-bank.html"><code>interview-bank.md</code></a>.</strong> <code>--bin converse --sentence &quot;…&quot;</code> appends one row
+(item, title, the sentence, date). Rows are never edited; a better sentence is a new row.</li>
+<li><strong>Closing three.</strong> Each day&#39;s <code>docs/history/YYYY-MM-DD-dev-notes-history.md</code> ends with a <code>### Closing three</code> block:
+what I learned, what is still unclear, the next step (Fraza&#39;s three lines, from the learning-greed item). It is
+appended last, after the day&#39;s final entry; when a later entry is added the block moves below it. The unclear line
+is tomorrow&#39;s first candidate.</li>
+<li><strong>What did not change:</strong> the wiki is still <code>docs/topics/*.html</code>, the schema is still this README, the log is still
+<code>docs/history/</code>. No page was regenerated for these layers; only the kickers of items added with <code>--bin</code> / <code>--raw</code>
+carry the new spans.</li>
 </ul>
 <h2 id="english-pages-english-first-korean-apart-jay-2026-09-18">English pages: English first, Korean apart (jay, 2026-09-18)</h2>
 <ul>

@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A stablecoin wallet is a distribution business, not a crypto one</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#272</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#273</span><span>PoC</span></p>
       <h1>A stablecoin wallet is a distribution business, not a crypto one</h1>
       <p class="lead">KakaoPay finished a PoC extending its <strong>43M-user prepaid KakaoPay Money wallet</strong> to hold, send, pay, and settle on-chain assets — including a KRW stablecoin — verified at its high-traffic scale. Read where the moat actually sits: not in the on-chain support (the late, small addition) but in the 43M users, the settlement infra that already carries that traffic, the payment and merchant relationships, and a regulatory posture. &quot;Add stablecoins&quot; is a feature bolted onto a distribution business. KakaoGroup is now packaging that wallet tech + consulting as a <strong>B2B product</strong> for other firms and banks — renting the distribution out. And the CEO names where value lands: <em>not at issuance, but at the usage stage where the asset is actually spent.</em></p>
       <p class="meta">Not a build — a moat audit. For any &#39;we added a stablecoin wallet&#39; announcement, split the crypto part from the distribution part and ask which one is scarce. Draw the stack: <strong>users (43M) · high-traffic settlement infra · payment/merchant relationships · regulatory posture</strong> — then, underneath, the on-chain custody/keys. Score each layer on &#39;how long to replicate from zero&#39;: the on-chain part is weeks (SDKs exist), the 43M users and the infra are years. Then interrogate the B2B angle: when Kakao sells wallet tech + consulting to a bank, what is actually being rented — the wallet SDK (cheap, commoditized) or the distribution and the regulatory template (the real thing)? Source: KakaoPay via digitalasset.works (박재연, 2026-09-09). Confirm the figures (43M users, PoC scope: send/pay/settle + UI, KakaoBank&#39;s bank-level track) against the source before citing.</p>
@@ -578,7 +579,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-known-workflow-is-a-graph.html">&larr; 271. A known workflow is a graph, not a swarm</a><a href="pocs-issuance-as-a-service.html">273. Issuance-as-a-service — you mint a brand, the platform keeps the money &rarr;</a></div>
+    <div class="pager"><a href="pocs-known-workflow-is-a-graph.html">&larr; 272. A known workflow is a graph, not a swarm</a><a href="pocs-issuance-as-a-service.html">274. Issuance-as-a-service — you mint a brand, the platform keeps the money &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -608,7 +609,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -645,8 +646,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

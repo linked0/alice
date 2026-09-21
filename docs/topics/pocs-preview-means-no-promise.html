@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The data was always public — the SLA is the product</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#200</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#201</span><span>PoC</span></p>
       <h1>The data was always public — the SLA is the product</h1>
       <p class="lead">Google Cloud&#39;s Blockchain Analytics has been queryable in BigQuery for years, and the news is that its SLA is with the lawyers. Read it the right way round: nothing about the data changed. What is being manufactured is a liability — who pays when the chain is ahead of the table — and until that sentence is signed, &quot;Preview&quot; means the promise is zero.</p>
       <p class="meta">Not yet scoped — and the deliverable is a one-page table, not a system: <em>what the SLA measures</em> against <em>what a chain application needs</em>. Three measurements, all runnable before the SLA is published, so the table has numbers in it the day the document lands.
@@ -676,7 +677,7 @@ SLA 가 나오면 정의된 용어 — <em>available</em>, <em>unavailable</em>,
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-google-glass-stitch.html">&larr; 199. Google Glass form factor &amp; Stitch</a><a href="pocs-consortium-owns-the-rail.html">201. Twenty-one banks, one issuer — &quot;own it together&quot; becomes a company &rarr;</a></div>
+    <div class="pager"><a href="pocs-google-glass-stitch.html">&larr; 200. Google Glass form factor &amp; Stitch</a><a href="pocs-consortium-owns-the-rail.html">202. Twenty-one banks, one issuer — &quot;own it together&quot; becomes a company &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -706,7 +707,7 @@ SLA 가 나오면 정의된 용어 — <em>available</em>, <em>unavailable</em>,
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -743,8 +744,8 @@ SLA 가 나오면 정의된 용어 — <em>available</em>, <em>unavailable</em>,
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

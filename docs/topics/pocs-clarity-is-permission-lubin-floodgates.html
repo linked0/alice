@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#60</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span></p>
+      <p class="topic-kicker"><span class="topic-no">#62</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span><span title="raw"><a href="raw/2026-09-18-gemini-youtube-v2.md">raw</a></span><span title="done">done 2026-09-18</span></p>
       <h1>Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price</h1>
       <p class="lead">On 2026-09-15, the day the Senate&#39;s cloture vote on the Digital Asset Market Clarity Act fell short, Ethereum co-founder and MetaMask chairman and CEO Joe Lubin went on Fox Business&#39;s Varney &amp; Co. and argued that market-structure clarity, whether it comes from the Act or from SEC and CFTC rulemaking, would "open the floodgates" for U.S. businesses. The argument has three parts. Crypto is moving from a speculative asset class into financial infrastructure, with the growth coming from on-chain activity: institutional stablecoins, tokenized securities, real-world-asset perpetuals and DeFi. Clarity works as explicit permission: banks and enterprises that already know how to build wait for a rule that says they may deploy on permissionless networks. And self-custody has to grow up with it: MetaMask is positioning as a self-custodial financial super-app with proactive, contextual security, real-time warnings for address poisoning, malicious approvals and bad contracts. The item comes from the 2026-09-18 Gemini YouTube briefing; the date, show and headline were verified on Fox Business, the detailed claims are from the briefing&#39;s summary of the clip.</p>
       <p class="meta">For Jayverse the sentence to keep is "clarity is permission". It reframes the Clarity Act item (#66, the failed cloture) from a price event into a gating event: the question is not whether the bill moves the market but which builders are allowed in when a rule exists. Lubin&#39;s list of growth drivers is also a checklist of what our services touch, stablecoin rails, tokenized claims, perpetual-style markets, DeFi, and his security point is the wallet&#39;s job description. Status on 2026-09-18: the Act did not advance on 09-15; regulatory rulemaking continues in parallel; the interview is a position statement by an interested party, not news of a decision.</p>
@@ -456,7 +457,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sp-global-buys-openzeppelin.html">&larr; 59. S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</a><a href="pocs-agentic-engineering-writes-boundaries.html">61. Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them &rarr;</a></div>
+    <div class="pager"><a href="pocs-sp-global-buys-openzeppelin.html">&larr; 61. S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</a><a href="pocs-agentic-engineering-writes-boundaries.html">63. Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -486,7 +487,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -523,8 +524,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

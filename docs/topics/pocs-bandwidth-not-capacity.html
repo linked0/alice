@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Capacity loads the model; bandwidth serves it</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#182</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#183</span><span>PoC</span></p>
       <h1>Capacity loads the model; bandwidth serves it</h1>
       <p class="lead">A pitch for local inference on Apple silicon leads with 512GB of unified memory and 200B-parameter models. Capacity decides what you can load. Memory bandwidth decides how fast it answers, and autoregressive decoding reads the weights once per token — so the ceiling is bandwidth divided by the bytes a model actually touches. Run that division and the post&#39;s two headline promises, huge models and always-on agents, turn out to pull against each other on the same machine.</p>
       <p class="meta">Not a build — one division and one measurement, both cheap enough to do before buying anything. First the ceiling: tokens per second is bounded by memory bandwidth divided by the bytes read per token, and the bytes read is roughly the quantised size of the parameters that are actually active. Do it for three cases — a 30B dense model at 4-bit, a 200B dense model at 4-bit, and a mixture-of-experts model of similar total size where only a fraction activates — and notice that only the third stays interactive. Then measure instead of trusting the division: run one prompt on the machine you actually have, record tokens per second, then record it again with the context filled, because attention cost grows with context and an agent&#39;s context is never short. Finally price it with a denominator: cost per token is hardware divided by the tokens it generates over its life, which makes utilisation the whole argument rather than a detail. Hardware figures here come from a GenAI Works post seen 2026-08-28 — an $899 M6 Mac mini said to be 13.5× the M1 on LLM processing, an M5 Ultra Mac Studio with up to 512GB unified memory and 1.2 TB/s — and the same post closes by soliciting investment. Re-derive every number from published specifications before relying on any of it.</p>
@@ -580,7 +581,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-sub-2bit-local-llm.html">&larr; 181. Sub-2-bit LLMs, locally</a><a href="pocs-robotics-entry-decision.html">183. Four ways into robotics, and what each one actually buys &rarr;</a></div>
+    <div class="pager"><a href="pocs-sub-2bit-local-llm.html">&larr; 182. Sub-2-bit LLMs, locally</a><a href="pocs-robotics-entry-decision.html">184. Four ways into robotics, and what each one actually buys &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -610,7 +611,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -647,8 +648,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

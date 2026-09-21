@@ -7,7 +7,7 @@ chronological append-only numbering (jay, 2026-09-16).
 Rewrites: docs/topics/_nav.js (item order + topic-no), docs/notes.html (rail <li> order, card <li> order, numbers),
 and every detail page's kicker `#N` and pager. Counts do not change. Idempotent.
 """
-import json, re, pathlib, sys
+import json, re, pathlib, subprocess, sys, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent)); from notes_numbering import display
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 RANK = {"REVISIT": -1,   # done, come back later — sits above every other done item (jay, 2026-09-21: "one more category before Done")
@@ -69,3 +69,6 @@ for navid, artid in SECTIONS.items():
 (ROOT / "notes.html").write_text(s)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 print(f"reorder-by-status: {moved_total} renumbered")
+# rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")
+import subprocess, sys
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)

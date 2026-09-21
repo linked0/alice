@@ -1,0 +1,39 @@
+Last week we wrote about the distance between a protocol improvement and the experience it makes possible.
+This week was about closing some of that distance in public: working with the ecosystem at large to make a case for a Faster Ethereum L1 via Quick Slots, reflecting on current and future L2 needs, and turning native account abstraction debates into something wallets can actually implement against.
+Let's dive in!
+
+## An ecosystem survey for Quick Slots
+On Thursday, @binji_x and @barnabemonnot published our ecosystem article on EIP-8198: Quick Slots, with quotes from 20+ teams across Ethereum, from researchers to apps to new protocols that are migrating to the L1. The article supports laying the necessary groundwork in Hegotá to enable slot time changes as soon as possible and explains why an initial reduction from 12 to 10 seconds matters to these teams. 
+Part of our role at Ethlabs is to bring ecosystem needs into these discussions. We believe it is important to build the case for upgrades that affect the entire network by drawing on the experiences of the people who depend on Ethereum every day.
+ 
+On Thursday, client teams gave their own “tier lists” of which EIPs to include in Hegotá. Quick Slots received an S-tier ranking from Teku, A-tier from Prysm and Lighthouse, C-tier from Lodestar and a preference to not include for Nimbus and Grandine.
+Given the support from the ecosystem, we’ll be pushing hard to address concerns and increase conviction by the next ACDC in two weeks, where Quick Slots will be up for discussion on moving to “Consider for Inclusion” (it is now “Proposed for Inclusion” only). To this end, @barnabemonnot has been working on completing specifications, with further review from Jihoon Song @jih2nn (EF Protocol CL Specs team), and Terence Tsao @terencechain (Prysm) is continuing work on a prototype.
+
+## Should we keep scaling blobs?
+Blobs are consumed by L2s to derive security properties from the L1, and this week we kicked off an effort to review the current supply and chart our engagement moving forward. @adietrichs helped frame the problem: while we may not be limited by the current capacity, we may be limited by unclear expectations on future capacity.
+@casparschwa, @decentrek and @fradamt turned that discussion into a plan: a survey of L2s on their actual and expected blob demand, feeding into a report on where blob targets should go and when. Derek has started the outreach. If you run an L2 and want your numbers in the picture, reach out!
+In parallel, Francesco continued work on a blob-capacity report, which will inform where we land on targets, and a proposal for increasing the PeerDAS custody threshold
+
+## Native AA: from proposals to migration flows
+Following the resolution of a few weeks spent aligned two distinct account abstraction proposals, EIP-8130 and EIP-8141, this week the focus moved from reconciling proposals to what accounts actually have to do to get from here to there.
+ 
+Ansgar identified gaps between the two EIPs that only show up when you trace a real account through them, while I took ownership of mapping those flows in detail: existing accounts migrating into Frames, delegation via SETCODEFROM, and invalidating a compromised or retired ECDSA key. The result is a personas-and-user-stories draft that wallets can read against their own architecture.
+We also spent time on proactive transaction security: whether cosigners belong in a new standard for accounts portable across EIP-8130 and EIP-8141, or sit alongside this standard. Wallet and partner conversations are picking up, and we're working towards a unified plan for wallet support.
+
+## FCR, and new speed boosts for finality
+Fast confirmation rule (FCR). With RPC providers becoming the gate for FCR adoption, @_julianma has been encouraging teams who want faster confirmations to say so directly to their providers, and started writing implementation guidance covering how FCR interacts with existing justification-based expectations (the "safe" tag) and how to roll it out without surprising current users.
+On the research side, Francesco made a discovery of a path towards proving that a block is fast-confirmed using succinct zk proofs! This happened while extending FCR to work under weaker assumptions about the observer network, and we now have modified Lean proofs in hand. Derek is now exploring the product opportunities of a zk-provable FCR.
+Fast finality. In parallel to his formal verification work on FCR, Francesco continued formally verifying a proposal for the new decoupled consensus protocol. All properties are currently verified, and the Lean repository is undergoing some cleanups and audits before publication. More on this soon!
+Francesco and Barnabé also did a sprint on fast finality, to arrive at their own understanding of the benefits delivered with the first move to decoupled consensus, and the second move to post-quantum signatures. This yielded new breakthroughs delivering three potential speed boosts:
+- Today, the consensus checks whether finality has been achieved every 6.4 minutes, once all validators have voted. But finality itself may be obtained much earlier, as soon as 2/3rds of the validator set has voted. This means that while finality is obtained in theory, it sits unprocessed, and is not actionable by many systems relying on finality being written to the beacon state. With decoupled consensus, every slot could check whether the 2/3 threshold has been crossed, with minimal extra computation. This could potentially reduce time-to-finality by 1/6th!
+- Second, by making heavier validators (with more consolidated stake) vote first, the 2/3 threshold can be crossed even earlier. Depending on the consolidation, this could yield another 1/6th latency reduction or more!
+- Finality is obtained by doing two rounds of voting, the first to justify a block, the second to finalize it. Using the first trick of processing finality as early as possible, we could also process justification as early as possible, and move on to the finality round once justification is obtained. This compounds the two speed boosts described earlier, and improve finality latency overall by more than 50%!
+
+## Bonus: Ethlabs on @milkroaddaily
+@decentrek, @binji_x and @_julianma joined @BitcoinJesusETH on the Milk Road show, for a wide-ranging conversation together.
+ 
+
+## On to week 14
+Next week: ACDC preparation for Quick Slots, sending the DA demand survey to L2s, and pushing the AA migration flows into a wallet-support plan. Francesco is aiming at liveness for the finality model, and Julian's RPC guidance for FCR should be ready to circulate.
+In case you missed it, here is last week’s update:
+ 

@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#54</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">chat</span></p>
+      <p class="topic-kicker"><span class="topic-no">#56</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">chat</span><span title="done">done 2026-09-16</span></p>
       <h1>Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</h1>
       <p class="lead">EIP-8198 "Quick Slots" (Carl Beekhuizen, Draft, 2026-03) makes Ethereum&#39;s slot duration a runtime schedule instead of a compile-time constant, then uses that to take the first cut: the EIP text says 8 s, the consensus-specs PR and Ethlabs propose 10 s for Hegotá, and the long-run target is ~6 s. Gas limit and blob targets scale by the same ratio, so throughput per second does not change — only how often a block lands. The "faster" part is the small part. The work is retuning every constant that is denominated in slots or epochs so that its wall-clock meaning stays the same. The schedule is bookkeeping, not a lever: an ordered list of eras (epoch, slot duration, intra-slot deadlines) starting at genesis, kept so that slot ↔ wall-clock conversion stays correct across the boundary. Every later entry must coincide with a network upgrade; the PR is explicit that it is not a way to change slot time between upgrades.</p>
       <p class="meta">For Jayverse: nothing to ship, one thing to check. The devnet runs Anvil at 1 s blocks, twelve times faster than mainnet, so any Jayverse code that converts blocks to time or hardcodes twelve seconds is already wrong there — market close, oracle staleness, keeper timing, bridge finality should be expressed in seconds or in <code>finalized</code>, never in block counts. Status on 2026-09-16: Draft; consensus-specs PR #5592 open; EF Protocol tier B with four prerequisites (engineering teams rated it D for the retuning cascade); Ethlabs S-tier, 10 s in Hegotá. No inclusion decision yet.</p>
@@ -464,7 +465,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 53. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-alchemy-app-is-a-budget.html">55. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking &rarr;</a></div>
+    <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 55. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-alchemy-app-is-a-budget.html">57. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -494,7 +495,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -531,8 +532,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

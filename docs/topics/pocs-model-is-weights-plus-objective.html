@@ -102,6 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -375,7 +376,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">12% &middot; 68/558</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">13% &middot; 70/559</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -403,7 +404,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#76</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span></p>
+      <p class="topic-kicker"><span class="topic-no">#76</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">gemini</span><span title="raw"><a href="raw/2026-09-18-gemini-youtube-v2.md">raw</a></span></p>
       <h1>A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</h1>
       <p class="lead">IBM Technology&#39;s five-minute explainer "How Large Language Models Work" (in the 2026-09-18 Gemini briefing) is the shortest correct account of the object every Jayverse agent is built on. A large language model is a foundation model: pre-trained on petabytes of unlabeled text and code with a self-supervised objective, predict the next token, and made of parameters, billions of adjustable weights that end up encoding grammar, relational knowledge and procedural patterns as statistics. A Transformer&#39;s attention heads carry context across a sequence; training minimises the loss between the predicted next token and the real one, over and over, across all the weights. Pre-training gives general capability; domain-specific fine-tuning then shapes the model for a job, chatbots, code generation, analysis pipelines. Nothing in the pipeline stores a fact as a fact or a rule as a rule.</p>
       <p class="meta">For Jayverse the one sentence that matters is the last one. The model is a compressed statistical picture of its training text, steered by an objective. Fine-tuning moves the picture toward a style or a domain; it does not install a checklist, an invariant or a permission. That is why the agentic-engineering item (#61) puts boundaries, tools and evaluations outside the model, why the harness item (#113) governs agents from the outside, and why "the model knows our rules" is never an acceptable line in a design review. Status on 2026-09-18: this is settled textbook material; the item exists so the Theory LLM stubs (#207 to #210) have a one-page anchor and so the argument for external verification has its root written down.</p>
@@ -486,7 +487,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
@@ -523,8 +524,8 @@
   // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {

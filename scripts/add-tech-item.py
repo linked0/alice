@@ -34,6 +34,9 @@ ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], 
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
 ap.add_argument("--tag", default="Economics", help="Theory / Invest: the topic-tag chip (Theory: Math | Algorithms; Invest: Economics | Invest)")
 ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
+ap.add_argument("--bin", choices=["deep", "converse", "file"], help="learning bin at capture time (learning-greed item, jay 2026-09-21): deep = moves the through line, gets the hours; converse = one interview sentence, no more; file = card + expressions, then release")
+ap.add_argument("--raw", help="source file (paste, fetched text, briefing) copied once into docs/topics/raw/<date>-<key>.<ext> and linked from the kicker; never overwritten")
+ap.add_argument("--sentence", help="with --bin converse: the one sentence you could say in an interview; appended to docs/topics/interview-bank.md")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"), "lately": ("#191970", "TODAY DONE"), "today": ("#191970", "TODAY DONE"),
@@ -50,6 +53,15 @@ SECTIONS = {
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"
+BIN_SPAN = f'<span title="bin">{A.bin}</span>' if A.bin else ""
+RAW_SPAN = ""
+if A.raw:   # raw layer (docs/topics/raw/README.md): append-only copy of the source, so it can be reopened instead of re-remembered
+    _src = pathlib.Path(A.raw).expanduser().resolve(); _rawdir = (ROOT / "topics" / "raw").resolve()
+    if _src.parent == _rawdir: _dest = _src   # already in the raw layer (a shared file such as a morning report feeds several items): link it, copy nothing
+    else:
+        _dest = _rawdir / f"{DATE}-{KEY}{_src.suffix or '.txt'}"
+        if not _dest.exists(): _dest.write_bytes(_src.read_bytes())
+    RAW_SPAN = f'<span title="raw"><a href="raw/{_dest.name}">raw</a></span>'
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
 
 def inline(t):
@@ -111,7 +123,8 @@ else:
     assert A.slot, "--slot is required for a new item"; slot = A.slot
 new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE)}
 if LABEL == "TODAY DONE": new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")
-elif existing and existing.get("done") and LABEL == "DONE": new_item["done"] = existing["done"]
+elif existing and existing.get("done") and LABEL in ("DONE", "REVISIT"): new_item["done"] = existing["done"]
+if LABEL == "REVISIT" and not new_item.get("done"): new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")   # REVISIT is done: stamp the day
 items.insert(slot - 1, new_item)
 for k, x in enumerate(items, 1):
     x["text"] = f'<span class="topic-no">{display(SEC["nav"], k)}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
@@ -179,9 +192,10 @@ head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
 head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(TITLE)} — Knowledge Notes</title>')
 tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
 tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', tail)
+DONE_SPAN = f'<span title="done">done {new_item["done"][:10]}</span>' if new_item.get("done") else ""   # done date in the kicker (jay, 2026-09-21); roll-done-states.py keeps it in sync afterwards
 mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{SHOWN}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span></p>
+      <p class="topic-kicker"><span class="topic-no">#{SHOWN}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span>{BIN_SPAN}{RAW_SPAN}{DONE_SPAN}</p>
       <h1>{E(TITLE)}</h1>
       <p class="lead">{E(SUMMARY)}</p>
       <p class="meta">{inline(META)}</p>
@@ -248,3 +262,10 @@ for f in glob.glob(str(ROOT / "topics" / "*.html")):
     c2 = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), c, count=1)
     if c2 != c: q.write_text(c2)
 print(f"#{SHOWN} {KEY} [{LABEL}, {DATE}, {A.source}] → {SEC['label']} {DONE}/{N}, overall {badge}; pages rewritten {fixed}, missing files {missing}")
+
+# converse bin → interview bank (learning-greed item: "the converse bin is the interview bank"; jay, 2026-09-21)
+if A.bin == "converse" and A.sentence:
+    bank = ROOT / "topics" / "interview-bank.md"; row = f"| {SEC['label']} {SHOWN} | [{E(TITLE)}]({HREF}) | {A.sentence.strip()} | {DATE} |\n"
+    if f"]({HREF})" not in bank.read_text(): bank.write_text(bank.read_text().rstrip("\n") + "\n" + row)
+# machine-readable index (docs/topics/index.json, index.md): "have I already learned this" is a search, not a memory
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "build-index.py")], check=True)

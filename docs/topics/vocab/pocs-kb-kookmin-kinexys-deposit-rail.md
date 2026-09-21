@@ -16,3 +16,10 @@
 | AML | 자금세탁방지(Anti-Money Laundering) · 은행이 여전히 직접 통제하는 컴플라이언스 항목. "still own onboarding, sanctions and AML controls" |
 | FX | 외환(Foreign Exchange) · 결제 과정에서 별도로 측정해야 할 시계 중 하나. "FX lock, network settlement, and beneficiary availability" |
 <!-- acronyms 2026-09-18 -->
+| two-tier structure | 2단 구조(고객→은행, 은행→은행의 두 층) · 누구의 예금이 움직이는지 가를 때. "hides a two-tier structure" |
+| book transfer | 장부 이체(같은 은행 안에서 계좌 간 옮기는 내부 분개) · BDA 충전과 BDA 간 정산의 실체. "by an internal book transfer" |
+| prefunding | 사전 자금(지급 전에 미리 넣어 두는 잔고) · 레일의 숨은 비용. "the prefunding column" |
+| nostro | 노스트로(우리 은행이 다른 은행에 둔 외화 계좌) · 상대 은행이 보는 BDA의 정체. "its USD nostro at J.P. Morgan" |
+| last mile | 마지막 구간(수취인 계좌에 실제 입금되는 단계) · 네트워크 밖에 남는 시계. "the last-mile credit" |
+| sweep | 스윕(규칙에 따라 잔고를 자동으로 옮기는 것) · 프로그래머블 페이먼트의 용도. "sweep BDA ↔ DDA on rules" |
+| DDA | 요구불예금계좌(Demand Deposit Account; 언제든 인출 가능한 일반 예금) · BDA와 짝을 이루는 레거시 계좌. "a linked demand deposit account" |
