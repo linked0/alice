@@ -1,0 +1,40 @@
+rules_version = '2';
+// Alice Knowledge Notes (jay, 2026-09-21).
+//
+// The database is an overlay, never the source of truth. It holds only the status changes that have
+// not yet been folded back into the repository, plus the encrypted health items. If it is empty or
+// unreachable the site still renders correctly from the built pages — jay's rule: "If there is no
+// database, it's just the default page."
+//
+// Only jay reads or writes. A visitor is not denied a worse site, only the overlay: they see the
+// built page, which is the same thing the overlay converges to once a drain has run.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isJay() {
+      return request.auth != null
+          && request.auth.token.email_verified == true
+          && request.auth.token.email == 'linked0@gmail.com';
+    }
+
+    // Pending status changes, one document per item, id = the item key from _nav.js.
+    // { status: 'done'|'recent'|'revisit'|'important'|'new'|'planned', at: <timestamp> }
+    match /status/{itemKey} {
+      allow read: if isJay();
+      allow write: if isJay()
+                   && request.resource.data.status in ['done','recent','revisit','important','new','planned']
+                   && request.resource.data.keys().hasOnly(['status','at']);
+      allow delete: if isJay();
+    }
+
+    // Health items: ciphertext only. The key never leaves jay's browser, so a breach of this
+    // collection discloses nothing — the same AES-256-GCM envelope the repo used to carry.
+    match /health/{docId} {
+      allow read, write: if isJay();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
