@@ -47,7 +47,7 @@ for navid, artid in SECTIONS.items():
     lis = {m.group(2): m.group(1) for m in re.finditer(r'(        <li><a class="nav-link" href="[^"]*" data-key="([^"]+)">.*?</li>\n)', navblk, re.S) if m.group(2) in num}
     assert set(lis) == set(order), (navid, set(lis) ^ set(order))
     if navid in SORTED:
-        first = navblk.index('        <li><a class="nav-link"'); last = navblk.rindex('</li>\n') + len('</li>\n')
+        first = navblk.index('        <li><a class="nav-link"'); last = navblk.rindex('</li>\n', 0, navblk.index('<!-- health-nav:start -->') if '<!-- health-nav:start -->' in navblk else len(navblk)) + len('</li>\n')   # keep the Health rail links (LOCKED, 1400…) that follow the Life items
         newlis = "".join(re.sub(r'<span class="topic-no">\d+</span>', f'<span class="topic-no">{num[k]}</span>', lis[k], count=1) for k in order)
         navblk = navblk[:first] + newlis + navblk[last:]
     else:   # Life: renumber each entry in place (the Health entries that follow keep their own numbers)
