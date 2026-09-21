@@ -715,41 +715,71 @@
 </script>
 <script>
 (function () {
-  // Locked Life item (jay, 2026-09-18). Ciphertext only; the key is derived here from the password.
+  // Locked Life item (jay, 2026-09-18; moved to Firestore 2026-09-21). The ciphertext is no longer in
+  // this repo — it lives in the `health/bundle` document and is fetched after Google sign-in. The key
+  // is still derived here from the password, so the database holds bytes nobody but jay can read:
+  // sign-in decides who may FETCH, the password decides who may READ. Rules do not protect against a
+  // service account, and this project has ones with project-wide access, so both layers are kept.
   var P = window.__HEALTH__, IDX = window.__HEALTH_INDEX__, slot = document.getElementById('health-slot'), status = document.getElementById('health-status');
   if (!slot) return;
   if (!(P && window.crypto && crypto.subtle)) { slot.innerHTML = '<p class="meta">Not available in this browser.</p>'; return; }
+  var CFG = { apiKey: 'AIzaSyDS_cerGsvcrannER-irNx2Y3kGRQ3ybbk', authDomain: 'doubletree-498007.firebaseapp.com', projectId: 'doubletree-498007', appId: '1:179807446244:web:bfa1f0500d173c599538f1' };
+  var SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
   var gate = document.createElement('div'); gate.className = 'health-gate';
   gate.innerHTML = '<input type="password" placeholder="Password" autocomplete="off" aria-label="Password"><button type="button" class="go">Unlock</button><span class="msg"></span>';
   var input = gate.querySelector('input'), go = gate.querySelector('.go'), msg = gate.querySelector('.msg');
   var b64 = function (s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
   var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
   var paras = function (t) { return t.split(/\n\s*\n/).map(function (x) { return '<p>' + esc(x.trim()).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</p>'; }).join(''); };
-  function showGate() { slot.innerHTML = ''; slot.appendChild(gate); status.innerHTML = '&#128274; Locked. Enter the password to read this item.'; input.focus(); }
+  function showGate() { slot.innerHTML = ''; slot.appendChild(gate); status.innerHTML = '&#128274; Locked. Sign in, then enter the password.'; input.focus(); }
   function render(tiles) {
     var t = tiles[IDX]; if (!t) { slot.innerHTML = '<p class="meta">No text for this item yet.</p>'; return; }
     slot.innerHTML = '<div class="health-body">' + (t.title ? '<h2>' + esc(t.title) + '</h2>' : '') + '<p class="lang">ENGLISH</p>' + paras(t.en) + '<p class="lang">한국어</p>' + paras(t.ko) +
       '<p class="health-actions"><button type="button" class="health-lockall">Lock all</button></p></div>';
     status.innerHTML = '&#128275; Unlocked for this tab.';
   }
+  // Fetch the encrypted bundle once per tab. Signing in is part of fetching, not a separate step the
+  // reader has to think about; a failure clears the cache so the next attempt retries cleanly.
+  var blobP = null;
+  function getBlob() {
+    if (blobP) return blobP;
+    blobP = Promise.all([import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')]).then(function (m) {
+      var app = m[0].initializeApp(CFG), auth = m[1].getAuth(app), db = m[2].getFirestore(app);
+      function read() {
+        return m[2].getDoc(m[2].doc(db, 'health', 'bundle')).then(function (s) {
+          if (!s.exists()) throw new Error('no bundle');
+          return s.data();
+        });
+      }
+      return new Promise(function (res) { var un = m[1].onAuthStateChanged(auth, function (u) { un(); res(u); }); })
+        .then(function (u) { return u ? read() : m[1].signInWithPopup(auth, new m[1].GoogleAuthProvider()).then(read); });
+    });
+    blobP.catch(function () { blobP = null; });
+    return blobP;
+  }
   async function unlock(pass) {
+    var B = await getBlob();
     var enc = new TextEncoder();
     var base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
-    var key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(P.salt), iterations: P.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-    return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(P.iv) }, key, b64(P.ct))));
+    var key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(B.salt), iterations: B.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(B.iv) }, key, b64(B.ct))));
   }
   async function tryUnlock(pass, remember) {
-    msg.textContent = 'Deriving key…'; go.disabled = true;
+    msg.textContent = 'Fetching…'; go.disabled = true;
     try {
       var tiles = await unlock(pass);
       if (remember) { try { sessionStorage.setItem('life-health-pass', pass); } catch (e) {} }
       input.value = ''; render(tiles);
-    } catch (e) { msg.textContent = 'Wrong password.'; if (!gate.parentNode) showGate(); }
+    } catch (e) {
+      var code = String((e && (e.code || e.message)) || e);
+      msg.textContent = /auth|permission|network|bundle/i.test(code) ? code : 'Wrong password.';
+      if (!gate.parentNode) showGate();
+    }
     go.disabled = false;
   }
   go.addEventListener('click', function () { if (input.value) tryUnlock(input.value, true); });
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && input.value) tryUnlock(input.value, true); });
-  slot.addEventListener('click', function (e) { if (e.target.closest('.health-lockall')) { try { sessionStorage.removeItem('life-health-pass'); } catch (x) {} showGate(); } });
+  slot.addEventListener('click', function (e) { if (e.target.closest('.health-lockall')) { try { sessionStorage.removeItem('life-health-pass'); } catch (x) {} blobP = null; showGate(); } });
   showGate();
   var saved = null; try { saved = sessionStorage.getItem('life-health-pass'); } catch (e) {}
   if (saved) tryUnlock(saved, false);

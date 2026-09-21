@@ -134,6 +134,7 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   password field on the page) and **Open here** (password field inside the card). Text decrypts in the browser and the
   tab stays unlocked until **Lock all** or the tab closes. A `♥ Health` link in every rail foot jumps to the first one.
   These pages are exempt from the Key-expressions and "Where it lands in Jayverse" rules: their text is not in the repo.
+- **Since 2026-09-21 the ciphertext is not in the repo either.** It lives in the Firestore document `health/bundle` in project `doubletree-498007`, and the page fetches it after Google sign-in, then decrypts with the password as before. `docs/topics/_health.js` keeps only the labels (`Health 1` …), which say nothing. Both layers are kept on purpose: security rules govern browsers, not service accounts, and this project has ones with project-wide access — so sign-in decides who may *fetch* the bytes and the password decides who may *read* them. Reading a Health item now needs sign-in **and** the password. Note the old ciphertext stays in git history; jay (2026-09-21): "the already put files I don't care".
 - Their text is not in the repo: the plaintext lives outside it at `~/Documents/Private/life-health-rules.md`
   (one `## Health N — title` heading per item, `### en` / `### ko` blocks), and
   `HEALTH_PASS='…' node scripts/health-encrypt.mjs <that file>` writes only ciphertext (AES-256-GCM, PBKDF2-SHA256
