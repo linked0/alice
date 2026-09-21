@@ -1,16 +1,18 @@
 // Status overlay (jay, 2026-09-21: "we can put the database only in the cloud … if there is no
-// database, it's just the default page").
+// database, it's just the default page", then "go ahead" for the full version).
 //
-// The built pages are the truth. This file is an accelerator on top of them: when jay is signed in it
-// reads the `status` collection — the changes not yet folded back into the repo — and repaints the
-// dots, and it lets him set a new status from the item he is reading. Everything here is wrapped so
-// that any failure (offline, blocked script, rules refusal, no database at all) leaves the page
-// exactly as it was built. A visitor loads no Firebase at all: the SDK is only fetched after the
-// "Edit" link in the rail foot is tapped, or on a device that has signed in before.
+// The built pages stay the truth. When jay is signed in this reads the `status` collection — the
+// changes not yet folded back into the repo — and reproduces, in the page, exactly what a rebuild
+// would have done: the dot, the rank order, the number, and the counts. Nothing is written back and
+// no rebuild is needed; a visitor, or jay signed out, sees the built page untouched.
 //
-// The queue is drained by .github/workflows/drain-status.yml, which applies each pending change with
-// scripts/set-status.py, commits, and deletes the drained documents. After a drain the overlay is
-// empty and the built page is correct on its own again.
+// Why re-rank rather than just recolour: a number here is derived from status rank, so marking one
+// item done changes the number of every item after it. Recolouring alone would leave the page
+// internally inconsistent — a green dot beside a number that still says "planned".
+//
+// Everything is wrapped. Any failure (offline, blocked script, rules refusal, no database) leaves the
+// page exactly as built. A visitor loads no Firebase at all: the SDK is fetched only after the "Edit"
+// link in the rail foot is tapped, or on a device that has signed in before.
 (function () {
   'use strict';
 
@@ -22,53 +24,156 @@
   };                                   // not a secret: a public identifier. The rules do the guarding.
   var OWNER = 'linked0@gmail.com';
   var SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
-  var OPT_IN = 'alice-status-edit';    // per-device: this browser has signed in before
-  var COLORS = {
-    planned: ['#64748b', 'PLANNED'], done: ['#22c55e', 'DONE'], recent: ['#191970', 'TODAY DONE'],
-    important: ['#ef4444', 'IMPORTANT'], new: ['#eab308', 'NEW'], revisit: ['#a855f7', 'REVISIT']
-  };
+  var OPT_IN = 'alice-status-edit';
+
+  // Mirrors scripts/notes_numbering.py BASE and scripts/reorder-by-status.py RANK. If either moves,
+  // this moves with it — the numbers would be wrong rather than merely stale.
+  var BASE = { 'nav-sec-blockchain': 1, 'nav-sec-fundamentals': 1001, 'nav-sec-invest': 1501,
+               'nav-sec-mindset': 1801, 'nav-sec-english': 2001 };
+  var RANK = { 'REVISIT': -1, 'DONE': 0, 'YESTERDAY DONE': 0, 'TODAY DONE': 0, 'RECENTLY DONE': 0,
+               'IMPORTANT': 1, 'NEW': 2, 'PLANNED': 3, 'LOCKED': 9 };
+  var SET = { planned: ['#64748b', 'PLANNED'], done: ['#22c55e', 'DONE'], recent: ['#191970', 'TODAY DONE'],
+              important: ['#ef4444', 'IMPORTANT'], new: ['#eab308', 'NEW'], revisit: ['#a855f7', 'REVISIT'] };
+  var CHOICES = ['done', 'revisit', 'important', 'planned'];
+
+  var nav = window.__NAV__;
+  var pending = {};                    // key -> status, the queue as this page last saw it
+
+  function esc(k) { return (window.CSS && CSS.escape) ? CSS.escape(k) : k.replace(/"/g, '\\"'); }
+  function byKey(k) { return document.querySelector('a.nav-link[data-key="' + esc(k) + '"]'); }
+  function cardOf(k) { var el = document.getElementById(k); return (el && el.tagName === 'LI') ? el : null; }
 
   function itemForThisPage() {
-    var nav = window.__NAV__;
     if (!nav || !nav.sections) return null;
     var file = location.pathname.split('/').pop();
-    for (var i = 0; i < nav.sections.length; i++) {
-      var items = nav.sections[i].items;
-      for (var j = 0; j < items.length; j++) if (items[j].href === file) return items[j];
-    }
-    return null;                        // notes.html and the index: overlay only, no buttons
+    for (var i = 0; i < nav.sections.length; i++)
+      for (var j = 0; j < nav.sections[i].items.length; j++)
+        if (nav.sections[i].items[j].href === file) return nav.sections[i].items[j];
+    return null;
   }
 
-  // Repaint one rail dot. The number beside it is baked into the page and only settles after a
-  // drain, so the dot is marked as pending rather than pretending the change is complete.
-  function paint(key, status) {
-    var c = COLORS[status];
-    if (!c) return;
-    var dots = document.querySelectorAll('a[data-key="' + (window.CSS && CSS.escape ? CSS.escape(key) : key) + '"] .nav-dot');
-    for (var i = 0; i < dots.length; i++) {
-      dots[i].style.background = c[0];
-      dots[i].title = c[1] + ' (pending — the number settles at the next rebuild)';
-      dots[i].style.outline = '2px dotted ' + c[0];
-      dots[i].style.outlineOffset = '1px';
+  // Move a list of nodes into the given order inside whatever parent they already share. Reordering
+  // existing nodes rather than rebuilding the markup keeps the "current page" highlight, any handlers
+  // the page attached, and anything else the built page did that this file does not know about.
+  function reorder(nodes) {
+    var groups = [];
+    nodes.forEach(function (n) {
+      if (!n) return;
+      var g = null;
+      for (var i = 0; i < groups.length; i++) if (groups[i].parent === n.parentNode) g = groups[i];
+      if (!g) { g = { parent: n.parentNode, list: [] }; groups.push(g); }
+      g.list.push(n);
+    });
+    groups.forEach(function (g) { g.list.forEach(function (n) { g.parent.appendChild(n); }); });
+  }
+
+  // Reproduce a rebuild in the DOM: apply the queue, re-rank each section, renumber, repaint.
+  function apply() {
+    if (!nav || !nav.sections) return { changed: 0, pendingCount: 0 };
+    var pendingCount = 0, changed = 0;
+    var totalDone = 0, totalAll = 0;
+
+    nav.sections.forEach(function (sec) {
+      var base = BASE[sec.navId];
+      sec.items.forEach(function (it) {
+        var s = pending[it.key];
+        if (s && SET[s] && it.label !== SET[s][1]) { it.color = SET[s][0]; it.label = SET[s][1]; it.overlaid = true; }
+        else it.overlaid = !!(s && SET[s] && it.overlaid);
+        if (s) pendingCount++;
+      });
+      // stable sort by rank, exactly what reorder-by-status.py and english-notes.py do
+      sec.items.forEach(function (it, i) { it._i = i; });
+      sec.items.sort(function (a, b) {
+        var ra = RANK[a.label], rb = RANK[b.label];
+        if (ra === undefined) ra = 3; if (rb === undefined) rb = 3;
+        return ra - rb || a._i - b._i;
+      });
+
+      var railNodes = [], cardNodes = [], done = 0;
+      sec.items.forEach(function (it, i) {
+        var shown = base === undefined ? null : base + i;
+        if ((RANK[it.label] !== undefined ? RANK[it.label] : 3) <= 0) done++;
+        if (shown !== null && it.text) {
+          var t = it.text.replace(/(<span class="topic-no">)\d+(<\/span>)/, '$1' + shown + '$2');
+          if (t !== it.text) { it.text = t; }
+        }
+        var a = byKey(it.key);
+        if (a) {
+          railNodes.push(a.parentNode && a.parentNode.tagName === 'LI' ? a.parentNode : a);
+          var dot = a.querySelector('.nav-dot');
+          if (dot) {
+            if (dot.style.background !== it.color || dot.title !== it.label) changed++;
+            dot.style.background = it.color;
+            dot.title = it.label + (it.overlaid ? ' (queued — not yet rebuilt)' : '');
+            dot.style.outline = it.overlaid ? '2px dotted ' + it.color : '';
+            dot.style.outlineOffset = it.overlaid ? '1px' : '';
+          }
+          var no = a.querySelector('.topic-no');
+          if (no && shown !== null) no.textContent = String(shown);
+        }
+        var card = cardOf(it.key);
+        if (card) {
+          cardNodes.push(card);
+          var cno = card.querySelector('.topic-head .topic-no');
+          if (cno && shown !== null) cno.textContent = String(shown);
+        }
+      });
+      reorder(railNodes);
+      reorder(cardNodes);
+      totalDone += done; totalAll += sec.items.length;
+
+      // per-section counts: the jump pill on notes.html and the heading inside the article
+      var pill = document.querySelector('a[data-sec="' + esc(sec.navId) + '"]');
+      if (pill) {
+        var pd = pill.querySelector('.count-done'), pa = pill.querySelector('.count-all');
+        if (pd) pd.textContent = String(done);
+        if (pa) pa.textContent = '/' + sec.items.length;
+      }
+      var art = document.getElementById(sec.navId.replace('nav-', ''));
+      if (art) {
+        var ad = art.querySelector('.count-done'), aa = art.querySelector('.count-all');
+        if (ad) ad.textContent = 'done (' + done + ')';
+        if (aa) aa.textContent = ' / all (' + sec.items.length + ')';
+      }
+    });
+
+    // the rail-head badge, which _progress.js wrote from the built numbers before we ran
+    var badge = document.querySelector('.rail-note[title="current"]');
+    if (badge && totalAll) badge.innerHTML = Math.round(totalDone * 100 / totalAll) + '% &middot; ' + totalDone + '/' + totalAll;
+
+    // and the number printed at the top of the item you are reading
+    var cur = itemForThisPage();
+    if (cur) {
+      var a2 = byKey(cur.key), kick = document.querySelector('.topic-kicker .topic-no');
+      if (a2 && kick) {
+        var n = a2.querySelector('.topic-no');
+        if (n) kick.textContent = '#' + n.textContent;
+      }
     }
+    return { changed: changed, pendingCount: pendingCount };
   }
 
   function foot() { return document.querySelector('.rail-foot'); }
-
   function say(msg, tone) {
     var el = document.getElementById('alice-status-msg');
     if (!el) return;
     el.textContent = msg;
     el.style.color = tone === 'bad' ? '#ef4444' : 'var(--text2, #64748b)';
   }
+  function button(label, fn) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = label;
+    b.style.cssText = 'font:inherit;cursor:pointer;border:1px solid currentColor;border-radius:999px;' +
+                      'padding:1px 9px;background:transparent;color:var(--text2,#64748b)';
+    b.addEventListener('click', fn);
+    return b;
+  }
 
   var fb = null;
-  function load() {                     // one lazy load of the SDK, shared by every caller
+  function load() {
     if (fb) return fb;
     fb = Promise.all([
-      import(SDK + 'firebase-app.js'),
-      import(SDK + 'firebase-auth.js'),
-      import(SDK + 'firebase-firestore.js')
+      import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
     ]).then(function (m) {
       var app = m[0].initializeApp(CONFIG);
       return { auth: m[1], fs: m[2], a: m[1].getAuth(app), db: m[2].getFirestore(app) };
@@ -76,17 +181,16 @@
     return fb;
   }
 
-  function overlay(k) {                 // apply every pending change to the dots on this page
+  function pull(k) {
     return k.fs.getDocs(k.fs.collection(k.db, 'status')).then(function (snap) {
-      var n = 0;
-      snap.forEach(function (d) { paint(d.id, (d.data() || {}).status); n++; });
-      return n;
+      pending = {};
+      snap.forEach(function (d) { var v = d.data() || {}; if (SET[v.status]) pending[d.id] = v.status; });
+      return apply();
     });
   }
 
   function render(k, user) {
-    var f = foot();
-    if (!f) return;
+    var f = foot(); if (!f) return;
     var bar = document.getElementById('alice-status-bar');
     if (!bar) {
       bar = document.createElement('div');
@@ -100,14 +204,12 @@
     msg.style.cssText = 'flex:1 1 100%;color:var(--text2,#64748b)';
 
     if (!user) {
-      var inBtn = button('Sign in', function () {
+      bar.appendChild(button('Sign in', function () {
         say('opening Google…');
-        k.auth.signInWithPopup(k.a, new k.auth.GoogleAuthProvider()).catch(function (e) {
-          say(String(e && e.code || e), 'bad');
-        });
-      });
-      bar.appendChild(inBtn); bar.appendChild(msg);
-      say('sign in to change status from here');
+        k.auth.signInWithPopup(k.a, new k.auth.GoogleAuthProvider())
+          .catch(function (e) { say(String((e && e.code) || e), 'bad'); });
+      }));
+      bar.appendChild(msg); say('sign in to change status from here');
       return;
     }
     if (user.email !== OWNER) {
@@ -116,31 +218,21 @@
     }
 
     var item = itemForThisPage();
-    if (item) {
-      ['done', 'revisit', 'important', 'planned'].forEach(function (s) {
-        bar.appendChild(button(s, function () {
-          say('saving ' + s + '…');
-          k.fs.setDoc(k.fs.doc(k.db, 'status', item.key), { status: s, at: k.fs.serverTimestamp() })
-            .then(function () { paint(item.key, s); say('queued ' + s + ' — the rebuild will fold it in'); })
-            .catch(function (e) { say(String(e && e.code || e), 'bad'); });
-        }));
-      });
-    }
+    if (item) CHOICES.forEach(function (s) {
+      bar.appendChild(button(s, function () {
+        say('saving ' + s + '…');
+        k.fs.setDoc(k.fs.doc(k.db, 'status', item.key), { status: s, at: k.fs.serverTimestamp() })
+          .then(function () { pending[item.key] = s; var r = apply(); say('queued ' + s + ' — ' + r.pendingCount + ' pending'); })
+          .catch(function (e) { say(String((e && e.code) || e), 'bad'); });
+      }));
+    });
+    bar.appendChild(button('refresh', function () { say('reading…'); pull(k).then(function (r) { say(r.pendingCount + ' pending'); }); }));
     bar.appendChild(button('sign out', function () { k.auth.signOut(k.a); }));
     bar.appendChild(msg);
-    overlay(k).then(function (n) {
-      say(item ? (n ? n + ' change(s) pending a rebuild' : 'no pending changes')
-               : (n ? n + ' change(s) pending a rebuild' : 'signed in — no pending changes'));
-    }).catch(function (e) { say('overlay unavailable: ' + (e && e.code || e), 'bad'); });
-  }
-
-  function button(label, fn) {
-    var b = document.createElement('button');
-    b.type = 'button'; b.textContent = label;
-    b.style.cssText = 'font:inherit;cursor:pointer;border:1px solid currentColor;border-radius:999px;' +
-                      'padding:1px 9px;background:transparent;color:var(--text2,#64748b)';
-    b.addEventListener('click', fn);
-    return b;
+    pull(k).then(function (r) {
+      say(r.pendingCount ? r.pendingCount + ' change(s) pending a rebuild — order and numbers shown live'
+                         : 'signed in — no pending changes');
+    }).catch(function (e) { say('overlay unavailable: ' + ((e && e.code) || e), 'bad'); });
   }
 
   function start() {
@@ -154,13 +246,10 @@
   }
 
   function init() {
-    var f = foot();
-    if (!f) return;                     // a page without the rail: nothing to attach to, leave it alone
+    var f = foot(); if (!f) return;
     var opted = false;
     try { opted = localStorage.getItem(OPT_IN) === '1'; } catch (e) {}
     if (opted || location.hash === '#edit') { start(); return; }
-    // Not opted in: one small link in the same style as the rest of the foot. No SDK is fetched, so a
-    // visitor pays nothing for a feature that is not theirs.
     f.appendChild(document.createTextNode(' · '));
     var a = document.createElement('a');
     a.href = '#edit'; a.textContent = 'Edit';
