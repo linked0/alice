@@ -30,6 +30,23 @@ COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recen
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 DONE_LIKE = ("done", "recent", "revisit")
 
+def day_of(stamp):
+    """The done-day a stamp falls in: the 06:00 KST boundary used by roll-done-states.py."""
+    dt = datetime.datetime.fromisoformat(stamp)
+    if dt.tzinfo is None: dt = dt.replace(tzinfo=KST)
+    return (dt.astimezone(KST) - datetime.timedelta(hours=6)).date()
+
+def add_pass(history, stamp):
+    """Append a pass, but only when it lands on a different done-day than the last one
+    (jay, 2026-09-21: a second tap in the same sitting is not a second reading).
+    `history` is the list so far, oldest first; returns the new list."""
+    out = [s for s in history if s]
+    if out and day_of(out[-1]) == day_of(stamp):
+        out[-1] = stamp                      # same day: keep one entry, move it to the later time
+    else:
+        out.append(stamp)
+    return out
+
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True, help="the item key as it appears in _nav.js (Eng keys look like english-398)")
 ap.add_argument("--status", required=True, choices=sorted(COLORS))
@@ -66,23 +83,39 @@ if sec["navId"] == "nav-sec-english":
     if not n:
         sys.exit("no 'status:' line in the header")
     if A.status in DONE_LIKE:
+        m = re.search(r"^dones: (.*)$", t, re.M)
+        history = [s.strip() for s in m.group(1).split(",")] if m else (
+            [re.search(r"^done: (.*)$", t, re.M).group(1).strip()] if re.search(r"^done: ", t, re.M) else [])
+        history = add_pass(history, stamp)
+        line = "dones: " + ", ".join(history)
+        if m: t = t[:m.start()] + line + t[m.end():]
+        else: t = re.sub(r"^(status: .*)$", rf"\1\n{line}", t, count=1, flags=re.M)
         if re.search(r"^done: .*$", t, re.M):
-            t = re.sub(r"^done: .*$", f"done: {stamp}", t, count=1, flags=re.M)
+            t = re.sub(r"^done: .*$", f"done: {history[-1]}", t, count=1, flags=re.M)
         else:
-            t = re.sub(r"^(status: .*)$", rf"\1\ndone: {stamp}", t, count=1, flags=re.M)
+            t = re.sub(r"^(dones: .*)$", rf"\1\ndone: {history[-1]}", t, count=1, flags=re.M)
+        print(f"   passes: {len(history)}")
     else:
         t = re.sub(r"^done: .*\n", "", t, count=1, flags=re.M)
+        t = re.sub(r"^dones: .*\n", "", t, count=1, flags=re.M)
     md.write_text(t)
     builder = "english-notes.py"
 else:
     item["color"], item["label"] = COLORS[A.status]
     if A.status in DONE_LIKE:
-        item["done"] = stamp
+        history = add_pass(item.get("dones") or ([item["done"]] if item.get("done") else []), stamp)
+        item["dones"] = history
+        item["done"] = history[-1]           # `done` stays the latest, so every existing reader is untouched
+        print(f"   passes: {len(history)}")
     else:
-        item.pop("done", None)
-        item.pop("day", None)
+        item.pop("done", None); item.pop("dones", None); item.pop("day", None)
     NAV.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
     builder = "reorder-by-status.py"
 
 print(f"--- {builder} ---")
 subprocess.run([sys.executable, str(ROOT / "scripts" / builder)], check=True)
+# reorder-by-status.py only calls roll-done-states.py when something expired from NEW, so a plain
+# status change left the dots, counts, badge and card chips untouched (found 2026-09-21: the data said
+# DONE while notes.html still showed PLANNED). roll is idempotent and owns all of those, so run it last.
+print("--- roll-done-states.py ---")
+subprocess.run([sys.executable, str(ROOT / "scripts" / "roll-done-states.py")], check=True)

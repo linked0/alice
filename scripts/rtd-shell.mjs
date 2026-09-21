@@ -141,7 +141,13 @@ const PAGE_CSS = `
   .nav-link:hover { background:var(--card); color:var(--text); }
   .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
   /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
-  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21: "items done twice, and three times"). A numeral, not a second colour:
+     colour already means status, and a twice-done IMPORTANT item would collide. Absolutely positioned
+     so a repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
   .nav-text { min-width:0; flex:1 1 auto; }
   .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
   .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
@@ -451,7 +457,8 @@ const NAV_RENDER_SCRIPT = String.raw`
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        var times = (it.dones && it.dones.length > 1) ? it.dones.length : 0;
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (times ? ' data-times="' + times + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';

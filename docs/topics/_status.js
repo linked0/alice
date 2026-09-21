@@ -129,7 +129,9 @@
           railNodes.push(a.parentNode && a.parentNode.tagName === 'LI' ? a.parentNode : a);
           var dot = a.querySelector('.nav-dot');
           if (dot) {
-            var title = it.label + (it.overlaid ? ' (queued \u2014 not yet rebuilt)' : '');
+            // title must stay the bare label: the rail filters compare it exactly, so a suffix here
+            // would quietly drop a queued item out of New/Today/Revisit. The ring shows "queued".
+            var title = it.label;
             var ring = it.overlaid ? '2px dotted ' + it.color : '';
             if (dot.style.background !== it.color) { dot.style.background = it.color; changed++; }
             if (dot.title !== title) dot.title = title;

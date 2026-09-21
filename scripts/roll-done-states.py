@@ -58,10 +58,15 @@ def li_fix(m):
     seen.add(key); return m.group(0)
 h = re.sub(r'(        <li><a class="nav-link" href="[^"]*" data-key="([^"]+)">.*?</li>\n)', li_fix, h, flags=re.S)
 by_key = {x["key"]: x for s in nav["sections"] for x in s["items"]}
+# The pass count rides on data-times only, never in `title`: the rail filters compare title exactly
+# ("NEW", "REVISIT", …), so appending anything to it would silently break them for a repeated item.
 def dot_fix(m):
     x = by_key.get(m.group(2))
-    return m.group(1) + (f'<span class="nav-dot" style="background:{x["color"]};" title="{x["label"]}"' + (f' data-day="{x["day"]}"' if x.get("day") else "") + '></span>' if x else m.group(3))
-h = re.sub(r'(<a class="nav-link" href="[^"]*" data-key="([^"]+)">)(<span class="nav-dot" style="background:[^"]*;" title="[^"]*"(?: data-day="[^"]*")?></span>)', dot_fix, h)
+    return m.group(1) + (f'<span class="nav-dot" style="background:{x["color"]};" title="{x["label"]}"'
+                         + (f' data-day="{x["day"]}"' if x.get("day") else "")
+                         + (f' data-times="{len(x["dones"])}"' if len(x.get("dones") or []) > 1 else "")
+                         + '></span>' if x else m.group(3))
+h = re.sub(r'(<a class="nav-link" href="[^"]*" data-key="([^"]+)">)(<span class="nav-dot" style="background:[^"]*;" title="[^"]*"(?: data-day="[^"]*")?(?: data-times="[^"]*")?></span>)', dot_fix, h)
 for j in nav["jump"]:
     h = re.sub(r'(<a href="#' + j["id"] + r'"[^>]*>' + re.escape(j["label"]) + r'<b><span class="count-done">)\d+(</span><span class="count-all">/)\d+', lambda m: f'{m.group(1)}{j["done"]}{m.group(2)}{j["all"]}', h, count=1)
     h = re.sub(re.escape(j["label"]) + r' &mdash; done \(\d+\) / all \(\d+\)', f'{j["label"]} &mdash; done ({j["done"]}) / all ({j["all"]})', h, count=1)

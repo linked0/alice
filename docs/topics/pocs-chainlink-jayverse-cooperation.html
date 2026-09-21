@@ -126,7 +126,12 @@
   .nav-link:hover { background:var(--card); color:var(--text); }
   .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
   /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
-  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; }
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
   .nav-text { min-width:0; flex:1 1 auto; }
   .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
   .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
@@ -385,7 +390,7 @@
         <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
         <span class="tier-break" aria-hidden="true"></span>
-        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
         <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
@@ -640,14 +645,16 @@
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
-  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
     let shown = 0;
     for (const a of links) {
       const grp = a.closest('[data-group]');
       const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
-      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : isImportant(a)));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

@@ -205,7 +205,8 @@ nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID]; na
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
                "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
-               "added": x["added"], **({"done": x["done"]} if x.get("done") else {})} for x in items]})
+               "added": x["added"], **({"done": x["done"]} if x.get("done") else {}),
+               **({"dones": [s.strip() for s in x["dones"].split(",") if s.strip()]} if x.get("dones") else {})} for x in items]})
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 
 # ---------------- static overall badge on every topic page ----------------
