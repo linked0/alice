@@ -82,6 +82,13 @@
 <li><strong>Change:</strong> <code>git stash push --include-untracked</code>, re-ran with <code>--slot 131</code>, dropped the stash. Runs now read 62-71 IMPORTANT, 72-131 NEW, 132-278 PLANNED.</li>
 <li><strong>Result:</strong> correct placement, and the rule to reuse: read the label runs out of <code>_nav.js</code> and append to the end of the run matching the item&#39;s own status, rather than trusting the slot wording in the docstring.</li>
 </ul>
+<h3 id="revisit--a-sixth-status-that-sorts-before-done">REVISIT — a sixth status that sorts before Done</h3>
+<ul>
+<li><strong>Cause:</strong> jay: &quot;One more category before Done which is already done but that I should remind later. There is nothing for that now but the one is filled with very important thing.&quot; and &quot;You can suggest the right short for that.&quot; Source: no task file; the spec is <a href="../topics/README.html">docs/topics/README.md</a> § &quot;REVISIT — done, but come back to it&quot;.</li>
+<li><strong>Reasoning:</strong> the state is &quot;done, and still worth a reminder&quot;, so it must (a) count as done, (b) never be rolled by the TODAY / YESTERDAY DONE rule, and (c) sit above every done item, which is what &quot;before Done&quot; means both in the rail order and in the button row. Name chosen: <strong>REVISIT</strong> (over REMIND / RECALL) because one word says both halves; colour purple <code>#a855f7</code>, the only hue not yet used by a dot. No cap, since jay described it as the top shelf, not a queue.</li>
+<li><strong>Change:</strong> <code>add-tech-item.py</code> and <code>english-notes.py</code> accept <code>--status revisit</code> / <code>status: revisit</code> (<code>#a855f7</code>, <code>REVISIT</code>) and count it as done; <code>roll-done-states.py</code> counts it and leaves it unrolled; <code>reorder-by-status.py</code> ranks it −1 (order print now R/D/I/N/P). Rail row 2 becomes <strong>Revisit · Done · Yesterday · Today</strong> with an <code>isRevisit</code> filter, applied to <code>notes.html</code>, the 411 detail pages that carry the buttons, and the template <code>rtd-shell.mjs</code>. README section added.</li>
+<li><strong>Result:</strong> no item marked yet; counts unchanged (Tech 61/278, overall 68/558). <code>reorder-by-status.py</code> and <code>roll-done-states.py</code> re-run clean (0 renumbered, 0 relabelled).</li>
+</ul>
 
   </article>
 </div>

@@ -2,7 +2,7 @@
 """Insert or update one Tech (or, with --section, Theory / Life) item in Knowledge Notes from two markdown files.
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
-        [--status new|important|planned|recent|done] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
+        [--status new|important|planned|recent|done|revisit] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
 
 Source markdown (both languages, same shape):
     # Title
@@ -28,7 +28,7 @@ from notes_numbering import display, position  # section bases: Tech 1, Theory 7
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 700, Life 1300)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
-ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new");
+ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
@@ -37,7 +37,7 @@ ap.add_argument("--vocab", help="markdown table of key expressions (Expression |
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"), "lately": ("#191970", "TODAY DONE"), "today": ("#191970", "TODAY DONE"),
-          "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
+          "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")
 # Section constants. Blockchain has no tag chip; Theory cards carry <span class="topic-tag">Math|Algorithms|Economics</span>
@@ -116,7 +116,7 @@ items.insert(slot - 1, new_item)
 for k, x in enumerate(items, 1):
     x["text"] = f'<span class="topic-no">{display(SEC["nav"], k)}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
     x["n"] = str(display(SEC["nav"], k)); x["title"] = re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
-N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE"))
+N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE", "REVISIT"))   # REVISIT is a done item kept for a later reminder (jay, 2026-09-21)
 sec["label"] = f"{SEC['label']} ({N})"
 for j in nav["jump"]:
     if j["id"] == SEC["art"]: j["all"], j["done"] = N, DONE

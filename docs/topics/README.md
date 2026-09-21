@@ -51,7 +51,7 @@ status; `docs/topics/_progress.js` paints the rail badges from it. Each item has
 - Done items first. The newest report takes the first not-done slot; items after it shift by one.
   Detail pages' `#N` kicker and prev/next pager are rebuilt after every insert.
 - Dot colors: `#22c55e` DONE, `#38bdf8` RECENTLY DONE, `#ef4444` IMPORTANT, `#64748b` PLANNED,
-  `#eab308` NEW. Mark done only when jay says so.
+  `#eab308` NEW, `#a855f7` REVISIT (done, come back later — see below). Mark done only when jay says so.
 - **Added date (jay, 2026-09-16, from #54 on):** the KST date the item was added appears on the
   card head (`<span class="topic-date">YYYY-MM-DD</span>`, right-aligned after the title) and in
   the detail page kicker after the type (`#N · PoC · YYYY-MM-DD`). Older items carry no date.
@@ -164,6 +164,23 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
   2026-09-18: "make the important button only shows important"; the 2026-09-08/09 rule that Important also showed new
   and recently done items is retired). Each button shows exactly one state, inside the selected category (see the pills rule below). The state labels changed everywhere, including the page template `scripts/rtd-shell.mjs`.
+
+## REVISIT — done, but come back to it (jay, 2026-09-21)
+
+- A sixth state for items that are **already done and still matter enough to be reminded of later**: label
+  **REVISIT**, purple dot `#a855f7`, status key `revisit` (jay: "one more category before Done which is already done
+  but that I should remind later … filled with very important thing"; the name was Claude's suggestion, accepted).
+  Empty on the day it was added — nothing is marked yet.
+- **Counts as done** everywhere a done total is computed (section pill, section meta, `_nav.js` jump, overall badge):
+  `add-tech-item.py`, `english-notes.py`, `roll-done-states.py` all include it. It never rolls: the TODAY / YESTERDAY
+  DONE rule leaves REVISIT alone.
+- **Sorts before Done.** `reorder-by-status.py` ranks it −1, so in Tech, Theory and Invest the order is **REVISIT <
+  done < IMPORTANT < NEW < PLANNED**. Marking an item REVISIT therefore moves it to the top of its section.
+- **Rail button:** row 2 is now **Revisit · Done · Yesterday · Today**, the Revisit button first — on the list page, on
+  every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
+  template `scripts/rtd-shell.mjs`. It shows REVISIT only.
+- **How to mark one:** `add-tech-item.py --key <k> --status revisit …` (re-run in place), or `status: revisit` in an
+  English item's markdown; then `reorder-by-status.py`. There is no cap.
 
 ## English pages: English first, Korean apart (jay, 2026-09-18)
 

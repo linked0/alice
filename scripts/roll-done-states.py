@@ -8,6 +8,7 @@ Items in the previous done-day bucket are "YESTERDAY DONE" (sky blue, #38bdf8; j
 other day done status of which name tells everything"). Older buckets, and items with no `done` time, are plain DONE.
 So each new day's first done item rolls everything one step: LATELY → OTHER DAY → DONE.
 
+REVISIT (purple, #a855f7; jay, 2026-09-21) is a done item kept for a later reminder: it is never relabelled here and counts as done.
 Also syncs every rail dot in notes.html (colour + title) with _nav.js and removes duplicate rail entries.
 Run by scripts/add-tech-item.py after each change; safe to run alone at any time.
 """
@@ -34,7 +35,7 @@ for s in nav["sections"]:
             b = bucket(x["done"]) if x.get("done") else None
             want = LATELY if b and b == latest else OTHER if b and b == previous else (DONE_COLOR[s["navId"]], "DONE")
             if (x["color"], x["label"]) != want: x["color"], x["label"] = want; changed.append(x["key"])
-    done = sum(1 for x in s["items"] if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE"))
+    done = sum(1 for x in s["items"] if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE", "REVISIT"))   # REVISIT never rolls; it counts as done (jay, 2026-09-21)
     for j in nav["jump"]:
         if j["id"] == s["navId"].replace("nav-", ""): j["done"], j["all"] = done, len(s["items"])
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")

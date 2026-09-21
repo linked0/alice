@@ -10,7 +10,7 @@ Idempotent: run it after adding or editing any english-N.md and it rewrites
 Source format (docs/topics/english/english-N.md):
   # N · Tag — Title
   title_ko: …            situation: …   situation_ko: …   why: …   why_ko: …
-  status: planned | done | recent | important | new      (default planned)
+  status: planned | done | recent | important | new | revisit      (default planned; revisit = done, come back later — jay, 2026-09-21)
   done: 2026-09-18T15:08+09:00   (ISO +09:00, when status is recent/done; drives the TODAY/YESTERDAY DONE roll)
   ## Dialogue            Speaker: English line   /  > Korean line (directly under it)
   ## Techniques          1. **제목.** 설명 (Korean, quoting the English)
@@ -32,7 +32,7 @@ NAVJS = ROOT / "topics" / "_nav.js"
 TEMPLATE = ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html"
 SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "Eng"   # label shortened (jay, 2026-09-18: "English to Eng"); ids unchanged
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"),
-          "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW")}
+          "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
 
 def inline(t):
@@ -64,7 +64,7 @@ def parse(path):
 
 items = sorted((parse(pathlib.Path(p)) for p in glob.glob(str(SRC / "english-*.md"))), key=lambda x: x["n"])
 assert [x["n"] for x in items] == list(range(1, len(items) + 1)), "english-N.md numbering must be 1..N without gaps"
-N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent"))
+N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 
 # ---------------- detail pages ----------------

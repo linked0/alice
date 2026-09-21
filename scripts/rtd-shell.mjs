@@ -118,7 +118,7 @@ const PAGE_CSS = `
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
-  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Done · Yesterday · Today (jay, 2026-09-18) */
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -408,6 +408,7 @@ function railHtml(o, navGroupsHtml) {
         <button type="button" class="tier-btn on" data-tier-mode="important" aria-pressed="true">Important</button>
 <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn" data-tier-mode="all" aria-pressed="false">All</button>
         <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button>
         <button type="button" class="tier-btn" data-tier-mode="done" aria-pressed="false" title="Items finished before yesterday (green dot; today and yesterday have their own buttons)">Done</button>
         <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
 
@@ -550,6 +551,7 @@ const RAIL_SCRIPT = String.raw`
   const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'TODAY DONE'; };
   const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'YESTERDAY DONE'; };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; }; // done, come back later (jay, 2026-09-21)
   const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
   function applyFilter() {
     const q = input.value.trim().toLowerCase();
@@ -557,7 +559,7 @@ const RAIL_SCRIPT = String.raw`
     for (const a of links) {
       const grp = a.closest('[data-group]');
       const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
-      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : isImportant(a)));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }
