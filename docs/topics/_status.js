@@ -64,12 +64,27 @@
       if (!g) { g = { parent: n.parentNode, list: [] }; groups.push(g); }
       g.list.push(n);
     });
-    groups.forEach(function (g) { g.list.forEach(function (n) { g.parent.appendChild(n); }); });
+    groups.forEach(function (g) {
+      // Only move nodes when the order actually differs. Re-appending a node that is already in place
+      // still detaches and reinserts it, and across a 900-item list that reflow is visible as a flash
+      // (jay, 2026-09-21: "there's some blinking" going from an Eng card to the Eng list).
+      var cur = [], c = g.parent.firstElementChild;
+      while (c) { if (g.list.indexOf(c) !== -1) cur.push(c); c = c.nextElementSibling; }
+      var same = cur.length === g.list.length;
+      if (same) for (var i = 0; i < cur.length; i++) if (cur[i] !== g.list[i]) { same = false; break; }
+      if (!same) g.list.forEach(function (n) { g.parent.appendChild(n); });
+    });
   }
 
   // Reproduce a rebuild in the DOM: apply the queue, re-rank each section, renumber, repaint.
+  var touched = false;                 // has this page ever been repainted by the overlay?
   function apply() {
     if (!nav || !nav.sections) return { changed: 0, pendingCount: 0 };
+    var queued = 0; for (var q in pending) if (Object.prototype.hasOwnProperty.call(pending, q)) queued++;
+    // The built page already shows the truth when the queue is empty, so the cheapest correct thing
+    // is to leave it alone entirely. Without this every sign-in reshuffled a list that was fine.
+    if (!queued && !touched) return { changed: 0, pendingCount: 0 };
+    touched = queued > 0;
     var pendingCount = 0, changed = 0;
     var totalDone = 0, totalAll = 0;
 
@@ -102,20 +117,20 @@
           railNodes.push(a.parentNode && a.parentNode.tagName === 'LI' ? a.parentNode : a);
           var dot = a.querySelector('.nav-dot');
           if (dot) {
-            if (dot.style.background !== it.color || dot.title !== it.label) changed++;
-            dot.style.background = it.color;
-            dot.title = it.label + (it.overlaid ? ' (queued — not yet rebuilt)' : '');
-            dot.style.outline = it.overlaid ? '2px dotted ' + it.color : '';
-            dot.style.outlineOffset = it.overlaid ? '1px' : '';
+            var title = it.label + (it.overlaid ? ' (queued \u2014 not yet rebuilt)' : '');
+            var ring = it.overlaid ? '2px dotted ' + it.color : '';
+            if (dot.style.background !== it.color) { dot.style.background = it.color; changed++; }
+            if (dot.title !== title) dot.title = title;
+            if (dot.style.outline !== ring) { dot.style.outline = ring; dot.style.outlineOffset = it.overlaid ? '1px' : ''; }
           }
           var no = a.querySelector('.topic-no');
-          if (no && shown !== null) no.textContent = String(shown);
+          if (no && shown !== null && no.textContent !== String(shown)) no.textContent = String(shown);
         }
         var card = cardOf(it.key);
         if (card) {
           cardNodes.push(card);
           var cno = card.querySelector('.topic-head .topic-no');
-          if (cno && shown !== null) cno.textContent = String(shown);
+          if (cno && shown !== null && cno.textContent !== String(shown)) cno.textContent = String(shown);
         }
       });
       reorder(railNodes);
