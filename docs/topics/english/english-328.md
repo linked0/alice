@@ -1,0 +1,36 @@
+# 328 · Line — The world has yet to break the back of it.
+title_ko: The world has yet to break the back of it. — 세계는 아직 그 고비를 넘기지 못했다.
+situation: Jay watches a late documentary about antibiotic resistance with his flatmate Mateo, who assumes the problem must be nearly solved by now. The film ends by saying the hardest part is still ahead.
+situation_ko: Jay는 플랫메이트 Mateo와 늦은 밤 항생제 내성에 관한 다큐멘터리를 본다. Mateo는 삼십 년이나 연구했으니 문제가 거의 해결됐을 거라고 짐작한다. 영화는 가장 힘든 부분이 아직 남아 있다는 말로 끝난다.
+why: To **break the back of** something is to get past its hardest part, so that what is left is manageable. "Has yet to" means it has not happened so far, with a hint that it should have by now. Together they say the worst is still ahead; the phrase is about a task's hard part, not about breaking the thing itself.
+why_ko: **break the back of**는 어떤 일의 가장 힘든 부분을 넘겨 남은 일이 감당할 만해진다는 뜻이다. "we broke the back of the migration last week"처럼 쓴다. "has yet to"는 아직 그러지 못했다는 뜻이고, 그럴 때가 되었는데도 아직이라는 뉘앙스가 붙는다. 둘을 합치면 최악은 아직 앞에 있다는 말이 된다. 대상을 부순다는 뜻이 아니라 일의 고비를 넘긴다는 뜻이다.
+status: new
+added: 2026-09-21
+source: jay's NAVER 영어단어장, third export — the 전체 view (2026-09-21), card 154 of 228: Hansard "The world has yet to break the back of it. — 세계는 아직 고비를 넘기지 못했다." The situation and dialogue are new.
+source_ko: jay의 NAVER 영어단어장 세 번째 내보내기 — 전체 보기(2026-09-21), 228장 중 154번 카드: Hansard "The world has yet to break the back of it. — 세계는 아직 고비를 넘기지 못했다." 상황과 대화는 새로 썼다.
+raw: 2026-09-21-english-183.txt
+
+## Dialogue
+Mateo: Thirty years of research. Is this basically solved by now?
+> 삼십 년이나 연구했잖아. 이거 이제 거의 해결된 거 아니야?
+Jay: No. The narrator's line was good: the world has yet to break the back of it.
+> 아니. 내레이터 문장이 좋더라. 세계는 아직 그 고비를 넘기지 못했다고.
+Mateo: Break the back of what — the bacteria?
+> 뭘 꺾는다는 거야, 세균을?
+Jay: Of the problem. You break the back of a job when the hard part is done and the rest is cleanup.
+> 문제의 고비를. 힘든 부분이 끝나고 나머지가 뒷정리뿐일 때 break the back이라고 해.
+Mateo: And "has yet to" is just "not yet"?
+> "has yet to"는 그냥 "아직"이라는 뜻이고?
+Jay: Not yet, with a nudge that it should have happened already. We broke the back of our own migration last week, so I like the phrase.
+> 아직인데, 진작 됐어야 한다는 뉘앙스가 있어. 우리도 지난주에 마이그레이션 고비를 넘겨서 이 표현이 마음에 들어.
+
+## Techniques
+1. **"has yet to"는 단순한 부정보다 기대를 담는다.** "The world has yet to break the back of it."은 아직 못 했다는 사실에 "진작 했어야 한다"는 평가를 얹는다.
+2. **비유는 자기 경험으로 한 번 바꿔 말하면 외워진다.** "We broke the back of our own migration last week"처럼 내 일에 붙여 쓰면 표현이 남는다.
+
+## Expressions
+| Expression | 뜻 · 쓰이는 자리 |
+|---|---|
+| break the back of something | ~의 고비를 넘기다 — 힘든 부분을 끝냈을 때 |
+| have yet to do | 아직 ~하지 못하다 — 진작 됐어야 한다는 뉘앙스로 |
+| the rest is cleanup | 나머지는 뒷정리다 — 남은 일이 가볍다고 말할 때 |

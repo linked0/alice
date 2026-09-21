@@ -6,8 +6,8 @@ why: **Whittle down** comes from whittling, shaving wood with a knife one sliver
 why_ko: **whittle down**은 칼로 나무를 한 조각씩 깎아 내는 whittling에서 왔다. 그래서 무언가를 조금씩, 잘라 내면서 줄인다는 뜻이다. 목록, 후보 명단, 예산, 백로그를 whittle down한다. "to" 구가 도착점을 준다("whittled it down to eight"). 중립적이라 면접과 계획 논의에 잘 맞는다. 관용구 **whittle someone down to size**는 다르다. 거만한 사람의 기를 꺾는다는 뜻이고, 사전의 "콧대를 꺾다"가 이쪽이다. 한 번에 크게 자르는 "cut"이나 "slash"와도 다르다. whittling은 작은 절단을 여러 번, 매번 판단하면서 하는 것이다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, second export (2026-09-21), page 3 card 20 (word): YBM 올인올 idiom 사전 "whittle…down (to size) — …을 잘라 적당한 크기로 만들다[줄이다]; …의 콧대를 꺾다". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 3페이지 20번 카드(단어): YBM 올인올 idiom 사전 "whittle…down (to size) — …을 잘라 적당한 크기로 만들다[줄이다]; …의 콧대를 꺾다". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, second export (2026-09-21), page 3 card 20 (word): YBM 올인올 idiom 사전 "whittle…down (to size) — …을 잘라 적당한 크기로 만들다[줄이다]; …의 콧대를 꺾다". The situation and dialogue are new. Also in the third export of the same day, the 전체 view (card 46, the word (영어영작문대사전 "whittle down — 깎아내다, 감하다"); raw 2026-09-21-english-183.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 3페이지 20번 카드(단어): YBM 올인올 idiom 사전 "whittle…down (to size) — …을 잘라 적당한 크기로 만들다[줄이다]; …의 콧대를 꺾다". 상황과 대화는 새로 썼다. 같은 날 셋째 내보내기인 전체 뷰(46번 카드, 단어; raw 2026-09-21-english-183.txt)에도 있어 여기로 합치고 별도 항목은 만들지 않았다.
 raw: 2026-09-21-english-79.txt
 
 ## Dialogue

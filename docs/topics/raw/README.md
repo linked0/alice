@@ -30,3 +30,4 @@ Rules (jay, 2026-09-21: "make the alice Knowledge Notes system aligned with … 
 | `2026-09-21-english-38.txt` | Eng #38 connecting-vs-transfer (조선일보 윤희영 칼럼 발췌, jay가 채팅에 붙여넣음; URL 미수집) |
 | `2026-09-21-english-39.txt` | Eng #39–#78 (NAVER 영어단어장 첫 내보내기, 카드 20장 = 항목 40개) |
 | `2026-09-21-english-79.txt` | Eng #79–#182 (NAVER 영어단어장 둘째 내보내기, 2~4쪽 + 마지막 카드; 반복 카드는 원래 항목에 합침) |
+| `2026-09-21-english-183.txt` | Eng #183–#397 (NAVER 영어단어장 셋째 내보내기, 전체 뷰 228장, 메모 없음 → 카드 한 장 = 항목 한 개) |

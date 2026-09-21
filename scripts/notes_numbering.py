@@ -5,7 +5,7 @@ section. `k` is the 1-based position inside the section; `display` is what the r
 Goals (jay, same day): 1,000 items done is the first turning point and gets a congratulation effect; 2,000 is the
 final goal. _progress.js reads GOALS from here (kept in sync by hand; see docs/topics/README.md).
 """
-BASE = {"nav-sec-blockchain": 1, "nav-sec-fundamentals": 501, "nav-sec-invest": 801, "nav-sec-english": 1001, "nav-sec-mindset": 901, "health": 1401}   # every section counts from its hundred + 1 (jay, 2026-09-21: "각 카테고리를 1부터 시작하게 할래? 501, 801, 901, 1001")   # Life moved from 1300 to 900 (jay, 2026-09-21: "make the start the Life from 900"); Health stays at 1400
+BASE = {"nav-sec-blockchain": 1, "nav-sec-fundamentals": 1001, "nav-sec-invest": 1501, "nav-sec-mindset": 1801, "nav-sec-english": 2001, "health": 3001}   # wider blocks (jay, 2026-09-21: "start Eng from 2001, Theory 1001, Invest 1501, Life 1801") — Eng passed 180 items, so the old 500/800/900/1000 spacing was about to run out. Health was not named; it moved 1401 → 3001 so it stays last and out of Theory's new block (Theory now owns 1001–1500).   # earlier the same day: 501 / 801 / 901 / 1001 / 1401, and before that 500 / 800 / 1300 / 1000 / 1400
 GOALS = (1000, 2000)
 
 def display(navid, k): return BASE[navid] + k - 1

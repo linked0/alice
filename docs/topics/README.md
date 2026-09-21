@@ -271,7 +271,7 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
 
 ## Section numbering, goals, and the red badge (jay, 2026-09-18)
 
-- **Numbers start per section:** Tech **1**, Theory **501**, Invest **801**, Life **901**, Eng **1001**, Health **1401** (jay, 2026-09-21: "각 카테고리를 1부터 시작하게 할래? 501, 801, 901, 1001" — the hundred names the section, the last two digits count from 1; earlier the same day Life had moved from 1300 to 900, and before that the bases were 500 / 800 / 1000 / 1400). Life has 99 numbers before it meets Eng at 1001 — at 34 items, that is the cap to watch
+- **Numbers start per section:** Tech **1**, Theory **1001**, Invest **1501**, Life **1801**, Eng **2001**, Health **3001** (jay, 2026-09-21: "start Eng from 2001, Theory 1001, Invest 1501, Life 1801" — Eng had grown past 180 items and the earlier 501 / 801 / 901 / 1001 spacing left Life only 99 numbers before Eng. Each section now owns a block of 500 or more: Tech 1–1000, Theory 1001–1500, Invest 1501–1800, Life 1801–2000, Eng 2001–3000, Health 3001–. Health was not named in the request; it moved from 1401 so it stays last and out of Theory's block. Earlier the same day the bases were 501 / 801 / 901 / 1001 / 1401, and before that 500 / 800 / 1300 / 1000 / 1400.) One constant per section in `scripts/notes_numbering.py`; changing it and re-running `reorder-by-status.py`, `english-notes.py` and `health-cards.py` renumbers the whole site
   (jay: "make the Items from 1, Theory from 700, English 1000, Life 1300, Health 1400"). One table in
   `scripts/notes_numbering.py` (`BASE`, `display(navid, k)`, `position(navid, shown)`); `add-tech-item.py`,
   `reorder-by-status.py`, `english-notes.py` and `health-cards.py` all read it, so a number alone tells the section.

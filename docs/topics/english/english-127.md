@@ -6,8 +6,8 @@ why: A **deed** is the legal document that transfers or proves ownership of prop
 why_ko: **Deed**는 부동산 소유권을 이전하거나 증명하는 법적 문서이며 늘 어떤 곳에 대한 "the deed to"로 쓴다. **Title**은 소유할 법적 권리 자체라서 title을 보유하고 deed에 서명한다. 둘은 관련되지만 같은 말이 아니다. **Get something back**은 내 것이었다가 잃거나 넘긴 것을 되찾는다는 뜻이다. get the deed back, get my deposit back, get the house back. "back"이 잃었다가 돌아온다는 이야기 전체를 담는다. "Gonna"는 말할 때만 쓴다. 집주인이나 변호사에게 보내는 메시지에는 "I'm going to"나 그냥 "I'd like my deposit back"이라고 쓴다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, second export (2026-09-21), page 3 card 12 (sentence): memo Original "I'm gonna get the deed to this place back," / Corrected "I'm going to get the deed to this place back." / Korean "난 이곳의 소유권 증서를 반드시 되찾을 거야." — deed = 소유권 증서, get something back = 되찾다, deed vs title. The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 3페이지 12번 카드(문장): 원문 메모 "I'm gonna get the deed to this place back," / 수정 "I'm going to get the deed to this place back." / 한국어 "난 이곳의 소유권 증서를 반드시 되찾을 거야." — deed = 소유권 증서, get something back = 되찾다, deed와 title의 차이. 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, second export (2026-09-21), page 3 card 12 (sentence): memo Original "I'm gonna get the deed to this place back," / Corrected "I'm going to get the deed to this place back." / Korean "난 이곳의 소유권 증서를 반드시 되찾을 거야." — deed = 소유권 증서, get something back = 되찾다, deed vs title. The situation and dialogue are new. Also in the third export of the same day, the 전체 view (card 171, the phrase "the deeds of the house — 그 주택 권리증" (옥스퍼드); raw 2026-09-21-english-183.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 3페이지 12번 카드(문장): 원문 메모 "I'm gonna get the deed to this place back," / 수정 "I'm going to get the deed to this place back." / 한국어 "난 이곳의 소유권 증서를 반드시 되찾을 거야." — deed = 소유권 증서, get something back = 되찾다, deed와 title의 차이. 상황과 대화는 새로 썼다. 같은 날 셋째 내보내기인 전체 뷰(171번 카드, "the deeds of the house" 구; raw 2026-09-21-english-183.txt)에도 있어 여기로 합치고 별도 항목은 만들지 않았다.
 raw: 2026-09-21-english-79.txt
 
 ## Dialogue

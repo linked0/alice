@@ -6,8 +6,8 @@ why: **Condescend to** somebody is the everyday sense: treat them as less intell
 why_ko: **Condescend to** + 사람은 일상적인 뜻으로, 상대를 덜 똑똑한 사람 취급하며 내려다보듯 말하는 것이다. 형용사 "condescending"(a condescending tone)이 가장 자주 들린다. 사전의 **condescend to** + 명사/-ing(condescend to cheating, condescend to accept bribes)는 오래되고 격식 있는 뜻으로, 체면이나 지조를 버리고 격에 안 맞는 짓까지 하는 것이다. 둘 다 위에서 아래로 내려선다는 그림을 공유한다. "consent to"도 "descend to"도 아니다. 누군가를 condescending이라고 부르는 건 강한 비난이라, 피드백에서는 딱지 대신 효과("I felt talked down to")를 말한다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, second export (2026-09-21), page 4 card 3 (word) "condescend to cheating — 체면을 버리고 사기를 치다 (BBI WORD COMBI)" merged with page 4 card 4 (word) "condescend to accept bribes — 지조를 버리고 뇌물을 받다 (동아출판 프라임 영한사전)"; the everyday sense condescend to someone = 깔보듯 대하다 added here. The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 4페이지 카드 3(단어) "condescend to cheating — 체면을 버리고 사기를 치다 (BBI)"와 4페이지 카드 4(단어) "condescend to accept bribes — 지조를 버리고 뇌물을 받다 (동아)"를 합침; 일상 뜻 condescend to someone = 깔보듯 대하다를 추가. 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, second export (2026-09-21), page 4 card 3 (word) "condescend to cheating — 체면을 버리고 사기를 치다 (BBI WORD COMBI)" merged with page 4 card 4 (word) "condescend to accept bribes — 지조를 버리고 뇌물을 받다 (동아출판 프라임 영한사전)"; the everyday sense condescend to someone = 깔보듯 대하다 added here. The situation and dialogue are new. Also in the third export of the same day, the 전체 view (card 24, the word (옥스퍼드 "con·des·cend — 자신을 낮추다; 거들먹거리다"); raw 2026-09-21-english-183.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 두 번째 내보내기(2026-09-21), 4페이지 카드 3(단어) "condescend to cheating — 체면을 버리고 사기를 치다 (BBI)"와 4페이지 카드 4(단어) "condescend to accept bribes — 지조를 버리고 뇌물을 받다 (동아)"를 합침; 일상 뜻 condescend to someone = 깔보듯 대하다를 추가. 상황과 대화는 새로 썼다. 같은 날 셋째 내보내기인 전체 뷰(24번 카드, 단어; raw 2026-09-21-english-183.txt)에도 있어 여기로 합치고 별도 항목은 만들지 않았다.
 raw: 2026-09-21-english-79.txt
 
 ## Dialogue

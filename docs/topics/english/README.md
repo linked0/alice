@@ -69,4 +69,5 @@ Tags so far: Review, Design, Incident, EIP, BD, Ops, Planning, 1:1. Add new ones
   - 사전만 다른 같은 표제어(manslaughter / voluntary manslaughter, mess with ×3, condescend to ×2, snuff / snuff out)는 Word 항목 하나로 합치고 `source:`에 카드를 모두 적는다.
   - 한 카드의 단어가 다른 카드의 문장에 그대로 들어 있으면(infatuated) 그 Line 항목으로 합친다.
   - 메모가 문장이 아니라 용어 한 줄이면(footgun, on-ramp) 그 용어를 `Word` 태그 항목으로 만들고 `source:`에 "memo"라고 적는다; 메모가 앞 카드의 문장을 다시 풀이하면 그 메모의 자기 예문을 쓴다(generic you → "You never know what might happen."); 메모에 영어 문장이 없으면(betaxolol의 KBS 기사 메모) Line 항목은 없고 `source:`에 그렇게 적는다.
+- **메모 없는 카드는 항목 하나다 (jay, 2026-09-21, 셋째 내보내기 = 전체 뷰 228장).** 단어장의 `전체` 뷰에는 암기메모가 없는 카드가 대부분이다. 표제어와 뜻만 있거나 예문과 번역만 있으므로 **카드 한 장 = 항목 한 개**이고, 표제어·구·숙어면 `Word`, 완결된 문장이면 `Line`이다. 메모가 없어 쓸 재료가 적으므로 이 항목들은 영어 200~330단어로 #39~#182보다 짧게 쓴다. 사전만 다른 같은 표제어나 같은 숙어의 두 예문은 위 합치기 규칙대로 한 항목으로 묶는다. 본보기: Eng #183~#397 (228장 → 215개; parlay into·condescend·whittle down·deed 네 장은 이미 항목이라 원래 항목에 표시만 했다).
 
