@@ -144,6 +144,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `reorder-by-status.py` SORTED += Life, docstring; `english-notes.py` RANK / POS, `shown()` by position, items iterated in rank order (pages, pager, nav, cards); README bullet under "Order by status".
 - **Result:** Life 1300–1308 Important, 1309–1332 New (31 renumbered). Gotcha found right after: the rail rewrite for a sorted section replaced every `<li>` up to the last one, and in Life the six Health rail links (LOCKED, 1400…) come after the items behind `<!-- health-nav:start -->` — they were dropped. The cards rewrite already stopped at `health-cards:start`; the rail rewrite now stops at `health-nav:start` the same way, and the block was restored from the previous commit; Eng 1000 Yesterday done, 1001–1012 Important, 1013–1037 Planned (Eng #38 stays 1037 by chance — last file, planned). Second run: 0 renumbered.
 
+### Eng #38 is NEW — and `status: new` in English expires after a week
+
+- **Cause:** jay: "Connecting, transferring, or just stuck here? should be shown with Eng and New buttons selected." The file said `status: planned`, so the New button skipped it.
+- **Reasoning:** an English conversation written today is new in the same sense as a Tech item added today, so the rule should be the same: `status: new` in the `.md`, and `english-notes.py` treats it as planned once `added` is seven or more days old — the file is not edited, only the label, colour, number and button follow, mirroring `reorder-by-status.py` for the other sections. Only items explicitly marked new are affected; the 09-16 batch stays planned.
+- **Change:** `english-38.md` `status: new`; `english-notes.py` one-week rule before ranking; `docs/topics/english/README.md` header note.
+- **Result:** Eng: 1000 Yesterday done, 1001–1012 Important, **1013 New (#38)**, 1014–1037 Planned; New button with Eng selected shows one item.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

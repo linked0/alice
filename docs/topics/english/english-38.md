@@ -4,7 +4,7 @@ situation: Jay is flying to a final onsite interview in Austin and has to change
 situation_ko: Jay는 오스틴 최종 온사이트 면접을 가는 길에 LAX에서 비행기를 갈아타야 한다. 카운터 직원이 "Are you traveling on a connecting flight? We've checked you in for both."이라고 묻는다. 한 여정에 경유 한 번으로 예약했으니 "transfer"라는 단어를 예상했던 그는, 순간 내가 예약한 비행기가 아닌 다른 비행기로 바뀌는 건가 싶어진다.
 why: At an airport, "connecting" and "transfer" are not synonyms you can swap. **Connecting** describes the ticket — two flights bought as one itinerary, so the airline owns the link and your bags ride through. **Transfer** describes the movement — you walking, or your bag moving, from one aircraft, terminal or airport to the next. Say the wrong one at a counter and you get the wrong answer to the only question that matters: if I miss it, whose problem is it?
 why_ko: 공항에서 "connecting"과 "transfer"는 바꿔 쓸 수 있는 동의어가 아니다. "Connecting"은 항공권의 성격이다. 두 편을 하나의 여정으로 샀으므로 연결에 대한 책임은 항공사에 있고 수하물도 그대로 실려 간다. "Transfer"는 이동 그 자체다. 사람이나 가방이 한 비행기, 터미널, 공항에서 다음으로 옮겨 가는 동작. 카운터에서 단어를 잘못 고르면, 정작 중요한 질문에 엉뚱한 답을 듣는다. 놓치면 그건 누구 책임인가?
-status: planned
+status: new
 source: 윤희영, "비행기 환승 'transfer'와 'connect'의 다른 점", 조선일보 「윤희영의 뉴스 잉글리시」, 입력 2026.09.21. 03:00 KST. 칼럼이 든 상황(LA 공항 국내선 환승, 직원의 "Are you traveling on a connecting flight? We've checked you in for both.")과 결론(현지 공항 직원·항공사 시스템·공항 표지판의 정석 표현은 transfer flight가 아니라 connecting flight)을 출발점으로 삼았다. 대화·기법·표현은 그 위에 새로 쓴 것이다.
 source_ko: 윤희영, "비행기 환승 'transfer'와 'connect'의 다른 점", 조선일보 「윤희영의 뉴스 잉글리시」, 입력 2026.09.21. 03:00 KST. jay가 2026-09-21 채팅에 붙여넣은 본문 발췌에서 가져왔고, 그 발췌 전문은 원본 레이어에 그대로 보관돼 있다. URL은 수집하지 않았다.
 raw: 2026-09-21-english-38.txt

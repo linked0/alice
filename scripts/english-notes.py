@@ -76,6 +76,12 @@ def parse(path):
 
 items = sorted((parse(pathlib.Path(p)) for p in glob.glob(str(SRC / "english-*.md"))), key=lambda x: x["n"])
 assert [x["n"] for x in items] == list(range(1, len(items) + 1)), "english-N.md numbering must be 1..N without gaps"
+# NEW lasts one week here too (jay, 2026-09-21): `status: new` counts as planned once `added` is seven or more days old.
+# The .md keeps saying new; only the label, colour, number and button change — like reorder-by-status.py for the other sections.
+import datetime
+_today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+for x in items:
+    if x["status"] == "new" and (_today - datetime.date.fromisoformat(x["added"])).days >= 7: x["status"] = "planned"
 items = sorted(items, key=lambda x: (RANK[x["status"]], x["n"])); POS.update({x["n"]: i + 1 for i, x in enumerate(items)})
 N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
