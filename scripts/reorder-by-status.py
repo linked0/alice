@@ -14,7 +14,7 @@ RANK = {"REVISIT": -1,   # done, come back later — sits above every other done
         "DONE": 0, "YESTERDAY DONE": 0, "TODAY DONE": 0, "RECENTLY DONE": 0, "IMPORTANT": 1, "NEW": 2, "PLANNED": 3}
 SECTIONS = {"nav-sec-blockchain": "sec-blockchain", "nav-sec-fundamentals": "sec-fundamentals", "nav-sec-invest": "sec-invest", "nav-sec-mindset": "sec-mindset"}
 SORTED = ("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest", "nav-sec-mindset")   # Life joined on 2026-09-21 (jay: "The number should be in order for all the category"); English is ordered by english-notes.py itself
-NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-english", "sec-english"), "nav-sec-mindset": ("no-results", None)}   # Life is last
+NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-mindset", "sec-mindset"), "nav-sec-mindset": ("nav-sec-english", "sec-english")}   # order Tech · Theory · Invest · Life · Eng (jay, 2026-09-21); Eng is last
 
 n = ROOT / "topics" / "_nav.js"
 nav = json.loads(re.match(r'window\.__NAV__=(.*);\s*$', n.read_text(), re.S).group(1))

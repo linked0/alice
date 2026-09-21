@@ -172,6 +172,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** base 1300 → 900; docstrings and the README numbering line updated with the cap.
 - **Result:** Life 900–908 Important, 909–933 New; Health 1400…; no 13xx left on `notes.html`; index rows say Life 900….
 
+### Section order: Life before Eng
+
+- **Cause:** jay, with a screenshot of the pills: "change the order of Eng and Life." With Life at 900 and Eng at 1000, the rail read 1 · 500 · 800 · 1000 · 900.
+- **Reasoning:** the order lives in three places — where `english-notes.py` inserts the Eng rail group, article and pill (before Life since 09-18), the `nav`/`jump` insertion index, and `reorder-by-status.py`'s NEXT map for block boundaries. Moving Eng after Life in all of them and re-running the builder moved the blocks on `notes.html` in one pass (the builder removes and re-inserts its own blocks).
+- **Change:** Eng group before `no-results`, Eng article before `<p class="src">`, Eng pill after the Life pill, nav/jump index +1; NEXT: Invest → Life → Eng; README section-order heading rewritten, old text kept below it as history.
+- **Result:** rail, pills, articles, `_nav.js` sections and jump all Tech · Theory · Invest · Life · Eng; numbers ascend 1 · 500 · 800 · 900 · 1000.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

@@ -308,7 +308,12 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
   Basics, status Important — which fills the 10-per-section Important cap, so promote a new Invest item only after
   demoting one. Drafts were written from `scratchpad/tv/INSTRUCTIONS.md` (structure = the standard item source).
 
-## Section order: Tech · Theory · Invest · Eng · Life (jay, 2026-09-18: "Eng before Life")
+## Section order: Tech · Theory · Invest · Life · Eng (jay, 2026-09-21: "change the order of Eng and Life")
+
+- Swapped on 2026-09-21 so the numbers ascend down the rail once Life moved to 900 (1 · 500 · 800 · 900 · 1000).
+  `english-notes.py` places the Eng rail group, article and pill after Life's; `reorder-by-status.py`'s NEXT map ends
+  Invest → Life → Eng. Everything below this line describes the 2026-09-18 order and is kept as history.
+
 
 - Life is the last section. Generators that need a "next section" marker use the end-of-list sentinels instead
   (`id="no-results"` for the rail, `<p class="src">` for the articles): `add-tech-item.py` (mindset), `reorder-by-status.py`,
