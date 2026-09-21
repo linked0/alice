@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 11:55 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 12:01 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 70/560
+Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 71/560
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -69,7 +69,7 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 70/560
 | 61 | Tech | YESTERDAY DONE | 2026-09-18 | 2026-09-18 | PoC | file |  | [S&P Global is buying OpenZeppelin — the library under Jayverse's contracts now belongs to a ratings agency](pocs-sp-global-buys-openzeppelin.html) | S&P Global이 OpenZeppelin을 인수한다 — Jayverse 컨트랙트 아래 라이브러리의 주인이 신용평가사가 됐다 | `sp-global-buys-openzeppelin` |  |
 | 62 | Tech | YESTERDAY DONE | 2026-09-18 | 2026-09-18 | PoC | gemini |  | [Clarity is permission — Lubin's "open the floodgates" is a claim about who is allowed to deploy, not about price](pocs-clarity-is-permission-lubin-floodgates.html) | 명확성은 허가다 — 루빈의 "수문을 열다"는 가격이 아니라 누가 배포할 수 있는가에 대한 주장이다 | `clarity-is-permission-lubin-floodgates` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
 | 63 | Tech | YESTERDAY DONE | 2026-09-18 | 2026-09-18 | PoC | gemini |  | [Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them](pocs-agentic-engineering-writes-boundaries.html) | 에이전틱 엔지니어링은 줄이 아니라 경계를 쓴다 — 바이브 코딩은 그 안에서만 확장된다 | `agentic-engineering-writes-boundaries` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |
-| 64 | Tech | IMPORTANT | 2026-09-15 |  | PoC | chat |  | [KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not](pocs-kb-kookmin-kinexys-deposit-rail.html) | KB국민은행 + Kinexys — 예금은 온체인으로 움직여도 은행 관계는 남는다 | `kb-kookmin-kinexys-deposit-rail` |  |
+| 64 | Tech | TODAY DONE | 2026-09-15 | 2026-09-21 | PoC | chat |  | [KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not](pocs-kb-kookmin-kinexys-deposit-rail.html) | KB국민은행 + Kinexys — 예금은 온체인으로 움직여도 은행 관계는 남는다 | `kb-kookmin-kinexys-deposit-rail` |  |
 | 65 | Tech | IMPORTANT |  |  | PoC |  |  | [AI agent payments in Korea — the payment rail is ready before the permission rail](pocs-agent-payments-korea-control-plane.html) | 한국의 AI 에이전트 결제 — 결제 레일보다 권한 레일이 늦다 | `agent-payments-korea-control-plane` |  |
 | 66 | Tech | IMPORTANT |  |  | PoC |  |  | [Graph & Loop Engineering — route, check, repeat instead of stuffing one prompt](pocs-graph-and-loop-engineering.html) | Graph & Loop Engineering — 한 프롬프트를 키우지 말고 분기·검사·반복하라 | `graph-and-loop-engineering` |  |
 | 67 | Tech | IMPORTANT |  |  | PoC |  |  | [An invariant is a stop, not an alarm — how to price a false positive](pocs-an-invariant-is-a-stop-not-an-alarm.html) | 불변식은 알람이 아니라 '멈춤'이다 — 오탐 비용을 계산하는 법 | `an-invariant-is-a-stop-not-an-alarm` |  |

@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-21 11:55 KST",
+"generated": "2026-09-21 12:01 KST",
 "counts": {
 "Tech": 279,
 "Theory": 189,
@@ -7,7 +7,7 @@
 "Eng": 38,
 "Life": 33
 },
-"done": 70,
+"done": 71,
 "all": 560,
 "items": [
 {
@@ -1811,9 +1811,10 @@
 "section": "Tech",
 "key": "kb-kookmin-kinexys-deposit-rail",
 "href": "pocs-kb-kookmin-kinexys-deposit-rail.html",
-"status": "IMPORTANT",
+"status": "TODAY DONE",
 "position": 64,
 "title_en": "KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not",
+"done": "2026-09-21T12:01+09:00",
 "type": "PoC",
 "date": "2026-09-15",
 "source": "chat",
@@ -1841,7 +1842,10 @@
 "nostro",
 "last mile",
 "sweep",
-"DDA"
+"DDA",
+"one entry on one balance sheet",
+"a claim on the bank that holds it",
+"network effect"
 ]
 },
 {

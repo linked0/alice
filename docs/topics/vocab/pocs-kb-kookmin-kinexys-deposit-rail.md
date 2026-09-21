@@ -23,3 +23,6 @@
 | last mile | 마지막 구간(수취인 계좌에 실제 입금되는 단계) · 네트워크 밖에 남는 시계. "the last-mile credit" |
 | sweep | 스윕(규칙에 따라 잔고를 자동으로 옮기는 것) · 프로그래머블 페이먼트의 용도. "sweep BDA ↔ DDA on rules" |
 | DDA | 요구불예금계좌(Demand Deposit Account; 언제든 인출 가능한 일반 예금) · BDA와 짝을 이루는 레거시 계좌. "a linked demand deposit account" |
+| one entry on one balance sheet | 한 대차대조표 위의 분개 하나(양쪽이 같은 은행의 부채라 이체가 내부 기장으로 끝남) · "즉시"의 메커니즘. "a payment is one entry on one balance sheet" |
+| a claim on the bank that holds it | 보유 은행에 대한 청구권(예금의 법적 정체) · 누구를 믿는가를 가를 때. "A deposit is a claim on the bank that holds it" |
+| network effect | 네트워크 효과(구성원이 많을수록 각 구성원에게 더 가치 있는 것) · 레일이 소프트웨어로 복제되지 않는 이유. "a rail with one member settles nothing" |
