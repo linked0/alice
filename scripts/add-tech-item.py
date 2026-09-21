@@ -86,7 +86,7 @@ def md_to_html(md):
                 i += 1
             i -= 1
             # a column headed "#" (step / row number) is as narrow as its widest number, not an equal share of the table (jay, 2026-09-21: "Make the number part smaller … I mean the width")
-            NUM = ' style="width:1%;white-space:nowrap;padding-right:6px;color:var(--text2)"'
+            NUM = ' style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)"'   # min-width:0 beats the page rule `.solo td:first-child { min-width:8.5em }` (kept there so dates do not wrap)
             narrow = [c.strip() == "#" for c in rows[0]]
             th = "".join(f"<th{NUM if narrow[i] else ''}>{inline(c)}</th>" for i, c in enumerate(rows[0]))
             tb = "".join("<tr>" + "".join(f"<td{NUM if i < len(narrow) and narrow[i] else ''}>{inline(c)}</td>" for i, c in enumerate(r)) + "</tr>" for r in rows[1:])
