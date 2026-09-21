@@ -151,6 +151,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `english-38.md` `status: new`; `english-notes.py` one-week rule before ranking; `docs/topics/english/README.md` header note.
 - **Result:** Eng: 1000 Yesterday done, 1001–1012 Important, **1013 New (#38)**, 1014–1037 Planned; New button with Eng selected shows one item.
 
+### Detail-page rail keeps the section order — the current section no longer jumps to the top
+
+- **Cause:** jay, with a screenshot of the rail on an Eng page in Important mode: Eng 1008–1012 sat above "TECH (279)" 65–69. "The 65 should be before 1000 cohort."
+- **Reasoning:** the list page renders groups in the fixed order, but a detail page's rail (built by `rtd-shell.mjs` from `_nav.js`) put the current section first and the rest after it as `data-other-section`. With every section numbered by rank, that made the numbers appear out of order whenever the page was not a Tech page.
+- **Change:** the rail renders all sections in `_nav.js` order; the current section keeps its place and the others still carry `data-other-section`, so the mode rules that hide them are unchanged. Template plus every detail page that renders the rail (string replacement).
+- **Result:** on any page, Important reads 65…71, 500…, 800…, 1001…1012, 1300…1308 top to bottom.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.

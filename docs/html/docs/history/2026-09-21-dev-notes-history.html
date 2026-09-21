@@ -186,6 +186,13 @@
 <li><strong>Change:</strong> <code>english-38.md</code> <code>status: new</code>; <code>english-notes.py</code> one-week rule before ranking; <code>docs/topics/english/README.md</code> header note.</li>
 <li><strong>Result:</strong> Eng: 1000 Yesterday done, 1001–1012 Important, <strong>1013 New (#38)</strong>, 1014–1037 Planned; New button with Eng selected shows one item.</li>
 </ul>
+<h3 id="detail-page-rail-keeps-the-section-order--the-current-section-no-longer-jumps-to-the-top">Detail-page rail keeps the section order — the current section no longer jumps to the top</h3>
+<ul>
+<li><strong>Cause:</strong> jay, with a screenshot of the rail on an Eng page in Important mode: Eng 1008–1012 sat above &quot;TECH (279)&quot; 65–69. &quot;The 65 should be before 1000 cohort.&quot;</li>
+<li><strong>Reasoning:</strong> the list page renders groups in the fixed order, but a detail page&#39;s rail (built by <code>rtd-shell.mjs</code> from <code>_nav.js</code>) put the current section first and the rest after it as <code>data-other-section</code>. With every section numbered by rank, that made the numbers appear out of order whenever the page was not a Tech page.</li>
+<li><strong>Change:</strong> the rail renders all sections in <code>_nav.js</code> order; the current section keeps its place and the others still carry <code>data-other-section</code>, so the mode rules that hide them are unchanged. Template plus every detail page that renders the rail (string replacement).</li>
+<li><strong>Result:</strong> on any page, Important reads 65…71, 500…, 800…, 1001…1012, 1300…1308 top to bottom.</li>
+</ul>
 <h3 id="closing-three">Closing three</h3>
 <ul>
 <li><strong>Learned:</strong> a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so &quot;ETH locked away&quot; is also &quot;ETH that cannot be dumped&quot;; and the site&#39;s index can be generated entirely from <code>_nav.js</code> plus the kickers, so it never needs to be maintained.</li>

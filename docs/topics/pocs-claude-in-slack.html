@@ -569,8 +569,10 @@
       return group;
     };
     var anchor = navEl.firstChild;
-    navEl.insertBefore(render(sec, false), anchor);
-    data.sections.forEach(function (s) { if (s !== sec) navEl.insertBefore(render(s, true), anchor); });
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
   }
 })();
 
