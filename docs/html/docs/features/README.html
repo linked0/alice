@@ -66,6 +66,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <th>Design doc</th>
 <th>Focus (from jay&#39;s comment)</th>
 <th>Deployed on (GCP)</th>
+<th>Est. GCP cost / month</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -74,6 +75,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-rabbit.html">jayverse-rabbit.md</a></td>
 <td>ERC-4337 AA — user scenario, web app, flow. <strong>Start here</strong></td>
 <td>Rabbit cloud · Cloud Run <code>rabbit</code> · <a href="https://www.jaylabs.xyz">https://www.jaylabs.xyz</a></td>
+<td><strong>~$12</strong> — Cloud Run <code>rabbit</code> scales to zero; the cost is <code>rabbit-db</code> Cloud SQL</td>
 </tr>
 <tr>
 <td>2</td>
@@ -81,6 +83,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-verex.html">jayverse-verex.md</a></td>
 <td>Stripe onboarding + Market Maker — scenario, web app, flow. <strong>Start</strong></td>
 <td>Verex cloud · Cloud Run <code>verex-web-prod</code> + <code>verex-api-prod</code> (asia-northeast3) · <a href="https://verex.jaylabs.xyz">https://verex.jaylabs.xyz</a></td>
+<td><strong>~$62</strong> — <code>verex-api-prod</code> ~$50 (scale-to-zero disabled) + <code>verex-db-prod</code> ~$12; <code>verex-db</code> stopped adds ~$2</td>
 </tr>
 <tr>
 <td>3</td>
@@ -88,6 +91,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-token-bridge.html">jayverse-token-bridge.md</a> · <a href="jayverse-personas.html">jayverse-personas.md</a></td>
 <td><strong>JYVE</strong> ecosystem coin + mini-AMM price + Anvil ⇄ Sepolia bridge <strong>contracts + relayer</strong> (the bridge <em>screen</em> is in Wallet #5) + the <strong>persona NFT market</strong> (moved in from #6, jay 2026-09-14) — one <code>jayverse-token</code> repo, one project</td>
 <td>Rabbit cloud · Cloud Run <code>jayverse-exchange</code> · <a href="https://exchange.jaylabs.xyz">https://exchange.jaylabs.xyz</a> (contracts on Sepolia) · personas at <code>/personas</code> (own subdomain optional)</td>
+<td><strong>~$0</strong> — Cloud Run scales to zero; contracts are on Sepolia</td>
 </tr>
 <tr>
 <td>4</td>
@@ -95,6 +99,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-defi.html">jayverse-defi.md</a></td>
 <td>Basic EtherFi <strong>algorithms built from scratch</strong> to study DeFi (no real-EtherFi integration)</td>
 <td>Verex cloud · Firebase Hosting site <code>jayverse-defi</code> · <a href="https://defi.jaylabs.xyz">https://defi.jaylabs.xyz</a> (contracts on Sepolia)</td>
+<td><strong>~$0</strong> — Firebase Hosting, static</td>
 </tr>
 <tr>
 <td>5</td>
@@ -102,6 +107,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-wallet.html">jayverse-wallet.md</a></td>
 <td>Embedded wallet + tx simulation — scenario, web app, flow. <strong>Owns the bridge screen</strong> (<code>/bridge</code>; jay, 2026-09-14) — the UI for #3&#39;s lock-and-mint</td>
 <td>Rabbit cloud · Cloud Run <code>jayverse-wallet</code> · <a href="https://wallet.jaylabs.xyz">https://wallet.jaylabs.xyz</a> (+ <code>/bridge</code>)</td>
+<td><strong>~$0</strong> — Cloud Run scales to zero</td>
 </tr>
 <tr>
 <td>6</td>
@@ -109,13 +115,15 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-devnet.html">jayverse-devnet.md</a></td>
 <td><strong>Promoted from Dark Horse (a)</strong> (jay, 2026-09-14): starts as a hosted <strong>Anvil</strong> forked from Sepolia (its own chainId <code>313370</code>; <code>31337</code> stays local) that every service targets <strong>instead of Sepolia</strong>, with <strong>every Jayverse contract deployed on it by the seed</strong> (nothing inherited from the fork); later <code>supersim</code> → an OP-Stack L2 settling on it. Scenario C&#39;s argument: a chain whose block time and sequencer schedule <em>are</em> the app&#39;s clock</td>
 <td>Rabbit cloud · GCE VM <code>jayverse-devnet</code> (asia-northeast1) · <a href="https://devnet.jaylabs.xyz">https://devnet.jaylabs.xyz</a> (RPC + explorer) — planned, not deployed</td>
+<td><strong>$0 today</strong> — not deployed; ~$20/mo once the <code>e2-small</code> VM is up (always-on, a VM cannot scale to zero)</td>
 </tr>
 <tr>
 <td>7</td>
 <td>Unity — 3D browser game</td>
-<td><a href="jayverse-game.html">jayverse-game.md</a></td>
-<td>Wander a 3D street, find verex markets on boards, trade. <strong>Start</strong></td>
-<td>Rabbit cloud · inside Cloud Run <code>rabbit</code> · <a href="https://www.jaylabs.xyz/game">https://www.jaylabs.xyz/game</a></td>
+<td><a href="jayverse-game.html">jayverse-game.md</a> · <a href="jayverse-burrow.html">jayverse-burrow.md</a></td>
+<td>Wander a 3D street, find verex markets on boards, trade. <strong>Start</strong> — two surfaces since 2026-09-21: the Next.js street, plus <strong>Burrow</strong>, the Unity (WebGL) port (repo <code>linked0/rabbit-hole</code>, built and verified, <strong>not deployed</strong>)</td>
+<td>Rabbit cloud · inside Cloud Run <code>rabbit</code> · <a href="https://www.jaylabs.xyz/jayverse-game">https://www.jaylabs.xyz/jayverse-game</a> · Burrow → <a href="https://burrow.jaylabs.xyz">https://burrow.jaylabs.xyz</a> (planned)</td>
+<td><strong>~$0</strong> — static files inside the existing <code>rabbit</code> service; Burrow adds a domain mapping, not a service</td>
 </tr>
 <tr>
 <td>8</td>
@@ -123,6 +131,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-ofa.html">jayverse-ofa.md</a></td>
 <td>ATLAS&#39;s core mechanism as a from-scratch study — intent + solver auction, surplus to the user. <strong>Build the mechanism, not the framework</strong></td>
 <td>— not deployed</td>
+<td><strong>$0</strong> — not deployed</td>
 </tr>
 <tr>
 <td>9</td>
@@ -130,6 +139,7 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-number.html">jayverse-number.md</a></td>
 <td>Standalone <code>number.jaylabs.xyz</code> — investment information + math / economy / algorithm research. <strong>Admin-only</strong> (login-gated), split out of Rabbit&#39;s Portfolio into its own <code>jayverse-number</code> repo</td>
 <td>Rabbit cloud · Cloud Run <code>jayverse-number</code> · <a href="https://number.jaylabs.xyz">https://number.jaylabs.xyz</a> (alias <code>num.</code>)</td>
+<td><strong>~$0</strong> — Cloud Run scales to zero</td>
 </tr>
 <tr>
 <td>10</td>
@@ -137,9 +147,11 @@ the existing services so they cooperate rather than sit alone.</p>
 <td><a href="jayverse-darkhorse.html">jayverse-darkhorse.md</a></td>
 <td><strong>Not committed</strong> — candidates that <em>could</em> become services but aren&#39;t yet: (b) security-hole research, (c) <strong>Base App</strong> (moved from #8), (d) <strong>Canton Network test usage</strong> (jay, 2026-09-18: Daml templates for a licensed Number reading and a verex market that resolves on a named reference rate, local Splice LocalNet then Global Synchronizer DevNet, test networks only), (e) <strong>Agentic engineering — boundary files before agent tasks</strong> (jay, 2026-09-18, from Tech #61: boundary-file template, Rabbit mandate as boundary, CI evaluation job) — (a) own L1/L2 was promoted to #6 on 2026-09-14</td>
 <td>— candidates, not deployed</td>
+<td><strong>$0</strong> — candidates, not deployed</td>
 </tr>
 </tbody></table>
 <p><em>(#1–9 are the committed services; <strong>#10 Dark Horse is candidates, not committed</strong> — including Base App, moved from #8. Detail lives in <a href="jayverse-darkhorse.html">jayverse-darkhorse.md</a>.)</em></p>
+<p><em>The cost column (added 2026-09-21) apportions the estate estimate in <a href="cloud-ops.html#1-cost-posture--pay-for-what-is-being-watched-park-the-rest">cloud-ops.md §1</a> to the service that causes it. It is <strong>derived from resource configuration, not from billing data</strong> — the same caveat that file carries, and roughly $30/month of the real ~$120 bill is still unaccounted for. Read it as &quot;which service is the expensive one&quot;, not as an invoice.</em></p>
 <h3 id="ownership-changes-jay-2026-09-14">Ownership changes (jay, 2026-09-14)</h3>
 <ul>
 <li><strong>Renumbered 2026-09-20 (jay):</strong> 4 = Token + Exchange + Bridge + Personas, 5 = Wallet &amp; simulate-before-sign, 6 = Devnet — own L1 / L2, 7 = Unity — 3D browser game (was 4 Devnet · 5 Unity · 6 Wallet · 7 Token). Then, the same day, 3 ⇄ 4: 3 = Token + Exchange + Bridge + Personas, 4 = DeFi — EtherFi. Every <code>#N</code> in this file uses the new numbers.</li>
