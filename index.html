@@ -253,6 +253,19 @@
                         <span class="card-title">Knowledge Notes</span>
                         <span class="card-path" title="docs/notes.html">docs/notes.html</span>
                     </a>
+                    <!-- Eng 카드 (jay, 2026-09-21: "Add eng card in the index page in the second place";
+                         "The eng card links to the eng section of know notes") — 두 번째 자리, Knowledge Notes 다음.
+                         항목 한 장이 아니라 섹션 앵커를 건다: Eng는 398개라 한 장을 고정하면 그 장이 낡는다.
+                         이 파일은 GitHub Pages가 실제로 서빙하는 랜딩이고 <base href="docs/"> 아래에 있으므로
+                         상대 경로가 docs/ 로 풀린다. docs/index.html 의 같은 카드와 손으로 맞춰 두어야 한다. -->
+                    <a href="notes.html#sec-english" class="card" style="border-left: 4px solid #0d9488;">
+                        <span class="card-title">Eng</span>
+                        <span class="card-path" title="영어 항목 398개 — 목록은 docs/notes.html의 Eng 섹션">docs/notes.html#sec-english</span>
+                    </a>
+                    <a href="html/docs/features/README.html" class="card" style="border-left: 4px solid #0ea5e9;">
+                        <span class="card-title">Rabbit &mdash; Feature Designs</span>
+                        <span class="card-path" title="docs/features/README.md">docs/features/README.md</span>
+                    </a>
                     <!-- Memo 카드 (jay, 2026-09-09; 2026-09-10 두 번째로 올리고 이름을 "Memo"로 줄임)
                          — 현재 작업 런북(Sepolia 포크 셋업 + verex 로컬 구동)이라 진행 중 프로젝트
                          줄 맨 앞쪽에 둔다. Knowledge Base 의 같은 카드는 "장기 참조"로 남기고, 여기
@@ -260,10 +273,6 @@
                     <a href="html/docs/memo.html" class="card" style="border-left: 4px solid #db2777;">
                         <span class="card-title">Memo</span>
                         <span class="card-path" title="docs/memo.md">docs/memo.md</span>
-                    </a>
-                    <a href="html/docs/features/README.html" class="card" style="border-left: 4px solid #0ea5e9;">
-                        <span class="card-title">Rabbit &mdash; Feature Designs</span>
-                        <span class="card-path" title="docs/features/README.md">docs/features/README.md</span>
                     </a>
                     <!-- Current Plan 카드는 tasks 폴더 전체로 간다 (jay, 2026-09-03) —
                          current-plan.md 한 장을 고정으로 걸면 그 문서가 낡는 순간 카드도 낡는다
