@@ -8010,6 +8010,15 @@
       const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
       g.style.display = any ? '' : 'none';
     }
+    // The pill is a category selection (jay, 2026-09-18), so hide the other sections' card lists too,
+    // not only their rail entries. Without this, choosing Eng filtered the rail but the body still
+    // opened on Tech, and the page stayed 762,000px tall — which is what made the Eng card need a
+    // deep-link hash, and what made that jump look like flickering (jay, 2026-09-21).
+    const everySection = document.body.classList.contains('rail-all') || !railSection;
+    const wantId = railSection.replace('nav-', '');
+    for (const art of document.querySelectorAll('article[id^="sec-"]')) {
+      art.style.display = (everySection || art.id === wantId) ? '' : 'none';
+    }
     noResults.style.display = shown ? 'none' : 'block';
   }
   input.addEventListener('input', applyFilter);
