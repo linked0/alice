@@ -1,0 +1,67 @@
+# Change one item's status from a browser (jay, 2026-09-21: "What I really want is to change the
+# status in the web page"). Run it from the Actions tab — the phone web UI can dispatch it — or with
+# `gh workflow run set-status.yml -f key=… -f status=…`.
+#
+# No database and no server: the status already has one home per section (the Eng item's markdown,
+# _nav.js for everything else), this edits that home and re-runs the existing builders, and Pages
+# rebuilds from the commit. One source of truth, nothing new to keep alive.
+name: Set item status
+
+on:
+  workflow_dispatch:
+    inputs:
+      key:
+        description: 'Item key, as in _nav.js (Eng items look like english-398)'
+        required: true
+        type: string
+      status:
+        description: 'New status'
+        required: true
+        type: choice
+        options: [done, recent, revisit, important, new, planned]
+
+# Two runs would renumber the same section from different starting points, so serialise them.
+concurrency:
+  group: set-status
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  set-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: 38 of the Eng items have no `added:` header and english-notes.py falls back
+          # to the date the file entered git. A shallow clone would silently give them today's date
+          # and flip them to NEW.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply the status and rebuild
+        run: python3 scripts/set-status.py --key "${{ inputs.key }}" --status "${{ inputs.status }}"
+
+      - name: Commit and push
+        run: |
+          set -eu
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "nothing changed — the item was already ${{ inputs.status }}"
+            exit 0
+          fi
+          n=$(git diff --name-only | wc -l | tr -d ' ')
+          git add -A
+          git commit -m "notes: ${{ inputs.key }} -> ${{ inputs.status }}
+
+          Set from the web. A status change re-ranks its section, so the numbers
+          and pagers of every later item move with it ($n files).
+
+          Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>"
+          git push
+          echo "pushed: $n files"
