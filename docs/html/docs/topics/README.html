@@ -291,14 +291,23 @@ item sits at the top of PLANNED, directly under the NEW run.</li>
 </ul>
 <h2 id="order-by-status-at-most-10-important-per-section-jay-2026-09-18">Order by status; at most 10 Important per section (jay, 2026-09-18)</h2>
 <ul>
-<li>In Tech and Theory the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;
+<li><p><strong>Every section, since 2026-09-21</strong> (jay: &quot;The number should be in order for all the category &#39;Important&#39;, New, All,
+Revisit, Yesterday, Today&quot;): Life is now sorted by <code>reorder-by-status.py</code> like Tech, Theory and Invest, and English
+is sorted by <code>english-notes.py</code> — the shown number (1000…) is the position in status order, the file stays
+<code>english-N.md</code> and the page <code>english-N.html</code>. So each rail button shows one contiguous run of numbers in every
+category. Cost, as in Tech: an item&#39;s number moves when its status does, so cite items by key or title, not only by
+number. The Health cards keep their own 1400… numbering at the end of Life.</p>
+</li>
+<li><p>In Tech and Theory the numbers follow the status: <strong>done (Done / Yesterday done / Today done) &lt; Important &lt;
 New &lt; Planned</strong>, stable within each rank (jay: &quot;make the important ones have lower number than new ones but higher
 than done&quot;). <code>scripts/reorder-by-status.py</code> applies it to <code>_nav.js</code>, the rail and cards in <code>notes.html</code>, and every
 page&#39;s kicker and pager; run it after a status change that should move an item. Life is all NEW; English keeps its
-chronological numbering (2026-09-16).</li>
-<li><strong>Important is capped at 10 per section</strong> (jay: &quot;make the amount of important items 10 for each category&quot;). When the
+chronological numbering (2026-09-16).</p>
+</li>
+<li><p><strong>Important is capped at 10 per section</strong> (jay: &quot;make the amount of important items 10 for each category&quot;). When the
 cap was introduced the first 10 in number order stayed red and the rest (Tech 11, Theory 39) became Planned. To
-promote a new item, demote one first.</li>
+promote a new item, demote one first.</p>
+</li>
 </ul>
 <h2 id="section-numbering-goals-and-the-red-badge-jay-2026-09-18">Section numbering, goals, and the red badge (jay, 2026-09-18)</h2>
 <ul>

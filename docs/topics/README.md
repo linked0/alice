@@ -253,6 +253,13 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
 
 ## Order by status; at most 10 Important per section (jay, 2026-09-18)
 
+- **Every section, since 2026-09-21** (jay: "The number should be in order for all the category 'Important', New, All,
+  Revisit, Yesterday, Today"): Life is now sorted by `reorder-by-status.py` like Tech, Theory and Invest, and English
+  is sorted by `english-notes.py` — the shown number (1000…) is the position in status order, the file stays
+  `english-N.md` and the page `english-N.html`. So each rail button shows one contiguous run of numbers in every
+  category. Cost, as in Tech: an item's number moves when its status does, so cite items by key or title, not only by
+  number. The Health cards keep their own 1400… numbering at the end of Life.
+
 - In Tech and Theory the numbers follow the status: **done (Done / Yesterday done / Today done) < Important <
   New < Planned**, stable within each rank (jay: "make the important ones have lower number than new ones but higher
   than done"). `scripts/reorder-by-status.py` applies it to `_nav.js`, the rail and cards in `notes.html`, and every

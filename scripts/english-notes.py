@@ -25,7 +25,12 @@ interviews, negotiation, leading a team in English — critical and concrete.
 """
 import re, json, html, pathlib, glob, sys, subprocess
 from notes_numbering import display
-shown = lambda x: display("nav-sec-english", x["n"])   # English numbers start at 1000 (jay, 2026-09-18); files stay english-N.md
+# English numbers start at 1000 (jay, 2026-09-18); files stay english-N.md. Since 2026-09-21 the shown number is the item's
+# position in status order — REVISIT < done < IMPORTANT < NEW < PLANNED, stable by file number — like every other section
+# (jay: "The number should be in order for all the category"). POS is filled once the files are parsed.
+RANK = {"revisit": -1, "done": 0, "recent": 0, "today": 0, "lately": 0, "important": 1, "new": 2, "planned": 3}
+POS = {}
+shown = lambda x: display("nav-sec-english", POS[x["n"]])
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 SRC = ROOT / "topics" / "english"
@@ -71,6 +76,7 @@ def parse(path):
 
 items = sorted((parse(pathlib.Path(p)) for p in glob.glob(str(SRC / "english-*.md"))), key=lambda x: x["n"])
 assert [x["n"] for x in items] == list(range(1, len(items) + 1)), "english-N.md numbering must be 1..N without gaps"
+items = sorted(items, key=lambda x: (RANK[x["status"]], x["n"])); POS.update({x["n"]: i + 1 for i, x in enumerate(items)})
 N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 

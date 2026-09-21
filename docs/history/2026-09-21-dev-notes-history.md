@@ -137,6 +137,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `english-notes.py` resolves `added` per item and renders `<span title="added">` after the tag; nav items carry `added`; `docs/topics/english/README.md` lists the optional header. All 38 Eng pages rebuilt.
 - **Result:** #38 reads `#1037 · Travel · 2026-09-21 · raw`; the 38 pages date from 09-16 (the first batch) to 09-21.
 
+### Numbers follow status in every category — Life and Eng join the ordering
+
+- **Cause:** jay: "The number should be in order for all the category 'Important', New, All, Revisit, Yesterday, Today." Read as: every section (the site's "categories"), so that each rail button shows one contiguous run of numbers, as Tech already did. Life kept chronological numbers and Eng kept file-order numbers, so their Important / New views jumped around.
+- **Reasoning:** Life needed only to join `reorder-by-status.py`'s SORTED set (the Health cards sit behind the `health-cards:start` marker and keep 1400…). Eng could not be renumbered by renaming files — raw links, vocab and history point at `english-N.md` — so `english-notes.py` now sorts the parsed items by rank (REVISIT < done < IMPORTANT < NEW < PLANNED, stable by file number) and shows `1000 + position`; the file, page name and key stay `english-N`. Same known cost as Tech: a number moves when a status does.
+- **Change:** `reorder-by-status.py` SORTED += Life, docstring; `english-notes.py` RANK / POS, `shown()` by position, items iterated in rank order (pages, pager, nav, cards); README bullet under "Order by status".
+- **Result:** Life 1300–1308 Important, 1309–1332 New (31 renumbered); Eng 1000 Yesterday done, 1001–1012 Important, 1013–1037 Planned (Eng #38 stays 1037 by chance — last file, planned). Second run: 0 renumbered.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.
