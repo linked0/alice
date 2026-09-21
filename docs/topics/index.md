@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 15:10 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 15:23 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 279 · Theory 189 · Invest 21 · Eng 39 · Life 34 · done 71/562
+Counts: Tech 279 · Theory 189 · Invest 21 · Eng 78 · Life 34 · done 71/601
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -543,28 +543,67 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 39 · Life 34 · done 71/562
 | 1012 | Eng · Design review | IMPORTANT | 2026-09-20 |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
 | 1013 | Eng · Interview | IMPORTANT | 2026-09-21 |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
 | 1014 | Eng · Travel | NEW | 2026-09-21 |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
-| 1015 | Eng · Drama | NEW | 2026-09-21 |  | Drama |  |  | [Run yourself ragged, have the nerve to, live it up — the word book comes to lunch](english-39.html) | run yourself ragged, have the nerve to, live it up — 단어장이 점심에 따라오다 | `english-39` | [raw](raw/2026-09-21-english-39.txt) |
-| 1016 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
-| 1017 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
-| 1018 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
-| 1019 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
-| 1020 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
-| 1021 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
-| 1022 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
-| 1023 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
-| 1024 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
-| 1025 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
-| 1026 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
-| 1027 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
-| 1028 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
-| 1029 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
-| 1030 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
-| 1031 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
-| 1032 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
-| 1033 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
-| 1034 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
-| 1035 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
-| 1036 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
-| 1037 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
-| 1038 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
-| 1039 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |
+| 1015 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [if anything](english-39.html) | if anything — 어느 편인가 하면, 오히려 | `english-39` | [raw](raw/2026-09-21-english-39.txt) |
+| 1016 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Except, perhaps, for Kim, and on deadline day.](english-40.html) | Except, perhaps, for Kim, and on deadline day. — 아마 Kim만 빼고, 그리고 마감일만 빼고 | `english-40` | [raw](raw/2026-09-21-english-39.txt) |
+| 1017 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [imbue](english-41.html) | imbue — (감정·가치를) 가득 채우다, 불어넣다 | `english-41` | [raw](raw/2026-09-21-english-39.txt) |
+| 1018 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Are you going to run yourself ragged for someone else?](english-42.html) | Are you going to run yourself ragged for someone else? — 남 좋은 일 시키겠다고 네가 녹초가 되도록 뛰어다닐 거야? | `english-42` | [raw](raw/2026-09-21-english-39.txt) |
+| 1019 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [dialysis](english-43.html) | dialysis — (신장병 환자의) 투석 | `english-43` | [raw](raw/2026-09-21-english-39.txt) |
+| 1020 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [This one's got pickled plum.](english-44.html) | This one's got pickled plum. — 이건 매실장아찌가 들어 있어 | `english-44` | [raw](raw/2026-09-21-english-39.txt) |
+| 1021 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [enjoin](english-45.html) | enjoin — 명하다; (법령으로) 금하다 | `english-45` | [raw](raw/2026-09-21-english-39.txt) |
+| 1022 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [The next business I started was a lounge in Shinbashi.](english-46.html) | The next business I started was a lounge in Shinbashi. — 그다음에 내가 시작한 사업은 신바시에 차린 라운지였어 | `english-46` | [raw](raw/2026-09-21-english-39.txt) |
+| 1023 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [amygdala](english-47.html) | amygdala — 편도체 | `english-47` | [raw](raw/2026-09-21-english-39.txt) |
+| 1024 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [I worked myself to the bone.](english-48.html) | I worked myself to the bone. — 뼈 빠지게 일했다 | `english-48` | [raw](raw/2026-09-21-english-39.txt) |
+| 1025 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [parlay into](english-49.html) | parlay into — (작은 성과를) …로 키우다, 불리다 | `english-49` | [raw](raw/2026-09-21-english-39.txt) |
+| 1026 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [But she had the nerve to offer to help the young master.](english-50.html) | But she had the nerve to offer to help the young master. — 뻔뻔하게도 도련님을 돕겠다고 나섰다 | `english-50` | [raw](raw/2026-09-21-english-39.txt) |
+| 1027 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [laid-back](english-51.html) | laid-back — 느긋한, 태평스러운 | `english-51` | [raw](raw/2026-09-21-english-39.txt) |
+| 1028 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Wow! You must have been really living it up, I bet.](english-52.html) | Wow! You must have been really living it up, I bet. — 와, 그때 제대로 즐기며 살았겠네 | `english-52` | [raw](raw/2026-09-21-english-39.txt) |
+| 1029 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [flashy](english-53.html) | flashy — 화려한, 번쩍거리는, 과시적인 | `english-53` | [raw](raw/2026-09-21-english-39.txt) |
+| 1030 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [You must think so little of me, Kazuko.](english-54.html) | You must think so little of me, Kazuko. — 넌 나를 정말 형편없게 보나 보구나 | `english-54` | [raw](raw/2026-09-21-english-39.txt) |
+| 1031 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [pettifogging](english-55.html) | pettifogging — 좀스러운, 사소한 것에 트집 잡는 | `english-55` | [raw](raw/2026-09-21-english-39.txt) |
+| 1032 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [And inside that stagnation, knee-deep in its clutches, was me.](english-56.html) | And inside that stagnation, knee-deep in its clutches, was me. — 그 정체의 늪에 깊이 붙잡혀 있던 건 바로 나였다 | `english-56` | [raw](raw/2026-09-21-english-39.txt) |
+| 1033 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [empath](english-57.html) | empath — 공감 능력이 매우 뛰어난 사람 | `english-57` | [raw](raw/2026-09-21-english-39.txt) |
+| 1034 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Just calm down. My hand barely grazed you. Don't make a fuss.](english-58.html) | Just calm down. My hand barely grazed you. Don't make a fuss. — 진정해, 살짝 스쳤을 뿐이야, 소란 피우지 마 | `english-58` | [raw](raw/2026-09-21-english-39.txt) |
+| 1035 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [gall bladder](english-59.html) | gall bladder — 쓸개, 담낭 | `english-59` | [raw](raw/2026-09-21-english-39.txt) |
+| 1036 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Judging by last time, he doesn't seem to get along with Takiguchi's lot.](english-60.html) | Judging by last time, he doesn't seem to get along with Takiguchi's lot. — 지난번을 보면 타키구치 패거리와 사이가 안 좋은 것 같아 | `english-60` | [raw](raw/2026-09-21-english-39.txt) |
+| 1037 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [servitude](english-61.html) | servitude — 노예 상태, 예속 | `english-61` | [raw](raw/2026-09-21-english-39.txt) |
+| 1038 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Just 'cause you're a novelist doesn't mean you're free.](english-62.html) | Just 'cause you're a novelist doesn't mean you're free. — 소설가라고 해서 자유로운 건 아니야 | `english-62` | [raw](raw/2026-09-21-english-39.txt) |
+| 1039 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [knock-on](english-63.html) | knock-on — 연쇄적인, 파급 효과를 일으키는 | `english-63` | [raw](raw/2026-09-21-english-39.txt) |
+| 1040 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [I'll do my best to protect everything so that it doesn't get taken away from me.](english-64.html) | I'll do my best to protect everything so that it doesn't get taken away from me. — 빼앗기지 않도록 최선을 다해 지킬 거예요 | `english-64` | [raw](raw/2026-09-21-english-39.txt) |
+| 1041 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [chicken out (of something)](english-65.html) | chicken out (of something) — 겁먹고 그만두다, 꽁무니를 빼다 | `english-65` | [raw](raw/2026-09-21-english-39.txt) |
+| 1042 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [If you could get outta here, would you do it?](english-66.html) | If you could get outta here, would you do it? — 여기서 벗어날 수 있다면 그렇게 하겠어? (가정법 과거) | `english-66` | [raw](raw/2026-09-21-english-39.txt) |
+| 1043 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [disband](english-67.html) | disband — (집단을) 해산하다, 해산되다 | `english-67` | [raw](raw/2026-09-21-english-39.txt) |
+| 1044 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Tomorrow, can I use the fizzy bath bear?](english-68.html) | Tomorrow, can I use the fizzy bath bear? — 내일 그 거품 나는 곰돌이 입욕제 써도 돼? | `english-68` | [raw](raw/2026-09-21-english-39.txt) |
+| 1045 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [made of money](english-69.html) | made of money — 돈이 무한한 (You think I'm made of money? 내가 돈 찍어 내는 기계야?) | `english-69` | [raw](raw/2026-09-21-english-39.txt) |
+| 1046 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Nishioka-san, you're such a smooth talker. Goodness!](english-70.html) | Nishioka-san, you're such a smooth talker. Goodness! — 니시오카 씨, 정말 말씀 능글맞게 잘하시네요. 어머나! | `english-70` | [raw](raw/2026-09-21-english-39.txt) |
+| 1047 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [unobservant](english-71.html) | unobservant — 부주의한, 눈치가 없는; (규칙을) 지키지 않는 | `english-71` | [raw](raw/2026-09-21-english-39.txt) |
+| 1048 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [My boss thinks highly of her.](english-72.html) | My boss thinks highly of her. — 우리 상사는 그녀를 높이 평가한다 | `english-72` | [raw](raw/2026-09-21-english-39.txt) |
+| 1049 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [narcotic](english-73.html) | narcotic — 마약; 마약성 진통제·수면제; 마약성의 | `english-73` | [raw](raw/2026-09-21-english-39.txt) |
+| 1050 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [You know, I had a fortune teller do a reading for you today.](english-74.html) | You know, I had a fortune teller do a reading for you today. — 있잖아, 오늘 점쟁이한테 네 점을 봐달라고 했어 | `english-74` | [raw](raw/2026-09-21-english-39.txt) |
+| 1051 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [simulacrum](english-75.html) | simulacrum — 복제품, 모조품; 실체 없는 겉모습 | `english-75` | [raw](raw/2026-09-21-english-39.txt) |
+| 1052 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [The silence at Mita's almost didn't feel real compared to how deafening the city was.](english-76.html) | The silence at Mita's almost didn't feel real compared to how deafening the city was. — 도시가 워낙 시끄러워서 미타의 집의 고요가 비현실적으로 느껴졌다 | `english-76` | [raw](raw/2026-09-21-english-39.txt) |
+| 1053 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [contingent](english-77.html) | contingent — (~의) 여부에 따라 결정되는; 대표단, 파견대 | `english-77` | [raw](raw/2026-09-21-english-39.txt) |
+| 1054 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [So I racked my brain trying to figure out what kind of business to start.](english-78.html) | So I racked my brain trying to figure out what kind of business to start. — 어떤 사업을 시작할지 알아내려고 머리를 쥐어짰다 | `english-78` | [raw](raw/2026-09-21-english-39.txt) |
+| 1055 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
+| 1056 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
+| 1057 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |
+| 1058 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Make it easy for them to say no](english-5.html) | 상대가 거절하기 쉽게 만들어라 | `english-5` |  |
+| 1059 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [Blocks are not seconds](english-6.html) | 블록은 초가 아니다 | `english-6` |  |
+| 1060 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Why not just use 31337?](english-7.html) | 왜 그냥 31337을 쓰지 않나? | `english-7` |  |
+| 1061 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | ["No answer" is not "broken"](english-8.html) | "무응답"은 "고장"이 아니다 | `english-8` |  |
+| 1062 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [7702 or 4337 for the wallet](english-9.html) | 지갑에 7702냐 4337이냐 | `english-9` |  |
+| 1063 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [There is no market price for JYVE](english-10.html) | JYVE에는 시장 가격이 없다 | `english-10` |  |
+| 1064 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [The key leaked. What else does it open?](english-11.html) | 키가 유출됐다. 그 키가 또 무엇을 여나? | `english-11` |  |
+| 1065 | Eng · Planning | PLANNED | 2026-09-16 |  | Planning |  |  | [What's the number?](english-12.html) | 숫자가 뭔가? | `english-12` |  |
+| 1066 | Eng · Review | PLANNED | 2026-09-16 |  | Review |  |  | [The Dockerfile copies the whole repo](english-13.html) | Dockerfile이 레포 전체를 복사한다 | `english-13` |  |
+| 1067 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [It looks like a stablecoin. It isn't one.](english-14.html) | 스테이블코인처럼 보인다. 아니다. | `english-14` |  |
+| 1068 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [The address was right yesterday](english-15.html) | 그 주소는 어제는 맞았다 | `english-15` |  |
+| 1069 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [The popup won't show on our chain](english-16.html) | 우리 체인에서는 팝업이 뜨지 않는다 | `english-16` |  |
+| 1070 | Eng · BD | PLANNED | 2026-09-16 |  | BD |  |  | [Fast settlement is not fast payment](english-17.html) | 빠른 정산은 빠른 결제가 아니다 | `english-17` |  |
+| 1071 | Eng · 1:1 | PLANNED | 2026-09-16 |  | 1:1 |  |  | [The PR is wrong and the person is fine](english-18.html) | PR은 틀렸고 사람은 괜찮다 | `english-18` |  |
+| 1072 | Eng · Ops | PLANNED | 2026-09-16 |  | Ops |  |  | [Who can reach that port?](english-19.html) | 그 포트에 누가 닿을 수 있나? | `english-19` |  |
+| 1073 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [One fact, one home](english-20.html) | 사실 하나, 집 하나 | `english-20` |  |
+| 1074 | Eng · Stakeholders | PLANNED | 2026-09-18 |  | Stakeholders |  |  | [Saying no to a date, with a counteroffer](english-26.html) | 날짜에 아니오라고 말하기, 대안과 함께 | `english-26` |  |
+| 1075 | Eng · Feedback | PLANNED | 2026-09-18 |  | Feedback |  |  | [Telling a senior peer their design is wrong, in writing](english-28.html) | 시니어 동료의 설계가 틀렸다고 글로 말하기 | `english-28` |  |
+| 1076 | Eng · Incident | PLANNED | 2026-09-18 |  | Incident |  |  | [Telling the CTO the dependency was ours to check](english-29.html) | 그 의존성은 우리가 확인할 몫이었다고 CTO에게 말하기 | `english-29` |  |
+| 1077 | Eng · One-on-one | PLANNED | 2026-09-18 |  | One-on-one |  |  | [Your report wants to leave for a competitor](english-31.html) | 팀원이 경쟁사로 가려 한다 | `english-31` |  |
+| 1078 | Eng · Design | PLANNED | 2026-09-18 |  | Design |  |  | [Which price are we settling on?](english-34.html) | 우리는 어느 가격으로 정산하나? | `english-34` |  |

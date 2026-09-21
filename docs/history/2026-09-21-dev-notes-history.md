@@ -179,12 +179,12 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** Eng group before `no-results`, Eng article before `<p class="src">`, Eng pill after the Life pill, nav/jump index +1; NEXT: Invest → Life → Eng; README section-order heading rewritten, old text kept below it as history.
 - **Result:** rail, pills, articles, `_nav.js` sections and jump all Tech · Theory · Invest · Life · Eng; numbers ascend 1 · 500 · 800 · 900 · 1000.
 
-### Eng #39 (1014): the NAVER word book as one Drama conversation
+### Eng #39–#78: the NAVER word book as forty items, one per word and one per sentence
 
-- **Cause:** jay pasted a NAVER 영어단어장 export (미암기, 최신순, page 1 of 4: 20 cards, saved 2026-03-24 → 09-21) with "add this eng items". Each card carries a dictionary headword and a memo that analyses one drama-subtitle line (run yourself ragged, have the nerve to, live it up, think little of, Just because A doesn't mean B, judging by / someone's lot, rack your brain, smooth talker, knee-deep in its clutches, get taken away, second conditional, have someone do, deafening, fizzy, …); two memos are duplicated in the export.
-- **Reasoning:** the Eng format is a conversation, not a list, so the twenty cards became one item: a lunch retelling of the drama (postwar Ginza, Kazuko) in which Jay uses the saved lines verbatim, three techniques (say the saved sentence whole; answer in the shape the other person used; compress a plot to three turning points), and an expressions table that carries every headword and idiom from the paste with Korean glosses. Second Eng item today — jay asked for it; the one-per-day rule is a default, not a cap. `status: new` so it shows under Eng · New. The export is the raw file.
-- **Change:** `docs/topics/english/english-39.md` (Drama, added 2026-09-21, source + raw), `raw/2026-09-21-english-39.txt`; `english-notes.py` rebuilt 39 pages.
-- **Result:** Eng 1000 Yesterday done, 1001–1012 Important, **1013–1014 New** (#38 travel, #39 word book), 1015–1038 Planned; overall 71/562. Follow-up (jay: "I think the total number of these items should be forty" … "each of the 20 cards has a word and an unrelated sentence in the memo"): the table was 54 rows because memos had been split into sub-expressions and duplicates merged; rebuilt as exactly 40 rows — one word row and one sentence row per card, in card order, each tagged (카드 N, 단어/문장); the two duplicate-memo cards carry the second expression their memo gives (work yourself to the bone; think highly of).
+- **Cause:** jay pasted a NAVER 영어단어장 export (20 cards, 미암기, 최신순, saved 2026-03-24 → 09-21) with "add this eng items". First reading: one Drama conversation with the words as table rows (54, then 40 rows). jay: "20장의 카드가 단어와 메모에 무관한 문장 항목이 있어 … 이제부터 두개를 분리해서 생각해 … Eng 카테고리에 40개를 추가하라는 얘기였음." — each card is two unrelated items, the headword and the memo's drama sentence, and each becomes its own Eng item.
+- **Reasoning:** forty short conversations, not one long one: tag `Word` for the headword, `Line` for the sentence, numbered in card order (card k → 39+2(k−1), 40+2(k−1)), each with a 4–6 line dialogue where the expression is in Jay's own mouth, 1–2 techniques, 2–4 expression rows, `source:` naming the card, and one shared `raw:` (the export). The two cards whose memo repeats an earlier sentence carry the memo's own second expression (work yourself to the bone; think highly of). Drafted by four subagents from a spec (`ENG-WORDBOOK-SPEC.md`) and the hand-written template #39 (if anything); every file passed a structural check (header fields, paired `> ` Korean lines, table header, 2–5 rows) before the build. The single-conversation #39 was replaced, not kept.
+- **Change:** `docs/topics/english/english-39.md` … `english-78.md` (40 files), `raw/2026-09-21-english-39.txt` (the export, shared), `docs/topics/english/README.md` § "NAVER 단어장 카드는 항목 두 개다" rewritten to say two *items* per card; `english-notes.py` rebuilt 78 pages.
+- **Result:** Eng 78 items — 1001 Yesterday done, 1002–1013 Important, **1014–1054 New** (41: #38 travel + the forty), 1055–1078 Planned; overall 71/601. Situations vary (interviews, code review, bars, a clinic, Tokyo, London, Lisbon); the drama is retold in three of the forty.
 
 ### Every section counts from its hundred + 1: 501 · 801 · 901 · 1001 · 1401
 
@@ -193,10 +193,10 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `BASE` → Theory 501, Invest 801, Life 901, Eng 1001, Health 1401; `health-cards.py` comment and emitted JS; README numbering line (with the day's earlier moves as history); `reorder-by-status.py`, `english-notes.py`, `health-cards.py`, `roll-done-states.py` re-run.
 - **Result:** Tech 1–279, Theory 501–689, Invest 801–821, Life 901–934, Eng 1001–1039, Health 1401–1406; no 500 / 800 / 900 / 1000 / 1400 left on `notes.html`. Life now has 99 numbers before Eng.
 
-### Rule: a NAVER word-book card is two items
+### Rule: a NAVER word-book card is two Eng items
 
-- **Cause:** jay: "그래서 40개라는 의미", "이제부터 두개를 분리해서 생각해."
-- **Change:** rule written into `docs/topics/english/README.md` (word row + sentence row per card, card order, `(카드 N, 단어/문장)`, duplicate memos take the memo's own second expression) and into memory; Eng #39 is the example.
+- **Cause:** jay: "그래서 40개라는 의미", "이제부터 두개를 분리해서 생각해", then "Eng 카테고리에 40개를 추가하라는 얘기였음."
+- **Change:** rule written into `docs/topics/english/README.md` (a `Word` item and a `Line` item per card, card order, one shared raw export, duplicate memos take the memo's own second expression) and into memory; Eng #39–#78 are the example.
 
 ### Closing three
 
