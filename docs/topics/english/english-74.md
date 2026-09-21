@@ -6,8 +6,8 @@ why: **Have someone do something** is the causative for asking or arranging: you
 why_ko: **Have someone do something**은 부탁하거나 의뢰하는 사역 표현이다. 강제가 아니라 요청이나 대가로 다른 사람에게 일을 하게 한다("I had a doctor look at my knee"). 사람 뒤의 동사는 원형이고 "to do"가 아니다. 점술 문맥의 **a reading**은 점을 봐주는 그 세션 자체라서 "do a reading for you"는 너에 관해 점을 보다라는 뜻이다. 이 패턴은 업무 영어에서도 매일 쓴다. "I had a colleague review the PR", "I'll have the agent send it over".
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 18 of 20 (sentence), pasted 2026-09-21: Original "You know, I had a fortune teller do a reading for you today." / Korean "있잖아, 오늘 내가 점쟁이한테 네 점을 한번 봐달라고 했어." / Recommended "You know, I had a fortune teller give you a reading today.". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 18번(문장), 2026-09-21 붙여넣음: Original "You know, I had a fortune teller do a reading for you today." / 한국어 "있잖아, 오늘 내가 점쟁이한테 네 점을 한번 봐달라고 했어." / Recommended "You know, I had a fortune teller give you a reading today.". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 18 of 20 (sentence), pasted 2026-09-21: Original "You know, I had a fortune teller do a reading for you today." / Korean "있잖아, 오늘 내가 점쟁이한테 네 점을 한번 봐달라고 했어." / Recommended "You know, I had a fortune teller give you a reading today.". The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 4, the sentence; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 18번(문장), 2026-09-21 붙여넣음: Original "You know, I had a fortune teller do a reading for you today." / 한국어 "있잖아, 오늘 내가 점쟁이한테 네 점을 한번 봐달라고 했어." / Recommended "You know, I had a fortune teller give you a reading today.". 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 4, 문장; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

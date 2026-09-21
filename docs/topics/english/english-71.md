@@ -6,8 +6,8 @@ why: **Unobservant** describes someone who does not notice what is in front of t
 why_ko: **Unobservant**는 눈앞의 것, 즉 기분이나 세부 사항이나 방 안의 변화를 알아차리지 못하는 사람을 묘사한다. 지능이 아니라 주의력의 문제라서 자기 비판("I'm unobservant when I'm heads-down")으로도, 남에 대한 가벼운 지적으로도 부드럽게 쓰인다. 사전의 두 번째 뜻인 규칙이나 관례를 지키지 않는다는 의미는 회화에서 드물고 보통 "unobservant of" 형태로 나온다. 아무도 보지 못했다는 뜻의 "unobserved"와 혼동하지 말 것.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 17 of 20 (word), pasted 2026-09-21: 동아출판 프라임 영한사전 "un·ob·serv·ant — 형용사 부주의한; <규칙·관례를> 지키지 않는 ((of))". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 17번(단어), 2026-09-21 붙여넣음: 동아출판 프라임 영한사전 "un·ob·serv·ant — 형용사 부주의한; <규칙·관례를> 지키지 않는 ((of))". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 17 of 20 (word), pasted 2026-09-21: 동아출판 프라임 영한사전 "un·ob·serv·ant — 형용사 부주의한; <규칙·관례를> 지키지 않는 ((of))". The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 3, the word; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 17번(단어), 2026-09-21 붙여넣음: 동아출판 프라임 영한사전 "un·ob·serv·ant — 형용사 부주의한; <규칙·관례를> 지키지 않는 ((of))". 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 3, 단어; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

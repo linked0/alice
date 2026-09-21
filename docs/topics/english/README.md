@@ -6,7 +6,7 @@ the section on `docs/notes.html`, the nav data in `docs/topics/_nav.js`, and one
 
 ## Rules (jay, 2026-09-16)
 
-- **Grows to 100.** Numbering is chronological and append-only: the newest conversation is `N+1`.
+- **Grows without a cap** (was "grows to 100" until 2026-09-21, when the word book took Eng past 180). Numbering is chronological and append-only: the newest conversation is `N+1`.
   No reordering by status, unlike the Blockchain section.
 - **One per day (jay, 2026-09-18; was one per tech item until then).** The first item added on a KST day
   brings one conversation with it; further items that day do not. It does not have to relate to the
@@ -64,4 +64,9 @@ Tags so far: Review, Design, Incident, EIP, BD, Ops, Planning, 1:1. Add new ones
   … Eng 카테고리에 40개를 추가하라는 얘기였음." 한 항목에 표로 모으는 것이 아니다. 각 항목은 짧은 대화(4~6줄), 기법
   1~2개, 표현 2~4줄이고 `source:`에 카드 번호와 단어/문장을 적으며 `raw:`는 내보낸 전문 하나를 함께 가리킨다. 메모가 앞
   카드의 문장을 반복하면 그 메모가 든 둘째 표현을 쓴다. 본보기: Eng #39~#78 (2026-09-21).
+- **합치기 (jay, 2026-09-21: "if there are already the same item you can ignore or merge it to the original one").** 둘째 내보내기(#79~#182)에서 정한 규칙:
+  - 카드의 단어나 메모가 이미 항목으로 있으면 새 항목을 만들지 않고, 원래 항목의 `source:`에 "둘째 내보내기에도 반복됨"을 한 줄 덧붙인다 (#41, #54, #67~#71, #73, #74, #77, #78).
+  - 사전만 다른 같은 표제어(manslaughter / voluntary manslaughter, mess with ×3, condescend to ×2, snuff / snuff out)는 Word 항목 하나로 합치고 `source:`에 카드를 모두 적는다.
+  - 한 카드의 단어가 다른 카드의 문장에 그대로 들어 있으면(infatuated) 그 Line 항목으로 합친다.
+  - 메모가 문장이 아니라 용어 한 줄이면(footgun, on-ramp) 그 용어를 `Word` 태그 항목으로 만들고 `source:`에 "memo"라고 적는다; 메모가 앞 카드의 문장을 다시 풀이하면 그 메모의 자기 예문을 쓴다(generic you → "You never know what might happen."); 메모에 영어 문장이 없으면(betaxolol의 KBS 기사 메모) Line 항목은 없고 `source:`에 그렇게 적는다.
 

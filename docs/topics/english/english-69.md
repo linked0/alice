@@ -6,8 +6,8 @@ why: **Be made of money** is used almost only in the negative or as a rhetorical
 why_ko: **Be made of money**는 거의 부정문이나 수사의문으로만 쓴다. "You think I'm made of money?", "We're not made of money." 쓸 돈이 무한하다는 뜻이고, 어조는 부모가 아이에게 하는 짐짓 불평이라 동료 사이엔 괜찮지만 고객에게는 너무 가볍다. 예산 회의에서는 농담이면서도 거절이 되는 말이다. 함정은 이것이 부유함의 묘사가 아니라는 점이다. "he is made of money"를 진지하게 말하는 사람은 없다. 중립적으로 말하려면 "we don't have the budget for that"이다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 16 of 20 (word), pasted 2026-09-21: NE능률 "You think I'm made of money? — 내가 돈 찍어 내는 기계야?" The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 16번(단어), 2026-09-21 붙여넣음: NE능률 "You think I'm made of money? — 내가 돈 찍어 내는 기계야?" 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 16 of 20 (word), pasted 2026-09-21: NE능률 "You think I'm made of money? — 내가 돈 찍어 내는 기계야?" The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 2, the word; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 16번(단어), 2026-09-21 붙여넣음: NE능률 "You think I'm made of money? — 내가 돈 찍어 내는 기계야?" 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 2, 단어; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

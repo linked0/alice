@@ -6,8 +6,8 @@ why: **A smooth talker** is someone whose talk is so fluent and charming that pe
 why_ko: **A smooth talker**는 말이 워낙 매끄럽고 매력적이어서 아첨이든 설득이든 플러팅이든 상대에게서 원하는 것을 얻어내는 사람이다. 윙크가 섞인 칭찬이다. 친구에게 하면 "무슨 말을 해야 하는지 정확히 아는구나"이고, 낯선 사람에 대해 쓰면("Don't trust him, he's a smooth talker") "사람을 구슬리는 자"라는 뜻이 된다. 내용이 좋은 good speaker나 clear presenter와는 다르다. **Goodness!**는 단독으로 쓰이는 가볍고 약간 예스러운 놀람의 감탄사로, "Oh my God"보다 부드럽다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 16 of 20 (sentence), pasted 2026-09-21: Original "Nishioka-san, you're such a smooth talker. Goodness!" / Korean "니시오카 씨, 정말 말씀을 어쩜 그렇게 능글맞게 잘하세요. 어머나!" / Recommended "Nishioka-san, you certainly know how to charm a woman!". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 16번(문장), 2026-09-21 붙여넣음: Original "Nishioka-san, you're such a smooth talker. Goodness!" / 한국어 "니시오카 씨, 정말 말씀을 어쩜 그렇게 능글맞게 잘하세요. 어머나!" / Recommended "Nishioka-san, you certainly know how to charm a woman!". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 16 of 20 (sentence), pasted 2026-09-21: Original "Nishioka-san, you're such a smooth talker. Goodness!" / Korean "니시오카 씨, 정말 말씀을 어쩜 그렇게 능글맞게 잘하세요. 어머나!" / Recommended "Nishioka-san, you certainly know how to charm a woman!". The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 2, the sentence; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 16번(문장), 2026-09-21 붙여넣음: Original "Nishioka-san, you're such a smooth talker. Goodness!" / 한국어 "니시오카 씨, 정말 말씀을 어쩜 그렇게 능글맞게 잘하세요. 어머나!" / Recommended "Nishioka-san, you certainly know how to charm a woman!". 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 2, 문장; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

@@ -6,8 +6,8 @@ why: **Rack your brain** means to think as hard as you can, with an image of str
 why_ko: **Rack your brain**은 있는 힘껏 골똘히 생각하다이고, 뒤에는 압박이나 고문의 이미지가 있다. "wrack"도 통용되는 표기다. 노력을 보고하는 말이라서 그 노력의 목적과 자연스럽게 짝을 이룬다. **Trying to figure out**(답을 알아내려고)에 **의문사 + to부정사**, 즉 "what kind of business to start", "where to go", "how to use it"이 붙는다. 합치면 얼마나 고민했는지와 무엇을 정하려 했는지를 한 문장에 담는다. 성공했다는 뜻은 아니다. "I racked my brain"은 종종 "and still came up with nothing"으로 이어진다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 20 of 20 (sentence), pasted 2026-09-21: Original "So I racked my brain trying to figure out what kind of business to start." / Korean "그래서 어떤 사업을 시작해야 할지 알아내려고 머리를 쥐어짜며 고민했어." / Recommended "So I racked my brain trying to decide what kind of business I should start.". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 20번(문장), 2026-09-21 붙여넣음: Original "So I racked my brain trying to figure out what kind of business to start." / 한국어 "그래서 어떤 사업을 시작해야 할지 알아내려고 머리를 쥐어짜며 고민했어." / Recommended "So I racked my brain trying to decide what kind of business I should start.". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 20 of 20 (sentence), pasted 2026-09-21: Original "So I racked my brain trying to figure out what kind of business to start." / Korean "그래서 어떤 사업을 시작해야 할지 알아내려고 머리를 쥐어짜며 고민했어." / Recommended "So I racked my brain trying to decide what kind of business I should start.". The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 5, the sentence; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 20번(문장), 2026-09-21 붙여넣음: Original "So I racked my brain trying to figure out what kind of business to start." / 한국어 "그래서 어떤 사업을 시작해야 할지 알아내려고 머리를 쥐어짜며 고민했어." / Recommended "So I racked my brain trying to decide what kind of business I should start.". 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 5, 문장; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

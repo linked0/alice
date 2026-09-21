@@ -6,8 +6,8 @@ why: **Think little of someone** means to have a low opinion of them; the mirror
 why_ko: **Think little of someone**은 누군가를 낮게 평가한다는 뜻이고, 거울상은 **think highly of someone**이며 "so little"은 강도를 올려 "그렇게까지 낮게"가 된다. must는 의무가 아니라 추론이다. "you must think so little of me"는 "네가 그런 행동을 한 유일한 설명은 나를 아주 낮게 본다는 것"이라는 뜻이고, "You must be tired"의 must와 같다. 누구에게 의견을 가지라고 명령하는 게 아니다. 상처받은 말이므로 직장에서는 한 번, 가볍게만 쓴다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 8 of 20 (sentence), pasted 2026-09-21: Original "You must think so little of me, Kazuko." / Korean "카즈코, 넌 나를 정말 형편없는 사람으로 생각하나 보구나." The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 8번(문장), 2026-09-21 붙여넣음: Original "You must think so little of me, Kazuko." / 한국어 "카즈코, 넌 나를 정말 형편없는 사람으로 생각하나 보구나." 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 8 of 20 (sentence), pasted 2026-09-21: Original "You must think so little of me, Kazuko." / Korean "카즈코, 넌 나를 정말 형편없는 사람으로 생각하나 보구나." The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 3, the memo (think little of); raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 8번(문장), 2026-09-21 붙여넣음: Original "You must think so little of me, Kazuko." / 한국어 "카즈코, 넌 나를 정말 형편없는 사람으로 생각하나 보구나." 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 3, 메모(think little of); raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

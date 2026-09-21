@@ -6,8 +6,8 @@ why: **Fizzy** means producing lots of small bubbles: a fizzy drink, a fizzy tab
 why_ko: **Fizzy**는 작은 거품이 많이 이는 상태를 말한다. fizzy drink, fizzy tablet, fizzy bath bomb. 영국의 일상어이고, 미국에서는 음료에 sparkling이나 carbonated를 더 쓴다. 이 대사는 시간 부사를 앞에 둔 가장 평범한 허락 요청 "Tomorrow, can I use X?"와, 마지막 명사가 대상이고 앞 단어들이 그것을 꾸미는 복합명사 "fizzy bath bear"도 보여 준다. 함정은 fizzy가 거품, 넓게는 들뜬 분위기까지만 쓰인다는 점이다. 활발한 사람은 fizzy가 아니라 bubbly다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 15 of 20 (sentence), pasted 2026-09-21: Original "Tomorrow, can I use the fizzy bath bear?" / Korean Translation "내일은 그 거품 나는 곰돌이 입욕제 써도 돼?" / Recommended "Can I use the fizzy bear bath bomb tomorrow?" The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 15번(문장), 2026-09-21 붙여넣음: Original "Tomorrow, can I use the fizzy bath bear?" / 한국어 번역 "내일은 그 거품 나는 곰돌이 입욕제 써도 돼?" / Recommended "Can I use the fizzy bear bath bomb tomorrow?" 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 15 of 20 (sentence), pasted 2026-09-21: Original "Tomorrow, can I use the fizzy bath bear?" / Korean Translation "내일은 그 거품 나는 곰돌이 입욕제 써도 돼?" / Recommended "Can I use the fizzy bear bath bomb tomorrow?" The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 1, the sentence; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 15번(문장), 2026-09-21 붙여넣음: Original "Tomorrow, can I use the fizzy bath bear?" / 한국어 번역 "내일은 그 거품 나는 곰돌이 입욕제 써도 돼?" / Recommended "Can I use the fizzy bear bath bomb tomorrow?" 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 1, 문장; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

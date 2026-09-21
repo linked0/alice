@@ -6,8 +6,8 @@ why: As an adjective, **contingent on** (or upon) means dependent on something t
 why_ko: 형용사 **contingent on**(또는 upon)은 아직 일어나지 않은 무언가에 달려 있다는 뜻이다. "The offer is contingent on the background check." 오퍼, 계약, 계획에서 "depends on"이 느슨하게 들릴 때 쓰는 격식 있고 정확한 단어다. 명사 contingent는 더 큰 집단에서 보낸 무리로, "the Korean contingent at the conference"나 군의 파견대를 뜻한다. 두 뜻은 조건에 매달린 일부라는 생각을 공유한다. "continent"가 아니고, 가능한 사건 자체를 뜻하는 "contingency"(contingency plan의 그것)와도 다르다.
 status: new
 added: 2026-09-21
-source: jay's NAVER 영어단어장, card 20 of 20 (word), pasted 2026-09-21: 옥스퍼드 영한사전 "con·tin·gent — 1. 명사 (어떤 행사에 참석한, 특히 출신지가 동일한) 대표단 2. 분견대, 파견대 3. 형용사 (~의) 여부에 따라". The situation and dialogue are new.
-source_ko: jay의 NAVER 영어단어장, 카드 20장 중 20번(단어), 2026-09-21 붙여넣음: 옥스퍼드 영한사전 "con·tin·gent — 1. 명사 (어떤 행사에 참석한, 특히 출신지가 동일한) 대표단 2. 분견대, 파견대 3. 형용사 (~의) 여부에 따라". 상황과 대화는 새로 썼다.
+source: jay's NAVER 영어단어장, card 20 of 20 (word), pasted 2026-09-21: 옥스퍼드 영한사전 "con·tin·gent — 1. 명사 (어떤 행사에 참석한, 특히 출신지가 동일한) 대표단 2. 분견대, 파견대 3. 형용사 (~의) 여부에 따라". The situation and dialogue are new. Repeated in the second export of the same day (page 2 card 5, the word; raw 2026-09-21-english-79.txt) — merged here, no second item.
+source_ko: jay의 NAVER 영어단어장, 카드 20장 중 20번(단어), 2026-09-21 붙여넣음: 옥스퍼드 영한사전 "con·tin·gent — 1. 명사 (어떤 행사에 참석한, 특히 출신지가 동일한) 대표단 2. 분견대, 파견대 3. 형용사 (~의) 여부에 따라". 상황과 대화는 새로 썼다. 같은 날의 둘째 내보내기(page 2 card 5, 단어; raw 2026-09-21-english-79.txt)에도 반복됨 — 여기로 합치고 둘째 항목은 만들지 않았다.
 raw: 2026-09-21-english-39.txt
 
 ## Dialogue

@@ -41,7 +41,7 @@ the section on <code>docs/notes.html</code>, the nav data in <code>docs/topics/_
 <code>docs/topics/english-N.html</code>. Run the script after adding or editing a file; it is idempotent.</p>
 <h2 id="rules-jay-2026-09-16">Rules (jay, 2026-09-16)</h2>
 <ul>
-<li><strong>Grows to 100.</strong> Numbering is chronological and append-only: the newest conversation is <code>N+1</code>.
+<li><strong>Grows without a cap</strong> (was &quot;grows to 100&quot; until 2026-09-21, when the word book took Eng past 180). Numbering is chronological and append-only: the newest conversation is <code>N+1</code>.
 No reordering by status, unlike the Blockchain section.</li>
 <li><strong>One per day (jay, 2026-09-18; was one per tech item until then).</strong> The first item added on a KST day
 brings one conversation with it; further items that day do not. It does not have to relate to the
@@ -95,6 +95,13 @@ Speaker: English line
 … Eng 카테고리에 40개를 추가하라는 얘기였음.&quot; 한 항목에 표로 모으는 것이 아니다. 각 항목은 짧은 대화(4<del>6줄), 기법
 1</del>2개, 표현 2<del>4줄이고 <code>source:</code>에 카드 번호와 단어/문장을 적으며 <code>raw:</code>는 내보낸 전문 하나를 함께 가리킨다. 메모가 앞
 카드의 문장을 반복하면 그 메모가 든 둘째 표현을 쓴다. 본보기: Eng #39</del>#78 (2026-09-21).</li>
+<li><strong>합치기 (jay, 2026-09-21: &quot;if there are already the same item you can ignore or merge it to the original one&quot;).</strong> 둘째 내보내기(#79~#182)에서 정한 규칙:<ul>
+<li>카드의 단어나 메모가 이미 항목으로 있으면 새 항목을 만들지 않고, 원래 항목의 <code>source:</code>에 &quot;둘째 내보내기에도 반복됨&quot;을 한 줄 덧붙인다 (#41, #54, #67~#71, #73, #74, #77, #78).</li>
+<li>사전만 다른 같은 표제어(manslaughter / voluntary manslaughter, mess with ×3, condescend to ×2, snuff / snuff out)는 Word 항목 하나로 합치고 <code>source:</code>에 카드를 모두 적는다.</li>
+<li>한 카드의 단어가 다른 카드의 문장에 그대로 들어 있으면(infatuated) 그 Line 항목으로 합친다.</li>
+<li>메모가 문장이 아니라 용어 한 줄이면(footgun, on-ramp) 그 용어를 <code>Word</code> 태그 항목으로 만들고 <code>source:</code>에 &quot;memo&quot;라고 적는다; 메모가 앞 카드의 문장을 다시 풀이하면 그 메모의 자기 예문을 쓴다(generic you → &quot;You never know what might happen.&quot;); 메모에 영어 문장이 없으면(betaxolol의 KBS 기사 메모) Line 항목은 없고 <code>source:</code>에 그렇게 적는다.</li>
+</ul>
+</li>
 </ul>
 
   </article>
