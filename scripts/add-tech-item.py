@@ -85,7 +85,11 @@ def md_to_html(md):
                 if not re.match(r'^\|[-| ]+\|$', lines[i]): rows.append([c.strip() for c in lines[i].strip("|").split("|")])
                 i += 1
             i -= 1
-            th = "".join(f"<th>{inline(c)}</th>" for c in rows[0]); tb = "".join("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in r) + "</tr>" for r in rows[1:])
+            # a column headed "#" (step / row number) is as narrow as its widest number, not an equal share of the table (jay, 2026-09-21: "Make the number part smaller … I mean the width")
+            NUM = ' style="width:1%;white-space:nowrap;padding-right:6px;color:var(--text2)"'
+            narrow = [c.strip() == "#" for c in rows[0]]
+            th = "".join(f"<th{NUM if narrow[i] else ''}>{inline(c)}</th>" for i, c in enumerate(rows[0]))
+            tb = "".join("<tr>" + "".join(f"<td{NUM if i < len(narrow) and narrow[i] else ''}>{inline(c)}</td>" for i, c in enumerate(r)) + "</tr>" for r in rows[1:])
             out.append(f"<table><thead><tr>{th}</tr></thead><tbody>{tb}</tbody></table>")
         elif re.match(r'^\d+\. ', l):
             items = []
