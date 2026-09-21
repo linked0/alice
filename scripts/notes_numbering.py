@@ -5,7 +5,7 @@ section. `k` is the 1-based position inside the section; `display` is what the r
 Goals (jay, same day): 1,000 items done is the first turning point and gets a congratulation effect; 2,000 is the
 final goal. _progress.js reads GOALS from here (kept in sync by hand; see docs/topics/README.md).
 """
-BASE = {"nav-sec-blockchain": 1, "nav-sec-fundamentals": 500, "nav-sec-invest": 800, "nav-sec-english": 1000, "nav-sec-mindset": 1300, "health": 1400}
+BASE = {"nav-sec-blockchain": 1, "nav-sec-fundamentals": 500, "nav-sec-invest": 800, "nav-sec-english": 1000, "nav-sec-mindset": 900, "health": 1400}   # Life moved from 1300 to 900 (jay, 2026-09-21: "make the start the Life from 900"); Health stays at 1400
 GOALS = (1000, 2000)
 
 def display(navid, k): return BASE[navid] + k - 1

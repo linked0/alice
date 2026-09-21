@@ -23,10 +23,10 @@ the added date (KST) shows on the card head and in the page kicker (jay, 2026-09
 Re-running with an existing key replaces that item in place (slot argument ignored).
 """
 import re, json, pathlib, html, argparse, datetime, glob, sys, subprocess
-from notes_numbering import display, position  # section bases: Tech 1, Theory 700, Life 1300 (jay, 2026-09-18)
+from notes_numbering import display, position  # section bases: Tech 1, Theory 500, Invest 800, Life 900, Eng 1000 (jay, 2026-09-18; Life 900 since 2026-09-21)
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 700, Life 1300)")
+ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 500, Invest 800, Life 900)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
 ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")

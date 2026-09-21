@@ -165,6 +165,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `add-tech-item.py --section mindset --slot 34 --status new --type Talk --source chat --bin deep --raw <paste>` → Life 1333 `piech-ai-multiplier-foundations-ten-minute-human`: the experiment, syntax vs decomposition, code as falsifiable feedback (tied to the galaxy-brain test), automation slower than the headline (trucks), the calculator rule; landings — the weekly deep hour gets a human conversation, agents write syntax while jay owns the boundaries, the Auditor as falsifiable feedback, one Eng interview sentence. 18 vocab rows.
 - **Result:** Life 0/34, overall 71/561; New with Life selected shows it at the end of the run.
 
+### Life numbers start at 900
+
+- **Cause:** jay: "make the start the Life from 900." Life ran 1300–1333 after Eng 1000–1037.
+- **Reasoning:** one constant — `BASE["nav-sec-mindset"]` in `notes_numbering.py` — and every number on the site derives from it, so the move is a re-run of `reorder-by-status.py` (kickers, pagers, rail, cards, index). Health keeps 1400. The rail order stays Tech · Theory · Invest · Eng · Life (jay, 09-18: "Eng before Life"), so numbers now read 1, 500, 800, 1000, 900 top to bottom — flagged, not changed. Life has 100 numbers before it meets Eng at 1000 (34 used).
+- **Change:** base 1300 → 900; docstrings and the README numbering line updated with the cap.
+- **Result:** Life 900–908 Important, 909–933 New; Health 1400…; no 13xx left on `notes.html`; index rows say Life 900….
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.
