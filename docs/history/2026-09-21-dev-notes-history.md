@@ -240,6 +240,13 @@ Source docs: `docs/topics/README.md` (item rules), `docs/topics/gemini-checked.m
 - **Change:** `docs/topics/pocs-ai-auditor-seed-bugs-before-trusting-findings.html` and its card at Tech #72 (type PoC, bin `deep`, source `chat`), with a claims-versus-evidence table separating what the demo shows from what the post states, a five-step benchmark table, the precision formula, the Jayverse landing block, and 16 key expressions. The post body is not copied into the repo; the URL was captured, so the source can be reopened.
 - **Result:** Tech 281 items, 64 done; site total 923. The keeper line: "high-confidence" is the tool's label for its own output, not a measurement against ground truth.
 
+### Landing page: an Eng card second, Feature Designs third, Memo fourth
+
+- **Cause:** jay: "Add eng card in the index page in the second place, move the memo fourth and feature design the third", then "The eng card links to the eng section of know notes".
+- **Reasoning:** the Eng section passed 398 items today, so it earns its own entry point rather than living only inside the Knowledge Notes card. The card points at the section anchor `notes.html#sec-english`, not at one item: pinning a single page would go stale the way the Current Plan card did (see the comment kept in `index.html` from 2026-09-03). `roll-done-states.py` re-points only the card whose title is "Knowledge Notes" and whose colour is `#7c3aed`, so a different title and a new colour keep the Eng card out of its way — verified by re-running the script and re-reading the order.
+- **Change:** `docs/index.html` — new Eng card at position 2 (`#0d9488`), Rabbit Feature Designs moved to 3, Memo with its comment block moved to 4.
+- **Result:** the first four cards read Knowledge Notes, Eng, Rabbit Feature Designs, Memo. Anchor tags balance at 52 open and 52 closed; the done-state script leaves the new card untouched.
+
 ### Closing three
 
 - **Learned:** a shared ledger is fast because both parties are liabilities of one bank, so a payment rail is a balance-sheet position before it is software (#64, done today); Today is the KST day the item was marked, whatever its label — a REVISIT stamped today belongs under Today, so the buttons must match by date, not by label; and the staking queue is symmetric — one 256 ETH-per-epoch constant sets both the 43-day entry wait and the exit wait, so "ETH locked away" is also "ETH that cannot be dumped"; and the site's index can be generated entirely from `_nav.js` plus the kickers, so it never needs to be maintained.
