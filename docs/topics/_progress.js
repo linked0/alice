@@ -78,3 +78,20 @@
     } else { prev.parentNode.hidden = true; }
   }
 })();
+
+// Status overlay loader (jay, 2026-09-21). Appended here rather than added to 776 generated pages:
+// every page that shows the rail already loads this file, so this is the one place that reaches all
+// of them. `document.currentScript` is this script while it runs synchronously, which gives the
+// directory to resolve _status.js against — notes.html loads us as topics/_progress.js and a detail
+// page as _progress.js, so a bare relative path would resolve differently on the two.
+// Wrapped and silent by design: if this fails the page stays exactly as it was built.
+(function () {
+  try {
+    var me = document.currentScript && document.currentScript.src;
+    if (!me) return;
+    var s = document.createElement('script');
+    s.src = me.replace(/[^/]*$/, '') + '_status.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  } catch (e) { /* the built page is the fallback */ }
+})();
