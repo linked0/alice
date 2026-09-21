@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-21 11:39 KST",
+"generated": "2026-09-21 11:55 KST",
 "counts": {
 "Tech": 279,
 "Theory": 189,
 "Invest": 21,
-"Eng": 37,
+"Eng": 38,
 "Life": 33
 },
 "done": 70,
-"all": 559,
+"all": 560,
 "items": [
 {
 "no": 1,
@@ -12946,6 +12946,19 @@
 "tag": "Interview",
 "type": "Interview",
 "title_ko": "지연 예산부터, 그다음 안전장치"
+},
+{
+"no": 1037,
+"section": "Eng",
+"key": "english-38",
+"href": "english-38.html",
+"status": "PLANNED",
+"position": 38,
+"title_en": "Connecting, transferring, or just stuck here?",
+"tag": "Travel",
+"type": "Travel",
+"raw": "raw/2026-09-21-english-38.txt",
+"title_ko": "연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가"
 },
 {
 "no": 1300,

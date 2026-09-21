@@ -11,6 +11,8 @@ Source format (docs/topics/english/english-N.md):
   # N · Tag — Title
   title_ko: …            situation: …   situation_ko: …   why: …   why_ko: …
   status: planned | done | recent | important | new | revisit      (default planned; revisit = done, come back later — jay, 2026-09-21)
+  source: …   source_ko: …   raw: <file in docs/topics/raw/>   (optional; a conversation written from an
+              outside text cites it at the end of both articles and links its raw copy — jay, 2026-09-21)
   done: 2026-09-18T15:08+09:00   (ISO +09:00, when status is recent/done; drives the TODAY/YESTERDAY DONE roll)
   ## Dialogue            Speaker: English line   /  > Korean line (directly under it)
   ## Techniques          1. **제목.** 설명 (Korean, quoting the English)
@@ -78,6 +80,15 @@ for idx, it in enumerate(items):
     dlg_ko = "\n".join(f'<p><strong>{E(d["who"])}:</strong> {E(d["ko"])}</p>' for d in it["dialogue"])
     SWITCH = lambda on: f'<nav class="lang-switch" aria-label="Language"><a href="#en"{" class=\"on\"" if on == "en" else ""}>English</a><a href="#ko"{" class=\"on\"" if on == "ko" else ""}>한국어</a></nav>'
     tech = "<ol>" + "".join(f"<li>{inline(t)}</li>" for t in it["techniques"]) + "</ol>"
+    # optional source layer (jay, 2026-09-21: "add the source of the item in detail"). A conversation
+    # written from an outside text cites it in full at the end of both articles, and links the raw copy
+    # under docs/topics/raw/ so the source can be reopened instead of re-remembered (raw/README.md).
+    rawlink = f'raw/{E(it["raw"])}' if it.get("raw") else ""
+    raw_span = f'<span title="raw"><a href="{rawlink}">raw</a></span>' if rawlink else ""
+    def source_block(k, h):
+        if not it.get(k): return ""
+        tail = f' &middot; <a href="{rawlink}">raw</a>' if rawlink else ""
+        return f'<h2>{h}</h2>\n<p class="meta">{inline(it[k])}{tail}</p>\n'
     expr = ('<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody>'
             + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td>{inline(b)}</td></tr>" for a, b in it["expressions"]) + "</tbody></table>")
     prev = items[idx - 1] if idx > 0 else None; nxt = items[idx + 1] if idx + 1 < N else None
@@ -87,7 +98,7 @@ for idx, it in enumerate(items):
     page_tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', tail)
     mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">{LABEL}</a> &rsaquo; {E(it["title"])}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span></p>
+      <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span>{raw_span}</p>
       <h1>{E(it["title"])}</h1>
       <p class="lead">{E(it["situation"])}</p>
       {SWITCH(None)}
@@ -102,7 +113,7 @@ for idx, it in enumerate(items):
 {dlg}
 <h2>Key expressions</h2>
 {expr}
-      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+{source_block("source", "Source")}      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
     <article id="ko" lang="ko">
       {SWITCH("ko")}
@@ -114,7 +125,7 @@ for idx, it in enumerate(items):
 {dlg_ko}
 <h2>협업 기법 세 가지</h2>
 {tech}
-      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+{source_block("source_ko", "출처")}      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
     {pager}
 '''

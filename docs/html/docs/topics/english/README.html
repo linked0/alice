@@ -54,6 +54,12 @@ receiving feedback, disagreeing with a manager, presenting to stakeholders. Crit
 concrete: real stakes, real numbers, the sentence that wins or loses the moment.</li>
 <li><strong>Status</strong> is set in the file header (<code>status: planned | done | recent | important | new</code>);
 default <code>planned</code>. Mark <code>done</code> when jay says so.</li>
+<li><strong>Source, when the conversation came from an outside text (jay, 2026-09-21).</strong> Three optional header
+keys: <code>source:</code> / <code>source_ko:</code> — the full citation (author, title, publication, date; say plainly what
+was taken from it and what was written on top) — and <code>raw:</code> — the filename of an append-only copy of
+the source under <a href="../raw/README.html"><code>../raw/</code></a>. The script renders a <code>raw</code> link in the kicker and a
+Source / 출처 block at the end of both articles. Omit all three when the conversation is written from
+scratch or from the day&#39;s own discussion. Never invent a URL that was not captured.</li>
 </ul>
 <h2 id="file-format">File format</h2>
 <pre><code># N · Tag — Title
@@ -63,6 +69,9 @@ situation_ko: 같은 내용, 한국어
 why: why this conversation is worth learning
 why_ko: 한국어
 status: planned
+source: 저자, &quot;제목&quot;, 매체, 날짜 — 무엇을 가져왔고 무엇을 새로 썼는지 (선택)
+source_ko: 같은 내용, 한국어 (선택)
+raw: YYYY-MM-DD-english-N.txt (선택; docs/topics/raw/ 안의 원본 사본)
 
 ## Dialogue
 Speaker: English line

@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-21 11:39 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-21 11:55 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 279 · Theory 189 · Invest 21 · Eng 37 · Life 33 · done 70/559
+Counts: Tech 279 · Theory 189 · Invest 21 · Eng 38 · Life 33 · done 70/560
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -532,6 +532,7 @@ Counts: Tech 279 · Theory 189 · Invest 21 · Eng 37 · Life 33 · done 70/559
 | 1034 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [The mean is fine. Which percentile hurts?](english-35.html) | 평균은 괜찮아요. 어느 백분위수가 아픈가요? | `english-35` |  |
 | 1035 | Eng · Design review | IMPORTANT |  |  | Design review |  |  | [That argument works for any conclusion](english-36.html) | 그 논증은 어떤 결론에도 통합니다 | `english-36` |  |
 | 1036 | Eng · Interview | IMPORTANT |  |  | Interview |  |  | [Start with the latency budget, then the fail-safe](english-37.html) | 지연 예산부터, 그다음 안전장치 | `english-37` |  |
+| 1037 | Eng · Travel | PLANNED |  |  | Travel |  |  | [Connecting, transferring, or just stuck here?](english-38.html) | 연결편인가, 환승인가, 아니면 그냥 발이 묶인 건가 | `english-38` | [raw](raw/2026-09-21-english-38.txt) |
 | 1300 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it](pocs-tao-helicopter-and-the-waterfall.html) | 헬리콥터는 폭포까지 데려다주지만 아무것도 가르치지 않는다 — 테렌스 타오가 말하는, AI가 사용하는 사람에게서 가져가는 것 | `tao-helicopter-and-the-waterfall` |  |
 | 1301 | Life | NEW | 2026-09-18 |  | Talk | chat |  | [The agent is a good sergeant, not a general — Matt Pocock on why fundamentals matter more with AI, not less](pocs-pocock-sergeant-not-general.html) | 에이전트는 좋은 하사관이지 장군이 아니다 — 맷 포콕이 말하는, AI와 함께라면 기본기가 덜이 아니라 더 중요한 이유 | `pocock-sergeant-not-general` |  |
 | 1302 | Life | NEW | 2026-09-18 |  | Talk | gemini |  | [You did not author your last thought — Harris on free will, and why that is a reason for compassion, not fatalism](pocs-harris-you-did-not-author-your-last-thought.html) | 당신은 마지막 생각의 저자가 아니었다 — 해리스의 자유의지론, 그리고 그것이 숙명론이 아니라 자비의 이유인 까닭 | `harris-you-did-not-author-your-last-thought` | [raw](raw/2026-09-18-gemini-youtube-v2.md) |

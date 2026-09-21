@@ -27,3 +27,4 @@ Rules (jay, 2026-09-21: "make the alice Knowledge Notes system aligned with … 
 | `2026-09-20-galaxy-brain-resistance-principles-with-teeth.txt` | Tech galaxy-brain item (Vitalik, tags stripped, 4,790 words) |
 | `2026-09-21-ethlabs-week13-quick-slots-blobs-aa-migration.txt` | Tech Ethlabs week 13 item (X Article via the public tweet API) |
 | `2026-09-21-alice-tech-report.md` | Tech staking-queue item (`--raw` pointing at a file already in `raw/` links it without copying) |
+| `2026-09-21-english-38.txt` | Eng #38 connecting-vs-transfer (조선일보 윤희영 칼럼 발췌, jay가 채팅에 붙여넣음; URL 미수집) |

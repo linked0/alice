@@ -19,6 +19,12 @@ the section on `docs/notes.html`, the nav data in `docs/topics/_nav.js`, and one
   concrete: real stakes, real numbers, the sentence that wins or loses the moment.
 - **Status** is set in the file header (`status: planned | done | recent | important | new`);
   default `planned`. Mark `done` when jay says so.
+- **Source, when the conversation came from an outside text (jay, 2026-09-21).** Three optional header
+  keys: `source:` / `source_ko:` — the full citation (author, title, publication, date; say plainly what
+  was taken from it and what was written on top) — and `raw:` — the filename of an append-only copy of
+  the source under [`../raw/`](../raw/README.md). The script renders a `raw` link in the kicker and a
+  Source / 출처 block at the end of both articles. Omit all three when the conversation is written from
+  scratch or from the day's own discussion. Never invent a URL that was not captured.
 
 ## File format
 
@@ -30,6 +36,9 @@ situation_ko: 같은 내용, 한국어
 why: why this conversation is worth learning
 why_ko: 한국어
 status: planned
+source: 저자, "제목", 매체, 날짜 — 무엇을 가져왔고 무엇을 새로 썼는지 (선택)
+source_ko: 같은 내용, 한국어 (선택)
+raw: YYYY-MM-DD-english-N.txt (선택; docs/topics/raw/ 안의 원본 사본)
 
 ## Dialogue
 Speaker: English line
