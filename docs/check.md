@@ -1,21 +1,22 @@
-# Check
+# 확인 (Check)
 
-> **Rule: every check carries a number to compare against.** A bill or a dashboard read with nothing
-> beside it is sightseeing, not a check. Each entry says where to look and what it said last time, so
-> the next look has a baseline. Update the figure when you look.
+> **규칙: 확인 항목마다 비교할 숫자를 하나 지닌다.** 옆에 놓을 것이 없는 청구서나 대시보드는
+> 확인이 아니라 구경이다. 항목마다 *어디를 보는지*와 *지난번에 얼마였는지*를 적어 둔다.
+> 볼 때마다 숫자를 갱신하면 다음 확인이 기준을 갖는다.
 
-## Daily
+## 매일
 
-### Google Cloud cost
+### 구글 클라우드 비용
 
-- **Where:** [Billing — verex](https://console.cloud.google.com/billing?project=verex-499205) ·
-  [Billing — doubletree](https://console.cloud.google.com/billing?project=doubletree-498007)
-- **Last month:** Verex **166554** (2026-08, as recorded by jay)
-- **Next:** check September
-- Two projects bill separately. `verex-499205` is verex. `doubletree-498007` holds alice's Firestore
-  and the devnet VM — the VM runs continuously, so it is the line most likely to move, and it is worth
-  looking at both rather than only the one with the remembered figure.
+- **어디서:** [청구 — verex](https://console.cloud.google.com/billing?project=verex-499205) ·
+  [청구 — doubletree](https://console.cloud.google.com/billing?project=doubletree-498007)
+- **지난달:** Verex **166554** (2026-08, jay 기록값)
+- **다음:** 9월 확인
+- 프로젝트가 둘이고 청구도 따로 나온다. `verex-499205` 는 verex,
+  `doubletree-498007` 에는 alice 의 Firestore 와 devnet VM 이 들어 있다.
+  VM 은 계속 켜져 있으므로 숫자를 움직일 가능성이 가장 큰 줄이고,
+  기억해 둔 수치가 있는 쪽만 보지 말고 둘 다 보는 편이 낫다.
 
-<!-- Added 2026-09-22 at jay's request ("매일 구글 클라우드 비용 확인 (지난달 Verex 166554, 9월 확인)").
-     The doubletree line is not in that note; it is here because the same daily look costs nothing extra
-     and the always-on devnet VM is the likelier source of a surprise. -->
+<!-- 2026-09-22 jay 요청으로 추가. 원문: "매일 구글 클라우드 비용 확인 (지난달 Verex 166554, 9월 확인)".
+     doubletree 줄은 그 메모에 없다. 같은 날 같은 클릭으로 함께 볼 수 있고, 항상 켜져 있는 devnet VM 이
+     예상 밖 금액이 나올 가능성이 더 높아서 넣어 두었다. 빼려면 이 줄만 지우면 된다. -->
