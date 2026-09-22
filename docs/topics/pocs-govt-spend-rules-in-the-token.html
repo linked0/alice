@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the spending rules move into the money — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/927</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; When the spending rules move into the money</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#72</span><span>Brief</span><span title="added">2026-09-22</span><span title="source">chat</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-22-govt-deposit-token-sandbox.md">raw</a></span></p>
+      <h1>When the spending rules move into the money</h1>
+      <p class="lead">Korea&#39;s ICT regulatory sandbox has let six banks run government office expenses — 업무추진비 and the rest of 관서운영경비 — on blockchain deposit tokens, paid with a smartphone QR code instead of a physical government procurement card. The rail is the least interesting part. What changes is where the restrictions live: a card decides what you may buy after the fact, through merchant category codes and an audit; a deposit token can carry its allowed business categories and its usable hours at the moment it is issued.</p>
+      <p class="meta">Brief &amp;middot; the facts here are press reporting of a ministry announcement, not a measurement — fee effects in particular are claims. For Jayverse: this is the spend-control ledger the Auditor&#39;s authority matrix is missing a column for.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# When the spending rules move into the money\n\nKorea's ICT regulatory sandbox has let six banks run government office expenses — 업무추진비 and the rest of 관서운영경비 — on blockchain deposit tokens, paid with a smartphone QR code instead of a physical government procurement card. The rail is the least interesting part. What changes is where the restrictions live: a card decides what you may buy after the fact, through merchant category codes and an audit; a deposit token can carry its allowed business categories and its usable hours at the moment it is issued.\n\nBrief &middot; the facts here are press reporting of a ministry announcement, not a measurement — fee effects in particular are claims. For Jayverse: this is the spend-control ledger the Auditor's authority matrix is missing a column for.\n\n## Why\n\nThe headline reads as a technology story and is really a law story. Under 국고금관리법 an office running-cost payment may be executed only by a government procurement card and a short list of named instruments. Nothing in that law is about ledgers, cryptography or settlement speed — it names **an instrument**, not a function. So a payment method that does the same job better still cannot be used until someone grants an exemption. That is the generalisable lesson, and it is why the sandbox exists: payment law regulates instruments, so every new rail arrives as a legal problem before it is an engineering one.\n\nThe second reason to keep this item is that it is the first of the three tracks in Tech #72 being executed by the state on its own money. Not a bank issuing a coin, not a third-party stablecoin — a **deposit token**, which leaves the claim exactly where it was.\n\n## How it works\n\n### What was actually granted\n\n- The Ministry of Science and ICT held the **45th** ICT Regulatory Sandbox committee **in writing** on 21 September 2026 and designated **nine** demonstration exemptions (실증특례).\n- One of them is the **블록체인 기반 디지털화폐 활용 국고금 집행 시범사업**, applied for by **six banks**: 국민, 농협, 신한, 우리, 중소기업(IBK), 하나.\n- The exemption permits smartphone **QR** payment of 관서운영경비 in place of the physical card that 국고금관리법 requires.\n- A 예금토큰 here is a token issued against a bank deposit. It is not a crypto-asset: the thing backing it is the deposit that already existed.\n\n### The control surface moved\n\nThis is the part worth carrying away.\n\n| | Government procurement card | Deposit token |\n| --- | --- | --- |\n| Where the rule lives | the card network's merchant category codes | the token, set at issuance |\n| When it is enforced | at authorisation, then again in the audit | before the money can move |\n| What a wrong spend looks like | a completed payment and a later finding | a payment that does not happen |\n| Who can change the rule | the scheme and the issuer, slowly | whoever mints, immediately |\n\nReporting says the system can preset **사용할 수 있는 시간과 업종** — the hours and the business categories a given token may be spent in. Enforcement therefore moves from *audit* to *issuance*. For an expense account that is the stated goal and a real improvement: transparency stops being a report someone writes afterwards.\n\nThe same sentence is the warning. Programmable money means the parameters are a new seat of power, and the question \"who sets them, and can the holder see them\" is the whole civil-liberties argument about retail CBDC in one line. It is defensible here precisely because the holder is a civil servant spending public money, not a citizen spending their own — and that distinction is the thing to keep hold of when the design is proposed for anything else.\n\n### Whose liability it is\n\nA deposit token does not move the claim. The money is still a deposit at 국민 or 하나; deposit insurance, interest and the lending relationship survive, and the government is paying with bank money on a different rail. That is why the state could do this at all. A bank-issued stablecoin would have created a new liability wearing the same name, and a third-party stablecoin would have taken the claim off the banks' balance sheets entirely — neither is a thing a treasury can pay office expenses with on a sandbox exemption.\n\n### The fee claim\n\nThe reporting says payment and settlement happen together, fees are minimised, and small merchants carry less burden. The first is a mechanism; the rest is a claim with no number attached.\n\nCard fees are not one thing. They pay for credit risk on the cardholder, the float between purchase and settlement, chargeback and dispute handling, fraud loss, and the network's margin. Instant settlement removes the float and, for a debit-like deposit token, most of the credit leg. It does not remove KYC, dispute handling, or the acquiring side's cost of onboarding and support. So \"lower\" is plausible and \"minimised\" is marketing until someone publishes a rate. Treat the merchant-fee benefit as **unverified**.\n\n### Where it lands in Jayverse\n\nA spend-control ledger, and it is a small PoC. Mint a token with three constraints — an allowed category set, a time window, a cap. Attempt a spend outside each. Show two columns side by side: what a card-plus-audit system catches and when, versus what the token refuses outright. The interesting output is the third column, the spends that **neither** stops, because that is what the design actually costs you.\n\nThis is the Auditor's authority matrix with a column it currently lacks: not only who may act, but what the money itself will permit.\n\n### Claim boundary\n\nEvery figure and quotation here is from press reporting of the ministry's announcement on 22 September 2026, and none of it is independently verified. The identity of the nine exemptions beyond this one, the pilot's scale, the participating agencies and the start date were not stated in the sources read. The fee effect is a claim. The mapping of 예금토큰 to \"track one\" is this note's framing, not the ministry's.\n"</script>
+<h2>Why</h2>
+<p>The headline reads as a technology story and is really a law story. Under 국고금관리법 an office running-cost payment may be executed only by a government procurement card and a short list of named instruments. Nothing in that law is about ledgers, cryptography or settlement speed — it names <strong>an instrument</strong>, not a function. So a payment method that does the same job better still cannot be used until someone grants an exemption. That is the generalisable lesson, and it is why the sandbox exists: payment law regulates instruments, so every new rail arrives as a legal problem before it is an engineering one.</p>
+<p>The second reason to keep this item is that it is the first of the three tracks in Tech #72 being executed by the state on its own money. Not a bank issuing a coin, not a third-party stablecoin — a <strong>deposit token</strong>, which leaves the claim exactly where it was.</p>
+<h2>How it works</h2>
+<h3>What was actually granted</h3>
+<ul><li>The Ministry of Science and ICT held the <strong>45th</strong> ICT Regulatory Sandbox committee <strong>in writing</strong> on 21 September 2026 and designated <strong>nine</strong> demonstration exemptions (실증특례).</li><li>One of them is the <strong>블록체인 기반 디지털화폐 활용 국고금 집행 시범사업</strong>, applied for by <strong>six banks</strong>: 국민, 농협, 신한, 우리, 중소기업(IBK), 하나.</li><li>The exemption permits smartphone <strong>QR</strong> payment of 관서운영경비 in place of the physical card that 국고금관리법 requires.</li><li>A 예금토큰 here is a token issued against a bank deposit. It is not a crypto-asset: the thing backing it is the deposit that already existed.</li></ul>
+<h3>The control surface moved</h3>
+<p>This is the part worth carrying away.</p>
+<table><thead><tr><th></th><th>Government procurement card</th><th>Deposit token</th></tr></thead><tbody><tr><td>Where the rule lives</td><td>the card network&#39;s merchant category codes</td><td>the token, set at issuance</td></tr><tr><td>When it is enforced</td><td>at authorisation, then again in the audit</td><td>before the money can move</td></tr><tr><td>What a wrong spend looks like</td><td>a completed payment and a later finding</td><td>a payment that does not happen</td></tr><tr><td>Who can change the rule</td><td>the scheme and the issuer, slowly</td><td>whoever mints, immediately</td></tr></tbody></table>
+<p>Reporting says the system can preset <strong>사용할 수 있는 시간과 업종</strong> — the hours and the business categories a given token may be spent in. Enforcement therefore moves from <em>audit</em> to <em>issuance</em>. For an expense account that is the stated goal and a real improvement: transparency stops being a report someone writes afterwards.</p>
+<p>The same sentence is the warning. Programmable money means the parameters are a new seat of power, and the question "who sets them, and can the holder see them" is the whole civil-liberties argument about retail CBDC in one line. It is defensible here precisely because the holder is a civil servant spending public money, not a citizen spending their own — and that distinction is the thing to keep hold of when the design is proposed for anything else.</p>
+<h3>Whose liability it is</h3>
+<p>A deposit token does not move the claim. The money is still a deposit at 국민 or 하나; deposit insurance, interest and the lending relationship survive, and the government is paying with bank money on a different rail. That is why the state could do this at all. A bank-issued stablecoin would have created a new liability wearing the same name, and a third-party stablecoin would have taken the claim off the banks&#39; balance sheets entirely — neither is a thing a treasury can pay office expenses with on a sandbox exemption.</p>
+<h3>The fee claim</h3>
+<p>The reporting says payment and settlement happen together, fees are minimised, and small merchants carry less burden. The first is a mechanism; the rest is a claim with no number attached.</p>
+<p>Card fees are not one thing. They pay for credit risk on the cardholder, the float between purchase and settlement, chargeback and dispute handling, fraud loss, and the network&#39;s margin. Instant settlement removes the float and, for a debit-like deposit token, most of the credit leg. It does not remove KYC, dispute handling, or the acquiring side&#39;s cost of onboarding and support. So "lower" is plausible and "minimised" is marketing until someone publishes a rate. Treat the merchant-fee benefit as <strong>unverified</strong>.</p>
+<h3>Where it lands in Jayverse</h3>
+<p>A spend-control ledger, and it is a small PoC. Mint a token with three constraints — an allowed category set, a time window, a cap. Attempt a spend outside each. Show two columns side by side: what a card-plus-audit system catches and when, versus what the token refuses outright. The interesting output is the third column, the spends that <strong>neither</strong> stops, because that is what the design actually costs you.</p>
+<p>This is the Auditor&#39;s authority matrix with a column it currently lacks: not only who may act, but what the money itself will permit.</p>
+<h3>Claim boundary</h3>
+<p>Every figure and quotation here is from press reporting of the ministry&#39;s announcement on 22 September 2026, and none of it is independently verified. The identity of the nine exemptions beyond this one, the pilot&#39;s scale, the participating agencies and the start date were not stated in the sources read. The fee effect is a claim. The mapping of 예금토큰 to "track one" is this note&#39;s framing, not the ministry&#39;s.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>a regulatory sandbox</strong></td><td>규제 샌드박스 — 한시적으로 규제를 면제하고 실증하게 하는 제도</td></tr><tr><td><strong>a demonstration exemption</strong></td><td>실증특례 — 샌드박스가 내주는 면제. 영어 기사에서는 regulatory exemption 도 쓴다</td></tr><tr><td><strong>to grant an exemption</strong></td><td>특례를 내주다 — 주체는 규제 당국. "the sandbox granted six banks an exemption"</td></tr><tr><td><strong>held in writing</strong></td><td>서면으로 개최된 — 회의체가 모이지 않고 문서로 의결할 때</td></tr><tr><td><strong>a deposit token</strong></td><td>예금토큰 — 은행 예금을 근거로 발행되는 토큰. 가상자산과 구분해서 쓴다</td></tr><tr><td><strong>office running costs</strong></td><td>관서운영경비 — 정부 부처의 운영 경비. 업무추진비가 그 일부</td></tr><tr><td><strong>a procurement card</strong></td><td>구매카드 — 조직이 지출용으로 발급하는 법인카드</td></tr><tr><td><strong>a merchant category code (MCC)</strong></td><td>가맹점 업종코드 — 카드망이 업종을 식별하는 번호</td></tr><tr><td><strong>to preset something</strong></td><td>미리 설정해 두다 — "the hours and categories are preset on the token"</td></tr><tr><td><strong>at issuance</strong></td><td>발행 시점에 — 대비되는 말은 at authorisation(승인 시점), after the fact(사후)</td></tr><tr><td><strong>after the fact</strong></td><td>사후에 — 감사·적발을 말할 때 거의 관용구</td></tr><tr><td><strong>the control surface</strong></td><td>통제 지점·통제면 — 어디에서 규칙이 걸리는가. 보안·설계 문서의 말</td></tr><tr><td><strong>programmable money</strong></td><td>프로그래머블 머니 — 조건을 코드로 붙일 수 있는 돈</td></tr><tr><td><strong>a seat of power</strong></td><td>권력이 앉는 자리 — 추상적 권한이 실제로 어디에 있는지</td></tr><tr><td><strong>the float</strong></td><td>플로트 — 결제와 정산 사이에 떠 있는 자금·기간</td></tr><tr><td><strong>a chargeback</strong></td><td>지급거절·결제취소 — 카드 수수료를 구성하는 비용 중 하나</td></tr><tr><td><strong>the acquiring side</strong></td><td>매입사 쪽 — 가맹점을 유치·관리하는 쪽</td></tr><tr><td><strong>to carry the burden</strong></td><td>부담을 지다 — "small merchants carry less burden"</td></tr><tr><td><strong>plausible but unpriced</strong></td><td>그럴듯하지만 값이 안 붙은 — 숫자 없는 주장에 붙이는 말</td></tr><tr><td><strong>to take something off the balance sheet</strong></td><td>대차대조표에서 빼다 — 청구권이 어디 있는지 말할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 지출 규칙이 돈 안으로 들어올 때\n\n과기정통부 ICT 규제샌드박스가 6개 은행에 실증특례를 내주면서, 공무원 업무추진비를 비롯한 관서운영경비를 블록체인 예금토큰으로, 실물 정부구매카드 대신 스마트폰 QR로 결제할 수 있게 됐다. 레일 자체는 가장 덜 흥미로운 부분이다. 달라지는 것은 제약이 어디에 사는가다. 카드는 무엇을 살 수 있는지를 가맹점 업종코드와 사후 감사로 정하고, 예금토큰은 허용 업종과 사용 가능 시간을 발행 시점에 몸에 지닐 수 있다.\n\nBrief &middot; 여기 있는 사실은 부처 발표에 대한 언론 보도이지 측정이 아니다. 특히 수수료 효과는 주장이다. Jayverse에서는, Auditor의 권한 매트릭스에 빠져 있는 한 열(column)이 바로 이 지출 통제 원장이다.\n\n## 왜\n\n제목은 기술 기사처럼 읽히지만 실은 법 기사다. 국고금관리법상 관서운영경비는 정부구매카드 등 이름이 명시된 수단으로만 집행할 수 있다. 그 법의 어디에도 원장이나 암호나 정산 속도 이야기는 없다. 법은 **기능이 아니라 수단**을 지목한다. 그래서 같은 일을 더 잘하는 결제 방식이 있어도 누군가 특례를 내주기 전까지는 쓸 수 없다. 일반화할 수 있는 교훈이 이것이고, 샌드박스가 존재하는 이유이기도 하다. 결제법은 수단을 규율하므로, 새 레일은 공학 문제이기 전에 법 문제로 도착한다.\n\n이 항목을 남기는 두 번째 이유는, Tech #72의 세 트랙 중 첫 번째를 국가가 자기 돈으로 집행하는 첫 사례라는 점이다. 은행이 코인을 발행하는 것도, 제3자 스테이블코인도 아닌 **예금토큰**이고, 이는 청구권을 있던 자리에 그대로 둔다.\n\n## 동작 방식\n\n### 실제로 허용된 것\n\n- 과기정통부는 2026년 9월 21일 제45차 ICT 규제샌드박스 심의위원회를 **서면**으로 열어 실증특례 **9건**을 지정했다.\n- 그중 하나가 **블록체인 기반 디지털화폐 활용 국고금 집행 시범사업**이고, **6개 은행**(국민·농협·신한·우리·중소기업·하나)이 신청했다.\n- 특례는 국고금관리법이 요구하는 실물카드 대신 스마트폰 **QR**로 관서운영경비를 결제하는 것을 허용한다.\n- 여기서 예금토큰은 은행 예금을 근거로 발행되는 토큰이다. 가상자산이 아니다. 뒤를 받치는 것이 이미 존재하던 예금이기 때문이다.\n\n### 통제 지점이 옮겨졌다\n\n가져갈 만한 부분은 여기다.\n\n| | 정부구매카드 | 예금토큰 |\n| --- | --- | --- |\n| 규칙이 사는 곳 | 카드망의 가맹점 업종코드 | 토큰, 발행 시점에 설정 |\n| 언제 강제되나 | 승인 시점, 그리고 다시 감사에서 | 돈이 움직이기 전에 |\n| 잘못된 지출의 모습 | 결제는 끝났고 나중에 지적된다 | 결제가 일어나지 않는다 |\n| 규칙을 바꿀 수 있는 자 | 카드 스킴과 발행사, 느리게 | 발행하는 쪽, 즉시 |\n\n보도에 따르면 시스템은 **사용할 수 있는 시간과 업종**을 미리 설정할 수 있다. 즉 강제의 위치가 *감사*에서 *발행*으로 옮겨간다. 경비 계정에 대해서는 이것이 명시된 목표이고 실제 개선이다. 투명성이 나중에 누가 쓰는 보고서이기를 그친다.\n\n같은 문장이 곧 경고이기도 하다. 프로그래머블 머니란 그 파라미터가 새로운 권력의 자리가 된다는 뜻이고, \"누가 설정하며 보유자는 그것을 볼 수 있는가\"라는 질문은 소매 CBDC를 둘러싼 자유권 논쟁 전체를 한 줄로 압축한다. 여기서 이 설계가 정당한 이유는 정확히, 보유자가 자기 돈을 쓰는 시민이 아니라 공금을 쓰는 공무원이기 때문이다. 같은 설계가 다른 데 제안될 때 붙들고 있어야 할 구분이 이것이다.\n\n### 누구의 부채인가\n\n예금토큰은 청구권을 옮기지 않는다. 돈은 여전히 국민은행이나 하나은행에 있는 예금이고, 예금보험과 이자와 대출 관계가 살아남으며, 정부는 은행 화폐를 다른 레일로 지급하는 것뿐이다. 국가가 애초에 이것을 할 수 있었던 이유가 그것이다. 은행 발행 스테이블코인이었다면 같은 이름을 쓴 새 부채가 생겼을 것이고, 제3자 스테이블코인이었다면 청구권이 은행 대차대조표에서 아예 빠졌을 것이다. 둘 다 재정당국이 샌드박스 특례로 관서운영경비를 결제할 수 있는 물건이 아니다.\n\n### 수수료 주장\n\n보도는 결제와 정산이 동시에 이뤄지고, 수수료가 최소화되며, 소상공인 부담이 줄어든다고 말한다. 첫 번째는 작동 원리이고 나머지는 숫자가 붙지 않은 주장이다.\n\n카드 수수료는 한 덩어리가 아니다. 카드 보유자에 대한 신용 위험, 구매와 정산 사이의 플로트, 지급거절·분쟁 처리, 사기 손실, 그리고 망의 마진을 함께 갚는다. 즉시 정산은 플로트를 없애고, 직불에 가까운 예금토큰이라면 신용 부분의 대부분도 없앤다. 그러나 KYC도, 분쟁 처리도, 가맹점 유치와 지원이라는 매입사 쪽 비용도 없애지 못한다. 그래서 \"낮아진다\"는 그럴듯하고 \"최소화\"는 누군가 요율을 공개하기 전까지 홍보 문구다. 소상공인 수수료 이익은 **미검증**으로 둔다.\n\n### Jayverse에서의 위치\n\n지출 통제 원장이고, 작은 PoC다. 제약 세 가지(허용 업종 집합, 시간 창, 한도)를 붙여 토큰을 발행한다. 각각을 벗어나는 지출을 시도한다. 두 열을 나란히 보여 준다. 카드+감사 체계가 무엇을 언제 잡아내는가, 토큰이 무엇을 애초에 거절하는가. 정작 흥미로운 것은 세 번째 열, **어느 쪽도** 막지 못하는 지출이다. 그것이 이 설계가 실제로 치르는 비용이기 때문이다.\n\n이는 Auditor의 권한 매트릭스에 지금 없는 열을 더한 것이다. 누가 행위할 수 있는가만이 아니라, 돈 자체가 무엇을 허락할 것인가.\n\n### 주장 경계\n\n여기의 모든 수치와 인용은 2026년 9월 22일 부처 발표에 대한 언론 보도에서 온 것이고, 어느 것도 독립적으로 검증되지 않았다. 이 건을 제외한 나머지 8건의 내용, 시범사업의 규모, 참여 기관, 개시 시점은 읽은 출처에 나오지 않는다. 수수료 효과는 주장이다. 예금토큰을 \"첫 번째 트랙\"에 대응시킨 것은 이 노트의 틀이지 부처의 표현이 아니다.\n"</script>
+      <h1>지출 규칙이 돈 안으로 들어올 때</h1>
+      <p class="lead">과기정통부 ICT 규제샌드박스가 6개 은행에 실증특례를 내주면서, 공무원 업무추진비를 비롯한 관서운영경비를 블록체인 예금토큰으로, 실물 정부구매카드 대신 스마트폰 QR로 결제할 수 있게 됐다. 레일 자체는 가장 덜 흥미로운 부분이다. 달라지는 것은 제약이 어디에 사는가다. 카드는 무엇을 살 수 있는지를 가맹점 업종코드와 사후 감사로 정하고, 예금토큰은 허용 업종과 사용 가능 시간을 발행 시점에 몸에 지닐 수 있다.</p>
+      <p class="meta">Brief &amp;middot; 여기 있는 사실은 부처 발표에 대한 언론 보도이지 측정이 아니다. 특히 수수료 효과는 주장이다. Jayverse에서는, Auditor의 권한 매트릭스에 빠져 있는 한 열(column)이 바로 이 지출 통제 원장이다.</p>
+<h2>왜</h2>
+<p>제목은 기술 기사처럼 읽히지만 실은 법 기사다. 국고금관리법상 관서운영경비는 정부구매카드 등 이름이 명시된 수단으로만 집행할 수 있다. 그 법의 어디에도 원장이나 암호나 정산 속도 이야기는 없다. 법은 <strong>기능이 아니라 수단</strong>을 지목한다. 그래서 같은 일을 더 잘하는 결제 방식이 있어도 누군가 특례를 내주기 전까지는 쓸 수 없다. 일반화할 수 있는 교훈이 이것이고, 샌드박스가 존재하는 이유이기도 하다. 결제법은 수단을 규율하므로, 새 레일은 공학 문제이기 전에 법 문제로 도착한다.</p>
+<p>이 항목을 남기는 두 번째 이유는, Tech #72의 세 트랙 중 첫 번째를 국가가 자기 돈으로 집행하는 첫 사례라는 점이다. 은행이 코인을 발행하는 것도, 제3자 스테이블코인도 아닌 <strong>예금토큰</strong>이고, 이는 청구권을 있던 자리에 그대로 둔다.</p>
+<h2>동작 방식</h2>
+<h3>실제로 허용된 것</h3>
+<ul><li>과기정통부는 2026년 9월 21일 제45차 ICT 규제샌드박스 심의위원회를 <strong>서면</strong>으로 열어 실증특례 <strong>9건</strong>을 지정했다.</li><li>그중 하나가 <strong>블록체인 기반 디지털화폐 활용 국고금 집행 시범사업</strong>이고, <strong>6개 은행</strong>(국민·농협·신한·우리·중소기업·하나)이 신청했다.</li><li>특례는 국고금관리법이 요구하는 실물카드 대신 스마트폰 <strong>QR</strong>로 관서운영경비를 결제하는 것을 허용한다.</li><li>여기서 예금토큰은 은행 예금을 근거로 발행되는 토큰이다. 가상자산이 아니다. 뒤를 받치는 것이 이미 존재하던 예금이기 때문이다.</li></ul>
+<h3>통제 지점이 옮겨졌다</h3>
+<p>가져갈 만한 부분은 여기다.</p>
+<table><thead><tr><th></th><th>정부구매카드</th><th>예금토큰</th></tr></thead><tbody><tr><td>규칙이 사는 곳</td><td>카드망의 가맹점 업종코드</td><td>토큰, 발행 시점에 설정</td></tr><tr><td>언제 강제되나</td><td>승인 시점, 그리고 다시 감사에서</td><td>돈이 움직이기 전에</td></tr><tr><td>잘못된 지출의 모습</td><td>결제는 끝났고 나중에 지적된다</td><td>결제가 일어나지 않는다</td></tr><tr><td>규칙을 바꿀 수 있는 자</td><td>카드 스킴과 발행사, 느리게</td><td>발행하는 쪽, 즉시</td></tr></tbody></table>
+<p>보도에 따르면 시스템은 <strong>사용할 수 있는 시간과 업종</strong>을 미리 설정할 수 있다. 즉 강제의 위치가 *감사*에서 *발행*으로 옮겨간다. 경비 계정에 대해서는 이것이 명시된 목표이고 실제 개선이다. 투명성이 나중에 누가 쓰는 보고서이기를 그친다.</p>
+<p>같은 문장이 곧 경고이기도 하다. 프로그래머블 머니란 그 파라미터가 새로운 권력의 자리가 된다는 뜻이고, "누가 설정하며 보유자는 그것을 볼 수 있는가"라는 질문은 소매 CBDC를 둘러싼 자유권 논쟁 전체를 한 줄로 압축한다. 여기서 이 설계가 정당한 이유는 정확히, 보유자가 자기 돈을 쓰는 시민이 아니라 공금을 쓰는 공무원이기 때문이다. 같은 설계가 다른 데 제안될 때 붙들고 있어야 할 구분이 이것이다.</p>
+<h3>누구의 부채인가</h3>
+<p>예금토큰은 청구권을 옮기지 않는다. 돈은 여전히 국민은행이나 하나은행에 있는 예금이고, 예금보험과 이자와 대출 관계가 살아남으며, 정부는 은행 화폐를 다른 레일로 지급하는 것뿐이다. 국가가 애초에 이것을 할 수 있었던 이유가 그것이다. 은행 발행 스테이블코인이었다면 같은 이름을 쓴 새 부채가 생겼을 것이고, 제3자 스테이블코인이었다면 청구권이 은행 대차대조표에서 아예 빠졌을 것이다. 둘 다 재정당국이 샌드박스 특례로 관서운영경비를 결제할 수 있는 물건이 아니다.</p>
+<h3>수수료 주장</h3>
+<p>보도는 결제와 정산이 동시에 이뤄지고, 수수료가 최소화되며, 소상공인 부담이 줄어든다고 말한다. 첫 번째는 작동 원리이고 나머지는 숫자가 붙지 않은 주장이다.</p>
+<p>카드 수수료는 한 덩어리가 아니다. 카드 보유자에 대한 신용 위험, 구매와 정산 사이의 플로트, 지급거절·분쟁 처리, 사기 손실, 그리고 망의 마진을 함께 갚는다. 즉시 정산은 플로트를 없애고, 직불에 가까운 예금토큰이라면 신용 부분의 대부분도 없앤다. 그러나 KYC도, 분쟁 처리도, 가맹점 유치와 지원이라는 매입사 쪽 비용도 없애지 못한다. 그래서 "낮아진다"는 그럴듯하고 "최소화"는 누군가 요율을 공개하기 전까지 홍보 문구다. 소상공인 수수료 이익은 <strong>미검증</strong>으로 둔다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p>지출 통제 원장이고, 작은 PoC다. 제약 세 가지(허용 업종 집합, 시간 창, 한도)를 붙여 토큰을 발행한다. 각각을 벗어나는 지출을 시도한다. 두 열을 나란히 보여 준다. 카드+감사 체계가 무엇을 언제 잡아내는가, 토큰이 무엇을 애초에 거절하는가. 정작 흥미로운 것은 세 번째 열, <strong>어느 쪽도</strong> 막지 못하는 지출이다. 그것이 이 설계가 실제로 치르는 비용이기 때문이다.</p>
+<p>이는 Auditor의 권한 매트릭스에 지금 없는 열을 더한 것이다. 누가 행위할 수 있는가만이 아니라, 돈 자체가 무엇을 허락할 것인가.</p>
+<h3>주장 경계</h3>
+<p>여기의 모든 수치와 인용은 2026년 9월 22일 부처 발표에 대한 언론 보도에서 온 것이고, 어느 것도 독립적으로 검증되지 않았다. 이 건을 제외한 나머지 8건의 내용, 시범사업의 규모, 참여 기관, 개시 시점은 읽은 출처에 나오지 않는다. 수수료 효과는 주장이다. 예금토큰을 "첫 번째 트랙"에 대응시킨 것은 이 노트의 틀이지 부처의 표현이 아니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>a regulatory sandbox</strong></td><td>규제 샌드박스 — 한시적으로 규제를 면제하고 실증하게 하는 제도</td></tr><tr><td><strong>a demonstration exemption</strong></td><td>실증특례 — 샌드박스가 내주는 면제. 영어 기사에서는 regulatory exemption 도 쓴다</td></tr><tr><td><strong>to grant an exemption</strong></td><td>특례를 내주다 — 주체는 규제 당국. "the sandbox granted six banks an exemption"</td></tr><tr><td><strong>held in writing</strong></td><td>서면으로 개최된 — 회의체가 모이지 않고 문서로 의결할 때</td></tr><tr><td><strong>a deposit token</strong></td><td>예금토큰 — 은행 예금을 근거로 발행되는 토큰. 가상자산과 구분해서 쓴다</td></tr><tr><td><strong>office running costs</strong></td><td>관서운영경비 — 정부 부처의 운영 경비. 업무추진비가 그 일부</td></tr><tr><td><strong>a procurement card</strong></td><td>구매카드 — 조직이 지출용으로 발급하는 법인카드</td></tr><tr><td><strong>a merchant category code (MCC)</strong></td><td>가맹점 업종코드 — 카드망이 업종을 식별하는 번호</td></tr><tr><td><strong>to preset something</strong></td><td>미리 설정해 두다 — "the hours and categories are preset on the token"</td></tr><tr><td><strong>at issuance</strong></td><td>발행 시점에 — 대비되는 말은 at authorisation(승인 시점), after the fact(사후)</td></tr><tr><td><strong>after the fact</strong></td><td>사후에 — 감사·적발을 말할 때 거의 관용구</td></tr><tr><td><strong>the control surface</strong></td><td>통제 지점·통제면 — 어디에서 규칙이 걸리는가. 보안·설계 문서의 말</td></tr><tr><td><strong>programmable money</strong></td><td>프로그래머블 머니 — 조건을 코드로 붙일 수 있는 돈</td></tr><tr><td><strong>a seat of power</strong></td><td>권력이 앉는 자리 — 추상적 권한이 실제로 어디에 있는지</td></tr><tr><td><strong>the float</strong></td><td>플로트 — 결제와 정산 사이에 떠 있는 자금·기간</td></tr><tr><td><strong>a chargeback</strong></td><td>지급거절·결제취소 — 카드 수수료를 구성하는 비용 중 하나</td></tr><tr><td><strong>the acquiring side</strong></td><td>매입사 쪽 — 가맹점을 유치·관리하는 쪽</td></tr><tr><td><strong>to carry the burden</strong></td><td>부담을 지다 — "small merchants carry less burden"</td></tr><tr><td><strong>plausible but unpriced</strong></td><td>그럴듯하지만 값이 안 붙은 — 숫자 없는 주장에 붙이는 말</td></tr><tr><td><strong>to take something off the balance sheet</strong></td><td>대차대조표에서 빼다 — 청구권이 어디 있는지 말할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-system-design-course-single-server-to-scale.html">&larr; 71. System Design Course — a two-hour walk from one server to the seven decisions every design interview tests</a><a href="pocs-three-tracks-won-onchain.html">73. Three ways to put the won on a chain — and each one moves the liability somewhere else &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="govt-spend-rules-in-the-token";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
