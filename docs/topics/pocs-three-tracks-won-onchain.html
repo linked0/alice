@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three ways to put the won on a chain — and each one moves the liability somewhere else — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/926</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
+
+        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Three ways to put the won on a chain — and each one moves the liability somewhere else</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#72</span><span>Brief</span><span title="added">2026-09-22</span><span title="source">chat</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-22-korean-bank-deposit-tokens.md">raw</a></span></p>
+      <h1>Three ways to put the won on a chain — and each one moves the liability somewhere else</h1>
+      <p class="lead">A strategy briefing argues Korean banks should prepare three tracks at once: a tokenised deposit, where the customer&#39;s deposit claim is untouched and only settlement moves onchain; a bank-issued stablecoin backed by separate reserves, which needs the Digital Asset Basic Act before it is possible; and distribution of someone else&#39;s stablecoin, which is already happening offshore. It places the first inside Project Hangang, the two-tier experiment where the Bank of Korea issues a wholesale CBDC and commercial banks issue deposit tokens settling on top of it, running today on a permissioned Besu network.</p>
+      <p class="meta">Build a whose-liability ledger before choosing a track. Take one concrete payment you actually care about — a subsidy disbursement, or a corporate import settlement — and walk it through all three. At every step record four things: whose balance sheet the customer&#39;s claim sits on, who bears the loss if the issuer fails, whether deposit insurance reaches it, and which regulator&#39;s rule governs that step. Then run the failure test: the issuer goes down at two in the morning on a Saturday, and you ask who the customer&#39;s counterparty is at that moment. The output is one table per track, and the tracks stop looking like three flavours of the same product.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Three ways to put the won on a chain — and each one moves the liability somewhere else\n\nA strategy briefing argues Korean banks should prepare three tracks at once: a tokenised deposit, where the customer's deposit claim is untouched and only settlement moves onchain; a bank-issued stablecoin backed by separate reserves, which needs the Digital Asset Basic Act before it is possible; and distribution of someone else's stablecoin, which is already happening offshore. It places the first inside Project Hangang, the two-tier experiment where the Bank of Korea issues a wholesale CBDC and commercial banks issue deposit tokens settling on top of it, running today on a permissioned Besu network.\n\nBuild a whose-liability ledger before choosing a track. Take one concrete payment you actually care about — a subsidy disbursement, or a corporate import settlement — and walk it through all three. At every step record four things: whose balance sheet the customer's claim sits on, who bears the loss if the issuer fails, whether deposit insurance reaches it, and which regulator's rule governs that step. Then run the failure test: the issuer goes down at two in the morning on a Saturday, and you ask who the customer's counterparty is at that moment. The output is one table per track, and the tracks stop looking like three flavours of the same product.\n\n## Why\n\nThe durable pattern is that these are not three technologies, they are one question asked three times: whose liability is the money. A tokenised deposit keeps the claim exactly where it was and changes only the rail, which is why deposit insurance, interest and the lending relationship survive it. A bank-issued stablecoin creates a new liability backed by segregated reserves, so it is a different instrument wearing the same bank's name. Distributing a third party's coin moves the claim off the balance sheet entirely and leaves the bank as a channel. That is the generalisation of the keeper from the KB Kookmin and Kinexys item: a payment rail is a balance-sheet position before it is software.\n\nWhich exposes a trap in the second track that the briefing does not name. If the point of all this is to defend the deposit base, issuing your own stablecoin works against it. The reserves backing that coin have to come from somewhere, and a customer moving money from a deposit into the bank's own coin has left the deposit base just as surely as if they had left for someone else's. The defensive move and the offensive move point in opposite directions, and only the first track is purely defensive.\n\nThe claim that CBDC and deposit tokens are complementary is right, but for a more interesting reason than the briefing gives. In the two-tier design the deposit token is the customer-facing claim and the wholesale CBDC is what banks settle in between themselves. That is precisely the shape money already has: commercial-bank deposits for the public, central-bank reserves for interbank settlement. So the two-tier structure is not new money. It is the existing hierarchy re-expressed on a ledger, which is a reason to expect it to work and also a reason to be sceptical of claims that it changes anything fundamental.\n\nOne more distinction worth keeping straight, because the vocabulary hides it. Permissioned versus public is not a technology choice here, it is an access-control choice, and both options end up gated. A private Besu network gates who can run a node; a public chain with a KYC whitelist gates who can hold the token. \"Public chain\" sounds like openness, but a whitelist closes it at the account layer, which is the layer that matters for a regulated liability.\n\n## How it works\n\n### The three tracks, by whose liability it is\n\n| Track | Whose liability | Deposit insurance | Needs a law change | What the bank keeps |\n|---|---|---|---|---|\n| **Tokenised deposit** | the bank's, unchanged | yes | no | the deposit, the interest, the relationship |\n| **Bank-issued stablecoin** | the bank's, new instrument | no | yes | fee income, a new liquidity burden |\n| **Third-party stablecoin** | someone else's | no | no | distribution only |\n\n### Two tiers, and what they correspond to\n\n| Layer | In Project Hangang | In money as it already works |\n|---|---|---|\n| Settlement between banks | wholesale CBDC | central-bank reserves |\n| What the customer holds | deposit token | a bank deposit |\n\nThe mapping is exact, which is the argument for the design and the argument against calling it new.\n\n### The failure test\n\n```text\nissuer fails, 02:00 Saturday → who is the customer's counterparty?\n  tokenised deposit    → the bank, and the insurer behind it\n  bank stablecoin      → the bank, against a reserve pool, on the pool's terms\n  third-party coin     → the issuer, wherever it is incorporated\n```\n\n### Where it lands in Jayverse\n\n- **Auditor: add a whose-liability column.** The authority matrix answers who can act alone. For anything holding value it should also answer whose balance sheet the value sits on, because those two questions have different answers and only one of them is visible in the code.\n- **Rails: three tracks are three integrations, not one product with a switch.** They differ in who the counterparty is, so they differ in reconciliation, failure handling and which regulator to answer. Budget them separately.\n- **Invest: the outflow figure needs a denominator before it is a thesis.** Sixty trillion won leaving is only alarming against a base and a trend, and substitution is not the same as growth. Find the base before using the number.\n- **Devnet: the two-tier shape is testable locally.** Wholesale settlement asset underneath, a deposit token above it, and the interesting cases are the boundary — settlement finality on one tier while the other has already credited the customer.\n\n### Claim boundary\n\nThe briefing supports the three-track framing, Project Hangang's two-tier design on a permissioned Besu network, and that a tokenised deposit retains insurance and interest while a bank-issued stablecoin awaits the Digital Asset Basic Act. Treat as unverified from here: every number, including the roughly 110 trillion won of annual subsidy payments and the more than 60 trillion won said to move offshore between 2025 and 2026; the naming of Kakao, Naver, Toss and Circle as preparing won-stablecoin infrastructure; and the attribution of the three-track framing to \"Tempo\", which the summary does not identify. No URL was captured, so none of it can be reopened at source.\n\nSources: a Korean-language strategy summary pasted by jay on 2026-09-22, with no URL — claims and numbers preserved in `raw/2026-09-22-korean-bank-deposit-tokens.md`. Related: Tech #64 (KB Kookmin and Kinexys) and Tech #74 (the BOK 24-hour won settlement pilot), which covers Project Hangang from the settlement-window side.\n"</script>
+<h2>Why</h2>
+<p>The durable pattern is that these are not three technologies, they are one question asked three times: whose liability is the money. A tokenised deposit keeps the claim exactly where it was and changes only the rail, which is why deposit insurance, interest and the lending relationship survive it. A bank-issued stablecoin creates a new liability backed by segregated reserves, so it is a different instrument wearing the same bank&#39;s name. Distributing a third party&#39;s coin moves the claim off the balance sheet entirely and leaves the bank as a channel. That is the generalisation of the keeper from the KB Kookmin and Kinexys item: a payment rail is a balance-sheet position before it is software.</p>
+<p>Which exposes a trap in the second track that the briefing does not name. If the point of all this is to defend the deposit base, issuing your own stablecoin works against it. The reserves backing that coin have to come from somewhere, and a customer moving money from a deposit into the bank&#39;s own coin has left the deposit base just as surely as if they had left for someone else&#39;s. The defensive move and the offensive move point in opposite directions, and only the first track is purely defensive.</p>
+<p>The claim that CBDC and deposit tokens are complementary is right, but for a more interesting reason than the briefing gives. In the two-tier design the deposit token is the customer-facing claim and the wholesale CBDC is what banks settle in between themselves. That is precisely the shape money already has: commercial-bank deposits for the public, central-bank reserves for interbank settlement. So the two-tier structure is not new money. It is the existing hierarchy re-expressed on a ledger, which is a reason to expect it to work and also a reason to be sceptical of claims that it changes anything fundamental.</p>
+<p>One more distinction worth keeping straight, because the vocabulary hides it. Permissioned versus public is not a technology choice here, it is an access-control choice, and both options end up gated. A private Besu network gates who can run a node; a public chain with a KYC whitelist gates who can hold the token. "Public chain" sounds like openness, but a whitelist closes it at the account layer, which is the layer that matters for a regulated liability.</p>
+<h2>How it works</h2>
+<h3>The three tracks, by whose liability it is</h3>
+<table><thead><tr><th>Track</th><th>Whose liability</th><th>Deposit insurance</th><th>Needs a law change</th><th>What the bank keeps</th></tr></thead><tbody><tr><td><strong>Tokenised deposit</strong></td><td>the bank&#39;s, unchanged</td><td>yes</td><td>no</td><td>the deposit, the interest, the relationship</td></tr><tr><td><strong>Bank-issued stablecoin</strong></td><td>the bank&#39;s, new instrument</td><td>no</td><td>yes</td><td>fee income, a new liquidity burden</td></tr><tr><td><strong>Third-party stablecoin</strong></td><td>someone else&#39;s</td><td>no</td><td>no</td><td>distribution only</td></tr></tbody></table>
+<h3>Two tiers, and what they correspond to</h3>
+<table><thead><tr><th>Layer</th><th>In Project Hangang</th><th>In money as it already works</th></tr></thead><tbody><tr><td>Settlement between banks</td><td>wholesale CBDC</td><td>central-bank reserves</td></tr><tr><td>What the customer holds</td><td>deposit token</td><td>a bank deposit</td></tr></tbody></table>
+<p>The mapping is exact, which is the argument for the design and the argument against calling it new.</p>
+<h3>The failure test</h3>
+<pre><code class="language-text">issuer fails, 02:00 Saturday → who is the customer&#39;s counterparty?
+  tokenised deposit    → the bank, and the insurer behind it
+  bank stablecoin      → the bank, against a reserve pool, on the pool&#39;s terms
+  third-party coin     → the issuer, wherever it is incorporated
+</code></pre>
+<h3>Where it lands in Jayverse</h3>
+<ul><li><strong>Auditor: add a whose-liability column.</strong> The authority matrix answers who can act alone. For anything holding value it should also answer whose balance sheet the value sits on, because those two questions have different answers and only one of them is visible in the code.</li><li><strong>Rails: three tracks are three integrations, not one product with a switch.</strong> They differ in who the counterparty is, so they differ in reconciliation, failure handling and which regulator to answer. Budget them separately.</li><li><strong>Invest: the outflow figure needs a denominator before it is a thesis.</strong> Sixty trillion won leaving is only alarming against a base and a trend, and substitution is not the same as growth. Find the base before using the number.</li><li><strong>Devnet: the two-tier shape is testable locally.</strong> Wholesale settlement asset underneath, a deposit token above it, and the interesting cases are the boundary — settlement finality on one tier while the other has already credited the customer.</li></ul>
+<h3>Claim boundary</h3>
+<p>The briefing supports the three-track framing, Project Hangang&#39;s two-tier design on a permissioned Besu network, and that a tokenised deposit retains insurance and interest while a bank-issued stablecoin awaits the Digital Asset Basic Act. Treat as unverified from here: every number, including the roughly 110 trillion won of annual subsidy payments and the more than 60 trillion won said to move offshore between 2025 and 2026; the naming of Kakao, Naver, Toss and Circle as preparing won-stablecoin infrastructure; and the attribution of the three-track framing to "Tempo", which the summary does not identify. No URL was captured, so none of it can be reopened at source.</p>
+<p>Sources: a Korean-language strategy summary pasted by jay on 2026-09-22, with no URL — claims and numbers preserved in <code>raw/2026-09-22-korean-bank-deposit-tokens.md</code>. Related: Tech #64 (KB Kookmin and Kinexys) and Tech #74 (the BOK 24-hour won settlement pilot), which covers Project Hangang from the settlement-window side.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>a liability</strong></td><td>부채, 갚아야 할 것 · 누구의 대차대조표에 있는가를 물을 때</td></tr><tr><td><strong>a balance sheet</strong></td><td>대차대조표 · "a payment rail is a balance-sheet position before it is software"</td></tr><tr><td><strong>a claim</strong></td><td>청구권 · 고객이 은행에 대해 갖는 권리</td></tr><tr><td><strong>deposit insurance</strong></td><td>예금보험 · 토큰화 예치금이 지키는 것</td></tr><tr><td><strong>a counterparty</strong></td><td>거래 상대방 · 실패 시험의 핵심 질문</td></tr><tr><td><strong>segregated reserves</strong></td><td>분리 보관된 준비금 · 스테이블코인을 뒷받침하는 자산</td></tr><tr><td><strong>to erode the deposit base</strong></td><td>예금 기반을 잠식하다 · 스테이블코인 확산의 위협</td></tr><tr><td><strong>wholesale vs retail</strong></td><td>기관용 대 개인용 · CBDC를 나누는 축</td></tr><tr><td><strong>permissioned / permissionless</strong></td><td>허가형 / 무허가형 · 네트워크 접근 방식</td></tr><tr><td><strong>a whitelist</strong></td><td>허용 목록 · 보유 가능한 계정을 제한</td></tr><tr><td><strong>an access-control choice</strong></td><td>접근 통제의 선택 · 기술 선택과 구별할 때</td></tr><tr><td><strong>the money hierarchy</strong></td><td>화폐 위계 · 중앙은행 화폐 위에 상업은행 화폐</td></tr><tr><td><strong>settlement finality</strong></td><td>결제 확정성 · 되돌릴 수 없게 되는 시점</td></tr><tr><td><strong>reconciliation</strong></td><td>대사(對査) · 두 장부를 맞춰 보는 일</td></tr><tr><td><strong>a denominator</strong></td><td>분모, 비교 기준 · "the figure needs a denominator before it is a thesis"</td></tr><tr><td><strong>substitution, not growth</strong></td><td>대체이지 성장이 아니다 · 유출 숫자를 읽을 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 원화를 체인에 올리는 세 가지 길 — 그리고 각각은 부채를 다른 곳으로 옮긴다\n\n한 전략 브리핑은 한국 은행들이 세 트랙을 동시에 준비해야 한다고 말합니다. 고객의 예금 청구권은 그대로 두고 결제만 온체인으로 옮기는 토큰화 예치금, 별도 준비금으로 뒷받침되며 디지털자산기본법 통과 이후에야 가능한 은행 발행 스테이블코인, 그리고 이미 역외에서 일어나고 있는 남의 스테이블코인 유통입니다. 첫 번째는 Project Hangang 안에 놓입니다. 한국은행이 기관용 CBDC를 발행하고 시중은행이 그 위에서 결제되는 예치금 토큰을 발행하는 2단계 실험이며, 현재 허가형 Besu 네트워크에서 돌고 있습니다.\n\n트랙을 고르기 전에 '누구의 부채인가' 장부를 만드십시오. 실제로 신경 쓰는 결제 하나를 잡으십시오. 보조금 지급이든 기업 수입 대금이든. 그리고 세 트랙 모두로 통과시킵니다. 각 단계마다 네 가지를 적습니다. 고객의 청구권이 누구의 대차대조표에 있는가, 발행자가 무너지면 누가 손실을 지는가, 예금보험이 거기까지 닿는가, 그 단계를 어느 규제기관의 규칙이 지배하는가. 그다음 실패 시험을 돌립니다. 토요일 새벽 2시에 발행자가 멈추고, 그 순간 고객의 거래 상대가 누구인지 묻습니다. 산출물은 트랙마다 표 하나이고, 그러고 나면 세 트랙이 같은 상품의 세 가지 맛으로 보이지 않게 됩니다.\n\n## 왜\n\n오래가는 패턴은 이것이 세 가지 기술이 아니라 하나의 질문을 세 번 묻는 것이라는 점입니다. 그 돈은 누구의 부채인가. 토큰화 예치금은 청구권을 있던 자리에 그대로 두고 레일만 바꾸므로 예금보험과 이자와 여신 관계가 살아남습니다. 은행 발행 스테이블코인은 분리된 준비금으로 뒷받침되는 새 부채를 만들므로, 같은 은행 이름을 쓴 다른 상품입니다. 제3자 코인 유통은 청구권을 대차대조표 밖으로 완전히 내보내고 은행을 통로로 남깁니다. 이는 KB국민+Kinexys 항목에서 남긴 문장의 일반화입니다. 결제 레일은 소프트웨어이기 전에 대차대조표상의 위치다.\n\n여기서 브리핑이 짚지 않은 두 번째 트랙의 함정이 드러납니다. 이 모든 일의 목적이 예금 기반을 지키는 것이라면, 자체 스테이블코인 발행은 그 목적과 반대로 움직입니다. 그 코인을 뒷받침할 준비금은 어딘가에서 와야 하고, 예금에서 은행 자체 코인으로 돈을 옮긴 고객은 남의 코인으로 떠난 것과 똑같이 예금 기반을 떠난 것입니다. 방어하는 수와 공격하는 수가 반대 방향을 가리키며, 순수하게 방어인 것은 첫 번째 트랙뿐입니다.\n\nCBDC와 예치금 토큰이 상호보완적이라는 주장은 맞습니다. 다만 브리핑이 든 이유보다 흥미로운 이유에서 그렇습니다. 2단계 설계에서 예치금 토큰은 고객이 드는 청구권이고 기관용 CBDC는 은행끼리 결제하는 수단입니다. 이는 돈이 이미 갖고 있는 모양 그대로입니다. 대중에게는 상업은행 예금, 은행 간 결제에는 중앙은행 지급준비금. 그러니 2단계 구조는 새로운 돈이 아닙니다. 기존 위계를 원장 위에 다시 표현한 것이고, 이는 이것이 작동하리라 기대할 이유인 동시에 무언가 근본적인 것을 바꾼다는 주장을 의심할 이유입니다.\n\n용어가 가리는 구분이 하나 더 있습니다. 여기서 허가형과 공개형은 기술 선택이 아니라 접근 통제 선택이고, 어느 쪽이든 결국 문이 달립니다. 사설 Besu 망은 누가 노드를 돌릴 수 있는지를 막고, KYC 화이트리스트를 단 공개 체인은 누가 토큰을 보유할 수 있는지를 막습니다. \"공개 체인\"은 열려 있게 들리지만 화이트리스트는 계정 층에서 그것을 닫으며, 규제 대상 부채에서 중요한 층이 바로 그 층입니다.\n\n## 동작 방식\n\n### 세 트랙, 누구의 부채인가로 갈라 보면\n\n| 트랙 | 누구의 부채 | 예금보험 | 법 개정 필요 | 은행에 남는 것 |\n|---|---|---|---|---|\n| **토큰화 예치금** | 은행, 그대로 | 예 | 아니오 | 예금, 이자, 관계 |\n| **은행 발행 스테이블코인** | 은행, 새 상품 | 아니오 | 예 | 수수료 수입, 새 유동성 부담 |\n| **제3자 스테이블코인** | 남 | 아니오 | 아니오 | 유통만 |\n\n### 두 층, 그리고 그것이 대응하는 것\n\n| 층 | Project Hangang에서 | 이미 돌아가는 돈에서 |\n|---|---|---|\n| 은행 간 결제 | 기관용 CBDC | 중앙은행 지급준비금 |\n| 고객이 드는 것 | 예치금 토큰 | 은행 예금 |\n\n대응이 정확하고, 그것이 이 설계를 지지하는 근거이자 이를 새롭다고 부르지 말아야 할 근거입니다.\n\n### 실패 시험\n\n```text\n발행자 정지, 토요일 02:00 → 고객의 거래 상대는 누구인가?\n  토큰화 예치금   → 은행, 그리고 그 뒤의 예금보험\n  은행 스테이블코인 → 은행, 준비금 풀을 상대로, 그 풀의 약관대로\n  제3자 코인      → 발행자, 그 법인이 어디에 설립돼 있든\n```\n\n### Jayverse에서의 위치\n\n- **Auditor: '누구의 부채인가' 열을 더한다.** 권한 매트릭스는 누가 혼자 행동할 수 있는지에 답한다. 가치를 담는 것이라면 그 가치가 누구의 대차대조표에 있는지도 답해야 한다. 두 질문의 답은 다르고, 코드에서 보이는 것은 하나뿐이다.\n- **Rails: 세 트랙은 스위치 하나 달린 한 상품이 아니라 세 개의 연동이다.** 거래 상대가 다르므로 대사, 장애 처리, 답해야 할 규제기관이 다르다. 예산도 따로 잡는다.\n- **Invest: 유출 숫자는 분모가 있어야 논지가 된다.** 60조 원이 빠져나간다는 말은 기준과 추세가 있어야 경고가 되고, 대체는 성장과 다르다. 숫자를 쓰기 전에 기준을 찾는다.\n- **Devnet: 2단계 구조는 로컬에서 시험 가능하다.** 아래에 기관용 결제 자산, 위에 예치금 토큰. 흥미로운 경우는 경계다. 한 층은 아직 결제 확정 전인데 다른 층은 이미 고객에게 입금된 상태.\n\n### 주장 경계\n\n브리핑이 뒷받침하는 것: 세 트랙 틀, 허가형 Besu 망 위의 Project Hangang 2단계 설계, 그리고 토큰화 예치금은 보험과 이자를 유지하는 반면 은행 발행 스테이블코인은 디지털자산기본법을 기다린다는 것. 여기서 미확인으로 다룰 것: 모든 숫자, 즉 연 약 110조 원의 보조금 지급과 2025~2026년 사이 60조 원 이상이 역외로 이동한다는 것, 카카오·네이버·토스·Circle이 원화 스테이블코인 인프라를 준비 중이라는 지목, 그리고 세 트랙 틀을 \"Tempo\"에 귀속한 부분입니다. 요약은 Tempo가 무엇인지 밝히지 않습니다. URL이 수집되지 않아 어느 것도 원문에서 다시 열어볼 수 없습니다.\n\n출처: 2026-09-22 jay가 붙여넣은 한국어 전략 요약, URL 없음 — 주장과 숫자는 `raw/2026-09-22-korean-bank-deposit-tokens.md`에 보존. 관련: Tech #64(KB국민과 Kinexys), Tech #74(BOK 24시간 원화 결제 파일럿, Project Hangang을 결제 창구 쪽에서 다룸).\n"</script>
+      <h1>원화를 체인에 올리는 세 가지 길 — 그리고 각각은 부채를 다른 곳으로 옮긴다</h1>
+      <p class="lead">한 전략 브리핑은 한국 은행들이 세 트랙을 동시에 준비해야 한다고 말합니다. 고객의 예금 청구권은 그대로 두고 결제만 온체인으로 옮기는 토큰화 예치금, 별도 준비금으로 뒷받침되며 디지털자산기본법 통과 이후에야 가능한 은행 발행 스테이블코인, 그리고 이미 역외에서 일어나고 있는 남의 스테이블코인 유통입니다. 첫 번째는 Project Hangang 안에 놓입니다. 한국은행이 기관용 CBDC를 발행하고 시중은행이 그 위에서 결제되는 예치금 토큰을 발행하는 2단계 실험이며, 현재 허가형 Besu 네트워크에서 돌고 있습니다.</p>
+      <p class="meta">트랙을 고르기 전에 &#39;누구의 부채인가&#39; 장부를 만드십시오. 실제로 신경 쓰는 결제 하나를 잡으십시오. 보조금 지급이든 기업 수입 대금이든. 그리고 세 트랙 모두로 통과시킵니다. 각 단계마다 네 가지를 적습니다. 고객의 청구권이 누구의 대차대조표에 있는가, 발행자가 무너지면 누가 손실을 지는가, 예금보험이 거기까지 닿는가, 그 단계를 어느 규제기관의 규칙이 지배하는가. 그다음 실패 시험을 돌립니다. 토요일 새벽 2시에 발행자가 멈추고, 그 순간 고객의 거래 상대가 누구인지 묻습니다. 산출물은 트랙마다 표 하나이고, 그러고 나면 세 트랙이 같은 상품의 세 가지 맛으로 보이지 않게 됩니다.</p>
+<h2>왜</h2>
+<p>오래가는 패턴은 이것이 세 가지 기술이 아니라 하나의 질문을 세 번 묻는 것이라는 점입니다. 그 돈은 누구의 부채인가. 토큰화 예치금은 청구권을 있던 자리에 그대로 두고 레일만 바꾸므로 예금보험과 이자와 여신 관계가 살아남습니다. 은행 발행 스테이블코인은 분리된 준비금으로 뒷받침되는 새 부채를 만들므로, 같은 은행 이름을 쓴 다른 상품입니다. 제3자 코인 유통은 청구권을 대차대조표 밖으로 완전히 내보내고 은행을 통로로 남깁니다. 이는 KB국민+Kinexys 항목에서 남긴 문장의 일반화입니다. 결제 레일은 소프트웨어이기 전에 대차대조표상의 위치다.</p>
+<p>여기서 브리핑이 짚지 않은 두 번째 트랙의 함정이 드러납니다. 이 모든 일의 목적이 예금 기반을 지키는 것이라면, 자체 스테이블코인 발행은 그 목적과 반대로 움직입니다. 그 코인을 뒷받침할 준비금은 어딘가에서 와야 하고, 예금에서 은행 자체 코인으로 돈을 옮긴 고객은 남의 코인으로 떠난 것과 똑같이 예금 기반을 떠난 것입니다. 방어하는 수와 공격하는 수가 반대 방향을 가리키며, 순수하게 방어인 것은 첫 번째 트랙뿐입니다.</p>
+<p>CBDC와 예치금 토큰이 상호보완적이라는 주장은 맞습니다. 다만 브리핑이 든 이유보다 흥미로운 이유에서 그렇습니다. 2단계 설계에서 예치금 토큰은 고객이 드는 청구권이고 기관용 CBDC는 은행끼리 결제하는 수단입니다. 이는 돈이 이미 갖고 있는 모양 그대로입니다. 대중에게는 상업은행 예금, 은행 간 결제에는 중앙은행 지급준비금. 그러니 2단계 구조는 새로운 돈이 아닙니다. 기존 위계를 원장 위에 다시 표현한 것이고, 이는 이것이 작동하리라 기대할 이유인 동시에 무언가 근본적인 것을 바꾼다는 주장을 의심할 이유입니다.</p>
+<p>용어가 가리는 구분이 하나 더 있습니다. 여기서 허가형과 공개형은 기술 선택이 아니라 접근 통제 선택이고, 어느 쪽이든 결국 문이 달립니다. 사설 Besu 망은 누가 노드를 돌릴 수 있는지를 막고, KYC 화이트리스트를 단 공개 체인은 누가 토큰을 보유할 수 있는지를 막습니다. "공개 체인"은 열려 있게 들리지만 화이트리스트는 계정 층에서 그것을 닫으며, 규제 대상 부채에서 중요한 층이 바로 그 층입니다.</p>
+<h2>동작 방식</h2>
+<h3>세 트랙, 누구의 부채인가로 갈라 보면</h3>
+<table><thead><tr><th>트랙</th><th>누구의 부채</th><th>예금보험</th><th>법 개정 필요</th><th>은행에 남는 것</th></tr></thead><tbody><tr><td><strong>토큰화 예치금</strong></td><td>은행, 그대로</td><td>예</td><td>아니오</td><td>예금, 이자, 관계</td></tr><tr><td><strong>은행 발행 스테이블코인</strong></td><td>은행, 새 상품</td><td>아니오</td><td>예</td><td>수수료 수입, 새 유동성 부담</td></tr><tr><td><strong>제3자 스테이블코인</strong></td><td>남</td><td>아니오</td><td>아니오</td><td>유통만</td></tr></tbody></table>
+<h3>두 층, 그리고 그것이 대응하는 것</h3>
+<table><thead><tr><th>층</th><th>Project Hangang에서</th><th>이미 돌아가는 돈에서</th></tr></thead><tbody><tr><td>은행 간 결제</td><td>기관용 CBDC</td><td>중앙은행 지급준비금</td></tr><tr><td>고객이 드는 것</td><td>예치금 토큰</td><td>은행 예금</td></tr></tbody></table>
+<p>대응이 정확하고, 그것이 이 설계를 지지하는 근거이자 이를 새롭다고 부르지 말아야 할 근거입니다.</p>
+<h3>실패 시험</h3>
+<pre><code class="language-text">발행자 정지, 토요일 02:00 → 고객의 거래 상대는 누구인가?
+  토큰화 예치금   → 은행, 그리고 그 뒤의 예금보험
+  은행 스테이블코인 → 은행, 준비금 풀을 상대로, 그 풀의 약관대로
+  제3자 코인      → 발행자, 그 법인이 어디에 설립돼 있든
+</code></pre>
+<h3>Jayverse에서의 위치</h3>
+<ul><li><strong>Auditor: &#39;누구의 부채인가&#39; 열을 더한다.</strong> 권한 매트릭스는 누가 혼자 행동할 수 있는지에 답한다. 가치를 담는 것이라면 그 가치가 누구의 대차대조표에 있는지도 답해야 한다. 두 질문의 답은 다르고, 코드에서 보이는 것은 하나뿐이다.</li><li><strong>Rails: 세 트랙은 스위치 하나 달린 한 상품이 아니라 세 개의 연동이다.</strong> 거래 상대가 다르므로 대사, 장애 처리, 답해야 할 규제기관이 다르다. 예산도 따로 잡는다.</li><li><strong>Invest: 유출 숫자는 분모가 있어야 논지가 된다.</strong> 60조 원이 빠져나간다는 말은 기준과 추세가 있어야 경고가 되고, 대체는 성장과 다르다. 숫자를 쓰기 전에 기준을 찾는다.</li><li><strong>Devnet: 2단계 구조는 로컬에서 시험 가능하다.</strong> 아래에 기관용 결제 자산, 위에 예치금 토큰. 흥미로운 경우는 경계다. 한 층은 아직 결제 확정 전인데 다른 층은 이미 고객에게 입금된 상태.</li></ul>
+<h3>주장 경계</h3>
+<p>브리핑이 뒷받침하는 것: 세 트랙 틀, 허가형 Besu 망 위의 Project Hangang 2단계 설계, 그리고 토큰화 예치금은 보험과 이자를 유지하는 반면 은행 발행 스테이블코인은 디지털자산기본법을 기다린다는 것. 여기서 미확인으로 다룰 것: 모든 숫자, 즉 연 약 110조 원의 보조금 지급과 2025~2026년 사이 60조 원 이상이 역외로 이동한다는 것, 카카오·네이버·토스·Circle이 원화 스테이블코인 인프라를 준비 중이라는 지목, 그리고 세 트랙 틀을 "Tempo"에 귀속한 부분입니다. 요약은 Tempo가 무엇인지 밝히지 않습니다. URL이 수집되지 않아 어느 것도 원문에서 다시 열어볼 수 없습니다.</p>
+<p>출처: 2026-09-22 jay가 붙여넣은 한국어 전략 요약, URL 없음 — 주장과 숫자는 <code>raw/2026-09-22-korean-bank-deposit-tokens.md</code>에 보존. 관련: Tech #64(KB국민과 Kinexys), Tech #74(BOK 24시간 원화 결제 파일럿, Project Hangang을 결제 창구 쪽에서 다룸).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>a liability</strong></td><td>부채, 갚아야 할 것 · 누구의 대차대조표에 있는가를 물을 때</td></tr><tr><td><strong>a balance sheet</strong></td><td>대차대조표 · "a payment rail is a balance-sheet position before it is software"</td></tr><tr><td><strong>a claim</strong></td><td>청구권 · 고객이 은행에 대해 갖는 권리</td></tr><tr><td><strong>deposit insurance</strong></td><td>예금보험 · 토큰화 예치금이 지키는 것</td></tr><tr><td><strong>a counterparty</strong></td><td>거래 상대방 · 실패 시험의 핵심 질문</td></tr><tr><td><strong>segregated reserves</strong></td><td>분리 보관된 준비금 · 스테이블코인을 뒷받침하는 자산</td></tr><tr><td><strong>to erode the deposit base</strong></td><td>예금 기반을 잠식하다 · 스테이블코인 확산의 위협</td></tr><tr><td><strong>wholesale vs retail</strong></td><td>기관용 대 개인용 · CBDC를 나누는 축</td></tr><tr><td><strong>permissioned / permissionless</strong></td><td>허가형 / 무허가형 · 네트워크 접근 방식</td></tr><tr><td><strong>a whitelist</strong></td><td>허용 목록 · 보유 가능한 계정을 제한</td></tr><tr><td><strong>an access-control choice</strong></td><td>접근 통제의 선택 · 기술 선택과 구별할 때</td></tr><tr><td><strong>the money hierarchy</strong></td><td>화폐 위계 · 중앙은행 화폐 위에 상업은행 화폐</td></tr><tr><td><strong>settlement finality</strong></td><td>결제 확정성 · 되돌릴 수 없게 되는 시점</td></tr><tr><td><strong>reconciliation</strong></td><td>대사(對査) · 두 장부를 맞춰 보는 일</td></tr><tr><td><strong>a denominator</strong></td><td>분모, 비교 기준 · "the figure needs a denominator before it is a thesis"</td></tr><tr><td><strong>substitution, not growth</strong></td><td>대체이지 성장이 아니다 · 유출 숫자를 읽을 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-system-design-course-single-server-to-scale.html">&larr; 71. System Design Course — a two-hour walk from one server to the seven decisions every design interview tests</a><a href="pocs-assistance-optimised-to-look-right.html">73. Assistance is optimised to look right — automation needs a model that knows when it is wrong &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="three-tracks-won-onchain";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Yesterday / Today 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
+  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
