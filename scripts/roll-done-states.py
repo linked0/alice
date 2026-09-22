@@ -46,6 +46,17 @@ for s in nav["sections"]:
         day = "today" if b and b == latest else "yesterday" if b and b == previous else None
         if day: x["day"] = day
         else: x.pop("day", None)
+# Daily closing log (jay, 2026-09-22: the grey badge still read 2026-09-17). The rule used to be
+# manual — "append yesterday's close, then change today's counters" — and it went five days
+# unfollowed, so the badge was comparing today against a week ago. Upserting TODAY's totals on every
+# run removes the rule: by the end of a day the entry holds that day's closing numbers, and tomorrow
+# it is automatically "the latest entry dated before today", which is what the badge reads. A day
+# with no work leaves no entry, so the badge falls back to the last day that had any — and its
+# tooltip names the date, so that is visible rather than misleading.
+_today = datetime.datetime.now(KST).date().isoformat()
+_prog = nav.setdefault("progress", [])
+_prog[:] = sorted([e for e in _prog if e.get("date") != _today] + [{"date": _today, "done": sum(j["done"] for j in nav["jump"]), "all": sum(j["all"] for j in nav["jump"])}],
+                  key=lambda e: e["date"])
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 
 # notes.html: every rail dot follows _nav.js; duplicate <li> for one key are collapsed to the first
