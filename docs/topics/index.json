@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-22 08:08 KST",
+"generated": "2026-09-22 10:08 KST",
 "counts": {
-"Tech": 281,
+"Tech": 282,
 "Theory": 189,
 "Invest": 21,
 "Eng": 399,
 "Life": 34
 },
 "done": 71,
-"all": 924,
+"all": 925,
 "items": [
 {
 "no": 1,
@@ -2069,10 +2069,46 @@
 {
 "no": 72,
 "section": "Tech",
+"key": "assistance-optimised-to-look-right",
+"href": "pocs-assistance-optimised-to-look-right.html",
+"status": "NEW",
+"position": 72,
+"title_en": "Assistance is optimised to look right — automation needs a model that knows when it is wrong",
+"type": "Talk",
+"date": "2026-09-22",
+"source": "gemini",
+"bin": "deep",
+"raw": "raw/2026-09-22-gemini-youtube.md",
+"title_ko": "어시스턴스는 맞아 보이도록 최적화됐다 — 자동화에는 자기가 틀렸음을 아는 모델이 필요하다",
+"related": [
+"72"
+],
+"vocab": [
+"an optimisation target",
+"human-in-the-loop",
+"unattended",
+"calibrated",
+"overconfident",
+"sycophancy",
+"to admit uncertainty",
+"mode collapse",
+"a ground truth",
+"a gate",
+"to escalate",
+"a self-report",
+"to hold something loosely",
+"boilerplate",
+"decoration",
+"a claim boundary"
+]
+},
+{
+"no": 73,
+"section": "Tech",
 "key": "ai-auditor-seed-bugs-before-trusting-findings",
 "href": "pocs-ai-auditor-seed-bugs-before-trusting-findings.html",
 "status": "NEW",
-"position": 72,
+"position": 73,
 "title_en": "A free AI auditor is a measurement problem — seed the bugs before you trust the findings",
 "type": "PoC",
 "date": "2026-09-21",
@@ -2100,12 +2136,12 @@
 ]
 },
 {
-"no": 73,
+"no": 74,
 "section": "Tech",
 "key": "bok-24h-won-settlement-window",
 "href": "pocs-bok-24h-won-settlement-window.html",
 "status": "NEW",
-"position": 73,
+"position": 74,
 "title_en": "The won gets a 24-hour window, not a 24/7 rail — BOK's settlement pilot",
 "type": "PoC",
 "date": "2026-09-21",
@@ -2132,12 +2168,12 @@
 ]
 },
 {
-"no": 74,
+"no": 75,
 "section": "Tech",
 "key": "aa-two-standards-capability-matrix",
 "href": "pocs-aa-two-standards-capability-matrix.html",
 "status": "NEW",
-"position": 74,
+"position": 75,
 "title_en": "Two native AA standards — wallets need a capability matrix, not a chain-name switch",
 "type": "PoC",
 "title_ko": "두 개의 네이티브 AA 표준 — 지갑에는 체인 이름 분기가 아니라 capability matrix가 필요하다",
@@ -2156,12 +2192,12 @@
 ]
 },
 {
-"no": 75,
+"no": 76,
 "section": "Tech",
 "key": "articulation-idea-library",
 "href": "pocs-articulation-idea-library.html",
 "status": "NEW",
-"position": 75,
+"position": 76,
 "title_en": "Articulation is a retrieval system — build ten ideas, then compile them into three shapes",
 "type": "PoC",
 "title_ko": "표현력은 검색 시스템이다 — 열 개의 생각을 만들고 세 가지 구조로 컴파일하라",
@@ -2179,12 +2215,12 @@
 ]
 },
 {
-"no": 76,
+"no": 77,
 "section": "Tech",
 "key": "mamba-selective-state-linear-time",
 "href": "pocs-mamba-selective-state-linear-time.html",
 "status": "NEW",
-"position": 76,
+"position": 77,
 "title_en": "Mamba trades attention for a selective state — linear time, fixed memory, and what the trade costs",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2208,12 +2244,12 @@
 ]
 },
 {
-"no": 77,
+"no": 78,
 "section": "Tech",
 "key": "model-is-weights-plus-objective",
 "href": "pocs-model-is-weights-plus-objective.html",
 "status": "NEW",
-"position": 77,
+"position": 78,
 "title_en": "A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2242,12 +2278,12 @@
 ]
 },
 {
-"no": 78,
+"no": 79,
 "section": "Tech",
 "key": "dependency-is-authority-parity-event-stream",
 "href": "pocs-dependency-is-authority-parity-event-stream.html",
 "status": "NEW",
-"position": 78,
+"position": 79,
 "title_en": "A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2269,12 +2305,12 @@
 ]
 },
 {
-"no": 79,
+"no": 80,
 "section": "Tech",
 "key": "toss-komsco-voucher-settlement-on-optimism",
 "href": "pocs-toss-komsco-voucher-settlement-on-optimism.html",
 "status": "NEW",
-"position": 79,
+"position": 80,
 "title_en": "Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2299,12 +2335,12 @@
 ]
 },
 {
-"no": 80,
+"no": 81,
 "section": "Tech",
 "key": "eip-8141-8130-wallet-standards-coexist",
 "href": "pocs-eip-8141-8130-wallet-standards-coexist.html",
 "status": "NEW",
-"position": 80,
+"position": 81,
 "title_en": "Ethereum and Base gave up on one wallet standard — EIP-8141 and EIP-8130 will coexist, and the first to ship sets it",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2331,12 +2367,12 @@
 ]
 },
 {
-"no": 81,
+"no": 82,
 "section": "Tech",
 "key": "bottomline-swift-message-new-destination",
 "href": "pocs-bottomline-swift-message-new-destination.html",
 "status": "NEW",
-"position": 81,
+"position": 82,
 "title_en": "600 banks did not go onchain — a Swift message got a new destination (Bottomline Global Pay Connect)",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2363,12 +2399,12 @@
 ]
 },
 {
-"no": 82,
+"no": 83,
 "section": "Tech",
 "key": "fomc-first-hike-deleted-sentence",
 "href": "pocs-fomc-first-hike-deleted-sentence.html",
 "status": "NEW",
-"position": 82,
+"position": 83,
 "title_en": "The Fed's first hike since 2023 was a non-event — the information was in the deleted sentence",
 "type": "PoC",
 "date": "2026-09-18",
@@ -2396,12 +2432,12 @@
 ]
 },
 {
-"no": 83,
+"no": 84,
 "section": "Tech",
 "key": "canton-sv-seat-is-a-milestone-contract",
 "href": "pocs-canton-sv-seat-is-a-milestone-contract.html",
 "status": "NEW",
-"position": 83,
+"position": 84,
 "title_en": "A Super Validator seat is a milestone contract — what Canton bought when it admitted Shinhan (CIP-0121)",
 "type": "PoC",
 "date": "2026-09-16",
@@ -2427,12 +2463,12 @@
 ]
 },
 {
-"no": 84,
+"no": 85,
 "section": "Tech",
 "key": "clarity-act-cloture-roll-call",
 "href": "pocs-clarity-act-cloture-roll-call.html",
 "status": "NEW",
-"position": 84,
+"position": 85,
 "title_en": "The Clarity Act failed cloture — the probability was right, the roll call is the story",
 "type": "PoC",
 "date": "2026-09-16",
@@ -2456,12 +2492,12 @@
 ]
 },
 {
-"no": 85,
+"no": 86,
 "section": "Tech",
 "key": "homa-receiver-driven-transport",
 "href": "pocs-homa-receiver-driven-transport.html",
 "status": "NEW",
-"position": 85,
+"position": 86,
 "title_en": "Homa — when the AI cluster's bottleneck is the short message, let the receiver run the network",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2496,12 +2532,12 @@
 ]
 },
 {
-"no": 86,
+"no": 87,
 "section": "Tech",
 "key": "ai-engineer-builds-the-car",
 "href": "pocs-ai-engineer-builds-the-car.html",
 "status": "NEW",
-"position": 86,
+"position": 87,
 "title_en": "An AI engineer builds the car, not the engine — judgment about architecture is the skill that stays scarce",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2536,12 +2572,12 @@
 ]
 },
 {
-"no": 87,
+"no": 88,
 "section": "Tech",
 "key": "shopify-six-decisions",
 "href": "pocs-shopify-six-decisions.html",
 "status": "NEW",
-"position": 87,
+"position": 88,
 "title_en": "Shopify's six decisions — fix the tool instead of replacing it, and reverse a bet the day its premise dies",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2577,12 +2613,12 @@
 ]
 },
 {
-"no": 88,
+"no": 89,
 "section": "Tech",
 "key": "vibe-modeling-blender-mcp",
 "href": "pocs-vibe-modeling-blender-mcp.html",
 "status": "NEW",
-"position": 88,
+"position": 89,
 "title_en": "Vibe modeling — an agent with a Blender MCP server researched, built, rendered and fixed the Sagrada Família in 29 minutes",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2614,12 +2650,12 @@
 ]
 },
 {
-"no": 89,
+"no": 90,
 "section": "Tech",
 "key": "microduck-open-source-biped",
 "href": "pocs-microduck-open-source-biped.html",
 "status": "NEW",
-"position": 89,
+"position": 90,
 "title_en": "Microduck — a $399 open-source duck robot turns sim-to-real reinforcement learning into a hobby-budget skill",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2651,12 +2687,12 @@
 ]
 },
 {
-"no": 90,
+"no": 91,
 "section": "Tech",
 "key": "adk-gemini-live-voice-agent",
 "href": "pocs-adk-gemini-live-voice-agent.html",
 "status": "NEW",
-"position": 90,
+"position": 91,
 "title_en": "Real-time voice agents — replace the STT→LLM→TTS pipeline with one open bidirectional stream",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2688,12 +2724,12 @@
 ]
 },
 {
-"no": 91,
+"no": 92,
 "section": "Tech",
 "key": "agentic-systems-need-ontologies",
 "href": "pocs-agentic-systems-need-ontologies.html",
 "status": "NEW",
-"position": 91,
+"position": 92,
 "title_en": "Agentic systems need ontologies — validate types at the door, meaning at the ledger",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2727,12 +2763,12 @@
 ]
 },
 {
-"no": 92,
+"no": 93,
 "section": "Tech",
 "key": "managed-agents-build-vs-buy-harness",
 "href": "pocs-managed-agents-build-vs-buy-harness.html",
 "status": "NEW",
-"position": 92,
+"position": 93,
 "title_en": "Three founders shipped Claude Managed Agents to production — because the harness wasn't their edge",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2768,12 +2804,12 @@
 ]
 },
 {
-"no": 93,
+"no": 94,
 "section": "Tech",
 "key": "vercel-eve-filesystem-agents",
 "href": "pocs-vercel-eve-filesystem-agents.html",
 "status": "NEW",
-"position": 93,
+"position": 94,
 "title_en": "The Vercel data agent — four architectures lost to a file system and a shell",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2808,12 +2844,12 @@
 ]
 },
 {
-"no": 94,
+"no": 95,
 "section": "Tech",
 "key": "obsidian-three-levels-llm-wiki",
 "href": "pocs-obsidian-three-levels-llm-wiki.html",
 "status": "NEW",
-"position": 94,
+"position": 95,
 "title_en": "Obsidian's three AI levels — the top one is the wiki alice already runs by hand",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2848,12 +2884,12 @@
 ]
 },
 {
-"no": 95,
+"no": 96,
 "section": "Tech",
 "key": "code-graph-cuts-agent-context",
 "href": "pocs-code-graph-cuts-agent-context.html",
 "status": "NEW",
-"position": 95,
+"position": 96,
 "title_en": "Code agents don't need grep loops — they need a dependency graph",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2887,12 +2923,12 @@
 ]
 },
 {
-"no": 96,
+"no": 97,
 "section": "Tech",
 "key": "mlx-local-agentic-ai-on-mac",
 "href": "pocs-mlx-local-agentic-ai-on-mac.html",
 "status": "NEW",
-"position": 96,
+"position": 97,
 "title_en": "Local agentic AI on the Mac is a config change, not a rewrite — MLX puts an OpenAI-compatible server between any agent and Apple Silicon",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2929,12 +2965,12 @@
 ]
 },
 {
-"no": 97,
+"no": 98,
 "section": "Tech",
 "key": "local-ai-weights-quantization-engines",
 "href": "pocs-local-ai-weights-quantization-engines.html",
 "status": "NEW",
-"position": 97,
+"position": 98,
 "title_en": "Local AI, in four parts — weights, quantization, an engine, and memory decide whether a model runs on your machine",
 "type": "PoC",
 "date": "2026-09-19",
@@ -2969,12 +3005,12 @@
 ]
 },
 {
-"no": 98,
+"no": 99,
 "section": "Tech",
 "key": "gen-1-5-one-shot-physical-prompting",
 "href": "pocs-gen-1-5-one-shot-physical-prompting.html",
 "status": "NEW",
-"position": 98,
+"position": 99,
 "title_en": "GEN-1.5 — a robot learns a new task from a single few-second demo, no fine-tuning run required",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3009,12 +3045,12 @@
 ]
 },
 {
-"no": 99,
+"no": 100,
 "section": "Tech",
 "key": "finn-robotics-state-of-the-art-pi-0-7",
 "href": "pocs-finn-robotics-state-of-the-art-pi-0-7.html",
 "status": "NEW",
-"position": 99,
+"position": 100,
 "title_en": "π0.7 — Physical Intelligence's claim: robotics gets its GPT moment, one model, out of the box, across bodies",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3049,12 +3085,12 @@
 ]
 },
 {
-"no": 100,
+"no": 101,
 "section": "Tech",
 "key": "gemini-robotics-2-whole-body",
 "href": "pocs-gemini-robotics-2-whole-body.html",
 "status": "NEW",
-"position": 100,
+"position": 101,
 "title_en": "Gemini Robotics 2 — one model runs a humanoid's whole body, and two robots split a task with no shared controller",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3089,12 +3125,12 @@
 ]
 },
 {
-"no": 101,
+"no": 102,
 "section": "Tech",
 "key": "lecun-world-models-jepa",
 "href": "pocs-lecun-world-models-jepa.html",
 "status": "NEW",
-"position": 101,
+"position": 102,
 "title_en": "World models — LeCun says stop reconstructing pixels and start planning inside the objective",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3130,12 +3166,12 @@
 ]
 },
 {
-"no": 102,
+"no": 103,
 "section": "Tech",
 "key": "wef-top-10-emerging-tech-2026",
 "href": "pocs-wef-top-10-emerging-tech-2026.html",
 "status": "NEW",
-"position": 102,
+"position": 103,
 "title_en": "WEF's Top 10 Emerging Technologies 2026 — a five-year mainstream bet, and two lines Jayverse can act on now",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3170,12 +3206,12 @@
 ]
 },
 {
-"no": 103,
+"no": 104,
 "section": "Tech",
 "key": "blotato-solo-micro-saas-system",
 "href": "pocs-blotato-solo-micro-saas-system.html",
 "status": "NEW",
-"position": 103,
+"position": 104,
 "title_en": "Blotato's solo playbook — validate with a post, ship one feature, grade every draft before it goes out",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3209,12 +3245,12 @@
 ]
 },
 {
-"no": 104,
+"no": 105,
 "section": "Tech",
 "key": "claude-for-cfos-verify-not-summarize",
 "href": "pocs-claude-for-cfos-verify-not-summarize.html",
 "status": "NEW",
-"position": 104,
+"position": 105,
 "title_en": "Claude For CFOs — the discipline is prove-versus-infer, not a fancier chart",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3249,12 +3285,12 @@
 ]
 },
 {
-"no": 105,
+"no": 106,
 "section": "Tech",
 "key": "product-company-gap-mvs-slip",
 "href": "pocs-product-company-gap-mvs-slip.html",
 "status": "NEW",
-"position": 105,
+"position": 106,
 "title_en": "A working product isn't a scalable company — distribution and business model decide the rest",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3287,12 +3323,12 @@
 ]
 },
 {
-"no": 106,
+"no": 107,
 "section": "Tech",
 "key": "microfactory-small-models-clutch-rollback",
 "href": "pocs-microfactory-small-models-clutch-rollback.html",
 "status": "NEW",
-"position": 106,
+"position": 107,
 "title_en": "Microfactory — a small task model plus a human clutch beats a generalist foundation model on a repeating cell",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3328,12 +3364,12 @@
 ]
 },
 {
-"no": 107,
+"no": 108,
 "section": "Tech",
 "key": "yc-first-users-search-not-persuasion-mep",
 "href": "pocs-yc-first-users-search-not-persuasion-mep.html",
 "status": "NEW",
-"position": 107,
+"position": 108,
 "title_en": "First users are a search problem — not a persuasion problem",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3365,12 +3401,12 @@
 ]
 },
 {
-"no": 108,
+"no": 109,
 "section": "Tech",
 "key": "design-constraints-layers-interfaces-choice",
 "href": "pocs-design-constraints-layers-interfaces-choice.html",
 "status": "NEW",
-"position": 108,
+"position": 109,
 "title_en": "Design — forcing chaos into an order that hides exactly what the next layer doesn't need to see",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3405,12 +3441,12 @@
 ]
 },
 {
-"no": 109,
+"no": 110,
 "section": "Tech",
 "key": "chatgpt-work-data-agent-root-cause-to-slack",
 "href": "pocs-chatgpt-work-data-agent-root-cause-to-slack.html",
 "status": "NEW",
-"position": 109,
+"position": 110,
 "title_en": "OpenAI's \"data agent\" demo names a root cause on screen — but never shows the query that proves it",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3443,12 +3479,12 @@
 ]
 },
 {
-"no": 110,
+"no": 111,
 "section": "Tech",
 "key": "amodei-pacing-frontier-embedded-evaluators",
 "href": "pocs-amodei-pacing-frontier-embedded-evaluators.html",
 "status": "NEW",
-"position": 110,
+"position": 111,
 "title_en": "Pacing the Frontier — Amodei's plan starts with an evaluator inside the building, not a treaty",
 "type": "PoC",
 "date": "2026-09-19",
@@ -3483,12 +3519,12 @@
 ]
 },
 {
-"no": 111,
+"no": 112,
 "section": "Tech",
 "key": "galaxy-brain-resistance-principles-with-teeth",
 "href": "pocs-galaxy-brain-resistance-principles-with-teeth.html",
 "status": "NEW",
-"position": 111,
+"position": 112,
 "title_en": "Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth",
 "type": "Essay",
 "date": "2026-09-20",
@@ -3536,12 +3572,12 @@
 ]
 },
 {
-"no": 112,
+"no": 113,
 "section": "Tech",
 "key": "moe-sparse-vs-active-parameters-router",
 "href": "pocs-moe-sparse-vs-active-parameters-router.html",
 "status": "NEW",
-"position": 112,
+"position": 113,
 "title_en": "Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them",
 "type": "Talk",
 "date": "2026-09-21",
@@ -3581,12 +3617,12 @@
 ]
 },
 {
-"no": 113,
+"no": 114,
 "section": "Tech",
 "key": "rag-vs-long-context-hybrid-filter-then-attend",
 "href": "pocs-rag-vs-long-context-hybrid-filter-then-attend.html",
 "status": "NEW",
-"position": 113,
+"position": 114,
 "title_en": "RAG or long context isn't a choice — the production pattern is filter with RAG, then attend with long context",
 "type": "Talk",
 "date": "2026-09-21",
@@ -3623,12 +3659,12 @@
 ]
 },
 {
-"no": 114,
+"no": 115,
 "section": "Tech",
 "key": "embeddings-vector-db-agent-loop-mcp-primitives",
 "href": "pocs-embeddings-vector-db-agent-loop-mcp-primitives.html",
 "status": "NEW",
-"position": 114,
+"position": 115,
 "title_en": "Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks",
 "type": "Talk",
 "date": "2026-09-21",
@@ -3668,12 +3704,12 @@
 ]
 },
 {
-"no": 115,
+"no": 116,
 "section": "Tech",
 "key": "nigeria-telesurgery-500km-latency-budget",
 "href": "pocs-nigeria-telesurgery-500km-latency-budget.html",
 "status": "NEW",
-"position": 115,
+"position": 116,
 "title_en": "Nigeria's first tele-robotic surgery — the 500 km distance was never the hard part, the loop was",
 "type": "PoC",
 "date": "2026-09-21",
@@ -3710,12 +3746,12 @@
 ]
 },
 {
-"no": 116,
+"no": 117,
 "section": "Tech",
 "key": "ethlabs-week13-quick-slots-blobs-aa-migration",
 "href": "pocs-ethlabs-week13-quick-slots-blobs-aa-migration.html",
 "status": "NEW",
-"position": 116,
+"position": 117,
 "title_en": "Ethlabs week 13 — Quick Slots goes to the client tier lists, blobs get a demand survey, and native AA turns into migration flows",
 "type": "Essay",
 "date": "2026-09-21",
@@ -3764,12 +3800,12 @@
 ]
 },
 {
-"no": 117,
+"no": 118,
 "section": "Tech",
 "key": "gadak-jira-cache-empty-result",
 "href": "pocs-gadak-jira-cache-empty-result.html",
 "status": "NEW",
-"position": 117,
+"position": 118,
 "title_en": "gadak — Jira cached to one SQLite file, and the empty result an agent reads as \"nothing exists\"",
 "type": "Product",
 "date": "2026-09-21",
@@ -3800,12 +3836,12 @@
 ]
 },
 {
-"no": 118,
+"no": 119,
 "section": "Tech",
 "key": "staking-queue-rate-limit-both-ways",
 "href": "pocs-staking-queue-rate-limit-both-ways.html",
 "status": "NEW",
-"position": 118,
+"position": 119,
 "title_en": "The staking queue is a rate limit that runs both ways — 2.48 million ETH waiting says how fast supply can move, not where price goes",
 "type": "PoC",
 "date": "2026-09-21",
@@ -3845,12 +3881,12 @@
 ]
 },
 {
-"no": 119,
+"no": 120,
 "section": "Tech",
 "key": "moralis-wallet-api",
 "href": "pocs-moralis-wallet-api.html",
 "status": "PLANNED",
-"position": 119,
+"position": 120,
 "title_en": "Moralis — wallet snapshot via API",
 "type": "PoC",
 "title_ko": "Moralis — API로 지갑 스냅샷 조회",
@@ -3864,12 +3900,12 @@
 ]
 },
 {
-"no": 120,
+"no": 121,
 "section": "Tech",
 "key": "fast-ethereum-is-a-delivery-chain",
 "href": "pocs-fast-ethereum-is-a-delivery-chain.html",
 "status": "PLANNED",
-"position": 120,
+"position": 121,
 "title_en": "Fast Ethereum is a delivery chain — spec → client → RPC → wallet → user",
 "type": "PoC",
 "title_ko": "빠른 Ethereum은 전달 사슬이다 — 명세 → 클라이언트 → RPC → 지갑 → 사용자",
@@ -3892,12 +3928,12 @@
 ]
 },
 {
-"no": 121,
+"no": 122,
 "section": "Tech",
 "key": "a-safety-margin-has-a-shelf-life",
 "href": "pocs-a-safety-margin-has-a-shelf-life.html",
 "status": "PLANNED",
-"position": 121,
+"position": 122,
 "title_en": "A crypto safety margin has a shelf life — date it, and make the signature scheme replaceable",
 "type": "PoC",
 "title_ko": "암호 안전 마진에는 유효기간이 있다 — 날짜를 병기하고, 서명 스킴을 교체 가능하게",
@@ -3916,12 +3952,12 @@
 ]
 },
 {
-"no": 122,
+"no": 123,
 "section": "Tech",
 "key": "a-status-page-must-outlive-the-service",
 "href": "pocs-a-status-page-must-outlive-the-service.html",
 "status": "PLANNED",
-"position": 122,
+"position": 123,
 "title_en": "A status page must outlive the service it reports on",
 "type": "PoC",
 "title_ko": "상태 페이지는 그것이 보고하는 서비스보다 오래 살아야 한다",
@@ -3940,12 +3976,12 @@
 ]
 },
 {
-"no": 123,
+"no": 124,
 "section": "Tech",
 "key": "stablecoin-visa-card-invisible-under-the-hood",
 "href": "pocs-stablecoin-visa-card-invisible-under-the-hood.html",
 "status": "PLANNED",
-"position": 123,
+"position": 124,
 "title_en": "MoneyGram's stablecoin Visa card — invisible to the user, a just-in-time conversion under the hood",
 "type": "PoC",
 "title_ko": "MoneyGram 스테이블코인 Visa 카드 — 사용자에겐 안 보이고, 밑에선 실시간 전환",
@@ -3968,12 +4004,12 @@
 ]
 },
 {
-"no": 124,
+"no": 125,
 "section": "Tech",
 "key": "stablepair-hook-fee-tracks-the-risk",
 "href": "pocs-stablepair-hook-fee-tracks-the-risk.html",
 "status": "PLANNED",
-"position": 124,
+"position": 125,
 "title_en": "Uniswap v4 StablePair Hook — a constant fee is the wrong setting for a stable pair",
 "type": "PoC",
 "title_ko": "Uniswap v4 StablePair Hook — 스테이블 페어에 고정 수수료는 틀린 설정",
@@ -3993,12 +4029,12 @@
 ]
 },
 {
-"no": 125,
+"no": 126,
 "section": "Tech",
 "key": "teleoperation-is-a-latency-budget",
 "href": "pocs-teleoperation-is-a-latency-budget.html",
 "status": "PLANNED",
-"position": 125,
+"position": 126,
 "title_en": "The remote excavator — teleoperation is a latency budget, not a '6G' headline",
 "type": "PoC",
 "title_ko": "원격 굴착기 — 원격조작은 '6G' 헤드라인이 아니라 지연 예산이다",
@@ -4017,12 +4053,12 @@
 ]
 },
 {
-"no": 126,
+"no": 127,
 "section": "Tech",
 "key": "atlas-text-to-3d-rigged-characters",
 "href": "pocs-atlas-text-to-3d-rigged-characters.html",
 "status": "PLANNED",
-"position": 126,
+"position": 127,
 "title_en": "Atlas (text-to-3D) — the output is a rigged character, not a static mesh",
 "type": "PoC",
 "title_ko": "Atlas(text-to-3D) — 결과물이 정적 메시가 아니라 리깅된 캐릭터",
@@ -4041,12 +4077,12 @@
 ]
 },
 {
-"no": 127,
+"no": 128,
 "section": "Tech",
 "key": "coxon-resignation-thread-race-vs-provenance",
 "href": "pocs-coxon-resignation-thread-race-vs-provenance.html",
 "status": "PLANNED",
-"position": 127,
+"position": 128,
 "title_en": "The Coxon resignation thread — race logic inside a safety lab, and who amplified it",
 "type": "PoC",
 "title_ko": "Coxon 사직 스레드 — 안전 랩 안의 레이스 논리, 그리고 누가 증폭했나",
@@ -4067,12 +4103,12 @@
 ]
 },
 {
-"no": 128,
+"no": 129,
 "section": "Tech",
 "key": "scaling-simulation-on-a-general-cloud",
 "href": "pocs-scaling-simulation-on-a-general-cloud.html",
 "status": "PLANNED",
-"position": 128,
+"position": 129,
 "title_en": "Simulate scaling before you need it — a load study on AWS or GCP",
 "type": "PoC",
 "title_ko": "필요해지기 전에 스케일링을 시뮬레이션하라 — AWS·GCP 부하 스터디",
@@ -4094,12 +4130,12 @@
 ]
 },
 {
-"no": 129,
+"no": 130,
 "section": "Tech",
 "key": "mid-level-backend-role-the-hiring-stack",
 "href": "pocs-mid-level-backend-role-the-hiring-stack.html",
 "status": "PLANNED",
-"position": 129,
+"position": 130,
 "title_en": "A mid-level backend JD, read as a stack checklist",
 "type": "PoC",
 "title_ko": "미들 백엔드 채용 공고 — 스택 체크리스트로 읽기",
@@ -4118,12 +4154,12 @@
 ]
 },
 {
-"no": 130,
+"no": 131,
 "section": "Tech",
 "key": "op-return-is-a-shared-state-channel",
 "href": "pocs-op-return-is-a-shared-state-channel.html",
 "status": "PLANNED",
-"position": 130,
+"position": 131,
 "title_en": "OP_RETURN became a negotiation channel — sharing one fact without trust",
 "type": "PoC",
 "title_ko": "OP_RETURN이 협상 채널이 됐다 — 신뢰 없이 사실 하나를 공유하는 법",
@@ -4143,12 +4179,12 @@
 ]
 },
 {
-"no": 131,
+"no": 132,
 "section": "Tech",
 "key": "lerobot-the-format-outlives-the-framework",
 "href": "pocs-lerobot-the-format-outlives-the-framework.html",
 "status": "PLANNED",
-"position": 131,
+"position": 132,
 "title_en": "LeRobot — why the dataset format outlives the framework",
 "type": "PoC",
 "title_ko": "LeRobot — 데이터셋 포맷이 왜 프레임워크보다 오래 사는가",
@@ -4171,12 +4207,12 @@
 ]
 },
 {
-"no": 132,
+"no": 133,
 "section": "Tech",
 "key": "tenderly-lower-the-cost-to-start-watching",
 "href": "pocs-tenderly-lower-the-cost-to-start-watching.html",
 "status": "PLANNED",
-"position": 132,
+"position": 133,
 "title_en": "Tenderly — lowering the cost to start watching on-chain",
 "type": "PoC",
 "title_ko": "Tenderly — 온체인 감시를 시작하는 비용을 낮추는 쪽",
@@ -4195,12 +4231,12 @@
 ]
 },
 {
-"no": 133,
+"no": 134,
 "section": "Tech",
 "key": "deposit-fast-exit-slow",
 "href": "pocs-deposit-fast-exit-slow.html",
 "status": "PLANNED",
-"position": 133,
+"position": 134,
 "title_en": "Deposit trusts a fast confirmation; exit waits on the rollup's own proof",
 "type": "PoC",
 "title_ko": "입금은 빠른 확인을 믿고, 출금은 롤업 자신의 증명을 기다린다",
@@ -4222,12 +4258,12 @@
 ]
 },
 {
-"no": 134,
+"no": 135,
 "section": "Tech",
 "key": "distribution-splits-from-infrastructure",
 "href": "pocs-distribution-splits-from-infrastructure.html",
 "status": "PLANNED",
-"position": 134,
+"position": 135,
 "title_en": "Distribution splits from infrastructure — a wallet is worth more un-captured",
 "type": "PoC",
 "title_ko": "유통이 인프라에서 갈라진다 — 지갑은 포획되지 않을 때 더 가치 있다",
@@ -4250,12 +4286,12 @@
 ]
 },
 {
-"no": 135,
+"no": 136,
 "section": "Tech",
 "key": "the-chain-only-checks-a-proof-exists",
 "href": "pocs-the-chain-only-checks-a-proof-exists.html",
 "status": "PLANNED",
-"position": 135,
+"position": 136,
 "title_en": "The chain stops verifying — it only checks that a proof exists",
 "type": "PoC",
 "title_ko": "체인은 검증을 멈추고 — 증명이 존재하는지만 확인한다",
@@ -4280,12 +4316,12 @@
 ]
 },
 {
-"no": 136,
+"no": 137,
 "section": "Tech",
 "key": "supported-means-three-things",
 "href": "pocs-supported-means-three-things.html",
 "status": "PLANNED",
-"position": 136,
+"position": 137,
 "title_en": "Anvil proves the protocol, a testnet proves the chain, only a wallet proves the user",
 "type": "PoC",
 "title_ko": "Anvil 은 프로토콜을, 테스트넷은 체인을, 지갑만이 사용자를 증명한다",
@@ -4306,12 +4342,12 @@
 ]
 },
 {
-"no": 137,
+"no": 138,
 "section": "Tech",
 "key": "architecture-is-accepted-failure",
 "href": "pocs-architecture-is-accepted-failure.html",
 "status": "PLANNED",
-"position": 137,
+"position": 138,
 "title_en": "An architecture is a record of which failure you agreed to accept",
 "type": "PoC",
 "title_ko": "아키텍처는 어떤 고장을 받아들이기로 했는지의 기록이다",
@@ -4330,12 +4366,12 @@
 ]
 },
 {
-"no": 138,
+"no": 139,
 "section": "Tech",
 "key": "the-boundary-is-the-unit",
 "href": "pocs-the-boundary-is-the-unit.html",
 "status": "PLANNED",
-"position": 138,
+"position": 139,
 "title_en": "A list of attacks does not transfer — the trust boundary does",
 "type": "PoC",
 "title_ko": "공격 목록은 이전되지 않는다 — 이전되는 것은 신뢰 경계다",
@@ -4356,12 +4392,12 @@
 ]
 },
 {
-"no": 139,
+"no": 140,
 "section": "Tech",
 "key": "x402-facilitator-market",
 "href": "pocs-x402-facilitator-market.html",
 "status": "PLANNED",
-"position": 139,
+"position": 140,
 "title_en": "The middleman is optional in the spec — and standard in practice",
 "type": "PoC",
 "title_ko": "중개자는 스펙에서는 선택이고, 현실에서는 표준이다",
@@ -4384,12 +4420,12 @@
 ]
 },
 {
-"no": 140,
+"no": 141,
 "section": "Tech",
 "key": "one-person-media-company",
 "href": "pocs-one-person-media-company.html",
 "status": "PLANNED",
-"position": 140,
+"position": 141,
 "title_en": "A one-person media company is six bots and one shared brain",
 "type": "PoC",
 "title_ko": "1인 미디어 회사 = 전문 봇 여섯 + 공유 브레인 하나",
@@ -4408,12 +4444,12 @@
 ]
 },
 {
-"no": 141,
+"no": 142,
 "section": "Tech",
 "key": "a-boolean-hides-a-state-machine",
 "href": "pocs-a-boolean-hides-a-state-machine.html",
 "status": "PLANNED",
-"position": 141,
+"position": 142,
 "title_en": "A boolean hides a state machine",
 "type": "PoC",
 "title_ko": "불리언 하나가 상태 기계를 숨긴다",
@@ -4431,12 +4467,12 @@
 ]
 },
 {
-"no": 142,
+"no": 143,
 "section": "Tech",
 "key": "the-double-click-mints-twice",
 "href": "pocs-the-double-click-mints-twice.html",
 "status": "PLANNED",
-"position": 142,
+"position": 143,
 "title_en": "The double-click mints twice — idempotency is the app's duty",
 "type": "PoC",
 "title_ko": "더블클릭은 두 번 민트한다 — 멱등성은 앱의 의무",
@@ -4452,12 +4488,12 @@
 ]
 },
 {
-"no": 143,
+"no": 144,
 "section": "Tech",
 "key": "the-app-reads-a-projection",
 "href": "pocs-the-app-reads-a-projection.html",
 "status": "PLANNED",
-"position": 143,
+"position": 144,
 "title_en": "Your app doesn't read the chain — it reads a projection",
 "type": "PoC",
 "title_ko": "앱은 체인을 읽지 않는다 — 프로젝션을 읽는다",
@@ -4474,12 +4510,12 @@
 ]
 },
 {
-"no": 144,
+"no": 145,
 "section": "Tech",
 "key": "the-wallet-is-not-the-user",
 "href": "pocs-the-wallet-is-not-the-user.html",
 "status": "PLANNED",
-"position": 144,
+"position": 145,
 "title_en": "The wallet is not the user",
 "type": "PoC",
 "title_ko": "지갑은 사용자가 아니다",
@@ -4498,12 +4534,12 @@
 ]
 },
 {
-"no": 145,
+"no": 146,
 "section": "Tech",
 "key": "a-refund-is-a-new-payment",
 "href": "pocs-a-refund-is-a-new-payment.html",
 "status": "PLANNED",
-"position": 145,
+"position": 146,
 "title_en": "A refund is a new payment — support flows on irreversible rails",
 "type": "PoC",
 "title_ko": "환불은 새 결제다 — 되돌릴 수 없는 레일의 CS 플로우",
@@ -4519,12 +4555,12 @@
 ]
 },
 {
-"no": 146,
+"no": 147,
 "section": "Tech",
 "key": "the-chain-never-calls-back",
 "href": "pocs-the-chain-never-calls-back.html",
 "status": "PLANNED",
-"position": 146,
+"position": 147,
 "title_en": "The chain never calls you back — notifications are your job",
 "type": "PoC",
 "title_ko": "체인은 회신 전화를 하지 않는다 — 알림은 앱의 몫",
@@ -4542,12 +4578,12 @@
 ]
 },
 {
-"no": 147,
+"no": 148,
 "section": "Tech",
 "key": "a-faucet-is-a-payout",
 "href": "pocs-a-faucet-is-a-payout.html",
 "status": "PLANNED",
-"position": 147,
+"position": 148,
 "title_en": "A faucet without limits is a payout, not a feature",
 "type": "PoC",
 "title_ko": "한도 없는 파우셋은 기능이 아니라 지출이다",
@@ -4567,12 +4603,12 @@
 ]
 },
 {
-"no": 148,
+"no": 149,
 "section": "Tech",
 "key": "storage-collision-admin-takeover",
 "href": "pocs-storage-collision-admin-takeover.html",
 "status": "PLANNED",
-"position": 148,
+"position": 149,
 "title_en": "The code was right and the layout was wrong",
 "type": "PoC",
 "title_ko": "코드는 맞았고 배치가 틀렸다",
@@ -4592,12 +4628,12 @@
 ]
 },
 {
-"no": 149,
+"no": 150,
 "section": "Tech",
 "key": "dkg-resharing",
 "href": "pocs-dkg-resharing.html",
 "status": "PLANNED",
-"position": 149,
+"position": 150,
 "title_en": "The ceremony ends, the committee doesn't",
 "type": "PoC",
 "title_ko": "의식은 끝나지만 위원회는 남는다",
@@ -4622,12 +4658,12 @@
 ]
 },
 {
-"no": 150,
+"no": 151,
 "section": "Tech",
 "key": "censorship-becomes-a-fork-choice-rule",
 "href": "pocs-censorship-becomes-a-fork-choice-rule.html",
 "status": "PLANNED",
-"position": 150,
+"position": 151,
 "title_en": "Censorship resistance stops being a norm and becomes a fork-choice rule",
 "type": "PoC",
 "title_ko": "검열저항이 규범이기를 그만두고 포크초이스 규칙이 된다",
@@ -4647,12 +4683,12 @@
 ]
 },
 {
-"no": 151,
+"no": 152,
 "section": "Tech",
 "key": "the-record-is-not-the-path",
 "href": "pocs-the-record-is-not-the-path.html",
 "status": "PLANNED",
-"position": 151,
+"position": 152,
 "title_en": "The record is not the path — a registry and a vault for the same problem",
 "type": "PoC",
 "title_ko": "기록은 경로가 아니다 — 같은 문제의 레지스트리와 금고",
@@ -4673,12 +4709,12 @@
 ]
 },
 {
-"no": 152,
+"no": 153,
 "section": "Tech",
 "key": "fork-date-provenance",
 "href": "pocs-fork-date-provenance.html",
 "status": "PLANNED",
-"position": 152,
+"position": 153,
 "title_en": "A fork date nobody decided — reading the claim, not the number",
 "type": "PoC",
 "title_ko": "아무도 정하지 않은 포크 날짜 — 숫자가 아니라 주장의 지위를 읽기",
@@ -4699,12 +4735,12 @@
 ]
 },
 {
-"no": 153,
+"no": 154,
 "section": "Tech",
 "key": "simplicity-ctf",
 "href": "pocs-simplicity-ctf.html",
 "status": "PLANNED",
-"position": 153,
+"position": 154,
 "title_en": "Simplicity CTF",
 "type": "PoC",
 "title_ko": "Simplicity CTF 나중에 도전",
@@ -4721,12 +4757,12 @@
 ]
 },
 {
-"no": 154,
+"no": 155,
 "section": "Tech",
 "key": "float-not-the-paperwork",
 "href": "pocs-float-not-the-paperwork.html",
 "status": "PLANNED",
-"position": 154,
+"position": 155,
 "title_en": "The stablecoin replaces the float, not the paperwork",
 "type": "PoC",
 "title_ko": "스테이블코인이 대체하는 것은 플로트이지 서류가 아니다",
@@ -4749,12 +4785,12 @@
 ]
 },
 {
-"no": 155,
+"no": 156,
 "section": "Tech",
 "key": "build-rent-or-own-the-rail",
 "href": "pocs-build-rent-or-own-the-rail.html",
 "status": "PLANNED",
-"position": 155,
+"position": 156,
 "title_en": "Build the rail, rent it, or own it together — three answers in one month",
 "type": "PoC",
 "title_ko": "레일을 만들까, 빌릴까, 같이 소유할까 — 한 달 안에 나온 세 답",
@@ -4780,12 +4816,12 @@
 ]
 },
 {
-"no": 156,
+"no": 157,
 "section": "Tech",
 "key": "the-only-commitment-is-the-issuer",
 "href": "pocs-the-only-commitment-is-the-issuer.html",
 "status": "PLANNED",
-"position": 156,
+"position": 157,
 "title_en": "Every verb is \"explore\" — the one commitment is which stablecoin",
 "type": "PoC",
 "title_ko": "동사는 전부 \"모색\"이다 — 유일한 약속은 어느 스테이블코인인가",
@@ -4804,12 +4840,12 @@
 ]
 },
 {
-"no": 157,
+"no": 158,
 "section": "Tech",
 "key": "two-currencies-one-ledger",
 "href": "pocs-two-currencies-one-ledger.html",
 "status": "PLANNED",
-"position": 157,
+"position": 158,
 "title_en": "Two currencies on one ledger — the spread is the claim",
 "type": "PoC",
 "title_ko": "한 원장 위의 두 통화 — 스프레드가 곧 그 주장이다",
@@ -4832,12 +4868,12 @@
 ]
 },
 {
-"no": 158,
+"no": 159,
 "section": "Tech",
 "key": "the-harness-not-the-model",
 "href": "pocs-the-harness-not-the-model.html",
 "status": "PLANNED",
-"position": 158,
+"position": 159,
 "title_en": "The harness, not the model — governing agents instead of building them",
 "type": "PoC",
 "title_ko": "모델이 아니라 하네스 — 에이전트를 만드는 대신 통치하기",
@@ -4863,12 +4899,12 @@
 ]
 },
 {
-"no": 159,
+"no": 160,
 "section": "Tech",
 "key": "agents-computer-use",
 "href": "pocs-agents-computer-use.html",
 "status": "PLANNED",
-"position": 159,
+"position": 160,
 "title_en": "Can an agent drive a computer yet — and if so, whose?",
 "type": "PoC",
 "title_ko": "에이전트는 이제 컴퓨터를 쓸 수 있나 — 그렇다면, 누구의 컴퓨터를?",
@@ -4890,12 +4926,12 @@
 ]
 },
 {
-"no": 160,
+"no": 161,
 "section": "Tech",
 "key": "tokenized-equity-claim-rail",
 "href": "pocs-tokenized-equity-claim-rail.html",
 "status": "PLANNED",
-"position": 160,
+"position": 161,
 "title_en": "A claim, not a derivative — the three jobs a tokenized share creates",
 "type": "PoC",
 "title_ko": "파생이 아니라 청구권 — 토큰화 주식이 만들어내는 일 셋",
@@ -4915,12 +4951,12 @@
 ]
 },
 {
-"no": 161,
+"no": 162,
 "section": "Tech",
 "key": "tokenized-equity-scoreboard",
 "href": "pocs-tokenized-equity-scoreboard.html",
 "status": "PLANNED",
-"position": 161,
+"position": 162,
 "title_en": "The token is not the product — composability is, and volume is its scoreboard",
 "type": "PoC",
 "title_ko": "상품은 토큰이 아니다 — 조립 가능성이고, 그 점수판은 거래량이다",
@@ -4940,12 +4976,12 @@
 ]
 },
 {
-"no": 162,
+"no": 163,
 "section": "Tech",
 "key": "japan-t0-settlement",
 "href": "pocs-japan-t0-settlement.html",
 "status": "PLANNED",
-"position": 162,
+"position": 163,
 "title_en": "T+0 removes settlement risk, and removes netting with it",
 "type": "PoC",
 "title_ko": "T+0는 결제 리스크를 없애면서 네팅도 같이 없앤다",
@@ -4968,12 +5004,12 @@
 ]
 },
 {
-"no": 163,
+"no": 164,
 "section": "Tech",
 "key": "cross-border-rail-interop",
 "href": "pocs-cross-border-rail-interop.html",
 "status": "PLANNED",
-"position": 163,
+"position": 164,
 "title_en": "Linking payment systems is a routing problem",
 "type": "PoC",
 "title_ko": "결제 시스템을 잇는 것은 라우팅 문제다",
@@ -4999,12 +5035,12 @@
 ]
 },
 {
-"no": 164,
+"no": 165,
 "section": "Tech",
 "key": "non-reserve-currency-seat",
 "href": "pocs-non-reserve-currency-seat.html",
 "status": "PLANNED",
-"position": 164,
+"position": 165,
 "title_en": "The seat is the point — a non-reserve currency at the standards table",
 "type": "PoC",
 "title_ko": "자리가 요점이다 — 표준을 정하는 테이블에 앉은 비준비통화",
@@ -5027,12 +5063,12 @@
 ]
 },
 {
-"no": 165,
+"no": 166,
 "section": "Tech",
 "key": "st-self-distribution",
 "href": "pocs-st-self-distribution.html",
 "status": "PLANNED",
-"position": 165,
+"position": 166,
 "title_en": "What tokenization actually removed",
 "type": "PoC",
 "title_ko": "토큰화가 실제로 없앤 것",
@@ -5054,12 +5090,12 @@
 ]
 },
 {
-"no": 166,
+"no": 167,
 "section": "Tech",
 "key": "headless-exchange-engines",
 "href": "pocs-headless-exchange-engines.html",
 "status": "PLANNED",
-"position": 166,
+"position": 167,
 "title_en": "Headless arrives — the company that sells the engine, not the app",
 "type": "PoC",
 "title_ko": "헤드리스가 도착했다 — 앱이 아니라 엔진을 파는 회사",
@@ -5083,12 +5119,12 @@
 ]
 },
 {
-"no": 167,
+"no": 168,
 "section": "Tech",
 "key": "pick-a-signer-not-a-brand",
 "href": "pocs-pick-a-signer-not-a-brand.html",
 "status": "PLANNED",
-"position": 167,
+"position": 168,
 "title_en": "Three layers failed in a month; the fourth one fails silently",
 "type": "PoC",
 "title_ko": "한 달에 세 층이 무너졌다 — 네 번째 층은 조용히 무너진다",
@@ -5111,12 +5147,12 @@
 ]
 },
 {
-"no": 168,
+"no": 169,
 "section": "Tech",
 "key": "demonstration-is-not-a-specification",
 "href": "pocs-demonstration-is-not-a-specification.html",
 "status": "PLANNED",
-"position": 168,
+"position": 169,
 "title_en": "Showing is not telling — a demonstration is an example, not a specification",
 "type": "PoC",
 "title_ko": "보여주는 것은 말하는 것이 아니다 — 시연은 명세가 아니라 예시다",
@@ -5136,12 +5172,12 @@
 ]
 },
 {
-"no": 169,
+"no": 170,
 "section": "Tech",
 "key": "ndf-measures-the-restriction",
 "href": "pocs-ndf-measures-the-restriction.html",
 "status": "PLANNED",
-"position": 169,
+"position": 170,
 "title_en": "The NDF market is the size of the restriction, and removing it does not relocate the market",
 "type": "PoC",
 "title_ko": "NDF 시장의 크기는 제약의 크기다 — 제약을 없앤다고 시장이 옮겨오지는 않는다",
@@ -5165,12 +5201,12 @@
 ]
 },
 {
-"no": 170,
+"no": 171,
 "section": "Tech",
 "key": "the-rule-names-an-entity",
 "href": "pocs-the-rule-names-an-entity.html",
 "status": "PLANNED",
-"position": 170,
+"position": 171,
 "title_en": "The rule names an entity and the risk lives in the group",
 "type": "PoC",
 "title_ko": "규칙은 법인을 지목하고, 위험은 그룹에 산다",
@@ -5191,12 +5227,12 @@
 ]
 },
 {
-"no": 171,
+"no": 172,
 "section": "Tech",
 "key": "aml-compliance",
 "href": "pocs-aml-compliance.html",
 "status": "PLANNED",
-"position": 171,
+"position": 172,
 "title_en": "AML — where the cryptography stops",
 "type": "PoC",
 "title_ko": "AML — 암호학이 멈추는 자리",
@@ -5223,12 +5259,12 @@
 ]
 },
 {
-"no": 172,
+"no": 173,
 "section": "Tech",
 "key": "address-to-identity-join",
 "href": "pocs-address-to-identity-join.html",
 "status": "PLANNED",
-"position": 172,
+"position": 173,
 "title_en": "The chain gives you the graph and never the names",
 "type": "PoC",
 "title_ko": "체인은 그래프를 주고 이름은 절대 주지 않는다",
@@ -5252,12 +5288,12 @@
 ]
 },
 {
-"no": 173,
+"no": 174,
 "section": "Tech",
 "key": "korea-digital-asset-act",
 "href": "pocs-korea-digital-asset-act.html",
 "status": "PLANNED",
-"position": 173,
+"position": 174,
 "title_en": "The bill count is not the disagreement count",
 "type": "PoC",
 "title_ko": "법안 수는 쟁점 수가 아니다",
@@ -5279,12 +5315,12 @@
 ]
 },
 {
-"no": 174,
+"no": 175,
 "section": "Tech",
 "key": "korea-spot-share-is-an-artifact",
 "href": "pocs-korea-spot-share-is-an-artifact.html",
 "status": "PLANNED",
-"position": 174,
+"position": 175,
 "title_en": "Thirty percent of spot is a restriction, not a market size",
 "type": "PoC",
 "title_ko": "현물의 30%는 시장 규모가 아니라 제약의 흔적이다",
@@ -5304,12 +5340,12 @@
 ]
 },
 {
-"no": 175,
+"no": 176,
 "section": "Tech",
 "key": "jurisdiction-below-the-country",
 "href": "pocs-jurisdiction-below-the-country.html",
 "status": "PLANNED",
-"position": 175,
+"position": 176,
 "title_en": "Jurisdiction is not country-sized",
 "type": "PoC",
 "title_ko": "법역은 국가 크기가 아니다",
@@ -5332,12 +5368,12 @@
 ]
 },
 {
-"no": 176,
+"no": 177,
 "section": "Tech",
 "key": "cap-table-ceiling",
 "href": "pocs-cap-table-ceiling.html",
 "status": "PLANNED",
-"position": 176,
+"position": 177,
 "title_en": "The ceiling is per holder, the control is not",
 "type": "PoC",
 "title_ko": "한도는 보유자별이고, 지배력은 그렇지 않다",
@@ -5361,12 +5397,12 @@
 ]
 },
 {
-"no": 177,
+"no": 178,
 "section": "Tech",
 "key": "fisheries-receivable-rail",
 "href": "pocs-fisheries-receivable-rail.html",
 "status": "PLANNED",
-"position": 177,
+"position": 178,
 "title_en": "The custody was never the hard part",
 "type": "PoC",
 "title_ko": "수탁은 애초에 어려운 쪽이 아니었다",
@@ -5389,12 +5425,12 @@
 ]
 },
 {
-"no": 178,
+"no": 179,
 "section": "Tech",
 "key": "dsrv-portal",
 "href": "pocs-dsrv-portal.html",
 "status": "PLANNED",
-"position": 178,
+"position": 179,
 "title_en": "Institutional custody study",
 "type": "PoC",
 "title_ko": "기관 커스터디 스터디",
@@ -5413,12 +5449,12 @@
 ]
 },
 {
-"no": 179,
+"no": 180,
 "section": "Tech",
 "key": "priced-by-the-wrong-thing",
 "href": "pocs-priced-by-the-wrong-thing.html",
 "status": "PLANNED",
-"position": 179,
+"position": 180,
 "title_en": "Priced by the wrong thing — a question, an instrument, and the gap between them",
 "type": "PoC",
 "title_ko": "엉뚱한 것으로 매겨진 가격 — 질문, 도구, 그리고 그 사이의 간격",
@@ -5442,12 +5478,12 @@
 ]
 },
 {
-"no": 180,
+"no": 181,
 "section": "Tech",
 "key": "cre-cloud",
 "href": "pocs-cre-cloud.html",
 "status": "PLANNED",
-"position": 180,
+"position": 181,
 "title_en": "CRE × Cloud — four hybrid patterns",
 "type": "PoC",
 "title_ko": "CRE × Cloud — 하이브리드 4패턴",
@@ -5464,12 +5500,12 @@
 ]
 },
 {
-"no": 181,
+"no": 182,
 "section": "Tech",
 "key": "solana",
 "href": "pocs-solana.html",
 "status": "PLANNED",
-"position": 181,
+"position": 182,
 "title_en": "Solana",
 "type": "PoC",
 "title_ko": "솔라나",
@@ -5486,12 +5522,12 @@
 ]
 },
 {
-"no": 182,
+"no": 183,
 "section": "Tech",
 "key": "linera-microchains",
 "href": "pocs-linera-microchains.html",
 "status": "PLANNED",
-"position": 182,
+"position": 183,
 "title_en": "Linera microchains",
 "type": "PoC",
 "title_ko": "Linera 마이크로체인",
@@ -5506,12 +5542,12 @@
 ]
 },
 {
-"no": 183,
+"no": 184,
 "section": "Tech",
 "key": "thirdweb",
 "href": "pocs-thirdweb.html",
 "status": "PLANNED",
-"position": 183,
+"position": 184,
 "title_en": "Thirdweb — platform survey",
 "type": "PoC",
 "title_ko": "Thirdweb — 플랫폼 서베이",
@@ -5529,12 +5565,12 @@
 ]
 },
 {
-"no": 184,
+"no": 185,
 "section": "Tech",
 "key": "procedural-not-generated",
 "href": "pocs-procedural-not-generated.html",
 "status": "PLANNED",
-"position": 184,
+"position": 185,
 "title_en": "Procedural, not generated — when the model is a program",
 "type": "PoC",
 "title_ko": "생성이 아니라 절차적 — 모델이 프로그램일 때",
@@ -5553,12 +5589,12 @@
 ]
 },
 {
-"no": 185,
+"no": 186,
 "section": "Tech",
 "key": "sub-2bit-local-llm",
 "href": "pocs-sub-2bit-local-llm.html",
 "status": "PLANNED",
-"position": 185,
+"position": 186,
 "title_en": "Sub-2-bit LLMs, locally",
 "type": "PoC",
 "title_ko": "2비트 미만 LLM 로컬 실행",
@@ -5577,12 +5613,12 @@
 ]
 },
 {
-"no": 186,
+"no": 187,
 "section": "Tech",
 "key": "bandwidth-not-capacity",
 "href": "pocs-bandwidth-not-capacity.html",
 "status": "PLANNED",
-"position": 186,
+"position": 187,
 "title_en": "Capacity loads the model; bandwidth serves it",
 "type": "PoC",
 "title_ko": "용량은 모델을 올리고, 대역폭이 모델을 서빙한다",
@@ -5605,12 +5641,12 @@
 ]
 },
 {
-"no": 187,
+"no": 188,
 "section": "Tech",
 "key": "robotics-entry-decision",
 "href": "pocs-robotics-entry-decision.html",
 "status": "PLANNED",
-"position": 187,
+"position": 188,
 "title_en": "Four ways into robotics, and what each one actually buys",
 "type": "PoC",
 "title_ko": "로보틱스로 들어가는 네 입구, 각각이 실제로 사주는 것",
@@ -5637,12 +5673,12 @@
 ]
 },
 {
-"no": 188,
+"no": 189,
 "section": "Tech",
 "key": "opencv-robot-vision",
 "href": "pocs-opencv-robot-vision.html",
 "status": "PLANNED",
-"position": 188,
+"position": 189,
 "title_en": "Pixels to millimetres — the step before the arm moves",
 "type": "PoC",
 "title_ko": "픽셀에서 밀리미터로 — 팔이 움직이기 전 단계",
@@ -5666,12 +5702,12 @@
 ]
 },
 {
-"no": 189,
+"no": 190,
 "section": "Tech",
 "key": "the-70-has-to-be-wrong",
 "href": "pocs-the-70-has-to-be-wrong.html",
 "status": "PLANNED",
-"position": 189,
+"position": 190,
 "title_en": "The 70% has to be wrong three times in ten",
 "type": "PoC",
 "title_ko": "70%는 열 번 중 세 번은 틀려야 한다",
@@ -5695,12 +5731,12 @@
 ]
 },
 {
-"no": 190,
+"no": 191,
 "section": "Tech",
 "key": "the-split-is-the-experiment",
 "href": "pocs-the-split-is-the-experiment.html",
 "status": "PLANNED",
-"position": 190,
+"position": 191,
 "title_en": "The model is not the experiment — the split is",
 "type": "PoC",
 "title_ko": "실험은 모델이 아니라 분할이다",
@@ -5723,12 +5759,12 @@
 ]
 },
 {
-"no": 191,
+"no": 192,
 "section": "Tech",
 "key": "huggingface-is-a-package-manager",
 "href": "pocs-huggingface-is-a-package-manager.html",
 "status": "PLANNED",
-"position": 191,
+"position": 192,
 "title_en": "Hugging Face is a package manager, and almost nobody pins the version",
 "type": "PoC",
 "title_ko": "허깅페이스는 패키지 매니저인데, 버전을 고정하는 사람이 거의 없다",
@@ -5749,12 +5785,12 @@
 ]
 },
 {
-"no": 192,
+"no": 193,
 "section": "Tech",
 "key": "lead-time-is-the-product",
 "href": "pocs-lead-time-is-the-product.html",
 "status": "PLANNED",
-"position": 192,
+"position": 193,
 "title_en": "The lead time is the product — a fault detected at failure is worth nothing",
 "type": "PoC",
 "title_ko": "제품은 리드타임이다 — 고장 나는 순간 감지한 것은 값이 0이다",
@@ -5775,12 +5811,12 @@
 ]
 },
 {
-"no": 193,
+"no": 194,
 "section": "Tech",
 "key": "share-the-code-you-write",
 "href": "pocs-share-the-code-you-write.html",
 "status": "PLANNED",
-"position": 193,
+"position": 194,
 "title_en": "You can share the code you write, not the code you must obey",
 "type": "PoC",
 "title_ko": "공유되는 것은 내가 쓴 코드이고, 지켜야 하는 코드는 공유되지 않는다",
@@ -5802,12 +5838,12 @@
 ]
 },
 {
-"no": 194,
+"no": 195,
 "section": "Tech",
 "key": "the-gap-widens-where-wrong-is-silent",
 "href": "pocs-the-gap-widens-where-wrong-is-silent.html",
 "status": "PLANNED",
-"position": 194,
+"position": 195,
 "title_en": "The gap widens only where being wrong is silent",
 "type": "PoC",
 "title_ko": "격차는 틀린 것이 조용한 곳에서만 벌어진다",
@@ -5825,12 +5861,12 @@
 ]
 },
 {
-"no": 195,
+"no": 196,
 "section": "Tech",
 "key": "steal-the-structure",
 "href": "pocs-steal-the-structure.html",
 "status": "PLANNED",
-"position": 195,
+"position": 196,
 "title_en": "Two reading lists, and the same instruction — steal the structure, not the content",
 "type": "PoC",
 "title_ko": "읽을거리 둘, 그리고 같은 지시 — 내용이 아니라 구조를 훔쳐 올 것",
@@ -5848,12 +5884,12 @@
 ]
 },
 {
-"no": 196,
+"no": 197,
 "section": "Tech",
 "key": "claude-in-slack",
 "href": "pocs-claude-in-slack.html",
 "status": "PLANNED",
-"position": 196,
+"position": 197,
 "title_en": "Claude in Slack — the workflow first, the presence second",
 "type": "PoC",
 "title_ko": "Slack 속 Claude — 워크플로가 먼저, 상주는 나중",
@@ -5871,12 +5907,12 @@
 ]
 },
 {
-"no": 197,
+"no": 198,
 "section": "Tech",
 "key": "the-product-is-resume-not-schedule",
 "href": "pocs-the-product-is-resume-not-schedule.html",
 "status": "PLANNED",
-"position": 197,
+"position": 198,
 "title_en": "What you are buying is resume, not scheduling",
 "type": "PoC",
 "title_ko": "사는 것은 스케줄링이 아니라 재개(resume)다",
@@ -5895,12 +5931,12 @@
 ]
 },
 {
-"no": 198,
+"no": 199,
 "section": "Tech",
 "key": "circuit-breaker-saga",
 "href": "pocs-circuit-breaker-saga.html",
 "status": "PLANNED",
-"position": 198,
+"position": 199,
 "title_en": "Microservice patterns — Circuit Breaker & Saga",
 "type": "PoC",
 "title_ko": "마이크로서비스 디자인 패턴 2제 정리",
@@ -5914,12 +5950,12 @@
 ]
 },
 {
-"no": 199,
+"no": 200,
 "section": "Tech",
 "key": "web-stack-layers",
 "href": "pocs-web-stack-layers.html",
 "status": "PLANNED",
-"position": 199,
+"position": 200,
 "title_en": "Web stack layers",
 "type": "PoC",
 "title_ko": "웹 스택 계층",
@@ -5931,12 +5967,12 @@
 ]
 },
 {
-"no": 200,
+"no": 201,
 "section": "Tech",
 "key": "one-page-not-the-curriculum",
 "href": "pocs-one-page-not-the-curriculum.html",
 "status": "PLANNED",
-"position": 200,
+"position": 201,
 "title_en": "Pull the page you are stuck on, not the next one in order",
 "type": "PoC",
 "title_ko": "순서상 다음 장이 아니라, 오늘 막힌 그 한 페이지를",
@@ -5955,12 +5991,12 @@
 ]
 },
 {
-"no": 201,
+"no": 202,
 "section": "Tech",
 "key": "publish-by-default-rule",
 "href": "pocs-publish-by-default-rule.html",
 "status": "PLANNED",
-"position": 201,
+"position": 202,
 "title_en": "The draft already exists — a selection rule, not a new channel",
 "type": "PoC",
 "title_ko": "초안은 이미 있다 — 새 채널이 아니라 선별 규칙",
@@ -5977,12 +6013,12 @@
 ]
 },
 {
-"no": 202,
+"no": 203,
 "section": "Tech",
 "key": "apple-container",
 "href": "pocs-apple-container.html",
 "status": "PLANNED",
-"position": 202,
+"position": 203,
 "title_en": "Apple container",
 "type": "PoC",
 "title_ko": "Apple `container` 써보기",
@@ -5996,12 +6032,12 @@
 ]
 },
 {
-"no": 203,
+"no": 204,
 "section": "Tech",
 "key": "google-glass-stitch",
 "href": "pocs-google-glass-stitch.html",
 "status": "PLANNED",
-"position": 203,
+"position": 204,
 "title_en": "Google Glass form factor & Stitch",
 "type": "PoC",
 "title_ko": "Google Glass · Stitch",
@@ -6015,12 +6051,12 @@
 ]
 },
 {
-"no": 204,
+"no": 205,
 "section": "Tech",
 "key": "preview-means-no-promise",
 "href": "pocs-preview-means-no-promise.html",
 "status": "PLANNED",
-"position": 204,
+"position": 205,
 "title_en": "The data was always public — the SLA is the product",
 "type": "PoC",
 "title_ko": "데이터는 원래 공개였다 — SLA 가 제품이다",
@@ -6041,12 +6077,12 @@
 ]
 },
 {
-"no": 205,
+"no": 206,
 "section": "Tech",
 "key": "consortium-owns-the-rail",
 "href": "pocs-consortium-owns-the-rail.html",
 "status": "PLANNED",
-"position": 205,
+"position": 206,
 "title_en": "Twenty-one banks, one issuer — \"own it together\" becomes a company",
 "type": "PoC",
 "title_ko": "은행 21곳, 발행사 하나 — \"함께 소유\"가 법인이 되다",
@@ -6069,12 +6105,12 @@
 ]
 },
 {
-"no": 206,
+"no": 207,
 "section": "Tech",
 "key": "deposit-rate-is-a-trade",
 "href": "pocs-deposit-rate-is-a-trade.html",
 "status": "PLANNED",
-"position": 206,
+"position": 207,
 "title_en": "6% is not interest — a neobank whose deposit rate is a trade",
 "type": "PoC",
 "title_ko": "6% 는 이자가 아니다 — 예금 금리가 트레이드인 네오뱅크",
@@ -6093,12 +6129,12 @@
 ]
 },
 {
-"no": 207,
+"no": 208,
 "section": "Tech",
 "key": "halted-or-upgraded",
 "href": "pocs-halted-or-upgraded.html",
 "status": "PLANNED",
-"position": 207,
+"position": 208,
 "title_en": "Halted or upgraded — the block gap is the same either way",
 "type": "PoC",
 "title_ko": "중단이냐 업그레이드냐 — 블록 공백은 어느 쪽이든 같다",
@@ -6115,12 +6151,12 @@
 ]
 },
 {
-"no": 208,
+"no": 209,
 "section": "Tech",
 "key": "incumbent-lists-the-wrapper",
 "href": "pocs-incumbent-lists-the-wrapper.html",
 "status": "PLANNED",
-"position": 208,
+"position": 209,
 "title_en": "The incumbent lists the wrapper — xStocks moves inside the LSE",
 "type": "PoC",
 "title_ko": "현직 거래소가 래퍼를 상장하다 — xStocks, LSE 안으로",
@@ -6143,12 +6179,12 @@
 ]
 },
 {
-"no": 209,
+"no": 210,
 "section": "Tech",
 "key": "interest-ban-draws-the-border",
 "href": "pocs-interest-ban-draws-the-border.html",
 "status": "PLANNED",
-"position": 209,
+"position": 210,
 "title_en": "No yield allowed — the interest ban is the border between payment and deposit",
 "type": "PoC",
 "title_ko": "이자 금지 — 그 금지선이 결제와 예금의 국경이다",
@@ -6173,12 +6209,12 @@
 ]
 },
 {
-"no": 210,
+"no": 211,
 "section": "Tech",
 "key": "buying-bandwidth-not-flops",
 "href": "pocs-buying-bandwidth-not-flops.html",
 "status": "PLANNED",
-"position": 210,
+"position": 211,
 "title_en": "DGX Spark vs. Mac Studio — you are buying bandwidth, not FLOPs",
 "type": "PoC",
 "title_ko": "DGX Spark 대 맥 스튜디오 — 사는 것은 FLOPs 가 아니라 대역폭이다",
@@ -6203,12 +6239,12 @@
 ]
 },
 {
-"no": 211,
+"no": 212,
 "section": "Tech",
 "key": "the-price-cut-names-the-customer",
 "href": "pocs-the-price-cut-names-the-customer.html",
 "status": "PLANNED",
-"position": 211,
+"position": 212,
 "title_en": "Fable 5.1 — the price that dropped names the customer",
 "type": "PoC",
 "title_ko": "Fable 5.1 — 내려간 가격이 고객을 지명한다",
@@ -6227,12 +6263,12 @@
 ]
 },
 {
-"no": 212,
+"no": 213,
 "section": "Tech",
 "key": "the-form-arrives-before-the-rule",
 "href": "pocs-the-form-arrives-before-the-rule.html",
 "status": "PLANNED",
-"position": 212,
+"position": 213,
 "title_en": "The reporting form ships before the rule — OCC shows its checklist early",
 "type": "PoC",
 "title_ko": "규칙보다 보고 서식이 먼저 온다 — OCC 가 체크리스트를 미리 보여주다",
@@ -6256,12 +6292,12 @@
 ]
 },
 {
-"no": 213,
+"no": 214,
 "section": "Tech",
 "key": "who-holds-the-mint",
 "href": "pocs-who-holds-the-mint.html",
 "status": "PLANNED",
-"position": 213,
+"position": 214,
 "title_en": "xERC20, CCTP, NTT — three answers to who holds the mint",
 "type": "PoC",
 "title_ko": "xERC20 · CCTP · NTT — \"누가 mint 를 쥐는가\"의 세 가지 답",
@@ -6282,12 +6318,12 @@
 ]
 },
 {
-"no": 214,
+"no": 215,
 "section": "Tech",
 "key": "the-index-is-an-ops-manual",
 "href": "pocs-the-index-is-an-ops-manual.html",
 "status": "PLANNED",
-"position": 214,
+"position": 215,
 "title_en": "The formula is free — an ETF-grade index is an ops manual",
 "type": "PoC",
 "title_ko": "공식은 공짜다 — ETF 급 지수는 운영 매뉴얼이다",
@@ -6312,12 +6348,12 @@
 ]
 },
 {
-"no": 215,
+"no": 216,
 "section": "Tech",
 "key": "essential-math-data-science",
 "href": "pocs-essential-math-data-science.html",
 "status": "PLANNED",
-"position": 215,
+"position": 216,
 "title_en": "Essential Math for Data Science (book)",
 "type": "PoC",
 "title_ko": "Essential Math for Data Science (책)",
@@ -6336,12 +6372,12 @@
 ]
 },
 {
-"no": 216,
+"no": 217,
 "section": "Tech",
 "key": "the-moat-has-a-fork-date",
 "href": "pocs-the-moat-has-a-fork-date.html",
 "status": "PLANNED",
-"position": 216,
+"position": 217,
 "title_en": "Middleware's moat has a fork date",
 "type": "PoC",
 "title_ko": "미들웨어의 해자에는 포크 날짜가 있다",
@@ -6365,12 +6401,12 @@
 ]
 },
 {
-"no": 217,
+"no": 218,
 "section": "Tech",
 "key": "the-simulator-is-the-data-factory",
 "href": "pocs-the-simulator-is-the-data-factory.html",
 "status": "PLANNED",
-"position": 217,
+"position": 218,
 "title_en": "MuJoCo/MJX — the simulator is the data factory",
 "type": "PoC",
 "title_ko": "MuJoCo/MJX — 시뮬레이터가 데이터 공장이다",
@@ -6397,12 +6433,12 @@
 ]
 },
 {
-"no": 218,
+"no": 219,
 "section": "Tech",
 "key": "cut-jurisdiction-at-the-edge",
 "href": "pocs-cut-jurisdiction-at-the-edge.html",
 "status": "PLANNED",
-"position": 218,
+"position": 219,
 "title_en": "Cloudflare R2 + Workers — cut jurisdiction at the edge, not in the backend",
 "type": "PoC",
 "title_ko": "Cloudflare R2 + Workers — 법역은 백엔드가 아니라 엣지에서 자른다",
@@ -6425,12 +6461,12 @@
 ]
 },
 {
-"no": 219,
+"no": 220,
 "section": "Tech",
 "key": "tokenize-the-receipt-not-the-share",
 "href": "pocs-tokenize-the-receipt-not-the-share.html",
 "status": "PLANNED",
-"position": 219,
+"position": 220,
 "title_en": "The share stays put — Korea tokenizes a trust receipt, and the cash leg comes last",
 "type": "PoC",
 "title_ko": "주식은 제자리에 — 한국은 신탁 영수증을 토큰화하고, 돈은 마지막에 온다",
@@ -6455,12 +6491,12 @@
 ]
 },
 {
-"no": 220,
+"no": 221,
 "section": "Tech",
 "key": "who-prices-samsung-on-sunday",
 "href": "pocs-who-prices-samsung-on-sunday.html",
 "status": "PLANNED",
-"position": 220,
+"position": 221,
 "title_en": "Who prices Samsung on a Sunday? — the hours column is the oracle's real product",
 "type": "PoC",
 "title_ko": "일요일의 삼성전자 가격은 누가 정하나 — 시간 등급 열이 오라클의 진짜 제품이다",
@@ -6483,12 +6519,12 @@
 ]
 },
 {
-"no": 221,
+"no": 222,
 "section": "Tech",
 "key": "the-growth-formula-ran-backwards",
 "href": "pocs-the-growth-formula-ran-backwards.html",
 "status": "PLANNED",
-"position": 221,
+"position": 222,
 "title_en": "Robinhood Chain — the growth formula runs backwards when you launch with the asset",
 "type": "PoC",
 "title_ko": "로빈후드 체인 — 자산을 들고 시작하면 성장 공식은 거꾸로 돈다",
@@ -6511,12 +6547,12 @@
 ]
 },
 {
-"no": 222,
+"no": 223,
 "section": "Tech",
 "key": "the-moat-is-the-soldering-iron",
 "href": "pocs-the-moat-is-the-soldering-iron.html",
 "status": "PLANNED",
-"position": 222,
+"position": 223,
 "title_en": "The moat is the soldering iron — robotics stays uncrowded because the entry fee is paid in atoms",
 "type": "PoC",
 "title_ko": "해자는 납땜인두다 — 로보틱스가 덜 붐비는 것은 입장료를 원자로 내기 때문이다",
@@ -6539,12 +6575,12 @@
 ]
 },
 {
-"no": 223,
+"no": 224,
 "section": "Tech",
 "key": "can-you-leave-by-2030",
 "href": "pocs-can-you-leave-by-2030.html",
 "status": "PLANNED",
-"position": 223,
+"position": 224,
 "title_en": "The 2027 question is easy — the 2030 question is whether you can leave",
 "type": "PoC",
 "title_ko": "2027년 질문은 쉽다 — 2030년 질문은 빠져나올 수 있느냐다",
@@ -6567,12 +6603,12 @@
 ]
 },
 {
-"no": 224,
+"no": 225,
 "section": "Tech",
 "key": "three-thousand-lanterns-nobody-asked-for",
 "href": "pocs-three-thousand-lanterns-nobody-asked-for.html",
 "status": "PLANNED",
-"position": 224,
+"position": 225,
 "title_en": "3,500 lanterns nobody asked for — Blender agents and the underspecification benchmark",
 "type": "PoC",
 "title_ko": "아무도 부탁 안 한 등불 3,500개 — 블렌더 에이전트와 미명세 벤치마크",
@@ -6591,12 +6627,12 @@
 ]
 },
 {
-"no": 225,
+"no": 226,
 "section": "Tech",
 "key": "the-interface-premium-collapses",
 "href": "pocs-the-interface-premium-collapses.html",
 "status": "PLANNED",
-"position": 225,
+"position": 226,
 "title_en": "The 2,234 pieces were already there — the agent collapsed the interface premium",
 "type": "PoC",
 "title_ko": "2,234개 조각은 원래 있었다 — 에이전트가 인터페이스 프리미엄을 무너뜨렸다",
@@ -6618,12 +6654,12 @@
 ]
 },
 {
-"no": 226,
+"no": 227,
 "section": "Tech",
 "key": "sec-reentrancy",
 "href": "pocs-sec-reentrancy.html",
 "status": "PLANNED",
-"position": 226,
+"position": 227,
 "title_en": "Reentrancy — the withdraw that calls back before the balance drops",
 "type": "PoC",
 "title_ko": "재진입 — 잔액이 줄기 전에 되돌아오는 인출",
@@ -6636,12 +6672,12 @@
 ]
 },
 {
-"no": 227,
+"no": 228,
 "section": "Tech",
 "key": "sec-integer-overflow",
 "href": "pocs-sec-integer-overflow.html",
 "status": "PLANNED",
-"position": 227,
+"position": 228,
 "title_en": "Integer overflow — arithmetic that wraps past zero",
 "type": "PoC",
 "title_ko": "정수 오버플로 — 0을 지나 되감기는 산술",
@@ -6655,12 +6691,12 @@
 ]
 },
 {
-"no": 228,
+"no": 229,
 "section": "Tech",
 "key": "sec-access-control",
 "href": "pocs-sec-access-control.html",
 "status": "PLANNED",
-"position": 228,
+"position": 229,
 "title_en": "Broken access control — the function that forgot its modifier",
 "type": "PoC",
 "title_ko": "깨진 접근 제어 — 수식자를 잊은 함수",
@@ -6674,12 +6710,12 @@
 ]
 },
 {
-"no": 229,
+"no": 230,
 "section": "Tech",
 "key": "sec-oracle-flashloan",
 "href": "pocs-sec-oracle-flashloan.html",
 "status": "PLANNED",
-"position": 229,
+"position": 230,
 "title_en": "Oracle manipulation — a flash loan rewrites the price for one block",
 "type": "PoC",
 "title_ko": "오라클 조작 — 플래시 론이 한 블록 동안 가격을 다시 쓴다",
@@ -6693,12 +6729,12 @@
 ]
 },
 {
-"no": 230,
+"no": 231,
 "section": "Tech",
 "key": "sec-signature-replay",
 "href": "pocs-sec-signature-replay.html",
 "status": "PLANNED",
-"position": 230,
+"position": 231,
 "title_en": "Signature replay — a valid signature used twice, or on the wrong chain",
 "type": "PoC",
 "title_ko": "서명 재사용 — 유효한 서명을 두 번, 또는 엉뚱한 체인에서",
@@ -6712,12 +6748,12 @@
 ]
 },
 {
-"no": 231,
+"no": 232,
 "section": "Tech",
 "key": "sec-log4shell",
 "href": "pocs-sec-log4shell.html",
 "status": "PLANNED",
-"position": 231,
+"position": 232,
 "title_en": "Log4Shell — a logging line that executes attacker code",
 "type": "PoC",
 "title_ko": "Log4Shell — 공격자 코드를 실행하는 로그 한 줄",
@@ -6733,12 +6769,12 @@
 ]
 },
 {
-"no": 232,
+"no": 233,
 "section": "Tech",
 "key": "sec-heartbleed",
 "href": "pocs-sec-heartbleed.html",
 "status": "PLANNED",
-"position": 232,
+"position": 233,
 "title_en": "Heartbleed — reading memory the protocol never meant to send",
 "type": "PoC",
 "title_ko": "하트블리드 — 프로토콜이 보낼 뜻이 없던 메모리를 읽다",
@@ -6753,12 +6789,12 @@
 ]
 },
 {
-"no": 233,
+"no": 234,
 "section": "Tech",
 "key": "sec-xz-backdoor",
 "href": "pocs-sec-xz-backdoor.html",
 "status": "PLANNED",
-"position": 233,
+"position": 234,
 "title_en": "XZ Utils backdoor — a supply-chain attack that almost shipped",
 "type": "PoC",
 "title_ko": "XZ Utils 백도어 — 거의 배포될 뻔한 공급망 공격",
@@ -6772,12 +6808,12 @@
 ]
 },
 {
-"no": 234,
+"no": 235,
 "section": "Tech",
 "key": "sec-solarwinds",
 "href": "pocs-sec-solarwinds.html",
 "status": "PLANNED",
-"position": 234,
+"position": 235,
 "title_en": "SolarWinds — compromising the build server, not the code",
 "type": "PoC",
 "title_ko": "솔라윈즈 — 코드가 아니라 빌드 서버를 침해하다",
@@ -6792,12 +6828,12 @@
 ]
 },
 {
-"no": 235,
+"no": 236,
 "section": "Tech",
 "key": "sec-spectre-meltdown",
 "href": "pocs-sec-spectre-meltdown.html",
 "status": "PLANNED",
-"position": 235,
+"position": 236,
 "title_en": "Spectre and Meltdown — the CPU leaks through speculation",
 "type": "PoC",
 "title_ko": "스펙터와 멜트다운 — CPU가 추측 실행으로 새어 나간다",
@@ -6810,12 +6846,12 @@
 ]
 },
 {
-"no": 236,
+"no": 237,
 "section": "Tech",
 "key": "sec-sql-injection",
 "href": "pocs-sec-sql-injection.html",
 "status": "PLANNED",
-"position": 236,
+"position": 237,
 "title_en": "SQL injection — the oldest bug that still tops the charts",
 "type": "PoC",
 "title_ko": "SQL 인젝션 — 여전히 차트 1위인 가장 오래된 버그",
@@ -6828,12 +6864,12 @@
 ]
 },
 {
-"no": 237,
+"no": 238,
 "section": "Tech",
 "key": "sec-xss-csrf",
 "href": "pocs-sec-xss-csrf.html",
 "status": "PLANNED",
-"position": 237,
+"position": 238,
 "title_en": "XSS and CSRF — the browser trusts the wrong origin",
 "type": "PoC",
 "title_ko": "XSS와 CSRF — 브라우저가 잘못된 출처를 신뢰한다",
@@ -6850,12 +6886,12 @@
 ]
 },
 {
-"no": 238,
+"no": 239,
 "section": "Tech",
 "key": "sec-ssrf",
 "href": "pocs-sec-ssrf.html",
 "status": "PLANNED",
-"position": 238,
+"position": 239,
 "title_en": "SSRF — making the server fetch the URL you chose",
 "type": "PoC",
 "title_ko": "SSRF — 서버가 내가 고른 URL을 가져오게 하기",
@@ -6869,12 +6905,12 @@
 ]
 },
 {
-"no": 239,
+"no": 240,
 "section": "Tech",
 "key": "sec-dependency-confusion",
 "href": "pocs-sec-dependency-confusion.html",
 "status": "PLANNED",
-"position": 239,
+"position": 240,
 "title_en": "Dependency confusion — the package manager pulls the wrong registry",
 "type": "PoC",
 "title_ko": "의존성 혼동 — 패키지 매니저가 잘못된 레지스트리를 당긴다",
@@ -6888,12 +6924,12 @@
 ]
 },
 {
-"no": 240,
+"no": 241,
 "section": "Tech",
 "key": "sec-ransomware-colonial",
 "href": "pocs-sec-ransomware-colonial.html",
 "status": "PLANNED",
-"position": 240,
+"position": 241,
 "title_en": "Ransomware — one password shut a pipeline",
 "type": "PoC",
 "title_ko": "랜섬웨어 — 비밀번호 하나가 파이프라인을 멈췄다",
@@ -6907,12 +6943,12 @@
 ]
 },
 {
-"no": 241,
+"no": 242,
 "section": "Tech",
 "key": "sec-prompt-injection",
 "href": "pocs-sec-prompt-injection.html",
 "status": "PLANNED",
-"position": 241,
+"position": 242,
 "title_en": "Prompt injection — untrusted text becomes an instruction",
 "type": "PoC",
 "title_ko": "프롬프트 인젝션 — 신뢰할 수 없는 텍스트가 명령이 된다",
@@ -6925,12 +6961,12 @@
 ]
 },
 {
-"no": 242,
+"no": 243,
 "section": "Tech",
 "key": "sec-static-analysis",
 "href": "pocs-sec-static-analysis.html",
 "status": "PLANNED",
-"position": 242,
+"position": 243,
 "title_en": "Static analysis — Slither and Semgrep read the code you skimmed",
 "type": "PoC",
 "title_ko": "정적 분석 — Slither와 Semgrep은 훑고 지나간 코드를 읽는다",
@@ -6945,12 +6981,12 @@
 ]
 },
 {
-"no": 243,
+"no": 244,
 "section": "Tech",
 "key": "sec-bug-bounty",
 "href": "pocs-sec-bug-bounty.html",
 "status": "PLANNED",
-"position": 243,
+"position": 244,
 "title_en": "Bug bounty platforms — pricing a vulnerability before an attacker does",
 "type": "PoC",
 "title_ko": "버그 바운티 플랫폼 — 공격자보다 먼저 취약점에 값을 매기다",
@@ -6966,12 +7002,12 @@
 ]
 },
 {
-"no": 244,
+"no": 245,
 "section": "Tech",
 "key": "sec-cve-zeroday",
 "href": "pocs-sec-cve-zeroday.html",
 "status": "PLANNED",
-"position": 244,
+"position": 245,
 "title_en": "CVE, NVD and the zero-day — the clock between discovery and patch",
 "type": "PoC",
 "title_ko": "CVE·NVD와 제로데이 — 발견과 패치 사이의 시계",
@@ -6986,12 +7022,12 @@
 ]
 },
 {
-"no": 245,
+"no": 246,
 "section": "Tech",
 "key": "sec-competitive-audit",
 "href": "pocs-sec-competitive-audit.html",
 "status": "PLANNED",
-"position": 245,
+"position": 246,
 "title_en": "Audit firms and contests — who signs off, and what a signature means",
 "type": "PoC",
 "title_ko": "감사 회사와 대회 — 누가 승인하고, 서명이 무엇을 뜻하나",
@@ -7005,12 +7041,12 @@
 ]
 },
 {
-"no": 246,
+"no": 247,
 "section": "Tech",
 "key": "llm-rag",
 "href": "pocs-llm-rag.html",
 "status": "PLANNED",
-"position": 246,
+"position": 247,
 "title_en": "RAG — the model answers from what you retrieved, right or wrong",
 "type": "PoC",
 "title_ko": "RAG — 모델은 검색해 준 것으로 답한다, 옳든 그르든",
@@ -7024,12 +7060,12 @@
 ]
 },
 {
-"no": 247,
+"no": 248,
 "section": "Tech",
 "key": "llm-fine-tuning-lora",
 "href": "pocs-llm-fine-tuning-lora.html",
 "status": "PLANNED",
-"position": 247,
+"position": 248,
 "title_en": "Fine-tuning and LoRA — teaching a model style without retraining it",
 "type": "PoC",
 "title_ko": "파인튜닝과 LoRA — 재학습 없이 모델에 스타일을 가르치기",
@@ -7044,12 +7080,12 @@
 ]
 },
 {
-"no": 248,
+"no": 249,
 "section": "Tech",
 "key": "llm-prompt-engineering",
 "href": "pocs-llm-prompt-engineering.html",
 "status": "PLANNED",
-"position": 248,
+"position": 249,
 "title_en": "Prompt engineering — the few-shot examples do most of the work",
 "type": "PoC",
 "title_ko": "프롬프트 엔지니어링 — 소수샷 예시가 대부분의 일을 한다",
@@ -7062,12 +7098,12 @@
 ]
 },
 {
-"no": 249,
+"no": 250,
 "section": "Tech",
 "key": "llm-chain-of-thought",
 "href": "pocs-llm-chain-of-thought.html",
 "status": "PLANNED",
-"position": 249,
+"position": 250,
 "title_en": "Chain-of-thought — reasoning out loud buys accuracy and tokens",
 "type": "PoC",
 "title_ko": "생각의 사슬 — 소리 내어 추론하면 정확도와 토큰을 함께 산다",
@@ -7080,12 +7116,12 @@
 ]
 },
 {
-"no": 250,
+"no": 251,
 "section": "Tech",
 "key": "llm-rlhf",
 "href": "pocs-llm-rlhf.html",
 "status": "PLANNED",
-"position": 250,
+"position": 251,
 "title_en": "RLHF — aligning a model to preferences, and to their biases",
 "type": "PoC",
 "title_ko": "RLHF — 모델을 선호에, 그리고 그 편향에 정렬하기",
@@ -7099,12 +7135,12 @@
 ]
 },
 {
-"no": 251,
+"no": 252,
 "section": "Tech",
 "key": "llm-quantization",
 "href": "pocs-llm-quantization.html",
 "status": "PLANNED",
-"position": 251,
+"position": 252,
 "title_en": "Quantization — running a big model in a small memory",
 "type": "PoC",
 "title_ko": "양자화 — 큰 모델을 작은 메모리에서 돌리기",
@@ -7116,12 +7152,12 @@
 ]
 },
 {
-"no": 252,
+"no": 253,
 "section": "Tech",
 "key": "llm-attention",
 "href": "pocs-llm-attention.html",
 "status": "PLANNED",
-"position": 252,
+"position": 253,
 "title_en": "Attention — the mechanism, and why context costs quadratically",
 "type": "PoC",
 "title_ko": "어텐션 — 그 메커니즘, 그리고 컨텍스트가 제곱으로 비싼 이유",
@@ -7134,12 +7170,12 @@
 ]
 },
 {
-"no": 253,
+"no": 254,
 "section": "Tech",
 "key": "llm-tokenization",
 "href": "pocs-llm-tokenization.html",
 "status": "PLANNED",
-"position": 253,
+"position": 254,
 "title_en": "Tokenization — the model does not see characters",
 "type": "PoC",
 "title_ko": "토크나이제이션 — 모델은 문자를 보지 않는다",
@@ -7152,12 +7188,12 @@
 ]
 },
 {
-"no": 254,
+"no": 255,
 "section": "Tech",
 "key": "llm-embeddings",
 "href": "pocs-llm-embeddings.html",
 "status": "PLANNED",
-"position": 254,
+"position": 255,
 "title_en": "Embeddings — meaning as a vector you can search",
 "type": "PoC",
 "title_ko": "임베딩 — 검색할 수 있는 벡터로서의 의미",
@@ -7171,12 +7207,12 @@
 ]
 },
 {
-"no": 255,
+"no": 256,
 "section": "Tech",
 "key": "llm-moe",
 "href": "pocs-llm-moe.html",
 "status": "PLANNED",
-"position": 255,
+"position": 256,
 "title_en": "Mixture of Experts — a big model that only runs part of itself",
 "type": "PoC",
 "title_ko": "전문가 혼합 — 자기 일부만 돌리는 큰 모델",
@@ -7189,12 +7225,12 @@
 ]
 },
 {
-"no": 256,
+"no": 257,
 "section": "Tech",
 "key": "llm-speculative-decoding",
 "href": "pocs-llm-speculative-decoding.html",
 "status": "PLANNED",
-"position": 256,
+"position": 257,
 "title_en": "Speculative decoding — a small model drafts, a big model checks",
 "type": "PoC",
 "title_ko": "추측 디코딩 — 작은 모델이 초안을 쓰고 큰 모델이 검사한다",
@@ -7207,12 +7243,12 @@
 ]
 },
 {
-"no": 257,
+"no": 258,
 "section": "Tech",
 "key": "llm-kv-cache",
 "href": "pocs-llm-kv-cache.html",
 "status": "PLANNED",
-"position": 257,
+"position": 258,
 "title_en": "KV cache — why the second token is cheaper than the first",
 "type": "PoC",
 "title_ko": "KV 캐시 — 두 번째 토큰이 첫 번째보다 싼 이유",
@@ -7227,12 +7263,12 @@
 ]
 },
 {
-"no": 258,
+"no": 259,
 "section": "Tech",
 "key": "llm-distillation",
 "href": "pocs-llm-distillation.html",
 "status": "PLANNED",
-"position": 258,
+"position": 259,
 "title_en": "Distillation — a small model trained to imitate a big one",
 "type": "PoC",
 "title_ko": "증류 — 큰 모델을 모방하도록 학습된 작은 모델",
@@ -7246,12 +7282,12 @@
 ]
 },
 {
-"no": 259,
+"no": 260,
 "section": "Tech",
 "key": "llm-constitutional-ai",
 "href": "pocs-llm-constitutional-ai.html",
 "status": "PLANNED",
-"position": 259,
+"position": 260,
 "title_en": "Constitutional AI — alignment from written principles, not just raters",
 "type": "PoC",
 "title_ko": "헌법적 AI — 평가자만이 아니라 적힌 원칙에서 오는 정렬",
@@ -7265,12 +7301,12 @@
 ]
 },
 {
-"no": 260,
+"no": 261,
 "section": "Tech",
 "key": "llm-tool-use",
 "href": "pocs-llm-tool-use.html",
 "status": "PLANNED",
-"position": 260,
+"position": 261,
 "title_en": "Tool use — the model that stops guessing and calls a function",
 "type": "PoC",
 "title_ko": "도구 사용 — 추측을 멈추고 함수를 호출하는 모델",
@@ -7284,12 +7320,12 @@
 ]
 },
 {
-"no": 261,
+"no": 262,
 "section": "Tech",
 "key": "llm-agentic-react",
 "href": "pocs-llm-agentic-react.html",
 "status": "PLANNED",
-"position": 261,
+"position": 262,
 "title_en": "Agentic loops — ReAct, and the cost of letting a model iterate",
 "type": "PoC",
 "title_ko": "에이전트 루프 — ReAct, 그리고 모델이 반복하게 두는 비용",
@@ -7303,12 +7339,12 @@
 ]
 },
 {
-"no": 262,
+"no": 263,
 "section": "Tech",
 "key": "llm-evals-judge",
 "href": "pocs-llm-evals-judge.html",
 "status": "PLANNED",
-"position": 262,
+"position": 263,
 "title_en": "Evals — you cannot improve what you do not measure, judge included",
 "type": "PoC",
 "title_ko": "평가 — 측정하지 않는 것은 개선할 수 없다, 심판까지 포함해",
@@ -7321,12 +7357,12 @@
 ]
 },
 {
-"no": 263,
+"no": 264,
 "section": "Tech",
 "key": "llm-structured-output",
 "href": "pocs-llm-structured-output.html",
 "status": "PLANNED",
-"position": 263,
+"position": 264,
 "title_en": "Structured output — forcing valid JSON instead of hoping for it",
 "type": "PoC",
 "title_ko": "구조화 출력 — 유효한 JSON을 바라는 대신 강제하기",
@@ -7340,12 +7376,12 @@
 ]
 },
 {
-"no": 264,
+"no": 265,
 "section": "Tech",
 "key": "llm-multimodal",
 "href": "pocs-llm-multimodal.html",
 "status": "PLANNED",
-"position": 264,
+"position": 265,
 "title_en": "Multimodal — one model that reads images and text together",
 "type": "PoC",
 "title_ko": "멀티모달 — 이미지와 텍스트를 함께 읽는 한 모델",
@@ -7359,12 +7395,12 @@
 ]
 },
 {
-"no": 265,
+"no": 266,
 "section": "Tech",
 "key": "llm-context-engineering",
 "href": "pocs-llm-context-engineering.html",
 "status": "PLANNED",
-"position": 265,
+"position": 266,
 "title_en": "Context engineering — the window is a budget, not a bucket",
 "type": "PoC",
 "title_ko": "컨텍스트 엔지니어링 — 창은 양동이가 아니라 예산이다",
@@ -7377,12 +7413,12 @@
 ]
 },
 {
-"no": 266,
+"no": 267,
 "section": "Tech",
 "key": "isaac-lab-gpu-sim",
 "href": "pocs-isaac-lab-gpu-sim.html",
 "status": "PLANNED",
-"position": 266,
+"position": 267,
 "title_en": "Isaac Lab — the sim that gets faster when you buy a GPU",
 "type": "PoC",
 "title_ko": "Isaac Lab — GPU를 사면 빨라지는 시뮬레이터",
@@ -7405,12 +7441,12 @@
 ]
 },
 {
-"no": 267,
+"no": 268,
 "section": "Tech",
 "key": "temporal-durable-execution",
 "href": "pocs-temporal-durable-execution.html",
 "status": "PLANNED",
-"position": 267,
+"position": 268,
 "title_en": "Temporal — where 'retry, idempotency, visibility into a stuck run' actually lives",
 "type": "PoC",
 "title_ko": "Temporal — '재시도·멱등성·멈춘 실행의 가시성'이 실제로 사는 곳",
@@ -7431,12 +7467,12 @@
 ]
 },
 {
-"no": 268,
+"no": 269,
 "section": "Tech",
 "key": "sec-fcash-maturity-window",
 "href": "pocs-sec-fcash-maturity-window.html",
 "status": "PLANNED",
-"position": 268,
+"position": 269,
 "title_en": "A heist that has to wait is one you can still stop",
 "type": "PoC",
 "title_ko": "기다려야 하는 강도는 아직 막을 수 있는 강도다",
@@ -7458,12 +7494,12 @@
 ]
 },
 {
-"no": 269,
+"no": 270,
 "section": "Tech",
 "key": "aa-standard-execution-split",
 "href": "pocs-aa-standard-execution-split.html",
 "status": "PLANNED",
-"position": 269,
+"position": 270,
 "title_en": "One AA spec, two execution models — or the EVM fragments",
 "type": "PoC",
 "title_ko": "AA 명세 하나, 실행 모델 둘 — 아니면 EVM 이 쪼개진다",
@@ -7488,12 +7524,12 @@
 ]
 },
 {
-"no": 270,
+"no": 271,
 "section": "Tech",
 "key": "agent-ask-not-write",
 "href": "pocs-agent-ask-not-write.html",
 "status": "PLANNED",
-"position": 270,
+"position": 271,
 "title_en": "Give the agent the right to ask, not the right to write",
 "type": "PoC",
 "title_ko": "에이전트에게 쓸 권한이 아니라 요청할 권한만 준다",
@@ -7514,12 +7550,12 @@
 ]
 },
 {
-"no": 271,
+"no": 272,
 "section": "Tech",
 "key": "cli-batch-vs-mcp-interactive",
 "href": "pocs-cli-batch-vs-mcp-interactive.html",
 "status": "PLANNED",
-"position": 271,
+"position": 272,
 "title_en": "The CLI leaves an artifact; the MCP holds a conversation",
 "type": "PoC",
 "title_ko": "CLI 는 산출물을 남기고, MCP 는 대화를 이어간다",
@@ -7539,12 +7575,12 @@
 ]
 },
 {
-"no": 272,
+"no": 273,
 "section": "Tech",
 "key": "ai-engineering-is-framing-non-determinism",
 "href": "pocs-ai-engineering-is-framing-non-determinism.html",
 "status": "PLANNED",
-"position": 272,
+"position": 273,
 "title_en": "Every AI-engineering skill is framing the same non-determinism",
 "type": "PoC",
 "title_ko": "모든 AI 엔지니어링 기술은 같은 비결정성을 두르는 일이다",
@@ -7564,12 +7600,12 @@
 ]
 },
 {
-"no": 273,
+"no": 274,
 "section": "Tech",
 "key": "interop-os-one-network",
 "href": "pocs-interop-os-one-network.html",
 "status": "PLANNED",
-"position": 273,
+"position": 274,
 "title_en": "\"As if all chains are one network\" is the value and the risk at once",
 "type": "PoC",
 "title_ko": "\"모든 체인이 하나의 네트워크인 듯\"은 가치이자 위험이다",
@@ -7593,12 +7629,12 @@
 ]
 },
 {
-"no": 274,
+"no": 275,
 "section": "Tech",
 "key": "sponsored-gas-is-cogs",
 "href": "pocs-sponsored-gas-is-cogs.html",
 "status": "PLANNED",
-"position": 274,
+"position": 275,
 "title_en": "Sponsored gas is a COGS line — meter it or bleed",
 "type": "PoC",
 "title_ko": "스폰서드 가스는 원가 항목 — 계량하지 않으면 출혈",
@@ -7617,12 +7653,12 @@
 ]
 },
 {
-"no": 275,
+"no": 276,
 "section": "Tech",
 "key": "known-workflow-is-a-graph",
 "href": "pocs-known-workflow-is-a-graph.html",
 "status": "PLANNED",
-"position": 275,
+"position": 276,
 "title_en": "A known workflow is a graph, not a swarm",
 "type": "PoC",
 "title_ko": "아는 워크플로는 스웜이 아니라 그래프다",
@@ -7643,12 +7679,12 @@
 ]
 },
 {
-"no": 276,
+"no": 277,
 "section": "Tech",
 "key": "wallet-is-a-distribution-business",
 "href": "pocs-wallet-is-a-distribution-business.html",
 "status": "PLANNED",
-"position": 276,
+"position": 277,
 "title_en": "A stablecoin wallet is a distribution business, not a crypto one",
 "type": "PoC",
 "title_ko": "스테이블코인 지갑은 크립토 사업이 아니라 유통 사업이다",
@@ -7670,12 +7706,12 @@
 ]
 },
 {
-"no": 277,
+"no": 278,
 "section": "Tech",
 "key": "issuance-as-a-service",
 "href": "pocs-issuance-as-a-service.html",
 "status": "PLANNED",
-"position": 277,
+"position": 278,
 "title_en": "Issuance-as-a-service — you mint a brand, the platform keeps the money",
 "type": "PoC",
 "title_ko": "발행형 서비스 — 당신은 브랜드를 찍고, 플랫폼이 돈을 쥔다",
@@ -7699,12 +7735,12 @@
 ]
 },
 {
-"no": 278,
+"no": 279,
 "section": "Tech",
 "key": "key-never-leaves-the-secure-element",
 "href": "pocs-key-never-leaves-the-secure-element.html",
 "status": "PLANNED",
-"position": 278,
+"position": 279,
 "title_en": "The private key never leaves the secure element",
 "type": "PoC",
 "title_ko": "개인키는 시큐어 엘리먼트를 떠나지 않는다",
@@ -7728,12 +7764,12 @@
 ]
 },
 {
-"no": 279,
+"no": 280,
 "section": "Tech",
 "key": "sft-the-shape-of-thinking",
 "href": "pocs-sft-the-shape-of-thinking.html",
 "status": "PLANNED",
-"position": 279,
+"position": 280,
 "title_en": "You can SFT the shape of thinking, not the thinking",
 "type": "PoC",
 "title_ko": "생각의 형태는 SFT할 수 있어도 생각 자체는 아니다",
@@ -7755,12 +7791,12 @@
 ]
 },
 {
-"no": 280,
+"no": 281,
 "section": "Tech",
 "key": "geometric-series-dcf",
 "href": "pocs-geometric-series-dcf.html",
 "status": "PLANNED",
-"position": 280,
+"position": 281,
 "title_en": "Geometric series → DCF valuation",
 "type": "PoC",
 "title_ko": "등비급수 → DCF 밸류에이션",
@@ -7775,12 +7811,12 @@
 ]
 },
 {
-"no": 281,
+"no": 282,
 "section": "Tech",
 "key": "amortized-potential-function",
 "href": "pocs-amortized-potential-function.html",
 "status": "PLANNED",
-"position": 281,
+"position": 282,
 "title_en": "Amortized analysis via potential functions",
 "type": "PoC",
 "title_ko": "포텐셜 함수를 이용한 분할상환 분석",
