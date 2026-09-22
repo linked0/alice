@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/932</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/934</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Two native AA standards — wallets need a capability matrix, not a chain-name switch</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#80</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#82</span><span>PoC</span></p>
       <h1>Two native AA standards — wallets need a capability matrix, not a chain-name switch</h1>
       <p class="lead">The effort to reconcile Ethereum&#39;s EIP-8141 Frame Transactions with Base&#39;s EIP-8130 Keystore Accounts has ended without one shared design, according to Ethlabs&#39; Derek Chiang. The wallet-layer response should not be two unrelated implementations. Keep one user-intent model, negotiate each chain&#39;s capabilities, and translate through separately tested 8141 and 8130 adapters.</p>
       <p class="meta">Define a wallet-level <code>AccountIntent</code> for authenticate, batch, sponsor, session, recover, and execute. For every chain, load a signed/versioned capability manifest instead of branching only on chain ID. Compile the intent through an 8141 Frames adapter, an 8130 Keystore adapter, or an explicit fallback such as ERC-4337. Before signing, show semantic differences and reject unsupported combinations. Run the same conformance vectors across every adapter and preserve one receipt format with the chosen rail, signer, payer, policy, and downgrade reason.</p>
@@ -575,7 +575,7 @@ fallback: erc-4337
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-bok-24h-won-settlement-window.html">&larr; 79. The won gets a 24-hour window, not a 24/7 rail — BOK&#39;s settlement pilot</a><a href="pocs-articulation-idea-library.html">81. Articulation is a retrieval system — build ten ideas, then compile them into three shapes &rarr;</a></div>
+    <div class="pager"><a href="pocs-bok-24h-won-settlement-window.html">&larr; 81. The won gets a 24-hour window, not a 24/7 rail — BOK&#39;s settlement pilot</a><a href="pocs-articulation-idea-library.html">83. Articulation is a retrieval system — build ten ideas, then compile them into three shapes &rarr;</a></div>
   </div>
   </main>
 </div>
