@@ -278,15 +278,16 @@
                         <span class="card-title">Memo</span>
                         <span class="card-path" title="docs/memo.md">docs/memo.md</span>
                     </a>
-                    <!-- Current Plan 카드는 tasks 폴더 전체로 간다 (jay, 2026-09-03) —
-                         current-plan.md 한 장을 고정으로 걸면 그 문서가 낡는 순간 카드도 낡는다
-                         (Jayverse 계획처럼 최신 작업이 다른 파일로 시작되는 경우). 처음에는
-                         summary.html(손으로 쓰는 목록)을 걸었지만 그 목록 자체가 낡아 있었다 —
-                         지금은 생성기가 폴더 내용에서 매번 다시 만드는 자동 색인
-                         (html/docs/tasks/index.html)을 건다. -->
-                    <a href="https://linked0.github.io/rabbit/html/docs/tasks/index.html" target="_blank" rel="noopener noreferrer" class="card" style="border-left: 4px solid #16a34a;">
+                    <!-- Current Plan 카드는 current-plan.md 한 장을 직접 건다
+                         (jay, 2026-09-22: "it should link the rabbit's current plan md file").
+                         2026-09-03 의 반대 결정이다. 그때는 폴더 자동 색인(html/docs/tasks/index.html)을
+                         걸었다 — 한 장을 고정하면 최신 작업이 다른 파일에서 시작되는 순간 카드가 낡기
+                         때문이었다. 그 위험은 그대로 남아 있다. 다만 카드 이름이 "Current Plan"이면
+                         클릭했을 때 목록이 아니라 계획이 나와야 한다는 쪽을 택했다. 계획 문서가
+                         옮겨가면 이 href 도 같이 옮겨야 한다. -->
+                    <a href="https://linked0.github.io/rabbit/html/docs/tasks/current-plan.html" target="_blank" rel="noopener noreferrer" class="card" style="border-left: 4px solid #16a34a;">
                         <span class="card-title">Rabbit &mdash; Current Plan</span>
-                        <span class="card-path" title="https://linked0.github.io/rabbit/html/docs/tasks/index.html">rabbit &middot; docs/tasks/</span>
+                        <span class="card-path" title="https://linked0.github.io/rabbit/html/docs/tasks/current-plan.html">rabbit &middot; docs/tasks/current-plan.md</span>
                     </a>
                     <!-- History 카드도 tasks 와 같은 이유로 폴더 전체(자동 색인)로 간다
                          (jay, 2026-09-11) — 날짜별 로그가 계속 쌓이므로 한 장을 고정하면 낡는다.
