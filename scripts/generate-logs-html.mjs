@@ -13,6 +13,15 @@ import { renderRtdPage, escapeHtml } from './rtd-shell.mjs';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 const HISTORY_DIR = path.join(REPO_ROOT, 'docs', 'history');
+
+// docs/history moved back to the rabbit repo (jay, 2026-09-22). This page is built from
+// that folder and nothing else, so with the folder gone there is no page to build — and
+// docs/logs.html was deleted in the same change rather than left as 93 dead links.
+// The logs now render at linked0.github.io/rabbit/logs.html.
+if (!fs.existsSync(HISTORY_DIR)) {
+  console.log('docs/history is not in this repo (it lives in rabbit) — nothing to generate.');
+  process.exit(0);
+}
 const OUT_HTML = path.join(REPO_ROOT, 'docs', 'logs.html');
 
 const DATE_RE = /^(\d{4}-\d{2}-\d{2})-?(.*)\.md$/;
