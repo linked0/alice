@@ -437,7 +437,7 @@
       <h1>The outer handler may not see each failed attempt the way a reader expects. — 바깥 핸들러는 읽는 사람이 예상하는 대로 실패한 시도를 하나하나 보지 못할 수 있다</h1>
       <p class="lead">Lena가 API 호출을 재시도 헬퍼로 감싼 Jay의 PR을 리뷰한다. 바깥 try/catch가 전체 작업을 덮는 것처럼 보이는데, 실제로 세 번 실패했는데도 로그에는 실패 하나만 찍힌다. 버그냐고 묻자 Jay는 재시도가 실제로 어디서 일어나는지 설명하고 그 이유를 PR에 적기로 한다.</p>
 <h2>왜 이 대화인가</h2>
-<p>이 문장은 Jay가 재시도 동작에 대해 쓴 단락의 핵심 주장이다. 바깥 try/handler가 작업 전체를 **encompass**하는 것처럼 보여도 실제 재시도는 다른 콜백, 태스크, 제어 흐름 경계 안에서 일어날 수 있고, 예외가 거기서 잡히거나 변환되면 바깥 핸들러는 개별 시도를 보지 못한다. "the way a reader expects"는 코드가 보이는 모습과 실제 동작 사이의 간극을 가리키고, "may not"은 비난이 아니라 기술적 가능성으로 톤을 유지한다. 원문은 정확하지만 길었고("in the way someone reading the surrounding code would expect"), 짧은 판도 같은 뜻이다. 실전 요령은 그 이유를 PR에 기록해서 나중 리뷰어가 최종 코드만이 아니라 아키텍처 맥락을 얻게 하는 것이다.</p>
+<p>이 문장은 Jay가 재시도 동작에 대해 쓴 단락의 핵심 주장이다. 바깥 try/handler가 작업 전체를 <strong>encompass</strong>하는 것처럼 보여도 실제 재시도는 다른 콜백, 태스크, 제어 흐름 경계 안에서 일어날 수 있고, 예외가 거기서 잡히거나 변환되면 바깥 핸들러는 개별 시도를 보지 못한다. "the way a reader expects"는 코드가 보이는 모습과 실제 동작 사이의 간극을 가리키고, "may not"은 비난이 아니라 기술적 가능성으로 톤을 유지한다. 원문은 정확하지만 길었고("in the way someone reading the surrounding code would expect"), 짧은 판도 같은 뜻이다. 실전 요령은 그 이유를 PR에 기록해서 나중 리뷰어가 최종 코드만이 아니라 아키텍처 맥락을 얻게 하는 것이다.</p>
 <h2>대화</h2>
 <p><strong>Lena:</strong> 바깥 try/catch가 호출 전체를 감싸는데, API는 실제로 세 번 실패했는데 왜 로그엔 실패가 하나만 찍혀?</p>
 <p><strong>Jay:</strong> 재시도가 클라이언트 라이브러리 안에서, 다른 제어 흐름 경계 너머에서 일어나기 때문이야. 바깥 핸들러는 읽는 사람이 예상하는 대로 실패한 시도를 하나하나 보지 못할 수 있어. 마지막 것만 보지.</p>

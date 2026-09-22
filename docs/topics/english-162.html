@@ -437,7 +437,7 @@
       <h1>Not wait — wrap. One module owns how an account authorizes a transaction, and everything else calls it. — "wait"가 아니라 "wrap"; 승인 로직은 모듈 하나가 전담하고 나머지는 그걸 호출한다</h1>
       <p class="lead">소음이 심한 아키텍처 통화에서 Ken이 Jay의 "wrap"을 "wait"로 듣고 지연 시간이 늘어난다며 반대하기 시작한다. Jay는 단어를 세 음절로 바로잡고, 계정 승인에 대해 실제로 원하는 모듈 경계를 설명한다.</p>
 <h2>왜 이 대화인가</h2>
-<p>한 줄에 두 가지 동작이 들어 있다. "Not wait — wrap"은 잘못 들은 단어와 맞는 단어를 나란히 놓아 바로잡는 말로, 대화에서 가장 빠른 수정이며 아무도 기분 나빠하지 않는다. 그다음 아키텍처에서 **wrap**은 흩어진 기존 호출을 추상화 하나 뒤로 감싼다는 뜻이고, "a module owns X"는 그 모듈이 X의 로직과 책임을 전부 가진다는 뜻이다. "Everything else calls it"이 경계를 닫는다. 다른 코드는 서명자나 세션 키를 직접 건드리지 않는다. 여기서 wrap은 "포장하다"나 "마무리하다"가 아니다.</p>
+<p>한 줄에 두 가지 동작이 들어 있다. "Not wait — wrap"은 잘못 들은 단어와 맞는 단어를 나란히 놓아 바로잡는 말로, 대화에서 가장 빠른 수정이며 아무도 기분 나빠하지 않는다. 그다음 아키텍처에서 <strong>wrap</strong>은 흩어진 기존 호출을 추상화 하나 뒤로 감싼다는 뜻이고, "a module owns X"는 그 모듈이 X의 로직과 책임을 전부 가진다는 뜻이다. "Everything else calls it"이 경계를 닫는다. 다른 코드는 서명자나 세션 키를 직접 건드리지 않는다. 여기서 wrap은 "포장하다"나 "마무리하다"가 아니다.</p>
 <h2>대화</h2>
 <p><strong>Ken:</strong> 승인마다 기다리면 모든 호출에 지연이 붙어. 그건 별로야.</p>
 <p><strong>Jay:</strong> wait가 아니라 wrap. wrap이라고 했어. 계정이 트랜잭션을 어떻게 승인하는지는 모듈 하나가 전담하고, 나머지는 전부 그걸 호출하는 거야.</p>

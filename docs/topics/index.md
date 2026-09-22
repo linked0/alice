@@ -1,6 +1,6 @@
 # Knowledge Notes — index
 
-Generated 2026-09-22 10:21 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-22 11:05 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
 Counts: Tech 283 · Theory 189 · Invest 21 · Eng 399 · Life 34 · done 71/926
 
@@ -907,7 +907,7 @@ Counts: Tech 283 · Theory 189 · Invest 21 · Eng 399 · Life 34 · done 71/926
 | 2372 | Eng · Line | NEW | 2026-09-21 |  | Line |  |  | [Could you take one long shot photo so you get the background, and then zoom in on our faces for the second one?](english-395.html) | Could you take one long shot photo so you get the background, and then zoom in on our faces for the second one? — 한 장은 배경이 나오게 멀리서, 두 번째는 얼굴에 줌인해서 찍어 주시겠어요? | `english-395` | [raw](raw/2026-09-21-english-183.txt) |
 | 2373 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [connive in cheating somebody](english-396.html) | connive in cheating somebody — ~를 속이는 데 공모하다 | `english-396` | [raw](raw/2026-09-21-english-183.txt) |
 | 2374 | Eng · Word | NEW | 2026-09-21 |  | Word |  |  | [poach](english-397.html) | poach — (사람·고객·아이디어를) 가로채다, 빼가다 | `english-397` | [raw](raw/2026-09-21-english-183.txt) |
-| 2375 | Eng · Interview | NEW | 2026-09-22 |  | Interview |  |  | [A flapping node](english-399.html) | A flapping node — "가장 어려웠던 디버깅" 질문에 간헐적 장애를 영어로 설명하기 | `english-399` |  |
+| 2375 | Eng · Term | NEW | 2026-09-22 |  | Term |  |  | [Slop grenade](english-399.html) | Slop grenade — AI가 일을 없애지 않고 옮길 때 쓰는 말 | `english-399` | [raw](raw/2026-09-22-slop-grenade.md) |
 | 2376 | Eng · Design | PLANNED | 2026-09-16 |  | Design |  |  | [Fail closed or fail open](english-2.html) | 막고 실패할까, 통과시키고 실패할까 | `english-2` |  |
 | 2377 | Eng · Incident | PLANNED | 2026-09-16 |  | Incident |  |  | [Every transaction passed. The total was wrong.](english-3.html) | 모든 트랜잭션은 통과했다. 총량이 틀렸다. | `english-3` |  |
 | 2378 | Eng · EIP | PLANNED | 2026-09-16 |  | EIP |  |  | [Does Quick Slots make finality faster?](english-4.html) | Quick Slots가 최종성을 빠르게 하나? | `english-4` |  |

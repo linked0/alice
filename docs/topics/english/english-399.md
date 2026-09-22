@@ -1,57 +1,57 @@
-# 399 · Interview — A flapping node
-title_ko: A flapping node — "가장 어려웠던 디버깅" 질문에 간헐적 장애를 영어로 설명하기
-situation: A hiring manager abroad asks Jay the standard question — tell me about a bug that was hard to track down. Jay picks a real one from the day before: users could not buy tokens on his exchange, the server logs were clean, and the node underneath kept going up and down. He has to explain an intermittent failure in English without saying "it was weird" three times.
-situation_ko: 해외 면접에서 채용 담당자가 단골 질문을 던진다. 추적하기 어려웠던 버그 이야기를 해보라. Jay는 바로 전날의 실제 사례를 고른다. 거래소에서 사용자가 토큰을 살 수 없었고, 서버 로그는 깨끗했고, 그 아래의 노드는 계속 떴다 죽었다 했다. "it was weird"를 세 번 말하지 않고 간헐적 장애를 영어로 설명해야 한다.
-why: **Flap** is the word this whole story turns on. It is the standard verb for a thing that alternates between up and down — it comes from network engineering (*route flapping*, *link flapping*) and it is not slang, so it is safe in an interview. The trap is reaching for "unstable", which says the mood but not the behaviour; flapping says specifically that it recovers and fails again, which is the detail that makes an intermittent bug hard. Around it sits the vocabulary of debugging under uncertainty: **a red herring** for the clue that wastes your time, **to rule out** for eliminating a suspect, **a smoking gun** for the evidence that settles it, and **to narrow it down** for the process itself. Interviewers listen for whether you can separate a symptom from a root cause; the phrases below are how that separation sounds in English.
-why_ko: 이 이야기의 축은 **flap**이다. 위아래를 오가는 상태를 가리키는 표준 동사로, 네트워크 엔지니어링(*route flapping*, *link flapping*)에서 왔고 속어가 아니라 면접에서도 안전하다. 함정은 "unstable"로 도망가는 것이다. 그건 느낌만 말할 뿐 동작을 말하지 않는다. flapping은 복구됐다가 다시 죽는다는 것까지 말해주고, 바로 그 점이 간헐적 버그를 어렵게 만든다. 그 주위에 불확실한 상황에서 디버깅할 때 쓰는 어휘가 붙는다. 시간을 낭비하게 만든 단서는 **a red herring**, 용의자를 지우는 것은 **to rule out**, 결정적 증거는 **a smoking gun**, 범위를 좁혀가는 과정은 **to narrow it down**이다. 면접관은 증상과 근본 원인을 구분할 줄 아는지를 듣는다. 아래 표현들이 그 구분을 영어로 말하는 방식이다.
+# 399 · Term — Slop grenade
+title_ko: Slop grenade — AI가 일을 없애지 않고 옮길 때 쓰는 말
+situation: A teammate drops a 900-line AI-written design doc into the channel forty minutes before review, having clearly not read it. Jay has to say something in English that names the problem without calling the person lazy, and he wants the word the industry has settled on rather than a description.
+situation_ko: 한 팀원이 리뷰 40분 전에 AI가 쓴 900줄짜리 설계 문서를 채널에 올린다. 본인이 읽지 않은 것이 분명하다. Jay는 그 사람을 게으르다고 하지 않으면서 문제를 짚어야 하고, 길게 설명하는 대신 업계가 정착시킨 단어를 쓰고 싶다.
+why: The useful thing about **slop grenade** is that it blames the **act**, not the person — you lob a grenade, so the fault is in throwing unread work over the wall, not in using AI. Learn it with its sibling: **workslop** is the material, a slop grenade is the throw. The sentence to keep is the mechanism, not the insult: AI did not remove the work, it moved the work from the person who benefits to the person who receives it. Around it sit the words review culture runs on — to vet, scrutiny, rework, accountability — and the two verbs for the throw itself, to lob and to toss, both of which are lighter and more contemptuous than "to send".
+why_ko: **slop grenade**의 쓸모는 사람이 아니라 **행위**를 탓한다는 데 있다. 수류탄은 던지는 것이므로, 잘못은 AI를 쓴 데 있지 않고 읽지도 않은 결과물을 담 너머로 던진 데 있다. 짝이 되는 말과 함께 외우자. **workslop**은 물질이고, slop grenade는 그 투척이다. 남겨야 할 문장은 모욕이 아니라 작동 원리다. AI는 일을 없앤 것이 아니라, 이득을 보는 사람에게서 그것을 받는 사람에게로 일을 옮겼다. 그 주위에 리뷰 문화가 돌아가는 단어들(to vet, scrutiny, rework, accountability)이 있고, 던지는 행위를 뜻하는 두 동사 to lob과 to toss가 있다. 둘 다 "to send"보다 가볍고 경멸이 섞여 있다.
 status: new
 added: 2026-09-22
+raw: 2026-09-22-slop-grenade.md
+source: Tobi Lütke, CEO of Shopify, on The Knowledge Project podcast, 17 September 2026 — "We call those 'slop grenades' that people toss at each other." The sibling term workslop, and the 52.7% figure, come from BetterUp Labs with Stanford's Social Media Lab, a 2026 survey of 962 American full-time desk workers. Reported by Fortune (17 September 2026) and tech.co, which places the remark in a CBS News interview instead; the wording matches, so the phrase is attributed to Lütke without pinning it to one appearance. Claims and URLs are in the raw file. The situation and dialogue are new.
+source_ko: 쇼피파이 CEO 토비 뤼트케, The Knowledge Project 팟캐스트, 2026년 9월 17일 — "We call those 'slop grenades' that people toss at each other." 짝이 되는 용어 workslop과 52.7%라는 수치는 BetterUp Labs가 스탠퍼드 Social Media Lab과 함께 2026년에 미국 정규직 사무직 962명을 조사한 결과다. Fortune(2026년 9월 17일)과 tech.co가 보도했고, tech.co는 같은 발언을 CBS 뉴스 인터뷰로 적었다. 표현이 일치하므로 여기서는 특정 출연을 못 박지 않고 뤼트케의 말로만 밝힌다. 주장과 URL은 raw 파일에 있다. 상황과 대화는 새로 썼다.
 
 ## Dialogue
-Ava: Tell me about a bug that was hard to track down.
-> 추적하기 어려웠던 버그 이야기를 해주세요.
-Jay: Users couldn't buy tokens on my exchange. The server logs were clean — the only warnings were a bot probing for credentials, which was a red herring.
-> 제 거래소에서 사용자가 토큰을 살 수 없었습니다. 서버 로그는 깨끗했고, 유일한 경고는 크리덴셜을 뒤지는 봇이었는데 그건 헛다리였습니다.
-Ava: Clean logs on a user-facing failure. How did you narrow it down?
-> 사용자에게 보이는 장애인데 로그는 깨끗하다. 어떻게 범위를 좁혔나요?
-Jay: The transaction was signed in the browser, so it never reached my server at all. That ruled out the backend and sent me on chain instead.
-> 트랜잭션이 브라우저에서 서명돼서 서버에 아예 도달하지 않았습니다. 그래서 백엔드를 배제하고 온체인 쪽을 봤습니다.
-Ava: And what did you find there?
-> 거기서 뭘 찾았나요?
-Jay: Two things. The app was calling a function the deployed contract didn't have — a rename that shipped in the code but never got redeployed. And the node was flapping: three failures, then it answered again, but forty blocks behind.
-> 두 가지입니다. 앱이 배포된 컨트랙트에 없는 함수를 호출하고 있었어요. 이름 변경이 코드에는 반영됐는데 재배포는 안 된 거죠. 그리고 노드가 flap하고 있었습니다. 세 번 실패하고 다시 응답했는데 40블록 뒤였습니다.
-Ava: Behind? That's an odd direction to move.
-> 뒤라고요? 이상한 방향이네요.
-Jay: That was the smoking gun. It was a forked test chain restarting from the fork point, so anything deployed onto it was wiped. The addresses we were pointing at held no code.
-> 그게 결정적 증거였습니다. 포크된 테스트 체인이 포크 지점부터 다시 시작하는 거라, 그 위에 배포한 건 전부 날아갔습니다. 우리가 가리키던 주소에는 코드가 없었습니다.
-Ava: So what did you change?
-> 그래서 뭘 바꿨나요?
-Jay: I pointed it at contracts that live in the forked state, so they survive a restart. Then I proved it before deploying — the old call reverted with no signature, the new one reverted on the allowance check. Different failure, same input.
-> 포크된 상태 안에 있는 컨트랙트로 바꿨습니다. 그러면 재시작해도 살아남으니까요. 그리고 배포 전에 증명했습니다. 기존 호출은 시그니처 없이 revert했고, 새 호출은 allowance 검사에서 revert했습니다. 같은 입력, 다른 실패였죠.
+Hana: Did you see the design doc? Nine hundred lines, dropped forty minutes before review.
+> 설계 문서 봤어? 900줄짜리를 리뷰 40분 전에 올렸더라.
+Jay: I read the first section. It cites an interface we deleted in June. That's a slop grenade.
+> 첫 절만 읽었어. 6월에 지운 인터페이스를 인용하고 있더라. 그건 slop grenade야.
+Hana: Careful. He'll hear that as "you're lazy".
+> 조심해. 그 사람은 "너 게으르다"로 들을걸.
+Jay: That's why the phrase is useful — it's about the throw, not the author. Using AI is fine. Sending it unread isn't, because the work doesn't disappear, it just lands on us.
+> 그래서 이 표현이 쓸모 있는 거야. 글쓴이가 아니라 던진 행위를 가리키거든. AI를 쓰는 건 괜찮아. 읽지 않고 보내는 게 문제지. 일이 사라진 게 아니라 우리한테 떨어진 거니까.
+Hana: So what do you actually ask for?
+> 그래서 실제로 뭘 요구할 건데?
+Jay: One line. "Can you vet this and tell me which parts you've verified?" Not "did you use AI" — that's the wrong question and it puts him on the defensive.
+> 한 줄이면 돼. "이거 한번 검토하고 어느 부분을 확인했는지 알려줄래?" "AI 썼어?"가 아니라. 그건 잘못된 질문이고 상대를 방어적으로 만들어.
 
 ## Techniques
-1. **증상과 근본 원인을 문장 단위로 갈라놓는다.** "Users couldn't buy tokens"는 증상이고, "a rename that shipped in the code but never got redeployed"는 원인이다. 면접관이 듣고 싶은 건 이 둘을 섞지 않는 능력이다. 중간에 "That ruled out the backend"처럼 배제 과정을 한 줄 넣으면, 운이 좋아서가 아니라 좁혀가서 찾았다는 인상이 된다.
-2. **결정적 증거를 한 문장으로 세우고 그 다음에 해석한다.** "Behind?"라는 되물음에 곧바로 "That was the smoking gun."으로 받고, 그 뒤에 이유를 붙인다. 영어 면접에서는 결론을 먼저 놓고 근거를 뒤에 대는 순서가 훨씬 잘 들린다. 한국어 습관대로 근거를 길게 쌓고 마지막에 결론을 두면 듣는 쪽이 요점을 놓친다.
-3. **검증을 "다른 실패"로 표현한다.** "Different failure, same input."은 차등 테스트(differential test)를 여섯 단어로 요약한다. 고쳤다고 주장하는 대신 어떻게 확인했는지를 말하면 신뢰도가 크게 올라간다.
+1. **사람이 아니라 행위를 지칭하는 단어를 고른다.** "That's a slop grenade."는 "You're lazy."와 달리 반박할 대상이 행동이다. 비난을 명사구에 담으면 상대가 자기 자신을 방어하는 대신 그 행동을 고칠 수 있다. 영어 회의에서 갈등을 줄이는 가장 실용적인 기술이다.
+2. **요구는 확인 가능한 형태로 한 줄에 담는다.** "Can you vet this and tell me which parts you've verified?"는 대답이 목록으로 나오는 질문이다. "Did you use AI?"는 예/아니오로 끝나고 아무것도 개선하지 않는다. 검증된 부분을 물으면 AI 사용 여부를 따지지 않고도 책임 소재가 분명해진다.
+3. **핵심 원리를 한 문장으로 준비해 둔다.** "The work doesn't disappear, it just lands on us." 이런 대비 문장은 논쟁이 붙었을 때 꺼낼 수 있는 가장 짧은 근거다. 통계보다 빠르고, 감정을 싣지 않는다.
+
+## Words
+| slop | /slɑːp/ | 묽고 형편없는 것, 죽·구정물 — 여기서는 검토 없이 쏟아낸 저질 결과물. 불가산 명사 |
+| grenade | /ɡrəˈneɪd/ | 수류탄 — 강세는 뒤(gre-NADE). 앞에 주면 알아듣지 못한다 |
+| workslop | /ˈwɜːrkslɑːp/ | 던져진 물질 쪽을 가리키는 짝 용어 — BetterUp·스탠퍼드 연구에서 나온 말 |
+| to lob | /lɑːb/ | (포물선으로 가볍게) 던지다 — 던진 사람이 결과를 안 본다는 뉘앙스 |
+| to vet | /vet/ | 사전 검증하다 — 짧고 격식 있는 동사. "Can you vet this?" |
+| scrutiny | /ˈskruːtəni/ | 면밀한 검토 — "under scrutiny"로 자주 |
+| rework | /ˈriːwɜːrk/ 명사 · /ˌriːˈwɜːrk/ 동사 | 재작업 — 명사는 앞에, 동사는 뒤에 강세. 영어에서 흔한 강세 이동 규칙 |
+| accountability | /əˌkaʊntəˈbɪləti/ | 책임 소재 — 4음절째(-bil-)가 주강세. 한국어 화자가 가장 자주 놓치는 자리 |
+| plausible | /ˈplɔːzəbl/ | 그럴듯한 — AI 결과물을 설명할 때 핵심어. 맞다는 뜻이 아니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|
-| to flap | (서버·링크가) 떴다 죽었다를 반복하다 — 네트워크 용어, 속어 아님. "The node was flapping." |
-| flapping / a flapping node | 간헐적으로 오르내리는 상태 — route flapping, link flapping에서 왔다 |
-| intermittent | 간헐적인 — 재현이 잘 안 되는 장애를 가리키는 표준 형용사 |
-| to track down | (원인을) 추적해 찾아내다 — find보다 과정이 있다는 뉘앙스 |
-| to narrow it down | 범위를 좁히다 — 디버깅 과정 자체를 가리키는 말 |
-| to rule out | (가능성을) 배제하다 — "That ruled out the backend." |
-| a red herring | 헛다리, 주의를 딴 데로 돌리는 단서 — 원뜻은 훈제 청어 |
-| a smoking gun | 결정적 증거 — 논쟁을 끝내는 증거 하나 |
-| a root cause | 근본 원인 — symptom(증상)과 반드시 짝으로 쓴다 |
-| to reproduce a bug | 버그를 재현하다 — 면접에서 거의 반드시 나오는 동사 |
-| stale | (설정·캐시가) 오래돼 현실과 어긋난 — "the addresses were stale" |
-| to point at | (설정이) ~을 가리키다 — "We were pointing at the wrong contract." |
-| to silently fall back | 조용히 대체값으로 넘어가다 — 에러 없이 틀리는, 가장 위험한 실패 방식 |
-| to wipe state | 상태를 날리다 — 재시작 때 데이터가 사라지는 것 |
-| to survive a restart | 재시작해도 남아 있다 — 내구성을 말하는 짧은 표현 |
-| to ship | (코드를) 내보내다, 배포하다 — "a rename that shipped in the code" |
-| by accident, not by design | 의도한 게 아니라 우연히 — 잘 돌아가지만 설계는 아닐 때 |
-| a differential test | 차등 테스트 — 하나만 바꿔 두 실행을 비교하는 검증 |
+| a slop grenade | 검토 없이 남에게 떠넘긴 AI 결과물 — 행위를 탓하는 말 |
+| to lob / toss something at someone | ~에게 (아무렇게나) 던지다 — send보다 가볍고 경멸이 섞임 |
+| to throw something over the wall | 담 너머로 던지다 — 뒷일을 남에게 넘기는 인수인계 |
+| to wade through something | (양이 많아) 헤치고 나아가다 — "wade through 900 lines" |
+| to pass the buck | 책임을 떠넘기다 — 비격식, 회의에서 흔함 |
+| busywork | 바쁘기만 하고 가치 없는 일 |
+| to vet something | 사전에 검증하다 — "Can you vet this before the review?" |
+| to move the work, not remove it | 일을 없앤 게 아니라 옮긴 것 — 이 항목의 핵심 문장 |
+| to put someone on the defensive | ~를 방어적으로 만들다 |
+| to hear something as X | ~를 X로 받아들이다 — "He'll hear that as 'you're lazy'." |
+| plausible but wrong | 그럴듯하지만 틀린 — AI 결과물의 표준 표현 |
+| to land on someone | (일·부담이) ~에게 떨어지다 — "it just lands on us" |
