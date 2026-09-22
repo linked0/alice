@@ -193,6 +193,31 @@
   }
 
   function foot() { return document.querySelector('.rail-foot'); }
+
+  // Where the control bar goes. A detail page has a hero with the English/한국어 pills, and that is
+  // where jay reads from, so the bar belongs there (jay, 2026-09-22: "how about the edit button on the
+  // top part of detail page besides 한국어"). notes.html has no hero, so it keeps the rail foot.
+  function heroSwitch() { return document.querySelector('.topic-hero .lang-switch'); }
+  function host() { return heroSwitch() || foot(); }
+
+  // Why the sign-in failed, in words that say what to do next. Measured 2026-09-22 with real Chrome:
+  // from http://localhost:PORT the popup opens; from http://127.0.0.1:PORT and from a file:// page
+  // Firebase returns the *same* auth/unauthorized-domain for two different reasons — 127.0.0.1 was
+  // merely missing from the authorized list (add it in the console if you want that spelling), while
+  // file:// can never work at all — the SDK requires an http(s) origin. One code, two causes, which
+  // is why reading the bare code was no help.
+  function explain(e) {
+    var code = (e && e.code) || String(e);
+    if (location.protocol === 'file:')
+      return 'sign-in needs an http page — serve the repo (scripts/serve.sh) and open it on http://localhost:4173';
+    if (code === 'auth/unauthorized-domain')
+      return location.hostname + ' is not an authorized domain — open it on http://localhost:4173, or add the host in Firebase Auth → Settings';
+    if (code === 'auth/popup-blocked')
+      return 'the browser blocked the Google window — allow popups for this page, then try again';
+    if (code === 'auth/popup-closed-by-user')
+      return 'the Google window closed before sign-in finished';
+    return code;
+  }
   function say(msg, tone) {
     var el = document.getElementById('alice-status-msg');
     if (!el) return;
@@ -229,13 +254,15 @@
   }
 
   function render(k, user) {
-    var f = foot(); if (!f) return;
+    var h = host(); if (!h) return;
     var bar = document.getElementById('alice-status-bar');
     if (!bar) {
       bar = document.createElement('div');
       bar.id = 'alice-status-bar';
-      bar.style.cssText = 'margin-top:8px;font-size:.72rem;line-height:1.9;display:flex;flex-wrap:wrap;gap:6px;align-items:center';
-      f.parentNode.insertBefore(bar, f.nextSibling);
+      var inHero = h === heroSwitch();
+      bar.style.cssText = 'margin-top:' + (inHero ? '10px' : '8px') + ';font-size:' + (inHero ? '.78rem' : '.72rem') +
+                          ';line-height:1.9;display:flex;flex-wrap:wrap;gap:6px;align-items:center';
+      h.parentNode.insertBefore(bar, h.nextSibling);
     }
     bar.textContent = '';
     var msg = document.createElement('span');
@@ -246,7 +273,7 @@
       bar.appendChild(button('Sign in', function () {
         say('opening Google…');
         k.auth.signInWithPopup(k.a, new k.auth.GoogleAuthProvider())
-          .catch(function (e) { say(String((e && e.code) || e), 'bad'); });
+          .catch(function (e) { say(explain(e), 'bad'); });
       }));
       bar.appendChild(msg); say('sign in to change status from here');
       return;
@@ -262,7 +289,7 @@
         say('saving ' + s + '…');
         k.fs.setDoc(k.fs.doc(k.db, 'status', item.key), { status: s, at: k.fs.serverTimestamp() })
           .then(function () { pending[item.key] = s; var r = apply(); say('queued ' + s + ' — ' + r.pendingCount + ' pending'); })
-          .catch(function (e) { say(String((e && e.code) || e), 'bad'); });
+          .catch(function (e) { say(explain(e), 'bad'); });
       }));
     });
     bar.appendChild(button('refresh', function () { say('reading…'); pull(k).then(function (r) { say(r.pendingCount + ' pending'); }); }));
@@ -285,15 +312,31 @@
   }
 
   function init() {
-    var f = foot(); if (!f) return;
+    if (!host()) return;
     var opted = false;
     try { opted = localStorage.getItem(OPT_IN) === '1'; } catch (e) {}
     if (opted || location.hash === '#edit') { start(); return; }
-    f.appendChild(document.createTextNode(' · '));
-    var a = document.createElement('a');
-    a.href = '#edit'; a.textContent = 'Edit';
-    a.addEventListener('click', function (ev) { ev.preventDefault(); start(); });
-    f.appendChild(a);
+    // Two ways in, one bar. The hero pill inherits .lang-switch a, so it is the same shape as the
+    // English/한국어 pills it sits next to and needs no CSS of its own in 776 generated pages.
+    var sw = heroSwitch();
+    if (sw) {
+      var pill = document.createElement('a');
+      pill.href = '#edit'; pill.textContent = 'Edit'; pill.id = 'alice-edit-pill';
+      pill.addEventListener('click', function (ev) { ev.preventDefault(); pill.remove(); start(); });
+      sw.appendChild(pill);
+    }
+    var f = foot();
+    if (f) {
+      f.appendChild(document.createTextNode(' · '));
+      var a = document.createElement('a');
+      a.href = '#edit'; a.textContent = 'Edit';
+      a.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var p = document.getElementById('alice-edit-pill'); if (p) p.remove();
+        start();
+      });
+      f.appendChild(a);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
