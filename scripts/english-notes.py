@@ -17,6 +17,12 @@ Source format (docs/topics/english/english-N.md):
   ## Dialogue            Speaker: English line   /  > Korean line (directly under it)
   ## Techniques          1. **제목.** 설명 (Korean, quoting the English)
   ## Expressions         | english | 한국어 |
+  ## Words               | word | /IPA/ | 뜻 |   (required from 2026-09-22 — jay: "for eng item, it should
+                         have new word or important or difficult word and pronunciation for that … make it
+                         as a rule". The point of an Eng item is words jay cannot yet say, so every new item
+                         carries the hard ones with a pronunciation. US IPA first, a Korean approximation
+                         after the 뜻 when it helps. Older items predate the rule and are left alone; the
+                         builder warns, and never fails, when an item added on or after that date omits it.)
 
 Rules (jay, 2026-09-16): numbering is chronological and append-only — no reordering by status.
 Every time a Knowledge Notes item is added, one conversation is added here too; it need not relate to
@@ -53,7 +59,7 @@ def parse(path):
     i = 1
     while i < len(lines) and lines[i].strip() and not lines[i].startswith("## "):
         k, _, v = lines[i].partition(":"); it[k.strip()] = v.strip(); i += 1
-    sec = None; it["dialogue"] = []; it["techniques"] = []; it["expressions"] = []
+    sec = None; it["dialogue"] = []; it["techniques"] = []; it["expressions"] = []; it["words"] = []
     for l in lines[i:]:
         if l.startswith("## "): sec = l[3:].strip().lower(); continue
         if not l.strip(): continue
@@ -66,6 +72,9 @@ def parse(path):
         elif sec == "expressions":
             cells = [c.strip() for c in l.strip().strip("|").split("|")]
             if len(cells) >= 2: it["expressions"].append(cells[:2])
+        elif sec == "words":
+            cells = [c.strip() for c in l.strip().strip("|").split("|")]
+            if len(cells) >= 3 and not set(cells[0]) <= set("-: "): it["words"].append(cells[:3])
     for k in ("title_ko", "situation", "situation_ko", "why", "why_ko"): assert k in it, (path, k)
     # added date (jay, 2026-09-21: "It is missing the date when the item is added"): the optional `added:` header,
     # else the day the .md file entered git — shown in the kicker and written to _nav.js (index, one-week NEW rule).
@@ -87,6 +96,11 @@ for x in items:
 _pin = lambda x: 0 if str(x.get("pin", "")).strip().lower() in ("1", "true", "yes") else 1
 items = sorted(items, key=lambda x: (RANK[x["status"]], _pin(x), x["n"])); POS.update({x["n"]: i + 1 for i, x in enumerate(items)})
 N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
+# The pronunciation rule (jay, 2026-09-22) applies to items added from that day on. A warning, not an
+# assert: a rebuild must never be blocked by an editorial rule, and 398 earlier items predate it.
+WORDS_RULE_FROM = "2026-09-22"
+_no_words = [x["n"] for x in items if x["added"] >= WORDS_RULE_FROM and not x["words"]]
+if _no_words: print(f"warning: no '## Words' section (rule since {WORDS_RULE_FROM}): english-{', english-'.join(map(str, _no_words))}.md", file=sys.stderr)
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 
 # ---------------- detail pages ----------------
@@ -109,6 +123,12 @@ for idx, it in enumerate(items):
         if not it.get(k): return ""
         tail = f' &middot; <a href="{rawlink}">raw</a>' if rawlink else ""
         return f'<h2>{h}</h2>\n<p class="meta">{inline(it[k])}{tail}</p>\n'
+    # Words worth saying out loud, with how to say them (jay, 2026-09-22). Its own table rather than a third
+    # column on Expressions: an expression is a phrase you deploy, a word here is one you cannot yet pronounce,
+    # and merging them would have put an empty cell beside 400 items' worth of existing rows.
+    words = ('<h2>New words</h2>\n<table><thead><tr><th>Word</th><th>Say it</th><th>뜻</th></tr></thead><tbody>'
+             + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td><code>{E(b)}</code></td><td>{inline(c)}</td></tr>"
+                       for a, b, c in it["words"]) + "</tbody></table>\n") if it["words"] else ""
     expr = ('<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody>'
             + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td>{inline(b)}</td></tr>" for a, b in it["expressions"]) + "</tbody></table>")
     prev = items[idx - 1] if idx > 0 else None; nxt = items[idx + 1] if idx + 1 < N else None
@@ -131,7 +151,7 @@ for idx, it in enumerate(items):
 <p>{inline(it["why"])}</p>
 <h2>Dialogue</h2>
 {dlg}
-<h2>Key expressions</h2>
+{words}<h2>Key expressions</h2>
 {expr}
 {source_block("source", "Source")}      <p><a href="../notes.html#{SECTION_ID}">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
     </article>
@@ -140,7 +160,7 @@ for idx, it in enumerate(items):
       <h1>{E(it["title_ko"])}</h1>
       <p class="lead">{E(it["situation_ko"])}</p>
 <h2>왜 이 대화인가</h2>
-<p>{E(it["why_ko"])}</p>
+<p>{inline(it["why_ko"])}</p>
 <h2>대화</h2>
 {dlg_ko}
 <h2>협업 기법 세 가지</h2>
