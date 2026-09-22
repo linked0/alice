@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/927</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 71/929</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Assistance is optimised to look right — automation needs a model that knows when it is wrong</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#74</span><span>Talk</span><span title="added">2026-09-22</span><span title="source">gemini</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-22-gemini-youtube.md">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#76</span><span>Talk</span><span title="added">2026-09-22</span><span title="source">gemini</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-22-gemini-youtube.md">raw</a></span></p>
       <h1>Assistance is optimised to look right — automation needs a model that knows when it is wrong</h1>
       <p class="lead">A talk at the AI Engineer conference argues that the gap between models that crack research benchmarks and models that cannot be trusted with routine customer-service decisions is not a capability gap but a choice of optimisation target. Nearly every foundation model is post-trained with RLHF, which scores answers by human preference. Preference rewards answers that sound plausible, agreeable and confident, so a wrong answer that reads well beats a correct admission of uncertainty. The speaker&#39;s summary of it is the sentence worth keeping: when these models are wrong, they are engineered to look right. He also claims the reward model carries an asymmetry that penalises low confidence outright, which pushes toward mode collapse and hallucination.</p>
       <p class="meta">Build a calibration harness before you let any model act unattended. Take fifty questions from your own domain where you already know the answer, ask for the answer plus a stated confidence, and bucket the results by that confidence. In each bucket compare the claimed confidence against the share actually correct. A calibrated model answering "eighty percent" is right about eighty percent of the time; an assistant-tuned one says eighty and is right sixty, or says ninety for everything. Repeat with an explicit permission to answer "I don&#39;t know" and with self-consistency voting, and keep the curve, not the average. The output is one chart that tells you whether confidence carries any information at all in your domain — and if it does not, you have no gate to automate behind.</p>
@@ -477,7 +477,7 @@ claimed everything 90%       no signal: there is nothing to gate on
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-three-tracks-won-onchain.html">&larr; 73. Three ways to put the won on a chain — and each one moves the liability somewhere else</a><a href="pocs-ai-auditor-seed-bugs-before-trusting-findings.html">75. A free AI auditor is a measurement problem — seed the bugs before you trust the findings &rarr;</a></div>
+    <div class="pager"><a href="pocs-three-tracks-won-onchain.html">&larr; 75. Three ways to put the won on a chain — and each one moves the liability somewhere else</a><a href="pocs-ai-auditor-seed-bugs-before-trusting-findings.html">77. A free AI auditor is a measurement problem — seed the bugs before you trust the findings &rarr;</a></div>
   </div>
   </main>
 </div>
