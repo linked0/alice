@@ -203,15 +203,16 @@
   // Why the sign-in failed, in words that say what to do next. Measured 2026-09-22 with real Chrome:
   // from http://localhost:PORT the popup opens; from http://127.0.0.1:PORT and from a file:// page
   // Firebase returns the *same* auth/unauthorized-domain for two different reasons — 127.0.0.1 was
-  // merely missing from the authorized list (add it in the console if you want that spelling), while
-  // file:// can never work at all — the SDK requires an http(s) origin. One code, two causes, which
-  // is why reading the bare code was no help.
+  // merely missing from the authorized list, while file:// can never work at all — the SDK requires an
+  // http(s) origin. One code, two causes, which is why reading the bare code was no help. Since
+  // 2026-09-22 localhost, 127.0.0.1 and jay's Tailscale address are all authorized, so the remaining
+  // way to hit this is an origin nobody has added — which is what the message names.
   function explain(e) {
     var code = (e && e.code) || String(e);
     if (location.protocol === 'file:')
-      return 'sign-in needs an http page — serve the repo (scripts/serve.sh) and open it on http://localhost:4173';
+      return 'sign-in needs an http page — run scripts/serve.sh and open it on http://localhost:4173';
     if (code === 'auth/unauthorized-domain')
-      return location.hostname + ' is not an authorized domain — open it on http://localhost:4173, or add the host in Firebase Auth → Settings';
+      return location.hostname + ' is not an authorized domain — add it in Firebase Auth → Settings, or use localhost / the Tailscale address';
     if (code === 'auth/popup-blocked')
       return 'the browser blocked the Google window — allow popups for this page, then try again';
     if (code === 'auth/popup-closed-by-user')
