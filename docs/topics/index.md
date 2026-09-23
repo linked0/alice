@@ -1,13 +1,13 @@
 # Knowledge Notes — index
 
-Generated 2026-09-23 14:42 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-23 14:53 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
 Counts: Tech 298 · Theory 189 · Invest 23 · Eng 399 · Life 34 · done 76/943
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | Tech | REVISIT | 2026-09-19 | 2026-09-21 | PoC | chat | deep | [Learning greed on a full calendar — choose one through line, learn by producing, and let the system remember the rest](pocs-learning-greed-with-no-time.html) | 꽉 찬 일정 위의 학습 욕심 — 관통선 하나를 고르고, 만들면서 배우고, 나머지는 시스템이 기억하게 하라 | `learning-greed-with-no-time` |  |
-| 2 | Tech | REVISIT |  | 2026-09-21 | PoC |  |  | [One employee, one agent creates silos — the unit of AX is a governed workflow](pocs-agent-team-is-a-workflow.html) | 직원 1명, 에이전트 1개는 사일로를 만든다 — AX의 단위는 통제되는 워크플로다 | `agent-team-is-a-workflow` |  |
+| 2 | Tech | REVISIT |  | 2026-09-23 | PoC |  |  | [One employee, one agent creates silos — the unit of AX is a governed workflow](pocs-agent-team-is-a-workflow.html) | 직원 1명, 에이전트 1개는 사일로를 만든다 — AX의 단위는 통제되는 워크플로다 | `agent-team-is-a-workflow` |  |
 | 3 | Tech | REVISIT | 2026-09-13 | 2026-09-23 | PoC | chat | deep | [AI agent payments in Korea — the payment rail is ready before the permission rail](pocs-agent-payments-korea-control-plane.html) | 한국의 AI 에이전트 결제 — 결제 레일은 준비됐고 인허가 레일은 아직이다 | `agent-payments-korea-control-plane` | [raw](raw/2026-09-23-agent-payments-korea-control-plane.md) |
 | 4 | Tech | DONE |  |  | PoC |  |  | [Governance capture — when the exploit is a market order](pocs-governance-capture-cost.html) | 거버넌스 장악 — 익스플로잇이 그냥 시장가 매수일 때 | `governance-capture-cost` |  |
 | 5 | Tech | DONE |  |  | PoC |  |  | [The budget is the wrong invariant](pocs-agentic-intent-veto.html) | 한도는 틀린 불변식이다 | `agentic-intent-veto` |  |
