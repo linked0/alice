@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; Explain your architecture to someone who won&#39;t read the diagram</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2010</span><span>Interview</span><span title="added">2026-09-18</span></p>
+      <p class="topic-kicker"><span class="topic-no">#2009</span><span>Interview</span><span title="added">2026-09-18</span></p>
       <h1>Explain your architecture to someone who won&#39;t read the diagram</h1>
       <p class="lead">Final interview for a team lead role at a London payments company. The last interviewer is the COO, Priya, not an engineer. She asks Jay to explain the settlement system he built, and she will judge whether he can talk to the board. Jay has three minutes and no whiteboard.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -451,7 +451,7 @@
 <ol><li><strong>길이를 먼저 약속하고 지킨다.</strong> "Three sentences, then you steer." 비기술 청자가 가장 두려워하는 것은 끝나지 않는 설명이다. 길이를 선언하면 처음 세 문장에 집중해 준다.</li><li><strong>명사 대신 결과.</strong> "checks that the money we owe never exceeds the money we hold… stops everything and pages a human." 불변식·서킷브레이커·온콜 같은 단어 없이 같은 내용. 청자가 소유한 단어만 쓴다.</li><li><strong>비용 질문에는 보호하는 숫자를 붙인다.</strong> "Two engineers and… the number that matters more is the one it protects." 비용은 항상 그것이 막는 손실 옆에 놓아야 읽힌다. 그리고 "one slide and nothing else"로 이사회 커뮤니케이션 감각을 보여준다.</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-27.html">&larr; 2009. Why do you want to leave Korea?</a><a href="english-32.html">2011. How do you use AI, and what do you refuse to hand it? &rarr;</a></div>
+    <div class="pager"><a href="english-27.html">&larr; 2008. Why do you want to leave Korea?</a><a href="english-32.html">2010. How do you use AI, and what do you refuse to hand it? &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -481,7 +481,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';

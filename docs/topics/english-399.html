@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; Slop grenade</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2376</span><span>Term</span><span title="added">2026-09-22</span><span title="raw"><a href="raw/2026-09-22-slop-grenade.md">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#2375</span><span>Term</span><span title="added">2026-09-22</span><span title="raw"><a href="raw/2026-09-22-slop-grenade.md">raw</a></span></p>
       <h1>Slop grenade</h1>
       <p class="lead">A teammate drops a 900-line AI-written design doc into the channel forty minutes before review, having clearly not read it. Jay has to say something in English that names the problem without calling the person lazy, and he wants the word the industry has settled on rather than a description.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -451,7 +451,7 @@
 <p class="meta">쇼피파이 CEO 토비 뤼트케, The Knowledge Project 팟캐스트, 2026년 9월 17일 — "We call those &#39;slop grenades&#39; that people toss at each other." 짝이 되는 용어 workslop과 52.7%라는 수치는 BetterUp Labs가 스탠퍼드 Social Media Lab과 함께 2026년에 미국 정규직 사무직 962명을 조사한 결과다. Fortune(2026년 9월 17일)과 tech.co가 보도했고, tech.co는 같은 발언을 CBS 뉴스 인터뷰로 적었다. 표현이 일치하므로 여기서는 특정 출연을 못 박지 않고 뤼트케의 말로만 밝힌다. 주장과 URL은 raw 파일에 있다. 상황과 대화는 새로 썼다. &middot; <a href="raw/2026-09-22-slop-grenade.md">raw</a></p>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-397.html">&larr; 2375. poach</a><a href="english-2.html">2377. Fail closed or fail open &rarr;</a></div>
+    <div class="pager"><a href="english-397.html">&larr; 2374. poach</a><a href="english-2.html">2376. Fail closed or fail open &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -481,7 +481,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';

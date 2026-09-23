@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; Connecting, transferring, or just stuck here?</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2016</span><span>Travel</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-38.txt">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#2015</span><span>Travel</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-38.txt">raw</a></span></p>
       <h1>Connecting, transferring, or just stuck here?</h1>
       <p class="lead">Jay is flying to a final onsite interview in Austin and has to change planes at LAX. At the counter the agent asks "Are you traveling on a connecting flight? We&#39;ve checked you in for both." He booked one itinerary with a stop, so he expected the word "transfer" — and for a second he wonders whether he is being moved to a different plane than the one he booked.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -465,7 +465,7 @@
 <p class="meta">윤희영, "비행기 환승 &#39;transfer&#39;와 &#39;connect&#39;의 다른 점", 조선일보 「윤희영의 뉴스 잉글리시」, 입력 2026.09.21. 03:00 KST. jay가 2026-09-21 채팅에 붙여넣은 본문 발췌에서 가져왔고, 그 발췌 전문은 원본 레이어에 그대로 보관돼 있다. URL은 수집하지 않았다. &middot; <a href="raw/2026-09-21-english-38.txt">raw</a></p>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-37.html">&larr; 2015. Start with the latency budget, then the fail-safe</a><a href="english-39.html">2017. if anything &rarr;</a></div>
+    <div class="pager"><a href="english-37.html">&larr; 2014. Start with the latency budget, then the fail-safe</a><a href="english-39.html">2016. if anything &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -495,7 +495,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
