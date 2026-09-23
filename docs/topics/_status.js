@@ -293,7 +293,13 @@
           .catch(function (e) { say(explain(e), 'bad'); });
       }));
     });
-    bar.appendChild(button('refresh', function () { say('reading…'); pull(k).then(function (r) { say(r.pendingCount + ' pending'); }); }));
+    // Re-reads the queue from the database and re-applies it to this page. It has nothing to do with
+    // repeats (jay asked, 2026-09-23) — it is for when a status was changed on another device and this
+    // tab still shows the state it loaded with. Labelled for what it reads, because "refresh" invited
+    // exactly that question.
+    var rb = button('re-read db', function () { say('reading…'); pull(k).then(function (r) { say(r.pendingCount + ' pending'); }); });
+    rb.title = 'read the pending changes from the database again — for when you changed something on another device';
+    bar.appendChild(rb);
     bar.appendChild(button('sign out', function () { k.auth.signOut(k.a); }));
     bar.appendChild(msg);
     pull(k).then(function (r) {

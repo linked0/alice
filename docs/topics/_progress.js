@@ -88,6 +88,41 @@
   }
 })();
 
+// Repeated items get a ring of rays around the dot (jay, 2026-09-23: "can we use the tickling dot as
+// repeated which is great"). A pass count was already shown as a numeral beside the dot, which is exact
+// but easy to miss at a glance; the rays are what you see without reading. Both are kept — the rays say
+// "more than once", the numeral says how many.
+//
+// Injected here rather than written into 780 generated pages' <style> blocks, for the same reason the
+// status overlay is loaded from this file: every page that shows a rail already loads it, so this is
+// the one place that reaches all of them.
+//
+// The ray colour is read off each dot at runtime, because the status colour is an inline style the
+// generator writes and CSS cannot see it. Wrapped and silent: if anything here fails the dots keep
+// their built appearance, which already carries the numeral.
+(function () {
+  try {
+    var dots = document.querySelectorAll('.nav-dot[data-times]');
+    if (!dots.length) return;
+    var css = document.createElement('style');
+    css.textContent =
+      '.nav-dot[data-times]::before{content:"";position:absolute;left:-5px;top:-5px;right:-5px;bottom:-5px;' +
+      'border-radius:999px;background:repeating-conic-gradient(var(--ray,currentColor) 0 14deg,transparent 14deg 36deg);' +
+      '-webkit-mask:radial-gradient(circle,transparent 0 7px,#000 7px);mask:radial-gradient(circle,transparent 0 7px,#000 7px);' +
+      'animation:nav-dot-rays 6s linear infinite;pointer-events:none}' +
+      '@keyframes nav-dot-rays{to{transform:rotate(360deg)}}' +
+      // the numeral sat at 11px, inside the ring the rays now draw — nudge it clear
+      '.nav-dot[data-times]::after{left:15px}' +
+      // A rotating halo beside every line of text is a distraction for anyone who did not ask for it.
+      '@media (prefers-reduced-motion:reduce){.nav-dot[data-times]::before{animation:none}}';
+    document.head.appendChild(css);
+    dots.forEach(function (d) {
+      var c = getComputedStyle(d).backgroundColor;
+      if (c && c !== 'rgba(0, 0, 0, 0)') d.style.setProperty('--ray', c);
+    });
+  } catch (e) { /* the built page is the fallback */ }
+})();
+
 // Status overlay loader (jay, 2026-09-21). Appended here rather than added to 776 generated pages:
 // every page that shows the rail already loads this file, so this is the one place that reaches all
 // of them. `document.currentScript` is this script while it runs synchronously, which gives the
