@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; I&#39;ll do my best to protect everything so that it doesn&#39;t get taken away from me.</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2042</span><span>Line</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-39.txt">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#2041</span><span>Line</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-39.txt">raw</a></span></p>
       <h1>I&#39;ll do my best to protect everything so that it doesn&#39;t get taken away from me.</h1>
       <p class="lead">Over lunch, Mina teases Jay for watching his Ginza drama on the train again. Jay quotes last night&#39;s line, she asks about the grammar of "get taken away", and he connects the line to the time another team tried to take over his team&#39;s deploy pipeline.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -451,7 +451,7 @@
 <p class="meta">jay의 NAVER 영어단어장, 카드 20장 중 13번(문장), 2026-09-21 붙여넣음: Original "I&#39;ll do my best to protect everything so that it doesn&#39;t get taken away from me." / 한국어 번역 "내가 가진 모든 것을 빼앗기지 않도록 최선을 다해 지킬 거예요." 상황과 대화는 새로 썼다. &middot; <a href="raw/2026-09-21-english-39.txt">raw</a></p>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-63.html">&larr; 2041. knock-on</a><a href="english-65.html">2043. chicken out (of something) &rarr;</a></div>
+    <div class="pager"><a href="english-63.html">&larr; 2040. knock-on</a><a href="english-65.html">2042. chicken out (of something) &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -481,7 +481,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';

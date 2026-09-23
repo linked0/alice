@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; Why do you want to leave Korea?</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2009</span><span>Interview</span><span title="added">2026-09-18</span></p>
+      <p class="topic-kicker"><span class="topic-no">#2008</span><span>Interview</span><span title="added">2026-09-18</span></p>
       <h1>Why do you want to leave Korea?</h1>
       <p class="lead">Final-round interview with the VP of Engineering at a Stockholm payments company. The question is friendly and dangerous: "Why leave a good job in Seoul for this?" Any answer that criticises the current employer, the country, or the culture reads as a flight risk. Any answer that is only "for the experience" reads as a tourist.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -455,7 +455,7 @@
 <ol><li><strong>부정을 먼저 차단한다.</strong> "Three reasons, and none of them is that something&#39;s wrong at home." 면접관이 찾는 것은 도망치는 사람인가다. 첫 문장에서 그 가능성을 지운다.</li><li><strong>일의 구체적 버전을 말한다.</strong> "one currency and one regulator… eleven currencies under two regimes." "성장하고 싶다"가 아니라 이 회사에만 있는 문제의 형태. 이것이 관광객과 지원자를 나눈다.</li><li><strong>결정된 사실로 말한다.</strong> "the decision to move is already made… we&#39;ve saved… three cities… first choice." 이주 리스크를 면접관이 계산할 수 있는 사실로 바꾼다. 그리고 우려를 먼저 꺼낸다("the two-year cliff").</li></ol>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-25.html">&larr; 2008. The reviewer found a bug in your take-home</a><a href="english-30.html">2010. Explain your architecture to someone who won&#39;t read the diagram &rarr;</a></div>
+    <div class="pager"><a href="english-25.html">&larr; 2007. The reviewer found a bug in your take-home</a><a href="english-30.html">2009. Explain your architecture to someone who won&#39;t read the diagram &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -485,7 +485,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';

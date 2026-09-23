@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/944</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/943</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; broad in the beam</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#2294</span><span>Word</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-183.txt">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#2293</span><span>Word</span><span title="added">2026-09-21</span><span title="raw"><a href="raw/2026-09-21-english-183.txt">raw</a></span></p>
       <h1>broad in the beam</h1>
       <p class="lead">On a weekend harbour tour, the guide points out a wide old fishing boat moored beside the yachts and uses a phrase Jay has only ever read in novels. A friend asks whether it works for people too.</p>
       <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
@@ -451,7 +451,7 @@
 <p class="meta">jay의 NAVER 영어단어장 세 번째 내보내기 — 전체 보기(2026-09-21), 228장 중 142번 카드: "broad in the beam — 1. 배 너비가 넓은 2. (사람·동물의) 엉덩이가 넓은, 살찌고 땅딸막한" (YBM 올인올 idiom 사전). 상황과 대화는 새로 썼다. &middot; <a href="raw/2026-09-21-english-183.txt">raw</a></p>
       <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="english-315.html">&larr; 2293. drubbing</a><a href="english-317.html">2295. give something a wide berth &rarr;</a></div>
+    <div class="pager"><a href="english-315.html">&larr; 2292. drubbing</a><a href="english-317.html">2294. give something a wide berth &rarr;</a></div>
   </div>
   </main>
 </div>
@@ -481,7 +481,7 @@
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
         var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
       }).join('');
       var group = document.createElement('div');
       group.className = 'nav-group';
