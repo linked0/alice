@@ -190,6 +190,15 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   **REVISIT**, purple dot `#a855f7`, status key `revisit` (jay: "one more category before Done which is already done
   but that I should remind later … filled with very important thing"; the name was Claude's suggestion, accepted).
   First two, marked the same day: Tech #1 learning greed (bin `deep`) and #2 the agent-team workflow.
+- **REVISIT is the IMPORTANT of the done group** (jay, 2026-09-23: "the Revisit means the important things
+  between DONEs so the Revisit could have the numbers"). IMPORTANT marks what still has to be done; REVISIT marks
+  what is already done **and still matters**. That is why it sorts above DONE instead of below it, and why it is a
+  separate colour rather than a flag on DONE: the top of a section should read as "the done work worth returning to",
+  not as the oldest finished items.
+- **It carries repeat counts like any other done state.** `revisit` is in `set-status.py`'s `DONE_LIKE`, so marking an
+  item REVISIT appends to `dones` through `add_pass`, and `roll-done-states.py` writes `data-times` from
+  `len(dones) > 1` without looking at the label. A REVISIT item read three times shows the purple dot, the rays and
+  the numeral 3 — which is the combination that makes the rail say "done, important, and I keep coming back".
 - **Counts as done** everywhere a done total is computed (section pill, section meta, `_nav.js` jump, overall badge):
   `add-tech-item.py`, `english-notes.py`, `roll-done-states.py` all include it. It never rolls: the RECENTLY DONE
   rule leaves REVISIT alone.
@@ -198,6 +207,14 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 - **Rail button:** row 2 is now **Revisit · Repeated · Recently** (the Done button was removed on 2026-09-21, jay: "I don't think I need the Done button"; plain DONE items are reached through All), the Revisit button first — on the list page, on
   every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
   template `scripts/rtd-shell.mjs`. It shows REVISIT only.
+- **From the Edit buttons, on a phone or another browser.** The status overlay (`docs/topics/_status.js`) offers
+  `CHOICES = ['done', 'revisit', 'important', 'planned']`, so REVISIT is one tap on the detail page. **A pass is
+  recorded per done-day, not per tap** — pressing Revisit twice in one sitting keeps one entry and only moves its
+  time; pressing it on a later done-day is what makes the count 2. Two things to expect: the overlay only **queues**
+  the change in Firestore, and the built pages stay the truth, so the new numeral appears once the queue is drained
+  into the repo (see the weekly drain rule); and the overlay repaints colour, title and number but deliberately does
+  **not** recompute `data-times`, because it cannot know the previous done-day from the page alone. So the dot changes
+  immediately, the count changes at the drain.
 - **How to mark one:** `add-tech-item.py --key <k> --status revisit …` (re-run in place), or `status: revisit` in an
   English item's markdown; then `reorder-by-status.py`. An item older than 2026-09-18 has no "Where it lands in Jayverse"
   section and the script refuses to rebuild it — for those, set `color` `#a855f7`, `label` `REVISIT` and a `done` stamp
