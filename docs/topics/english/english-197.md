@@ -28,6 +28,13 @@ Tom: Sensible. Say "team up" and nobody blinks.
 1. **원어민 확인은 "would you ever say"로 묻는다.** 뜻을 묻는 대신 실제 사용 여부를 물으면 죽은 표현을 걸러낼 수 있다.
 2. **예문 없는 사전 항목은 버린다.** "If an entry gives two senses and no example, I don't trust it." — 암기 카드를 만들 때의 기준.
 
+
+
+## Words
+| case out | /keɪs aʊt/ | 사전에는 "힘을 모으다 / 꺼져" |
+| case the joint | /keɪs ðə dʒɔɪnt/ | (털기 전에) 장소를 살피다 |
+| team up | /tim ʌp/ | 힘을 합치다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

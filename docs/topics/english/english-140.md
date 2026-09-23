@@ -28,6 +28,13 @@ Jay: Exactly. Small fix, same pattern writ large afterwards.
 1. **작은 사례를 큰 문제의 축소판으로 연결할 때 명사 뒤에 붙인다.** "That's the whole monolith writ large." — 명사(the monolith) + writ large 순서. 앞에 두지 않는다.
 2. **문어적 표현을 쓰면 되물음에 일상어로 바꿔 준다.** "The same problem, bigger and easier to see." — 격식어와 풀이를 한 쌍으로 말하면 회의에서 잘난 척으로 들리지 않는다.
 
+
+
+## Words
+| X writ large | /ɛks rɪt lɑrdʒ/ | X가 더 크고 뚜렷하게 드러난 것 |
+| on its own | /ɑn ɪts oʊn/ | 그것만 놓고 보면 |
+| nobody owns it | /ˈnoʊˌbɑˌdi oʊnz ɪt/ | 담당자가 없다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

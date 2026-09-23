@@ -28,6 +28,13 @@ Jay: Add the lint rule so the machine argues about commas, and ask reviewers to 
 1. **강한 단어를 쓰면 바로 어디까지 써도 되는지 선을 긋는다.** "Good for describing the process, not something you say to the reviewer's face" — 단어의 뜻과 함께 사용 범위를 말하면 동료가 잘못 옮기지 않는다.
 2. **불평 뒤에는 절차로 답한다.** "Add the lint rule… and ask reviewers to tag style comments 'nit'" — 사람을 탓하는 대신 도구와 규칙으로 옮기면 팀 리드의 말이 된다.
 
+
+
+## Words
+| petty | /ˈpɛˌti/ | 옹졸한, 쩨쩨한 |
+| technicality | /ˌtɛknɪˈkælɪti/ | 형식적인 세부 조항 |
+| nit | /nɪt/ | 사소한 지적(nitpick의 줄임) |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

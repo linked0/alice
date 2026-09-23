@@ -28,6 +28,13 @@ Jay: Yes. "On paper" is where we start, not where we decide.
 1. **"on paper"는 판단을 유보하는 안전장치다.** "On paper, several of the applicants fit the bill"이라고 하면 칭찬하면서도 나중에 뒤집을 여지를 남긴다.
 2. **관용구의 쓰임 자체를 근거로 삼는다.** "That's what the phrase is for."처럼 표현의 역할을 설명하면 반박이 아니라 정리가 된다.
 
+
+
+## Words
+| fit the bill | /fɪt ðə bɪl/ | 조건에 꼭 맞다 |
+| on paper | /ɑn ˈpeɪpɚ/ | 서류상으로는, 이론상으로는 |
+| phone screen | /foʊn skrin/ | 전화로 하는 1차 면접 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

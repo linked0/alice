@@ -26,6 +26,13 @@ Diego: And in normal talk you'd just say the driver stopped in time.
 1. **목적어로 뜻을 구분한다.** "averted a crash"와 "averted my eyes"를 나란히 놓으면, 단어가 아니라 목적어가 뜻을 정한다는 게 드러난다.
 2. **격식체를 쓴 뒤 일상 표현을 덧붙인다.** "you'd just say the driver stopped in time" — 격식 단어와 구어 표현을 짝지어 두면 상황에 맞게 골라 쓸 수 있다.
 
+
+
+## Words
+| avert a crash | /əˈvɝt ə kræʃ/ | 충돌을 막다 |
+| avert one's eyes | /əˈvɝt wʌnz aɪz/ | 눈을 돌리다 |
+| stop in time | /stɑp ɪn taɪm/ | 제때 멈추다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

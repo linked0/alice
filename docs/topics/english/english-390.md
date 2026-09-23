@@ -28,6 +28,12 @@ Jay: Got it. Fab in the huddle, excellent in the document.
 1. **구어에서는 주어가 자주 생략된다.** "Never said that before"는 "We have never said that before"의 말투 버전이고, 문서에서는 주어를 되살려야 한다.
 2. **쓸 자리를 한 줄로 정리해 기억한다.** "Fab in the huddle, excellent in the document." 이렇게 짝지어 외우면 격식 선택이 쉬워진다.
 
+
+
+## Words
+| fab | /fæb/ | 근사한, 멋진 |
+| that's fab | /ðæts fæb/ | 멋지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

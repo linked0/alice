@@ -28,6 +28,12 @@ Jay: A named trigger: a client pilot, an external audit, or SOC 2 prep. Until th
 1. **미룰 때는 이유와 복귀 조건을 같이 말한다.** "Nobody's asked for it yet" + "A named trigger: a client pilot, an external audit, or SOC 2 prep" — 연기가 방치가 아니라 결정이 된다.
 2. **잘못 들린 동사는 바로 그 자리에서 고친다.** "No — push it back. Defer it." — 동의어 하나를 덧붙이면 오해가 끝난다.
 
+
+
+## Words
+| push back X | /pʊʃ bæk ɛks/ | X를 뒤로 미루다 |
+| named trigger | /neɪmd ˈtrɪɡɚ/ | 정해진 트리거 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

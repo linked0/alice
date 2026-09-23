@@ -28,6 +28,12 @@ Jay: I'd say yes to one and no to the other. Don't run yourself ragged trying to
 1. **친구를 말릴 때는 질문형으로 시작한다.** "Are you going to run yourself ragged for someone else?" — 명령 대신 질문이라 상대가 스스로 답하게 만들고, 뒤에 사실 한 줄("Ken presents the results; you get the pager")을 붙여 근거를 준다.
 2. **표현 속 단어의 그림을 풀어 주면 설득이 된다.** "'Ragged' is exactly that: worn thin, running from one thing to the next. You looked ragged on Monday." 비유를 눈앞의 사실에 붙인다.
 
+
+
+## Words
+| run yourself ragged | /rʌn jɚˈsɛlf ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
+| cover for someone | /ˈkʌvɚ fɔr ˈsʌmˌwʌn/ | ~의 일을 대신 메우다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: No. He isn't renting anything out. He owns it and decides what happens on i
 1. **모르는 이름은 역할 한 줄과 그 역할이 우리 일에 닿는 지점으로 소개한다.** "He's a major landowner in Jeju. The orchard we want to tokenise first sits on his land" — 직함 대신 관계로 설명한다.
 2. **형용사 하나의 무게를 대비 문장으로 보여 준다.** "Say 'landowner' and he's a man with a field; say 'major landowner' and the town council picks up when he calls." — major가 규모와 영향력을 함께 뜻함을 보여 준다.
 
+
+
+## Words
+| major landowner | /ˈmeɪdʒɚ ˈlænˌdoʊnɚ/ | 대지주 |
+| major shareholder | /ˈmeɪdʒɚ ˈʃɛrˌhoʊldɚ/ | 대주주 / 주요 고객 |
+| landlord | /ˈlænˌdlɔrd/ | 집주인, 임대인 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

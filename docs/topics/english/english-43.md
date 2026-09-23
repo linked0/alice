@@ -28,6 +28,13 @@ Jay: Then next time I'll come on a session day and keep him company while he's o
 1. **의학 용어는 쉬운 말로 풀어 확인한다.** "that's the machine doing the kidneys' job, filtering the blood, right?" — 단어를 아는 척하기보다 한 줄 정의로 되묻는 편이 안전하고, 상대도 설명하기 편해진다.
 2. **치료 기간을 묻는 틀을 외운다.** "Is he on dialysis long-term, or is it a bridge to a transplant?" — "be on + 치료"와 "a bridge to"가 병원 대화의 기본 틀이다.
 
+
+
+## Words
+| be on dialysis | /bi ɑn daɪˈæləsəs/ | 투석을 받고 있다 |
+| dialysis unit | /daɪˈæləsəs ˈjunət/ | 투석실 |
+| keep someone company | /kip ˈsʌmˌwʌn ˈkʌmpəˌni/ | 말동무가 되어 주다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

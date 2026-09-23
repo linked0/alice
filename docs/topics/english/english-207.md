@@ -28,6 +28,13 @@ Jay: Slightly. But it's formal, so it lands as a report rather than an accusatio
 1. **비슷한 두 동사는 지속 시간으로 구분한다.** "Hesitate is one pause. Vacillate is going back and forth for a whole term." 뜻풀이 대신 장면으로 설명하면 기억에 남는다.
 2. **격식이 비판의 세기를 조절한다는 점을 안다.** "it's formal, so it lands as a report rather than an accusation" — 같은 내용도 문어체로 쓰면 공격성이 줄어든다.
 
+
+
+## Words
+| vacillate about something | /ˈvæsəˌleɪt əˈbaʊt ˈsʌmθɪŋ/ | ~을 두고 오락가락하며 못 정하다 |
+| without harming somebody | /wɪˈθaʊt ˈhɑrmɪŋ ˈsʌmˌbɑdi/ | ~에게 상처를 주지 않고 |
+| in one sentence | /ɪn wʌn ˈsɛntəns/ | 한 문장으로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

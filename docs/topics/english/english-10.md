@@ -28,6 +28,16 @@ Jay: It is, and it's the one I can stand behind. A listing we'd have to explain 
 2. **"아직 자격이 없다"는 시간 프레임.** "hasn't earned one" 영구적인 부정이 아니라 순서의 문제로 만든다.
 3. **상대의 이익으로 닫는다.** "worse for you than for me" 느린 거래를 상대의 리스크 관리로 다시 설명한다.
 
+
+
+## Words
+| current price | /ˈkɝənt praɪs/ | 현재 가격 |
+| no external market | /noʊ ɪkˈstɝnəl ˈmɑrkət/ | 외부 시장이 없다 |
+| unit of account | /ˈjunət ʌv əˈkaʊnt/ | 계산 단위 |
+| first venue | /fɝst ˈvɛnju/ | 첫 거래 장소 |
+| heads-up | /ˈhɛdˌzʌp/ | 사전 통지 |
+| explain away later | /ɪkˈspleɪn əˈweɪ ˈleɪtɚ/ | 나중에 변명으로 넘기다 |
+
 ## Expressions
 | the current price | 현재 가격 |
 | I'd be misrepresenting it | 사실을 왜곡하는 것이 된다 |

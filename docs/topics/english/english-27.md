@@ -33,6 +33,12 @@ Jay: Then I've saved you a question. What's the one you'd ask next?
 2. **일의 구체적 버전을 말한다.** "one currency and one regulator… eleven currencies under two regimes." "성장하고 싶다"가 아니라 이 회사에만 있는 문제의 형태. 이것이 관광객과 지원자를 나눈다.
 3. **결정된 사실로 말한다.** "the decision to move is already made… we've saved… three cities… first choice." 이주 리스크를 면접관이 계산할 수 있는 사실로 바꾼다. 그리고 우려를 먼저 꺼낸다("the two-year cliff").
 
+
+
+## Words
+| invent it alone | /ˌɪnˈvɛnt ɪt əˈloʊn/ | 혼자 발명하다 |
+| first choice | /fɝst tʃɔɪs/ | 첫 선택 |
+
 ## Expressions
 | none of them is that something's wrong | 그중 어느 것도 문제가 있다는 것은 아니다 |
 | the version of the problem I want to be good at | 내가 잘하게 되고 싶은 버전의 문제 |

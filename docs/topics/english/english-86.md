@@ -28,6 +28,13 @@ Jay: Priya in finance. Put "new hire, pre-card reimbursement" in the subject and
 1. **예스를 먼저 주고 조건을 "except"로 단다.** "Yes, except a new hire can't use the company's funds directly until the probation review" — 거절처럼 들리지 않으면서 제한을 정확히 전달한다.
 2. **조건을 말했으면 우회 절차를 바로 붙인다.** "Pay it yourself, file the expense, and they reimburse within two weeks." — 안 되는 이유에서 끝내지 않고 되는 길을 세 동사로 준다.
 
+
+
+## Words
+| new hire | /nu ˈhaɪɚ/ | 신입 직원 |
+| company funds | /ˈkʌmpəˌni fʌndz/ | 회사 자금 |
+| file an expense | /faɪl æn ɪkˈspɛns/ | 경비를 청구하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

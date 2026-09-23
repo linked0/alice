@@ -28,6 +28,12 @@ Sam: The retro slot. Same verb, completely different meaning, by the way.
 1. **명단 누락은 의도를 먼저 묻는다.** "Was that deliberate?" 실수일 가능성을 열어 두면 상대가 방어하지 않는다.
 2. **한 대화 안에서 두 뜻을 자연스럽게 겪게 한다.** "left … off the list"와 "where did we leave off"가 나란히 나오면 차이가 몸에 남는다.
 
+
+
+## Words
+| was that deliberate | /wɑz ðæt dɪˈlɪbɚət/ | 일부러 그런 거야? |
+| somebody | /ˈsʌmˌbɑdi/ | 명단에서 ~를 빼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

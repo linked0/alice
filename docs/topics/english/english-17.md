@@ -28,6 +28,14 @@ Jay: In writing is what I need. A slide is a hope; a document is a commitment.
 2. **두 주장을 분리해 달라고 요청한다.** "Separate the two claims for me" 상대가 스스로 구분하게 하면 홍보가 사실로 바뀐다.
 3. **거절 대신 조건을 제시한다.** "If those exist, we pilot. If not, we wait." 관계를 닫지 않고 기준을 남긴다.
 
+
+
+## Words
+| pay out instantly | /peɪ aʊt ˈɪnstəntli/ | 즉시 지급하다 |
+| operating hours | /ˈɑpɚˌeɪtɪŋ ˈaʊɚz/ | 운영 시간 |
+| payment availability | /ˈpeɪmənt əˌveɪləˈbɪləti/ | 결제 가용성 |
+| stated commitment | /ˈsteɪtɪd kəˈmɪtmənt/ | 명시적 약속 |
+
 ## Expressions
 | pay out instantly | 즉시 지급하다 |
 | when the rail is open | 레일이 열려 있을 때 |

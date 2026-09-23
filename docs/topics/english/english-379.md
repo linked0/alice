@@ -24,6 +24,12 @@ Jay: That's exactly the two groups — foreign born, and of foreign descent. Dif
 1. **세대를 가르는 두 표현을 짝으로 기억한다.** "foreign born, and of foreign descent" — 본인이 이주했는가, 부모가 이주했는가.
 2. **부분을 나타내는 주어의 수 일치.** "more than half of … population are"처럼 사람을 세는 맥락에서는 복수 동사를 쓴다.
 
+
+
+## Words
+| foreign born | /ˈfɔrən bɔrn/ | 외국 태생의 |
+| of foreign descent | /ʌv ˈfɔrən dɪˈsɛnt/ | 외국계의 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

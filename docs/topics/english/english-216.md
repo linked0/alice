@@ -28,6 +28,12 @@ Jay: Ask before you sign, not after. That's the whole question in clause nine.
 1. **같은 단어가 계약서 안과 밖에서 다르게 읽힌다는 걸 구분한다.** "In a contract it's a specific instrument. In conversation it only means unbreakable."
 2. **조항을 질문 하나로 바꾼다.** "So I should ask which asset is pledged." 계약서를 읽는 목적은 이해가 아니라 질문을 만드는 것이다.
 
+
+
+## Words
+| ironclad note | /ˈaɪɚnˌklæd noʊt/ | 담보부 약속어음 |
+| ironclad alibi | /ˈaɪɚnˌklæd ˈæləˌbaɪ/ | 빈틈없는 알리바이·보증 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

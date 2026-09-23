@@ -28,6 +28,14 @@ Jay: A bit. When ops proposed taking the deploy pipeline away from our team last
 1. **드라마 대사를 인용한 뒤 내 상황으로 옮긴다.** "I documented everything so that it couldn't get taken away without a fight." — 같은 구조(so that + get p.p.)를 자기 경험에 다시 쓰면 표현이 남는다.
 2. **문법 질문엔 예를 세 개 묶어 답한다.** "get fired, get caught, get taken away" — 규칙 설명보다 같은 꼴 세 개가 더 빨리 전달된다.
 
+
+
+## Words
+| without a fight | /wɪˈθaʊt ə faɪt/ | 싸움 없이, 순순히 |
+| something | /ˈsʌmθɪŋ/ | ~에게서 ~을 빼앗다 |
+| away | /əˈweɪ/ | ~에게서 ~을 빼앗다 |
+| someone | /ˈsʌmˌwʌn/ | ~에게서 ~을 빼앗다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

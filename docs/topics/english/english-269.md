@@ -26,6 +26,15 @@ Ravi: Then I'll write the power of ten in the docs too.
 1. **큰 수는 이름과 거듭제곱을 함께 말한다.** "a quadrillion, ten to the fifteenth" — 이름만 말하면 상대의 모국어 체계로 잘못 옮겨질 수 있다.
 2. **두 언어의 단위 체계 차이를 한 문장으로 설명한다.** "The Korean units jump every four zeros" — 왜 안 맞는지까지 말해야 다음에 또 묻지 않는다.
 
+
+
+## Words
+| step up | /stɛp ʌp/ | 한 단계 위 |
+| fifteenth | /fɪfˈtinθ/ | 10의 15제곱 |
+| followed | /ˈfɑloʊd/ | 1 뒤에 0이 열다섯 개 |
+| fifteen | /fɪfˈtin/ | 1 뒤에 0이 열다섯 개 |
+| zeros | /ˈzɪroʊz/ | 1 뒤에 0이 열다섯 개 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

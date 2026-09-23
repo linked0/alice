@@ -28,6 +28,12 @@ Jay: Not yet, with a nudge that it should have happened already. We broke the ba
 1. **"has yet to"는 단순한 부정보다 기대를 담는다.** "The world has yet to break the back of it."은 아직 못 했다는 사실에 "진작 했어야 한다"는 평가를 얹는다.
 2. **비유는 자기 경험으로 한 번 바꿔 말하면 외워진다.** "We broke the back of our own migration last week"처럼 내 일에 붙여 쓰면 표현이 남는다.
 
+
+
+## Words
+| rest is cleanup | /rɛst ɪz ˈkliˌnʌp/ | 나머지는 뒷정리다 |
+| something | /ˈsʌmθɪŋ/ | ~의 고비를 넘기다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

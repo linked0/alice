@@ -28,6 +28,13 @@ Jay: Same meaning, different audience. "About time" on its own is for people who
 1. **단독 "About time!"은 친한 사이용, "it's about time we + 과거형"은 공개 채널용.** 같은 늦은 일을 두 등급으로 말하는 법을 대화가 보여 준다.
 2. **말을 바꿀 땐 "let me rephrase"로 알리고 감사부터 붙인다.** "Thanks for getting this done; it's about time we closed that finding" — 핀잔을 제안으로 바꾸는 순서.
 
+
+
+## Words
+| about time | /əˈbaʊt taɪm/ | 진작 그랬어야지 |
+| let me rephrase | /lɛt mi riˈfreɪz/ | 다시 말할게 |
+| heads-up | /ˈhɛdˌzʌp/ | 미리 알림, 공지 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

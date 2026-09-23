@@ -28,6 +28,14 @@ Jay: My dentist used the same word last week, by the way. He dislodged a popcorn
 1. **추상적 동사는 물리적 그림으로 정의한다.** "knock it out of the place it's wedged into, like a stone stuck in a shoe tread" — 비유 하나가 시장 점유율 논의를 구체적으로 만든다.
 2. **끝에 일상 용례를 하나 덧붙여 단어를 고정한다.** "He dislodged a popcorn husk" — 같은 동사의 작은 쓰임을 농담처럼 붙이면 기억에 남는다.
 
+
+
+## Words
+| dislodge | /dɪˈslɑdʒ/ | 박힌 것을 빼내다, 기존 강자를 밀어내다 |
+| incumbent | /ˌɪnˈkʌmbənt/ | 기존 사업자, 현직자 |
+| wedged in | /wɛdʒd ɪn/ | 꽉 끼어 있는, 박혀 있는 |
+| pain of moving | /peɪn ʌv ˈmuvɪŋ/ | 옮기는 고통(전환 비용) |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

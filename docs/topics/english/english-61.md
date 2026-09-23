@@ -28,6 +28,12 @@ Jay: Fine. I'd rather sign something we can both live with than something one of
 1. **센 단어를 쓰고 곧바로 크기를 조절한다.** "that's servitude" 뒤에 "I'm exaggerating, but only a little"을 붙이면 과장이 협상 카드가 되지 고집으로 들리지 않는다.
 2. **거절 뒤에는 바로 대안 조건을 붙인다.** "Give us a twelve-month break clause and drop the exclusivity, and we're close." — 명령문 + and 구조로 조건과 결과를 한 문장에 담는다.
 
+
+
+## Words
+| servitude | /ˈsɝvəˌtud/ | 노예 상태, 예속 |
+| exit clause | /ˈɛɡzɪt klɔz/ | 해지 조항 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,10 @@ Jay: That is exactly what it says, and it is the part we can prove.
 1. **증명할 수 있는 크기의 주장을 고른다.** "It sounds checkable." — 피칭에서 약해 보이는 표현이 실제로는 더 안전하고 강하다.
 2. **소유격이 주어를 따라간다는 점을 본다.** our engine holds its own / we hold our own — 관용구 안의 대명사가 문장마다 바뀐다.
 
+## Words
+| to hold one's own | /hoʊld wʌnz oʊn/ | 밀리지 않다 — own 은 /oʊn/, one's 는 /wʌnz/ |
+| against | /əˈɡɛnst/ | ~에 맞서 — 첫 음절은 약한 ə, 강세는 뒤 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Right. And "gunning for me" only sounds like this with a person, doesn't it
 1. **혼날 상황이 예상되면 먼저 찾아간다.** "I'll go to him first, before he bawls me out in front of everyone" — 순서를 바꾸는 것만으로 공개적 질책을 피할 수 있다.
 2. **같은 동사구의 목적어에 따라 뜻이 갈린다는 걸 확인한다.** gunning for a person(벼르다) vs gunning for a title(노리다).
 
+
+
+## Words
+| bawl somebody out | /bɔl ˈsʌmˌbɑdi aʊt/ | 크게 야단치다 |
+| heads up | /hɛdz ʌp/ | 미리 알려 주는 말 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

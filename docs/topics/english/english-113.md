@@ -28,6 +28,12 @@ Jay: Fair. I'll hold off until I've seen a few more rent payments.
 1. **"actually"로 뜻밖의 순서를 표시한다.** "A bank rep actually spoke to me about…" — 내가 아니라 상대가 먼저 꺼냈다는 놀람이 "actually" 하나에 실린다.
 2. **가능성은 "about + 동명사"로 열어 두고, 결정은 "hold off"로 미룬다.** "about potentially taking out a loan" / "I'll hold off until…" — 새 나라에서 금융 결정을 말하는 두 문형.
 
+
+
+## Words
+| rep | /rɛp/ | 담당 직원 |
+| hold off | /hoʊld ɔf/ | 보류하다, 미루다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

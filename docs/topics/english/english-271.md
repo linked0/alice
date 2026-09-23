@@ -26,6 +26,14 @@ Aoife: Then let's keep the rollback line and water down the rest.
 1. **비유로 문제를 이름 붙이면 사람을 비난하지 않고 지적할 수 있다.** "the fourth change that waters the plan down" — 주어가 사람이 아니라 수정 사항이다.
 2. **대명사가 오면 사이에 넣는다.** "water it down"의 어순을 기억하고, 대화의 "water down the rest"처럼 명사면 뒤에 붙여도 된다.
 
+
+
+## Words
+| water something down | /ˈwɔtɚ ˈsʌmθɪŋ daʊn/ | 내용을 약화시키다 |
+| watered down | /ˈwɔtɚd daʊn/ | 물 탄, 알맹이 빠진 |
+| guarantee | /ˌɡɛrənˈti/ | 보장 |
+| aim for something | /eɪm fɔr ˈsʌmθɪŋ/ | ~을 목표로 하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

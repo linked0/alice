@@ -28,6 +28,13 @@ Jay: No start-up cost, but the operating side is higher, so they cross somewhere
 1. **합계를 말하기 전에 구성 요소를 먼저 나눈다.** "Two numbers. Start-up costs are… Operating costs are…" — 그래야 "it comes to 200 million"이 근거 있는 숫자로 들린다.
 2. **합산 동사와 결과 동사를 짝으로 쓴다.** "If you add up A and B, it comes to X" — add up이 과정, come to가 결과. 단위(won)와 기간(for the first year)을 한 번씩 붙인다.
 
+
+
+## Words
+| start-up costs | /ˈstɑrˌtʌp kɑsts/ | 초기 구축비 / 운영비 |
+| add up | /æd ʌp/ | 여러 항목을 합산하다 |
+| ballpark | /ˈbɔlˌpɑrk/ | 대략적인 수치 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

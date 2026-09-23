@@ -26,6 +26,13 @@ Jay: Fix this one, then grep for the pattern. If it's in three places, it's a ru
 2. **단위를 바꾸라고 말한다.** "say the little while in seconds" 코드가 아니라 단위에 대한 코멘트는 개인 공격으로 읽히지 않는다.
 3. **한 번의 수정을 규칙으로 승격한다.** "If it's in three places, it's a rule." 같은 리뷰를 다음 달에 다시 하지 않는 방법.
 
+
+
+## Words
+| little while | /ˈlɪtəl waɪl/ | 잠깐 |
+| honest measure | /ˈɑnəst ˈmɛʒɚ/ | 정직한 척도 |
+| relearn it | /riˈlɛrn ɪt/ | 다시 배우다 |
+
 ## Expressions
 | which one did you mean? | 어느 쪽을 의도했나? |
 | a little while | 잠깐 |

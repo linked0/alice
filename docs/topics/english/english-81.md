@@ -28,6 +28,13 @@ Jay: I'll write what we saw: "talked over the interviewers twice, asked no quest
 1. **인상은 동료끼리 말하고, 기록에는 행동을 적는다.** "he came across as a bit full of himself" 다음에 "I'll write what we saw … The behaviour, not the label." — 같은 판단을 자리에 맞게 두 층으로 나눈다.
 2. **가까운 단어와 경계를 그어 준다.** "Arrogant looks down on people. Full of yourself is more that…" — 유사어 대비 한 줄이 단어의 세기를 정해 준다.
 
+
+
+## Words
+| full of oneself | /fʊl ʌv ˌwʌnˈsɛlf/ | 자만하는, 자기 얘기만 하는 |
+| come across as | /kʌm əˈkrɔs æz/ | ~한 인상을 주다 |
+| What's your read | /wʌts jɔr rɛd/ | 네 판단은? |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

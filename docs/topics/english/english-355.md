@@ -28,6 +28,12 @@ Jay: It's the phrase I use when I have an opinion but not the authority.
 1. **권한이 없을 때는 의견 앞에 완충어를 둔다.** "For what it's worth, I'd cap the retries at three" — 제안임을 표시하면 상대가 방어하지 않는다.
 2. **마지막에 결정권을 돌려준다.** "But it's your call" 한마디가 리뷰를 지시가 아닌 조언으로 끝맺는다.
 
+
+
+## Words
+| it's your call | /ɪts jɔr kɔl/ | 결정은 네가 해 |
+| request changes | /rɪˈkwɛst ˈtʃeɪndʒəz/ | (리뷰에서) 변경 요청을 걸다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

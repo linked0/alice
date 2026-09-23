@@ -28,6 +28,13 @@ Jay: Sold. Put it aside and I'll keep digging.
 1. **칭찬은 상태를 먼저 말하고 표현을 얹는다.** "After a year of the same playlist, this is a treat for jaded ears." 앞의 사정이 뒤의 과장을 정당하게 만든다.
 2. **되물어 오면 한 단어만 정확히 풀어 준다.** "My ears aren't angry, they're just bored." — jaded의 오해를 한 문장으로 막는다.
 
+
+
+## Words
+| jaded | /ˈdʒeɪdəd/ | 물려서 지친 |
+| opposite | /ˈɑpəzət/ | 정반대예요 |
+| put it aside | /pʊt ɪt əˈsaɪd/ | 따로 빼 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

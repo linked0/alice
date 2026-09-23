@@ -24,6 +24,12 @@ Jay: It isn't, which is why I said "if anything". The point is the extra hop did
 1. **추측에는 숫자로 답하되, 차이가 작으면 작다고 말한다.** "If anything, it's a little faster, about four milliseconds"처럼 반대 사실과 크기를 한 문장에 넣으면 정정이 자랑으로 들리지 않는다.
 2. **상대가 내 표현을 되짚으면 왜 그 단어를 골랐는지 말한다.** "which is why I said 'if anything'" — 표현의 선택 자체가 논점을 다시 설명한다.
 
+
+
+## Words
+| if anything | /ɪf ˈɛniˌθɪŋ/ | 어느 편인가 하면, 오히려 |
+| extra hop | /ˈɛkstrə hɑp/ | 추가 홉(요청이 거치는 단계 하나) |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

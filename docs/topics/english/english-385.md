@@ -28,6 +28,13 @@ Jay: As a joke, yes. Said straight, it sounds like you run a kingdom.
 1. **단어의 옛 뜻과 지금 쓰는 뜻을 나눠서 설명한다.** "That is the old, literal sense" 다음에 "In the news it is always plural"을 놓으면, 상대가 이 단어를 어디서 만날지까지 알게 된다.
 2. **농담으로는 되는 표현이라는 점을 분명히 말한다.** "As a joke, yes. Said straight, it sounds like..."는 격식 경고를 부드럽게 주는 틀이다.
 
+
+
+## Words
+| coffer | /ˈkɔfɚ/ | (과거의) 돈궤 |
+| state coffers | /steɪt ˈkɑfɚz/ | 국고 |
+| coffers are empty | /ˈkɑfɚz ɑr ˈɛmpti/ | 재원이 바닥났다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

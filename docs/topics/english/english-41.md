@@ -28,6 +28,12 @@ Jay: Right. You teach a skill in a workshop. You imbue a value over months, most
 1. **격식 있는 단어를 쓰면 곧바로 구체적 행동으로 뒷받침한다.** "I'd want to imbue the whole team with a sense that the service is theirs" 뒤에 "Every engineer owns one alert end to end"처럼 행동을 붙여야 말이 공허하게 들리지 않는다.
 2. **상대가 단어를 되짚으면 대조 한 쌍으로 정의해 준다.** "You teach a skill in a workshop. You imbue a value over months." 비슷한 동사와 나란히 놓으면 뜻과 쓰임이 동시에 드러난다.
 
+
+
+## Words
+| be imbued with | /bi ˌɪmˈbjud wɪð/ | ~이 스며들어 있다 |
+| sense of ownership | /sɛns ʌv ˈoʊnɚˌʃɪp/ | 주인 의식 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

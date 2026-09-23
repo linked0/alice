@@ -24,6 +24,12 @@ Jay: It's a cartoon noise you make while stealing something small. Friends only.
 1. **속어를 쓴 뒤에는 쓰는 자리를 함께 말해 준다.** "Friends only. I'd never say it to a client" — 배우는 사람에게도, 듣는 사람에게도 안전한 마무리다.
 2. **농담으로 빼앗을 때는 보상을 붙인다.** "You can have the sofa with no power"처럼 대안을 주면 장난이 시비로 번지지 않는다.
 
+
+
+## Words
+| friends only | /frɛndz ˈoʊnli/ | 친구끼리만 쓰는 말 |
+| cartoon noise | /kɑrˈtun nɔɪz/ | 만화 효과음 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

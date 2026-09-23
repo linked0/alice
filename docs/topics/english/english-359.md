@@ -28,6 +28,12 @@ Jay: Slightly. I use it the same way about flats and candidates. Everything on t
 1. **칭찬의 온도를 표현으로 조절한다.** "ticks all the boxes"는 완전함을 인정하되 감탄은 유보하는 자리에 쓴다.
 2. **상대가 뉘앙스를 짚으면 그대로 인정한다.** "It isn't."처럼 짧게 받고 이유를 한 줄 덧붙이면 솔직하면서도 무례하지 않다.
 
+
+
+## Words
+| faint praise | /feɪnt preɪz/ | 미지근한 칭찬 |
+| proper ending | /ˈprɑpɚ ˈɛndɪŋ/ | 제대로 맺은 결말 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

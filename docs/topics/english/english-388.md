@@ -28,6 +28,12 @@ Jay: That is the plan. One sentence, with no explanation attached.
 1. **"How + 형용사 + to부정사!"는 주어 없이 감탄을 만든다.** "How mortifying to have to apologize to him!"은 같은 뜻의 평서문보다 짧고 극적이다.
 2. **단어의 크기를 비교해서 고른 이유를 밝힌다.** "Embarrassing is spilling coffee. Mortifying is losing face." 두 예를 나란히 놓으면 강도 차이가 한 번에 전달된다.
 
+
+
+## Words
+| lose face | /luz feɪs/ | 체면을 잃다 |
+| first thing tomorrow | /fɝst θɪŋ təˈmɑˌroʊ/ | 내일 아침 제일 먼저 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

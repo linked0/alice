@@ -28,6 +28,18 @@ Jay: Years ago. Once you're building fabs, wages rise across the whole workforce
 1. **"왜 안 느껴지냐"는 질문에는 물량과 가격을 갈라서 답한다.** "Volume hires people; price doesn't."처럼 짧은 대비 한 줄이 통계를 설명하는 것보다 빠르다. 세미콜론으로 두 문장을 붙이면 대비가 더 또렷해진다.
 2. **시차를 이유로 제시하고 선례를 붙인다.** "The gains haven't trickled down **yet**"의 yet과 "Ours should follow, just later."가 비관이 아니라 순서 문제임을 말한다. 기사는 2003~11년 호주 광산 붐을 선례로 든다. 남의 사례를 한 문장으로 붙이는 습관이 주장을 단단하게 만든다.
 
+
+
+## Words
+| trickle down | /ˈtrɪkəl daʊn/ | (이익이) 아래로 흘러내리다 |
+| bonanza | /bəˈnænzə/ | 뜻밖의 대박·노다지 |
+| windfall | /ˈwɪndˌfɔl/ | 우발적 소득, 횡재 |
+| AI dividend | /aɪ ˈdɪvɪˌdɛnd/ | AI 배당금 |
+| brisk | /brɪsk/ | (성장이) 활발한 / 숨막히게 빠른 |
+| capital expenditure | /ˈkæpətəl ɪkˈspɛndətʃɚ/ | 설비투자 |
+| fixed capital formation | /fɪkst ˈkæpətəl fɔrˈmeɪʃən/ | 고정자본형성 |
+| wealth effect | /wɛlθ ɪˈfɛkt/ | 부의 효과 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

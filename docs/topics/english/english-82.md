@@ -28,6 +28,12 @@ Jay: To me, sure. In the retro, say "gave it a tough review". Roast makes it sou
 1. **뉴스·밈 문장을 내 대화의 한 줄로 재사용한다.** "Gen Alpha has already started roasting Gen Z, so people our age are ancient history to them" — 인용 뒤에 "so …"로 내 상황에 붙이면 외운 문장이 살아 있는 말이 된다.
 2. **같은 단어의 자리에 따른 등급을 나눠 준다.** "To me, sure. In the retro, say 'gave it a tough review'." — 친구 앞과 회의 자리의 표현을 나란히 제시한다.
 
+
+
+## Words
+| roast somebody | /roʊst ˈsʌmˌbɑdi/ | ~를 (어떤 점으로) 신랄하게 놀리다 |
+| That tracks | /ðæt træks/ | 말이 되네, 앞뒤가 맞네 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

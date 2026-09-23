@@ -24,6 +24,13 @@ Jay: Got it. Prone is face down, supine is face up. I'll hold still until you sa
 1. **지시를 자기 말로 되짚어 확인한다.** "Prone means face down, right?"처럼 한 번 확인하면 병원이나 공항에서 잘못 움직일 일이 없다.
 2. **짝을 이루는 용어는 한 문장에 함께 넣어 굳힌다.** "Prone is face down, supine is face up" — 대칭 문장으로 말해 두면 기억에 남는다.
 
+
+
+## Words
+| prone position | /proʊn pəˈzɪʃən/ | 엎드린 자세, 복와위 |
+| supine | /səˈpaɪn/ | 얼굴을 위로 한 자세 |
+| prone to something | /proʊn tu ˈsʌmθɪŋ/ | ~하기 쉬운 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

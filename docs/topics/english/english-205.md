@@ -28,6 +28,12 @@ Jay: Ideas you latch on to, and that's praise. People you latch on to, and it's 
 1. **목적어로 두 뜻을 가른다.** "Ideas you latch on to, and that's praise. People you latch on to, and it's a complaint." — 구동사가 헷갈릴 때는 무엇에 붙는지를 먼저 본다.
 2. **칭찬을 먼저, 걱정을 나중에 둔다.** "Quick." 뒤에 "Any downside?"가 나오게 두면 평가가 공격이 아니라 보고가 된다.
 
+
+
+## Words
+| settle in | /ˈsɛtəl ɪn/ | 적응하다 |
+| Any downside | /ˈɛni ˈdaʊnˌsaɪd/ | 걸리는 점은 없어? |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

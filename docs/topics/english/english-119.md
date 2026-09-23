@@ -28,6 +28,12 @@ Jay: It did. That "would" just means "used to". Fasting mornings, boring tickets
 1. **과거의 습관은 would로 회상하고, 되물으면 "used to"로 풀어 준다.** "That would usually help…" → "That 'would' just means 'used to'." — 가정법으로 오해받을 때 한 줄로 정리한다.
 2. **해결이 아니라 주의 전환임을 동사로 표시한다.** "take my mind off the hunger" — 배고픔을 없앤 게 아니라 거기서 신경을 돌렸다는 뜻이라 과장이 되지 않는다.
 
+
+
+## Words
+| habitual would | /həˈbɪtʃuəl wʊd/ | 과거의 반복 행동 |
+| morning | /ˈmɔrnɪŋ/ | 아침 시간을 버텨 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

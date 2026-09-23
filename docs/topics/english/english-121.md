@@ -28,6 +28,12 @@ Jay: Exactly. So flip the flag on, watch the dashboard for ten minutes, and you'
 1. **규칙의 이유를 generic you로 말하고, 오해하면 바로 범위를 밝힌다.** "you never know what might happen" → "Not you, anyone." — 한 마디로 비난이 아님을 정리한다.
 2. **일반인칭 you는 짝 예문으로 설명한다.** "like 'if you heat water to 100 degrees, it boils'" — 상대가 이미 아는 사실을 예로 들면 문법 설명이 필요 없다.
 
+
+
+## Words
+| generic you | /dʒəˈnɛrɪk ju/ | 일반인칭 you |
+| kill switch | /kɪl swɪtʃ/ | 즉시 기능을 끄는 스위치 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

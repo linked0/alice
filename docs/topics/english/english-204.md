@@ -28,6 +28,14 @@ Jay: You can end a harangue without ever saying the word out loud.
 1. **비난 대신 절차로 끊는다.** "I thank him, restate it as one question, answer that, and take the next hand." — 사회자의 힘은 평가가 아니라 순서에서 나온다.
 2. **명사 하나로 상황을 규정한다.** "That stopped being a question two minutes ago. It's a harangue." 시점을 못 박으면 과장으로 들리지 않는다.
 
+
+
+## Words
+| harangue | /hɚˈæŋ/ | 장광설; 장광설을 늘어놓다 |
+| restate | /riˈsteɪt/ | ~을 질문 하나로 정리해 되돌리다 |
+| something | /ˈsʌmθɪŋ/ | ~을 질문 하나로 정리해 되돌리다 |
+| question | /ˈkwɛstʃən/ | ~을 질문 하나로 정리해 되돌리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

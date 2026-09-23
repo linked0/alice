@@ -24,6 +24,15 @@ Jay: The regulator first, the customers after. If nobody holds them to account, 
 1. **수동형과 능동형을 한 대화에서 번갈아 쓴다.** "companies must be held to account" ↔ "if nobody holds them to account" — 같은 표현의 두 얼굴을 함께 익힌다.
 2. **"~에 동의하지만 거기서 끝은 아니다" 화법.** "Probably. But…"으로 상대 말을 받아 준 뒤 범위를 넓히면 반박이 부드러워진다.
 
+
+
+## Words
+| account | /əˈkaʊnt/ | 책임을 추궁당하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~에게 책임을 묻다 |
+| answer | /ˈænsɚ/ | 공개적으로 해명하다 |
+| questions | /ˈkwɛstʃənz/ | 공개적으로 해명하다 |
+| public | /ˈpʌblɪk/ | 공개적으로 해명하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

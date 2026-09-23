@@ -28,6 +28,14 @@ Jay: For planning, yes. We treat passage as upside, not the plan, so my guess do
 1. **"모른다" 대신 "우위가 없다"고 말한다.** "I have no edge over it"은 의견을 낼 수는 있지만 내 판단이 시장보다 나을 이유가 없다는 뜻이라, "I don't know"보다 정확하고 전문가답게 들린다.
 2. **숫자를 내주되 그 숫자의 지위를 밝힌다.** "I'll say 60 if you want one, but that's not analysis" — 요청받은 숫자는 주면서, 그것이 분석이 아니라 추측임을 같은 문장에서 말한다.
 
+
+
+## Words
+| market | /ˈmɑrkət/ | 시장보다 나은 정보·판단 우위가 없다 |
+| something | /ˈsʌmθɪŋ/ | ~의 확률을 얼마로 보다 |
+| passage | /ˈpæsədʒ/ | 통과는 추가 호재지 계획의 전제가 아니다 |
+| upside | /ˌʌpˈsaɪd/ | 통과는 추가 호재지 계획의 전제가 아니다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

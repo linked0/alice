@@ -28,6 +28,13 @@ Jay: Thank you. I'd rather it got fixed than get anyone in trouble.
 1. **소리의 크기와 종류를 정확히 골라 민원의 온도를 정한다.** "Not barking. The dog whimpers, quietly." — 단어 선택이 곧 요구의 수위다.
 2. **목적을 마지막에 밝혀 오해를 막는다.** "I'd rather it got fixed than get anyone in trouble." — 처벌이 아니라 해결을 원한다는 표준 문장.
 
+
+
+## Words
+| whimper | /ˈwɪmpɚ/ | 낑낑거리다, 훌쩍이다 |
+| alone | /əˈloʊn/ | 하루 종일 혼자 남겨지다 |
+| rather | /ˈræðɚ/ | B보다는 A를 원한다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

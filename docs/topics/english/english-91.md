@@ -28,6 +28,16 @@ Jay: Same thing, a bit tidier. Just don't aim it at a person — then it's an in
 1. **강한 거절은 사물에 겨누고 대안을 바로 붙인다.** "Like I'd even be caught dead shipping new jQuery in 2026" — 빈정거림 한 줄 뒤에 실행안이 오면 농담으로 남는다.
 2. **구어 구조를 격식형과 짝지어 설명한다.** "'Like…' at the front is spoken 'As if…'" — 상대가 되물을 때 표준형을 알려 주면 두 형태를 다 쓸 수 있다.
 
+
+
+## Words
+| ship | /ʃɪp/ | (코드·기능을) 내보내다, 배포하다 |
+| wouldn't | /ˈwʊdənt/ | 죽어도 X는 안 한다 |
+| caught | /kɑt/ | 죽어도 X는 안 한다 |
+| doing | /ˈduɪŋ/ | 죽어도 X는 안 한다 |
+| ever | /ˈɛvɚ/ | 내가 ~할 리가 |
+| person | /ˈpɝsən/ | 사람을 겨냥하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

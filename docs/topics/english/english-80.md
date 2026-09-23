@@ -28,6 +28,15 @@ Jay: It is. Being infatuated with someone means you're so taken with them you st
 1. **드라마 대사는 따옴표로 인용하고, 쓸 수 없는 단어는 그렇다고 말한다.** "it's a word to recognise, not to use" — 알아듣기용과 쓰기용을 구분해 두면 옛말·비하어를 안전하게 이야기할 수 있다.
 2. **뜻을 정의한 뒤 바로 내 주변 예를 붙인다.** "My cousin was infatuated with a girl from his gym for a whole summer" — 정의 한 줄과 예시 한 줄이 짝을 이루면 상대가 바로 기억한다.
 
+
+
+## Words
+| hussy | /ˈhʌsi/ | (구식·비하) 행실이 나쁘다고 여겨진 여자 |
+| infatuated | /ˌɪnˈfætʃuˌeɪtɪd/ | ~에게 홀딱 빠져 판단력을 잃다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~에게 홀딱 빠져 판단력을 잃다 |
+| crazy | /ˈkreɪzi/ | ~에게 푹 빠지다 |
+| recognise | /ˈrɛkəɡˌnaɪz/ | 알아듣기용 단어지 쓰기용은 아니다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

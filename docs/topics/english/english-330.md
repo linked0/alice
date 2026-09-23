@@ -28,6 +28,12 @@ Jay: Once per paragraph. Repeating "the refresh token" is uglier than "it" and f
 1. **모호한 대명사는 "antecedent가 없다"로 지적하면 다툼이 안 된다.** "an anaphoric reference with no clear antecedent"는 취향이 아니라 구조를 지적하는 말이다.
 2. **문서에서는 아름다움보다 명확함을 고른다고 말한다.** "uglier than "it" and far clearer"처럼 트레이드오프를 드러내면 리뷰가 빨리 끝난다.
 
+
+
+## Words
+| antecedent | /ˌænˈtɛsədənt/ | 선행사, 대명사가 가리키는 대상 |
+| something | /ˈsʌmθɪŋ/ | ~을 되가리키다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

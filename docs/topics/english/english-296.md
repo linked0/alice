@@ -28,6 +28,14 @@ Jay: Because a failed refund must never block an invoice. Everything else is det
 1. **"but I digress"는 스스로를 끊는 신호다.** 말이 새는 것을 알아차렸을 때 사과 대신 이 한마디로 본론에 복귀한다.
 2. **설명 순서를 규칙으로 선언한다.** "Answer first, digression after." 멘토링에서 상대가 무엇을 가져갈지 정해 준다.
 
+
+
+## Words
+| digress | /daɪˈɡrɛs/ | 주제에서 벗어나다 |
+| but I digress | /bʌt aɪ daɪˈɡrɛs/ | 아, 딴 얘기로 샜네요 |
+| digression | /daɪˈɡrɛʃən/ | 여담 |
+| failure modes | /ˈfeɪljɚ moʊdz/ | 실패 양상 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

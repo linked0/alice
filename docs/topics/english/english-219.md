@@ -28,6 +28,13 @@ Jay: "A little too pat" is the polite version. The rude version is lazy.
 1. **"a little too X to be Y" 틀로 비판의 세기를 낮춘다.** "a little too pat to be convincing" — 완충어 a little이 서평을 공격이 아니게 만든다.
 2. **정중한 표현과 무례한 표현을 나란히 알아 둔다.** "The polite version ... the rude version is lazy." 두 단어를 같이 외우면 자리에 맞게 고를 수 있다.
 
+
+
+## Words
+| tie off | /taɪ ɔf/ | (이야기 줄기를) 마무리 짓다 |
+| convincing | /kənˈvɪnsɪŋ/ | 너무 깔끔해서 설득력이 없는 |
+| little | /ˈlɪtəl/ | Y라기엔 조금 너무 X한 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

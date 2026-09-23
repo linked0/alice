@@ -28,6 +28,12 @@ Jay: Noted. I'll take the steak and the on-call.
 1. **감탄 뒤에 구체적 비교를 붙이면 아부가 아니라 진짜 감상이 된다.** "This is one hell of a steak." 다음에 "nothing with a crust like this"가 오면 상대는 빈말이 아니라고 듣는다.
 2. **같은 강조어가 좋은 뜻과 나쁜 뜻으로 오가는 걸 듣고 따라간다.** Ken의 "one hell of a bribe"(농담), "one hell of a week"(경고) — 표현은 같고 뜻은 문맥이 정한다.
 
+
+
+## Words
+| fair warning | /fɛr ˈwɔrnɪŋ/ | 미리 말해 두는데 |
+| noted | /ˈnoʊtəd/ | 알겠어요, 접수 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

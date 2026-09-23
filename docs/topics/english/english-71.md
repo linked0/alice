@@ -26,6 +26,13 @@ Priya: Then take him for coffee tomorrow. I'll leave the migration alone for an 
 1. **단어를 쓰고 바로 뜻을 한 줄로 갈라 준다.** "not noticing, not not caring" — 상대가 뜻을 묻자 오해하기 쉬운 이웃 개념과 대비해 설명하는 방식이다.
 2. **자기 결점을 인정하고 다음 행동으로 잇는다.** "Being unobservant is a habit I should fix if I'm going to lead a team." — 변명 없이 인정하면 상대가 바로 실질적인 제안을 준다.
 
+
+
+## Words
+| seem off | /sim ɔf/ | 평소와 달라 보이다 |
+| someone | /ˈsʌmˌwʌn/ | ~를 커피 마시러 데려가다 |
+| coffee | /ˈkɑfi/ | ~를 커피 마시러 데려가다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: I'll rewrite it as "many of the requests time out under load".
 1. **명사가 수량사를 고른다는 순서로 기억한다.** "The noun chooses the quantifier, not the other way round" — 셀 수 있는지 먼저 판단하고 many/much를 정하는 습관이다.
 2. **첨삭을 받으면 그 자리에서 문장을 다시 쓴다.** "I'll rewrite it as ..."로 고쳐 말하면 교정이 한 번에 몸에 붙는다.
 
+
+
+## Words
+| countable | /ˈkaʊntəbəl/ | 셀 수 있는 / 없는 |
+| other way round | /ˈʌðɚ weɪ raʊnd/ | 그 반대로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

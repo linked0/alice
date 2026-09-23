@@ -28,6 +28,14 @@ Jay: Only as a joke. "There's a serpent in this codebase" gets a laugh; "there's
 1. **동의어의 차이를 "동물 vs 상징"처럼 한 쌍의 명사로 정리한다.** "'Snake' is the animal; 'serpent' is the symbol" — 어감 차이를 정의 두 개로 압축한다.
 2. **격식 높은 단어는 안 쓰는 상황을 보여 줘서 뜻을 고정한다.** "I'd shout 'snake', not 'serpent'" — 실제로 안 쓰는 예가 쓰는 예만큼 가르친다.
 
+
+
+## Words
+| serpent | /ˈsɝpənt/ | (큰) 뱀, 신화·상징의 뱀 |
+| snake | /sneɪk/ | 동물 vs 상징 |
+| serpentine | /ˈsɝpənˌtaɪn/ | 구불구불한 |
+| get a laugh | /ɡɛt ə læf/ | 웃음을 얻다 / 사람들이 보게 만들다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

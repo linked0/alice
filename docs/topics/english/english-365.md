@@ -24,6 +24,12 @@ Jay: I wouldn't. On a celebrity it's a joke; on a colleague it's a comment about
 1. **단어 뒤에 대시로 정의를 붙이는 습관.** "the studio's heartthrob — the handsome one the fans come for"처럼 설명을 덧붙이면 상대가 뜻을 되묻지 않는다.
 2. **써도 되냐는 질문에는 "어디서는 되고 어디서는 안 된다"로 답한다.** "On a celebrity it's a joke; on a colleague it's a comment about their looks" — 두 자리를 세미콜론으로 대비한다.
 
+
+
+## Words
+| heartthrob | /ˈhɑrtˌθrɑb/ | 뭇사람의 연인, 동경의 대상 |
+| that lands badly | /ðæt lændz ˈbædli/ | 그건 안 좋게 들린다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

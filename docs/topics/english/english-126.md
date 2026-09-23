@@ -28,6 +28,12 @@ Jay: Yes. "For you" is sympathy; "about something" is guilt. You get the first o
 1. **동정은 사과와 분리해서 말한다.** "I feel bad for you — that one's nobody's fault" — 위로하면서 책임 소재를 함께 정리해 상대가 자책하지 않게 한다.
 2. **전치사 하나로 뉘앙스가 갈리면 짝을 나란히 놓는다.** "'For you' is sympathy; 'about something' is guilt." — 설명이 아니라 대비로 기억시킨다.
 
+
+
+## Words
+| pull a feature | /pʊl ə ˈfitʃɚ/ | 기능을 릴리스에서 빼다 |
+| sign off | /saɪn ɔf/ | 승인하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

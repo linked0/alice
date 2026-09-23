@@ -28,6 +28,14 @@ Jay: Noted. And a charade, singular, is something else entirely.
 1. **게임 제안은 규칙 한 줄로 끝낸다.** "You mime, your team guesses, sixty seconds each" — 짧은 병렬 구조가 설명을 빠르게 만든다.
 2. **형태는 복수, 동사는 단수인 명사를 따로 챙긴다.** "Charades is, not charades are" — news, politics처럼 같은 무리로 묶어 외우면 좋다.
 
+
+
+## Words
+| play charades | /pleɪ ʃɚˈeɪdz/ | 제스처 놀이를 하다 |
+| mime | /maɪm/ | 몸짓으로 연기하다 |
+| charade | /ʃɚˈeɪd/ | 속이 뻔한 연극, 가식 |
+| hour to fill | /ˈaʊɚ tu fɪl/ | 채워야 할 한 시간 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

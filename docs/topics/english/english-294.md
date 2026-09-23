@@ -28,6 +28,13 @@ Jay: Understood. I'd rather keep the lever than pull it.
 1. **협상력은 언급 순서로 관리한다.** "the number, the reason, and only then the fact that I have another option" — 순서만 바꿔도 협박처럼 들리지 않는다.
 2. **같은 사실도 단어에 따라 다른 행위가 된다.** "say 'another option', not 'I'm leaving'" — 하나는 협상, 하나는 사직이다.
 
+
+
+## Words
+| get the leverage | /ɡɛt ðə ˈlɛvɚɪdʒ/ | 유리한 위치를 차지하다 |
+| negotiating leverage | /nɪˈɡoʊʃiˌeɪtɪŋ ˈlɛvɚɪdʒ/ | 협상력 |
+| another option | /əˈnʌðɚ ˈɑpʃən/ | 다른 선택지 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

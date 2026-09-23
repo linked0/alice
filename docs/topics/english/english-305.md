@@ -28,6 +28,16 @@ Jay: Just here. Written down it reads as an accusation — in the doc, say the r
 1. **같은 사실도 자리에 따라 강도를 바꾼다.** 문서에는 "the reorg left us without the budget", 사석에서는 "that kneecaps us".
 2. **비유어는 원래 뜻을 알려 주면 상대가 세기를 가늠한다.** "It is, originally. Now it mostly means crippling someone on purpose."
 
+
+
+## Words
+| on purpose | /ɑn ˈpɝpəs/ | 고의로 |
+| kneecap | /ˈniˌkæp/ | 기반을 무너뜨리다, 고의로 무력화하다 |
+| somebody | /ˈsʌmˌbɑdi/ | 기반을 무너뜨리다, 고의로 무력화하다 |
+| something | /ˈsʌmθɪŋ/ | 기반을 무너뜨리다, 고의로 무력화하다 |
+| accusation | /ˌækjəˈzeɪʃən/ | 고발처럼 읽히다 |
+| timeline | /ˈtaɪmlaɪn/ | 사실만 보여 주고 판단은 맡기다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

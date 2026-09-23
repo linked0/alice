@@ -28,6 +28,10 @@ Jay: That's the plan. One sentence on me, ten on the guard we're adding.
 1. **시치미를 떼지 않겠다고 선언하고, 바로 사실을 말한다.** "I'm not going to play dumb about it. I approved it, and I missed…" — 부정 선언 뒤에 구체적 사실이 따라야 말이 아니라 행동이 된다.
 2. **책임 인정은 짧게, 대책은 길게.** "One sentence on me, ten on the guard we're adding." — 사과에 머물지 않고 수정으로 무게를 옮기는 비율을 미리 정한다.
 
+## Words
+| dumb | /dʌm/ | 멍청한 — **b 는 묵음**. dumb-founded, numb, thumb 과 같은 무리 |
+| to play dumb | /pleɪ dʌm/ | 모르는 척하다 — play 가 '연기하다'의 그 play |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

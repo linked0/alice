@@ -26,6 +26,12 @@ Yusuf: Fine. Carrying on, then.
 1. **같은 구동사를 전치사로 갈라 쓴다.** "carry on about your boots"와 "carry on to the shelter"를 한 호흡에 넣으면 두 뜻의 경계가 전치사에 있다는 게 바로 보인다.
 2. **불평을 끊을 때는 조건절로 결과를 보여 준다.** "If you carry on about your boots, we'll still be here when the rain starts" — 비난 대신 결과를 말해 상대를 움직인다.
 
+
+
+## Words
+| be soaked | /bi soʊkt/ | 흠뻑 젖다 |
+| keep going | /kip ˈɡoʊɪŋ/ | 계속 가다[하다] |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

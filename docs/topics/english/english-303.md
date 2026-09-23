@@ -28,6 +28,12 @@ Jay: Right. And "boasted" already tells you she was showing off, not just tellin
 1. **모르는 속어는 뜻만이 아니라 쓸 수 있는 자리까지 묻는다.** "Could I write it in an email?" — 등록(register)을 확인하는 이 질문이 실제로 필요한 정보다.
 2. **보고 동사에 평가가 섞여 있는지 본다.** boast는 사실 전달이 아니라 "자랑했다"는 판단이어서, 중립적으로 옮기려면 "she says she's brave enough"로 바꿔야 한다.
 
+
+
+## Words
+| lose your bottle | /luz jɔr ˈbɑtəl/ | 겁먹고 그만두다 |
+| boast that | /boʊst ðæt/ | 으스대며 말하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

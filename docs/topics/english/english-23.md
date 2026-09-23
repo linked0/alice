@@ -33,6 +33,16 @@ Jay: About the flag, yes. About the decision, I'm less sure. The demo went well 
 2. **한 번, 글로, 결정 기한과 함께.** "Once, clearly, in writing… I asked for a decision by noon." 반대의 형식이 곧 시니어 신호다. 반복해서 설득하는 것은 주니어, 한 번 명확히 쓰고 결정을 요청하는 것은 리드.
 3. **"내가 옳았다"를 거절한다.** "About the flag, yes. About the decision, I'm less sure." 면접관이 미끼를 던졌을 때 그것을 물지 않는 문장. 여기서 채용이 결정된다.
 
+
+
+## Words
+| reasoning was fair | /ˈrizənɪŋ wɑz fɛr/ | 그분 논리는 타당했다 |
+| make your case | /meɪk jɔr keɪs/ | 주장을 펼치다 |
+| decision by noon | /dɪˈsɪʒən baɪ nun/ | 정오까지 결정 |
+| either way | /ˈiðɚ weɪ/ | 어느 쪽이든 |
+| total exposure | /ˈtoʊtəl ɪkˈspoʊʒɚ/ | 총 노출(손실 가능액) |
+| I'm less sure | /aɪm lɛs ʃʊr/ | 덜 확신한다 |
+
 ## Expressions
 | the question every candidate is warned about | 모든 후보가 경고받는 질문 |
 | her reasoning was fair | 그분 논리는 타당했다 |

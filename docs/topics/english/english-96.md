@@ -28,6 +28,15 @@ Jay: I asked for the equity terms in writing. If they dangle and don't deliver, 
 1. **오퍼를 말할 때 수법과 실속을 한 문장에서 나란히 놓는다.** "They keep dangling a signing bonus… but the base is lower" — 유혹의 정체와 진짜 숫자를 같이 말하면 판단이 선다.
 2. **비유를 확인받으면 그 비유로 뜻을 정의한다.** "You hold something shiny where the other person can see it, so they stop looking at the rest of the deal." — 단어의 뉘앙스(주의를 돌리는 미끼)까지 전달된다.
 
+
+
+## Words
+| in writing | /ɪn ˈraɪtɪŋ/ | 서면으로 |
+| dangle | /ˈdæŋɡəl/ | X를 미끼처럼 눈앞에 흔들어 보이다 |
+| somebody | /ˈsʌmˌbɑdi/ | X를 미끼처럼 눈앞에 흔들어 보이다 |
+| carrot | /ˈkærət/ | 막대기에 매단 당근 |
+| deliver | /dɪˈlɪvɚ/ | 흔들어 보이기만 하고 주지 않다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

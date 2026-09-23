@@ -28,6 +28,13 @@ Jay: Then send the deposit today. Otherwise I file with the deposit scheme tomor
 1. **강한 말 앞에 증거를 먼저 놓는다.** 영수증과 사진을 제시한 뒤에 나온 비난은 감정이 아니라 결론으로 들린다.
 2. **수사의문문을 던졌으면 다음 수를 준비해 둔다.** "What do you take me for?"는 대결 선언이므로, 바로 뒤에 "Otherwise I file with the deposit scheme tomorrow" 같은 구체적 다음 단계가 따라야 한다.
 
+
+
+## Words
+| scam somebody | /skæm ˈsʌmˌbɑdi/ | ~를 등쳐먹다, 사기 치다 |
+| deposit | /dəˈpɑzɪt/ | 보증금 분쟁 기구에 접수하다 |
+| scheme | /skim/ | 보증금 분쟁 기구에 접수하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

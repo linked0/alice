@@ -28,6 +28,14 @@ Jay: We do, and there it's an insult. Steamrollering a decision means ignoring e
 1. **"동사 + one's way to + 결과" 패턴을 통째로 쓴다.** "steamrollered their way to victory"처럼 방법과 결과를 한 덩어리로 말할 수 있다.
 2. **같은 단어의 칭찬/비난 두 얼굴을 구분해 둔다.** 경기에서는 압도, 회의에서는 독선이라는 점을 "there it's an insult"로 짚는다.
 
+
+
+## Words
+| steamroller a decision | /ˈstimˌroʊlɚ ə dɪˈsɪʒən/ | 반대를 무시하고 결정을 밀어붙이다 |
+| victory | /ˈvɪktɚi/ | 힘으로 밀어붙여 이기다 |
+| flatten | /ˈflætən/ | 앞에 있는 건 다 눌러 버리다 |
+| whatever | /ˌwʌˈtɛvɚ/ | 앞에 있는 건 다 눌러 버리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

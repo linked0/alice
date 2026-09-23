@@ -28,6 +28,12 @@ Jay: Weaker. He saw it and let it pass. I am not claiming that either, so I woul
 1. **고의와 부주의를 다른 동사로 갈라 놓는다.** "Connive means he was in on it. What happened is that he did not check." 감사나 인사 면담에서 이 구분이 결론을 바꾼다.
 2. **전치사 하나가 혐의의 무게를 바꾼다.** connive in은 함께 저지른 것, connive at은 알고도 눈감은 것. 물어서 확인하고 넘어가야 한다.
 
+
+
+## Words
+| connive at something | /kəˈnaɪv æt ˈsʌmθɪŋ/ | ~를 알고도 눈감아 주다 |
+| didn't check | /ˈdɪdənt tʃɛk/ | 확인하지 않았다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

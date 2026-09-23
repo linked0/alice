@@ -24,6 +24,12 @@ Jay: That's the trap. Internecine is inside one organisation, and heavy — I'd 
 1. **접두사에서 오는 오해를 미리 막는다.** "That's the trap. Internecine is inside one organisation" — 단어를 가르칠 때 틀리기 쉬운 지점을 먼저 짚는다.
 2. **격식 수준을 말해 주는 한 줄.** "I'd write it, not say it in a standup" — 어디에 쓰고 어디에 안 쓰는지가 뜻만큼 중요하다.
 
+
+
+## Words
+| internecine fighting | /ˌɪnˈtɝnəˌsin ˈfaɪtɪŋ/ | 내부 항쟁 |
+| that's the trap | /ðæts ðə træp/ | 그게 함정이다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

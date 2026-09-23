@@ -28,6 +28,12 @@ Jay: Only as a joke. Now go, before I finish off the water instead.
 1. **한 문장에 두 뜻을 나란히 넣어 대비시킨다.** "I'll finish off the last set, but that hill will finish me off" — 목적어만 바꿔 뜻 차이를 보여 주는 연습이다.
 2. **위험한 뜻이 있는 표현은 농담임을 명시한다.** "Only as a joke"라고 못 박아 두면 사람을 목적어로 써도 오해가 없다.
 
+
+
+## Words
+| finish something off | /ˈfɪnɪʃ ˈsʌmθɪŋ ɔf/ | ~을 마저 끝내다 |
+| finish somebody off | /ˈfɪnɪʃ ˈsʌmˌbɑdi ɔf/ | ~을 끝장내다; 완전히 지치게 하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

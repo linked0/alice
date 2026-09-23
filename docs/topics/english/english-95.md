@@ -28,6 +28,12 @@ Jay: "He's by the book." Same idea, nobody gets offended.
 1. **옛날 속어는 농담 자리에서만 쓰고, 격식 자리의 대체어를 같이 알아 둔다.** "he's too square for that" → 회의에서는 "He's by the book." — 같은 판단을 상처 없이 전한다.
 2. **"too A for that"으로 어떤 행동을 할 사람이 아니라고 짧게 말한다.** "No way, he's too square for that." — 이유(형용사)와 결론(그 행동은 안 한다)이 한 문장에 들어간다.
 
+
+
+## Words
+| by the book | /baɪ ðə bʊk/ | 규정대로 하는, 반듯한 |
+| square | /skwɛr/ | 그러기엔 너무 고지식한 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

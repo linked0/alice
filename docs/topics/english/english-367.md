@@ -24,6 +24,12 @@ Jay: Then you wouldn't know which two pieces to fix. Naming one and adding "the 
 1. **평가를 두 번째 대상으로 옮길 때 "and the same is true of ~".** 반복 없이 두 항목을 같은 평가로 묶는다. "the same is true of the voice-over."
 2. **비판은 "무엇이 문제인지"까지 한 줄로 이어 준다.** "Both are safe, and safe is the problem" — 같은 단어를 되받아 요점을 만든다.
 
+
+
+## Words
+| dull and uninspiring | /dʌl ənd ənɪnˈspaɪrɪŋ/ | 따분하고 밋밋한 |
+| problem | /ˈprɑbləm/ | 무난한 게 문제다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

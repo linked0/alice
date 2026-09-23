@@ -24,6 +24,14 @@ Jay: Because undertook is what a contract says. If it slips, we're discussing a 
 1. **약속의 무게를 단어로 기록해 둔다.** "He undertook to finish the job by Friday" — 회의록에 undertake를 쓰면 나중에 "그런 뜻이 아니었다"는 말이 어려워진다.
 2. **왜 그 단어를 골랐는지 설명하는 습관.** "Because undertook is what a contract says" — 단어 선택의 이유가 곧 업무상의 근거가 된다.
 
+
+
+## Words
+| if it slips | /ɪf ɪt slɪps/ | 일정이 밀리면 |
+| undertake | /ˈʌndɚˌteɪk/ | ~하기로 약속하다 |
+| something | /ˈsʌmθɪŋ/ | ~하기로 약속하다 |
+| promise | /ˈprɑməs/ | 약속인가 희망인가 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

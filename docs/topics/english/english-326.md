@@ -28,6 +28,12 @@ Jay: Fair. Hedging your bets is prudent until the day you have to pick one, and 
 1. **"hedge one's bets"는 비용을 함께 말해야 설득력이 생긴다.** "About thirty percent more"처럼 대비의 값을 숫자로 대면 우유부단이 아니라 판단으로 들린다.
 2. **상대의 비판을 먼저 인정하고 조건을 붙인다.** "Fair. ... until the day you have to pick one"은 반박 없이 자기 입장을 지키는 방식이다.
 
+
+
+## Words
+| hedge one's bets | /hɛdʒ wʌnz bɛts/ | 양쪽에 걸어 위험을 분산하다 |
+| behind one interface | /bɪˈhaɪnd wʌn ˈɪntɚˌfeɪs/ | 인터페이스 하나 뒤에 감춰서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

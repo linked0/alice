@@ -28,6 +28,12 @@ Jay: Then they get reopened with a fresh report. If nobody can reproduce it in a
 1. **낯선 단어는 어원 한 줄로 설명한다.** "The word comes from farming: you cull a herd to keep the numbers down." — 뜻과 뉘앙스(선별, 영구 제거)가 함께 전달된다.
 2. **가차 없는 정리에는 되돌릴 길을 붙인다.** "the owner has a week to object" / "they get reopened with a fresh report" — 반대 의견이 나오기 전에 안전장치를 말해 둔다.
 
+
+
+## Words
+| cull the backlog | /kʌl ðə ˈbæˌklɑɡ/ | 백로그를 솎아내다 |
+| reproduce a bug | /ˌriprəˈdus ə bʌɡ/ | 버그를 재현하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

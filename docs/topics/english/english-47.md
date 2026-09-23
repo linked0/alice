@@ -28,6 +28,13 @@ Jay: Only enough to say it without stumbling: uh-MIG-duh-luh. The plural is amyg
 1. **전문 용어는 뜻을 바로 뒤에 붙여 말한다.** "Blame the amygdala, the small almond-shaped part of the brain that handles fear." — 동격 한 구절로 상대가 사전을 찾지 않게 한다.
 2. **과학 설명은 실무 결론으로 마무리한다.** "That's why the runbook matters: it gives the slow part of the brain something to do." — 설명이 설명으로 끝나지 않고 팀의 행동으로 이어진다.
 
+
+
+## Words
+| amygdala | /ˌæmɪɡˈdɑlə/ | 편도체 |
+| fire | /ˈfaɪɚ/ | (뉴런·알림이) 발동하다 |
+| get a vote | /ɡɛt ə voʊt/ | 의견을 낼 기회를 얻다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

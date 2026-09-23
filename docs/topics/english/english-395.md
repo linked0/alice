@@ -28,6 +28,12 @@ Ravi: Then I will say a wide shot and avoid the whole problem.
 1. **부탁은 이유와 함께 말한다.** "Could you take one long shot photo so you get the background" — so절이 왜 그렇게 찍어야 하는지를 대신 설명해 주므로 지시처럼 들리지 않는다.
 2. **같은 단어의 다른 뜻은 관사로 갈린다.** 관용구는 "a long shot", 촬영 용어는 "one long shot photo"처럼 명사 앞에 붙는다. 헷갈리면 "a wide shot"으로 피하면 된다.
 
+
+
+## Words
+| long shot photo | /lɔŋ ʃɑt ˈfoʊˌtoʊ/ | 멀리서 넓게 잡은 사진 |
+| something | /ˈsʌmθɪŋ/ | ~에 줌인하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

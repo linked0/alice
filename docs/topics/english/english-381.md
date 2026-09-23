@@ -24,6 +24,13 @@ Jay: The loo, if I know the person. Lavatory isn't wrong anywhere — it just so
 1. **같은 뜻 단어를 장소별로 정리해 둔다.** 기내는 lavatory, 미국은 restroom·bathroom, 영국은 loo·toilet. 뜻이 아니라 자리를 외우는 단어 묶음이다.
 2. **"틀리진 않지만 이렇게 들린다"는 평가 화법.** "It just sounds like a sign rather than a person" — 어색함을 설명하는 부드러운 표현.
 
+
+
+## Words
+| lavatory | /ˈlævəˌtɔri/ | 화장실 |
+| restroom | /ˈrɛˌstrum/ | 화장실 |
+| loo | /lu/ | 화장실 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

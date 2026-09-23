@@ -28,6 +28,13 @@ Jay: First thing I'd ask the interviewer is which reads are allowed to be stale,
 1. **약점을 먼저 지목해서 연습을 요청한다.** "That's the part I'd like you to test me on. I'm fine on the storage layer." — 무엇을 시험받고 싶은지와 무엇은 안 해도 되는지를 한 번에 말한다.
 2. **관계절 끝의 전치사를 지킨다.** "the part [I'd like you to test me on ___]" — on의 목적어가 the part이므로 빼면 안 된다. "quiz me on a scenario"도 같은 틀이다.
 
+
+
+## Words
+| stale reads | /steɪl ridz/ | 오래된(최신이 아닌) 읽기 |
+| someone | /ˈsʌmˌwʌn/ | ~에 대해 …의 지식을 시험하다 |
+| something | /ˈsʌmθɪŋ/ | ~에 대해 …의 지식을 시험하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

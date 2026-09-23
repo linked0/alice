@@ -28,6 +28,12 @@ Jay: No. That's the part that stings. It got snuffed out before it had a chance 
 1. **끝난 방식이 갑작스러웠으면 "snuff out", 서서히 줄었으면 "wind down"으로 구분한다.** "It didn't wind down, it just stopped."처럼 두 동사를 나란히 놓으면 상대가 되묻지 않아도 뜻이 잡힌다.
 2. **상대가 단어를 되물으면 원래 이미지로 한 줄 설명한다.** "Like a candle. You pinch the wick and there's no flame left." — 비유의 출처를 말하면 뜻과 강도가 함께 전달된다.
 
+
+
+## Words
+| snuff something out | /snʌf ˈsʌmθɪŋ aʊt/ | ~을 완전히, 갑자기 끝내다 |
+| wind down | /waɪnd daʊn/ | 서서히 줄여 끝내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

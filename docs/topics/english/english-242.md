@@ -28,6 +28,12 @@ Jay: An impression first, in person. If it needs to become a document, I'd write
 1. **구어 표현과 문서용 표현을 미리 나눠 둔다.** "If it needs to become a document, I'd write 'assess', not 'suss out'" — 같은 내용을 두 어조로 준비하는 습관이다.
 2. **조사 범위를 행동으로 말하면 감사처럼 들리지 않는다.** "I sit in their standups, watch one release" — 구체적 행동이 곧 범위의 약속이 된다.
 
+
+
+## Words
+| suss out something | /sʌs aʊt ˈsʌmθɪŋ/ | ~을 (지켜보며) 파악하다 |
+| impression | /ˌɪmˈprɛʃən/ | 받은 인상을 알려 주다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

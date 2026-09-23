@@ -28,6 +28,13 @@ Jay: It stays. I moved "those types" to the front, so the "for" is left waiting 
 1. **경고는 대상과 수법을 한 문장에 담는다.** "Those are the types you have to watch out for. Free first drink, then a bill…" — 누구를, 왜 조심해야 하는지가 같이 나온다.
 2. **문법 질문에는 방금 겪은 일로 대비를 만든다.** "'Watch out!' alone is a shout, like when you nearly walked into the scooter." — 목적어 유무의 차이가 체험으로 기억된다.
 
+
+
+## Words
+| Watch out | /wɑtʃ aʊt/ | 조심해! |
+| types | /taɪps/ | 그런 부류의 사람들 |
+| tout | /taʊt/ | 호객꾼 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

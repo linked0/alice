@@ -28,6 +28,13 @@ Jay: Words like "crackdown" or "power grab". I'd keep those for when I actually 
 1. **세력 관계는 판단어 대신 균형어로 말한다.** "one side of the balance moved, so the other did too" — 사실 관계만 남기고 평가는 빼는 방식이다.
 2. **상대가 내 어조를 읽으면 단어 선택으로 답한다.** "A counter to isn't an insult."처럼 왜 그 단어를 골랐는지 밝히면 오해가 바로 정리된다.
 
+
+
+## Words
+| counter to something | /ˈkaʊntɚ tu ˈsʌmθɪŋ/ | ~에 대한 반작용·맞대응 세력 |
+| industry body | /ˈɪndəstri ˈbɑdi/ | 업계 단체 |
+| power grab | /ˈpaʊɚ ɡræb/ | 권력 장악 시도 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

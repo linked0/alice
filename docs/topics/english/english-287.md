@@ -28,6 +28,13 @@ Jay: I'll do it tonight and send you the confirmation.
 1. **비슷한 두 기관이 나오면 그 자리에서 대조로 확인한다.** "The consulate — so not the embassy in Seoul?" 한 줄이면 상대가 차이를 설명해 준다.
 2. **행정 절차는 "누가 하는가"를 물어 마무리한다.** "Can I book it online, or does it have to go through you?" — 책임 주체를 정하면 다음 행동이 분명해진다.
 
+
+
+## Words
+| consulate | /ˈkɑnsələt/ | 영사관 |
+| embassy | /ˈɛmbəsi/ | 대사관 |
+| consular appointment | /ˈkɑnsəlɚ əˈpɔɪntmənt/ | 영사 업무 예약 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

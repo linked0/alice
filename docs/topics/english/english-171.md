@@ -28,6 +28,14 @@ Jay: Exactly. In two weeks we'll know whether it's worth paying for, and we'll h
 1. **체험판·기회처럼 기한이 있는 것에는 "use it for all it's worth"로 지시한다.** "Point every service at it this week"처럼 무엇을 어디까지 할지 바로 뒤에 붙이면 구호가 아니라 지시가 된다.
 2. **헷갈리는 쌍둥이 표현은 상대가 되물을 때 대비시켜 설명한다.** "'For what it's worth' is the modest one you're thinking of" — 한 문장으로 두 표현의 차이를 정리한다.
 
+
+
+## Words
+| worth paying for | /wɝθ ˈpeɪɪŋ fɔr/ | 돈 낼 가치가 있는 |
+| something | /ˈsʌmθɪŋ/ | ~을 최대한 활용하다, 뽑아낼 수 있는 만큼 다 뽑다 |
+| squeeze | /skwiz/ | 있는 대로 다 뽑아내다 |
+| everything | /ˈɛvriˌθɪŋ/ | 있는 대로 다 뽑아내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Deal. Bring the slides, I'll bring the questions.
 1. **격려는 자기 경험으로 한다.** "I almost chickened out of mine in Berlin last year" — 상대를 겁쟁이라고 하지 않고 나도 그랬다고 말하면 놀림이 응원이 된다.
 2. **단어 정의 뒤에 사람들이 실제로 어떻게 쓰는지 덧붙인다.** "Nobody says you failed, they just say you chickened out." — 뉘앙스(비난은 약하고 놀림은 있다)를 한 줄로 전한다.
 
+
+
+## Words
+| chicken out | /ˈtʃɪkən aʊt/ | 겁먹고 그만두다, 꽁무니를 빼다 |
+| pull | /pʊl/ | 빼다, 철회하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: To the one scene that sticks, plus the numbers behind it.
 1. **영화 얘기의 패턴을 그대로 일에 옮긴다.** "Sometimes all it takes is one scene…" → "All it takes is one moment where the thing works live" — 같은 틀에 목적어만 바꾸면 비유가 된다.
 2. **it takes 계열은 형식 주어로 읽는다.** "all it takes is X to Y"에서 it은 사람이 아니라 It takes X to do Y의 it — 주어를 찾으려 하지 말 것.
 
+
+
+## Words
+| room leans forward | /rum linz ˈfɔrwɚd/ | 청중이 몸을 앞으로 기울이다(집중하다) |
+| lasting | /ˈlæstɪŋ/ | 오래 남는 인상을 주다 |
+| impression | /ˌɪmˈprɛʃən/ | 오래 남는 인상을 주다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

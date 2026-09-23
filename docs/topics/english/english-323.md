@@ -28,6 +28,13 @@ Jay: Perfect. Anything that isn't a windfall stays in the main one.
 1. **돈 이야기는 일회성인지부터 밝히면 단순해진다.** "No, it's a one-off."처럼 성격을 먼저 말하면 상대가 어떤 계획을 권할지 바로 정해진다.
 2. **단어의 원뜻을 한 문장 이미지로 풀면 설명이 짧아진다.** "fruit the wind knocks down — you pick it up, you didn't grow it"가 사전 정의보다 빨리 통한다.
 
+
+
+## Words
+| windfall | /ˈwɪndˌfɔl/ | 뜻밖의 횡재, 우발적 소득 |
+| one-off | /ˌwʌˈnɔf/ | 일회성인 것 |
+| put it aside | /pʊt ɪt əˈsaɪd/ | 따로 떼어 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

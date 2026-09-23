@@ -26,6 +26,13 @@ Lena: Muted gold, dark background. I'll mock it up.
 1. **평가어를 쓸 때는 "to me"로 주관임을 표시하고, 바로 근거를 붙인다.** "The gold reads a bit brassy to me" 뒤에 "bright and metallic in a way that looks cheap"이 오면 취향 싸움이 아니라 피드백이 된다.
 2. **단어를 되물으면 어원으로 짧게 풀고 대안으로 닫는다.** "Brass is the cheap yellow metal, so brassy means…" 다음에 "Try a muted gold" — 정의만 하고 끝내지 않는다.
 
+
+
+## Words
+| brassy | /ˈbræsi/ | 쇳소리 나는, 요란하고 천박한, 싸 보이게 누런 |
+| muted | /ˈmjutɪd/ | (색·소리가) 차분한, 죽인 |
+| mock it up | /mɑk ɪt ʌp/ | 시안을 만들다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Different verb entirely. That one just means read it fast. Let's move the f
 1. **모르는 동사구는 그림으로 설명하면 한 번에 남는다.** "Like skimming cream off milk" 한 줄이 사전 뜻풀이보다 오래 기억된다.
 2. **비슷하게 생긴 표현을 먼저 잘라 낸다.** "Not 'skim the contract', then." — 헷갈릴 표현을 상대가 짚으면 바로 구분해 준다.
 
+
+
+## Words
+| skim something off | /skɪm ˈsʌmθɪŋ ɔf/ | (부당하게) 제일 좋은 것만 걷어 가다 |
+| off the top | /ɔf ðə tɑp/ | 맨 위에서 먼저 |
+| skim through something | /skɪm θru ˈsʌmθɪŋ/ | 빠르게 훑어 읽다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

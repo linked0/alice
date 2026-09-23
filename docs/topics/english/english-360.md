@@ -28,6 +28,14 @@ Jay: Manner and voice both. He has a gruff voice too, so it sounds worse than it
 1. **태도와 의도를 갈라 말하면 오해가 풀린다.** "Blunt on the surface, no malice underneath"는 사람 평가를 두 층으로 나누는 유용한 틀이다.
 2. **평가에는 증거가 되는 일화를 붙인다.** "He rewrote my migration script at eleven at night" 한 문장이 주장을 뒷받침한다.
 
+
+
+## Words
+| gruff | /ɡrʌf/ | 걸걸한; 퉁명스러운 |
+| gruff but kind | /ɡrʌf bʌt kaɪnd/ | 무뚝뚝해도 속은 따뜻한 |
+| no malice underneath | /noʊ ˈmæləs ˌʌndɚˈniθ/ | 속에 악의는 없는 |
+| small talk | /smɔl tɔk/ | 잡담 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

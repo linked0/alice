@@ -28,6 +28,13 @@ Jay: Then I hand it over honestly. But I'd like to be the one who finishes it.
 1. **"I hope I can ..."은 각오를 겸손하게 말하는 틀이다.** 단언하지 않으면서 끝까지 하겠다는 뜻을 전한다.
 2. **가족에게 일을 설명할 때는 기간과 관용구의 출처만 있으면 충분하다.** "It's from boxing."처럼 한마디로 풀면 전문 용어 없이 통한다.
 
+
+
+## Words
+| go the distance | /ɡoʊ ðə ˈdɪstəns/ | 끝까지 버텨 내다 |
+| hand it over | /hænd ɪt ˈoʊvɚ/ | (일을) 넘기다 |
+| That sounds heavy | /ðæt saʊndz ˈhɛvi/ | 그거 부담스럽게 들린다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

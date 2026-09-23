@@ -28,6 +28,13 @@ Jay: Not the word. I'll write "I felt talked down to in the systems round." "Con
 1. **행동을 먼저 묘사하고 단어는 나중에 붙인다.** "he explained what a mutex was, slowly, as if I'd never seen one" — 구체적 장면이 있어야 condescending이 과장으로 들리지 않는다.
 2. **비난 단어 대신 내가 받은 효과를 말한다.** "I felt talked down to" — 상대를 규정하지 않고 내 경험을 말하는 피드백 문장.
 
+
+
+## Words
+| condescend to somebody | /ˌkɑndɪˈsɛnd tu ˈsʌmˌbɑdi/ | ~를 깔보듯 대하다, 내려다보며 말하다 |
+| condescend to bribery | /ˌkɑndɪˈsɛnd tu ˈbraɪbɚi/ | 체면·지조를 버리고 ~까지 하다 |
+| walk through X | /wɔk θru ɛks/ | X를 차근차근 설명하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

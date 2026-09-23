@@ -28,6 +28,13 @@ Jay: Exactly that. The "back" is the whole story.
 1. **모르는 법률 용어는 두 갈래로 좁혀 묻는다.** "is the deed the ownership, or the paper?" — 선택지를 주면 상대가 한 줄로 답할 수 있다.
 2. **되찾는 이야기는 get X back 하나로 압축한다.** "I'm going to get my deposit back from my landlord" — 잃었다가 되돌아온다는 서사가 back에 들어 있으니 설명을 덧붙일 필요가 없다.
 
+
+
+## Words
+| title | /ˈtaɪtəl/ | 소유권(권리) vs 소유권 증서(문서) |
+| get X back | /ɡɛt ɛks bæk/ | 잃거나 넘긴 X를 되찾다 |
+| wait on X | /weɪt ɑn ɛks/ | X가 오기를 기다리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

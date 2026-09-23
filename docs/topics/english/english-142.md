@@ -28,6 +28,13 @@ Jay: Seven. The eighth got whittled down further into two smaller ones this quar
 1. **면접의 "tell me about a time"에는 숫자와 단계로 답한다.** "forty … whittled it down over three weeks … ended at eight" — 시작 수치, 방법, 종료 수치가 한 답에 들어간다.
 2. **동사 선택의 이유를 물으면 대비어로 답한다.** "Why whittle instead of just slashing it?" → "each cut needed a judgement call" — whittle(단계적)과 slash(한 번에)의 차이가 곧 리더십 설명이 된다.
 
+
+
+## Words
+| whittle X down | /ˈwɪtəl ɛks daʊn/ | X를 조금씩 깎아 N까지 줄이다 |
+| slash | /slæʃ/ | 확 잘라 내다 |
+| judgement call | /ˈdʒʌdʒmənt kɔl/ | 판단이 필요한 결정 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

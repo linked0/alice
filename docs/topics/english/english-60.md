@@ -28,6 +28,12 @@ Jay: Agreed. If they get along next time, he's in.
 1. **판단의 근거를 먼저 말한다.** "Judging by last time, he doesn't seem to…" — 결론 앞에 근거를 두고 "doesn't seem to"로 단정을 피하면 험담이 아니라 관찰이 된다.
 2. **표현이 세게 들리면 바로 범위를 줄인다.** "I only mean the group, not that they're a gang." — lot이 못마땅한 뉘앙스를 띠므로 상대가 되짚으면 한 문장으로 정정한다.
 
+
+
+## Words
+| judging by | /ˈdʒʌdʒɪŋ baɪ/ | ~을 보면, ~으로 미루어 보아 |
+| lot | /lɑt/ | 그 사람의 무리, 패거리 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

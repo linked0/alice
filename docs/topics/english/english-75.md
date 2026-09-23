@@ -26,6 +26,13 @@ Aoife: That's why the incident only showed up on Monday.
 1. **어려운 단어는 한 문장 정의와 이웃 단어 대비로 푼다.** "A fake pretends to be a specific original. A simulacrum is the look of realness with nothing behind it." — 묻는 사람에게 차이를 주면 단어가 기억된다.
 2. **여행지 관찰을 업무 비유로 옮긴다.** "Our staging environment is one, honestly" — 같은 단어를 두 장면에 걸쳐 쓰면 뜻이 굳는다.
 
+
+
+## Words
+| fancy | /ˈfænsi/ | X를 멋있게 부르는 말 |
+| production's | /proʊˈdʌkʃənz/ | 프로덕션의 모양만 있고 트래픽은 없다 |
+| traffic | /ˈtræfɪk/ | 프로덕션의 모양만 있고 트래픽은 없다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Keep one accent colour, that's plenty. Restraint is the brand here.
 1. **비판 형용사는 사용자와 묶어서 쓴다.** "a bit flashy for a treasury tool"처럼 for + 대상을 붙이면 "네 취향이 나쁘다"가 아니라 "이 사용자에게 안 맞다"가 된다.
 2. **동료가 단어 뜻을 물으면 동의어 하나와 예시 하나로 답한다.** "Showy, made to catch the eye. It would work on a consumer NFT app." — 정의를 길게 하지 않고 어디서는 통하는지 보여 준다.
 
+
+
+## Words
+| flashy | /ˈflæʃi/ | 화려한, 눈길 끌려고 치장한 |
+| showy | /ˈʃoʊi/ | 과시적인 |
+| restraint | /rɪˈstreɪnt/ | 절제 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

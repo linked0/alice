@@ -28,6 +28,12 @@ Jay: Ended without a verdict, usually over a jury or procedural problem; they ca
 1. **뉴스 문장은 뼈대부터 말한다.** "the judge will hold off on X for one hour, to give Y time to Z" — 긴 원문을 주어·동사·목적·시간의 틀로 줄여 전달한다.
 2. **낯선 전문 용어는 상대의 오해를 부정문으로 잡아 준다.** "No, a stay is a court order that pauses a proceeding." — 틀린 연상(hotel)을 먼저 지우고 정의를 준다.
 
+
+
+## Words
+| mistrial | /mɪˈstraɪəl/ | 무효 재판(평결 없이 종료) |
+| seek | /sik/ | 정지 명령을 신청하다 / 인용하다 / 기각하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

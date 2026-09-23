@@ -28,6 +28,12 @@ Jay: Then the drain has to carry the water the rock refuses.
 1. **물질의 뜻과 사람의 뜻을 한 번에 이어 붙인다.** "nothing passes through. We use the same word for a person who ignores every hint." 전문 용어를 일상 표현과 묶어 두면 둘 다 기억에 남는다.
 2. **원인을 because 절 하나로 되받는다.** "Because there's an impervious layer of rock underneath." 상대의 관찰에 이유를 붙이는 짧은 맞장구.
 
+
+
+## Words
+| impervious to criticism | /ˌɪmˈpɝviəs tu ˈkrɪtɪˌsɪzəm/ | 비판이 전혀 통하지 않는 |
+| carry the water | /ˈkæri ðə ˈwɔtɚ/ | 물을 받아 흘려보내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

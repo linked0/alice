@@ -28,6 +28,14 @@ Jay: See, you already know the verb.
 1. **모르는 명사는 아는 명사와의 차이로 정의한다.** "Muck is mud plus whatever the animals left." — mud를 기준점으로 잡고 무엇이 더해졌는지만 말하면 한 문장이면 된다.
 2. **명사에서 파생된 구동사를 대화에 하나 심어 둔다.** Hana의 "stop mucking about"처럼 상대가 쓰면 "you already know the verb"로 받아 어휘군을 묶는다.
 
+
+
+## Words
+| muck | /mʌk/ | 가축 분뇨·오물·진흙 |
+| muck out | /mʌk aʊt/ | 마구간을 치우다 |
+| muck about | /mʌk əˈbaʊt/ | 빈둥거리다, 장난치다 |
+| scrape off | /skreɪp ɔf/ | 긁어내다 vs 털어내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

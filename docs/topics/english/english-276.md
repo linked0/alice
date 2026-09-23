@@ -26,6 +26,12 @@ Mateo: Study it is. The rent stays the same either way.
 1. **과장된 광고 단어는 원래 뜻을 말하며 되짚는다.** "A boudoir is a lady's private sitting room, isn't it?" — 부정 의문문으로 확인하면 따지지 않고도 과장을 짚을 수 있다.
 2. **농담으로 감정을 빼고 실무로 넘어간다.** "my desk won't fit the word" 뒤에 계약서 문구를 제안해 협상을 이어 간다.
 
+
+
+## Words
+| boudoir | /ˈbuˌdɔɪr/ | 내실, 안방 |
+| study | /ˈstʌdi/ | 서재, 작업방 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

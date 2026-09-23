@@ -28,6 +28,14 @@ Jay: The same person. He asked for help early, which is why nothing ever got stu
 1. **인성 질문에는 한 문장 평가 + 한 문장 근거로 답한다.** "He's a good mixer, so he settled into the team in about a week." 평가 뒤에 관찰 가능한 사실을 붙이면 빈말로 들리지 않는다.
 2. **상대가 모르는 표현을 쓰면 바로 그림으로 풀어 준다.** "walks into a room of strangers and comes out with two friends" 같은 설명이 사전적 정의보다 오래 남는다.
 
+
+
+## Words
+| good mixer | /ɡʊd ˈmɪksɚ/ | 사람들과 잘 섞이는 사람 |
+| easy | /ˈizi/ | 어울리기 쉽다 |
+| settle | /ˈsɛtəl/ | 팀에 자리를 잡다 |
+| early | /ˈɝli/ | 일찍 도움을 청하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

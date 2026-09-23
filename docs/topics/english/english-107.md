@@ -28,6 +28,12 @@ Jay: Then take the morning. I'll be gone at two for the dentist; ping me before 
 1. **놀람은 "not gonna lie"로 열고, 바로 농담이나 배려로 닫는다.** "I'm not gonna lie. I thought you'd be gone longer" 뒤에 "Did Dublin kick you out?"을 붙여 불평이 아니라 반가움임을 보인다.
 2. **"be gone"은 상태다.** "you'd be gone longer than a week", "I'll be gone at two" — 떠나는 동작이 아니라 자리를 비운 기간을 말할 때 쓴다.
 
+
+
+## Words
+| be gone | /bi ɡɔn/ | 자리를 비우다, 떠나 있다 |
+| for the record | /fɔr ðə rəˈkɔrd/ | 분명히 해 두자면 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

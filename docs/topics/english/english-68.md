@@ -28,6 +28,12 @@ Jay: Still, always. I'll save the fizz for the bath.
 1. **부탁은 시간 부사를 앞에 두고 짧게 묻는다.** "Tomorrow, can I use the fizzy bath bear?" — 언제 + 허락 요청 + 짧은 이유("I've had a long week")로 부담 없는 부탁이 된다.
 2. **새 단어는 아는 예로 확인한다.** "Fizzy is the word for bubbling, right? Like fizzy water?" — 정의를 묻는 대신 내 예를 던져 맞는지 확인하면 대화가 끊기지 않는다.
 
+
+
+## Words
+| Tomorrow | /təˈmɑˌroʊ/ | 내일 X 써도 돼? |
+| alarmed | /əˈlɑrmd/ | ~을 보고 놀라지 마 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

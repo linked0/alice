@@ -26,6 +26,14 @@ Mina: Then the fortune teller and Tom agree. Slow down and walk through the door
 1. **상대의 문장을 그대로 되받아 확인하며 농담을 얹는다.** "You had a fortune teller do a reading for me?" — 사역 구문을 되풀이해 놀람을 표현하는 동시에 패턴을 몸에 익힌다.
 2. **같은 사역 패턴을 내 일에 옮겨 쓴다.** "I had Tom run a mock system-design interview for me" — have + 사람 + 동사원형은 점집에서도 회사에서도 같은 틀이다.
 
+
+
+## Words
+| mock interview | /mɑk ˈɪntɚˌvju/ | 모의 면접 |
+| someone | /ˈsʌmˌwʌn/ | ~에게 ~을 해달라고 하다(의뢰) |
+| something | /ˈsʌmθɪŋ/ | ~에게 ~을 해달라고 하다(의뢰) |
+| reading | /ˈridɪŋ/ | ~의 점을 봐주다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

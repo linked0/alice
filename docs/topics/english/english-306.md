@@ -28,6 +28,13 @@ Jay: Exactly the same verb, and no "from". Keep off fatty foods, keep off salt, 
 1. **강도의 차이를 스스로 한마디로 정리한다.** "Softer than quit. Keep off is stay away from." — quit이나 cut out과의 차이를 먼저 말해 두면 오해가 없다.
 2. **같은 구동사의 다른 용법을 붙여서 외운다.** keep off fatty foods / keep off the grass / keep off a subject.
 
+
+
+## Words
+| keep off something | /kip ɔf ˈsʌmθɪŋ/ | ~을 멀리하다 |
+| cut something out | /kʌt ˈsʌmθɪŋ aʊt/ | 완전히 끊다 |
+| come back with | /kʌm bæk wɪð/ | ~라고 나오다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -26,6 +26,13 @@ Hana: Then I was flustered at customs last night, not angry.
 1. **비슷한 두 단어는 원인으로 가른다.** "Frustrated is when something blocks you. Flustered is when too much arrives at once." 뜻풀이 대신 원인을 대비하면 헷갈리지 않는다.
 2. **해결책까지 붙여 변명이 아니라 요청으로 만든다.** "Give me one question at a time and I'm fine" — 허둥댄 이유를 말하고 바로 다음 요청으로 넘어간다.
 
+
+
+## Words
+| fluster somebody | /ˈflʌstɚ ˈsʌmˌbɑdi/ | ~를 허둥지둥하게 만들다 |
+| get flustered | /ɡɛt ˈflʌstɚd/ | 정신이 없어지다 |
+| go blank | /ɡoʊ blæŋk/ | 머리가 하얘지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

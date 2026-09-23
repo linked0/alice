@@ -24,6 +24,12 @@ Jay: Two swaps a quarter, and the rota is public. At my last team no one shirked
 1. **비난어는 부정형으로 먼저 치워 둔다.** "I'm not saying anyone shirked. I'm saying…"은 사실 지적과 인신 공격을 분리하는 전형적인 영어 화법이다.
 2. **shirk는 목적어 없이도 쓴다.** "no one shirked" — 뒤에 아무것도 붙이지 않아도 "아무도 게을리하지 않았다"가 된다. 이유는 because 절로 이어 붙인다.
 
+
+
+## Words
+| shirk | /ʃɝk/ | 해야 할 일을 게을러서 피하다 |
+| no one shirked | /noʊ wʌn ʃɝkt/ | 아무도 태만하지 않았다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

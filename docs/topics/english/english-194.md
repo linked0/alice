@@ -28,6 +28,12 @@ Jay: Please do. On medical strings we match the record, not the dictionary.
 1. **용어집에서는 "통과 여부"로 판정한다.** "That won't clear clinical review." — 취향이 아니라 기준을 근거로 말하면 논쟁이 짧아진다.
 2. **라틴계 명사는 단수·복수를 함께 외운다.** "metastasis, metastases" — analysis/analyses와 같은 꼴이다.
 
+
+
+## Words
+| metastasize | /məˈtæstəˌsaɪz/ | 전이하다 |
+| clear clinical review | /klɪr ˈklɪnəkəl ˌriˈvju/ | 임상 검수를 통과하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

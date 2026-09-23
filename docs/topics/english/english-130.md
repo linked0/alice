@@ -28,6 +28,13 @@ Jay: One calm reply with the vote timeline and the numbers, then we stop. You ca
 1. **센 단어는 사석과 공개 글을 구분해서 쓴다.** "For the posts, in this room. I wouldn't put it in a public reply" — 같은 판단을 자리에 따라 다른 단어로 바꾼다.
 2. **어원 이미지를 비유로 재활용한다.** "the argument came off its hinges" / "You can't argue a door back onto its hinges" — 단어의 그림이 설명과 결론을 동시에 맡는다.
 
+
+
+## Words
+| unhinged | /ənˈhɪndʒd/ | 정신 나간, 이성을 잃은 |
+| heated | /ˈhitəd/ | 격앙된 / 건설적이지 않은 |
+| engage | /ɛnˈɡeɪdʒ/ | (논쟁에) 대응하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

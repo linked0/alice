@@ -28,6 +28,13 @@ Jay: Then that's mine. Meet you at the taxi rank in ten.
 1. **제안은 거절할 수 있는 의문문으로 하고, 사양하면 역할을 낮춰 다시 말한다.** "Want me to tag along and give you a hand?" → "I'd be the extra pair of hands, not the boss of the booth" — 상대의 능력을 인정하면서 돕는다.
 2. **역할 분담을 두 동사로 압축한다.** "you point, I carry" — 짧은 대구가 제안을 구체적이고 부담 없게 만든다.
 
+
+
+## Words
+| tag along | /tæɡ əˈlɔŋ/ | 딸려서 함께 가다 |
+| someone | /ˈsʌmˌwʌn/ | 좀 도와주다 |
+| extra | /ˈɛkstrə/ | 일손 하나 더 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: It is. Nobody is licked until the contract is signed.
 1. **"We thought we had them licked."는 자백의 도입부다.** 과거의 오판을 먼저 밝히고 설명을 이으면 변명이 아니라 분석으로 들린다.
 2. **교훈은 앞에서 쓴 단어를 뒤집어 맺는다.** "Nobody is licked until the contract is signed."처럼 같은 표현으로 닫으면 이야기가 정리된다.
 
+
+
+## Words
+| have somebody licked | /hæv ˈsʌmˌbɑdi lɪkt/ | ~를 이겨 놓다, 승부를 끝내 놓다 |
+| stop pushing | /stɑp ˈpʊʃɪŋ/ | 밀어붙이기를 멈추다 |
+| expensive lesson | /ɪkˈspɛnsɪv ˈlɛsən/ | 비싼 교훈 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

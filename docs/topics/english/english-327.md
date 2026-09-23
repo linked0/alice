@@ -28,6 +28,13 @@ Jay: Don't. Town is fifteen minutes further, and dinner starts at seven.
 1. **길 안내는 "출구 번호 + 건물 위치"로 두 조각만 준다.** "Take exit 41 and it's the first building on your right."가 지도 설명보다 빠르다.
 2. **되물으면 단어 하나씩 뜻을 떼어 설명한다.** ""Right" is "immediately", and "off" means you leave the highway"처럼 나누면 상대가 다음에 스스로 쓴다.
 
+
+
+## Words
+| hour behind you | /ˈaʊɚ bɪˈhaɪnd ju/ | 너보다 한 시간 뒤처져 |
+| interstate | /ˌɪntɚˈsteɪt/ | 고속도로에서 나가면 바로 |
+| exit | /ˈɛɡzɪt/ | 41번 출구로 나가다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Between us, fine. One more round, and let's not get rekt on the same corner
 1. **은어는 쓸 수 있는 자리를 스스로 못 박아 둔다.** "Never. In a standup I'd say the release wiped us out." 대체 표현까지 준비해 두면 실수가 없다.
 2. **은어는 자신에게 쓸 때 가장 안전하다.** "We did get rekt" — 1인칭이면 농담이지만 2인칭이면 조롱이 된다.
 
+
+
+## Words
+| wipe somebody out | /waɪp ˈsʌmˌbɑdi aʊt/ | ~를 완전히 털다 |
+| taunt | /tɔnt/ | 조롱 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

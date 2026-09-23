@@ -28,6 +28,12 @@ Jay: I did my year. That's exactly why I want the rule written down.
 1. **동의할 부분과 뺄 부분을 나눠서 받는다.** "She has had it easy on the rotation, I'll give you that" — 감정에 맞장구치면서도 인신공격은 걸러 낸다.
 2. **불만을 고칠 수 있는 문장으로 바꿔 준다.** "I did six months of on-call …; she did none." — 사람 평가를 사실 두 개로 바꾸면 담당자가 움직일 수 있는 요청이 된다.
 
+
+
+## Words
+| have it easy | /hæv ɪt ˈizi/ | 편하게 지내다, 좋은 조건을 누리다 |
+| deserves | /dɪˈzɝvz/ | 자격 이상으로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,14 @@ Jay: Thanks. I'd rather fix the numbers than complain about the byline.
 1. **전문 용어를 쓰고 나서 스스로 한 줄로 풀어 준다.** "a stringer is a part-time correspondent, not staff, paid per piece" — 상대가 그 단어를 어떻게 아느냐고 물을 때 정의를 붙이면 자연스럽게 쓸 수 있다.
 2. **불만 대신 다음 행동을 제시한다.** "I'd rather fix the numbers than complain about the byline." — 틀린 기사에 대해 감정보다 정정 절차를 앞세운다.
 
+
+
+## Words
+| stringer | /ˈstrɪŋɚ/ | 비상근 통신원, 건당 원고료를 받는 프리랜서 기자 |
+| desk | /dɛsk/ | (신문사의) 편집 데스크 |
+| numbers were off | /ˈnʌmbɚz wɝ ɔf/ | 숫자가 틀렸다 |
+| byline | /ˈbaɪˌlaɪn/ | 기사의 필자 표기 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

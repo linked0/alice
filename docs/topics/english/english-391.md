@@ -28,6 +28,12 @@ Jay: Then yes. I am up for it as well as up to it.
 1. **수락은 조건과 함께 말한다.** "I am up to it, with one condition"은 거절처럼 들리지 않으면서 협상을 연다. 조건을 나중에 꺼내는 것보다 훨씬 깔끔하다.
 2. **up to it과 up for it을 구분한다.** 능력이 되면 up to it, 하고 싶으면 up for it. Jay의 마지막 줄이 둘을 한 문장에 담아 보여 준다.
 
+
+
+## Words
+| challenge | /ˈtʃæləndʒ/ | 그 도전을 감당할 역량이 되다 |
+| something | /ˈsʌmθɪŋ/ | ~할 마음이 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

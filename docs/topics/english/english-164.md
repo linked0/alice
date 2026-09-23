@@ -28,6 +28,12 @@ Jay: Please do. Written down, with my name on it.
 1. **반대할 때는 마음을 바꿀 조건을 숫자로 말하고, 그 조건에 스스로를 묶는다.** "If the condition is met and I'm still arguing, hold me to what I said." — 반대가 고집이 아니라 검증 가능한 입장이 된다.
 2. **약속을 강제할 권한을 상대에게 명시적으로 준다.** "Bring this thread up and call me on it." — 구체적인 행동(스레드를 꺼내라)까지 말해야 빈말이 되지 않는다.
 
+
+
+## Words
+| condition is met | /kənˈdɪʃən ɪz mɛt/ | 조건이 충족되다 |
+| drag one's feet | /dræɡ wʌnz fit/ | 미적거리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,14 @@ Jay: It is. Two problems a day for six months beats a perfect plan you drop in w
 1. **질문 하나로 문제의 위치를 바꾼다.** "Four plans, or four weeks of practice?"는 계획이 아니라 지속이 문제임을 상대가 스스로 말하게 만든다.
 2. **꾸준함을 권할 때는 숫자로 그림을 그린다.** "Two problems a day for six months"처럼 구체적인 양이 "열심히 해"보다 설득력 있다.
 
+
+
+## Words
+| restart | /riˈstɑrt/ | 계획을 다시 시작하다·버리다 |
+| away | /əˈweɪ/ | 꾸준히 붙어서 해 나가다 |
+| something | /ˈsʌmθɪŋ/ | 꾸준히 붙어서 해 나가다 |
+| pointless | /ˈpɔɪntləs/ | 의미 없어 보이는 날에도 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

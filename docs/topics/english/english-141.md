@@ -26,6 +26,12 @@ Lena: Let's make that the template. Context line first, then the summary.
 1. **책임 인정 → 재발 방지 습관 순으로 말한다.** "That's on me. And one thing I want to carry over from this: …" — 사과에 머물지 않고 앞으로의 규칙을 한 문장으로 세운다.
 2. **조건절 규칙은 "if … , I'll …"로 짧게 세우고 so로 받는다.** "if a diff needs context … , I'll say so up front" — so가 조건 전체를 대신하므로 반복하지 않는다.
 
+
+
+## Words
+| carry | /ˈkæri/ | 이번 일에서 앞으로 가져가다 |
+| depends | /dɪˈpɛndz/ | #412에 의존함 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

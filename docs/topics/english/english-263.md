@@ -24,6 +24,12 @@ Jay: Only if you couldn't move. It's much stronger than nervous. I'd say nervous
 1. **한 단어의 두 뜻은 공통 어원으로 묶어 설명한다.** "Both, from the same root"처럼 돌(stone)이라는 뿌리를 먼저 말하면 석화와 공포가 따로 외울 항목이 아니게 된다.
 2. **강도 차이는 예시 두 개로 대비한다.** "nervous for a talk and petrified for turbulence" — 같은 감정 계열의 두 단어를 상황에 하나씩 붙이면 세기가 바로 잡힌다.
 
+
+
+## Words
+| petrified forest | /ˈpɛtrəˌfaɪd ˈfɔrəst/ | 석화된 숲 |
+| petrified expression | /ˈpɛtrəˌfaɪd ɪkˈsprɛʃən/ | 겁에 질린 표정 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

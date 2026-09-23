@@ -26,6 +26,12 @@ Tom: Then let's have one for old times' sake and go somewhere that hasn't gone d
 1. **변화는 현재완료로 말한다.** "This place has really gone to the dumps." — has gone이 "예전엔 괜찮았다"는 비교를 저절로 담는다.
 2. **헷갈리는 짝은 주어로 가른다.** "That's 'down in the dumps', for a person. A place goes to the dumps." — 사람이면 기분, 장소면 쇠락. 한 문장 안에서 둘을 나란히 놓으면 상대도 나도 기억한다.
 
+
+
+## Words
+| go downhill | /ɡoʊ ˌdaʊnˈhɪl/ | 나빠지다, 한물가다 |
+| times' | /taɪmz/ | 옛정을 생각해서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

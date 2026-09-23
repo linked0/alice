@@ -28,6 +28,16 @@ Jay: Exactly. Add that one test and I'll approve.
 1. **전제는 인정하고 추론만 끊는다.** "Just because it's fully covered doesn't mean it's correct." — A가 사실임은 받아들이므로 상대가 방어적으로 되지 않고, 바로 뒤에 근거(빈 리스트 예)를 붙인다.
 2. **거절에는 통과 조건을 붙인다.** "One test with an expected value worked out by hand… Add that one test and I'll approve." — 무엇이면 되는지를 구체적으로 말해야 리뷰가 막히지 않는다.
 
+
+
+## Words
+| 'cause | /kəz/ | because의 구어 |
+| doesn't | /ˈdʌzənt/ | A라고 해서 B인 건 아니다 |
+| assert | /əˈsɝt/ | 현재 반환값을 그대로 단정하다 |
+| whatever | /ˌwʌˈtɛvɚ/ | 현재 반환값을 그대로 단정하다 |
+| returns | /rɪˈtɝnz/ | 현재 반환값을 그대로 단정하다 |
+| today | /təˈdeɪ/ | 현재 반환값을 그대로 단정하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Yes. I'll write up a design where the KYC step lives behind our own gateway
 1. **협상 결과는 태도와 입장을 분리해 보고한다.** "Polite, and completely unyielding." — 상대가 무례했는지와 물러섰는지는 별개의 정보라 나란히 말하면 정확하다.
 2. **단어를 되물으면 강도, 어감, 물리적 이미지 순으로 설명한다.** "Firmer than that, and not really an insult… Think of a steel beam, it has no give." — 비유 하나가 두 번째 사전 뜻까지 같이 가르친다.
 
+
+
+## Words
+| unyielding | /əˈnjildɪŋ/ | 완강한, 한 치도 물러서지 않는 |
+| unyielding on principle | /əˈnjildɪŋ ɑn ˈprɪnsəpəl/ | 원칙 때문에 물러서지 않는 |
+| build around it | /bɪld ɚˈaʊnd ɪt/ | 그것을 우회해서 설계하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

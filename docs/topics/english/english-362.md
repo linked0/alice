@@ -28,6 +28,12 @@ Jay: Completely different. You two clearly get on with each other, she just gets
 1. **전치사 짝을 소리 내어 확인한다.** "it's 'at' the person, 'about' the thing" — 구동사는 전치사까지 한 덩어리로 외워야 쓸 수 있다.
 2. **헷갈리는 짝을 한 문장에 넣어 대비시킨다.** "get on with each other"와 "gets on at you"를 붙여 말하면 둘의 차이가 그대로 남는다.
 
+
+
+## Words
+| break somebody | /breɪk ˈsʌmˌbɑdi/ | (버티던 사람을) 결국 굽히게 하다 |
+| something | /ˈsʌmθɪŋ/ | ~에게 …로 계속 잔소리하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

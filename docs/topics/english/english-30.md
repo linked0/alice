@@ -29,6 +29,15 @@ Jay: You asked me not to, and it turns out I didn't need it. That's usually a go
 2. **명사 대신 결과.** "checks that the money we owe never exceeds the money we hold… stops everything and pages a human." 불변식·서킷브레이커·온콜 같은 단어 없이 같은 내용. 청자가 소유한 단어만 쓴다.
 3. **비용 질문에는 보호하는 숫자를 붙인다.** "Two engineers and… the number that matters more is the one it protects." 비용은 항상 그것이 막는 손실 옆에 놓아야 읽힌다. 그리고 "one slide and nothing else"로 이사회 커뮤니케이션 감각을 보여준다.
 
+
+
+## Words
+| then you steer | /ðɛn ju stɪr/ | 그다음은 당신이 방향을 잡으세요 |
+| pages a human | /ˈpeɪdʒəz ə ˈhjumən/ | 사람을 호출하다(온콜 알림) |
+| drifted into | /ˈdrɪftəd ˈɪntu/ | 결정 없이 흘러가 도달한 |
+| number it protects | /ˈnʌmbɚ ɪt prəˈtɛkts/ | 그것이 보호하는 숫자 |
+| it turns out | /ɪt tɝnz aʊt/ | 드러난 바로는 |
+
 ## Expressions
 | assume I don't know | 제가 모른다고 가정하세요 |
 | then you steer | 그다음은 당신이 방향을 잡으세요 |

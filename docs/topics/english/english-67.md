@@ -28,6 +28,13 @@ Jay: It won't. Before we disband, ownership of every runbook moves to a named te
 1. **해산 소식은 '왜'와 '사람은 어디로'를 함께 말한다.** "It was formed for one job, the job is done, so the four engineers go back to their home teams." — disband가 해고로 들리지 않게 한 문장으로 막는다.
 2. **비슷한 단어의 차이는 목적어로 가른다.** "You dissolve a company or a parliament." — 정의 대신 각 동사가 받는 명사를 보여 주면 기억에 남는다.
 
+
+
+## Words
+| disband | /dɪsˈbænd/ | (집단을) 해산하다, 해산되다 |
+| dissolve | /dɪˈzɑlv/ | 해산·청산하다 |
+| home team | /hoʊm tim/ | 원소속 팀 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

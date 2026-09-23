@@ -28,6 +28,13 @@ Jay: I cut scope earlier and rotate the crunch. Nobody on my team works themselv
 1. **고생담은 교훈으로 끝낸다.** "Working yourself to the bone is a sign the plan failed, not a badge." — 면접에서는 노력 자체보다 그 뒤의 판단이 평가 대상이다.
 2. **같은 표현을 두 번 써서 과거와 지금을 대비한다.** "I worked myself to the bone" → "Nobody on my team works themselves to the bone alone." — 표현이 반복되면서 변화가 드러난다.
 
+
+
+## Words
+| run yourself ragged | /rʌn jɚˈsɛlf ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
+| bad call | /bæd kɔl/ | 잘못된 판단 |
+| cut scope | /kʌt skoʊp/ | 범위를 줄이다 / 크런치를 돌아가며 맡다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

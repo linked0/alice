@@ -29,6 +29,16 @@ Jay: Two. The fee calculation uses floats; that should be integer minor units. A
 2. **가장 작은 수정과 다음 수정을 함께.** "Smallest change… If we later move the book in-memory, the same rule becomes a compare-and-swap." 지금 고칠 것과 아키텍처가 바뀌어도 살아남는 원칙을 같이 말하면 시니어로 읽힌다.
 3. **묻기 전에 먼저 꺼낸다.** "Anything else you'd flag?" 에 "Two." 자기 코드의 약점을 리뷰어보다 먼저 아는 후보는 채용된다. 그리고 트레이드오프의 이유("I chose to spend the time on…")를 붙여 실수와 선택을 구분한다.
 
+
+
+## Words
+| same shape as | /seɪm ʃeɪp æz/ | ~와 같은 모양(구조)이다 |
+| smallest change | /ˈsmɔləst tʃeɪndʒ/ | 가장 작은 변경 |
+| zero rows affected | /ˈzɪroʊ roʊz əˈfɛktɪd/ | 영향 받은 행 0 |
+| honest answer is | /ˈɑnəst ˈænsɚ ɪz/ | 정직한 답은 |
+| anything you'd flag | /ˈɛniˌθɪŋ jud flæɡ/ | 지적할 것이 있는가 |
+| integer minor units | /ˈɪntədʒɚ ˈmaɪnɚ ˈjunəts/ | 정수 최소 단위(센트 등) |
+
 ## Expressions
 | talk me through that | 그것을 설명해 달라 |
 | I can see why | 이유가 보인다 |

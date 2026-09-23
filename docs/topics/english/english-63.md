@@ -28,6 +28,12 @@ Jay: I'll list every knock-on item tomorrow, and we plan the bump as three ticke
 1. **"쉬운 변경"에는 파급 범위로 답한다.** "The line is easy. It's the knock-on effects I'm worried about:" — 분열문(It's X I'm worried about)으로 걱정의 대상을 짚고 콜론 뒤에 목록을 붙인다.
 2. **단어를 설명할 때 동의어의 지역 차이를 곁들인다.** "In American English you'd hear 'ripple effect'" — 청자가 미국인이면 그쪽 표현을 함께 주는 것이 친절하다.
 
+
+
+## Words
+| ripple effect | /ˈrɪpəl ɪˈfɛkt/ | 파급 효과 |
+| pin | /pɪn/ | 버전을 고정하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

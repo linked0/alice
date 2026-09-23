@@ -28,6 +28,12 @@ Jay: Delete it. None the worse for the drop, and boarding in ten.
 1. **나쁜 사건을 먼저 말하고 표현으로 결론을 뒤집는다.** "It fell about a metre onto concrete, and it's none the worse for it" — 사건과 결과를 한 문장에 담는 순서가 자연스럽다.
 2. **틀을 두 번 써서 굳힌다.** "none the worse for it"과 "none the worse for the drop"처럼 대명사와 명사 두 형태로 연습해 두면 실전에서 헷갈리지 않는다.
 
+
+
+## Words
+| boot first try | /but fɝst traɪ/ | 한 번에 부팅되다 |
+| worse for wear | /wɝs fɔr wɛr/ | 낡고 지친 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

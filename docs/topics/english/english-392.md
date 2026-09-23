@@ -28,6 +28,13 @@ Jay: Twelve, starting next month.
 1. **"couldn't reasonably be expected to + 동사"는 사람이 아니라 기대를 평가한다.** 자기를 변호하는 대신 요구의 타당성을 문제 삼으면 대화가 감정 싸움으로 가지 않는다.
 2. **계약 문구를 내 일터 문장으로 옮겨 본다.** "We couldn't reasonably be expected to ship both features by Friday."처럼 바로 갈아 끼우면 표현이 내 것이 된다.
 
+
+
+## Words
+| couldn't | /ˈkʊdənt/ | ~하리라 기대하는 것은 타당하지 않다 |
+| reasonably | /ˈrizənəbli/ | ~하리라 기대하는 것은 타당하지 않다 |
+| expected | /ɪkˈspɛktəd/ | ~하리라 기대하는 것은 타당하지 않다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

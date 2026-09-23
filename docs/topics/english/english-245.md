@@ -24,6 +24,12 @@ Jay: I'll open with it, repeat it after the demo, and close on it. Repetition is
 1. **핵심을 "각인시킨다"는 말은 drive ... home으로 한다.** "I need to drive that home to a room that has never met our pipeline" — to 뒤에 청중을 넣으면 누구에게 꽂을지까지 말할 수 있다.
 2. **발표 구조를 한 문장으로 요약해 답한다.** "I'll open with it, repeat it after the demo, and close on it" — 세 동사를 나열하면 계획이 있다는 인상이 남는다.
 
+
+
+## Words
+| drive something home | /draɪv ˈsʌmθɪŋ hoʊm/ | ~에게 ~을 확실히 각인시키다 |
+| open with | /ˈoʊpən wɪð/ | ~으로 시작하다 / ~으로 끝맺다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

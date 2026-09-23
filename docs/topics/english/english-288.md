@@ -28,6 +28,14 @@ Jay: Exactly. On parole, the rules follow you home.
 1. **법률 용어는 시점으로 구분해 설명한다.** "Bail is before the trial… Parole comes after the sentence has started." 시간 순서를 주면 두 단어가 한 번에 정리된다.
 2. **드라마 줄거리로 단어를 붙잡아 둔다.** "That's why the last episode is all about his parole officer." 장면과 묶으면 단어가 오래 남는다.
 
+
+
+## Words
+| parole | /pɚˈoʊl/ | 가석방 |
+| out on parole | /aʊt ɑn pɚˈoʊl/ | 가석방으로 나와 있는 |
+| bail | /beɪl/ | 보석 |
+| conviction stands | /kənˈvɪkʃən stændz/ | 유죄 판결은 그대로다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

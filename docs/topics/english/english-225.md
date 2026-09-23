@@ -28,6 +28,14 @@ Jay: Good. Keep it small enough that you never skip it.
 1. **습관을 말할 때는 동사에 -ing를 붙인 고정 패턴을 쓴다.** "I make a point of reading the release notes every Monday" — 빈도와 시점까지 함께 넣으면 습관이 구체적으로 들린다.
 2. **표현의 뜻을 되묻는 대신 상황으로 짚어 준다.** "Nobody asked you to do that" 뒤에 "That's the phrase"로 받으면 정의가 자연스럽게 나온다.
 
+
+
+## Words
+| release notes | /riˈlis noʊts/ | 릴리스 노트 |
+| doing | /ˈduɪŋ/ | 반드시, 일부러 ~하다 |
+| something | /ˈsʌmθɪŋ/ | 반드시, 일부러 ~하다 |
+| enough | /ɪˈnʌf/ | ~할 만큼 작게 유지하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

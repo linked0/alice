@@ -28,6 +28,14 @@ Jay: No. Waking three services every five seconds costs money for a page nobody 
 2. **신호와 상태를 가른다.** "a sleeping service and a stopped one look identical" 관측이 상태를 결정하지 않는다는 점을 한 문장으로 말한다.
 3. **사고가 없어도 버그는 잡는다.** "there's no incident, but there is a bug" 야간 오경보를 낭비가 아니라 페이지 개선으로 끝맺는다.
 
+
+
+## Words
+| hold one minute | /hoʊld wʌn ˈmɪnət/ | 1분만 기다려라 |
+| scale to zero | /skeɪl tu ˈzɪroʊ/ | 0으로 스케일되다 |
+| cold start | /koʊld stɑrt/ | 콜드 스타트 |
+| wrong word for | /rɔŋ wɝd fɔr/ | ~의 잘못된 표현 |
+
 ## Expressions
 | page the on-call | 온콜을 호출하다 |
 | hold one minute | 1분만 기다려라 |

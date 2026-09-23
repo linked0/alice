@@ -28,6 +28,12 @@ Jay: They will ask anyway, and it is better from our page than from theirs.
 1. **얼버무림의 증거로 문장을 그대로 인용한다.** "That phrase is the glossing." 추상적 지적 대신 문제의 표현 하나를 짚는 방식.
 2. **나쁜 소식을 쓰는 순서를 정해 준다.** "Give the dates, the cause, then the fix." 지적과 함께 대안 구조를 넘겨준다.
 
+
+
+## Words
+| gloss over something | /ɡlɔs ˈoʊvɚ ˈsʌmθɪŋ/ | ~을 얼버무리고 넘어가다 |
+| be down | /bi daʊn/ | (서비스가) 멈춰 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

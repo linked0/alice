@@ -28,6 +28,12 @@ Jay: Just rice, seaweed and the plum. If you want something richer, that one's g
 1. **'s가 is인지 has인지는 뒤에 오는 말로 판단한다.** "'this one's got plum in it' is 'has got'" — got이 이어지면 has이고, 형용사가 이어지면 is다.
 2. **내용물을 말할 때 "X has got Y in it"을 쓴다.** "that one's got tuna mayo" — 음식, 상자, 패키지 어디에나 쓰는 틀이다.
 
+
+
+## Words
+| have got | /hæv ɡɑt/ | 갖고 있다, 들어 있다 |
+| pickled plum | /ˈpɪkəld plʌm/ | 매실장아찌 / 우메보시 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

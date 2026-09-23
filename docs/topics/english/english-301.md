@@ -28,6 +28,13 @@ Jay: More or less. Consigned to a shelf in Icheon, and nobody will ever ask for 
 1. **전문 용어는 한 문장에 세 형태를 같이 넣어 익힌다.** "I consign the goods, the depot is the consignee, and the four boxes are one consignment."
 2. **단어의 '맛'을 설명하는 표현을 갖춰 둔다.** "that's the flavour of it — you consign something when you're sending it away for good."
 
+
+
+## Words
+| consign | /kənˈsaɪn/ | (없애려고) 보내다 |
+| consigned to history | /kənˈsaɪnd tu ˈhɪstɚi/ | 역사 속으로 사라진 |
+| for good | /fɔr ɡʊd/ | 영영, 완전히 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

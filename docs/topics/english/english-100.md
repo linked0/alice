@@ -28,6 +28,13 @@ Jay: Different word, same spelling. That one means his area of responsibility.
 1. **문서용 동사와 회의용 동사를 구분해 제안한다.** "The company remits funds… In a meeting I'd still say 'we wire it on Fridays.'" — 같은 행위를 격식에 따라 다르게 말하는 법을 함께 준다.
 2. **동음이의어를 먼저 짚어 오독을 막는다.** "Different word, same spelling. That one means his area of responsibility." — remit(송금하다)과 remit(담당 범위)을 한 줄로 갈라 준다.
 
+
+
+## Words
+| remittance | /riˈmɪtəns/ | 송금(액) |
+| wire it | /ˈwaɪɚ ɪt/ | 전신 송금하다 |
+| outside my remit | /ˌaʊtˈsaɪd maɪ riˈmɪt/ | 내 담당 범위 밖 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

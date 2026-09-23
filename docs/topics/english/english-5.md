@@ -28,6 +28,12 @@ Jay: Please do. And if the answer is no this quarter, tell me what would make it
 2. **거절의 이유를 구조로 설명한다.** "a fence that doesn't exist" 감정이나 정책이 아니라 왜 그 조건이 성립하지 않는지를 보여주면 상대가 재협상 근거를 얻는다.
 3. **거절을 쉽게 만든다.** "it's fine to say so and we stay friends" 상대가 체면을 잃지 않고 물러날 길을 열어두면 다음 대화가 남는다.
 
+
+
+## Words
+| justify the engineering | /ˈdʒʌstəˌfaɪ ðə ˌɛndʒəˈnɪrɪŋ/ | 엔지니어링 투입을 정당화하다 |
+| spend goodwill | /spɛnd ˌɡʊˈdwɪl/ | 호의를 소모하다 |
+
 ## Expressions
 | justify the engineering | 엔지니어링 투입을 정당화하다 |
 | I understand why you'd ask | 왜 요청하시는지 이해한다 |

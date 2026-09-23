@@ -28,6 +28,13 @@ Jay: Deal. Doing your bit is contagious, apparently.
 1. **칭찬을 낮춰 받되 감사는 거절하지 않는다.** "I'm just trying to do my bit. Everyone here carries something today." — 공을 공동의 일로 되돌리는 방식이다.
 2. **겸손 뒤에 이유를 한 줄 붙이면 가식으로 들리지 않는다.** "I was awake anyway"처럼 사소한 사실을 덧붙이는 게 자연스럽다.
 
+
+
+## Words
+| do my bit | /du maɪ bɪt/ | 내 몫을 하다 |
+| above and beyond | /əˈbʌv ənd bɪˈɑnd/ | 기대 이상으로 |
+| we're even | /wir ˈivɪn/ | 이제 비겼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,15 @@ Jay: That I can stand behind.
 1. **사실 → 인정 → otherwise의 순서를 지킨다.** "It runs about two seconds behind. That's a real limitation, and I'd rather not pretend otherwise." — otherwise가 가리킬 사실을 먼저 놓는다.
 2. **거절은 이유가 아니라 비용으로 설득한다.** "if one of them measures it, we lose trust over a word" — 과장의 대가를 구체적으로 말하면 문구 수정이 쉽게 통과된다.
 
+
+
+## Words
+| walk it back | /wɔk ɪt bæk/ | (한 말을) 철회하다, 주워 담다 |
+| rather | /ˈræðɚ/ | 아닌 척하고 싶지 않다 |
+| pretend | /priˈtɛnd/ | 아닌 척하고 싶지 않다 |
+| otherwise | /ˈʌðɚˌwaɪz/ | 아닌 척하고 싶지 않다 |
+| behind | /bɪˈhaɪnd/ | X는 내가 책임지고 말할 수 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -26,6 +26,13 @@ Priya: Got it. Supplies, one unit, KATH-uh-ter.
 1. **서류 용어는 뜻과 함께 어느 항목에 들어가는지까지 말한다.** "On the Korean form it goes under supplies, not medication" — 번역만으로는 청구서가 처리되지 않는다.
 2. **강세 위치를 음절로 끊어 알려 준다.** "It's KATH-uh-ter, stress on the first syllable" — 창구에서 통하는 발음이 곧 실용 어휘다.
 
+
+
+## Words
+| catheter | /ˈkæθətɚ/ | 카테터 |
+| drain fluid | /dreɪn ˈfluəd/ | 체액을 빼내다 |
+| under supplies | /ˈʌndɚ səˈplaɪz/ | 재료비 항목으로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

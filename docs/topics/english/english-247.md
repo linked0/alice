@@ -24,6 +24,12 @@ Jay: Eight is measured-ish. Ten is a curve I drew myself. Give me two weeks at d
 1. **추정에는 근거의 범위를 붙인다.** "If I extrapolate from a week of load tests"처럼 from 뒤에 데이터의 크기를 밝히면 숫자의 신뢰도까지 함께 전달된다.
 2. **측정값과 추정값을 말로 구분한다.** "Eight is measured-ish. Ten is a curve I drew myself" — 어디까지가 사실인지 선을 그으면 신뢰를 잃지 않고 숫자를 줄 수 있다.
 
+
+
+## Words
+| extrapolate from something | /ɛkˈstræpəˌleɪt frʌm ˈsʌmθɪŋ/ | ~을 근거로 범위 밖까지 추정하다 |
+| write path | /raɪt pæθ/ | 쓰기 경로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

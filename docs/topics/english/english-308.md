@@ -28,6 +28,13 @@ Jay: Yes — "I told him the room had changed, but it didn't register." Ignore s
 1. **비난 대신 관찰로 말하는 선택.** "Ignore says he decided to; barely registered says he never took it in." — 같은 장면을 어떤 동사로 부르느냐가 곧 태도다.
 2. **다의어는 한 문장 안에서 두 뜻을 대비시킨다.** 등록하다 vs 알아채다 — "Same word, different sense."
 
+
+
+## Words
+| barely register something | /ˈbɛrli ˈrɛdʒɪstɚ ˈsʌmθɪŋ/ | 거의 알아채지 못하다 |
+| it didn't register | /ɪt ˈdɪdənt ˈrɛdʒɪstɚ/ | (들었지만) 머리에 들어오지 않았다 |
+| be somewhere else | /bi ˈsʌmˌwɛr ɛls/ | 정신이 딴 데 가 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

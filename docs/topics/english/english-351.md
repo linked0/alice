@@ -28,6 +28,12 @@ Jay: Any system you get lost inside. And it's always a complaint, never a compli
 1. **공간을 묘사한 형용사를 추상적인 대상으로 옮겨 본다.** "labyrinthine corridors" → "labyrinthine rules"처럼 같은 단어의 사용 범위를 한 번에 넓힐 수 있다.
 2. **단어의 감정가를 함께 기억한다.** "always a complaint, never a compliment" — 뜻만 알고 쓰면 칭찬 자리에 잘못 쓰기 쉽다.
 
+
+
+## Words
+| labyrinthine | /ˌlæbɚˈɪnˌθin/ | 미로 같은 |
+| borrow that | /ˈbɑˌroʊ ðæt/ | 그 표현 좀 쓰다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

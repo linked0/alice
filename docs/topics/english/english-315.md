@@ -28,6 +28,13 @@ Jay: "United gave City a five-nil drubbing" — the standard headline word. Elec
 1. **주는 쪽과 받는 쪽이 있는 명사는 동사와 묶어 외운다.** take a drubbing(대패하다) / give somebody a drubbing(완승하다).
 2. **스포츠 어휘가 정치·시장으로 넘어가는 패턴을 알아 둔다.** "A party can take a drubbing at the polls."
 
+
+
+## Words
+| drubbing | /ˈdrʌbɪŋ/ | 일방적인 완패/완승 |
+| take a drubbing | /teɪk ə ˈdrʌbɪŋ/ | 대패하다 |
+| five nil | /faɪv nɪl/ | 5대 0 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

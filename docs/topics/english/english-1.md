@@ -30,6 +30,12 @@ Jay: That's honest. A table full of TBDs is a roadmap. A missing table is a ques
 2. **제3자의 눈으로 번역한다.** "what an auditor asks about" 상대가 사소하게 본 단어가 왜 중요한지 제3자 기준으로 말하면 취향 싸움이 되지 않는다.
 3. **빈칸을 허용해 문턱을 낮춘다.** "Even TBD beats the column not existing." 완성도를 요구하면 아무도 시작하지 않는다. 표가 생기면 채워진다.
 
+
+
+## Words
+| it's uncontroversial | /ɪts ˌʌnˌkɑntrəˈvɝʃəl/ | 논란의 여지가 없다 |
+| reasonable start | /ˈrizənəbəl stɑrt/ | 합리적인 출발점 |
+
 ## Expressions
 | it's uncontroversial | 논란의 여지가 없다 |
 | who can call it | 누가 호출할 수 있나 |

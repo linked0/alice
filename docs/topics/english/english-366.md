@@ -24,6 +24,12 @@ Jay: Good. So inflammation of the knee joint on paper, and "my knee is inflamed"
 1. **서류 표현과 말로 하는 표현을 나눠서 익힌다.** "inflammation of the knee joint on paper"와 "my knee is inflamed" — 같은 증상이 문서와 대화에서 다르게 나온다.
 2. **증상은 형용사 두세 개로 묘사한다.** "Warm and swollen on the inside of the knee" — 부위 + 느낌 순서가 진료실 영어의 기본형이다.
 
+
+
+## Words
+| knee is inflamed | /ni ɪz ɪnˈfleɪmd/ | 무릎에 염증이 있다 |
+| that's a diagnosis | /ðæts ə ˌdaɪəɡˈnoʊsəs/ | 그건 진단명이다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

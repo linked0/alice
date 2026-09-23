@@ -28,6 +28,13 @@ Jay: Completely. "Anyhow, let's get coffee" means "in any case". This one means 
 1. **비슷하게 생긴 두 표현은 예문 하나씩으로 갈라 둔다.** "Anyhow, let's get coffee"와 "dumped them any old how"를 나란히 두면 다시는 섞이지 않는다.
 2. **불평은 구체적인 목록으로 대신한다.** "Monitors, adapters and somebody's kettle in one box."가 "엉망이야"보다 잘 전달된다.
 
+
+
+## Words
+| any  how | /ˈɛni haʊ/ | 아무렇게나, 되는 대로 |
+| anyhow | /ˈɛniˌhaʊ/ | 어쨌든 |
+| dump something | /dʌmp ˈsʌmθɪŋ/ | ~을 아무렇게나 부려 놓다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

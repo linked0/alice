@@ -28,6 +28,13 @@ Tom: Good. Marek would have you in HR by five.
 1. **거친 대사는 인용임을 드러내며 쓴다.** "Did you just quote the yakuza boss at me?" — 셋이 아는 장면이라는 전제가 있어야 "old-timer"가 농담이 된다. 대화 안에서 "I'd never say 'old-timer' to anyone outside this group"으로 선을 긋는다.
 2. **구어의 "are" 생략은 듣기용, 말하기는 온전한 형태로.** 드라마의 "Where you two sneaking off to?"를 알아듣되, Jay는 "Where are you two sneaking off to?"로 말한다.
 
+
+
+## Words
+| sneak off | /snik ɔf/ | 몰래 빠져나가다 |
+| old-timer | /ˌoʊldˈtaɪmɚ/ | 영감, 고참 |
+| release freeze | /riˈlis friz/ | 릴리스 동결 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

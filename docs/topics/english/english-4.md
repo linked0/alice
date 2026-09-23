@@ -28,6 +28,13 @@ Jay: Exactly. And if anyone asks what changes for us: our bridge waits for final
 2. **틀린 문장 대신 맞는 문장을 준다.** "So what should I say instead?" 에 답을 준비해 두면 교정이 거절이 아니라 도움이 된다.
 3. **우리에게의 결과로 닫는다.** "if anyone asks what changes for us" 기술 논의를 팀의 행동 하나로 끝내면 대화가 남는다.
 
+
+
+## Words
+| barely a change | /ˈbɛrli ə tʃeɪndʒ/ | 거의 변화가 없다 |
+| inclusion latency | /ˌɪnˈkluʒən ˈleɪtənsi/ | 포함 지연 |
+| different project | /ˈdɪfɚənt ˈprɑdʒɛkt/ | 별개의 프로젝트 |
+
 ## Expressions
 | Faster, yes. Fast, no. | 더 빠르긴 하다. 빠르진 않다. |
 | the epoch stays thirty-two slots | 에포크는 32슬롯 그대로다 |

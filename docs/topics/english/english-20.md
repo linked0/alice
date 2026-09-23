@@ -30,6 +30,14 @@ Jay: Then it's a cache with a freshness check, which is the only kind of copy I 
 2. **비용을 편집이 아니라 디버깅으로 말한다.** "the day we edit five and debug the sixth" 중복의 진짜 비용은 작업량이 아니라 불일치다.
 3. **반론을 설계에 흡수한다.** "Good catch. Then rabbit copies the file and says… rails is canonical." 배포 제약을 인정하고 원칙을 지키는 형태를 찾는다.
 
+
+
+## Words
+| overkill | /ˈoʊvɚˌkɪl/ | 과한 것 |
+| deploys from source | /dɪˈplɔɪz frʌm sɔrs/ | 소스에서 배포한다 |
+| good catch | /ɡʊd kætʃ/ | 잘 잡았다 |
+| canonical | /kəˈnɑnəkəl/ | 정본인 |
+
 ## Expressions
 | six places and two are wrong | 여섯 곳, 그중 둘은 틀림 |
 | overkill | 과한 것 |

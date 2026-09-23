@@ -28,6 +28,13 @@ Jay: "I have another offer expiring Friday. Can you tell me where I stand by Thu
 1. **상태를 이름 붙이고, 그 상태의 비용을 두 절로 말한다.** "They're keeping me in limbo — I can't accept…, and I can't plan around…" — 왜 애매함이 문제인지가 바로 드러난다.
 2. **애매한 상태는 기한을 제시해 끝낸다.** "Can you tell me where I stand by Thursday?" — 상대를 비난하지 않고 답을 강제하는 문장이다.
 
+
+
+## Words
+| string someone along | /strɪŋ ˈsʌmˌwʌn əˈlɔŋ/ | 헛된 희망을 주며 끌고 가다 |
+| where I stand | /wɛr aɪ stænd/ | 내가 어떤 상황인지 |
+| plan around X | /plæn ɚˈaʊnd ɛks/ | X를 전제로 계획을 세우다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

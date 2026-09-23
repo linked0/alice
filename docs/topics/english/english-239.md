@@ -28,6 +28,13 @@ Jay: Understood. I'll take them after lunch and note how the week goes.
 1. **-ing와 -ed 형용사는 원인과 사람으로 나눠 확인한다.** "The tablets are nauseating and I'd be nauseated" — 약국이나 병원에서 그대로 쓸 수 있는 확인 문장이다.
 2. **부작용 상담은 기한과 다음 행동을 함께 묻는다.** "And if it doesn't settle by then?" — 언제까지 기다리고 언제 연락할지가 핵심이다.
 
+
+
+## Words
+| nauseate | /ˈnɔziˌeɪt/ | 메스껍게 하다 |
+| nauseating | /ˈnɔʒiˌeɪtɪŋ/ | 메스껍게 하는 / 메스꺼운 |
+| settle | /ˈsɛtəl/ | (증상이) 가라앉다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

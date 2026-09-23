@@ -28,6 +28,12 @@ Jay: Exactly. Without the "and", you'd hear "Kim on deadline day" as one thing, 
 1. **예외가 둘이면 "and"로 병렬하고 각각 쉼표로 끊는다.** "Except, perhaps, for Kim, and on deadline day" — "and"가 없으면 "마감일의 Kim"으로 붙어 읽힌다.
 2. **확실성이 다른 예외는 다른 단어로 표시하고, 되물으면 이유를 말한다.** Kim에게는 "perhaps", 마감일에는 단정. "out of habit, so I said 'perhaps'"처럼 단어 선택의 이유가 곧 설명이 된다.
 
+
+
+## Words
+| leave on time | /liv ɑn taɪm/ | 칼퇴하다 |
+| work overtime | /wɝk ˈoʊvɚˌtaɪm/ | 야근하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

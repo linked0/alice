@@ -28,6 +28,12 @@ Jay: I wrote them on the whiteboard, grouped them into three themes, and answere
 1. **단어의 원래 이미지를 인정하면서 감정 판단은 분리한다.** "That's exactly the image. … Nobody was hostile" — barrage가 양을 말하지 적의를 말하는 게 아님을 한 줄로 정리한다.
 2. **압박 상황을 말할 때는 대처법을 동사 셋으로 끝낸다.** "wrote them …, grouped them …, and answered the themes" — 힘들었다는 말 대신 행동 순서를 말하면 유능하게 들린다.
 
+
+
+## Words
+| barrage of questions | /bɚˈɑʒ ʌv ˈkwɛstʃənz/ | 질문 세례 |
+| themes | /θimz/ | 주제별로 묶다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

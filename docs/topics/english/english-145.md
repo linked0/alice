@@ -28,6 +28,16 @@ Jay: That reaction is exactly why it's worth writing down.
 1. **"보이는 것"과 "실제"를 한 문장에 나란히 놓는다.** "looks like it encompasses the operation, but it doesn't" — 리뷰어의 오해를 부정하지 않고 오해가 생기는 이유를 먼저 말한다.
 2. **설명으로 끝내지 않고 기록을 약속한다.** "I'll document that reasoning in the PR" — 코드 선택만이 아니라 이유를 남기겠다는 말이 리뷰를 닫는다.
 
+
+
+## Words
+| encompass | /ɛnˈkʌmpəs/ | 완전히 포함하다, 감싸다 |
+| outer | /ˈaʊtɚ/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
+| handler | /ˈhændlɚ/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
+| failed | /feɪld/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
+| attempt | /əˈtɛmpt/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
+| boundary | /ˈbaʊndɚi/ | 제어 흐름 경계 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Don't. It stays violent. I'd keep it for history, medicine, or that leaders
 1. **어원 한 줄이 등록을 설명한다.** "It's Latin — caput is head — so it sounds clinical." 라틴어 계열 단어가 왜 딱딱하게 들리는지 이렇게 설명하면 상대가 바로 감을 잡는다.
 2. **금지보다 허용 범위를 말한다.** "I'd keep it for history, medicine, or that leadership metaphor" — 쓰면 안 되는 자리를 나열하는 대신 쓸 수 있는 자리를 묶어 주면 대화가 부드럽다.
 
+
+
+## Words
+| decapitate | /diˈkæpəˌteɪt/ | 참수하다 |
+| firm is decapitated | /fɝm ɪz diˈkæpəˌteɪtɪd/ | 지도부가 한꺼번에 사라지다 |
+| sound clinical | /saʊnd ˈklɪnəkəl/ | 감정 없이 건조하게 들리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

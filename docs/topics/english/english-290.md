@@ -28,6 +28,13 @@ Jay: I'll park further away and walk the last stretch, then.
 1. **몸에 관한 설명은 방향을 확인하며 듣는다.** "Arteries carry blood away from the heart… is that the right way round?" 되묻는 형식이 정중하면서도 정확하다.
 2. **두 번째 뜻은 같은 대화 안에서 자연스럽게 끌어온다.** "stuck on the main artery into the city" — 비유가 앞의 설명을 되살린다.
 
+
+
+## Words
+| artery | /ˈɑrtɚi/ | 동맥 |
+| city | /ˈsɪti/ | 도심으로 들어오는 간선도로 |
+| stretch | /strɛtʃ/ | 마지막 구간은 걷다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

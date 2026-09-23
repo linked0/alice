@@ -24,6 +24,16 @@ Jay: I'll say what I'd change and why, every time. If I soften it until it means
 1. **가짜 친절을 비판하는 고정 문형.** "Reviewers who only say 'looks great' do a person a disservice" — 주어를 사람 유형으로 두면 특정인을 공격하지 않고도 문제를 말할 수 있다.
 2. **the person 자리에 both of us를 넣어 자기 몫도 진다.** "I'm doing both of us a disservice"는 조언을 훈계가 아니라 약속으로 바꾼다.
 
+
+
+## Words
+| somebody | /ˈsʌmˌbɑdi/ | 돕는 척하며 해를 끼치다 |
+| disservice | /dɪˈsɝvəs/ | 돕는 척하며 해를 끼치다 |
+| soften | /ˈsɑfən/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
+| something | /ˈsʌmθɪŋ/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
+| nothing | /ˈnʌθɪŋ/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
+| change | /tʃeɪndʒ/ | 무엇을 바꿀지와 그 이유 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

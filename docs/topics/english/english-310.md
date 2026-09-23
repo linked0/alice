@@ -28,6 +28,12 @@ Jay: Rousing is stirring — a speech that gets people on their feet, so it's ap
 1. **헤드라인 동사는 읽기용으로 익히고 말할 때는 중립어로 바꾼다.** hit out at → "pushed back hard".
 2. **형용사에 평가가 들어 있는지 확인한다.** rousing은 "큰 목소리"가 아니라 "사람을 움직인 좋은 연설"이라는 판단을 담는다.
 
+
+
+## Words
+| rousing speech | /ˈraʊzɪŋ spitʃ/ | 청중을 움직이는 열띤 연설 |
+| push back | /pʊʃ bæk/ | 사내에서 강하게 반대하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

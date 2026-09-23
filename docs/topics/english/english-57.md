@@ -28,6 +28,12 @@ Jay: Right. I'll move her onto the customer-facing bugs, where that gift pays of
 1. **사람에게 붙인 단어는 행동으로 풀어 준다.** "She's an empath" 뒤에 "Someone panics in the channel and she feels it as if it were hers"를 붙이면 단어를 몰라도 뜻이 잡힌다.
 2. **강점과 위험을 같은 문장 틀로 대비시킨다.** "great at spotting who's struggling and terrible at protecting her own evenings" — great at / terrible at을 나란히 두면 평가가 공정하게 들린다.
 
+
+
+## Words
+| empath | /ˈɛmˌpæθ/ | 공감 능력이 매우 뛰어난 사람 |
+| war room | /wɔr rum/ | 상황실(장애 대응 채널·회의) |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

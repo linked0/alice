@@ -28,6 +28,12 @@ Jay: Please. If it's in the doc, we can plan around it. If we find out later, we
 1. **"but" 대신 세미콜론으로 사실 둘을 나란히 놓으면 단서가 붙되 앞말이 깎이지 않는다.** "We work with early teams; we just don't like finding out later." — 초기 팀이 문제가 아니라 공개 시점이 문제라는 구조가 그대로 드러난다.
 2. **무엇이 문제가 아닌지를 먼저 말하고 진짜 문제를 짚는다.** "Not by itself. … What I can't work with is finding it out from a third party" — 오해를 막은 뒤 반대 이유를 한 가지로 좁힌다.
 
+
+
+## Words
+| find out | /faɪnd aʊt/ | (듣지 못한 사실을) 알아내다 |
+| up front | /ʌp frʌnt/ | 처음부터, 미리 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

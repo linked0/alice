@@ -28,6 +28,12 @@ Jay: No, it's rhetorical. It means "this was predictable", and it tells you I th
 1. **같은 수사의문문을 자리에 따라 두 판으로 준비한다.** 친구 앞에서는 "from a scumbag", 기록에는 "from someone with two missed deliveries" — 욕을 사실 서술로 바꾸면 문형은 그대로 살고 위험만 빠진다.
 2. **수사의문문이 실제로 전하는 판단을 풀어 말한다.** "It means 'this was predictable', and … we should have pulled out earlier." — 질문의 형식 뒤에 숨은 주장을 상대가 놓치지 않게 한다.
 
+
+
+## Words
+| scumbag | /ˈskʌmˌbæɡ/ | 인간말종 |
+| pull out | /pʊl aʊt/ | (계약·거래에서) 손을 떼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

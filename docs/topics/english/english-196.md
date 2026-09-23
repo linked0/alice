@@ -28,6 +28,13 @@ Jay: Nobody. I'll say in the channel that the work is covered, so she doesn't wo
 1. **긴 병가는 낙관이 아니라 넉넉한 일정으로 받는다.** "let's plan for six weeks, not two" — 나중에 다시 미루는 것보다 처음부터 여유를 두는 편이 팀에 낫다.
 2. **아픈 사람에게 필요한 건 공지 한 줄이다.** "the work is covered, so she doesn't worry from bed."
 
+
+
+## Words
+| glandular fever | /ˈɡlændʒəlɚ ˈfivɚ/ | 선열 |
+| be signed off | /bi saɪnd ɔf/ | 병가 처리되다 |
+| work is covered | /wɝk ɪz ˈkʌvɚd/ | 그 일은 처리돼 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

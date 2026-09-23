@@ -28,6 +28,13 @@ Jay: Boring wins. I'll stoop to being boring, not to lying.
 1. **"I'm not going to stoop to that"은 화내지 않고 거절하는 문장이다.** 상대의 제안을 비난하지 않으면서 내 기준만 밝힌다.
 2. **같은 동사를 농담으로 되받으면 대화가 부드럽게 닫힌다.** "I'll stoop to being boring, not to lying."처럼 -ing를 붙여 쓰면 문법도 함께 보여 준다.
 
+
+
+## Words
+| stoop to something | /stup tu ˈsʌmθɪŋ/ | ~할 만큼 수준을 낮추다 |
+| They started it | /ðeɪ ˈstɑrtɪd ɪt/ | 먼저 시작한 건 저쪽이야 |
+| I'd rather | /aɪd ˈræðɚ/ | 차라리 ~하겠다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

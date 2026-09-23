@@ -26,6 +26,15 @@ Jay: Nice to have. The .dockerignore is the blocker; the rest is polish.
 2. **"오늘은"으로 시간을 확장한다.** "Today. The Dockerfile doesn't know that." 지금은 괜찮다는 반론에 미래의 사용자를 끌어온다.
 3. **블로커와 다듬기를 구분한다.** "The .dockerignore is the blocker; the rest is polish." 상대가 무엇을 먼저 해야 하는지 분명해진다.
 
+
+
+## Words
+| list the layers | /lɪst ðə ˈleɪɚz/ | 레이어를 나열하다 |
+| exact output paths | /ɪɡˈzækt ˈaʊtˌpʊt pæðz/ | 정확한 출력 경로 |
+| nothing else | /ˈnʌθɪŋ ɛls/ | 그 외에는 아무것도 |
+| nice to have | /naɪs tu hæv/ | 있으면 좋은 것 |
+| blocker vs. polish | /ˈblɑkɚ ˈvɝsəz ˈpɑlɪʃ/ | 블로커 vs. 다듬기 |
+
 ## Expressions
 | this isn't about function | 기능 문제가 아니다 |
 | list the layers | 레이어를 나열하다 |

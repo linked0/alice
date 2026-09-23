@@ -24,6 +24,12 @@ Jay: Then I'll translate it as 외설물 and write "explicit content" in our own
 1. **원문 단어를 인용할 때와 내 문서에 쓸 때를 나눈다.** "I'll translate it as 외설물 and write 'explicit content' in our own policy" — 거친 단어는 인용으로만 다룬다.
 2. **다의어는 "여기서는 어느 뜻이냐"고 직접 묻는다.** "Is that the sense here?" — 사전 뜻 두 개를 놓고 확인하는 짧은 질문.
 
+
+
+## Words
+| smut | /smʌt/ | 외설물 |
+| explicit content | /ɪkˈsplɪsət ˈkɑntɛnt/ | 노골적인 콘텐츠 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

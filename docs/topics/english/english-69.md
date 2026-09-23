@@ -28,6 +28,12 @@ Jay: That I can sign off on. Put the cost per chain in the proposal and I'll tak
 1. **비용 반대는 농담 한 줄로 시작하고 숫자로 잇는다.** "Three archive nodes at four grand a month each? You think we're made of money?" — 단가를 먼저 되묻고 관용구를 붙이면 분위기를 유지하면서 거절이 된다.
 2. **관용구를 설명할 땐 전형적인 장면을 준다.** "It's what a parent says to a kid who wants another toy" — 어원보다 쓰이는 장면이 뉘앙스를 전달한다.
 
+
+
+## Words
+| justify it | /ˈdʒʌstəˌfaɪ ɪt/ | 근거를 대다 |
+| money | /ˈmʌni/ | 내가 돈 찍어 내는 기계야? 돈이 무한한 줄 알아? |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

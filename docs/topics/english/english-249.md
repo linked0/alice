@@ -24,6 +24,12 @@ Jay: It's a grand word for a claim with no numbers behind it. I'd only opine in 
 1. **동사 선택이 곧 논평이다.** "opined"는 said와 정보량이 같아 보여도 "이건 의견일 뿐"이라는 꼬리표를 단다. 기사에서 said/claimed/opined를 구분해 읽는 습관을 들인다.
 2. **격식어의 사용 범위를 스스로 정해 둔다.** "I'd only opine in a written report, or when I'm joking about myself" — 어디까지 쓸지 말해 두면 실수로 튀어나오지 않는다.
 
+
+
+## Words
+| opine | /oʊˈpaɪn/ | 의견을 밝히다 |
+| not a finding | /nɑt ə ˈfaɪndɪŋ/ | 발견[검증된 사실]이 아니라 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

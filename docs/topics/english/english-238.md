@@ -28,6 +28,13 @@ Jay: Rarely. In speech I'd say a long walk helps. I'd keep the balm for writing.
 1. **비유의 원뜻으로 문장의 한계를 설명한다.** "A balm soothes, it doesn't cure" — 연고라는 원뜻을 짚으면 문장이 왜 일시적 위로인지 바로 드러난다.
 2. **문어체 표현은 말할 때의 대체 표현과 짝지어 둔다.** "In speech I'd say a long walk helps" — 어조를 구분해 두면 대화에서 어색해지지 않는다.
 
+
+
+## Words
+| stay with somebody | /steɪ wɪð ˈsʌmˌbɑdi/ | (문장·장면이) 기억에 남다 |
+| troubles | /ˈtrʌbəlz/ | 근심을 달래 주는 것 |
+| soothe | /suð/ | 낫게 하는 게 아니라 달래다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

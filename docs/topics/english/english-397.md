@@ -28,6 +28,13 @@ Jay: Same spelling, different kitchen. Talk to her on Monday, not in front of me
 1. **같은 철자의 다른 뜻은 한 줄로 눌러 준다.** "Same spelling, different kitchen." 길게 설명하는 대신 농담 한 줄이 구분을 기억에 박는다.
 2. **농담으로 경계를 긋는다.** "Talk to her on Monday, not in front of me."는 항의를 가볍게 만들면서도 선은 분명히 남긴다.
 
+
+
+## Words
+| poach | /poʊtʃ/ | (인력·고객을) 빼가다 |
+| poach an idea | /poʊtʃ æn aɪˈdiə/ | 아이디어를 도용하다 |
+| salary bands | /ˈsælɚi bændz/ | 연봉 구간 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

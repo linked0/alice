@@ -28,6 +28,13 @@ Jay: Then our sprint review has a docket too, and mine has one item too many.
 1. **대조 결과는 두 목록을 나란히 읽어 준다.** "The docket says two machines and four cables. I count two machines and three cables." — 차이를 따로 설명할 필요가 없어진다.
 2. **모르는 단어는 내가 아는 맥락을 꺼내 확인한다.** "I'd only heard it in a courtroom drama"라고 말하면 상대가 나머지 뜻을 채워 준다.
 
+
+
+## Words
+| docket | /ˈdɑkət/ | 명세서 |
+| on the docket | /ɑn ðə ˈdɑkət/ | 처리 예정인 |
+| note it now | /noʊt ɪt naʊ/ | 지금 기록해 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

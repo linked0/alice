@@ -28,6 +28,12 @@ Jay: Australian and British, and informal — nothing to do with "nuts". In a me
 1. **즉답을 피할 때는 언제 답할지를 붙인다.** "Not off the top of my head" 뒤에 "Give me tonight and I'll bring you a number tomorrow"가 오면 회피로 들리지 않는다.
 2. **비격식 표현은 격식 대체어와 짝으로 익힌다.** nut it out ↔ work through the numbers.
 
+
+
+## Words
+| nut something out | /nʌt ˈsʌmθɪŋ aʊt/ | 골똘히 따져서 풀어내다 |
+| numbers | /ˈnʌmbɚz/ | 숫자를 차근차근 따지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,14 @@ Jay: That one's on the alerting config, not on any person. I'll open a ticket, b
 1. **책임 인정은 한 줄, 그다음은 바로 원인과 조치.** "That's on me. I saw the check was flaky… It wasn't." 사과를 늘어놓지 않고 판단 오류를 사실로 말한 뒤 "Revert is already up"으로 넘어간다.
 2. **"on"으로 소유를 배분한다.** "That one's on the alerting config, not on any person" — 같은 구조로 내 책임과 시스템 문제를 구분할 수 있다.
 
+
+
+## Words
+| That's on me | /ðæts ɑn mi/ | 그건 내 책임이야 |
+| that's on X | /ðæts ɑn ɛks/ | 그건 X 소관이다 |
+| flaky | /ˈfleɪki/ | 불안정한, 간헐적으로 실패하는 |
+| get paged | /ɡɛt peɪdʒd/ | 호출을 받다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

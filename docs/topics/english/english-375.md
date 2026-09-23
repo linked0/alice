@@ -24,6 +24,15 @@ Jay: It explains it, but it doesn't settle the licence. Let's just import the li
 1. **변명과 조치를 분리해서 말한다.** "It explains it, but it doesn't settle the licence" — 원인을 설명하되 책임은 따로 처리한다는 태도가 신뢰를 만든다.
 2. **전문 용어에는 평이한 풀이를 나란히 붙인다.** "cryptomnesia — I read it years ago and remembered it as my own idea."
 
+
+
+## Words
+| absorbed | /əbˈzɔrbd/ | 어디선가 흡수했나 봐 |
+| somewhere | /ˈsʌmˌwɛr/ | 어디선가 흡수했나 봐 |
+| doesn't | /ˈdʌzənt/ | 라이선스 문제는 그대로다 |
+| settle | /ˈsɛtəl/ | 라이선스 문제는 그대로다 |
+| licence | /ˈlaɪsəns/ | 라이선스 문제는 그대로다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

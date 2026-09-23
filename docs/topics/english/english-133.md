@@ -26,6 +26,14 @@ Aoife: Fine. Merge the fix, and link the refactor ticket in the description.
 1. **큰 요청은 인정부터 하고 범위를 분리한다.** "Agreed on the layering. But I'd rather not hold this one hostage to…" — 필요성은 받아들이되 이 PR의 범위 밖이라고 선을 긋는다.
 2. **"나중에"에는 날짜와 담당자를 붙여 신뢰를 만든다.** "It's ticketed for the next sprint, and I own it." — 상대의 "Not 'someday'?"에 구체적으로 답해야 분리가 회피로 들리지 않는다.
 
+
+
+## Words
+| hostage | /ˈhɑstɪdʒ/ | Y 때문에 X를 진행하지 못하게 묶어 두다 |
+| you're | /jʊr/ | 손댄 김에 |
+| ticketed | /ˈtɪkətɪd/ | 다음 스프린트 티켓으로 잡혀 있다 |
+| sprint | /sprɪnt/ | 다음 스프린트 티켓으로 잡혀 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

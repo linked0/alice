@@ -28,6 +28,14 @@ Jay: Exactly. "Believe that" already tells you whose view it is.
 1. **번역에서 범주어는 넓히지 않는다.** "The line denies one category, not illness in general" — psychosis를 '병'으로 뭉뚱그리면 원문에 없는 주장이 생긴다.
 2. **"believe that"은 주장의 소유자를 표시한다.** 문장이 사실이 아니라 누군가의 믿음임을 나타내므로, 옮길 때도 그 거리를 살려야 한다.
 
+
+
+## Words
+| psychosis | /saɪˈkoʊsəs/ | 정신병이 아니다 |
+| clinical | /ˈklɪnəkəl/ | 평가가 아닌 임상 용어 |
+| judgement | /ˈdʒʌdʒmənt/ | 평가가 아닌 임상 용어 |
+| original | /ɚˈɪdʒənəl/ | 원어 그대로 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: British English says "put my back out" — same injury, same story. I saw a
 1. **다친 경위는 -ing 절로 붙인다.** "I threw out my back trying to pick something up" — 부상과 그 동작을 한 덩어리로 말하는 패턴이다.
 2. **영국식과 미국식 변이형을 함께 익힌다.** throw out your back ↔ put your back out.
 
+
+
+## Words
+| physio | /ˈfɪzioʊ/ | 물리치료사 |
+| something | /ˈsʌmθɪŋ/ | (병원에서) 봐 달라고 하다 |
+| looked | /lʊkt/ | (병원에서) 봐 달라고 하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

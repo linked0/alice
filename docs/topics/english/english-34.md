@@ -31,6 +31,15 @@ Camille: Send me the fallback options today.
 2. **싼 대안이 실제로 사는 것을 말한다.** "The licence buys us the sentence… on the day somebody does." 비용을 정당화할 때 기능이 아니라 나쁜 날의 문장을 판다.
 3. **결정을 스펙 세 줄로 돌려준다.** "Three lines in the spec, and they're yours to write, not mine." 리뷰가 지적으로 끝나지 않고 PM이 소유하는 산출물로 끝난다.
 
+
+
+## Words
+| resolves on | /riˈzɑlvz ɑn/ | ~로 정산된다(결과가 결정된다) |
+| customer concern | /ˈkʌstəmɚ kənˈsɝn/ | 고객 쪽 우려 |
+| prints a wick | /prɪnts ə wɪk/ | 꼬리(순간 급변)를 찍다 |
+| defending someone's print | /dɪˈfɛndɪŋ ˈsʌmˌwʌnz prɪnt/ | 남의 체결가를 방어하다 |
+| the second | /ðə ˈsɛkənd/ | 초 단위로 |
+
 ## Expressions
 | resolves on | ~로 정산된다(결과가 결정된다) |
 | a customer concern | 고객 쪽 우려 |

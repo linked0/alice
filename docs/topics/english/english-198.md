@@ -28,6 +28,13 @@ Jay: Thank you. Could you confirm that by email, so we both have it in writing?
 1. **금액이 아니라 책임 소재로 말한다.** "The onus is on the landlord… not on me." — 싸게 끝내자는 제안을 원칙 문장으로 돌려 세운다.
 2. **구두 합의는 기록으로 바꿔 둔다.** "Could you confirm that by email, so we both have it in writing?"는 집, 회사 어디서나 쓰는 마무리다.
 
+
+
+## Words
+| burden of proof | /ˈbɝdən ʌv pruf/ | 입증 책임 |
+| onus | /ˈoʊnəs/ | Y를 할 책임은 X에게 있다 |
+| writing | /ˈraɪtɪŋ/ | 서면으로 남기다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

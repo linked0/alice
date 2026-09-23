@@ -28,6 +28,12 @@ Jay: Going over to your desk now. A mild tone is fine; an empty page isn't.
 1. **평가 한 단어 뒤에 곧바로 근거 하나를 붙인다.** "It's completely anodyne. Four paragraphs and not one number." — 형용사만 던지면 감정이지만 사실이 따라오면 지적이 된다.
 2. **상대가 단어를 모르면 한 줄로 정의해 준다.** "It means so inoffensive that it says nothing." 설명이 곧 요구 사항이 된다.
 
+
+
+## Words
+| not one number | /nɑt wʌn ˈnʌmbɚ/ | 숫자가 하나도 없다 |
+| something | /ˈsʌmθɪŋ/ | ~을 최종 승인하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

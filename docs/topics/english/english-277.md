@@ -26,6 +26,13 @@ Sam: Then it stays in the diff.
 1. **무례해질 수 있는 관용구는 대상이 사물인지 사람인지로 선을 긋는다.** "About a person it means you're glad they're gone" — 대상만 바뀌어도 농담이 모욕이 된다.
 2. **거절은 짧게, 이유는 한 문장으로.** "I wouldn't." 뒤에 이유를 붙이는 순서가 조언을 부드럽게 만든다.
 
+
+
+## Words
+| good riddance | /ɡʊd ˈrɪdəns/ | 속 시원하다, 잘 없어졌다 |
+| something | /ˈsʌmθɪŋ/ | 속 시원하다, 잘 없어졌다 |
+| someone's | /ˈsʌmˌwʌnz/ | 퇴사하는 날에 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Then we coordinate, because then there's something to fix. But be strict: c
 1. **회의의 목적어를 되묻는다.** "What's left to coordinate?" — 회의를 취소하자고 하기 전에 그 회의가 바꿀 것이 무엇인지 묻는다.
 2. **두 명사를 과정/상태로 갈라 정의한다.** "Coordination is getting people to match; convergence is when they already match." — 세미콜론 대구로 개념 차이를 한 문장에 넣는다.
 
+
+
+## Words
+| converge | /kənˈvɝdʒ/ | 한 점으로 모이다, 같은 결론에 이르다 |
+| coordination | /koʊˌɔrdəˈneɪʃən/ | 맞춰 가는 과정 vs 이미 같은 곳에 도달한 상태 |
+| drift apart | /drɪft əˈpɑrt/ | 서로 어긋나다, 멀어지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Thank you. "Hold onto" means don't let go, which is the whole point on a we
 1. **경고는 "언제까지"를 붙이면 잔소리가 아니라 안내가 된다.** "with both hands until we're past the bridge"가 범위를 정해 준다.
 2. **한국어와 수·단어가 다른 명사는 짝을 함께 외운다.** handlebars(자전거)와 steering wheel(자동차)을 한 문장에 넣어 두면 헷갈리지 않는다.
 
+
+
+## Words
+| steering wheel | /ˈstɪrɪŋ wil/ | 자동차 핸들 |
+| it narrows there | /ɪt ˈnɛroʊz ðɛr/ | 거기서 길이 좁아진다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

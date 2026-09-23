@@ -31,6 +31,15 @@ Jay: That's exactly what I meant. Walk me through it.
 2. **좁고 기한 있는 요청.** "for the next three months… tell me when I'm about to break something. Not in the meeting. Before the meeting." "도와 달라"는 거절할 수 없어 무의미하고, 구체적인 요청은 수락할 수 있어 의미가 있다.
 3. **대가를 먼저 낸다, 구체적으로.** "I'll get you the two engineers and the quarter… I'll say the reconciliation system was yours." 권한(자원)과 공개적 인정. 둘 다 리드만 줄 수 있는 것이고, 아첨은 아무도 못 사는 것.
 
+
+
+## Words
+| obvious thing | /ˈɑbviəs θɪŋ/ | 뻔한 것, 모두 아는 것 |
+| mostly | /ˈmoʊstli/ | 대체로 |
+| something narrower | /ˈsʌmθɪŋ ˈnɛroʊɚ/ | 더 좁은 것 |
+| unpaid consulting | /ənˈpeɪd kənˈsʌltɪŋ/ | 무급 컨설팅 |
+| here's my side | /hɪrz maɪ saɪd/ | 내 쪽 이야기는 이렇다 |
+
 ## Expressions
 | the obvious thing | 뻔한 것, 모두 아는 것 |
 | passed over for a role | 자리에서 밀리다 |

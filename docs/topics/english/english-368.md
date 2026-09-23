@@ -24,6 +24,12 @@ Jay: Random would mean she has no taste. Eclectic says she has one and it's wide
 1. **비슷해 보이는 두 단어를 뜻의 차이로 갈라 준다.** "Random would mean she has no taste. Eclectic says she has one and it's wide." — 반대말을 먼저 정의해 대비시키는 설명법.
 2. **취향을 말하는 틀 "eclectic tastes in + 분야".** taste는 복수로, 분야 앞에는 in을 쓴다.
 
+
+
+## Words
+| shop for somebody | /ʃɑp fɔr ˈsʌmˌbɑdi/ | ~에게 줄 것을 고르다 |
+| it's a compliment | /ɪts ə ˈkɑmpləmɛnt/ | 그건 칭찬이다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

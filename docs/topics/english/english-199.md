@@ -28,6 +28,14 @@ Jay: Then I'll write the case and let her put her name on it.
 1. **무거운 물건은 "가늠 → 판단 → 도구"의 순서로 말한다.** "I hefted it and my back said no, so let's get the trolley." — 무리하지 않겠다는 말을 가볍게 하는 법이다.
 2. **한 단어의 구체적 뜻과 비유적 뜻을 한 대화에 나란히 둔다.** 물건의 heft와 사람 이름의 heft를 이어 붙이면 비유가 저절로 이해된다.
 
+
+
+## Words
+| heft something | /hɛft ˈsʌmθɪŋ/ | 무게를 가늠하며 들어 보다 |
+| carry heft | /ˈkæri hɛft/ | ~에게 영향력이 있다. "Her name carries more heft with finance." |
+| hefty | /ˈhɛfti/ | 묵직한, 상당한 |
+| Good call | /ɡʊd kɔl/ | 잘 판단했다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

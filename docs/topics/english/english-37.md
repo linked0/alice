@@ -33,6 +33,12 @@ Jay: On purpose. If we agree on 150, the p99 rule and the handover, the boxes al
 2. **평균을 인정하고 꼬리로 옮긴다.** "Then the mean is fine and the spikes are the design." 반박이 아니라 초점 이동. Eng #35와 같은 수.
 3. **사람을 아키텍처보다 먼저 놓는다.** "The person standing next to the patient." 안전장치를 사람으로 말하면 설계가 책임을 알고 있다고 들린다.
 
+
+
+## Words
+| holds position | /hoʊldz pəˈzɪʃən/ | 자세를 유지한다(동작을 멈춘다) |
+| loses authority | /ˈluzəz əˈθɔrəti/ | 권한을 잃는다 |
+
 ## Expressions
 | the budget, not the boxes | 상자(구성 요소)가 아니라 예산부터 |
 | allocate it across those stages | 그 단계들에 배분하다 |

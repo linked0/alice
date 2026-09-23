@@ -28,6 +28,12 @@ Jay: Then it was already down and the sentence stops being about a change.
 1. **결과 구문의 어순을 세 예로 묶어 외운다.** "Shake it loose, wipe it clean, push it open." 같은 틀을 세 번 반복하면 어순이 몸에 남는다.
 2. **형용사의 자리가 뜻을 바꾼다는 걸 확인한다.** "her loose hair"와 "shook her hair loose"의 차이 — 상태 묘사인가, 변화 서술인가.
 
+
+
+## Words
+| table | /ˈteɪbəl/ | 탁자를 닦아 깨끗하게 하다 |
+| open | /ˈoʊpən/ | 문을 밀어서 열다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|
