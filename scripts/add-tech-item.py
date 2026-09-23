@@ -28,7 +28,7 @@ from notes_numbering import display, position  # section bases: Tech 1, Theory 5
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 500, Invest 800, Life 900)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
-ap.add_argument("--status", default="new", help="planned | done | recent (= RECENTLY DONE, deep green for the newest done-day and the one before it, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
+ap.add_argument("--status", default="new", help="planned | done | recent (= RECENTLY DONE, blue for the newest done-day and the one before it, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
@@ -39,7 +39,7 @@ ap.add_argument("--raw", help="source file (paste, fetched text, briefing) copie
 ap.add_argument("--sentence", help="with --bin converse: the one sentence you could say in an interview; appended to docs/topics/interview-bank.md")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#15803d", "RECENTLY DONE"), "lately": ("#15803d", "RECENTLY DONE"), "today": ("#15803d", "RECENTLY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#0284c7", "RECENTLY DONE"), "lately": ("#0284c7", "RECENTLY DONE"), "today": ("#0284c7", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")

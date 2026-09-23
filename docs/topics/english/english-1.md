@@ -4,8 +4,9 @@ situation: Priya's PR adds an admin pause to Verex settlement. The feature is ne
 situation_ko: Priya의 PR이 Verex 정산에 관리자 일시정지를 추가한다. 기능은 필요하지만, 누가 스위치를 쥐는지와 무엇이 다시 켜는지가 PR에 없다.
 why: The most useful review move in this genre: agree with the feature in two words, then ask for the paperwork without sounding like a block.
 why_ko: 이 장르에서 가장 유용한 리뷰 기술. 두 단어로 기능에 동의한 뒤, 막는 것처럼 들리지 않게 문서를 요구한다.
-status: recent
-done: 2026-09-18T15:08+09:00
+status: done
+dones: 2026-09-18T15:08+09:00, 2026-09-21T09:30:00+09:00, 2026-09-23T11:06:00+09:00
+done: 2026-09-23T11:06:00+09:00
 
 ## Dialogue
 Priya: This adds a pause so we can stop settlement if the oracle goes bad. I think it's uncontroversial.

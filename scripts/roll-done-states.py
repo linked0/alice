@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """Apply the RECENTLY DONE rule (jay, 2026-09-23) to docs/topics/_nav.js and docs/notes.html.
 
-Rule: an item marked done is "RECENTLY DONE" (deep green, #15803d) while its done-day is either the newest
+Rule: an item marked done is "RECENTLY DONE" (blue, #0284c7) while its done-day is either the newest
 done-day or the one before it; older buckets, and items with no `done` time, are plain DONE (#22c55e).
 A day starts at 06:00 KST ("done from the 6 a.m. today before the new day's first one is done"), so every
 item carries `done` (ISO time, +09:00) and the day bucket is (done - 6h).date(). Each new day's first done
 item rolls everything one step: RECENTLY → RECENTLY → DONE.
 
-Was TODAY DONE (midnight blue) + YESTERDAY DONE (sky blue) until 2026-09-23, when jay merged them:
-"too many colors are confusing so Merge Yesterday and Today as Recently and remove blue that could be
-used later for more important mark". Two done-states differing only by a day cost two hues and told the
-rail nothing a date does not; one state in the DONE hue, a shade deeper, says the same thing with no new
-colour. Blue (#191970, #38bdf8, and the #0284c7 that Theory/Invest used for DONE) is now unused across the
-whole status palette and is reserved for a future stronger-than-IMPORTANT mark. DONE is one colour in every
-section as a result.
+Was TODAY DONE (midnight blue #191970) + YESTERDAY DONE (sky blue #38bdf8) until 2026-09-23, when jay
+merged them: "too many colors are confusing so Merge Yesterday and Today as Recently". Two done-states
+differing only by a day cost two hues and told the rail nothing the `done YYYY-MM-DD` chip does not.
+The merged state was first drawn a deep green (#15803d) to keep recency inside the DONE hue and free blue
+entirely; jay then chose blue for it after all ("How about use blue for recently except the revisit"), so
+RECENTLY DONE is #0284c7 and REVISIT keeps its purple. Net effect: one blue instead of two, and DONE is
+one colour in every section, since the #0284c7 Theory/Invest used for DONE moved to #22c55e on the way
+through. #191970 and #38bdf8 stay unused.
 
 REVISIT (purple, #a855f7; jay, 2026-09-21) is a done item kept for a later reminder: it is never relabelled here and counts as done.
 Also syncs every rail dot in notes.html (colour + title) with _nav.js and removes duplicate rail entries.
@@ -22,7 +23,7 @@ Run by scripts/add-tech-item.py after each change; safe to run alone at any time
 import json, re, pathlib, subprocess, sys, datetime
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 DONE_COLOR = dict.fromkeys(("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest", "nav-sec-mindset", "nav-sec-english"), "#22c55e")   # one DONE colour everywhere (jay, 2026-09-23): Theory/Invest used #0284c7, and blue is now reserved
-RECENT = ("#15803d", "RECENTLY DONE")
+RECENT = ("#0284c7", "RECENTLY DONE")
 # One colour per label, enforced on every run (jay, 2026-09-23: "too many colors are confusing").
 # Six Theory items were still #0284c7 and one Invest item #f59e0b — drift from hand edits and older
 # generators, invisible in any single page but exactly what makes a palette feel noisy.

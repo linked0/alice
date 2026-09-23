@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-23 14:30 KST",
+"generated": "2026-09-23 14:36 KST",
 "counts": {
 "Tech": 298,
 "Theory": 189,
@@ -14595,7 +14595,7 @@
 "position": 1,
 "title_en": "Trickle-down chiponomics",
 "tag": "Article",
-"done": "2026-09-21T22:47:20+09:00",
+"done": "2026-09-23T11:05:00+09:00",
 "type": "Article",
 "date": "2026-09-21",
 "title_ko": "Trickle-down chiponomics — AI 호황의 낙수효과, 대만과 한국이 주는 힌트"
@@ -14605,11 +14605,11 @@
 "section": "Eng",
 "key": "english-1",
 "href": "english-1.html",
-"status": "DONE",
+"status": "RECENTLY DONE",
 "position": 2,
 "title_en": "The function is fine. Who can call it?",
 "tag": "Review",
-"done": "2026-09-18T15:08+09:00",
+"done": "2026-09-23T11:06:00+09:00",
 "type": "Review",
 "date": "2026-09-16",
 "title_ko": "함수는 괜찮다. 누가 호출하나?"

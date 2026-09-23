@@ -44,7 +44,7 @@ NOTES = ROOT / "notes.html"
 NAVJS = ROOT / "topics" / "_nav.js"
 TEMPLATE = ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html"
 SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "Eng"   # label shortened (jay, 2026-09-18: "English to Eng"); ids unchanged
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#15803d", "RECENTLY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#0284c7", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
 

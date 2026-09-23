@@ -32,7 +32,7 @@
                'nav-sec-mindset': 1801, 'nav-sec-english': 2001 };
   var RANK = { 'REVISIT': -1, 'DONE': 0, 'RECENTLY DONE': 0, 'YESTERDAY DONE': 0, 'TODAY DONE': 0,
                'IMPORTANT': 1, 'NEW': 2, 'PLANNED': 3, 'LOCKED': 9 };
-  var SET = { planned: ['#64748b', 'PLANNED'], done: ['#22c55e', 'DONE'], recent: ['#15803d', 'RECENTLY DONE'],
+  var SET = { planned: ['#64748b', 'PLANNED'], done: ['#22c55e', 'DONE'], recent: ['#0284c7', 'RECENTLY DONE'],
               important: ['#ef4444', 'IMPORTANT'], new: ['#eab308', 'NEW'], revisit: ['#a855f7', 'REVISIT'] };
   var CHOICES = ['done', 'revisit', 'important', 'planned'];
 
