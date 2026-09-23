@@ -15,7 +15,9 @@ stays the single source of truth and the published site is regenerated from it.
 Statuses: planned | new | important | done | recent | revisit
   recent  = done today (RECENTLY DONE, blue; stays for two done-days, then rolls to DONE)
   done    = done, let roll-done-states.py decide the shade from the stamp
-  revisit = done but come back to it (purple, sorts first, counts as done)
+  revisit = done but come back to it (purple, sorts first, counts as done). It is sticky: marking a
+            REVISIT item done again keeps REVISIT and records another pass, because REVISIT means done
+            AND still matters. Use --clear-revisit to drop it to plain DONE.
 A stamp (`done:` / `"done"`) is written for done/recent/revisit and removed for the other three, because
 roll-done-states.py buckets the day from that stamp.
 
@@ -51,6 +53,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True, help="the item key as it appears in _nav.js (Eng keys look like english-398)")
 ap.add_argument("--status", required=True, choices=sorted(COLORS))
 ap.add_argument("--done-at", help="ISO time with +09:00; default now (KST). Ignored for planned/new/important")
+ap.add_argument("--clear-revisit", action="store_true", help="allow a REVISIT item to fall back to plain DONE; without it, marking a REVISIT item done keeps REVISIT and only records the pass (jay, 2026-09-23)")
 ap.add_argument("--dry-run", action="store_true")
 A = ap.parse_args()
 
@@ -67,8 +70,18 @@ sec, item = found[0]
 if item["label"] == "LOCKED":
     sys.exit(f"{A.key} is a Health item and is locked; its text is not in the repo")
 
+# REVISIT is sticky under a done pass (jay, 2026-09-23: "If I set the done again for the number 3 but it
+# should remain revisit … so it should be the same format to the done like set the number like DONE items
+# that is done several times"). REVISIT means done AND still matters, so reading it again is another pass,
+# not a demotion — the count goes up and the purple stays. Pass --clear-revisit to actually drop it to DONE.
+# This lives here rather than in the overlay so the web Edit buttons, which only queue `done`, get the same
+# answer as the command line: the queue says what was pressed, this decides what it means.
+_sticky = item["label"] == "REVISIT" and A.status in ("done", "recent") and not A.clear_revisit
+if _sticky: A.status = "revisit"
+
 title = re.sub(r"<[^>]+>", "", item.get("text", ""))[:70]
-print(f"{A.key}  [{sec['navId']}]  {item['label']} -> {COLORS[A.status][1]}   {title}")
+print(f"{A.key}  [{sec['navId']}]  {item['label']} -> {COLORS[A.status][1]}"
+      + ("   (REVISIT kept; pass recorded)" if _sticky else "") + f"   {title}")
 if A.dry_run:
     sys.exit(0)
 

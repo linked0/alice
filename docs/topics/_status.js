@@ -104,6 +104,12 @@
       var base = BASE[sec.navId];
       sec.items.forEach(function (it) {
         var s = pending[it.key];
+        // REVISIT is sticky under a done pass, the same rule scripts/set-status.py applies when the queue
+        // is drained (jay, 2026-09-23). Pressing Done on a REVISIT item is "I read it again", not "it stopped
+        // mattering", so the purple and the position stay and only the pass count moves — and the count moves
+        // at the drain, because this page cannot know the item's previous done-day. Without this the dot turned
+        // green here and purple again after the rebuild, which is the worst of both.
+        if (s === 'done' || s === 'recent') { if (it.label === 'REVISIT') s = 'revisit'; }
         if (s && SET[s] && it.label !== SET[s][1]) { it.color = SET[s][0]; it.label = SET[s][1]; it.overlaid = true; }
         else it.overlaid = !!(s && SET[s] && it.overlaid);
         if (s) pendingCount++;

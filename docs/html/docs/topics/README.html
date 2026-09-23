@@ -246,6 +246,12 @@ done &lt; IMPORTANT &lt; NEW &lt; PLANNED</strong>. Marking an item REVISIT ther
 <li><strong>Rail button:</strong> row 2 is now <strong>Revisit · Repeated · Recently</strong> (the Done button was removed on 2026-09-21, jay: &quot;I don&#39;t think I need the Done button&quot;; plain DONE items are reached through All), the Revisit button first — on the list page, on
 every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
 template <code>scripts/rtd-shell.mjs</code>. It shows REVISIT only.</li>
+<li><strong>REVISIT is sticky under a done pass</strong> (jay, 2026-09-23: &quot;If I set the done again for the number 3 but it should
+remain revisit … so it should be the same format to the done like set the number like DONE items that is done
+several times&quot;). Pressing <strong>Done</strong> on an item that is already REVISIT means &quot;I read it again&quot;, not &quot;it stopped
+mattering&quot;: the label, the purple and the position all stay, and the pass count goes up. <code>set-status.py</code> applies
+the rule when the queue is drained and <code>_status.js</code> mirrors it so the dot does not turn green in the browser and
+purple again after the rebuild. To genuinely drop a REVISIT item to plain DONE, pass <code>--clear-revisit</code>.</li>
 <li><strong>From the Edit buttons, on a phone or another browser.</strong> The status overlay (<code>docs/topics/_status.js</code>) offers
 <code>CHOICES = [&#39;done&#39;, &#39;revisit&#39;, &#39;important&#39;, &#39;planned&#39;]</code>, so REVISIT is one tap on the detail page. <strong>A pass is
 recorded per done-day, not per tap</strong> — pressing Revisit twice in one sitting keeps one entry and only moves its
