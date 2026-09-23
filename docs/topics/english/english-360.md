@@ -30,11 +30,12 @@ Jay: Manner and voice both. He has a gruff voice too, so it sounds worse than it
 
 
 
+
+
+
 ## Words
 | gruff | /ɡrʌf/ | 걸걸한; 퉁명스러운 |
-| gruff but kind | /ɡrʌf bʌt kaɪnd/ | 무뚝뚝해도 속은 따뜻한 |
-| no malice underneath | /noʊ ˈmæləs ˌʌndɚˈniθ/ | 속에 악의는 없는 |
-| small talk | /smɔl tɔk/ | 잡담 |
+| malice | /ˈmæləs/ | 속에 악의는 없는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

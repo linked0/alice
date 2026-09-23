@@ -30,9 +30,11 @@ Jay: It does. I'll keep abnegation for essays and say "gave up a lot" when I'm t
 
 
 
+
+
+
 ## Words
 | abnegation | /ˌæbnɛˈɡeɪʃən/ | 자기 욕구의 포기, 극기 |
-| praise | /preɪz/ | 칭찬이 단어에 이미 들어 있다 |
 | stumble | /ˈstʌmbəl/ | (읽다가) 한 단어에서 걸리다 |
 
 ## Expressions

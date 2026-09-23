@@ -32,11 +32,16 @@ Jay: Then it's a cache with a freshness check, which is the only kind of copy I 
 
 
 
+
+
+
 ## Words
+| deploys | /dɪˈplɔɪz/ | 소스에서 배포한다 |
+| debug | /diˈbʌɡ/ | 다섯을 고치고 여섯 번째를 디버깅하다 |
 | overkill | /ˈoʊvɚˌkɪl/ | 과한 것 |
-| deploys from source | /dɪˈplɔɪz frʌm sɔrs/ | 소스에서 배포한다 |
-| good catch | /ɡʊd kætʃ/ | 잘 잡았다 |
+| freshness | /ˈfrɛʃnəs/ | 신선도 검사가 있는 캐시 |
 | canonical | /kəˈnɑnəkəl/ | 정본인 |
+| cache | /kæʃ/ | 신선도 검사가 있는 캐시 |
 
 ## Expressions
 | six places and two are wrong | 여섯 곳, 그중 둘은 틀림 |

@@ -30,9 +30,11 @@ Jay: No. It sounds like we think they are helpless. We just say "office hours".
 
 
 
+
+
 ## Words
-| office hours | /ˈɔfɪs ˈaʊɚz/ | 정해진 시간에 열어 두는 질의 시간 |
-| hand something over | /hænd ˈsʌmθɪŋ ˈoʊvɚ/ | ~을 인계하다 |
+| office | /ˈɔfɪs/ | 정해진 시간에 열어 두는 질의 시간 |
+| hours | /ˈaʊɚz/ | 정해진 시간에 열어 두는 질의 시간 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

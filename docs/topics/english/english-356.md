@@ -30,10 +30,11 @@ Jay: A card, maybe. Not a group visit. I'd never use that word to her face eithe
 
 
 
+
+
 ## Words
-| leave it there | /liv ɪt ðɛr/ | 거기서 그만두다 |
-| something | /ˈsʌmθɪŋ/ | ~때문에 깊은 슬픔에 잠긴 |
 | personally | /ˈpɝsənəli/ | 기분 나쁘게 받아들이지 마라 |
+| leave | /liv/ | 거기서 그만두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

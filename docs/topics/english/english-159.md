@@ -30,9 +30,11 @@ Jay: Please. If it's in the doc, we can plan around it. If we find out later, we
 
 
 
+
+
 ## Words
-| find out | /faɪnd aʊt/ | (듣지 못한 사실을) 알아내다 |
-| up front | /ʌp frʌnt/ | 처음부터, 미리 |
+| finding | /ˈfaɪndɪŋ/ | 나중에야 알게 되는 게 싫을 뿐이다 |
+| front | /frʌnt/ | 처음부터, 미리 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

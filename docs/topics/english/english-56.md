@@ -30,9 +30,12 @@ Jay: That if I'm knee-deep in something for six months with no way out, that's a
 
 
 
+
+
+
 ## Words
-| inversion | /ˌɪnˈvɝʒən/ | 장소·상태를 앞에, 주어를 맨 뒤에 놓는 문학적 도치 |
 | clutches | /ˈklʌtʃəz/ | ~의 손아귀에 붙잡혀 |
+| inversion | /ˌɪnˈvɝʒən/ | 장소·상태를 앞에, 주어를 맨 뒤에 놓는 문학적 도치 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

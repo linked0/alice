@@ -30,9 +30,12 @@ Jay: Never. In a standup I'd say he got a talking-to. Castigation belongs in the
 
 
 
+
+
+
 ## Words
-| castigate somebody | /ˈkæstəˌɡeɪt ˈsʌmˌbɑdi/ | ~를 혹독하게 비난하다 |
-| waive a review | /weɪv ə ˌriˈvju/ | 검토를 면제하다 |
+| castigate | /ˈkæstəˌɡeɪt/ | ~를 혹독하게 비난하다 |
+| waive | /weɪv/ | 검토를 면제하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

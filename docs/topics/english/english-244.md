@@ -26,6 +26,9 @@ Jay: Good. I kept saying tendon, but a tendon joins muscle to bone and a ligamen
 
 
 
+
+
+
 ## Words
 | ligament | /ˈlɪɡəmənt/ | 인대, 뼈와 뼈를 잇는 조직 |
 | sprain | /spreɪn/ | 인대를 삐다 / 파열하다 |

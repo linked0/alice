@@ -30,10 +30,10 @@ Jay: "I have another offer expiring Friday. Can you tell me where I stand by Thu
 
 
 
+
+
 ## Words
-| string someone along | /strɪŋ ˈsʌmˌwʌn əˈlɔŋ/ | 헛된 희망을 주며 끌고 가다 |
-| where I stand | /wɛr aɪ stænd/ | 내가 어떤 상황인지 |
-| plan around X | /plæn ɚˈaʊnd ɛks/ | X를 전제로 계획을 세우다 |
+| limbo | /ˈlɪmboʊ/ | 확답 없이 계속 애매한 상태로 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

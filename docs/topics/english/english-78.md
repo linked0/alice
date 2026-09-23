@@ -28,9 +28,10 @@ Mateo: Then stop racking and start shipping. Build the thing you complained abou
 
 
 
+
+
 ## Words
-| rack your brain | /ræk jɔr breɪn/ | 머리를 쥐어짜다, 골똘히 생각하다 |
-| figure out | /ˈfɪɡjɚ aʊt/ | 알아내다, 답을 찾다 |
+| verb | /vɝb/ | 어떤 X를 ~할지 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

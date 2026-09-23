@@ -30,9 +30,11 @@ Jay: To me, sure. In the retro, say "gave it a tough review". Roast makes it sou
 
 
 
+
+
 ## Words
-| roast somebody | /roʊst ˈsʌmˌbɑdi/ | ~를 (어떤 점으로) 신랄하게 놀리다 |
-| That tracks | /ðæt træks/ | 말이 되네, 앞뒤가 맞네 |
+| roast | /roʊst/ | ~를 (어떤 점으로) 신랄하게 놀리다 |
+| expense | /ɪkˈspɛns/ | 너를 소재로 한 농담 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

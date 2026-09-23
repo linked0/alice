@@ -30,10 +30,12 @@ Jay: Then next time I'll come on a session day and keep him company while he's o
 
 
 
+
+
+
 ## Words
-| be on dialysis | /bi ɑn daɪˈæləsəs/ | 투석을 받고 있다 |
-| dialysis unit | /daɪˈæləsəs ˈjunət/ | 투석실 |
-| keep someone company | /kip ˈsʌmˌwʌn ˈkʌmpəˌni/ | 말동무가 되어 주다 |
+| dialysis | /daɪˈæləsəs/ | 투석을 받고 있다 |
+| transplant | /trænˈsplænt/ | 이식까지 버티는 임시 조치 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,12 @@ Jay: See, you already know the verb.
 
 
 
+
+
+
 ## Words
 | muck | /mʌk/ | 가축 분뇨·오물·진흙 |
-| muck out | /mʌk aʊt/ | 마구간을 치우다 |
-| muck about | /mʌk əˈbaʊt/ | 빈둥거리다, 장난치다 |
-| scrape off | /skreɪp ɔf/ | 긁어내다 vs 털어내다 |
+| scrape | /skreɪp/ | 긁어내다 vs 털어내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,10 @@ Jay: It repeats the verb to raise the stakes: not only the people, but the gods 
 
 
 
+
+
 ## Words
-| be pitted against | /bi ˈpɪtɪd əˈɡɛnst/ | ~와 맞붙게 되다 |
-| raise the stakes | /reɪz ðə steɪks/ | 판을 키우다 |
+| pitted | /ˈpɪtɪd/ | ~와 맞붙게 되다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

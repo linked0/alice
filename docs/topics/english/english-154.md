@@ -30,13 +30,13 @@ Jay: Right. Walk through and you can't walk back. A two-way door you can come ba
 
 
 
+
+
+
 ## Words
-| one-way door | /ˌwʌnˈweɪ dɔr/ | 되돌릴 수 없는 결정 / 되돌릴 수 있는 결정 |
-| two-way | /ˈtuˌweɪ/ | 되돌릴 수 없는 결정 / 되돌릴 수 있는 결정 |
 | asymmetry | /ˌeɪˈsɪmətri/ | 그 비대칭이 내 주장의 전부다 |
-| argument | /ˈɑrɡjəmənt/ | 그 비대칭이 내 주장의 전부다 |
-| undo | /ənˈdu/ | 되돌릴 수 있는 위험 |
 | revisit | /riˈvɪzɪt/ | 한 분기 뒤에 다시 검토하다 |
+| undo | /ənˈdu/ | 되돌릴 수 있는 위험 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

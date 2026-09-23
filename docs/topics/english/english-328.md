@@ -30,9 +30,10 @@ Jay: Not yet, with a nudge that it should have happened already. We broke the ba
 
 
 
+
+
 ## Words
-| rest is cleanup | /rɛst ɪz ˈkliˌnʌp/ | 나머지는 뒷정리다 |
-| something | /ˈsʌmθɪŋ/ | ~의 고비를 넘기다 |
+| cleanup | /ˈkliˌnʌp/ | 나머지는 뒷정리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

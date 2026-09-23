@@ -30,13 +30,15 @@ Jay: No, it's on a state file. Only the listener changes. I'll do it after the c
 
 
 
+
+
+
 ## Words
-| no auth | /noʊ ɔθ/ | 인증 없음 |
+| auth | /ɔθ/ | 인증 없음 |
 | Anvil | /ˈænvəl/ | 내 폰에서 당신의 Anvil에 접근하다 |
-| open | /ˈoʊpən/ | 무엇이든 열기 전에 |
-| anything | /ˈɛniˌθɪŋ/ | 무엇이든 열기 전에 |
-| themselves | /ðɛmˈsɛlvz/ | 자기에게 백만을 찍다 |
-| million | /ˈmɪljən/ | 자기에게 백만을 찍다 |
+| interfaces | /ˈɪntɚˌfeɪsɪz/ | 모든 인터페이스에서 수신한다 |
+| listener | /ˈlɪsənɚ/ | 리스너만 바뀐다 |
+| listens | /ˈlɪsənz/ | 모든 인터페이스에서 수신한다 |
 
 ## Expressions
 | hit your Anvil from my phone | 내 폰에서 당신의 Anvil에 접근하다 |

@@ -30,12 +30,10 @@ Jay: Right. Remiss of them not to inform us. Then I list the dates and ask for a
 
 
 
+
+
 ## Words
-| notice window | /ˈnoʊtəs ˈwɪndoʊ/ | 사전 통지 기간 |
 | remiss | /riˈmɪs/ | ~가 …한 것은 태만이었다 |
-| somebody | /ˈsʌmˌbɑdi/ | ~가 …한 것은 태만이었다 |
-| inform | /ˌɪnˈfɔrm/ | ~에게 …을 알리다 |
-| something | /ˈsʌmθɪŋ/ | ~에게 …을 알리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

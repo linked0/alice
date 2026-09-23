@@ -30,8 +30,9 @@ Jay: Don't. Town is fifteen minutes further, and dinner starts at seven.
 
 
 
+
+
 ## Words
-| hour behind you | /ˈaʊɚ bɪˈhaɪnd ju/ | 너보다 한 시간 뒤처져 |
 | interstate | /ˌɪntɚˈsteɪt/ | 고속도로에서 나가면 바로 |
 | exit | /ˈɛɡzɪt/ | 41번 출구로 나가다 |
 

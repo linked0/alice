@@ -30,10 +30,12 @@ Jay: Sloppy is a word for the code, not for you. I'd rather say it now than debu
 
 
 
+
+
+
 ## Words
 | sloppy | /ˈslɑpi/ | 엉성한, 대충 한 |
-| swallow an error | /ˈswɑloʊ æn ˈɛrɚ/ | 에러를 삼키다(잡고 아무것도 안 하다) |
-| could be tighter | /kʊd bi ˈtaɪtɚ/ | 좀 더 다듬을 수 있겠다 |
+| tighter | /ˈtaɪtɚ/ | 좀 더 다듬을 수 있겠다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

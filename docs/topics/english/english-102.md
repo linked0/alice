@@ -30,10 +30,15 @@ Jay: I'll post the runbook and a 15:00 window. Reply with a thumbs-up when your 
 
 
 
+
+
+
 ## Words
-| take concerted action | /teɪk kənˈsɝtəd ˈækʃən/ | 여러 쪽이 조율해 함께 행동하다 |
-| coordinated rollout | /koʊˈɔrdəneɪtɪd ˈroʊˌlaʊt/ | 조율된 배포 |
-| who conducts | /hu kənˈdʌkts/ | 지휘는 누가 해? |
+| concerted | /kənˈsɝtəd/ | 여러 쪽이 조율해 함께 행동하다 |
+| action | /ˈækʃən/ | 여러 쪽이 조율해 함께 행동하다 |
+| rollout | /ˈroʊˌlaʊt/ | 조율된 배포 |
+| conducts | /kənˈdʌkts/ | 지휘는 누가 해? |
+| coordinated | /koʊˈɔrdəneɪtɪd/ | 조율된 배포 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

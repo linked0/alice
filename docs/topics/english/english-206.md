@@ -30,9 +30,12 @@ Jay: Only as a joke. Saying our logs are good enough is blasphemy on this team.
 
 
 
+
+
 ## Words
 | blasphemy | /ˈblæsfəmi/ | 신성 모독 |
-| charge is X | /tʃɑrdʒ ɪz ɛks/ | 죄목은 X다 |
+| plain | /pleɪn/ | X를 가리키는 평범한 말 |
+| charge | /tʃɑrdʒ/ | 죄목은 X다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

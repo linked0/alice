@@ -30,6 +30,9 @@ Jay: Perfect use. Just do not hang it on a colleague who is simply energetic.
 
 
 
+
+
+
 ## Words
 | hyper | /ˈhaɪpɚ/ | 들뜬, 흥분한 |
 | hyperactive | /ˌhaɪpɚˈæktɪv/ | 과잉 행동의 |

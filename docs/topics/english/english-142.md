@@ -30,10 +30,12 @@ Jay: Seven. The eighth got whittled down further into two smaller ones this quar
 
 
 
+
+
+
 ## Words
-| whittle X down | /ˈwɪtəl ɛks daʊn/ | X를 조금씩 깎아 N까지 줄이다 |
+| whittle | /ˈwɪtəl/ | X를 조금씩 깎아 N까지 줄이다 |
 | slash | /slæʃ/ | 확 잘라 내다 |
-| judgement call | /ˈdʒʌdʒmənt kɔl/ | 판단이 필요한 결정 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,14 @@ Jay: In an opinion piece, yes. In a meeting it would sound like a speech, so I'd
 
 
 
+
+
+
 ## Words
 | rapacious | /rəˈpæʃɪs/ | 힘으로 빼앗을 만큼 탐욕스러운 |
-| loot | /lut/ | 약탈하다; 약탈품 |
 | provenance | /ˈprɑvənəns/ | (미술품의) 출처 내력 |
-| predatory fees | /ˈprɛdəˌtɔri fiz/ | 약탈적 수수료 |
+| predatory | /ˈprɛdəˌtɔri/ | 약탈적 수수료 |
+| loot | /lut/ | 약탈하다; 약탈품 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

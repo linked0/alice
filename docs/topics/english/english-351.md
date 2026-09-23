@@ -30,9 +30,12 @@ Jay: Any system you get lost inside. And it's always a complaint, never a compli
 
 
 
+
+
 ## Words
 | labyrinthine | /ˌlæbɚˈɪnˌθin/ | 미로 같은 |
-| borrow that | /ˈbɑˌroʊ ðæt/ | 그 표현 좀 쓰다 |
+| borrow | /ˈbɑˌroʊ/ | 그 표현 좀 쓰다 |
+| expression | /ɪkˈsprɛʃən/ | 그 표현 좀 쓰다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

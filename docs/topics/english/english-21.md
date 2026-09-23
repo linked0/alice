@@ -35,12 +35,10 @@ Jay: Then the pure function is the thing I keep and the storage is the thing I c
 
 
 
+
+
 ## Words
-| problem I invented | /ˈprɑbləm aɪ ˌɪnˈvɛntəd/ | 내가 만들어낸 문제 |
-| roughly | /ˈrʌfli/ | 대략 |
-| wrong versus late | /rɔŋ ˈvɝsəs leɪt/ | 잘못 대 늦음 |
-| pure function of | /pjʊr ˈfʌŋkʃən ʌv/ | ~의 순수 함수 |
-| only reversible failure | /ˈoʊnli rɪˈvɝsəbəl ˈfeɪljɚ/ | 되돌릴 수 있는 유일한 실패 |
+| reversible | /rɪˈvɝsəbəl/ | 되돌릴 수 있는 유일한 실패 |
 
 ## Expressions
 | take it wherever you like | 원하는 방향으로 가져가라 |

@@ -30,11 +30,9 @@ Jay: Apology accepted. Now forward me the link.
 
 
 
+
+
 ## Words
-| must | /mʌst/ | 분명 ~일 것이다 |
-| little | /ˈlɪtəl/ | ~를 낮게 평가하다 |
-| someone | /ˈsʌmˌwʌn/ | ~를 낮게 평가하다 |
-| highly | /ˈhaɪli/ | ~를 높이 평가하다 |
 | inference | /ˈɪnfɚəns/ | 분명 ~일 것이다 |
 
 ## Expressions

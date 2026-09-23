@@ -30,9 +30,11 @@ Jay: See, you were living it up a little. Nothing wrong with that; you gave a ta
 
 
 
+
+
 ## Words
-| live it up | /laɪv ɪt ʌp/ | 돈 쓰며 신나게 즐기다, 호화롭게 놀다 |
-| I bet | /aɪ bɛt/ | 틀림없겠네, 안 봐도 알겠다 |
+| ing | /ɪŋ/ | 과거에 한동안 분명 ~하고 있었을 것이다 |
+| bet | /bɛt/ | 틀림없겠네, 안 봐도 알겠다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,12 +26,13 @@ Jay: The neighbour commits perjury; she commits subornation for arranging it. Tw
 
 
 
+
+
+
 ## Words
-| perjury | /ˈpɝdʒɚi/ | 위증죄 |
 | witness | /ˈwɪtnəs/ | 증인을 매수해 위증하게 하다 |
+| perjury | /ˈpɝdʒɚi/ | 위증죄 |
 | accuse | /əˈkjuz/ | ~를 …혐의로 고발하다 |
-| somebody | /ˈsʌmˌbɑdi/ | ~를 …혐의로 고발하다 |
-| something | /ˈsʌmθɪŋ/ | ~를 …혐의로 고발하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

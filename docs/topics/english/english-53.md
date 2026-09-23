@@ -30,6 +30,9 @@ Jay: Keep one accent colour, that's plenty. Restraint is the brand here.
 
 
 
+
+
+
 ## Words
 | flashy | /ˈflæʃi/ | 화려한, 눈길 끌려고 치장한 |
 | showy | /ˈʃoʊi/ | 과시적인 |

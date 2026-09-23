@@ -30,9 +30,12 @@ Jay: Please do. On medical strings we match the record, not the dictionary.
 
 
 
+
+
+
 ## Words
+| tumor | /ˈtumɚ/ | 전이 종양 |
 | metastasize | /məˈtæstəˌsaɪz/ | 전이하다 |
-| clear clinical review | /klɪr ˈklɪnəkəl ˌriˈvju/ | 임상 검수를 통과하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

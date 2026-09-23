@@ -30,11 +30,10 @@ Jay: The same person. He asked for help early, which is why nothing ever got stu
 
 
 
+
+
 ## Words
-| good mixer | /ɡʊd ˈmɪksɚ/ | 사람들과 잘 섞이는 사람 |
-| easy | /ˈizi/ | 어울리기 쉽다 |
-| settle | /ˈsɛtəl/ | 팀에 자리를 잡다 |
-| early | /ˈɝli/ | 일찍 도움을 청하다 |
+| mixer | /ˈmɪksɚ/ | 사람들과 잘 섞이는 사람 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

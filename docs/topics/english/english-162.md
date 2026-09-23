@@ -30,9 +30,11 @@ Jay: One change, in the module that owns it. That's the whole point.
 
 
 
+
+
 ## Words
-| wrap | /ræp/ | 흩어진 호출을 추상화 하나 뒤로 감싸다 |
-| module owns X | /ˈmɑdʒul oʊnz ɛks/ | 모듈 하나가 X의 로직과 책임을 전담한다 |
+| module | /ˈmɑdʒul/ | 모듈 하나가 X의 로직과 책임을 전담한다 |
+| wrap | /ræp/ | wait가 아니라 wrap |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

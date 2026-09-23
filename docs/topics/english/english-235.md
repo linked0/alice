@@ -30,9 +30,14 @@ Jay: It is. I'd say it about a tactic, not about a person's belief.
 
 
 
+
+
+
 ## Words
-| wedge issue | /wɛdʒ ˈɪʃu/ | 분열 쟁점 |
+| wedge | /wɛdʒ/ | 분열 쟁점 |
+| issue | /ˈɪʃu/ | 분열 쟁점 |
 | coalition | /ˌkoʊəˈlɪʃən/ | 연합의 틈 |
+| crack | /kræk/ | 연합의 틈 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

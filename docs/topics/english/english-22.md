@@ -35,10 +35,10 @@ Jay: Monday is fine. And to be clear: if the answer is 105 and 12k, call me anyw
 
 
 
+
+
 ## Words
-| one clear ask | /wʌn klɪr æsk/ | 명확한 요청 하나 |
-| several rounds | /ˈsɛvrəl raʊndz/ | 여러 라운드 |
-| there's no ramp | /ðɛrz noʊ ræmp/ | 적응 기간이 없다 |
+| internally | /ˌɪnˈtɝnəli/ | 내부에서 그 근거를 설득하다 |
 
 ## Expressions
 | get to a yes | 예스에 도달하다 |

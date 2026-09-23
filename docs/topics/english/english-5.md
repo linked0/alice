@@ -30,9 +30,10 @@ Jay: Please do. And if the answer is no this quarter, tell me what would make it
 
 
 
+
+
 ## Words
-| justify the engineering | /ˈdʒʌstəˌfaɪ ðə ˌɛndʒəˈnɪrɪŋ/ | 엔지니어링 투입을 정당화하다 |
-| spend goodwill | /spɛnd ˌɡʊˈdwɪl/ | 호의를 소모하다 |
+| goodwill | /ˌɡʊˈdwɪl/ | 호의를 소모하다 |
 
 ## Expressions
 | justify the engineering | 엔지니어링 투입을 정당화하다 |

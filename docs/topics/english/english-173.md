@@ -30,9 +30,12 @@ Jay: Perfect. Then I'll wire the deposit as soon as I've signed.
 
 
 
+
+
 ## Words
-| shake on it | /ʃeɪk ɑn ɪt/ | 악수로 합의를 확정하다 |
-| in writing | /ɪn ˈraɪtɪŋ/ | 문서로 / 서면 계약서 |
+| shake | /ʃeɪk/ | 악수로 합의를 확정하다 |
+| lease | /lis/ | 문서로 / 서면 계약서 |
+| settled | /ˈsɛtəld/ | 확정된 것으로 보다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

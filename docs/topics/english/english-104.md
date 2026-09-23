@@ -30,10 +30,12 @@ Jay: That's the trade I'm asking for.
 
 
 
+
+
 ## Words
-| sedate place | /sɪˈdeɪt pleɪs/ | 차분하지만 조금 느린 곳 |
-| sedate someone | /sɪˈdeɪt ˈsʌmˌwʌn/ | 진정제를 놓다 |
-| well run | /wɛl rʌn/ | 운영이 잘 되는 |
+| sedate | /sɪˈdeɪt/ | 차분하지만 조금 느린 곳 |
+| asking | /ˈæskɪŋ/ | 내가 원하는 맞바꿈 |
+| trade | /treɪd/ | 내가 원하는 맞바꿈 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

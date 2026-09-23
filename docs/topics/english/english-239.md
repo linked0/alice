@@ -30,10 +30,13 @@ Jay: Understood. I'll take them after lunch and note how the week goes.
 
 
 
+
+
+
 ## Words
 | nauseate | /ˈnɔziˌeɪt/ | 메스껍게 하다 |
+| nauseated | /ˈnɔziˌeɪtəd/ | 메스껍게 하는 / 메스꺼운 |
 | nauseating | /ˈnɔʒiˌeɪtɪŋ/ | 메스껍게 하는 / 메스꺼운 |
-| settle | /ˈsɛtəl/ | (증상이) 가라앉다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -131,10 +131,11 @@ for idx, it in enumerate(items):
         if not it.get(k): return ""
         tail = f' &middot; <a href="{rawlink}">raw</a>' if rawlink else ""
         return f'<h2>{h}</h2>\n<p class="meta">{inline(it[k])}{tail}</p>\n'
-    # Words worth saying out loud, with how to say them (jay, 2026-09-22). Its own table rather than a third
-    # column on Expressions: an expression is a phrase you deploy, a word here is one you cannot yet pronounce,
-    # and merging them would have put an empty cell beside 400 items' worth of existing rows.
-    words = ('<h2>New words</h2>\n<table><thead><tr><th>Word</th><th>Say it</th><th>뜻</th></tr></thead><tbody>'
+    # Words worth saying out loud, with how to say them (jay, 2026-09-22; "only words for the Key words
+    # section", 2026-09-23). Single words only — a phrase belongs in Key expressions below. The third
+    # column says *where the word was used*, not what it means on its own: the gloss comes from the
+    # expression the word was taken from, and labelling it 뜻 would have been a small lie.
+    words = ('<h2>Key words</h2>\n<table><thead><tr><th>Word</th><th>Say it</th><th>쓰인 자리</th></tr></thead><tbody>'
              + "".join(f"<tr><td><strong>{inline(a)}</strong></td><td><code>{E(b)}</code></td><td>{inline(c)}</td></tr>"
                        for a, b, c in it["words"]) + "</tbody></table>\n") if it["words"] else ""
     expr = ('<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody>'

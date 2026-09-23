@@ -30,11 +30,10 @@ Jay: In writing is what I need. A slide is a hope; a document is a commitment.
 
 
 
+
+
 ## Words
-| pay out instantly | /peɪ aʊt ˈɪnstəntli/ | 즉시 지급하다 |
-| operating hours | /ˈɑpɚˌeɪtɪŋ ˈaʊɚz/ | 운영 시간 |
-| payment availability | /ˈpeɪmənt əˌveɪləˈbɪləti/ | 결제 가용성 |
-| stated commitment | /ˈsteɪtɪd kəˈmɪtmənt/ | 명시적 약속 |
+| workable | /ˈwɝkəbəl/ | 어떻게 하면 쓸 수 있나? |
 
 ## Expressions
 | pay out instantly | 즉시 지급하다 |

@@ -30,10 +30,11 @@ Jay: Batching. Fewer calls, not cheaper calls. That's the next proposal.
 
 
 
+
+
 ## Words
-| as it were | /æz ɪt wɝ/ | 말하자면, 이를테면 |
-| so to speak | /soʊ tu spik/ | 말하자면 |
-| shave off | /ʃeɪv ɔf/ | (조금) 깎아 내다 |
+| shave | /ʃeɪv/ | (조금) 깎아 내다 |
+| bail | /beɪl/ | 바닷물을 퍼내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

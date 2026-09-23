@@ -30,9 +30,12 @@ Jay: And check it's unregistered on chainlist before we ship anything.
 
 
 
+
+
+
 ## Words
-| break quietly | /breɪk ˈkwaɪətli/ | 조용히 깨진다 |
-| check it's unregistered | /tʃɛk ɪts ənˈrɛdʒɪstɚd/ | 미등록인지 확인하라 |
+| unregistered | /ənˈrɛdʒɪstɚd/ | 미등록인지 확인하라 |
+| concede | /kənˈsid/ | 하나 인정하겠다 |
 
 ## Expressions
 | break quietly | 조용히 깨진다 |

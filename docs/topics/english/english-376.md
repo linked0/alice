@@ -26,12 +26,11 @@ Jay: The regulator first, the customers after. If nobody holds them to account, 
 
 
 
+
+
 ## Words
-| account | /əˈkaʊnt/ | 책임을 추궁당하다 |
 | somebody | /ˈsʌmˌbɑdi/ | ~에게 책임을 묻다 |
-| answer | /ˈænsɚ/ | 공개적으로 해명하다 |
 | questions | /ˈkwɛstʃənz/ | 공개적으로 해명하다 |
-| public | /ˈpʌblɪk/ | 공개적으로 해명하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

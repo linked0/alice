@@ -28,9 +28,12 @@ Aoife: Noted. Next round's on the vendor, technically.
 
 
 
+
+
+
 ## Words
-| smooth talker | /smuð ˈtɔkɚ/ | 말솜씨로 사람을 구슬리는 사람 |
-| Goodness | /ˈɡʊdnəs/ | 어머, 세상에 |
+| round's | /raʊndz/ | 다음 잔은 X가 산다 |
+| talker | /ˈtɔkɚ/ | 말솜씨로 사람을 구슬리는 사람 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

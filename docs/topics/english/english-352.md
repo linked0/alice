@@ -30,9 +30,12 @@ Jay: Right. And "gunning for me" only sounds like this with a person, doesn't it
 
 
 
+
+
+
 ## Words
-| bawl somebody out | /bɔl ˈsʌmˌbɑdi aʊt/ | 크게 야단치다 |
-| heads up | /hɛdz ʌp/ | 미리 알려 주는 말 |
+| bawl | /bɔl/ | 크게 야단치다 |
+| gunning | /ˈɡʌnɪŋ/ | ~를 벼르다, 잡으려 들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

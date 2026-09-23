@@ -30,11 +30,9 @@ Jay: If I said tomorrow, I'd be lying, so I'd rather promise a date I can keep.
 
 
 
+
+
 ## Words
-| outta | /ˈutə/ | 구어 축약 |
-| tomorrow | /təˈmɑˌroʊ/ | 내일이라고 하면 거짓말일 거예요 |
-| lying | /ˈlaɪɪŋ/ | 내일이라고 하면 거짓말일 거예요 |
-| something | /ˈsʌmθɪŋ/ | 깔끔하게 인계하다 |
 | cleanly | /ˈklinli/ | 깔끔하게 인계하다 |
 
 ## Expressions

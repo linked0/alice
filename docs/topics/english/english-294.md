@@ -30,10 +30,12 @@ Jay: Understood. I'd rather keep the lever than pull it.
 
 
 
+
+
+
 ## Words
-| get the leverage | /ɡɛt ðə ˈlɛvɚɪdʒ/ | 유리한 위치를 차지하다 |
-| negotiating leverage | /nɪˈɡoʊʃiˌeɪtɪŋ ˈlɛvɚɪdʒ/ | 협상력 |
-| another option | /əˈnʌðɚ ˈɑpʃən/ | 다른 선택지 |
+| leverage | /ˈlɛvɚɪdʒ/ | 유리한 위치를 차지하다 |
+| negotiating | /nɪˈɡoʊʃiˌeɪtɪŋ/ | 협상력 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

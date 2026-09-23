@@ -30,8 +30,10 @@ Jay: Nothing that grand. I just want the paymaster flow to be boring enough that
 
 
 
+
+
 ## Words
-| that counts | /ðæt kaʊnts/ | 그것도 쳐준다, 그것으로 충분하다 |
+| counts | /kaʊnts/ | 그것도 쳐준다, 그것으로 충분하다 |
 | yourself | /jɚˈsɛlf/ | 이름을 알리다, 평판을 얻다 |
 
 ## Expressions

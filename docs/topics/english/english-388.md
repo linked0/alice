@@ -30,9 +30,11 @@ Jay: That is the plan. One sentence, with no explanation attached.
 
 
 
+
+
 ## Words
-| lose face | /luz feɪs/ | 체면을 잃다 |
-| first thing tomorrow | /fɝst θɪŋ təˈmɑˌroʊ/ | 내일 아침 제일 먼저 |
+| tomorrow | /təˈmɑˌroʊ/ | 내일 아침 제일 먼저 |
+| lose | /luz/ | 체면을 잃다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

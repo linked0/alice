@@ -26,9 +26,14 @@ Jay: I'll open with it, repeat it after the demo, and close on it. Repetition is
 
 
 
+
+
+
 ## Words
-| drive something home | /draɪv ˈsʌmθɪŋ hoʊm/ | ~에게 ~을 확실히 각인시키다 |
-| open with | /ˈoʊpən wɪð/ | ~으로 시작하다 / ~으로 끝맺다 |
+| drive | /draɪv/ | ~에게 ~을 확실히 각인시키다 |
+| something | /ˈsʌmθɪŋ/ | ~에게 ~을 확실히 각인시키다 |
+| argument | /ˈɑrɡjəmənt/ | 주장을 납득시키다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~에게 ~을 확실히 각인시키다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -28,6 +28,9 @@ Jay: Mine too. I shouted at the top of my lungs for ninety minutes.
 1. **숫자와 동사를 붙여 소리의 규모를 만든다.** "Twenty thousand people singing the same song at the top of their lungs." 형용사 없이도 장면이 커진다.
 2. **소유격을 주어에 맞춰 바꾼다.** their lungs / my lungs — 같은 관용구가 문장마다 형태를 바꾸는 지점.
 
+
+
+
 ## Words
 | lungs | /lʌŋz/ | 폐 — ŋ 은 콧소리 하나, '렁그즈'처럼 g 를 따로 내지 않는다 |
 | at the top of | /æt ðə tɑp ʌv/ | ~의 꼭대기에서 — 여기서는 '있는 힘껏' |

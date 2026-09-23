@@ -30,9 +30,12 @@ Jay: Deal. Just don't make a big deal out of it in front of sales.
 
 
 
+
+
+
 ## Words
 | graze | /ɡreɪz/ | 살짝 스치다 |
-| make a fuss | /meɪk ə fʌs/ | 소란을 피우다, 야단법석을 떨다 |
+| fuss | /fʌs/ | 소란을 피우다, 야단법석을 떨다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

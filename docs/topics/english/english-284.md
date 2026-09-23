@@ -30,10 +30,10 @@ Jay: It is. Nobody is licked until the contract is signed.
 
 
 
+
+
 ## Words
-| have somebody licked | /hæv ˈsʌmˌbɑdi lɪkt/ | ~를 이겨 놓다, 승부를 끝내 놓다 |
-| stop pushing | /stɑp ˈpʊʃɪŋ/ | 밀어붙이기를 멈추다 |
-| expensive lesson | /ɪkˈspɛnsɪv ˈlɛsən/ | 비싼 교훈 |
+| licked | /lɪkt/ | ~를 이겨 놓다, 승부를 끝내 놓다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

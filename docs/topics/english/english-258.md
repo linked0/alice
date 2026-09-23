@@ -26,12 +26,11 @@ Jay: That's the part I'd want in writing if I'm paid partly in equity.
 
 
 
+
+
 ## Words
-| private placement | /ˈpraɪvət ˈpleɪsmənt/ | 사모 발행 |
-| raising | /ˈreɪzɪŋ/ | 자본 조달 방식 |
-| capital | /ˈkæpətəl/ | 자본 조달 방식 |
+| placement | /ˈpleɪsmənt/ | 사모 발행 |
 | partly | /ˈpɑrtli/ | 보수의 일부를 지분으로 받다 |
-| equity | /ˈɛkwəti/ | 보수의 일부를 지분으로 받다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

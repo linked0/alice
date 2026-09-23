@@ -30,9 +30,13 @@ Jay: Good. And in Korean keep it as a diagnosis, not a description of someone's 
 
 
 
+
+
+
 ## Words
 | anorexia | /ˌænɚˈɛksiə/ | 식욕 부진 / 신경성 식욕 부진증 |
-| loss of appetite | /lɔs ʌv ˈæpəˌtaɪt/ | 식욕 상실 |
+| nervosa | /nɚˈvoʊsə/ | 식욕 부진 / 신경성 식욕 부진증 |
+| gloss | /ɡlɔs/ | 설명(주석)으로 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

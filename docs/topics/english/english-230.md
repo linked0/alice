@@ -30,9 +30,10 @@ Jay: I'll rewrite it as "many of the requests time out under load".
 
 
 
+
+
 ## Words
 | countable | /ˈkaʊntəbəl/ | 셀 수 있는 / 없는 |
-| other way round | /ˈʌðɚ weɪ raʊnd/ | 그 반대로 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,10 @@ Jay: Exactly that. The "back" is the whole story.
 
 
 
+
+
 ## Words
-| title | /ˈtaɪtəl/ | 소유권(권리) vs 소유권 증서(문서) |
-| get X back | /ɡɛt ɛks bæk/ | 잃거나 넘긴 X를 되찾다 |
-| wait on X | /weɪt ɑn ɛks/ | X가 오기를 기다리다 |
+| deed | /did/ | 어떤 부동산의 소유권 증서 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

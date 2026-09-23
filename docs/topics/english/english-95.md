@@ -30,9 +30,11 @@ Jay: "He's by the book." Same idea, nobody gets offended.
 
 
 
+
+
 ## Words
-| by the book | /baɪ ðə bʊk/ | 규정대로 하는, 반듯한 |
 | square | /skwɛr/ | 그러기엔 너무 고지식한 |
+| book | /bʊk/ | 규정대로 하는, 반듯한 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

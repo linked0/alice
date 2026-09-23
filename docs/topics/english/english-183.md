@@ -30,9 +30,12 @@ Jay: Thank you. Is it all right to fly home tomorrow evening?
 
 
 
+
+
 ## Words
 | migraine | /ˈmaɪˌɡreɪn/ | 편두통 |
-| sleep something off | /slip ˈsʌmθɪŋ ɔf/ | 자고 나서 (두통·취기를) 넘기다 |
+| brings | /brɪŋz/ | 무슨 일로 오셨어요? |
+| sleep | /slip/ | 자고 나서 (두통·취기를) 넘기다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

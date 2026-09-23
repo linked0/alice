@@ -30,11 +30,14 @@ Jay: The oracle is fine. We need a margin buffer so a small move can't touch off
 
 
 
+
+
+
 ## Words
-| touch something off | /tʌtʃ ˈsʌmθɪŋ ɔf/ | ~을 촉발하다 |
-| set off | /sɛt ɔf/ | 촉발하다 |
-| match | /mætʃ/ | 방아쇠 대 연료 |
-| on its own | /ɑn ɪts oʊn/ | 그 자체로는 |
+| touch | /tʌtʃ/ | ~을 촉발하다 |
+| something | /ˈsʌmθɪŋ/ | ~을 촉발하다 |
+| spark | /spɑrk/ | 촉발하다 |
+| fuel | /ˈfjuəl/ | 방아쇠 대 연료 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

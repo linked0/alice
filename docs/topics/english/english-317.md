@@ -30,10 +30,14 @@ Jay: Then I'll take the data platform and give billing a wide berth until the ow
 
 
 
+
+
+
 ## Words
 | something | /ˈsʌmθɪŋ/ | ~을 멀찍이 피하다 |
-| ownership | /ˈoʊnɚˌʃɪp/ | 담당이 정리될 때까지 |
+| wide | /waɪd/ | ~을 멀찍이 피하다 |
 | settles | /ˈsɛtəlz/ | 담당이 정리될 때까지 |
+| berth | /bɝθ/ | ~을 멀찍이 피하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,14 @@ Jay: They will ask anyway, and it is better from our page than from theirs.
 
 
 
+
+
+
 ## Words
-| gloss over something | /ɡlɔs ˈoʊvɚ ˈsʌmθɪŋ/ | ~을 얼버무리고 넘어가다 |
-| be down | /bi daʊn/ | (서비스가) 멈춰 있다 |
+| gloss | /ɡlɔs/ | ~을 얼버무리고 넘어가다 |
+| something | /ˈsʌmθɪŋ/ | ~을 얼버무리고 넘어가다 |
+| theirs | /ðɛrz/ | 저쪽 자료가 아니라 우리 문서에서 |
+| page | /peɪdʒ/ | 저쪽 자료가 아니라 우리 문서에서 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

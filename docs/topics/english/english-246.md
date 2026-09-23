@@ -26,9 +26,12 @@ Jay: We fix the messages and reply politely. If we answer a savage post with a s
 
 
 
+
+
 ## Words
-| savage review | /ˈsævədʒ ˌriˈvju/ | 인정사정없는 혹평 |
-| savage cuts | /ˈsævədʒ kʌts/ | 가혹한 삭감 |
+| savage | /ˈsævədʒ/ | 인정사정없는 혹평 |
+| cuts | /kʌts/ | 가혹한 삭감 |
+| tone | /toʊn/ | 내용이 아니라 말투 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

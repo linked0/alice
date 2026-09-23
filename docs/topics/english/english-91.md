@@ -30,13 +30,11 @@ Jay: Same thing, a bit tidier. Just don't aim it at a person — then it's an in
 
 
 
+
+
 ## Words
-| ship | /ʃɪp/ | (코드·기능을) 내보내다, 배포하다 |
-| wouldn't | /ˈwʊdənt/ | 죽어도 X는 안 한다 |
+| aim | /eɪm/ | 사람을 겨냥하다 |
 | caught | /kɑt/ | 죽어도 X는 안 한다 |
-| doing | /ˈduɪŋ/ | 죽어도 X는 안 한다 |
-| ever | /ˈɛvɚ/ | 내가 ~할 리가 |
-| person | /ˈpɝsən/ | 사람을 겨냥하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

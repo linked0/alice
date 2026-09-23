@@ -30,10 +30,11 @@ Jay: Thanks. I'd rather fix the numbers than complain about the byline.
 
 
 
+
+
+
 ## Words
 | stringer | /ˈstrɪŋɚ/ | 비상근 통신원, 건당 원고료를 받는 프리랜서 기자 |
-| desk | /dɛsk/ | (신문사의) 편집 데스크 |
-| numbers were off | /ˈnʌmbɚz wɝ ɔf/ | 숫자가 틀렸다 |
 | byline | /ˈbaɪˌlaɪn/ | 기사의 필자 표기 |
 
 ## Expressions

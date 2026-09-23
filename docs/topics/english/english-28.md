@@ -29,15 +29,11 @@ Jay: Deal. And to be clear, it's your design and your call. I'm flagging it beca
 
 
 
+
+
 ## Words
-| one blocking concern | /wʌn ˈblɑkɪŋ kənˈsɝn/ | 블로킹 우려 하나(승인을 막는 문제) |
-| rest looks solid | /rɛst lʊks ˈsɑləd/ | 나머지는 견고해 보인다 |
-| rare but real | /rɛr bʌt ril/ | 드물지만 실제로 있는 |
-| before anyone noticed | /bɪˈfɔr ˈɛniˌwʌn ˈnoʊtəst/ | 누군가 알아차리기 전에 |
-| fast path | /fæst pæθ/ | 빠른 경로 / 느린 경로 |
-| source of truth | /sɔrs ʌv truθ/ | 진실의 원천 |
-| falls through to | /fɔlz θru tu/ | ~로 떨어진다(다음 단계로 넘어간다) |
-| I'll take it | /aɪl teɪk ɪt/ | 받겠다(수락) |
+| rides | /raɪdz/ | 그 쓰기에 올라탄다(추가 비용 없이) |
+| blocking | /ˈblɑkɪŋ/ | 블로킹 우려 하나(승인을 막는 문제) |
 
 ## Expressions
 | one blocking concern | 블로킹 우려 하나(승인을 막는 문제) |

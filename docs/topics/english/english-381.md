@@ -26,10 +26,13 @@ Jay: The loo, if I know the person. Lavatory isn't wrong anywhere — it just so
 
 
 
+
+
+
 ## Words
 | lavatory | /ˈlævəˌtɔri/ | 화장실 |
-| restroom | /ˈrɛˌstrum/ | 화장실 |
 | loo | /lu/ | 화장실 |
+| restroom | /ˈrɛˌstrum/ | 화장실 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

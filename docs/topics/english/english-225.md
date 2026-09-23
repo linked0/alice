@@ -30,11 +30,14 @@ Jay: Good. Keep it small enough that you never skip it.
 
 
 
+
+
+
 ## Words
-| release notes | /riˈlis noʊts/ | 릴리스 노트 |
+| point | /pɔɪnt/ | 반드시, 일부러 ~하다 |
 | doing | /ˈduɪŋ/ | 반드시, 일부러 ~하다 |
-| something | /ˈsʌmθɪŋ/ | 반드시, 일부러 ~하다 |
-| enough | /ɪˈnʌf/ | ~할 만큼 작게 유지하다 |
+| notes | /noʊts/ | 릴리스 노트 |
+| release | /riˈlis/ | 릴리스 노트 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

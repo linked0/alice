@@ -30,11 +30,11 @@ Jay: A bit. When ops proposed taking the deploy pipeline away from our team last
 
 
 
+
+
 ## Words
-| without a fight | /wɪˈθaʊt ə faɪt/ | 싸움 없이, 순순히 |
-| something | /ˈsʌmθɪŋ/ | ~에게서 ~을 빼앗다 |
+| fight | /faɪt/ | 싸움 없이, 순순히 |
 | away | /əˈweɪ/ | ~에게서 ~을 빼앗다 |
-| someone | /ˈsʌmˌwʌn/ | ~에게서 ~을 빼앗다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

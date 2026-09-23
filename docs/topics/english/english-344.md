@@ -30,10 +30,14 @@ Jay: Different verb entirely. That one just means read it fast. Let's move the f
 
 
 
+
+
+
 ## Words
-| skim something off | /skɪm ˈsʌmθɪŋ ɔf/ | (부당하게) 제일 좋은 것만 걷어 가다 |
-| off the top | /ɔf ðə tɑp/ | 맨 위에서 먼저 |
-| skim through something | /skɪm θru ˈsʌmθɪŋ/ | 빠르게 훑어 읽다 |
+| skim | /skɪm/ | (부당하게) 제일 좋은 것만 걷어 가다 |
+| something | /ˈsʌmθɪŋ/ | (부당하게) 제일 좋은 것만 걷어 가다 |
+| top | /tɑp/ | 맨 위에서 먼저 |
+| through | /θru/ | 빠르게 훑어 읽다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

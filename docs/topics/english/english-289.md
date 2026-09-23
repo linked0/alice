@@ -30,10 +30,12 @@ Marek: Removing it now. Thanks for not quoting me.
 
 
 
+
+
 ## Words
 | expletive | /ˈɛksplətɪv/ | 욕설 |
-| expletive deleted | /ˈɛksplətɪv dɪˈlitəd/ | 욕설 삭제 |
-| take something out | /teɪk ˈsʌmθɪŋ aʊt/ | ~을 빼다 |
+| deleted | /dɪˈlitəd/ | 욕설 삭제 |
+| rather | /ˈræðɚ/ | ~하고 싶지는 않다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

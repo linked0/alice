@@ -30,9 +30,10 @@ Jay: Rousing is stirring — a speech that gets people on their feet, so it's ap
 
 
 
+
+
 ## Words
-| rousing speech | /ˈraʊzɪŋ spitʃ/ | 청중을 움직이는 열띤 연설 |
-| push back | /pʊʃ bæk/ | 사내에서 강하게 반대하다 |
+| rousing | /ˈraʊzɪŋ/ | 청중을 움직이는 열띤 연설 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

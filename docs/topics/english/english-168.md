@@ -30,9 +30,11 @@ Jay: Twelve percent. On its own that sounds small. Once you know it's a single-k
 
 
 
+
+
 ## Words
-| on its own | /ɑn ɪts oʊn/ | 그것만 놓고 보면 |
 | exposure | /ɪkˈspoʊʒɚ/ | 익스포저, 위험 노출 규모 |
+| worth | /wɝθ/ | 그 숫자가 어떤 의미·가치를 갖는가 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

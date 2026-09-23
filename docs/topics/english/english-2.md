@@ -30,13 +30,16 @@ Jay: Which is what we want. It's a parameter now, not an argument. Let's write b
 
 
 
+
+
+
 ## Words
-| last known price | /læst noʊn praɪs/ | 마지막으로 알려진 가격 |
-| fail closed | /feɪl kloʊzd/ | 막고 실패 / 통과시키고 실패 |
-| stale price | /steɪl praɪs/ | 갱신되지 않은 가격 |
-| without touching balances | /wɪˈθaʊt ˈtʌtʃɪŋ ˈbælənsəz/ | 잔고를 건드리지 않고 |
-| real third option | /ril θɝd ˈɑpʃən/ | 진짜 세 번째 선택지 |
-| it settles quietly | /ɪt ˈsɛtəlz ˈkwaɪətli/ | 조용히 정산된다 |
+| disputable | /dɪˈspjutəbəl/ | 일정 기간 분쟁 제기 가능한 |
+| reversible | /rɪˈvɝsəbəl/ | 되돌릴 수 있는 건 하나뿐 |
+| settles | /ˈsɛtəlz/ | 조용히 정산된다 |
+| stale | /steɪl/ | 갱신되지 않은 가격 |
+| parameter | /pɚˈæmətɚ/ | 논쟁이 아니라 파라미터 |
+| balances | /ˈbælənsəz/ | 잔고를 건드리지 않고 |
 
 ## Expressions
 | the last known price | 마지막으로 알려진 가격 |

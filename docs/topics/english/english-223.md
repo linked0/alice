@@ -30,10 +30,12 @@ Jay: Then I'll keep both. Halo for the painting, halo effect for the bias.
 
 
 
+
+
 ## Words
 | halo | /ˈheɪloʊ/ | 후광, 광륜 |
-| halo effect | /ˈheɪloʊ ɪˈfɛkt/ | 후광 효과 |
-| mark somebody as | /mɑrk ˈsʌmˌbɑdi æz/ | ~임을 표시하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~임을 표시하다 |
+| effect | /ɪˈfɛkt/ | 후광 효과 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,12 @@ Jay: Fine. One dramatic pause, no jazz hands.
 
 
 
+
+
 ## Words
-| ham it up | /hæm ɪt ʌp/ | 과장되게 연기하다, 오버하다 |
-| fall flat | /fɔl flæt/ | 밋밋하다, 반응이 없다 |
-| beat | /bit/ | (연기·말의) 한 박자 |
-| roll their eyes | /roʊl ðɛr aɪz/ | 눈을 굴리다(어이없어하다) |
+| ham | /hæm/ | 과장되게 연기하다, 오버하다 |
+| flat | /flæt/ | 밋밋하다, 반응이 없다 |
+| roll | /roʊl/ | 눈을 굴리다(어이없어하다) |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

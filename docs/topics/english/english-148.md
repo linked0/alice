@@ -30,10 +30,12 @@ Jay: Not the word. I'll write "I felt talked down to in the systems round." "Con
 
 
 
+
+
+
 ## Words
-| condescend to somebody | /ˌkɑndɪˈsɛnd tu ˈsʌmˌbɑdi/ | ~를 깔보듯 대하다, 내려다보며 말하다 |
-| condescend to bribery | /ˌkɑndɪˈsɛnd tu ˈbraɪbɚi/ | 체면·지조를 버리고 ~까지 하다 |
-| walk through X | /wɔk θru ɛks/ | X를 차근차근 설명하다 |
+| condescend | /ˌkɑndɪˈsɛnd/ | ~를 깔보듯 대하다, 내려다보며 말하다 |
+| bribery | /ˈbraɪbɚi/ | 체면·지조를 버리고 ~까지 하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,11 @@ Jay: Agreed. I'd rather come back slowly than lose another two weeks.
 
 
 
+
+
 ## Words
-| have no energy | /hæv noʊ ˈɛnɚdʒi/ | 기운이 없다 |
-| come back slowly | /kʌm bæk ˈsloʊli/ | 천천히 복귀하다 |
+| slowly | /ˈsloʊli/ | 천천히 복귀하다 |
+| sets | /sɛts/ | 가벼운 세트로 낮추다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,12 @@ Jay: I wrote them on the whiteboard, grouped them into three themes, and answere
 
 
 
+
+
 ## Words
-| barrage of questions | /bɚˈɑʒ ʌv ˈkwɛstʃənz/ | 질문 세례 |
+| barrage | /bɚˈɑʒ/ | 질문 세례 |
 | themes | /θimz/ | 주제별로 묶다 |
+| questions | /ˈkwɛstʃənz/ | 질문 세례 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

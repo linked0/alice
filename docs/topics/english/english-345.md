@@ -30,11 +30,12 @@ Jay: It is bookish. Day to day I'd say I choked up, or I held back tears.
 
 
 
+
+
+
 ## Words
-| gulp down tears | /ɡʌlp daʊn tɛrz/ | 눈물을 삼키다 |
-| choke up | /tʃoʊk ʌp/ | 목이 메다 |
-| hold back tears | /hoʊld bæk tɛrz/ | 눈물을 참다 |
-| let it show | /lɛt ɪt ʃoʊ/ | 티를 내다 |
+| gulp | /ɡʌlp/ | 눈물을 삼키다 |
+| choke | /tʃoʊk/ | 목이 메다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

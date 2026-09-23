@@ -30,9 +30,9 @@ Jay: Unqualified. That's why I said nobody could fault it.
 
 
 
+
+
 ## Words
-| cannot fault something | /ˈkænɑt fɔlt ˈsʌmθɪŋ/ | ~에 흠잡을 데가 없다 |
-| chase somebody | /tʃeɪs ˈsʌmˌbɑdi/ | (일 진척을) 재촉하다 |
 | unqualified | /ənˈkwɑlɪˌfaɪd/ | 단서 없는, 무조건적인 |
 
 ## Expressions

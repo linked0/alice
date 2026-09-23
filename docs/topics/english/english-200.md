@@ -30,9 +30,14 @@ Jay: Then I'll stop calling it a prenup like it's a plot twist. Congratulations,
 
 
 
+
+
+
 ## Words
-| prenuptial agreement | /priˈnʌpʃəl əˈɡrimənt/ | 혼전 합의서 |
-| venue is booked | /ˈvɛnju ɪz bʊkt/ | 식장을 예약했다 |
+| prenuptial | /priˈnʌpʃəl/ | 혼전 합의서 |
+| agreement | /əˈɡrimənt/ | 혼전 합의서 |
+| paperwork | /ˈpeɪpɚˌwɝk/ | 지루한 서류를 미리 해 두기 |
+| booked | /bʊkt/ | 식장을 예약했다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -28,9 +28,11 @@ Jay: Understood. Folklore yes, nationality joke no.
 
 
 
+
+
+
 ## Words
 | leprechaun | /ˈlɛpɚkaʊn/ | 레프러콘 |
-| pot of gold | /pɑt ʌv ɡoʊld/ | 금 항아리 |
 | folklore | /ˈfoʊˌklɔr/ | 민담, 전승 |
 
 ## Expressions

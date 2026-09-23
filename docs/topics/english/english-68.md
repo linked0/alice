@@ -30,8 +30,9 @@ Jay: Still, always. I'll save the fizz for the bath.
 
 
 
+
+
 ## Words
-| Tomorrow | /təˈmɑˌroʊ/ | 내일 X 써도 돼? |
 | alarmed | /əˈlɑrmd/ | ~을 보고 놀라지 마 |
 
 ## Expressions

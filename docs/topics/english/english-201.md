@@ -30,10 +30,10 @@ Jay: Hands off the how, firm on the what and the when. That's the sentence I'll 
 
 
 
+
+
 ## Words
-| hands off | /hændz ɔf/ | 손을 떼는 / 직접 챙기는 |
 | capitalism | /ˈkæpɪtəˌlɪzəm/ | 자유방임적 자본주의 |
-| hands-on | /ˌhænˈzɔn/ | 손을 떼는 / 직접 챙기는 |
 | someone's | /ˈsʌmˌwʌnz/ | ~의 작업을 곁에서 감시하다 |
 
 ## Expressions

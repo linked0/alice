@@ -28,11 +28,11 @@ Mina: Then the fortune teller and Tom agree. Slow down and walk through the door
 
 
 
+
+
 ## Words
-| mock interview | /mɑk ˈɪntɚˌvju/ | 모의 면접 |
-| someone | /ˈsʌmˌwʌn/ | ~에게 ~을 해달라고 하다(의뢰) |
-| something | /ˈsʌmθɪŋ/ | ~에게 ~을 해달라고 하다(의뢰) |
-| reading | /ˈridɪŋ/ | ~의 점을 봐주다 |
+| mock | /mɑk/ | 모의 면접 |
+| interview | /ˈɪntɚˌvju/ | 모의 면접 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

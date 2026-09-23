@@ -30,10 +30,12 @@ Jay: And "voluntary" says nothing about the victim. That was my mistake; I read 
 
 
 
+
+
+
 ## Words
 | manslaughter | /ˈmænˌslɔtɚ/ | 고살, 살인 고의 없는 살해 |
-| voluntary manslaughter | /ˈvɑləntɛri ˈmænˌslɔtɚ/ | 격정에 의한 고의 살해 |
-| involuntary manslaughter | /ˌɪnˈvɑlənˌtɛri ˈmænˌslɔtɚ/ | 과실치사 |
+| involuntary | /ˌɪnˈvɑlənˌtɛri/ | 과실치사 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

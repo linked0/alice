@@ -30,9 +30,11 @@ Jay: Exactly. Without the "and", you'd hear "Kim on deadline day" as one thing, 
 
 
 
+
+
 ## Words
-| leave on time | /liv ɑn taɪm/ | 칼퇴하다 |
-| work overtime | /wɝk ˈoʊvɚˌtaɪm/ | 야근하다 |
+| overtime | /ˈoʊvɚˌtaɪm/ | 야근하다 |
+| deadline | /ˈdɛˌdlaɪn/ | 아마 Kim만 빼고, 그리고 마감일만 빼고 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

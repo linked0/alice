@@ -25,6 +25,9 @@ Jay: No. Without it we can promise weekly releases, but we can't keep the promis
 2. **"없으면 어떻게 되는가"로 필수성을 증명한다.** "Without it we can promise weekly releases, but we can't keep the promise" — 조건이 아니라 결과로 설명하는 방식이다.
 
 
+
+
+
 ## Words
 | sine qua non | /ˈsaɪni kwɑ ˈnɑn/ | 필수불가결한 것 — 라틴어. '시네 콰 논'이 아니라 '사이니' |
 | indispensable | /ˌɪndɪˈspɛnsəbəl/ | 없어서는 안 될 — 강세는 -SPEN- |

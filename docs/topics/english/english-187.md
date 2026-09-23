@@ -30,11 +30,12 @@ Jay: Fine. "The platform work ended, and I wanted a team-lead role." Then silenc
 
 
 
+
+
 ## Words
 | squirm | /skwɝm/ | 꼼지락대다 |
-| make somebody squirm | /meɪk ˈsʌmˌbɑdi skwɝm/ | ~를 안절부절못하게 만들다 |
-| fill the silence | /fɪl ðə ˈsaɪləns/ | 침묵을 말로 메우다 |
-| let them ask | /lɛt ðɛm æsk/ | 상대가 묻게 두다 |
+| silence | /ˈsaɪləns/ | 침묵을 말로 메우다 |
+| fill | /fɪl/ | 침묵을 말로 메우다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -29,6 +29,8 @@ Jay: I did. One is time, the other is every stage of the pipeline.
 2. **같은 표현의 두 뜻을 대화 안에서 스스로 정리한다.** "One is time, the other is every stage" — 뜻이 갈리는 숙어는 이렇게 짚어 두면 안전하다.
 
 
+
+
 ## Words
 | down the line | /daʊn ðə laɪn/ | (시간상) 뒤에 — 거리가 아니라 시간을 가리킨다 |
 | platform | /ˈplætfɔrm/ | 플랫폼 — 첫 음절 강세, 둘째는 약하게 |

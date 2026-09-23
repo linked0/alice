@@ -30,13 +30,14 @@ Jay: One line. I said I'd been nervous and skipped the estimates, and I put the 
 
 
 
+
+
+
 ## Words
-| no apology paragraph | /noʊ əˈpɑləˌdʒi ˈpærəˌɡræf/ | 사과 문단 없이 |
-| nerves | /nɝvz/ | 긴장이 나를 압도했다 |
 | better | /ˈbɛtɚ/ | 긴장이 나를 압도했다 |
-| somebody | /ˈsʌmˌbɑdi/ | ~을 이기다 |
-| numbers | /ˈnʌmbɚz/ | 알고는 있었는데 말을 안 했다 |
-| didn't | /ˈdɪdənt/ | 알고는 있었는데 말을 안 했다 |
+| somebody | /ˈsʌmˌbɑdi/ | 긴장이 나를 압도했다 |
+| nerves | /nɝvz/ | 긴장이 나를 압도했다 |
+| paragraph | /ˈpærəˌɡræf/ | 사과 문단 없이 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

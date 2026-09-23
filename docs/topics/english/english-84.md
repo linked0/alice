@@ -30,9 +30,11 @@ Jay: Exactly. It got you here, and that's real. It just won't get you to the nex
 
 
 
+
+
 ## Words
-| top out | /tɑp aʊt/ | 한계에 닿다, 더 안 오르다 |
-| those don't scale | /ðoʊz doʊnt skeɪl/ | 그건 규모가 안 늘어난다 |
+| scale | /skeɪl/ | 그건 규모가 안 늘어난다 |
+| far | /fɑr/ | X만으로는 한계가 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,10 @@ Jay: First thing I'd ask the interviewer is which reads are allowed to be stale,
 
 
 
+
+
 ## Words
-| stale reads | /steɪl ridz/ | 오래된(최신이 아닌) 읽기 |
-| someone | /ˈsʌmˌwʌn/ | ~에 대해 …의 지식을 시험하다 |
-| something | /ˈsʌmθɪŋ/ | ~에 대해 …의 지식을 시험하다 |
+| stale | /steɪl/ | 오래된(최신이 아닌) 읽기 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

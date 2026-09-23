@@ -30,10 +30,13 @@ Jay: Two uses of the same word in one minute. Wind and laughter.
 
 
 
+
+
+
 ## Words
 | gale | /ɡeɪl/ | 강풍 |
-| gales of laughter | /ɡeɪlz ʌv ˈlæftɚ/ | 한바탕 터지는 폭소 |
-| hold departures | /hoʊld dɪˈpɑrtʃɚz/ | 출발을 잡아 두다 |
+| gales | /ɡeɪlz/ | 한바탕 터지는 폭소 |
+| departures | /dɪˈpɑrtʃɚz/ | 출발을 잡아 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

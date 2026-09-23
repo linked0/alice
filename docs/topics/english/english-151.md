@@ -30,11 +30,12 @@ Jay: Of course. But the day it's confirmed, they hear it the same day.
 
 
 
+
+
 ## Words
-| axe a project | /æks ə ˈprɑdʒɛkt/ | 사업을 중단하다, 인원을 감축하다 |
-| get the axe | /ɡɛt ðə æks/ | 잘리다, 중단되다 |
-| wind down | /waɪnd daʊn/ | (일·사업을) 정리하다, 서서히 종료하다 |
-| line item | /laɪn ˈaɪtəm/ | (예산·명세의) 항목 하나 |
+| axe | /æks/ | 사업을 중단하다, 인원을 감축하다 |
+| item | /ˈaɪtəm/ | (예산·명세의) 항목 하나 |
+| wind | /waɪnd/ | (일·사업을) 정리하다, 서서히 종료하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

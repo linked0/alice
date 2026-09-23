@@ -28,10 +28,12 @@ Sam: Four to six weeks. You'll join the Seoul contingent at the offsite in Novem
 
 
 
+
+
 ## Words
-| contingent on X | /kənˈtɪndʒənt ɑn ɛks/ | X 여부에 달려 있는 |
-| Seoul contingent | /soʊl kənˈtɪndʒənt/ | 서울에서 온 대표단, 무리 |
-| work permit | /wɝk pɚˈmɪt/ | 취업 허가 |
+| contingent | /kənˈtɪndʒənt/ | X 여부에 달려 있는 |
+| Seoul | /soʊl/ | 서울에서 온 대표단, 무리 |
+| permit | /pɚˈmɪt/ | 취업 허가 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,12 @@ Jay: About my own small mistakes, maybe. About someone else's serious one, never
 
 
 
+
+
+
 ## Words
 | indiscretion | /ˌɪndɪˈskrɛʃən/ | 무분별한·경솔한 행동 |
-| youthful indiscretion | /ˈjuθfəl ˌɪndɪˈskrɛʃən/ | 젊은 날의 치기 |
-| step down | /stɛp daʊn/ | 물러나다, 사임하다 |
+| youthful | /ˈjuθfəl/ | 젊은 날의 치기 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

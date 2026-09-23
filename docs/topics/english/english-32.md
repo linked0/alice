@@ -31,10 +31,15 @@ Jay: Treat it like a well-read colleague who's had two drinks. Ask for the reaso
 
 
 
+
+
+
 ## Words
-| errands and walks | /ˈɛrəndz ənd wɔks/ | 심부름과 걷기(위임할 일과 직접 할 일) |
-| hour I resented | /ˈaʊɚ aɪ riˈzɛntɪd/ | 짜증났던 한 시간 |
-| confidently wrong | /ˈkɑnfədəntli rɔŋ/ | 자신 있게 틀린 |
+| resented | /riˈzɛntɪd/ | 짜증났던 한 시간 |
+| stricter | /ˈstrɪktɚ/ | 반대 방향으로 더 엄격한 |
+| errands | /ˈɛrəndz/ | 심부름과 걷기(위임할 일과 직접 할 일) |
+| confidently | /ˈkɑnfədəntli/ | 자신 있게 틀린 |
+| reproduce | /ˌriprəˈdus/ | 내가 재현할 수 있는 숫자 |
 
 ## Expressions
 | errands and walks | 심부름과 걷기(위임할 일과 직접 할 일) |

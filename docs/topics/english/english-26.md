@@ -35,10 +35,12 @@ Jay: You'll have it today, with the three things that would move December.
 
 
 
+
+
+
 ## Words
-| what's the gap | /wʌts ðə ɡæp/ | 차이가 뭔가 |
-| shadow running | /ˈʃæˌdoʊ ˈrʌnɪŋ/ | 구 시스템 옆에서 병행 운영 |
-| calendar time | /ˈkæləndɚ taɪm/ | 달력 시간(병렬화 불가한 기간) |
+| headcount | /ˈhɛdˌkaʊnt/ | 인원으로 압축되지 않는다 |
+| compress | /ˈkɑmprɛs/ | 인원으로 압축되지 않는다 |
 
 ## Expressions
 | can you commit to that | 그것을 약속할 수 있나 |

@@ -26,10 +26,12 @@ Jay: They can argue before I rule, not after. That's the difference between adju
 
 
 
+
+
 ## Words
-| adjudicate on something | /əˈdʒudɪˌkeɪt ɑn ˈsʌmθɪŋ/ | ~에 대해 판정을 내리다 |
-| you call it | /ju kɔl ɪt/ | 네가 결정해 |
+| adjudicate | /əˈdʒudɪˌkeɪt/ | ~에 대해 판정을 내리다 |
 | rule | /rul/ | 판정하다 |
+| something | /ˈsʌmθɪŋ/ | ~에 대해 판정을 내리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

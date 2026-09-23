@@ -28,10 +28,13 @@ Lena: Muted gold, dark background. I'll mock it up.
 
 
 
+
+
+
 ## Words
 | brassy | /ˈbræsi/ | 쇳소리 나는, 요란하고 천박한, 싸 보이게 누런 |
+| adjective | /ˈædʒɪktɪv/ | ~하게 보이다, ~로 읽히다 |
 | muted | /ˈmjutɪd/ | (색·소리가) 차분한, 죽인 |
-| mock it up | /mɑk ɪt ʌp/ | 시안을 만들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

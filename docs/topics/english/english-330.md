@@ -30,9 +30,10 @@ Jay: Once per paragraph. Repeating "the refresh token" is uglier than "it" and f
 
 
 
+
+
 ## Words
 | antecedent | /ˌænˈtɛsədənt/ | 선행사, 대명사가 가리키는 대상 |
-| something | /ˈsʌmθɪŋ/ | ~을 되가리키다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

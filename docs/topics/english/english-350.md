@@ -30,11 +30,10 @@ Jay: It is. Two problems a day for six months beats a perfect plan you drop in w
 
 
 
+
+
 ## Words
 | restart | /riˈstɑrt/ | 계획을 다시 시작하다·버리다 |
-| away | /əˈweɪ/ | 꾸준히 붙어서 해 나가다 |
-| something | /ˈsʌmθɪŋ/ | 꾸준히 붙어서 해 나가다 |
-| pointless | /ˈpɔɪntləs/ | 의미 없어 보이는 날에도 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

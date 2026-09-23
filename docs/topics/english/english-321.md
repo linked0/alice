@@ -30,10 +30,10 @@ Jay: British English says "put my back out" — same injury, same story. I saw a
 
 
 
+
+
 ## Words
 | physio | /ˈfɪzioʊ/ | 물리치료사 |
-| something | /ˈsʌmθɪŋ/ | (병원에서) 봐 달라고 하다 |
-| looked | /lʊkt/ | (병원에서) 봐 달라고 하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

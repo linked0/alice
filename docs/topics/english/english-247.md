@@ -26,9 +26,12 @@ Jay: Eight is measured-ish. Ten is a curve I drew myself. Give me two weeks at d
 
 
 
+
+
 ## Words
-| extrapolate from something | /ɛkˈstræpəˌleɪt frʌm ˈsʌmθɪŋ/ | ~을 근거로 범위 밖까지 추정하다 |
-| write path | /raɪt pæθ/ | 쓰기 경로 |
+| extrapolate | /ɛkˈstræpəˌleɪt/ | ~을 근거로 범위 밖까지 추정하다 |
+| measured | /ˈmɛʒɚd/ | 측정한 범위를 벗어나서 |
+| path | /pæθ/ | 쓰기 경로 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

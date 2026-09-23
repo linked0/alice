@@ -26,11 +26,10 @@ Jay: I'm tired, not surprised. Next time I'll bring every stamped page I own and
 
 
 
+
+
 ## Words
-| course | /kɔrs/ | 늘 있는 일, 예상대로 |
-| somebody | /ˈsʌmˌbɑdi/ | ~을 받아 오라고 돌려보내다 |
-| something | /ˈsʌmθɪŋ/ | ~을 받아 오라고 돌려보내다 |
-| tired | /ˈtaɪɚd/ | 짜증이 아니라 지쳤다 |
+| par | /pɑr/ | 늘 있는 일, 예상대로 |
 | surprised | /sɚˈpraɪzd/ | 짜증이 아니라 지쳤다 |
 
 ## Expressions

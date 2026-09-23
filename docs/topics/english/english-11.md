@@ -30,12 +30,10 @@ Jay: Yes, and a scan of the history too. Twenty minutes is the window we noticed
 
 
 
+
+
 ## Words
-| rotate a key | /ˈroʊˌteɪt ə ki/ | 키를 교체하다 |
-| right first move | /raɪt fɝst muv/ | 올바른 첫 조치 |
-| blast radius | /blæst ˈreɪdiəs/ | 피해 범위 |
-| usage spike | /ˈjusədʒ spaɪk/ | 사용량 급증 |
-| window we noticed | /ˈwɪndoʊ wi ˈnoʊtəst/ | 우리가 알아챈 창 |
+| rotate | /ˈroʊˌteɪt/ | 키를 교체하다 |
 
 ## Expressions
 | the key was live for | 키가 …동안 유효했다 |

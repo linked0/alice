@@ -30,10 +30,11 @@ Jay: "A little too pat" is the polite version. The rude version is lazy.
 
 
 
+
+
 ## Words
-| tie off | /taɪ ɔf/ | (이야기 줄기를) 마무리 짓다 |
 | convincing | /kənˈvɪnsɪŋ/ | 너무 깔끔해서 설득력이 없는 |
-| little | /ˈlɪtəl/ | Y라기엔 조금 너무 X한 |
+| pat | /pæt/ | 너무 깔끔해서 설득력이 없는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

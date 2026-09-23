@@ -30,9 +30,14 @@ Jay: I know. Their sandbox is flaky too, but I'll put that more diplomatically i
 
 
 
+
+
+
 ## Words
 | flaky | /ˈfleɪki/ | 불안정한, 못 미더운 |
-| quarantine a test | /ˈkwɔrənˌtin ə tɛst/ | 테스트를 격리하다 |
+| diplomatically | /ˌdɪpləˈmætɪkli/ | 더 완곡하게 표현하다 |
+| rerun | /ˌriˈrʌn/ | 재실행하면 통과한다 |
+| quarantine | /ˈkwɔrənˌtin/ | 테스트를 격리하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

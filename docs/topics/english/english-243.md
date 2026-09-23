@@ -26,9 +26,12 @@ Jay: No, tipping is roll. Yaw is the flat left-right swing. Pilots do it on purp
 
 
 
+
+
 ## Words
 | yaw | /jɔ/ | 수직축 기준 좌우로 기수가 틀어지다 |
-| on final approach | /ɑn ˈfaɪnəl əˈproʊtʃ/ | 최종 접근 중에 |
+| approach | /əˈproʊtʃ/ | 최종 접근 중에 |
+| final | /ˈfaɪnəl/ | 최종 접근 중에 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

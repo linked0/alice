@@ -30,9 +30,10 @@ Jay: Slightly. I use it the same way about flats and candidates. Everything on t
 
 
 
+
+
 ## Words
-| faint praise | /feɪnt preɪz/ | 미지근한 칭찬 |
-| proper ending | /ˈprɑpɚ ˈɛndɪŋ/ | 제대로 맺은 결말 |
+| faint | /feɪnt/ | 미지근한 칭찬 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

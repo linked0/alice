@@ -30,11 +30,12 @@ Jay: Then I'll write the case and let her put her name on it.
 
 
 
+
+
+
 ## Words
-| heft something | /hɛft ˈsʌmθɪŋ/ | 무게를 가늠하며 들어 보다 |
-| carry heft | /ˈkæri hɛft/ | ~에게 영향력이 있다. "Her name carries more heft with finance." |
+| heft | /hɛft/ | 무게를 가늠하며 들어 보다 |
 | hefty | /ˈhɛfti/ | 묵직한, 상당한 |
-| Good call | /ɡʊd kɔl/ | 잘 판단했다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

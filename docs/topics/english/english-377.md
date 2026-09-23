@@ -26,11 +26,12 @@ Jay: Because undertook is what a contract says. If it slips, we're discussing a 
 
 
 
+
+
+
 ## Words
-| if it slips | /ɪf ɪt slɪps/ | 일정이 밀리면 |
+| slips | /slɪps/ | 일정이 밀리면 |
 | undertake | /ˈʌndɚˌteɪk/ | ~하기로 약속하다 |
-| something | /ˈsʌmθɪŋ/ | ~하기로 약속하다 |
-| promise | /ˈprɑməs/ | 약속인가 희망인가 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

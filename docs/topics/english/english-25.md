@@ -31,13 +31,10 @@ Jay: Two. The fee calculation uses floats; that should be integer minor units. A
 
 
 
+
+
 ## Words
-| same shape as | /seɪm ʃeɪp æz/ | ~와 같은 모양(구조)이다 |
-| smallest change | /ˈsmɔləst tʃeɪndʒ/ | 가장 작은 변경 |
-| zero rows affected | /ˈzɪroʊ roʊz əˈfɛktɪd/ | 영향 받은 행 0 |
-| honest answer is | /ˈɑnəst ˈænsɚ ɪz/ | 정직한 답은 |
-| anything you'd flag | /ˈɛniˌθɪŋ jud flæɡ/ | 지적할 것이 있는가 |
-| integer minor units | /ˈɪntədʒɚ ˈmaɪnɚ ˈjunəts/ | 정수 최소 단위(센트 등) |
+| integer | /ˈɪntədʒɚ/ | 정수 최소 단위(센트 등) |
 
 ## Expressions
 | talk me through that | 그것을 설명해 달라 |

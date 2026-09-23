@@ -35,13 +35,11 @@ Jay: About the flag, yes. About the decision, I'm less sure. The demo went well 
 
 
 
+
+
 ## Words
-| reasoning was fair | /ˈrizənɪŋ wɑz fɛr/ | 그분 논리는 타당했다 |
-| make your case | /meɪk jɔr keɪs/ | 주장을 펼치다 |
-| decision by noon | /dɪˈsɪʒən baɪ nun/ | 정오까지 결정 |
-| either way | /ˈiðɚ weɪ/ | 어느 쪽이든 |
-| total exposure | /ˈtoʊtəl ɪkˈspoʊʒɚ/ | 총 노출(손실 가능액) |
-| I'm less sure | /aɪm lɛs ʃʊr/ | 덜 확신한다 |
+| reasoning | /ˈrizənɪŋ/ | 그분 논리는 타당했다 |
+| noon | /nun/ | 정오까지 결정 |
 
 ## Expressions
 | the question every candidate is warned about | 모든 후보가 경고받는 질문 |

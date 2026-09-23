@@ -30,9 +30,9 @@ Jay: No start-up cost, but the operating side is higher, so they cross somewhere
 
 
 
+
+
 ## Words
-| start-up costs | /ˈstɑrˌtʌp kɑsts/ | 초기 구축비 / 운영비 |
-| add up | /æd ʌp/ | 여러 항목을 합산하다 |
 | ballpark | /ˈbɔlˌpɑrk/ | 대략적인 수치 |
 
 ## Expressions

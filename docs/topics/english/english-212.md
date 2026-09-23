@@ -30,9 +30,11 @@ Jay: For a negotiator, yes. Our VP is a snake charmer in the boardroom.
 
 
 
+
+
+
 ## Words
 | charmer | /ˈtʃɑrmɚ/ | 뱀 부리는 사람 |
-| actually | /ˈækˌtʃuəli/ | 실제로는 어느 쪽을 써? |
 | boardroom | /ˈbɔrˌdrum/ | 이사회에서 위험한 사람들을 잘 다루는 사람 |
 
 ## Expressions

@@ -30,8 +30,10 @@ Jay: Perfect. Then "in the bag" still means something the day you finally use it
 
 
 
+
+
 ## Words
-| in the bag | /ɪn ðə bæɡ/ | 따 놓은 당상이다 |
+| bag | /bæɡ/ | 따 놓은 당상이다 |
 | walk | /wɔk/ | (거래에서) 발을 빼다 |
 
 ## Expressions

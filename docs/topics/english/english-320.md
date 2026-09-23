@@ -30,9 +30,11 @@ Jay: The subject tells you: a part comes off, a plan or a joke comes off. "Come 
 
 
 
+
+
 ## Words
-| come off | /kʌm ɔf/ | 떨어지다, 빠지다 |
-| come off it | /kʌm ɔf ɪt/ | 말도 안 되는 소리 마 |
+| to come off | /kʌm ɔf/ | (어떤 인상으로) 비치다 — come 과 off 를 붙여 한 덩어리로 발음한다 |
+| condescending | /ˌkɑndɪˈsɛndɪŋ/ | 아랫사람 대하듯 하는 — 강세는 -SCEND-, 네 번째 음절 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

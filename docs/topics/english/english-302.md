@@ -30,10 +30,12 @@ Jay: That works, though with a job the word sounds like a warning, not a calling
 
 
 
+
+
+
 ## Words
 | cloister | /ˈklɔɪstɚ/ | (성당·수도원의) 회랑 |
-| cloistered life | /ˈklɔɪstɚd laɪf/ | 세상과 떨어진 삶 |
-| by choice | /baɪ tʃɔɪs/ | 스스로 택해서 |
+| cloistered | /ˈklɔɪstɚd/ | 세상과 떨어진 삶 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,14 @@ Jay: Thank you. "Hold onto" means don't let go, which is the whole point on a we
 
 
 
+
+
+
 ## Words
-| steering wheel | /ˈstɪrɪŋ wil/ | 자동차 핸들 |
-| it narrows there | /ɪt ˈnɛroʊz ðɛr/ | 거기서 길이 좁아진다 |
+| hold | /hoʊld/ | 핸들을 놓지 않고 잡다 |
+| onto | /ˈɑntu/ | 핸들을 놓지 않고 잡다 |
+| handlebars | /ˈhændəlˌbɑrz/ | 핸들을 놓지 않고 잡다 |
+| narrows | /ˈnɛroʊz/ | 거기서 길이 좁아진다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

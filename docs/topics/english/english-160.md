@@ -30,9 +30,11 @@ Jay: Then the base case holds. We're not betting the company on a vote in Washin
 
 
 
+
+
 ## Words
-| cheaper distribution | /ˈtʃipɚ ˌdɪstrəˈbjuʃən/ | 제품을 고객에게 닿게 하는 비용이 낮아짐 |
-| passage | /ˈpæsədʒ/ | 법안 통과 |
+| upside | /ˌʌpˈsaɪd/ | 추가 호재일 뿐 계획의 전제는 아니다 |
+| cheaper | /ˈtʃipɚ/ | 제품을 고객에게 닿게 하는 비용이 낮아짐 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,11 @@ Jay: A rule that's actually published there, ideally final. Proposed rules land 
 
 
 
+
+
 ## Words
-| settled action | /ˈsɛtəld ˈækʃən/ | 확정된(최종) 규제·집행 조치 |
-| not under appeal | /nɑt ˈʌndɚ əˈpil/ | 항소 중이 아닌 |
+| ours | /ˈaʊɚz/ | 우리 같은 구조를 명시적으로 다루다 |
+| lands | /lændz/ | 연방관보에 실제 게재되는 규정 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

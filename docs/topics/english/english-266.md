@@ -28,9 +28,12 @@ Yusuf: Fine. Carrying on, then.
 
 
 
+
+
+
 ## Words
-| be soaked | /bi soʊkt/ | 흠뻑 젖다 |
-| keep going | /kip ˈɡoʊɪŋ/ | 계속 가다[하다] |
+| carry | /ˈkæri/ | ~까지 계속 가다 |
+| soaked | /soʊkt/ | 흠뻑 젖다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,14 @@ Jay: That one means it lasted too long, and a car can run over a fox. The subjec
 
 
 
+
+
+
 ## Words
-| run over something | /rʌn ˈoʊvɚ ˈsʌmθɪŋ/ | ~을 빠르게 훑어보다, 맞춰 보다 |
-| run through something | /rʌn θru ˈsʌmθɪŋ/ | 같은 뜻 |
-| meeting ran over | /ˈmitɪŋ ræn ˈoʊvɚ/ | 회의가 예정보다 길어졌다 |
+| run | /rʌn/ | ~을 빠르게 훑어보다, 맞춰 보다 |
+| something | /ˈsʌmθɪŋ/ | ~을 빠르게 훑어보다, 맞춰 보다 |
+| ran | /ræn/ | 회의가 예정보다 길어졌다 |
+| ten | /tɛn/ | 10분 뒤가 네 차례다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,8 +26,9 @@ Jay: Only if you say it about someone else. About my own habits it's a joke, whi
 
 
 
+
+
 ## Words
-| plain text | /pleɪn tɛkst/ | 서식 없는 텍스트 |
 | fussy | /ˈfʌsi/ | 깐깐하게, 유난스럽게 |
 
 ## Expressions

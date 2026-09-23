@@ -30,9 +30,11 @@ Jay: Agreed. If they get along next time, he's in.
 
 
 
+
+
 ## Words
-| judging by | /ˈdʒʌdʒɪŋ baɪ/ | ~을 보면, ~으로 미루어 보아 |
-| lot | /lɑt/ | 그 사람의 무리, 패거리 |
+| judging | /ˈdʒʌdʒɪŋ/ | ~을 보면, ~으로 미루어 보아 |
+| someone's | /ˈsʌmˌwʌnz/ | 그 사람의 무리, 패거리 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

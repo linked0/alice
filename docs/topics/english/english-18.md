@@ -32,11 +32,12 @@ Jay: It usually is, the second time.
 
 
 
+
+
+
 ## Words
-| before the code | /bɪˈfɔr ðə koʊd/ | 코드 얘기 전에 |
-| instinct was right | /ˈɪnstɪŋkt wɑz raɪt/ | 본능은 맞았다 |
-| keep that | /kip ðæt/ | 그건 유지하라 |
-| habit I'd add | /ˈhæbət aɪd æd/ | 내가 추가하고 싶은 습관 |
+| duplicate | /ˈdupləkət/ | 중복이 아닌 기여 |
+| shrink | /ʃrɪŋk/ | import 하나로 줄어들다 |
 
 ## Expressions
 | before the code | 코드 얘기 전에 |

@@ -30,9 +30,10 @@ Jay: Fair. Next time: deploy at noon, lunch right after, gym in the evening.
 
 
 
+
+
 ## Words
-| keel over | /kil ˈoʊvɚ/ | (갑자기) 쓰러지다 |
-| skip lunch | /skɪp lʌntʃ/ | 점심을 거르다 |
+| keel | /kil/ | (갑자기) 쓰러지다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

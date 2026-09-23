@@ -30,11 +30,13 @@ Jay: Then I'd suspect foul play and we'd rotate every key on the cluster before 
 
 
 
+
+
+
 ## Words
-| foul play | /faʊl pleɪ/ | (죽음·손실 뒤의) 범죄 행위; 반칙 |
-| rule out X | /rul aʊt ɛks/ | X를 배제하다 |
-| suspect foul play | /səˈspɛkt faʊl pleɪ/ | 범죄 행위를 의심하다 |
-| rotate a key | /ˈroʊˌteɪt ə ki/ | 키를 교체하다 |
+| foul | /faʊl/ | (죽음·손실 뒤의) 범죄 행위; 반칙 |
+| play | /pleɪ/ | (죽음·손실 뒤의) 범죄 행위; 반칙 |
+| rotate | /ˈroʊˌteɪt/ | 키를 교체하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

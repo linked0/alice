@@ -30,10 +30,10 @@ Jay: Then two weeks should show it, not two months. If it clears the gate, we mo
 
 
 
+
+
 ## Words
-| clear the gate | /klɪr ðə ɡeɪt/ | 게이트(사전 정의 기준)를 통과하다 |
-| question | /ˈkwɛstʃən/ | PoC가 반드시 답해야 할 단 하나의 질문 |
-| answer | /ˈænsɚ/ | PoC가 반드시 답해야 할 단 하나의 질문 |
+| gate | /ɡeɪt/ | 게이트(사전 정의 기준)를 통과하다 |
 | forward | /ˈfɔrwɚd/ | 이것이 다음 단계로 가려면 |
 
 ## Expressions

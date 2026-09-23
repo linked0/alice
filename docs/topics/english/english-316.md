@@ -28,6 +28,9 @@ Jay: Boats only. You read it, you don't say it about people. And for a boat it's
 1. **원래 자리와 파생된 자리를 나눠 기억한다.** 항해 용어로는 중립, 사람에게는 무례 — 같은 표현이 자리에 따라 완전히 달라진다.
 2. **'읽는 표현'과 '말하는 표현'을 구분해 둔다.** "you read it, you don't say it" — 이 구분만 알아도 실수를 줄인다.
 
+
+
+
 ## Words
 | broad | /brɔd/ | 폭이 넓은 — oa 가 /ɔ/ 다. board 와 거의 같은 소리 |
 | beam | /bim/ | (배의) 폭, 들보 — 긴 /i/. bim 이 아니라 '비임' |

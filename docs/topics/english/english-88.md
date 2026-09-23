@@ -30,9 +30,10 @@ Jay: No, it's rhetorical. It means "this was predictable", and it tells you I th
 
 
 
+
+
 ## Words
 | scumbag | /ˈskʌmˌbæɡ/ | 인간말종 |
-| pull out | /pʊl aʊt/ | (계약·거래에서) 손을 떼다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

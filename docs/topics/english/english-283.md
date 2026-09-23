@@ -28,10 +28,13 @@ Hana: Good call. After sedation we don't let anyone drive for the rest of the da
 
 
 
+
+
+
 ## Words
 | sedative | /ˈsɛdətɪv/ | 진정제 |
+| anaesthetic | /ˌænəsˈθɛtɪk/ | 국소 마취 |
 | sedation | /səˈdeɪʃən/ | 진정(수면) 상태·시술 |
-| local anaesthetic | /ˈloʊkəl ˌænəsˈθɛtɪk/ | 국소 마취 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

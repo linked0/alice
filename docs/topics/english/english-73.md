@@ -28,9 +28,12 @@ Ken: Sensible. Sit less, walk more, and don't lift your suitcase with your back.
 
 
 
+
+
 ## Words
 | narcotic | /nɑrˈkɑtɪk/ | 마약; 마약성 진통제 |
-| muscle strain | /ˈmʌsəl streɪn/ | 근육 염좌 |
+| strain | /streɪn/ | 근육 염좌 |
+| muscle | /ˈmʌsəl/ | 근육 염좌 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

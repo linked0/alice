@@ -30,10 +30,12 @@ Jay: Only enough to say it without stumbling: uh-MIG-duh-luh. The plural is amyg
 
 
 
+
+
 ## Words
 | amygdala | /ˌæmɪɡˈdɑlə/ | 편도체 |
+| vote | /voʊt/ | 의견을 낼 기회를 얻다 |
 | fire | /ˈfaɪɚ/ | (뉴런·알림이) 발동하다 |
-| get a vote | /ɡɛt ə voʊt/ | 의견을 낼 기회를 얻다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

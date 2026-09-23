@@ -30,10 +30,10 @@ Jay: Removing it later costs a week too, so the spike is the cheaper week. Let's
 
 
 
+
+
 ## Words
 | spike | /spaɪk/ | 짧은 기술 탐색 실험 |
-| rather | /ˈræðɚ/ | 우리 아직은 ~하지 않는 편이 좋겠다 |
-| didn't | /ˈdɪdənt/ | 우리 아직은 ~하지 않는 편이 좋겠다 |
 | deciding | /ˌdɪˈsaɪdɪŋ/ | 결정을 보류하다 |
 
 ## Expressions

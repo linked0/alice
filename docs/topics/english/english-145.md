@@ -30,13 +30,12 @@ Jay: That reaction is exactly why it's worth writing down.
 
 
 
+
+
+
 ## Words
 | encompass | /ɛnˈkʌmpəs/ | 완전히 포함하다, 감싸다 |
-| outer | /ˈaʊtɚ/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
 | handler | /ˈhændlɚ/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
-| failed | /feɪld/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
-| attempt | /əˈtɛmpt/ | 바깥 핸들러가 실패한 시도를 하나하나 못 볼 수 있다 |
-| boundary | /ˈbaʊndɚi/ | 제어 흐름 경계 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

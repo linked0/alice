@@ -30,11 +30,12 @@ Jay: Because a failed refund must never block an invoice. Everything else is det
 
 
 
+
+
+
 ## Words
 | digress | /daɪˈɡrɛs/ | 주제에서 벗어나다 |
-| but I digress | /bʌt aɪ daɪˈɡrɛs/ | 아, 딴 얘기로 샜네요 |
 | digression | /daɪˈɡrɛʃən/ | 여담 |
-| failure modes | /ˈfeɪljɚ moʊdz/ | 실패 양상 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

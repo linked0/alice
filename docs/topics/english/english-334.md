@@ -30,10 +30,11 @@ Jay: The mascot goes, one conference stays, and you show the board numbers befor
 
 
 
+
+
 ## Words
-| break the bank | /breɪk ðə bæŋk/ | 감당 못 할 돈이 들다 |
-| wild spending | /waɪld ˈspɛndɪŋ/ | 통제되지 않은 지출 |
 | runway | /ˈrʌnˌweɪ/ | 남은 자금으로 버틸 수 있는 기간 |
+| spending | /ˈspɛndɪŋ/ | 통제되지 않은 지출 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

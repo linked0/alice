@@ -30,10 +30,12 @@ Jay: Exactly. And if anyone asks what changes for us: our bridge waits for final
 
 
 
+
+
+
 ## Words
-| barely a change | /ˈbɛrli ə tʃeɪndʒ/ | 거의 변화가 없다 |
-| inclusion latency | /ˌɪnˈkluʒən ˈleɪtənsi/ | 포함 지연 |
-| different project | /ˈdɪfɚənt ˈprɑdʒɛkt/ | 별개의 프로젝트 |
+| epoch | /ˈɛpək/ | 에포크는 32슬롯 그대로다 |
+| latency | /ˈleɪtənsi/ | 포함 지연 |
 
 ## Expressions
 | Faster, yes. Fast, no. | 더 빠르긴 하다. 빠르진 않다. |

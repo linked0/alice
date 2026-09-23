@@ -30,9 +30,11 @@ Mateo: Then lean lightly. Treat 40 as your number and be pleasantly surprised.
 
 
 
+
+
 ## Words
-| price in | /praɪs ɪn/ | 가격에 반영하다 |
-| lean on | /lin ɑn/ | ~에 기대다 |
+| lean | /lin/ | ~에 기대다 |
+| odds | /ɑdz/ | X의 확률을 얼마로 보다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

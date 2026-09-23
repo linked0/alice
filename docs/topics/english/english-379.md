@@ -26,9 +26,11 @@ Jay: That's exactly the two groups — foreign born, and of foreign descent. Dif
 
 
 
+
+
 ## Words
-| foreign born | /ˈfɔrən bɔrn/ | 외국 태생의 |
-| of foreign descent | /ʌv ˈfɔrən dɪˈsɛnt/ | 외국계의 |
+| descent | /dɪˈsɛnt/ | 외국계의 |
+| foreign | /ˈfɔrən/ | 외국 태생의 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

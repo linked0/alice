@@ -28,11 +28,10 @@ Mina: Thanks. And thanks for just saying so instead of arguing the log.
 
 
 
+
+
 ## Words
-| no harm done | /noʊ hɑrm dʌn/ | 문제없어, 괜찮아 |
-| mistake | /mɪˈsteɪk/ | 제가 착각했습니다, 잘못 읽었어요 |
 | misread | /mɪsˈrid/ | 제가 착각했습니다, 잘못 읽었어요 |
-| thinking | /ˈθɪŋkɪŋ/ | 다른 걸 생각했어요 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

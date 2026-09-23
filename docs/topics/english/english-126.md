@@ -30,9 +30,14 @@ Jay: Yes. "For you" is sympathy; "about something" is guilt. You get the first o
 
 
 
+
+
+
 ## Words
-| pull a feature | /pʊl ə ˈfitʃɚ/ | 기능을 릴리스에서 빼다 |
-| sign off | /saɪn ɔf/ | 승인하다 |
+| feel | /fil/ | ~가 안쓰럽다 (동정) |
+| somebody | /ˈsʌmˌbɑdi/ | ~가 안쓰럽다 (동정) |
+| pull | /pʊl/ | 기능을 릴리스에서 빼다 |
+| feature | /ˈfitʃɚ/ | 기능을 릴리스에서 빼다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

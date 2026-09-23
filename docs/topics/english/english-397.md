@@ -30,10 +30,12 @@ Jay: Same spelling, different kitchen. Talk to her on Monday, not in front of me
 
 
 
+
+
 ## Words
 | poach | /poʊtʃ/ | (인력·고객을) 빼가다 |
-| poach an idea | /poʊtʃ æn aɪˈdiə/ | 아이디어를 도용하다 |
-| salary bands | /ˈsælɚi bændz/ | 연봉 구간 |
+| recruit | /rəˈkrut/ | 이런 자리에서 사람을 구하다 |
+| salary | /ˈsælɚi/ | 연봉 구간 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

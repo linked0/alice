@@ -30,10 +30,12 @@ Tom: Sensible. Say "team up" and nobody blinks.
 
 
 
+
+
 ## Words
-| case out | /keɪs aʊt/ | 사전에는 "힘을 모으다 / 꺼져" |
-| case the joint | /keɪs ðə dʒɔɪnt/ | (털기 전에) 장소를 살피다 |
-| team up | /tim ʌp/ | 힘을 합치다 |
+| case | /keɪs/ | 사전에는 "힘을 모으다 / 꺼져" |
+| joint | /dʒɔɪnt/ | (털기 전에) 장소를 살피다 |
+| ever | /ˈɛvɚ/ | 실제로 이 말 쓰긴 해? |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

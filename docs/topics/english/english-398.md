@@ -30,15 +30,16 @@ Jay: Years ago. Once you're building fabs, wages rise across the whole workforce
 
 
 
+
+
+
 ## Words
-| trickle down | /ˈtrɪkəl daʊn/ | (이익이) 아래로 흘러내리다 |
-| bonanza | /bəˈnænzə/ | 뜻밖의 대박·노다지 |
+| stingier | /ˈstɪndʒiɚ/ | 더 인색한 |
+| piddling | /ˈpɪdəlɪŋ/ | 하찮은, 쥐꼬리만 한 |
+| uptick | /ˈʌpˌtɪk/ | (수치의) 소폭 상승 |
 | windfall | /ˈwɪndˌfɔl/ | 우발적 소득, 횡재 |
-| AI dividend | /aɪ ˈdɪvɪˌdɛnd/ | AI 배당금 |
-| brisk | /brɪsk/ | (성장이) 활발한 / 숨막히게 빠른 |
-| capital expenditure | /ˈkæpətəl ɪkˈspɛndətʃɚ/ | 설비투자 |
-| fixed capital formation | /fɪkst ˈkæpətəl fɔrˈmeɪʃən/ | 고정자본형성 |
-| wealth effect | /wɛlθ ɪˈfɛkt/ | 부의 효과 |
+| blistering | /ˈblɪstɚɪŋ/ | (성장이) 활발한 / 숨막히게 빠른 |
+| toil | /tɔɪl/ | (고되게) 일하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

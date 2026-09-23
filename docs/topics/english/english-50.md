@@ -29,6 +29,8 @@ Jay: To her credit, just "Thanks, we've got it." His access was gone by that aft
 2. **상대가 쓴 단어를 받아서 정정하면 논점이 선명해진다.** "Guts would be owning it in the retro. This was pretending…"처럼 두 단어의 기준을 각각 한 문장으로 보여 주면 설명이 길어지지 않는다.
 
 
+
+
 ## Words
 | nerve | /nɝv/ | 뻔뻔함, 배짱 — have the nerve to 에서는 '뻔뻔하게도' |
 | guts | /ɡʌts/ | 배짱 — nerve 와 반대 방향의 칭찬 |

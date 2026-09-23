@@ -30,10 +30,12 @@ Jay: It won't. Before we disband, ownership of every runbook moves to a named te
 
 
 
+
+
+
 ## Words
 | disband | /dɪsˈbænd/ | (집단을) 해산하다, 해산되다 |
 | dissolve | /dɪˈzɑlv/ | 해산·청산하다 |
-| home team | /hoʊm tim/ | 원소속 팀 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

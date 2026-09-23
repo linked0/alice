@@ -30,11 +30,13 @@ Jay: That one's on the alerting config, not on any person. I'll open a ticket, b
 
 
 
+
+
+
 ## Words
-| That's on me | /ðæts ɑn mi/ | 그건 내 책임이야 |
-| that's on X | /ðæts ɑn ɛks/ | 그건 X 소관이다 |
+| paged | /peɪdʒd/ | 호출을 받다 |
 | flaky | /ˈfleɪki/ | 불안정한, 간헐적으로 실패하는 |
-| get paged | /ɡɛt peɪdʒd/ | 호출을 받다 |
+| vendor | /ˈvɛndɚ/ | 그건 X 소관이다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

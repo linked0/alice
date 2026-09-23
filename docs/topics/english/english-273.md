@@ -28,10 +28,12 @@ Tom: And liposuction is the same lipo.
 
 
 
+
+
+
 ## Words
 | lipoprotein | /ˌlɪpəˈproʊtin/ | 지단백 |
-| word family | /wɝd ˈfæməli/ | 같은 어근을 쓰는 단어 무리 |
-| half readable | /hæf ˈridəbəl/ | 절반은 읽히는 |
+| readable | /ˈridəbəl/ | 절반은 읽히는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

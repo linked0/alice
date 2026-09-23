@@ -30,10 +30,10 @@ Jay: Thank you. Could you confirm that by email, so we both have it in writing?
 
 
 
+
+
 ## Words
-| burden of proof | /ˈbɝdən ʌv pruf/ | 입증 책임 |
 | onus | /ˈoʊnəs/ | Y를 할 책임은 X에게 있다 |
-| writing | /ˈraɪtɪŋ/ | 서면으로 남기다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

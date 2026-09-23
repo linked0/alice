@@ -26,10 +26,14 @@ Jay: Good, because "issue" threw me — I read it as a problem at first. Here it
 
 
 
+
+
+
 ## Words
-| rights issue | /raɪts ˈɪʃu/ | 신주의 주주할당 발행 |
-| first refusal | /fɝst rəˈfjuzəl/ | 우선 매수권 |
-| X threw me | /ɛks θru mi/ | X 때문에 헷갈렸다 |
+| rights | /raɪts/ | 신주의 주주할당 발행 |
+| issue | /ˈɪʃu/ | 신주의 주주할당 발행 |
+| refusal | /rəˈfjuzəl/ | 우선 매수권 |
+| threw | /θru/ | X 때문에 헷갈렸다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

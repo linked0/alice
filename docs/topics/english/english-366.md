@@ -26,9 +26,13 @@ Jay: Good. So inflammation of the knee joint on paper, and "my knee is inflamed"
 
 
 
+
+
+
 ## Words
-| knee is inflamed | /ni ɪz ɪnˈfleɪmd/ | 무릎에 염증이 있다 |
-| that's a diagnosis | /ðæts ə ˌdaɪəɡˈnoʊsəs/ | 그건 진단명이다 |
+| inflammation | /ˌɪnfləˈmeɪʃən/ | 무릎 관절의 염증 |
+| knee | /ni/ | 무릎 관절의 염증 |
+| inflamed | /ɪnˈfleɪmd/ | 무릎에 염증이 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

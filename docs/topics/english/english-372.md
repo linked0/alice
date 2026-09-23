@@ -26,11 +26,12 @@ Jay: It is. In conversation I'd say I can't shake it — but "divest myself of" 
 
 
 
+
+
+
 ## Words
-| six months on | /sɪks mʌnθs ɑn/ | 반년이 지난 지금도 |
 | divest | /daɪˈvɛst/ | ~을 떨쳐 버리다, 처분하다 |
 | oneself | /ˌwʌnˈsɛlf/ | ~을 떨쳐 버리다, 처분하다 |
-| something | /ˈsʌmθɪŋ/ | ~을 떨쳐 버리다, 처분하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

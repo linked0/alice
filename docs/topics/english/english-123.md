@@ -30,9 +30,9 @@ Jay: Exactly why it fits. Fine, from Monday the greetings go; the "thanks" stays
 
 
 
+
+
 ## Words
-| way too proper | /weɪ tu ˈprɑpɚ/ | 너무 점잖은, 격식을 지나치게 차리는 |
-| square | /skwɛr/ | 고지식하고 재미없는 (낡은 속어) |
 | uptight | /əpˈtaɪt/ | 긴장해서 경직된 |
 
 ## Expressions

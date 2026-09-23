@@ -26,11 +26,12 @@ Jay: Different, not just worse. A complaint asks for something; he launched into
 
 
 
+
+
 ## Words
 | tirade | /taɪˈreɪd/ | 장황한 비난 |
 | launch | /lɔntʃ/ | 장광설을 퍼붓기 시작하다 |
-| someone | /ˈsʌmˌwʌn/ | 자리를 뜰 수 없는 사람 |
-| away | /əˈweɪ/ | 자리를 뜰 수 없는 사람 |
+| walk | /wɔk/ | 자리를 뜰 수 없는 사람 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

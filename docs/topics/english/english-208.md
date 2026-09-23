@@ -30,9 +30,10 @@ Jay: Never. The word already takes his side, so you choose it on purpose.
 
 
 
+
+
 ## Words
-| languish in jail | /ˈlæŋɡwɪʃ ɪn dʒeɪl/ | 감옥에서 잊힌 채 고달프게 지내다 |
-| serve a sentence | /sɝv ə ˈsɛntəns/ | 형을 살다 |
+| languish | /ˈlæŋɡwɪʃ/ | 감옥에서 잊힌 채 고달프게 지내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

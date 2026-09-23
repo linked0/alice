@@ -30,9 +30,11 @@ Jay: Exactly. So flip the flag on, watch the dashboard for ten minutes, and you'
 
 
 
+
+
 ## Words
-| generic you | /dʒəˈnɛrɪk ju/ | 일반인칭 you |
-| kill switch | /kɪl swɪtʃ/ | 즉시 기능을 끄는 스위치 |
+| generic | /dʒəˈnɛrɪk/ | 일반인칭 you |
+| switch | /swɪtʃ/ | 즉시 기능을 끄는 스위치 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

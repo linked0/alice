@@ -28,10 +28,12 @@ Sam: Then it stays in the diff.
 
 
 
+
+
+
 ## Words
-| good riddance | /ɡʊd ˈrɪdəns/ | 속 시원하다, 잘 없어졌다 |
-| something | /ˈsʌmθɪŋ/ | 속 시원하다, 잘 없어졌다 |
-| someone's | /ˈsʌmˌwʌnz/ | 퇴사하는 날에 |
+| riddance | /ˈrɪdəns/ | 속 시원하다, 잘 없어졌다 |
+| diff | /dɪf/ | 코드 변경분 안에만 둔다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

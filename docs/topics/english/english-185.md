@@ -30,10 +30,11 @@ Jay: Words like "crackdown" or "power grab". I'd keep those for when I actually 
 
 
 
+
+
 ## Words
-| counter to something | /ˈkaʊntɚ tu ˈsʌmθɪŋ/ | ~에 대한 반작용·맞대응 세력 |
-| industry body | /ˈɪndəstri ˈbɑdi/ | 업계 단체 |
-| power grab | /ˈpaʊɚ ɡræb/ | 권력 장악 시도 |
+| timing | /ˈtaɪmɪŋ/ | 시점을 보면 모를 수가 없다 |
+| grab | /ɡræb/ | 권력 장악 시도 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

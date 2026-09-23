@@ -30,6 +30,9 @@ Jay: Then he was listening, and the stolid face was just his face.
 
 
 
+
+
+
 ## Words
 | stolid | /ˈstɑləd/ | 둔감한, 무표정한 |
 | stoic | /ˈstoʊɪk/ | 의연한 |

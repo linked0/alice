@@ -30,9 +30,14 @@ Jay: Delete it. None the worse for the drop, and boarding in ten.
 
 
 
+
+
+
 ## Words
-| boot first try | /but fɝst traɪ/ | 한 번에 부팅되다 |
-| worse for wear | /wɝs fɔr wɛr/ | 낡고 지친 |
+| none | /nʌn/ | ~에도 불구하고 멀쩡하다. "it's none the worse for it" |
+| worse | /wɝs/ | ~에도 불구하고 멀쩡하다. "it's none the worse for it" |
+| boot | /but/ | 한 번에 부팅되다 |
+| wear | /wɛr/ | 낡고 지친 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

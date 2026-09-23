@@ -30,12 +30,15 @@ Jay: They will, and I'd still take it. A wrong page costs a bad night. No page c
 
 
 
+
+
+
 ## Words
-| passed validation | /pæst ˌvæləˈdeɪʃən/ | 검증을 통과했다 |
-| validate vs. reconcile | /ˈvælədeɪt ˈvɝsəz ˈrɛkənˌsaɪl/ | 검증하다 vs. 대사하다 |
-| locked against minted | /lɑkt əˈɡɛnst ˈmɪntɪd/ | 잠긴 양 대 발행량 |
-| someone gets paged | /ˈsʌmˌwʌn ɡɛts peɪdʒd/ | 누군가 호출된다 |
-| false positive | /fɔls ˈpɑzətɪv/ | 오탐 |
+| paged | /peɪdʒd/ | 누군가 호출된다 |
+| minted | /ˈmɪntɪd/ | 잠긴 양 대 발행량 |
+| validate | /ˈvælədeɪt/ | 검증하다 vs. 대사하다 |
+| reconcile | /ˈrɛkənˌsaɪl/ | 검증하다 vs. 대사하다 |
+| validation | /ˌvæləˈdeɪʃən/ | 검증을 통과했다 |
 
 ## Expressions
 | passed validation | 검증을 통과했다 |

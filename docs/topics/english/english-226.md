@@ -30,10 +30,10 @@ Jay: And keep it for machines. About a person's voice it sounds harsh.
 
 
 
+
+
 ## Words
-| grate on somebody | /ɡreɪt ɑn ˈsʌmˌbɑdi/ | ~의 신경을 거스르다 |
-| on a loop | /ɑn ə lup/ | 계속 반복되어 |
-| it sounds harsh | /ɪt saʊndz hɑrʃ/ | 험하게 들린다 |
+| grate | /ɡreɪt/ | ~의 신경을 거스르다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

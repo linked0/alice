@@ -26,9 +26,14 @@ Jay: I want the timing question answered. The free play of market forces is an o
 
 
 
+
+
+
 ## Words
-| market forces | /ˈmɑrkət ˈfɔrsɪz/ | 수요와 공급의 힘 |
-| supply catches up | /səˈplaɪ ˈkætʃəz ʌp/ | 공급이 따라잡다 |
+| free | /fri/ | 시장의 힘이 자유롭게 작용하게 두는 것 |
+| play | /pleɪ/ | 시장의 힘이 자유롭게 작용하게 두는 것 |
+| catches | /ˈkætʃəz/ | 공급이 따라잡다 |
+| supply | /səˈplaɪ/ | 공급이 따라잡다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

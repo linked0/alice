@@ -30,9 +30,11 @@ Jay: None of those. Good to know, though; I'd have assumed betaxolol was just an
 
 
 
+
+
 ## Words
-| eye pressure | /aɪ ˈprɛʃɚ/ | 안압 |
-| get absorbed | /ɡɛt əbˈzɔrbd/ | 흡수되다 |
+| absorbed | /əbˈzɔrbd/ | 흡수되다 |
+| fluid | /ˈfluəd/ | 안압 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

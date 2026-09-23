@@ -30,9 +30,12 @@ Jay: Fine. I'd rather sign something we can both live with than something one of
 
 
 
+
+
 ## Words
 | servitude | /ˈsɝvəˌtud/ | 노예 상태, 예속 |
-| exit clause | /ˈɛɡzɪt klɔz/ | 해지 조항 |
+| clause | /klɔz/ | 해지 조항 |
+| exit | /ˈɛɡzɪt/ | 해지 조항 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

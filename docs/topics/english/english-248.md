@@ -26,9 +26,11 @@ Jay: It's a cartoon noise you make while stealing something small. Friends only.
 
 
 
+
+
 ## Words
-| friends only | /frɛndz ˈoʊnli/ | 친구끼리만 쓰는 말 |
-| cartoon noise | /kɑrˈtun nɔɪz/ | 만화 효과음 |
+| cartoon | /kɑrˈtun/ | 만화 효과음 |
+| noise | /nɔɪz/ | 만화 효과음 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

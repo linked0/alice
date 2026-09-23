@@ -30,11 +30,12 @@ Jay: Or quoting it. If you need the neutral word, say police informant.
 
 
 
+
+
+
 ## Words
 | narc | /nɑrk/ | 마약 단속 경찰 |
-| be a narc | /bi ə nɑrk/ | 고자질쟁이 |
-| tell on somebody | /tɛl ɑn ˈsʌmˌbɑdi/ | ~를 이르다, 고자질하다 |
-| police informant | /pəˈlis ˌɪnˈfɔrmənt/ | 경찰 정보원 |
+| informant | /ˌɪnˈfɔrmənt/ | 경찰 정보원 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

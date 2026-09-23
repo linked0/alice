@@ -30,9 +30,12 @@ Jay: Between us, fine. One more round, and let's not get rekt on the same corner
 
 
 
+
+
+
 ## Words
-| wipe somebody out | /waɪp ˈsʌmˌbɑdi aʊt/ | ~를 완전히 털다 |
 | taunt | /tɔnt/ | 조롱 |
+| spelled | /spɛld/ | 일부러 틀리게 쓴 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,11 @@ Jay: Give me ten minutes with the diagram and ask me again.
 
 
 
+
+
 ## Words
-| have something down | /hæv ˈsʌmθɪŋ daʊn/ | ~을 숙지하다 |
-| drill something | /drɪl ˈsʌmθɪŋ/ | ~을 반복 훈련하다 |
+| drill | /drɪl/ | ~을 반복 훈련하다 |
+| page | /peɪdʒ/ | 적힌 것을 보고 읽다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

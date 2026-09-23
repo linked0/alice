@@ -26,11 +26,12 @@ Jay: Then it carries the same weight as the contract. An unsigned addendum is ju
 
 
 
+
+
 ## Words
 | addendum | /əˈdɛndəm/ | 계약·책에 덧붙이는 추가 문서 |
 | carry | /ˈkæri/ | ~과 같은 효력을 지니다 |
 | weight | /weɪt/ | ~과 같은 효력을 지니다 |
-| something | /ˈsʌmθɪŋ/ | ~과 같은 효력을 지니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

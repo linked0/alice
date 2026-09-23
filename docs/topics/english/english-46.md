@@ -30,9 +30,10 @@ Jay: "The next business I started", with "that" dropped. Same as "the last proje
 
 
 
+
+
 ## Words
-| hostess bar | /ˈhoʊstəs bɑr/ | 접객 술집 |
-| of all places | /ʌv ɔl ˈpleɪsəz/ | 하필 그곳에서 |
+| hostess | /ˈhoʊstəs/ | 접객 술집 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

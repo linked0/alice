@@ -30,12 +30,10 @@ Jay: That I can stand behind.
 
 
 
+
+
 ## Words
-| walk it back | /wɔk ɪt bæk/ | (한 말을) 철회하다, 주워 담다 |
-| rather | /ˈræðɚ/ | 아닌 척하고 싶지 않다 |
-| pretend | /priˈtɛnd/ | 아닌 척하고 싶지 않다 |
-| otherwise | /ˈʌðɚˌwaɪz/ | 아닌 척하고 싶지 않다 |
-| behind | /bɪˈhaɪnd/ | X는 내가 책임지고 말할 수 있다 |
+| verb | /vɝb/ | ~하지 않는 편이 좋겠다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

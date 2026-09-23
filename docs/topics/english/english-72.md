@@ -28,12 +28,11 @@ Sam: That's a useful answer. Thanks, Jay.
 
 
 
+
+
 ## Words
-| pad an estimate | /pæd æn ˈɛstəmət/ | 추정치에 여유를 두다 |
-| highly | /ˈhaɪli/ | ~를 높이 평가하다 |
-| someone | /ˈsʌmˌwʌn/ | ~를 높이 평가하다 |
-| little | /ˈlɪtəl/ | ~를 낮게 평가하다 |
-| reference | /ˈrɛfɚəns/ | ~를 추천인으로 적다 |
+| pad | /pæd/ | 추정치에 여유를 두다 |
+| estimate | /ˈɛstəmət/ | 추정치에 여유를 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

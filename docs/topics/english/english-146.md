@@ -30,10 +30,12 @@ Jay: Then the list is short: the replica, the second log retention tier, and the
 
 
 
+
+
 ## Words
 | expendable | /ɪkˈspɛndəbəl/ | 소모해도 되는, 없어도 되는 |
-| give someone notice | /ɡɪv ˈsʌmˌwʌn ˈnoʊtəs/ | 미리 알려 주다, 통보하다 |
-| nice to have | /naɪs tu hæv/ | 있으면 좋은 것 |
+| notice | /ˈnoʊtəs/ | 미리 알려 주다, 통보하다 |
+| walk | /wɔk/ | X를 하나씩 설명해 줘 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

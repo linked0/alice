@@ -30,9 +30,12 @@ Jay: Then she has a down on the missing test, not on you.
 
 
 
+
+
+
 ## Words
-| grudge | /ɡrʌdʒ/ | 앙심 |
 | somebody | /ˈsʌmˌbɑdi/ | ~를 공연히 미워하다, 적대감을 갖다 |
+| grudge | /ɡrʌdʒ/ | 앙심 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

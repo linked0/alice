@@ -30,10 +30,11 @@ Jay: Then send the deposit today. Otherwise I file with the deposit scheme tomor
 
 
 
+
+
 ## Words
-| scam somebody | /skæm ˈsʌmˌbɑdi/ | ~를 등쳐먹다, 사기 치다 |
+| scam | /skæm/ | ~를 등쳐먹다, 사기 치다 |
 | deposit | /dəˈpɑzɪt/ | 보증금 분쟁 기구에 접수하다 |
-| scheme | /skim/ | 보증금 분쟁 기구에 접수하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

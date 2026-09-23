@@ -30,10 +30,13 @@ Jay: Different word, same spelling. That one means his area of responsibility.
 
 
 
+
+
+
 ## Words
+| remit | /riˈmɪt/ | X에 자금을 송금하다 |
+| funds | /fʌndz/ | X에 자금을 송금하다 |
 | remittance | /riˈmɪtəns/ | 송금(액) |
-| wire it | /ˈwaɪɚ ɪt/ | 전신 송금하다 |
-| outside my remit | /ˌaʊtˈsaɪd maɪ riˈmɪt/ | 내 담당 범위 밖 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

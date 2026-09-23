@@ -30,9 +30,13 @@ Jay: Then they get reopened with a fresh report. If nobody can reproduce it in a
 
 
 
+
+
+
 ## Words
-| cull the backlog | /kʌl ðə ˈbæˌklɑɡ/ | 백로그를 솎아내다 |
-| reproduce a bug | /ˌriprəˈdus ə bʌɡ/ | 버그를 재현하다 |
+| cull | /kʌl/ | 백로그를 솎아내다 |
+| backlog | /ˈbæˌklɑɡ/ | 백로그를 솎아내다 |
+| reproduce | /ˌriprəˈdus/ | 버그를 재현하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

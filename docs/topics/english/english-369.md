@@ -26,10 +26,11 @@ Jay: No, it's personal now. If it were technical they'd still be arguing; they f
 
 
 
+
+
 ## Words
-| it's personal now | /ɪts ˈpɝsɪnəl naʊ/ | 이제 감정 문제다 |
 | somebody | /ˈsʌmˌbɑdi/ | ~와 사이가 틀어지다 |
-| something | /ˈsʌmθɪŋ/ | ~때문에 다투고 멀어지다 |
+| fall | /fɔl/ | ~때문에 다투고 멀어지다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

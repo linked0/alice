@@ -30,9 +30,12 @@ Jay: Right. Same highway metaphor. Nobody in this space says "deposit path"; the
 
 
 
+
+
+
 ## Words
-| cash out | /kæʃ aʊt/ | 현금화하다 |
-| bank rails | /bæŋk reɪlz/ | 은행 결제망 |
+| fiat | /ˈfaɪæt/ | 법정화폐 → 크립토 진입 경로 |
+| rails | /reɪlz/ | 은행 결제망 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

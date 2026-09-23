@@ -30,10 +30,10 @@ Jay: Completely. "Anyhow, let's get coffee" means "in any case". This one means 
 
 
 
+
+
 ## Words
-| any  how | /ˈɛni haʊ/ | 아무렇게나, 되는 대로 |
 | anyhow | /ˈɛniˌhaʊ/ | 어쨌든 |
-| dump something | /dʌmp ˈsʌmθɪŋ/ | ~을 아무렇게나 부려 놓다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

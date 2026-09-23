@@ -30,8 +30,9 @@ Jay: The cloud bill and the conference booth. Neither one buys you a customer th
 
 
 
+
+
 ## Words
-| runway | /ˈrʌnˌweɪ/ | (스타트업의) 남은 자금으로 버틸 기간 |
 | tether | /ˈtɛðɚ/ | 같은 뜻의 영국식 표현 |
 
 ## Expressions

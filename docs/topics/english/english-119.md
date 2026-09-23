@@ -30,9 +30,10 @@ Jay: It did. That "would" just means "used to". Fasting mornings, boring tickets
 
 
 
+
+
 ## Words
-| habitual would | /həˈbɪtʃuəl wʊd/ | 과거의 반복 행동 |
-| morning | /ˈmɔrnɪŋ/ | 아침 시간을 버텨 내다 |
+| habitual | /həˈbɪtʃuəl/ | 과거의 반복 행동 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

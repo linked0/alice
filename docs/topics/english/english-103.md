@@ -30,10 +30,12 @@ Jay: No. He isn't renting anything out. He owns it and decides what happens on i
 
 
 
+
+
+
 ## Words
-| major landowner | /ˈmeɪdʒɚ ˈlænˌdoʊnɚ/ | 대지주 |
-| major shareholder | /ˈmeɪdʒɚ ˈʃɛrˌhoʊldɚ/ | 대주주 / 주요 고객 |
-| landlord | /ˈlænˌdlɔrd/ | 집주인, 임대인 |
+| landowner | /ˈlænˌdoʊnɚ/ | 대지주 |
+| shareholder | /ˈʃɛrˌhoʊldɚ/ | 대주주 / 주요 고객 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

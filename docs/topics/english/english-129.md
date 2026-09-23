@@ -30,10 +30,11 @@ Jay: Then that's mine. Meet you at the taxi rank in ten.
 
 
 
+
+
 ## Words
-| tag along | /tæɡ əˈlɔŋ/ | 딸려서 함께 가다 |
-| someone | /ˈsʌmˌwʌn/ | 좀 도와주다 |
-| extra | /ˈɛkstrə/ | 일손 하나 더 |
+| tag | /tæɡ/ | 딸려서 함께 가다 |
+| pair | /pɛr/ | 일손 하나 더 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

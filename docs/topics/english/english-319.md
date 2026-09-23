@@ -30,8 +30,9 @@ Jay: That's trying once. You gave it a go in March; now you're making a go of it
 
 
 
+
+
 ## Words
-| keep at it | /kip æt ɪt/ | 꾸준히 매달리다 |
 | something | /ˈsʌmθɪŋ/ | ~을 노력해서 성공시키다 |
 
 ## Expressions
