@@ -94,7 +94,7 @@
   .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
   /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
   .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
-  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Yesterday · Today (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
   .rail-tier .tier-btn {
     flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
     color:var(--text2); background:var(--card); border:1px solid var(--border);
@@ -102,7 +102,7 @@
   }
   .rail-tier .tier-btn:hover { color:var(--text); }
   .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
-  .rail-tier .tier-btn[data-tier-mode="yesterday"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Yesterday · Today) fits (jay, 2026-09-21: "Make the Yesterday smaller") */
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
   /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
   .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
   .rail-tier .tier-btn {
@@ -391,9 +391,7 @@
         <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
         <span class="tier-break" aria-hidden="true"></span>
         <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
-        <button type="button" class="tier-btn" data-tier-mode="yesterday" aria-pressed="false" title="Only items done on the previous done-day (sky blue dot)">Yesterday</button>
-
-        <button type="button" class="tier-btn" data-tier-mode="today" aria-pressed="false" title="Only items done today (midnight blue dot)">Today</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (deep green dot)">Recently</button>
       </div>
       
       <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
@@ -594,7 +592,7 @@ objection-handling accuracy ↑
   }
   var navEl = document.getElementById('nav');
   if (navEl && sec) {
-    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Yesterday / Today 모드에서만 보인다
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
     // (jay, 2026-09-18: "it shows the matched ones for all the categories").
     var render = function (s, other) {
       var lis = s.items.map(function (it) {
@@ -638,10 +636,9 @@ objection-handling accuracy ↑
   // (jay, 2026-09-08: "even though All clicked, the recently done and important should be shown";
   // 2026-09-09: "important button shows also new items"). \uCD5C\uADFC \uC644\uB8CC\uB294 \uBC29\uAE08 \uB05D\uB0B8 \uAC15\uC870 \uD56D\uBAA9\uC774\uACE0,
   // \uC0C8 \uD56D\uBAA9\uC740 \uCD5C\uADFC \uCC3D(NEW_WINDOW) \uC548\uC5D0 \uC190\uB304 \uAC83\uC774\uB77C \uB458 \uB2E4 \uC911\uC694 \uC904\uC5D0 \uB450\uACE0 \uD544\uD130\uC5D0\uC11C \uC228\uAE30\uC9C0 \uC54A\uB294\uB2E4.
-  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Today / Yesterday / Done have their own buttons
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
   const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
-  const isToday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'TODAY DONE' || d.dataset.day === 'today'); };
-  const isYesterday = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'YESTERDAY DONE' || d.dataset.day === 'yesterday'); };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
   const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
   const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
   // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
@@ -652,7 +649,7 @@ objection-handling accuracy ↑
     for (const a of links) {
       const grp = a.closest('[data-group]');
       const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
-      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'today' ? isToday(a) : tierMode === 'yesterday' ? isYesterday(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
       a.parentElement.style.display = hit ? '' : 'none';
       if (hit) shown++;
     }

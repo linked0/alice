@@ -28,7 +28,7 @@ from notes_numbering import display, position  # section bases: Tech 1, Theory 5
 ap = argparse.ArgumentParser()
 ap.add_argument("--key", required=True); ap.add_argument("--slot", type=int, help="1-based position inside the section; the shown number is the section base + slot - 1 (Tech 1, Theory 500, Invest 800, Life 900)")
 ap.add_argument("--en", required=True); ap.add_argument("--ko", required=True)
-ap.add_argument("--status", default="new", help="planned | done | recent (= today: TODAY DONE, midnight blue until the next day's first done item, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
+ap.add_argument("--status", default="new", help="planned | done | recent (= RECENTLY DONE, deep green for the newest done-day and the one before it, then YESTERDAY DONE, then DONE) | important | new | revisit (= done, come back later; purple, sorts before DONE, counts as done; jay, 2026-09-21)");
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
@@ -39,7 +39,7 @@ ap.add_argument("--raw", help="source file (paste, fetched text, briefing) copie
 ap.add_argument("--sentence", help="with --bin converse: the one sentence you could say in an interview; appended to docs/topics/interview-bank.md")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"), "lately": ("#191970", "TODAY DONE"), "today": ("#191970", "TODAY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#15803d", "RECENTLY DONE"), "lately": ("#15803d", "RECENTLY DONE"), "today": ("#15803d", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 COLOR, LABEL = COLORS[A.status]
 DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%d")
@@ -126,14 +126,14 @@ if existing:
 else:
     assert A.slot, "--slot is required for a new item"; slot = A.slot
 new_item = {"key": KEY, "href": HREF, "color": COLOR, "label": LABEL, "text": TAG + E(TITLE), "added": DATE}   # `added` drives the one-week NEW limit in reorder-by-status.py (jay, 2026-09-21)
-if LABEL == "TODAY DONE": new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")
+if LABEL == "RECENTLY DONE": new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")
 elif existing and existing.get("done") and LABEL in ("DONE", "REVISIT"): new_item["done"] = existing["done"]
 if LABEL == "REVISIT" and not new_item.get("done"): new_item["done"] = A.done_at or datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M+09:00")   # REVISIT is done: stamp the day
 items.insert(slot - 1, new_item)
 for k, x in enumerate(items, 1):
     x["text"] = f'<span class="topic-no">{display(SEC["nav"], k)}</span>' + re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
     x["n"] = str(display(SEC["nav"], k)); x["title"] = re.sub(r'^<span class="topic-no">\d+</span>', '', x["text"])
-N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE", "REVISIT"))   # REVISIT is a done item kept for a later reminder (jay, 2026-09-21)
+N = len(items); DONE = sum(1 for x in items if x["label"] in ("DONE", "RECENTLY DONE", "REVISIT"))   # REVISIT is a done item kept for a later reminder (jay, 2026-09-21)
 sec["label"] = f"{SEC['label']} ({N})"
 for j in nav["jump"]:
     if j["id"] == SEC["art"]: j["all"], j["done"] = N, DONE
@@ -187,7 +187,7 @@ td, ta = sum(int(a) for a, _ in pills), sum(int(b) for _, b in pills)
 badge = f'{round(td * 100 / ta)}% &middot; {td}/{ta}'
 s = re.sub(r'(<span class="rail-note"[^>]*title="current">)[^<]*(</span>)', lambda m: m.group(1) + badge + m.group(2), s, count=1)
 p.write_text(s)
-# TODAY DONE rule: items done before today's 06:00 KST bucket drop to DONE; rail dots synced (scripts/roll-done-states.py)
+# RECENTLY DONE rule: items older than the previous 06:00 KST done-day drop to DONE; rail dots synced (scripts/roll-done-states.py)
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)
 
 # ---------------- detail page ----------------

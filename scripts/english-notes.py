@@ -13,7 +13,7 @@ Source format (docs/topics/english/english-N.md):
   status: planned | done | recent | important | new | revisit      (default planned; revisit = done, come back later — jay, 2026-09-21)
   source: …   source_ko: …   raw: <file in docs/topics/raw/>   (optional; a conversation written from an
               outside text cites it at the end of both articles and links its raw copy — jay, 2026-09-21)
-  done: 2026-09-18T15:08+09:00   (ISO +09:00, when status is recent/done; drives the TODAY/YESTERDAY DONE roll)
+  done: 2026-09-18T15:08+09:00   (ISO +09:00, when status is recent/done; drives the RECENTLY DONE roll)
   ## Dialogue            Speaker: English line   /  > Korean line (directly under it)
   ## Techniques          1. **제목.** 설명 (Korean, quoting the English)
   ## Expressions         | english | 한국어 |
@@ -44,7 +44,7 @@ NOTES = ROOT / "notes.html"
 NAVJS = ROOT / "topics" / "_nav.js"
 TEMPLATE = ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html"
 SECTION_ID, NAV_ID, LABEL = "sec-english", "nav-sec-english", "Eng"   # label shortened (jay, 2026-09-18: "English to Eng"); ids unchanged
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#15803d", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
 
@@ -247,7 +247,7 @@ for f in glob.glob(str(ROOT / "topics" / "*.html")):
 
 print(f"{LABEL}: {N} items ({DONE} done) → notes.html section + nav + pill; _nav.js; {N} detail pages; overall badge '{badge}' on {changed} topic pages")
 
-# TODAY DONE / YESTERDAY DONE roll (scripts/roll-done-states.py): stamped items bucket by 06:00 KST day; rail dots synced.
+# RECENTLY DONE roll (scripts/roll-done-states.py): stamped items bucket by 06:00 KST day; rail dots synced.
 import subprocess
 subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)
 # rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")
