@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/941</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 75/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#123</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#124</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
       <h1>Mixture of Experts — a model can carry 47 billion parameters and still compute with only 13 billion of them</h1>
       <p class="lead">Maarten Grootendorst, a data scientist known for the O&#39;Reilly book *Hands-On Large Language Models* and his visual-guide blog series, published a roughly 20-minute video ("A Visual Guide to Mixture of Experts (MoE) in LLMs," 19:44) walking through how MoE replaces a Transformer&#39;s dense feed-forward layer with a set of specialised sub-networks and a router that picks a few of them per token. The core numbers: Mixtral 8x7B holds about 47 billion parameters in memory but only runs about 13 billion of them for any given token, because the router activates 2 of its 8 experts per layer. The video also covers the router&#39;s softmax-and-top-K math, the auxiliary loss that keeps experts from collapsing onto a favoured few, and the capacity limit that can cause tokens to be dropped.</p>
       <p class="meta">For Jayverse this is the missing theory behind two earlier Tech items: #112 (MLX local AI) and #116 (local AI weights and quantization). It explains, in one architectural fact, why a model can feel fast to run and still refuse to fit on a Mac&#39;s unified memory — the two numbers that matter are different, and only one of them is the one you can budget against.</p>
@@ -473,7 +473,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-galaxy-brain-resistance-principles-with-teeth.html">&larr; 122. Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth</a><a href="pocs-rag-vs-long-context-hybrid-filter-then-attend.html">124. RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context &rarr;</a></div>
+    <div class="pager"><a href="pocs-galaxy-brain-resistance-principles-with-teeth.html">&larr; 123. Galaxy brain resistance — if an argument can justify anything, it tells you nothing, so pick categories and rules that have teeth</a><a href="pocs-rag-vs-long-context-hybrid-filter-then-attend.html">125. RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context &rarr;</a></div>
   </div>
   </main>
 </div>

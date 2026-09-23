@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/941</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 75/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#56</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">chat</span><span title="done">done 2026-09-16</span></p>
+      <p class="topic-kicker"><span class="topic-no">#57</span><span>PoC</span><span title="added">2026-09-16</span><span title="source">chat</span><span title="done">done 2026-09-16</span></p>
       <h1>Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</h1>
       <p class="lead">EIP-8198 "Quick Slots" (Carl Beekhuizen, Draft, 2026-03) makes Ethereum&#39;s slot duration a runtime schedule instead of a compile-time constant, then uses that to take the first cut: the EIP text says 8 s, the consensus-specs PR and Ethlabs propose 10 s for Hegotá, and the long-run target is ~6 s. Gas limit and blob targets scale by the same ratio, so throughput per second does not change — only how often a block lands. The "faster" part is the small part. The work is retuning every constant that is denominated in slots or epochs so that its wall-clock meaning stays the same. The schedule is bookkeeping, not a lever: an ordered list of eras (epoch, slot duration, intra-slot deadlines) starting at genesis, kept so that slot ↔ wall-clock conversion stays correct across the boundary. Every later entry must coincide with a network upgrade; the PR is explicit that it is not a way to change slot time between upgrades.</p>
       <p class="meta">For Jayverse: nothing to ship, one thing to check. The devnet runs Anvil at 1 s blocks, twelve times faster than mainnet, so any Jayverse code that converts blocks to time or hardcodes twelve seconds is already wrong there — market close, oracle staleness, keeper timing, bridge finality should be expressed in seconds or in <code>finalized</code>, never in block counts. Status on 2026-09-16: Draft; consensus-specs PR #5592 open; EF Protocol tier B with four prerequisites (engineering teams rated it D for the retuning cascade); Ethlabs S-tier, 10 s in Hegotá. No inclusion decision yet.</p>
@@ -469,7 +469,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 55. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-alchemy-app-is-a-budget.html">57. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking &rarr;</a></div>
+    <div class="pager"><a href="pocs-trading-intel-cost-needs-a-denominator.html">&larr; 56. “25× cheaper trading intel” needs a denominator — signals are not P&amp;L</a><a href="pocs-alchemy-app-is-a-budget.html">58. An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking &rarr;</a></div>
   </div>
   </main>
 </div>

@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/941</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 75/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Liquid's peg-out drain — the mint was poisoned, not the gate</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#46</span><span>PoC</span></p>
+      <p class="topic-kicker"><span class="topic-no">#47</span><span>PoC</span></p>
       <h1>Liquid's peg-out drain — the mint was poisoned, not the gate</h1>
       <p class="lead">The Blockstream Liquid loss was not an authorization bypass — my earlier guess was wrong. An Elements issuance bug minted LBTC that was technically valid, and the peg-out system correctly honored it. The gate worked; the set it counted was contaminated at the source.</p>
       <p class="meta">Not a build — a correction and a checklist. First correct the guess: this was not an access-control gap (my earlier read), it was an issuance bug in Elements that produced LBTC the peg-out logic then treated as valid. Then audit any system you run that burns/redeems/settles against a supply: does anything downstream trust &#39;is this a valid unit?&#39; without also trusting &#39;was this unit minted under the invariant?&#39; List every place those two questions are answered by different code — that gap is where this class lives. Confirm specifics against Blockstream&#39;s incident notes and the on-chain OP_RETURN / PGP negotiation before citing them.</p>
@@ -589,7 +589,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-chainlink-jayverse-cooperation.html">&larr; 45. Chainlink is infra Jayverse uses, not builds — where each product plugs in</a><a href="pocs-base-app-mini-app.html">47. Base App — what a Mini App buys, and what it rents &rarr;</a></div>
+    <div class="pager"><a href="pocs-chainlink-jayverse-cooperation.html">&larr; 46. Chainlink is infra Jayverse uses, not builds — where each product plugs in</a><a href="pocs-base-app-mini-app.html">48. Base App — what a Mini App buys, and what it rents &rarr;</a></div>
   </div>
   </main>
 </div>
