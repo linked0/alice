@@ -26,13 +26,12 @@ Jay: Narrow on the market, not on the engineering. You carve the niche out delib
 
 
 
+
+
+
 ## Words
-| market | /ˈmɑrkət/ | X 분야에서 틈새시장을 개척하다 |
-| nobody | /ˈnoʊˌbɑˌdi/ | 큰 회사들이 굳이 경쟁하지 않는다 |
+| carve | /kɑrv/ | X 분야에서 틈새시장을 개척하다 |
 | bothers | /ˈbɑðɚz/ | 큰 회사들이 굳이 경쟁하지 않는다 |
-| compete | /kəmˈpit/ | 큰 회사들이 굳이 경쟁하지 않는다 |
-| narrow | /ˈnɛroʊ/ | 시장은 좁게, 기술은 좁지 않게 |
-| engineering | /ˌɛndʒəˈnɪrɪŋ/ | 시장은 좁게, 기술은 좁지 않게 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

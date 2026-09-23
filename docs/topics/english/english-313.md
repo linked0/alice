@@ -30,8 +30,10 @@ Jay: Australian and British, and informal — nothing to do with "nuts". In a me
 
 
 
+
+
 ## Words
-| nut something out | /nʌt ˈsʌmθɪŋ aʊt/ | 골똘히 따져서 풀어내다 |
+| nut | /nʌt/ | 골똘히 따져서 풀어내다 |
 | numbers | /ˈnʌmbɚz/ | 숫자를 차근차근 따지다 |
 
 ## Expressions

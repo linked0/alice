@@ -35,9 +35,11 @@ Jay: It is. But it turns a story into a condition, and conditions are the only t
 
 
 
+
+
 ## Words
-| regardless of whether | /rəˈɡɑrdləs ʌv ˈwɛðɚ/ | ~인지 여부와 상관없이 |
-| harder sell | /ˈhɑrdɚ sɛl/ | 팔기 더 어려운 것(설득이 더 어려운 제안) |
+| react | /riˈækt/ | 저는 그 둘에 다르게 반응합니다(나누어 다루겠다는 신호) |
+| differently | /ˈdɪfrəntli/ | 저는 그 둘에 다르게 반응합니다(나누어 다루겠다는 신호) |
 
 ## Expressions
 | I react to them differently | 저는 그 둘에 다르게 반응합니다(나누어 다루겠다는 신호) |

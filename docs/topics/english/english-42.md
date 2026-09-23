@@ -30,9 +30,12 @@ Jay: I'd say yes to one and no to the other. Don't run yourself ragged trying to
 
 
 
+
+
+
 ## Words
-| run yourself ragged | /rʌn jɚˈsɛlf ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
-| cover for someone | /ˈkʌvɚ fɔr ˈsʌmˌwʌn/ | ~의 일을 대신 메우다 |
+| pager | /ˈpeɪdʒɚ/ | 온콜을 대신 맡다 / 호출을 떠안다 |
+| ragged | /ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

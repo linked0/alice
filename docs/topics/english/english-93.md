@@ -30,11 +30,11 @@ Jay: Capitals on the wall are fine. Capitals in an email look like shouting.
 
 
 
+
+
 ## Words
-| accept donations | /ækˈsɛpt doʊˈneɪʃənz/ | 기부금·기부 물품을 받다 |
-| Donations welcome | /doʊˈneɪʃənz ˈwɛlkəm/ | 기부 환영 |
-| call to action | /kɔl tu ˈækʃən/ | 행동 촉구 문구 |
-| look like shouting | /lʊk laɪk ˈʃaʊtɪŋ/ | 소리 지르는 것처럼 보이다 |
+| shouting | /ˈʃaʊtɪŋ/ | 소리 지르는 것처럼 보이다 |
+| donations | /doʊˈneɪʃənz/ | 기부금·기부 물품을 받다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

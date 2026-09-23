@@ -32,9 +32,10 @@ Jay: That's honest. A table full of TBDs is a roadmap. A missing table is a ques
 
 
 
+
+
 ## Words
-| it's uncontroversial | /ɪts ˌʌnˌkɑntrəˈvɝʃəl/ | 논란의 여지가 없다 |
-| reasonable start | /ˈrizənəbəl stɑrt/ | 합리적인 출발점 |
+| uncontroversial | /ˌʌnˌkɑntrəˈvɝʃəl/ | 논란의 여지가 없다 |
 
 ## Expressions
 | it's uncontroversial | 논란의 여지가 없다 |

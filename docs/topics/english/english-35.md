@@ -35,11 +35,12 @@ Jay: p99 next to the mean, split by message size, with the SLO drawn as a line. 
 
 
 
+
+
+
 ## Words
-| mean is fine | /min ɪz faɪn/ | 평균은 괜찮다(문제는 다른 곳에 있다) |
-| in this order | /ɪn ðɪs ˈɔrdɚ/ | 이 순서로 |
-| own lane | /oʊn leɪn/ | 자기 차선(별도 처리 경로) |
 | overtakes | /ˈoʊvɚˌteɪks/ | 추월한다 |
+| histogram | /ˈhɪstəˌɡræm/ | 히스토그램의 평평한 턱(특정 값에 몰린 구간) |
 
 ## Expressions
 | the mean is fine | 평균은 괜찮다(문제는 다른 곳에 있다) |

@@ -28,10 +28,12 @@ Ken: Good. I nearly put it in an email.
 
 
 
+
+
+
 ## Words
 | malfeasance | /ˌmælˈfizəns/ | (공직자의) 불법 행위 |
 | misconduct | /mɪˈskɑndəkt/ | 부정 행위, 비위 |
-| hold an office | /hoʊld æn ˈɔfɪs/ | 공직·직책을 맡다 |
 | unlawful | /ənˈlɔfəl/ | 위법한 |
 
 ## Expressions

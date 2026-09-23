@@ -26,10 +26,13 @@ Jay: Got it. Prone is face down, supine is face up. I'll hold still until you sa
 
 
 
+
+
+
 ## Words
-| prone position | /proʊn pəˈzɪʃən/ | 엎드린 자세, 복와위 |
+| prone | /proʊn/ | 엎드린 자세, 복와위 |
+| position | /pəˈzɪʃən/ | 엎드린 자세, 복와위 |
 | supine | /səˈpaɪn/ | 얼굴을 위로 한 자세 |
-| prone to something | /proʊn tu ˈsʌmθɪŋ/ | ~하기 쉬운 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

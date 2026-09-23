@@ -30,10 +30,12 @@ Jay: I'll take the three that block the release myself today, and the rest wait 
 
 
 
+
+
 ## Words
-| drop the ball | /drɑp ðə bɔl/ | 맡은 일을 놓치다 |
 | oneself | /ˌwʌnˈsɛlf/ | 어느새 X가 부족한 처지가 되다 |
-| cover | /ˈkʌvɚ/ | PR 아홉 개를 감당하다 |
+| nine | /naɪn/ | PR 아홉 개를 감당하다 |
+| drop | /drɑp/ | 맡은 일을 놓치다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

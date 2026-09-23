@@ -30,9 +30,12 @@ Jay: That's the plan. Gates that depend on mood let things through.
 
 
 
+
+
 ## Words
-| get let through | /ɡɛt lɛt θru/ | (잘못이) 걸러지지 않고 나가다 |
+| through | /θru/ | 통과시키다 |
 | gate | /ɡeɪt/ | 관문 |
+| somebody | /ˈsʌmˌbɑdi/ | 통과시키다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

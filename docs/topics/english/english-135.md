@@ -28,9 +28,12 @@ Tom: Then let's have one for old times' sake and go somewhere that hasn't gone d
 
 
 
+
+
+
 ## Words
-| go downhill | /ɡoʊ ˌdaʊnˈhɪl/ | 나빠지다, 한물가다 |
-| times' | /taɪmz/ | 옛정을 생각해서 |
+| dumps | /dʌmps/ | (장소·상태가) 쇠락하다 |
+| downhill | /ˌdaʊnˈhɪl/ | 나빠지다, 한물가다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

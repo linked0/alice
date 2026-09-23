@@ -30,9 +30,11 @@ Jay: Then we have a reason, on the record, and we build our own.
 
 
 
+
+
 ## Words
-| given X | /ˈɡɪvən ɛks/ | X를 고려하면 |
-| declaration of war | /ˌdɛklɚˈeɪʃən ʌv wɔr/ | 선전포고 |
+| declaration | /ˌdɛklɚˈeɪʃən/ | 선전포고 |
+| sit | /sɪt/ | PR을 깔고 앉아 있다, 처리하지 않다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

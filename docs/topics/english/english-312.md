@@ -30,10 +30,12 @@ Jay: Very strong. I wouldn't use it about someone at work unless I meant it — 
 
 
 
+
+
+
 ## Words
 | vindictive | /vɪnˈdɪktɪv/ | 앙심을 품은, 보복하려는 |
-| be vindicated | /bi ˈvɪndəkeɪtɪd/ | 옳았음이 입증되다 |
-| take something personally | /teɪk ˈsʌmθɪŋ ˈpɝsənəli/ | 감정적으로 받아들이다 |
+| vindicated | /ˈvɪndəkeɪtɪd/ | 옳았음이 입증되다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

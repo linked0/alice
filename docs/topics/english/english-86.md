@@ -30,10 +30,11 @@ Jay: Priya in finance. Put "new hire, pre-card reimbursement" in the subject and
 
 
 
+
+
 ## Words
-| new hire | /nu ˈhaɪɚ/ | 신입 직원 |
-| company funds | /ˈkʌmpəˌni fʌndz/ | 회사 자금 |
-| file an expense | /faɪl æn ɪkˈspɛns/ | 경비를 청구하다 |
+| expense | /ɪkˈspɛns/ | 경비를 청구하다 |
+| hire | /ˈhaɪɚ/ | 신입 직원 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

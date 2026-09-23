@@ -30,9 +30,10 @@ Jay: Yes, revert it. I'll leave a note on the review thread so the record shows 
 
 
 
+
+
 ## Words
-| correct | /kɚˈɛkt/ | 이미 아는 오류를 바로잡다 vs 오류를 발견하다 |
-| move buys nothing | /muv baɪz ˈnʌθɪŋ/ | 옮겨도 얻는 게 없다 |
+| flagging | /ˈflæɡɪŋ/ | X에 대한 정정을 알립니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

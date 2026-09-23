@@ -30,9 +30,12 @@ Jay: "Shrouded in secrecy", folded into one adjective. With "previously unannoun
 
 
 
+
+
+
 ## Words
-| premiere | /prɛˈmɪr/ | 첫 공개되다, 초연되다 |
-| shrouded in secrecy | /ˈʃraʊdɪd ɪn ˈsikrəsi/ | 비밀에 싸인 |
+| shrouded | /ˈʃraʊdɪd/ | 비밀에 싸인 |
+| secrecy | /ˈsikrəsi/ | 비밀에 싸인 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

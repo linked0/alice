@@ -33,12 +33,13 @@ Jay: That's exactly what I meant. Walk me through it.
 
 
 
+
+
+
 ## Words
-| obvious thing | /ˈɑbviəs θɪŋ/ | 뻔한 것, 모두 아는 것 |
-| mostly | /ˈmoʊstli/ | 대체로 |
-| something narrower | /ˈsʌmθɪŋ ˈnɛroʊɚ/ | 더 좁은 것 |
-| unpaid consulting | /ənˈpeɪd kənˈsʌltɪŋ/ | 무급 컨설팅 |
-| here's my side | /hɪrz maɪ saɪd/ | 내 쪽 이야기는 이렇다 |
+| narrower | /ˈnɛroʊɚ/ | 더 좁은 것 |
+| hallway | /ˈhɔlˌweɪ/ | 복도에서 알게 되다 |
+| unpaid | /ənˈpeɪd/ | 무급 컨설팅 |
 
 ## Expressions
 | the obvious thing | 뻔한 것, 모두 아는 것 |

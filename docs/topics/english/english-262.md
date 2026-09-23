@@ -26,9 +26,13 @@ Jay: Two swaps a quarter, and the rota is public. At my last team no one shirked
 
 
 
+
+
+
 ## Words
 | shirk | /ʃɝk/ | 해야 할 일을 게을러서 피하다 |
-| no one shirked | /noʊ wʌn ʃɝkt/ | 아무도 태만하지 않았다 |
+| shirked | /ʃɝkt/ | 아무도 태만하지 않았다 |
+| rota | /ˈroʊtə/ | 온콜 당번표 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

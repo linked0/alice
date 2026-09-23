@@ -28,11 +28,12 @@ Aoife: Then let's keep the rollback line and water down the rest.
 
 
 
+
+
+
 ## Words
-| water something down | /ˈwɔtɚ ˈsʌmθɪŋ daʊn/ | 내용을 약화시키다 |
-| watered down | /ˈwɔtɚd daʊn/ | 물 탄, 알맹이 빠진 |
-| guarantee | /ˌɡɛrənˈti/ | 보장 |
-| aim for something | /eɪm fɔr ˈsʌmθɪŋ/ | ~을 목표로 하다 |
+| water | /ˈwɔtɚ/ | 내용을 약화시키다 |
+| watered | /ˈwɔtɚd/ | 물 탄, 알맹이 빠진 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

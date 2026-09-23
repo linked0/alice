@@ -30,9 +30,11 @@ Jay: A year of two-timing her. She's better off knowing.
 
 
 
+
+
 ## Words
-| cheat on someone | /tʃit ɑn ˈsʌmˌwʌn/ | ~를 두고 바람피우다 |
-| turns out | /tɝnz aʊt/ | 알고 보니 |
+| cheat | /tʃit/ | ~를 두고 바람피우다 |
+| turns | /tɝnz/ | 알고 보니 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

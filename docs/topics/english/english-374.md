@@ -26,9 +26,12 @@ Jay: Then I'll translate it as 외설물 and write "explicit content" in our own
 
 
 
+
+
 ## Words
 | smut | /smʌt/ | 외설물 |
-| explicit content | /ɪkˈsplɪsət ˈkɑntɛnt/ | 노골적인 콘텐츠 |
+| explicit | /ɪkˈsplɪsət/ | 노골적인 콘텐츠 |
+| content | /ˈkɑntɛnt/ | 노골적인 콘텐츠 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

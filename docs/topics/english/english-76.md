@@ -28,9 +28,12 @@ Tom: I'll remind you of that the next time you complain about the espresso machi
 
 
 
+
+
+
 ## Words
+| Ken's | /kɛnz/ | ~의 집에서 |
 | deafening | /ˈdɛfənɪŋ/ | 귀가 먹먹할 만큼 시끄러운 |
-| at Ken's | /æt kɛnz/ | ~의 집에서 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,13 @@ Jay: Then we coordinate, because then there's something to fix. But be strict: c
 
 
 
+
+
+
 ## Words
+| converged | /kənˈvɝdʒd/ | 한 점으로 모이다, 같은 결론에 이르다 |
 | converge | /kənˈvɝdʒ/ | 한 점으로 모이다, 같은 결론에 이르다 |
-| coordination | /koʊˌɔrdəˈneɪʃən/ | 맞춰 가는 과정 vs 이미 같은 곳에 도달한 상태 |
-| drift apart | /drɪft əˈpɑrt/ | 서로 어긋나다, 멀어지다 |
+| convergence | /kənˈvɝdʒəns/ | 맞춰 가는 과정 vs 이미 같은 곳에 도달한 상태 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,13 +26,12 @@ Jay: I'll say what I'd change and why, every time. If I soften it until it means
 
 
 
+
+
+
 ## Words
-| somebody | /ˈsʌmˌbɑdi/ | 돕는 척하며 해를 끼치다 |
 | disservice | /dɪˈsɝvəs/ | 돕는 척하며 해를 끼치다 |
 | soften | /ˈsɑfən/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
-| something | /ˈsʌmθɪŋ/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
-| nothing | /ˈnʌθɪŋ/ | 아무 뜻도 안 남을 만큼 완곡하게 만들다 |
-| change | /tʃeɪndʒ/ | 무엇을 바꿀지와 그 이유 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

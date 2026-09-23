@@ -30,11 +30,11 @@ Jay: For planning, yes. We treat passage as upside, not the plan, so my guess do
 
 
 
+
+
 ## Words
-| market | /ˈmɑrkət/ | 시장보다 나은 정보·판단 우위가 없다 |
-| something | /ˈsʌmθɪŋ/ | ~의 확률을 얼마로 보다 |
-| passage | /ˈpæsədʒ/ | 통과는 추가 호재지 계획의 전제가 아니다 |
 | upside | /ˌʌpˈsaɪd/ | 통과는 추가 호재지 계획의 전제가 아니다 |
+| passage | /ˈpæsədʒ/ | 통과는 추가 호재지 계획의 전제가 아니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

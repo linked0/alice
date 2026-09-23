@@ -30,10 +30,11 @@ Jay: Exactly the same verb, and no "from". Keep off fatty foods, keep off salt, 
 
 
 
+
+
 ## Words
-| keep off something | /kip ɔf ˈsʌmθɪŋ/ | ~을 멀리하다 |
-| cut something out | /kʌt ˈsʌmθɪŋ aʊt/ | 완전히 끊다 |
-| come back with | /kʌm bæk wɪð/ | ~라고 나오다 |
+| subject | /səbˈdʒɛkt/ | 그 얘기는 꺼내지 않다 |
+| cut | /kʌt/ | 완전히 끊다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

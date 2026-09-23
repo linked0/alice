@@ -26,9 +26,12 @@ Jay: Only if you couldn't move. It's much stronger than nervous. I'd say nervous
 
 
 
+
+
 ## Words
-| petrified forest | /ˈpɛtrəˌfaɪd ˈfɔrəst/ | 석화된 숲 |
-| petrified expression | /ˈpɛtrəˌfaɪd ɪkˈsprɛʃən/ | 겁에 질린 표정 |
+| petrified | /ˈpɛtrəˌfaɪd/ | 석화된 숲 |
+| root | /rut/ | 어원이 같아서 |
+| nervous | /ˈnɝvəs/ | nervous보다 훨씬 센 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

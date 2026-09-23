@@ -30,10 +30,11 @@ Jay: Right. Nothing to do with wanting something. Same word, older sense.
 
 
 
+
+
 ## Words
-| fall short | /fɔl ʃɔrt/ | 기준에 못 미치다 |
 | wanting | /ˈwɑntɪŋ/ | 시험해 보니 부족한 것으로 드러난 |
-| didn't | /ˈdɪdənt/ | 잘 안 됐다 |
+| fall | /fɔl/ | 기준에 못 미치다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

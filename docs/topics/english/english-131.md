@@ -30,9 +30,11 @@ Jay: Exactly. Remove the footgun and the flag is fine.
 
 
 
+
+
 ## Words
-| safe by default | /seɪf baɪ dɪˈfɔlt/ | 기본값이 안전한 쪽 |
-| opt out | /ɑpt aʊt/ | (기본에서) 빠지기로 선택하다 |
+| opt | /ɑpt/ | (기본에서) 빠지기로 선택하다 |
+| default | /dɪˈfɔlt/ | 기본값이 안전한 쪽 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,11 @@ Jay: Clear. I'll write "blood relatives" in my own notes and keep the long word 
 
 
 
+
+
 ## Words
-| blood relatives | /blʌd ˈrɛlətɪvz/ | 혈연 친척 |
-| relatives by marriage | /ˈrɛlətɪvz baɪ ˈmɛrɪdʒ/ | 인척 |
-| family history | /ˈfæməli ˈhɪstɚi/ | 가족력 |
+| relatives | /ˈrɛlətɪvz/ | 혈연 친척 |
+| marriage | /ˈmɛrɪdʒ/ | 인척 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

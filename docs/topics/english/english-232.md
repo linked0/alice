@@ -30,9 +30,11 @@ Jay: Reading groups and internal talks. They cost hours, not budget.
 
 
 
+
+
+
 ## Words
-| across the board | /əˈkrɔs ðə bɔrd/ | 전면적으로 |
-| dropped | /drɑpt/ | 연기가 아니라 폐기 |
+| board | /bɔrd/ | 물거품이 되다, 무시되다 |
 | postponed | /poʊstˈpoʊnd/ | 연기가 아니라 폐기 |
 
 ## Expressions

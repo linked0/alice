@@ -33,10 +33,12 @@ Lucas: Friday, then.
 
 
 
+
+
+
 ## Words
-| before you decided | /bɪˈfɔr ju ˌdɪˈsaɪdɪd/ | 결정하기 전에 |
+| rewrite | /riˈraɪt/ | 재작성을 맡다(오너십) |
 | symptom | /ˈsɪmptəm/ | 증상(진짜 원인의 표면) |
-| own the rewrite | /oʊn ðə riˈraɪt/ | 재작성을 맡다(오너십) |
 
 ## Expressions
 | I haven't said yes | 아직 예스라고 하지 않았다 |

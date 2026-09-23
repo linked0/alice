@@ -30,11 +30,10 @@ Jay: No. In the retro it's "we had no deploy lock and no owner." Clownshow is fo
 
 
 
+
+
 ## Words
-| deploy lock | /dɪˈplɔɪ lɑk/ | 배포 잠금 |
-| total | /ˈtoʊtəl/ | 완전 엉망진창 |
-| nobody | /ˈnoʊˌbɑˌdi/ | 아무도 그 환경을 책임지지 않았다 |
-| environment | /ɪnˈvaɪrənmənt/ | 아무도 그 환경을 책임지지 않았다 |
+| deploy | /dɪˈplɔɪ/ | 배포 잠금 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

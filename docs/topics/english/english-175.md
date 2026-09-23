@@ -30,10 +30,12 @@ Jay: Already drafted: twenty requests a second per key, plus a pinned status pos
 
 
 
+
+
+
 ## Words
-| deluge of requests | /ˈdɛljudʒ ʌv rɪˈkwɛsts/ | 요청의 쇄도 |
-| be deluged with | /bi ˈdɛljudʒd wɪð/ | ~이 쇄도하다 |
-| flood of | /flʌd ʌv/ | ~의 홍수 |
+| deluge | /ˈdɛljudʒ/ | 요청의 쇄도 |
+| deluged | /ˈdɛljudʒd/ | ~이 쇄도하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

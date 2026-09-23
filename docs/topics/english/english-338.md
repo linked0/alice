@@ -30,8 +30,9 @@ Jay: About or over. And it needs a crowd — one annoyed person isn't up in arms
 
 
 
+
+
 ## Words
-| up in arms | /ʌp ɪn ɑrmz/ | 무기를 들고 맞서다 |
 | literal | /ˈlɪtɚəl/ | 모처럼 문자 그대로였다 |
 
 ## Expressions

@@ -30,10 +30,11 @@ Jay: Then I hand it over honestly. But I'd like to be the one who finishes it.
 
 
 
+
+
 ## Words
-| go the distance | /ɡoʊ ðə ˈdɪstəns/ | 끝까지 버텨 내다 |
-| hand it over | /hænd ɪt ˈoʊvɚ/ | (일을) 넘기다 |
-| That sounds heavy | /ðæt saʊndz ˈhɛvi/ | 그거 부담스럽게 들린다 |
+| distance | /ˈdɪstəns/ | 끝까지 버텨 내다 |
+| heavy | /ˈhɛvi/ | 그거 부담스럽게 들린다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

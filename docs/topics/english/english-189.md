@@ -30,9 +30,11 @@ Jay: Perfect. I'd rather ask an awkward question now than read an ambiguous line
 
 
 
+
+
+
 ## Words
 | unequivocal | /ˌʌnɪˈkwɪvəkəl/ | 명백한, 달리 읽힐 여지가 없는 |
-| unequivocal yes | /ˌʌnɪˈkwɪvəkəl jɛs/ | 분명한 승낙 |
 | equivocate | /ɪˈkwɪvəˌkeɪt/ | 얼버무리다 |
 
 ## Expressions

@@ -30,12 +30,12 @@ Jay: It is. Being infatuated with someone means you're so taken with them you st
 
 
 
+
+
+
 ## Words
 | hussy | /ˈhʌsi/ | (구식·비하) 행실이 나쁘다고 여겨진 여자 |
 | infatuated | /ˌɪnˈfætʃuˌeɪtɪd/ | ~에게 홀딱 빠져 판단력을 잃다 |
-| somebody | /ˈsʌmˌbɑdi/ | ~에게 홀딱 빠져 판단력을 잃다 |
-| crazy | /ˈkreɪzi/ | ~에게 푹 빠지다 |
-| recognise | /ˈrɛkəɡˌnaɪz/ | 알아듣기용 단어지 쓰기용은 아니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

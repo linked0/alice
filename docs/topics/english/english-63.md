@@ -30,9 +30,12 @@ Jay: I'll list every knock-on item tomorrow, and we plan the bump as three ticke
 
 
 
+
+
+
 ## Words
-| ripple effect | /ˈrɪpəl ɪˈfɛkt/ | 파급 효과 |
-| pin | /pɪn/ | 버전을 고정하다 |
+| ripple | /ˈrɪpəl/ | 파급 효과 |
+| downstream | /ˌdaʊnˈstrim/ | 파급 효과 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,14 @@ Jay: Ask before you sign, not after. That's the whole question in clause nine.
 
 
 
+
+
+
 ## Words
-| ironclad note | /ˈaɪɚnˌklæd noʊt/ | 담보부 약속어음 |
-| ironclad alibi | /ˈaɪɚnˌklæd ˈæləˌbaɪ/ | 빈틈없는 알리바이·보증 |
+| ironclad | /ˈaɪɚnˌklæd/ | 담보부 약속어음 |
+| note | /noʊt/ | 담보부 약속어음 |
+| alibi | /ˈæləˌbaɪ/ | 빈틈없는 알리바이·보증 |
+| pledged | /plɛdʒd/ | 어떤 자산이 담보로 잡히는지 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

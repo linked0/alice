@@ -30,10 +30,14 @@ Jay: Back row, silent. Close enough to help, far enough not to cramp your style.
 
 
 
+
+
+
 ## Words
-| cramp somebody's style | /kræmp ˈsʌmˌbɑdiz staɪl/ | ~가 마음껏 하지 못하게 하다 |
-| looking | /ˈlʊkɪŋ/ | 좌중의 시선이 당신에게 있다 |
-| enough | /ɪˈnʌf/ | A할 만큼 가깝고 B하지 않을 만큼 멀게 |
+| cramp | /kræmp/ | ~가 마음껏 하지 못하게 하다 |
+| somebody's | /ˈsʌmˌbɑdiz/ | ~가 마음껏 하지 못하게 하다 |
+| style | /staɪl/ | ~가 마음껏 하지 못하게 하다 |
+| close | /kloʊs/ | A할 만큼 가깝고 B하지 않을 만큼 멀게 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

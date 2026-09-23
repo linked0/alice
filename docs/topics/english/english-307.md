@@ -30,10 +30,11 @@ Jay: I'd write "the process was documented" and attach the quotes. Above board i
 
 
 
+
+
 ## Words
-| above board | /əˈbʌv bɔrd/ | 공명정대한, 숨긴 것이 없는 |
-| open tender | /ˈoʊpən ˈtɛndɚ/ | 공개 입찰 |
-| sound defensive | /saʊnd dɪˈfɛnsɪv/ | 변명처럼 들리다 |
+| tender | /ˈtɛndɚ/ | 공개 입찰 |
+| defensive | /dɪˈfɛnsɪv/ | 변명처럼 들리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,12 @@ Jay: Just rice, seaweed and the plum. If you want something richer, that one's g
 
 
 
+
+
+
 ## Words
-| have got | /hæv ɡɑt/ | 갖고 있다, 들어 있다 |
-| pickled plum | /ˈpɪkəld plʌm/ | 매실장아찌 / 우메보시 |
+| pickled | /ˈpɪkəld/ | 매실장아찌 / 우메보시 |
+| plum | /plʌm/ | 매실장아찌 / 우메보시 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

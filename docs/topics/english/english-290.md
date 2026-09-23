@@ -30,10 +30,12 @@ Jay: I'll park further away and walk the last stretch, then.
 
 
 
+
+
 ## Words
 | artery | /ˈɑrtɚi/ | 동맥 |
-| city | /ˈsɪti/ | 도심으로 들어오는 간선도로 |
 | stretch | /strɛtʃ/ | 마지막 구간은 걷다 |
+| walk | /wɔk/ | 마지막 구간은 걷다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

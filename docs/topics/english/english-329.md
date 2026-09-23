@@ -30,9 +30,10 @@ Mina: Thanks. I've been chewing on it for a week.
 
 
 
+
+
 ## Words
-| petty | /ˈpɛˌti/ | 사소한, 좀스러운 |
-| chew on something | /tʃu ɑn ˈsʌmθɪŋ/ | ~을 곱씹다 |
+| chew | /tʃu/ | ~을 곱씹다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

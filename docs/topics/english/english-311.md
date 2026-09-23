@@ -30,9 +30,10 @@ Jay: Exactly, and the nubbin is what we see because of it.
 
 
 
+
+
 ## Words
-| stick out | /stɪk aʊt/ | 튀어나오다 |
-| problem | /ˈprɑbləm/ | 문제의 핵심 |
+| nub | /nʌb/ | 문제의 핵심 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

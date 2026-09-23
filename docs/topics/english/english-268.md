@@ -28,10 +28,12 @@ Diego: And in normal talk you'd just say the driver stopped in time.
 
 
 
+
+
 ## Words
-| avert a crash | /əˈvɝt ə kræʃ/ | 충돌을 막다 |
-| avert one's eyes | /əˈvɝt wʌnz aɪz/ | 눈을 돌리다 |
-| stop in time | /stɑp ɪn taɪm/ | 제때 멈추다 |
+| avert | /əˈvɝt/ | 충돌을 막다 |
+| lanes | /leɪnz/ | 두 차선을 가로질러 끼어들다 |
+| one's | /wʌnz/ | 눈을 돌리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

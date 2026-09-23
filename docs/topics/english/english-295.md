@@ -30,11 +30,12 @@ Jay: The verb, to thwart something. A foiled robbery is one the police stopped.
 
 
 
+
+
+
 ## Words
 | foil | /fɔɪl/ | 포일 |
-| foil for somebody | /fɔɪl fɔr ˈsʌmˌbɑdi/ | ~를 돋보이게 하는 상대역 |
-| foiled robbery | /fɔɪld ˈrɑbɚi/ | 저지된 강도 사건 |
-| completely different sense | /kəmˈplitli ˈdɪfɚənt sɛns/ | 전혀 다른 뜻 |
+| foiled | /fɔɪld/ | 저지된 강도 사건 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

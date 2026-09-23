@@ -30,9 +30,14 @@ Jay: Deal. Bring the slides, I'll bring the questions.
 
 
 
+
+
+
 ## Words
-| chicken out | /ˈtʃɪkən aʊt/ | 겁먹고 그만두다, 꽁무니를 빼다 |
+| chicken | /ˈtʃɪkən/ | 겁먹고 그만두다, 꽁무니를 빼다 |
+| something | /ˈsʌmθɪŋ/ | 겁먹고 그만두다, 꽁무니를 빼다 |
 | pull | /pʊl/ | 빼다, 철회하다 |
+| list | /lɪst/ | 발표자 명단에 남다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

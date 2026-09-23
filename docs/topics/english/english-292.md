@@ -30,11 +30,14 @@ Jay: If the curve is smooth, yes. If it spikes, say "spiky" — undulating promi
 
 
 
+
+
+
 ## Words
 | undulate | /ˈʌndʒəˌleɪt/ | 물결치듯 오르내리다 |
-| rolling hills | /ˈroʊlɪŋ hɪlz/ | 완만한 구릉 |
-| it spikes | /ɪt spaɪks/ | 급등하다 |
-| on a postcard | /ɑn ə ˈpoʊstˌkɑrd/ | 엽서에 |
+| undulating | /ˈʌndʒəˌleɪtɪŋ/ | 물결치듯 오르내리다 |
+| postcard | /ˈpoʊstˌkɑrd/ | 엽서에 |
+| spikes | /spaɪks/ | 급등하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

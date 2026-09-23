@@ -28,9 +28,12 @@ Mateo: Study it is. The rent stays the same either way.
 
 
 
+
+
 ## Words
 | boudoir | /ˈbuˌdɔɪr/ | 내실, 안방 |
-| study | /ˈstʌdi/ | 서재, 작업방 |
+| stays | /steɪz/ | 임대료는 그대로다 |
+| listing | /ˈlɪstɪŋ/ | 매물 설명에 적힌 대로는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

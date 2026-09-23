@@ -30,10 +30,13 @@ Jay: Both, but the timing is about them. Once the market stops being skittish, w
 
 
 
+
+
+
 ## Words
 | skittish | /ˈskɪtɪʃ/ | 겁이 많고 잘 놀라는, (시장·투자자가) 불안한 |
 | jumpy | /ˈdʒʌmpi/ | 신경이 곤두선, 잘 놀라는 |
-| revisit the split | /riˈvɪzɪt ðə splɪt/ | 배분을 다시 검토하다 |
+| revisit | /riˈvɪzɪt/ | 배분을 다시 검토하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

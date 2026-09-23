@@ -30,10 +30,12 @@ Jay: Slightly. But it's formal, so it lands as a report rather than an accusatio
 
 
 
+
+
+
 ## Words
-| vacillate about something | /ˈvæsəˌleɪt əˈbaʊt ˈsʌmθɪŋ/ | ~을 두고 오락가락하며 못 정하다 |
-| without harming somebody | /wɪˈθaʊt ˈhɑrmɪŋ ˈsʌmˌbɑdi/ | ~에게 상처를 주지 않고 |
-| in one sentence | /ɪn wʌn ˈsɛntəns/ | 한 문장으로 |
+| vacillate | /ˈvæsəˌleɪt/ | ~을 두고 오락가락하며 못 정하다 |
+| harming | /ˈhɑrmɪŋ/ | ~에게 상처를 주지 않고 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

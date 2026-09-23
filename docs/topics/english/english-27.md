@@ -35,9 +35,13 @@ Jay: Then I've saved you a question. What's the one you'd ask next?
 
 
 
+
+
+
 ## Words
-| invent it alone | /ˌɪnˈvɛnt ɪt əˈloʊn/ | 혼자 발명하다 |
-| first choice | /fɝst tʃɔɪs/ | 첫 선택 |
+| foresee | /fɔrˈsi/ | 예견되는 것은 없다 |
+| something's | /ˈsʌmθɪŋz/ | 그중 어느 것도 문제가 있다는 것은 아니다 |
+| invent | /ˌɪnˈvɛnt/ | 혼자 발명하다 |
 
 ## Expressions
 | none of them is that something's wrong | 그중 어느 것도 문제가 있다는 것은 아니다 |

@@ -30,10 +30,13 @@ Jay: More or less. Consigned to a shelf in Icheon, and nobody will ever ask for 
 
 
 
+
+
+
 ## Words
 | consign | /kənˈsaɪn/ | (없애려고) 보내다 |
-| consigned to history | /kənˈsaɪnd tu ˈhɪstɚi/ | 역사 속으로 사라진 |
-| for good | /fɔr ɡʊd/ | 영영, 완전히 |
+| consigned | /kənˈsaɪnd/ | 역사 속으로 사라진 |
+| consignment | /kənˈsaɪnmənt/ | 송하인 / 수하인 / 탁송 화물 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

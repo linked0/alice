@@ -30,9 +30,14 @@ Jay: Fair. Hedging your bets is prudent until the day you have to pick one, and 
 
 
 
+
+
+
 ## Words
-| hedge one's bets | /hɛdʒ wʌnz bɛts/ | 양쪽에 걸어 위험을 분산하다 |
-| behind one interface | /bɪˈhaɪnd wʌn ˈɪntɚˌfeɪs/ | 인터페이스 하나 뒤에 감춰서 |
+| hedge | /hɛdʒ/ | 양쪽에 걸어 위험을 분산하다 |
+| one's | /wʌnz/ | 양쪽에 걸어 위험을 분산하다 |
+| bets | /bɛts/ | 양쪽에 걸어 위험을 분산하다 |
+| interface | /ˈɪntɚˌfeɪs/ | 인터페이스 하나 뒤에 감춰서 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

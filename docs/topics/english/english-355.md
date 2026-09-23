@@ -30,9 +30,14 @@ Jay: It's the phrase I use when I have an opinion but not the authority.
 
 
 
+
+
+
 ## Words
-| it's your call | /ɪts jɔr kɔl/ | 결정은 네가 해 |
-| request changes | /rɪˈkwɛst ˈtʃeɪndʒəz/ | (리뷰에서) 변경 요청을 걸다 |
+| it's | /ɪts/ | 도움이 될지 모르겠지만 |
+| worth | /wɝθ/ | 도움이 될지 모르겠지만 |
+| request | /rɪˈkwɛst/ | (리뷰에서) 변경 요청을 걸다 |
+| changes | /ˈtʃeɪndʒəz/ | (리뷰에서) 변경 요청을 걸다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

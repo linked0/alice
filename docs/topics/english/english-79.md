@@ -30,9 +30,12 @@ Jay: Good. And I'll tell Sam the point itself was valid, so it doesn't get lost 
 
 
 
+
+
 ## Words
-| have a point | /hæv ə pɔɪnt/ | 일리가 있다 |
-| speak up | /spik ʌp/ | 정당하게 의견을 내다 |
+| mouth | /maʊθ/ | 윗사람에게 큰소리로 투덜대다, 대들 듯이 떠들다 |
+| quiet | /ˈkwaɪət/ | 조용히 따로 이야기하다 |
+| somebody | /ˈsʌmˌbɑdi/ | 윗사람에게 큰소리로 투덜대다, 대들 듯이 떠들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

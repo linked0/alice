@@ -30,10 +30,11 @@ Jay: Deal. Doing your bit is contagious, apparently.
 
 
 
+
+
 ## Words
-| do my bit | /du maɪ bɪt/ | 내 몫을 하다 |
-| above and beyond | /əˈbʌv ənd bɪˈɑnd/ | 기대 이상으로 |
-| we're even | /wir ˈivɪn/ | 이제 비겼다 |
+| beyond | /bɪˈɑnd/ | 기대 이상으로 |
+| above | /əˈbʌv/ | 기대 이상으로 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,9 +26,12 @@ Jay: I wouldn't. On a celebrity it's a joke; on a colleague it's a comment about
 
 
 
+
+
 ## Words
 | heartthrob | /ˈhɑrtˌθrɑb/ | 뭇사람의 연인, 동경의 대상 |
-| that lands badly | /ðæt lændz ˈbædli/ | 그건 안 좋게 들린다 |
+| lands | /lændz/ | 그건 안 좋게 들린다 |
+| badly | /ˈbædli/ | 그건 안 좋게 들린다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -28,10 +28,10 @@ Jay: Fix this one, then grep for the pattern. If it's in three places, it's a ru
 
 
 
+
+
 ## Words
-| little while | /ˈlɪtəl waɪl/ | 잠깐 |
-| honest measure | /ˈɑnəst ˈmɛʒɚ/ | 정직한 척도 |
-| relearn it | /riˈlɛrn ɪt/ | 다시 배우다 |
+| relearn | /riˈlɛrn/ | 다시 배우다 |
 
 ## Expressions
 | which one did you mean? | 어느 쪽을 의도했나? |

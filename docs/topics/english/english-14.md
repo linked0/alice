@@ -30,9 +30,12 @@ Jay: It is. The exciting version comes when we wire a real off-ramp and swap the
 
 
 
+
+
+
 ## Words
-| promises the opposite | /ˈprɑməsəz ðə ˈɑpəzət/ | 반대를 약속한다 |
-| less exciting | /lɛs ɪkˈsaɪtɪŋ/ | 덜 흥미롭다 |
+| issuer's | /ˈɪʃuɚz/ | 발행자의 준비금이 뒷받침하는 |
+| disclaimer | /dɪˈskleɪmɚ/ | 면책 문구보다 짧다 |
 
 ## Expressions
 | people know the word | 사람들이 그 단어를 안다 |

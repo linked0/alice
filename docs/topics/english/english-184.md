@@ -30,10 +30,11 @@ Jay: Exactly that. My team has a mandate to own payments, which is why nobody el
 
 
 
+
+
 ## Words
+| mandate | /ˈmænˌdeɪt/ | ~할 위임된 권한을 갖다 |
 | mandatory | /ˈmændəˌtɔri/ | 의무적인 |
-| other direction | /ˈʌðɚ dɚˈɛkʃən/ | 방향이 반대다 |
-| That one | /ðæt wʌn/ | 그 문장 말이야? |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

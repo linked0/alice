@@ -30,9 +30,9 @@ Jay: It always does. Investors read "acqui-hiring" as "the tech wasn't worth muc
 
 
 
+
+
 ## Words
-| press release | /prɛs riˈlis/ | 보도자료 |
-| wanted | /ˈwɔntɪd/ | 그쪽이 원한 건 팀이었다 |
 | switch | /swɪtʃ/ | 제품을 종료하다 |
 | product | /ˈprɑdəkt/ | 제품을 종료하다 |
 

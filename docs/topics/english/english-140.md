@@ -30,10 +30,13 @@ Jay: Exactly. Small fix, same pattern writ large afterwards.
 
 
 
+
+
+
 ## Words
-| X writ large | /ɛks rɪt lɑrdʒ/ | X가 더 크고 뚜렷하게 드러난 것 |
-| on its own | /ɑn ɪts oʊn/ | 그것만 놓고 보면 |
-| nobody owns it | /ˈnoʊˌbɑˌdi oʊnz ɪt/ | 담당자가 없다 |
+| writ | /rɪt/ | X가 더 크고 뚜렷하게 드러난 것 |
+| large | /lɑrdʒ/ | X가 더 크고 뚜렷하게 드러난 것 |
+| redesign | /ˌridɪˈzaɪn/ | 재설계의 시범 사례 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

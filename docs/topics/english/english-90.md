@@ -30,9 +30,12 @@ Jay: Not unless you want to sound like a novel. "Relatives" or "family" is plent
 
 
 
+
+
+
 ## Words
-| kindred spirit | /ˈkɪndrɪd ˈspɪrət/ | 마음이 통하는 사람, 동류 |
-| same scars | /seɪm skɑrz/ | 같은 흉터, 같은 실패 경험 |
+| kindred | /ˈkɪndrɪd/ | 마음이 통하는 사람, 동류 |
+| scars | /skɑrz/ | 같은 흉터, 같은 실패 경험 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

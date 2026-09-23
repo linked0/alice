@@ -30,10 +30,11 @@ Jay: Yes — "I told him the room had changed, but it didn't register." Ignore s
 
 
 
+
+
 ## Words
-| barely register something | /ˈbɛrli ˈrɛdʒɪstɚ ˈsʌmθɪŋ/ | 거의 알아채지 못하다 |
-| it didn't register | /ɪt ˈdɪdənt ˈrɛdʒɪstɚ/ | (들었지만) 머리에 들어오지 않았다 |
-| be somewhere else | /bi ˈsʌmˌwɛr ɛls/ | 정신이 딴 데 가 있다 |
+| barely | /ˈbɛrli/ | 거의 알아채지 못하다 |
+| register | /ˈrɛdʒɪstɚ/ | 거의 알아채지 못하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,9 +26,11 @@ Jay: Then catenative is the label, and the pattern is still per verb. I'll keep 
 
 
 
+
+
 ## Words
-| per verb | /pɝ vɝb/ | 동사마다 |
-| another | /əˈnʌðɚ/ | 동사를 또 받는 동사 |
+| verbs | /vɝbz/ | 동사를 또 받는 동사 |
+| verb | /vɝb/ | 연쇄 동사 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

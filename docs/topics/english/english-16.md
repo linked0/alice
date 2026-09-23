@@ -30,9 +30,13 @@ Jay: Put it next to the chain-id decision. That's where someone will look.
 
 
 
+
+
+
 ## Words
-| never appears | /ˈnɛvɚ əˈpɪrz/ | 절대 나타나지 않는다 |
-| deploys fine | /dɪˈplɔɪz faɪn/ | 잘 배포된다 |
+| deploys | /dɪˈplɔɪz/ | 잘 배포된다 |
+| adapters | /əˈdæptɚz/ | 어댑터 둘이 달린 경로 하나 |
+| nothing's | /ˈnʌθɪŋz/ | 체인에는 문제가 없다 |
 
 ## Expressions
 | never appears | 절대 나타나지 않는다 |

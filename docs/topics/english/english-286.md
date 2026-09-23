@@ -30,10 +30,12 @@ Jay: That's the plan. Recovering from a flub is half the demo.
 
 
 
+
+
+
 ## Words
-| mess something up | /mɛs ˈsʌmθɪŋ ʌp/ | 망치다 |
+| prod | /prɑd/ | 운영 대신 스테이징 |
 | staging | /ˈsteɪdʒɪŋ/ | 운영 대신 스테이징 |
-| instead | /ˌɪnˈstɛd/ | 운영 대신 스테이징 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

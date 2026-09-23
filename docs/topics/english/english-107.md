@@ -30,9 +30,11 @@ Jay: Then take the morning. I'll be gone at two for the dentist; ping me before 
 
 
 
+
+
 ## Words
-| be gone | /bi ɡɔn/ | 자리를 비우다, 떠나 있다 |
-| for the record | /fɔr ðə rəˈkɔrd/ | 분명히 해 두자면 |
+| lie | /laɪ/ | 솔직히 말하면 |
+| gone | /ɡɔn/ | 자리를 비우다, 떠나 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

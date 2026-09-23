@@ -28,10 +28,10 @@ Aoife: That's why the incident only showed up on Monday.
 
 
 
+
+
 ## Words
-| fancy | /ˈfænsi/ | X를 멋있게 부르는 말 |
 | production's | /proʊˈdʌkʃənz/ | 프로덕션의 모양만 있고 트래픽은 없다 |
-| traffic | /ˈtræfɪk/ | 프로덕션의 모양만 있고 트래픽은 없다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

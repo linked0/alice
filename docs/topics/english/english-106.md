@@ -30,10 +30,14 @@ Jay: Not in those words. In writing I'd say the allocation creates a conflict of
 
 
 
+
+
+
 ## Words
-| buy somebody off | /baɪ ˈsʌmˌbɑdi ɔf/ | 매수하다, 돈으로 입을 막다 |
-| buy somebody out | /baɪ ˈsʌmˌbɑdi aʊt/ | 지분을 사들이다 |
-| conflict of interest | /ˈkɑnflɪkt ʌv ˈɪntrəst/ | 이해 충돌 |
+| buy | /baɪ/ | 매수하다, 돈으로 입을 막다 |
+| somebody | /ˈsʌmˌbɑdi/ | 매수하다, 돈으로 입을 막다 |
+| conflict | /ˈkɑnflɪkt/ | 이해 충돌 |
+| interest | /ˈɪntrəst/ | 이해 충돌 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

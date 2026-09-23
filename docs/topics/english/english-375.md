@@ -26,11 +26,10 @@ Jay: It explains it, but it doesn't settle the licence. Let's just import the li
 
 
 
+
+
 ## Words
 | absorbed | /əbˈzɔrbd/ | 어디선가 흡수했나 봐 |
-| somewhere | /ˈsʌmˌwɛr/ | 어디선가 흡수했나 봐 |
-| doesn't | /ˈdʌzənt/ | 라이선스 문제는 그대로다 |
-| settle | /ˈsɛtəl/ | 라이선스 문제는 그대로다 |
 | licence | /ˈlaɪsəns/ | 라이선스 문제는 그대로다 |
 
 ## Expressions

@@ -30,10 +30,12 @@ Jay: Exactly. Easygoing people, unforgiving pipeline.
 
 
 
+
+
+
 ## Words
-| non-negotiable | /ˌnɑnəˈɡoʊʃəbəl/ | 타협 불가한 |
-| raise your voice | /reɪz jɔr vɔɪs/ | 언성을 높이다 |
 | easygoing | /ˌiziˈɡoʊɪŋ/ | 태평한, 무던한 |
+| non-negotiable | /ˌnɑnəˈɡoʊʃəbəl/ | 타협 불가한 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

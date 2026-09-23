@@ -30,10 +30,12 @@ Jay: And I will help, which is different from owning it.
 
 
 
+
+
+
 ## Words
-| devolve upon somebody | /dɪˈvɑlv əˈpɑn ˈsʌmˌbɑdi/ | (의무가) ~에게 넘어오다 |
-| own something | /oʊn ˈsʌmθɪŋ/ | ~를 책임지고 맡다 |
-| get paged | /ɡɛt peɪdʒd/ | 호출을 받다 |
+| paged | /peɪdʒd/ | 호출을 받다 |
+| devolve | /dɪˈvɑlv/ | (의무가) ~에게 넘어오다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

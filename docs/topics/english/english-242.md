@@ -30,9 +30,10 @@ Jay: An impression first, in person. If it needs to become a document, I'd write
 
 
 
+
+
 ## Words
-| suss out something | /sʌs aʊt ˈsʌmθɪŋ/ | ~을 (지켜보며) 파악하다 |
-| impression | /ˌɪmˈprɛʃən/ | 받은 인상을 알려 주다 |
+| suss | /sʌs/ | ~을 (지켜보며) 파악하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

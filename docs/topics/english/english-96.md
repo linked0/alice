@@ -30,12 +30,13 @@ Jay: I asked for the equity terms in writing. If they dangle and don't deliver, 
 
 
 
+
+
+
 ## Words
-| in writing | /ɪn ˈraɪtɪŋ/ | 서면으로 |
 | dangle | /ˈdæŋɡəl/ | X를 미끼처럼 눈앞에 흔들어 보이다 |
-| somebody | /ˈsʌmˌbɑdi/ | X를 미끼처럼 눈앞에 흔들어 보이다 |
+| something | /ˈsʌmθɪŋ/ | X를 미끼처럼 눈앞에 흔들어 보이다 |
 | carrot | /ˈkærət/ | 막대기에 매단 당근 |
-| deliver | /dɪˈlɪvɚ/ | 흔들어 보이기만 하고 주지 않다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

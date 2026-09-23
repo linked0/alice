@@ -26,9 +26,10 @@ Jay: Then you wouldn't know which two pieces to fix. Naming one and adding "the 
 
 
 
+
+
 ## Words
-| dull and uninspiring | /dʌl ənd ənɪnˈspaɪrɪŋ/ | 따분하고 밋밋한 |
-| problem | /ˈprɑbləm/ | 무난한 게 문제다 |
+| uninspiring | /ənɪnˈspaɪrɪŋ/ | 따분하고 밋밋한 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

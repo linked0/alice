@@ -30,11 +30,13 @@ Jay: Noted. And a charade, singular, is something else entirely.
 
 
 
+
+
+
 ## Words
-| play charades | /pleɪ ʃɚˈeɪdz/ | 제스처 놀이를 하다 |
-| mime | /maɪm/ | 몸짓으로 연기하다 |
+| charades | /ʃɚˈeɪdz/ | 제스처 놀이를 하다 |
 | charade | /ʃɚˈeɪd/ | 속이 뻔한 연극, 가식 |
-| hour to fill | /ˈaʊɚ tu fɪl/ | 채워야 할 한 시간 |
+| mime | /maɪm/ | 몸짓으로 연기하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,10 @@ Jay: Exactly. "Believe that" already tells you whose view it is.
 
 
 
+
+
 ## Words
 | psychosis | /saɪˈkoʊsəs/ | 정신병이 아니다 |
-| clinical | /ˈklɪnəkəl/ | 평가가 아닌 임상 용어 |
-| judgement | /ˈdʒʌdʒmənt/ | 평가가 아닌 임상 용어 |
-| original | /ɚˈɪdʒənəl/ | 원어 그대로 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

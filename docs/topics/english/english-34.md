@@ -33,12 +33,14 @@ Camille: Send me the fallback options today.
 
 
 
+
+
+
 ## Words
-| resolves on | /riˈzɑlvz ɑn/ | ~로 정산된다(결과가 결정된다) |
-| customer concern | /ˈkʌstəmɚ kənˈsɝn/ | 고객 쪽 우려 |
-| prints a wick | /prɪnts ə wɪk/ | 꼬리(순간 급변)를 찍다 |
-| defending someone's print | /dɪˈfɛndɪŋ ˈsʌmˌwʌnz prɪnt/ | 남의 체결가를 방어하다 |
-| the second | /ðə ˈsɛkənd/ | 초 단위로 |
+| vetted | /ˈvɛtɪd/ | 심사된 거래소 집합 |
+| resolves | /riˈzɑlvz/ | ~로 정산된다(결과가 결정된다) |
+| wick | /wɪk/ | 꼬리(순간 급변)를 찍다 |
+| complains | /kəmˈpleɪnz/ | 아무도 불평 안 하는 날엔 거의 같다 |
 
 ## Expressions
 | resolves on | ~로 정산된다(결과가 결정된다) |

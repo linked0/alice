@@ -30,9 +30,12 @@ Jay: That I can sign off on. Put the cost per chain in the proposal and I'll tak
 
 
 
+
+
 ## Words
-| justify it | /ˈdʒʌstəˌfaɪ ɪt/ | 근거를 대다 |
 | money | /ˈmʌni/ | 내가 돈 찍어 내는 기계야? 돈이 무한한 줄 알아? |
+| justify | /ˈdʒʌstəˌfaɪ/ | 근거를 대다 |
+| grand | /ɡrænd/ | 한 달 4천 달러 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

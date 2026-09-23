@@ -30,10 +30,10 @@ Jay: Thank you. I'd rather fix the gate than keep flailing.
 
 
 
+
+
 ## Words
-| wave to somebody | /weɪv tu ˈsʌmˌbɑdi/ | 손을 흔들어 인사하다 |
-| system | /ˈsɪstəm/ | 그건 방법이 아니다 |
-| meeting | /ˈmitɪŋ/ | 회의 안건으로 올리다 |
+| flail | /fleɪl/ | ~를 향해 팔을 마구 흔들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

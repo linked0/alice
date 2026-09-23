@@ -30,9 +30,10 @@ Jay: Then we rewrite the key store. That's why the breath is bated and not just 
 
 
 
+
+
 ## Words
-| with bated breath | /wɪð ˈbeɪtɪd brɛθ/ | 숨죽이고, 마음 졸이며 |
-| hang on something | /hæŋ ɑn ˈsʌmθɪŋ/ | ~에 달려 있다 |
+| bated | /ˈbeɪtɪd/ | 숨죽이고, 마음 졸이며 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

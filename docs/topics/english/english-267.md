@@ -28,9 +28,14 @@ Lena: Friday, then. If nothing changes, we talk to him properly.
 
 
 
+
+
+
 ## Words
-| write something up | /raɪt ˈsʌmθɪŋ ʌp/ | (문제를) 공식 기록으로 남기다 |
-| sit untouched | /sɪt ənˈtʌtʃt/ | 손도 안 댄 채 방치되다 |
+| someone | /ˈsʌmˌwʌn/ | 미심쩍은 점을 선의로 해석해 주다 |
+| benefit | /ˈbɛnəfɪt/ | 미심쩍은 점을 선의로 해석해 주다 |
+| kinder | /ˈkaɪndɚ/ | 더 너그럽게 해석하다 |
+| untouched | /ənˈtʌtʃt/ | 손도 안 댄 채 방치되다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

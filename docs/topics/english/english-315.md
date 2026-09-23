@@ -30,10 +30,11 @@ Jay: "United gave City a five-nil drubbing" — the standard headline word. Elec
 
 
 
+
+
 ## Words
 | drubbing | /ˈdrʌbɪŋ/ | 일방적인 완패/완승 |
-| take a drubbing | /teɪk ə ˈdrʌbɪŋ/ | 대패하다 |
-| five nil | /faɪv nɪl/ | 5대 0 |
+| nil | /nɪl/ | 5대 0 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

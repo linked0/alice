@@ -28,11 +28,12 @@ Mina: Then saunter it is, but I'll say it to you and not in the notes.
 
 
 
+
+
+
 ## Words
-| saunter in | /ˈsɔntɚ ɪn/ | 느긋하게 걸어 들어오다 |
+| saunter | /ˈsɔntɚ/ | 느긋하게 걸어 들어오다 |
 | stroll | /stroʊl/ | 한가롭게 거닐다 |
-| in no hurry | /ɪn noʊ ˈhɝi/ | 조금도 서두르지 않는 |
-| twenty minutes late | /ˈtwɛnti ˈmɪnəts leɪt/ | 20분 늦게 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

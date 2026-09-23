@@ -30,9 +30,14 @@ Jay: Then the drain has to carry the water the rock refuses.
 
 
 
+
+
+
 ## Words
-| impervious to criticism | /ˌɪmˈpɝviəs tu ˈkrɪtɪˌsɪzəm/ | 비판이 전혀 통하지 않는 |
-| carry the water | /ˈkæri ðə ˈwɔtɚ/ | 물을 받아 흘려보내다 |
+| impervious | /ˌɪmˈpɝviəs/ | 물이 스며들지 않는 암석 층 |
+| layer | /ˈleɪɚ/ | 물이 스며들지 않는 암석 층 |
+| criticism | /ˈkrɪtɪˌsɪzəm/ | 비판이 전혀 통하지 않는 |
+| carry | /ˈkæri/ | 물을 받아 흘려보내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

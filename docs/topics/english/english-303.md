@@ -30,9 +30,10 @@ Jay: Right. And "boasted" already tells you she was showing off, not just tellin
 
 
 
+
+
 ## Words
-| lose your bottle | /luz jɔr ˈbɑtəl/ | 겁먹고 그만두다 |
-| boast that | /boʊst ðæt/ | 으스대며 말하다 |
+| boast | /boʊst/ | 으스대며 말하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

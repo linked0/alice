@@ -30,9 +30,11 @@ Jay: Deal. Godspeed, and keep the pitch deck under twelve slides.
 
 
 
+
+
+
 ## Words
 | Godspeed | /ˈɡɑdspid/ | 성공·무운을 빈다 |
-| money | /ˈmʌni/ | 자금이 떨어지기 전에 |
 | slides | /slaɪdz/ | 슬라이드를 N장 아래로 유지하다 |
 
 ## Expressions

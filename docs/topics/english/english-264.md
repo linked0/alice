@@ -28,9 +28,10 @@ Marek: Fair. Put that sentence in the report exactly as you said it.
 
 
 
+
+
 ## Words
-| surface later | /ˈsɝfəs ˈleɪtɚ/ | 나중에 드러나다 |
-| without blaming anyone | /wɪˈθaʊt ˈbleɪmɪŋ ˈɛniˌwʌn/ | 누구도 탓하지 않고 |
+| transpired | /trænˈspaɪɚd/ | 알고 보니 ~였다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

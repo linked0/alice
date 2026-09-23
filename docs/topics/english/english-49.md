@@ -30,10 +30,12 @@ Jay: If you play it right. The talk is the small win; the offer is what you parl
 
 
 
+
+
 ## Words
-| come of something | /kʌm ʌv ˈsʌmθɪŋ/ | ~에서 결과가 나오다 |
-| paid pilot | /peɪd ˈpaɪlət/ | 유료 시범 사업 |
-| play it right | /pleɪ ɪt raɪt/ | 잘 처리하다, 요령 있게 하다 |
+| parlay | /ˈpɑrleɪ/ | X를 밑천으로 Y로 키우다 |
+| pilot | /ˈpaɪlət/ | 유료 시범 사업 |
+| paid | /peɪd/ | 유료 시범 사업 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

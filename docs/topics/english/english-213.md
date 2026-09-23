@@ -30,9 +30,11 @@ Jay: Then it was already down and the sentence stops being about a change.
 
 
 
+
+
 ## Words
-| table | /ˈteɪbəl/ | 탁자를 닦아 깨끗하게 하다 |
-| open | /ˈoʊpən/ | 문을 밀어서 열다 |
+| wipe | /waɪp/ | 탁자를 닦아 깨끗하게 하다 |
+| shake | /ʃeɪk/ | 머리를 흔들어 풀다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

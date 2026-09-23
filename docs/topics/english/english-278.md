@@ -28,10 +28,12 @@ Marek: Noted. I'll hold you to it in two years.
 
 
 
+
+
+
 ## Words
-| somebody | /ˈsʌmˌbɑdi/ | 한 말에 책임을 묻다 |
+| limb | /lɪm/ | 지지 없이 위험을 무릅쓰고 나서다 |
 | tooling | /ˈtulɪŋ/ | 도구가 이미 갖춰져 있다 |
-| already | /ɔlˈrɛdi/ | 도구가 이미 갖춰져 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

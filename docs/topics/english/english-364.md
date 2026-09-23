@@ -26,9 +26,11 @@ Jay: Ecclesiastes, four beats, stress on the "as". Knowing the source helps — 
 
 
 
+
+
 ## Words
-| nothing | /ˈnʌθɪŋ/ | 해 아래 새것이 없다 |
 | stress | /strɛs/ | "as"에 강세 |
+| sun | /sʌn/ | 해 아래 새것이 없다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,11 @@ Jay: Exactly. Let's ask for the total cost at our volume in one number. That's h
 
 
 
+
+
 ## Words
-| on paper | /ɑn ˈpeɪpɚ/ | 서류상으로는, 이론상으로는 |
-| someone | /ˈsʌmˌwʌn/ | 잔꾀로 속이다, 수작 부리다 |
-| something | /ˈsʌmθɪŋ/ | 뭔가 꾸미고 있다 |
+| pull | /pʊl/ | 잔꾀로 속이다, 수작 부리다 |
+| paper | /ˈpeɪpɚ/ | 서류상으로는, 이론상으로는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

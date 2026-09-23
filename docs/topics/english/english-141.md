@@ -28,9 +28,11 @@ Lena: Let's make that the template. Context line first, then the summary.
 
 
 
+
+
 ## Words
-| carry | /ˈkæri/ | 이번 일에서 앞으로 가져가다 |
 | depends | /dɪˈpɛndz/ | #412에 의존함 |
+| carry | /ˈkæri/ | 이번 일에서 앞으로 가져가다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

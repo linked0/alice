@@ -30,9 +30,12 @@ Jay: Ideas you latch on to, and that's praise. People you latch on to, and it's 
 
 
 
+
+
+
 ## Words
-| settle in | /ˈsɛtəl ɪn/ | 적응하다 |
-| Any downside | /ˈɛni ˈdaʊnˌsaɪd/ | 걸리는 점은 없어? |
+| latch | /lætʃ/ | (말·생각을) 알아듣다 |
+| downside | /ˈdaʊnˌsaɪd/ | 걸리는 점은 없어? |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

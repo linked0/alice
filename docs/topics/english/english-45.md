@@ -30,9 +30,12 @@ Jay: I won't. The team gets it in plain words: no listing until the ruling, and 
 
 
 
+
+
+
 ## Words
+| enjoin | /ˌɛnˈdʒɔɪn/ | A가 ~하는 것을 (명령으로) 금하다 |
 | injunction | /ˌɪnˈdʒʌŋkʃən/ | 가처분, 금지 명령 |
-| in plain words | /ɪn pleɪn wɝdz/ | 쉬운 말로 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

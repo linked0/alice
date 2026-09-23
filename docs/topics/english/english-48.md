@@ -30,10 +30,13 @@ Jay: I cut scope earlier and rotate the crunch. Nobody on my team works themselv
 
 
 
+
+
+
 ## Words
-| run yourself ragged | /rʌn jɚˈsɛlf ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
-| bad call | /bæd kɔl/ | 잘못된 판단 |
-| cut scope | /kʌt skoʊp/ | 범위를 줄이다 / 크런치를 돌아가며 맡다 |
+| ragged | /ˈræɡəd/ | 정신없이 뛰어다니다 녹초가 되다 |
+| rotate | /ˈroʊˌteɪt/ | 범위를 줄이다 / 크런치를 돌아가며 맡다 |
+| crunch | /krʌntʃ/ | 범위를 줄이다 / 크런치를 돌아가며 맡다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

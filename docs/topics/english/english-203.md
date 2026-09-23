@@ -30,9 +30,11 @@ Jay: Going over to your desk now. A mild tone is fine; an empty page isn't.
 
 
 
+
+
 ## Words
-| not one number | /nɑt wʌn ˈnʌmbɚ/ | 숫자가 하나도 없다 |
-| something | /ˈsʌmθɪŋ/ | ~을 최종 승인하다 |
+| sign | /saɪn/ | ~을 최종 승인하다 |
+| number | /ˈnʌmbɚ/ | 숫자가 하나도 없다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

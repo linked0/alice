@@ -30,10 +30,10 @@ Jay: To the one scene that sticks, plus the numbers behind it.
 
 
 
+
+
 ## Words
-| room leans forward | /rum linz ˈfɔrwɚd/ | 청중이 몸을 앞으로 기울이다(집중하다) |
-| lasting | /ˈlæstɪŋ/ | 오래 남는 인상을 주다 |
-| impression | /ˌɪmˈprɛʃən/ | 오래 남는 인상을 주다 |
+| leans | /linz/ | 청중이 몸을 앞으로 기울이다(집중하다) |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

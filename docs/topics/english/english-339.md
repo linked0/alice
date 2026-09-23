@@ -29,6 +29,8 @@ Jay: Mostly. There's a small edge — great fire, occasional gaps. I'd write it 
 2. **격식 있는 단어는 쓸 자리를 함께 정해 둔다.** "I'd write it in a summary, not say it to his face."가 사전에 없는 정보다.
 
 
+
+
 ## Words
 | to exude | /ɪɡˈzud/ | 뿜어내다 — x 를 /ɡz/ 로 낸다. '엑슈드'가 아니라 '이그주드' |
 | confidence | /ˈkɑnfədəns/ | 자신감 — 첫 음절 강세 |

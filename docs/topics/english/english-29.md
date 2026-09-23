@@ -33,13 +33,12 @@ Rachel: All right. Put the six packages in the review, and send me the list.
 
 
 
+
+
+
 ## Words
-| two different failures | /tu ˈdɪfɚənt ˈfeɪljɚz/ | 서로 다른 두 실패 |
-| ours to fix | /ˈaʊɚz tu fɪks/ | 우리가 고칠 몫 |
-| process gap | /ˈprɑˌsɛs ɡæp/ | 프로세스 공백 |
-| I own both | /aɪ oʊn boʊθ/ | 둘 다 제 책임입니다 |
-| not as surprises | /nɑt æz sɚˈpraɪzɪz/ | 놀람이 아니라 |
 | post-mortem | /poʊstˈmɔrtɛm/ | 사후 분석 |
+| drifted | /ˈdrɪftəd/ | 락파일이 어긋났다 |
 
 ## Expressions
 | two different failures | 서로 다른 두 실패 |

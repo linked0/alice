@@ -30,9 +30,11 @@ Jay: Exactly — a noun or an -ing after "of". Day to day I'd just say I was abo
 
 
 
+
+
 ## Words
-| hair away from | /hɛr əˈweɪ frʌm/ | 종이 한 장 차이로 |
-| within | /wɪˈðɪn/ | 하마터면 ~할 뻔한, 막 ~하려는 찰나 |
+| ing | /ɪŋ/ | 하마터면 ~할 뻔한, 막 ~하려는 찰나 |
+| ace | /eɪs/ | 하마터면 ~할 뻔한, 막 ~하려는 찰나 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

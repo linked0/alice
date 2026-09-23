@@ -26,9 +26,12 @@ Jay: It isn't, which is why I said "if anything". The point is the extra hop did
 
 
 
+
+
 ## Words
-| if anything | /ɪf ˈɛniˌθɪŋ/ | 어느 편인가 하면, 오히려 |
-| extra hop | /ˈɛkstrə hɑp/ | 추가 홉(요청이 거치는 단계 하나) |
+| anything | /ˈɛniˌθɪŋ/ | 어느 편인가 하면, 오히려 |
+| hop | /hɑp/ | 추가 홉(요청이 거치는 단계 하나) |
+| extra | /ˈɛkstrə/ | 추가 홉(요청이 거치는 단계 하나) |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

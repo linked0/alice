@@ -30,9 +30,10 @@ Jay: Both true. Owning it first is what makes the second one shorter.
 
 
 
+
+
 ## Words
-| get an earful | /ɡɛt æn ˈirˌfʌl/ | 한 소리 듣다 |
-| own it | /oʊn ɪt/ | 내 잘못이라고 인정하다 |
+| earful | /ˈirˌfʌl/ | 한 소리 듣다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

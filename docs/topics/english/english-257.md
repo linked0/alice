@@ -26,10 +26,12 @@ Jay: Yes, and say which parts are thin rather than calling the docs skimpy to th
 
 
 
+
+
+
 ## Words
 | skimpy | /ˈskɪmpi/ | 양이 너무 적은, 부실한 |
-| thin | /θɪn/ | (문서가) 얇은, 내용이 부족한 |
-| scrimp on something | /skrɪmp ɑn ˈsʌmθɪŋ/ | ~에 돈·수고를 아끼다 |
+| scrimp | /skrɪmp/ | ~에 돈·수고를 아끼다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

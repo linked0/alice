@@ -30,11 +30,12 @@ Jay: You can end a harangue without ever saying the word out loud.
 
 
 
+
+
+
 ## Words
 | harangue | /hɚˈæŋ/ | 장광설; 장광설을 늘어놓다 |
 | restate | /riˈsteɪt/ | ~을 질문 하나로 정리해 되돌리다 |
-| something | /ˈsʌmθɪŋ/ | ~을 질문 하나로 정리해 되돌리다 |
-| question | /ˈkwɛstʃən/ | ~을 질문 하나로 정리해 되돌리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

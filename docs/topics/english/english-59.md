@@ -30,10 +30,13 @@ Jay: Understood. I'll tell my team I'm off the pork for a while, and I'd like a 
 
 
 
+
+
+
 ## Words
-| gall bladder | /ɡɔl ˈblædɚ/ | 쓸개, 담낭 |
+| gall | /ɡɔl/ | 쓸개, 담낭 |
+| bladder | /ˈblædɚ/ | 쓸개, 담낭 |
 | gallstones | /ˈɡɑlˌstoʊnz/ | 담석 |
-| take  out | /teɪk aʊt/ | (장기를) 떼어 내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

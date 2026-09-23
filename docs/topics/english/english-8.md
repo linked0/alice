@@ -30,11 +30,12 @@ Jay: No. Waking three services every five seconds costs money for a page nobody 
 
 
 
+
+
+
 ## Words
-| hold one minute | /hoʊld wʌn ˈmɪnət/ | 1분만 기다려라 |
-| scale to zero | /skeɪl tu ˈzɪroʊ/ | 0으로 스케일되다 |
-| cold start | /koʊld stɑrt/ | 콜드 스타트 |
-| wrong word for | /rɔŋ wɝd fɔr/ | ~의 잘못된 표현 |
+| paging | /ˈpeɪdʒɪŋ/ | 호출은 진짜 신호에 맡겨라 |
+| wakes | /weɪks/ | 깨어나는지 봐라 |
 
 ## Expressions
 | page the on-call | 온콜을 호출하다 |

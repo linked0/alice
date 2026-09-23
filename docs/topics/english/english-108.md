@@ -30,10 +30,12 @@ Jay: Call it a concern, not a beef, and attach the two dates we actually missed.
 
 
 
+
+
 ## Words
 | beef | /bif/ | 불평, 불만(반복되는) |
-| tune something out | /tun ˈsʌmθɪŋ aʊt/ | 흘려듣다, 무시하다 |
-| side with someone | /saɪd wɪð ˈsʌmˌwʌn/ | ~의 편을 들다 |
+| tune | /tun/ | 흘려듣다, 무시하다 |
+| side | /saɪd/ | ~의 편을 들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

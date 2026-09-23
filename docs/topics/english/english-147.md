@@ -30,9 +30,10 @@ Jay: Ended without a verdict, usually over a jury or procedural problem; they ca
 
 
 
+
+
 ## Words
 | mistrial | /mɪˈstraɪəl/ | 무효 재판(평결 없이 종료) |
-| seek | /sik/ | 정지 명령을 신청하다 / 인용하다 / 기각하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,13 @@ Jay: Limited rotation from desk posture. Six weeks of exercises.
 
 
 
+
+
+
 ## Words
-| cervical spine | /ˈsɝvəkəl spaɪn/ | 경추 |
-| limited rotation | /ˈlɪmətəd roʊˈteɪʃən/ | 회전 범위 제한 |
-| desk posture | /dɛsk ˈpɑstʃɚ/ | 책상 앞 자세 |
+| cervical | /ˈsɝvəkəl/ | 경추 |
+| noun | /naʊn/ | 옆의 명사가 뜻을 정한다 |
+| posture | /ˈpɑstʃɚ/ | 책상 앞 자세 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

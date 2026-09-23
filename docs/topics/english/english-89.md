@@ -30,9 +30,11 @@ Jay: I did my year. That's exactly why I want the rule written down.
 
 
 
+
+
 ## Words
-| have it easy | /hæv ɪt ˈizi/ | 편하게 지내다, 좋은 조건을 누리다 |
 | deserves | /dɪˈzɝvz/ | 자격 이상으로 |
+| easy | /ˈizi/ | 편하게 지내다, 좋은 조건을 누리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,10 @@ Tom: Good. Marek would have you in HR by five.
 
 
 
+
+
 ## Words
-| sneak off | /snik ɔf/ | 몰래 빠져나가다 |
 | old-timer | /ˌoʊldˈtaɪmɚ/ | 영감, 고참 |
-| release freeze | /riˈlis friz/ | 릴리스 동결 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

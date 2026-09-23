@@ -28,10 +28,12 @@ Priya: Got it. Supplies, one unit, KATH-uh-ter.
 
 
 
+
+
+
 ## Words
 | catheter | /ˈkæθətɚ/ | 카테터 |
-| drain fluid | /dreɪn ˈfluəd/ | 체액을 빼내다 |
-| under supplies | /ˈʌndɚ səˈplaɪz/ | 재료비 항목으로 |
+| syllable | /ˈsɪləbəl/ | 첫 음절 강세 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,10 @@ Jay: Static is fine for the first cut. Ship four, and put "matrix from config" i
 
 
 
+
+
 ## Words
-| few days | /fju deɪz/ | 며칠 |
 | concretely | /ˈkɑnˌkritli/ | 구체적으로 |
-| first cut | /fɝst kʌt/ | 첫 버전 |
-| ship four | /ʃɪp fɔr/ | 4일 안에 내다 |
 
 ## Expressions
 | a few days | 며칠 |

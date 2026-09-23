@@ -30,6 +30,8 @@ Jay: Then yes. I am up for it as well as up to it.
 
 
 
+
+
 ## Words
 | challenge | /ˈtʃæləndʒ/ | 그 도전을 감당할 역량이 되다 |
 | something | /ˈsʌmθɪŋ/ | ~할 마음이 있다 |

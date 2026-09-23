@@ -30,9 +30,10 @@ Jay: It works alone — "I need to fill up", and the noun is a fill-up. I'd bett
 
 
 
+
+
 ## Words
-| fill up | /fɪl ʌp/ | 기름을 가득 채우다 |
-| petrol | /ˈpɛtroʊl/ | 영국 petrol, 미국 gas |
+| petrol | /ˈpɛtroʊl/ | 기름을 가득 채우다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

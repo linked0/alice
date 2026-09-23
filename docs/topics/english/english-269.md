@@ -28,12 +28,12 @@ Ravi: Then I'll write the power of ten in the docs too.
 
 
 
+
+
+
 ## Words
-| step up | /stɛp ʌp/ | 한 단계 위 |
-| fifteenth | /fɪfˈtinθ/ | 10의 15제곱 |
-| followed | /ˈfɑloʊd/ | 1 뒤에 0이 열다섯 개 |
-| fifteen | /fɪfˈtin/ | 1 뒤에 0이 열다섯 개 |
 | zeros | /ˈzɪroʊz/ | 1 뒤에 0이 열다섯 개 |
+| fifteenth | /fɪfˈtinθ/ | 10의 15제곱 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

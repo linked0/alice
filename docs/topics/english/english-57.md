@@ -30,9 +30,11 @@ Jay: Right. I'll move her onto the customer-facing bugs, where that gift pays of
 
 
 
+
 ## Words
 | empath | /ˈɛmˌpæθ/ | 공감 능력이 매우 뛰어난 사람 |
-| war room | /wɔr rum/ | 상황실(장애 대응 채널·회의) |
+| hers | /hɚz/ | 마치 자기 것인 양 |
+| gift | /ɡɪft/ | 재능이자 위험 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -28,10 +28,12 @@ Lena: Good. Lead with what you shipped this year.
 
 
 
+
+
 ## Words
-| touchy subject | /ˈtʌtʃi səbˈdʒɛkt/ | 민감한 주제 |
-| fair warning | /fɛr ˈwɔrnɪŋ/ | 미리 말해 두는데 |
-| lead with something | /lɛd wɪð ˈsʌmθɪŋ/ | ~부터 꺼내다 |
+| touchy | /ˈtʌtʃi/ | ~에 대해 예민하다 |
+| warning | /ˈwɔrnɪŋ/ | 미리 말해 두는데 |
+| subject | /səbˈdʒɛkt/ | 민감한 주제 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

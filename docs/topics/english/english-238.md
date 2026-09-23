@@ -30,10 +30,12 @@ Jay: Rarely. In speech I'd say a long walk helps. I'd keep the balm for writing.
 
 
 
+
+
+
 ## Words
-| stay with somebody | /steɪ wɪð ˈsʌmˌbɑdi/ | (문장·장면이) 기억에 남다 |
-| troubles | /ˈtrʌbəlz/ | 근심을 달래 주는 것 |
 | soothe | /suð/ | 낫게 하는 게 아니라 달래다 |
+| balm | /bɑm/ | 근심을 달래 주는 것 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

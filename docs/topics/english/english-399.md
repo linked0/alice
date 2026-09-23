@@ -29,6 +29,9 @@ Jay: One line. "Can you vet this and tell me which parts you've verified?" Not "
 2. **요구는 확인 가능한 형태로 한 줄에 담는다.** "Can you vet this and tell me which parts you've verified?"는 대답이 목록으로 나오는 질문이다. "Did you use AI?"는 예/아니오로 끝나고 아무것도 개선하지 않는다. 검증된 부분을 물으면 AI 사용 여부를 따지지 않고도 책임 소재가 분명해진다.
 3. **핵심 원리를 한 문장으로 준비해 둔다.** "The work doesn't disappear, it just lands on us." 이런 대비 문장은 논쟁이 붙었을 때 꺼낼 수 있는 가장 짧은 근거다. 통계보다 빠르고, 감정을 싣지 않는다.
 
+
+
+
 ## Words
 | slop | /slɑːp/ | 묽고 형편없는 것, 죽·구정물 — 여기서는 검토 없이 쏟아낸 저질 결과물. 불가산 명사 |
 | grenade | /ɡrəˈneɪd/ | 수류탄 — 강세는 뒤(gre-NADE). 앞에 주면 알아듣지 못한다 |

@@ -28,10 +28,12 @@ Hana: Then I was flustered at customs last night, not angry.
 
 
 
+
+
+
 ## Words
-| fluster somebody | /ˈflʌstɚ ˈsʌmˌbɑdi/ | ~를 허둥지둥하게 만들다 |
-| get flustered | /ɡɛt ˈflʌstɚd/ | 정신이 없어지다 |
-| go blank | /ɡoʊ blæŋk/ | 머리가 하얘지다 |
+| fluster | /ˈflʌstɚ/ | ~를 허둥지둥하게 만들다 |
+| flustered | /ˈflʌstɚd/ | 정신이 없어지다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

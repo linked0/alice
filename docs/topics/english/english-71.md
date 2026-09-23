@@ -28,10 +28,11 @@ Priya: Then take him for coffee tomorrow. I'll leave the migration alone for an 
 
 
 
+
+
 ## Words
-| seem off | /sim ɔf/ | 평소와 달라 보이다 |
-| someone | /ˈsʌmˌwʌn/ | ~를 커피 마시러 데려가다 |
 | coffee | /ˈkɑfi/ | ~를 커피 마시러 데려가다 |
+| seem | /sim/ | 평소와 달라 보이다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

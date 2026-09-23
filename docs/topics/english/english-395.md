@@ -30,9 +30,11 @@ Ravi: Then I will say a wide shot and avoid the whole problem.
 
 
 
+
+
 ## Words
-| long shot photo | /lɔŋ ʃɑt ˈfoʊˌtoʊ/ | 멀리서 넓게 잡은 사진 |
-| something | /ˈsʌmθɪŋ/ | ~에 줌인하다 |
+| zoom | /zum/ | ~에 줌인하다 |
+| photo | /ˈfoʊˌtoʊ/ | 멀리서 넓게 잡은 사진 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

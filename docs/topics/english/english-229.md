@@ -30,9 +30,11 @@ Jay: Then it's "yeah, right" at work and my ass at home.
 
 
 
+
+
 ## Words
 | ass | /æs/ | 웃기고 있네, 설마 |
-| go down | /ɡoʊ daʊn/ | (선수가) 넘어지다 |
+| yeah | /jæ/ | 그러시겠지 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

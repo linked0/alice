@@ -30,8 +30,10 @@ Jay: Add the lint rule so the machine argues about commas, and ask reviewers to 
 
 
 
+
+
+
 ## Words
-| petty | /ˈpɛˌti/ | 옹졸한, 쩨쩨한 |
 | technicality | /ˌtɛknɪˈkælɪti/ | 형식적인 세부 조항 |
 | nit | /nɪt/ | 사소한 지적(nitpick의 줄임) |
 

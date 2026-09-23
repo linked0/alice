@@ -30,9 +30,11 @@ Jay: Right. Four hundred people lost money to a template. Petty operator, real d
 
 
 
+
+
 ## Words
 | petty | /ˈpɛˌti/ | 잡범의, 사소한 |
-| fall for something | /fɔl fɔr ˈsʌmθɪŋ/ | ~에 속아 넘어가다 |
+| operator | /ˈɑpɚˌeɪtɚ/ | 잡범의, 사소한 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

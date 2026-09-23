@@ -30,10 +30,10 @@ Jay: Good. Then I'll tell compliance the timeline isn't as short as they think.
 
 
 
+
+
 ## Words
 | arraignment | /ɚˈeɪnmənt/ | 기소인부 심리 |
-| enter a plea | /ˈɛntɚ ə pli/ | 인정 여부를 답하다 |
-| trial date | /ˈtraɪəl deɪt/ | 재판 기일 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,10 +30,10 @@ Jay: Same meaning, different audience. "About time" on its own is for people who
 
 
 
+
+
 ## Words
-| about time | /əˈbaʊt taɪm/ | 진작 그랬어야지 |
-| let me rephrase | /lɛt mi riˈfreɪz/ | 다시 말할게 |
-| heads-up | /ˈhɛdˌzʌp/ | 미리 알림, 공지 |
+| rephrase | /riˈfreɪz/ | 다시 말할게 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

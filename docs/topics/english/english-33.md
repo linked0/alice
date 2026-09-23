@@ -39,10 +39,11 @@ Jay: Especially mine.
 
 
 
+
+
 ## Words
-| out loud | /aʊt laʊd/ | 소리 내어 |
+| grill | /ɡrɪl/ | 그것에 대해 당신을 심문하다 |
 | halfway | /ˌhæfˈweɪ/ | 중간에 |
-| especially mine | /əˈspɛʃli maɪn/ | 제 것에 특히 |
 
 ## Expressions
 | grill you on it | 그것에 대해 당신을 심문하다 |

@@ -30,11 +30,11 @@ Jay: As a joke it does. For cigarettes it's the literal medical phrase.
 
 
 
+
+
 ## Words
-| get withdrawal symptoms | /ɡɛt wɪðˈdrɔəl ˈsɪmptəmz/ | 금단 증세를 겪다 |
-| give up smoking | /ɡɪv ʌp ˈsmoʊkɪŋ/ | 담배를 끊다 |
-| snap at somebody | /snæp æt ˈsʌmˌbɑdi/ | ~에게 신경질을 내다 |
-| cut out something | /kʌt aʊt ˈsʌmθɪŋ/ | (음식·습관을) 끊다 |
+| withdrawal | /wɪðˈdrɔəl/ | 금단 증세를 겪다 |
+| snap | /snæp/ | ~에게 신경질을 내다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,10 @@ Jay: Noted. I'll take the steak and the on-call.
 
 
 
+
+
 ## Words
-| fair warning | /fɛr ˈwɔrnɪŋ/ | 미리 말해 두는데 |
-| noted | /ˈnoʊtəd/ | 알겠어요, 접수 |
+| noun | /naʊn/ | 엄청난, 대단한 (좋든 나쁘든) |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

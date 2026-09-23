@@ -30,8 +30,11 @@ Sam: The retro slot. Same verb, completely different meaning, by the way.
 
 
 
+
+
 ## Words
-| was that deliberate | /wɑz ðæt dɪˈlɪbɚət/ | 일부러 그런 거야? |
+| leave | /liv/ | 명단에서 ~를 빼다 |
+| deliberate | /dɪˈlɪbɚət/ | 일부러 그런 거야? |
 | somebody | /ˈsʌmˌbɑdi/ | 명단에서 ~를 빼다 |
 
 ## Expressions

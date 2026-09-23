@@ -30,9 +30,12 @@ Jay: Saturday I'm free. Pick the place and I'll be there at seven.
 
 
 
+
+
 ## Words
-| be slammed | /bi slæmd/ | 일이 밀려 정신없다 |
+| slammed | /slæmd/ | 일이 밀려 정신없다 |
 | critics | /ˈkrɪtɪks/ | 혹평했다 |
+| film | /fɪlm/ | 혹평했다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

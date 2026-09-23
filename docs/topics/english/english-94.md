@@ -30,10 +30,12 @@ Jay: Yes. I'll write up a design where the KYC step lives behind our own gateway
 
 
 
+
+
 ## Words
 | unyielding | /əˈnjildɪŋ/ | 완강한, 한 치도 물러서지 않는 |
-| unyielding on principle | /əˈnjildɪŋ ɑn ˈprɪnsəpəl/ | 원칙 때문에 물러서지 않는 |
-| build around it | /bɪld ɚˈaʊnd ɪt/ | 그것을 우회해서 설계하다 |
+| principle | /ˈprɪnsəpəl/ | 원칙 때문에 물러서지 않는 |
+| build | /bɪld/ | 그것을 우회해서 설계하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,9 +30,12 @@ Jay: No. That's the part that stings. It got snuffed out before it had a chance 
 
 
 
+
+
+
 ## Words
-| snuff something out | /snʌf ˈsʌmθɪŋ aʊt/ | ~을 완전히, 갑자기 끝내다 |
-| wind down | /waɪnd daʊn/ | 서서히 줄여 끝내다 |
+| snuff | /snʌf/ | ~을 완전히, 갑자기 끝내다 |
+| stings | /stɪŋz/ | 그게 제일 쓰라린 부분이다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

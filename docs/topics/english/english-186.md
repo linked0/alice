@@ -30,10 +30,12 @@ Jay: Then our sprint review has a docket too, and mine has one item too many.
 
 
 
+
+
 ## Words
 | docket | /ˈdɑkət/ | 명세서 |
-| on the docket | /ɑn ðə ˈdɑkət/ | 처리 예정인 |
-| note it now | /noʊt ɪt naʊ/ | 지금 기록해 두다 |
+| note | /noʊt/ | 지금 기록해 두다 |
+| check | /tʃɛk/ | A를 B와 대조하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

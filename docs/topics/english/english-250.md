@@ -26,10 +26,12 @@ Jay: One short line tomorrow, no explanation. A gaffe gets smaller if you apolog
 
 
 
+
+
 ## Words
 | gaffe | /ɡæf/ | 공식·사교 자리에서의 실언 |
 | leak | /lik/ | (정보) 유출 |
-| apologize once | /əˈpɑləˌdʒaɪz wʌns/ | 한 번만 사과하다 |
+| apologize | /əˈpɑləˌdʒaɪz/ | 한 번만 사과하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

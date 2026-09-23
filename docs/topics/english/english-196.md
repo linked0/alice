@@ -30,10 +30,14 @@ Jay: Nobody. I'll say in the channel that the work is covered, so she doesn't wo
 
 
 
+
+
+
 ## Words
-| glandular fever | /ˈɡlændʒəlɚ ˈfivɚ/ | 선열 |
-| be signed off | /bi saɪnd ɔf/ | 병가 처리되다 |
-| work is covered | /wɝk ɪz ˈkʌvɚd/ | 그 일은 처리돼 있다 |
+| glandular | /ˈɡlændʒəlɚ/ | 선열 |
+| fever | /ˈfivɚ/ | 선열 |
+| someone's | /ˈsʌmˌwʌnz/ | 담당에서 빼다 |
+| covered | /ˈkʌvɚd/ | 그 일은 처리돼 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

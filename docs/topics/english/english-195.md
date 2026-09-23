@@ -30,9 +30,14 @@ Jay: I will. I'd rather lose the evening getting my bearings than arrive lost to
 
 
 
+
+
+
 ## Words
-| get one's bearings | /ɡɛt wʌnz ˈbɛrɪŋz/ | 방향을 잡다, 새 환경에 적응하다 |
-| lose one's bearings | /luz wʌnz ˈbɛrɪŋz/ | 방향 감각을 잃다 |
+| one's | /wʌnz/ | 방향을 잡다, 새 환경에 적응하다 |
+| bearings | /ˈbɛrɪŋz/ | 방향을 잡다, 새 환경에 적응하다 |
+| block | /blɑk/ | 한 바퀴 걷다 |
+| lose | /luz/ | 방향 감각을 잃다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

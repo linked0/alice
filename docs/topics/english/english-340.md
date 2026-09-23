@@ -30,9 +30,12 @@ Jay: Then we patch for another year and I've saved us six months. Either way, I 
 
 
 
+
+
 ## Words
-| case for something | /keɪs fɔr ˈsʌmθɪŋ/ | ~에 찬성하는 논거 |
-| case against something | /keɪs əˈɡɛnst ˈsʌmθɪŋ/ | ~에 반대하는 논거 |
+| case | /keɪs/ | ~에 찬성하는 논거 |
+| against | /əˈɡɛnst/ | ~에 반대하는 논거 |
+| something | /ˈsʌmθɪŋ/ | ~에 찬성하는 논거 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

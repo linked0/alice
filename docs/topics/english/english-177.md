@@ -30,10 +30,14 @@ Jay: Sure. In the plan I'll write "as a last resort"; the idiom is for this room
 
 
 
+
+
+
 ## Words
+| push | /pʊʃ/ | 정 급해지면, 결정이 강제되면 |
+| shove | /ʃʌv/ | 정 급해지면, 결정이 강제되면 |
+| beats | /bits/ | 날짜를 미루는 것보다는 낫다 |
 | resort | /rɪˈzɔrt/ | 최후의 수단으로 |
-| moving | /ˈmuvɪŋ/ | 날짜를 미루는 것보다는 낫다 |
-| report | /riˈpɔrt/ | 보고서가 나오면 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

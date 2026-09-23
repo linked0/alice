@@ -30,10 +30,14 @@ Jay: Sold. Put it aside and I'll keep digging.
 
 
 
+
+
+
 ## Words
-| jaded | /ˈdʒeɪdəd/ | 물려서 지친 |
-| opposite | /ˈɑpəzət/ | 정반대예요 |
-| put it aside | /pʊt ɪt əˈsaɪd/ | 따로 빼 두다 |
+| treat | /trit/ | 피로한 귀에 주는 선물 |
+| jaded | /ˈdʒeɪdəd/ | 피로한 귀에 주는 선물 |
+| ears | /ɪrz/ | 피로한 귀에 주는 선물 |
+| aside | /əˈsaɪd/ | 따로 빼 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

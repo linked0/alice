@@ -30,8 +30,12 @@ Jay: No. A eulogy is spoken at the funeral and it praises. An obituary reports, 
 
 
 
+
+
+
 ## Words
 | obituary | /oʊˈbɪtʃuˌɛri/ | 사망 기사 |
+| obit | /ˈoʊbɪt/ | 사망 기사 |
 | eulogy | /ˈjulədʒi/ | 추도사 |
 
 ## Expressions

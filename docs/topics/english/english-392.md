@@ -30,10 +30,11 @@ Jay: Twelve, starting next month.
 
 
 
+
+
 ## Words
-| couldn't | /ˈkʊdənt/ | ~하리라 기대하는 것은 타당하지 않다 |
 | reasonably | /ˈrizənəbli/ | ~하리라 기대하는 것은 타당하지 않다 |
-| expected | /ɪkˈspɛktəd/ | ~하리라 기대하는 것은 타당하지 않다 |
+| loan | /loʊn/ | 융자금을 한꺼번에 상환하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

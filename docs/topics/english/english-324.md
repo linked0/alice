@@ -30,10 +30,11 @@ Jay: Yes. "On paper" is where we start, not where we decide.
 
 
 
+
+
 ## Words
-| fit the bill | /fɪt ðə bɪl/ | 조건에 꼭 맞다 |
-| on paper | /ɑn ˈpeɪpɚ/ | 서류상으로는, 이론상으로는 |
-| phone screen | /foʊn skrin/ | 전화로 하는 1차 면접 |
+| screen | /skrin/ | 전화로 하는 1차 면접 |
+| fit | /fɪt/ | 조건에 꼭 맞다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

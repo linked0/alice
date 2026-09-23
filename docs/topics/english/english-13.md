@@ -28,12 +28,10 @@ Jay: Nice to have. The .dockerignore is the blocker; the rest is polish.
 
 
 
+
+
 ## Words
-| list the layers | /lɪst ðə ˈleɪɚz/ | 레이어를 나열하다 |
-| exact output paths | /ɪɡˈzækt ˈaʊtˌpʊt pæðz/ | 정확한 출력 경로 |
-| nothing else | /ˈnʌθɪŋ ɛls/ | 그 외에는 아무것도 |
-| nice to have | /naɪs tu hæv/ | 있으면 좋은 것 |
-| blocker vs. polish | /ˈblɑkɚ ˈvɝsəz ˈpɑlɪʃ/ | 블로커 vs. 다듬기 |
+| blocker | /ˈblɑkɚ/ | 블로커 vs. 다듬기 |
 
 ## Expressions
 | this isn't about function | 기능 문제가 아니다 |

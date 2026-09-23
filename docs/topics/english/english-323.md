@@ -30,10 +30,12 @@ Jay: Perfect. Anything that isn't a windfall stays in the main one.
 
 
 
+
+
 ## Words
 | windfall | /ˈwɪndˌfɔl/ | 뜻밖의 횡재, 우발적 소득 |
+| aside | /əˈsaɪd/ | 따로 떼어 두다 |
 | one-off | /ˌwʌˈnɔf/ | 일회성인 것 |
-| put it aside | /pʊt ɪt əˈsaɪd/ | 따로 떼어 두다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

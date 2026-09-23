@@ -44,15 +44,15 @@ Agent: That's your whole trip in one sentence. Gate 62B, and walk it — don't w
 
 
 
+
+
+
 ## Words
-| connecting flight | /kəˈnɛktɪŋ flaɪt/ | 연결 항공편 |
-| connection | /kəˈnɛkʃən/ | 갈아타는 그 편 자체. "Austin is my connection" |
-| transfer | /trænˈsfɝ/ | 갈아타다·옮겨 가다 |
 | layover | /ˈleɪˌoʊvɚ/ | 환승 대기 시간 (짧게 갈아타는 대기) |
 | stopover | /ˈstɑˌpoʊvɚ/ | 24시간 이상 머무는 경유 |
-| minimum connection time | /ˈmɪnəməm kəˈnɛkʃən taɪm/ | 최소 환승 시간 |
-| inbound slips | /ˌɪnˈbaʊnd slɪps/ | 들어오는 편이 지연되다 |
-| direct | /dɚˈɛkt/ | 편명이 바뀌지 않는 편 |
+| inbound | /ˌɪnˈbaʊnd/ | 들어오는 편이 지연되다 |
+| nonstop | /ˌnɑnˈstɑp/ | 중간에 서지 않는 편 |
+| slips | /slɪps/ | 들어오는 편이 지연되다 |
 
 ## Expressions
 | a connecting flight | 연결 항공편 — 한 여정으로 산 두 번째(이후) 구간. 항공권의 성격을 가리킨다 |

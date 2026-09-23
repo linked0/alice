@@ -30,11 +30,11 @@ Jay: Slightly old-fashioned but right: the owner rented out the place. If I told
 
 
 
+
+
 ## Words
-| rent out | /rɛnt aʊt/ | (주인이) 빌려주다, 임대하다 |
-| booked out | /bʊkt aʊt/ | 예약이 꽉 찬, 통째로 예약된 |
-| private booking | /ˈpraɪvət ˈbʊkɪŋ/ | 단체 전용 예약 |
-| National Diet | /ˈnæʃənəl ˈdaɪət/ | 일본 국회 |
+| booking | /ˈbʊkɪŋ/ | 단체 전용 예약 |
+| booked | /bʊkt/ | 예약이 꽉 찬, 통째로 예약된 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

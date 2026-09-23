@@ -30,9 +30,11 @@ Jay: Please do. Written down, with my name on it.
 
 
 
+
+
 ## Words
-| condition is met | /kənˈdɪʃən ɪz mɛt/ | 조건이 충족되다 |
-| drag one's feet | /dræɡ wʌnz fit/ | 미적거리다 |
+| drag | /dræɡ/ | 미적거리다 |
+| one's | /wʌnz/ | 미적거리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,13 @@ Jay: Thanks. And if you want to poke at checkout, use staging — you can mess w
 
 
 
+
+
+
 ## Words
-| mess with | /mɛs wɪð/ | 참견하다·함부로 건드리다·위험한 것과 얽히다 |
-| get paged | /ɡɛt peɪdʒd/ | 온콜 알림을 받다 |
-| poke at | /poʊk æt/ | 이것저것 찔러 보며 시험하다 |
-| all you like | /ɔl ju laɪk/ | 마음껏 |
+| mess | /mɛs/ | 참견하다·함부로 건드리다·위험한 것과 얽히다 |
+| paged | /peɪdʒd/ | 온콜 알림을 받다 |
+| poke | /poʊk/ | 이것저것 찔러 보며 시험하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

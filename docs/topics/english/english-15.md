@@ -30,14 +30,13 @@ Jay: No. A fallback that is usually stale is a trap. One source, and it's the ch
 
 
 
+
+
+
 ## Words
-| every address moved | /ˈɛvɚi ˈæˌdrɛs muvd/ | 주소가 전부 바뀌었다 |
-| set at deploy | /sɛt æt dɪˈplɔɪ/ | 배포 때 설정되는 |
-| survives a reset | /sɚˈvaɪvz ə riˈsɛt/ | 리셋을 견딘다 |
-| chain not ready | /tʃeɪn nɑt ˈrɛdi/ | 체인 준비 안 됨 |
-| visible failure | /ˈvɪzəbəl ˈfeɪljɚ/ | 보이는 실패 |
-| confident wrong number | /ˈkɑnfədənt rɔŋ ˈnʌmbɚ/ | 자신감 있는 틀린 숫자 |
-| usually stale | /ˈjuʒəwəli steɪl/ | 대개 오래된 |
+| stale | /steɪl/ | 대개 오래된 |
+| survives | /sɚˈvaɪvz/ | 리셋을 견딘다 |
+| deploy | /dɪˈplɔɪ/ | 배포 때 설정되는 |
 
 ## Expressions
 | nothing changed on our side | 우리 쪽은 아무것도 바꾸지 않았다 |

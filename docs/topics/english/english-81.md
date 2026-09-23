@@ -30,10 +30,14 @@ Jay: I'll write what we saw: "talked over the interviewers twice, asked no quest
 
 
 
+
+
+
 ## Words
-| full of oneself | /fʊl ʌv ˌwʌnˈsɛlf/ | 자만하는, 자기 얘기만 하는 |
-| come across as | /kʌm əˈkrɔs æz/ | ~한 인상을 주다 |
-| What's your read | /wʌts jɔr rɛd/ | 네 판단은? |
+| full | /fʊl/ | 자만하는, 자기 얘기만 하는 |
+| oneself | /ˌwʌnˈsɛlf/ | 자만하는, 자기 얘기만 하는 |
+| behaviour | /bɪˈheɪvjɚ/ | 딱지 말고 행동을 |
+| label | /ˈleɪbəl/ | 딱지 말고 행동을 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

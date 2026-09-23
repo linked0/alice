@@ -30,10 +30,12 @@ Jay: As a joke, yes. Said straight, it sounds like you run a kingdom.
 
 
 
+
+
+
 ## Words
 | coffer | /ˈkɔfɚ/ | (과거의) 돈궤 |
-| state coffers | /steɪt ˈkɑfɚz/ | 국고 |
-| coffers are empty | /ˈkɑfɚz ɑr ˈɛmpti/ | 재원이 바닥났다 |
+| coffers | /ˈkɑfɚz/ | 국고 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

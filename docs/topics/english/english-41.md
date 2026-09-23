@@ -30,9 +30,12 @@ Jay: Right. You teach a skill in a workshop. You imbue a value over months, most
 
 
 
+
+
+
 ## Words
-| be imbued with | /bi ˌɪmˈbjud wɪð/ | ~이 스며들어 있다 |
-| sense of ownership | /sɛns ʌv ˈoʊnɚˌʃɪp/ | 주인 의식 |
+| imbue | /ˌɪmˈbju/ | X를 Y로 가득 채우다, X에 Y를 불어넣다 |
+| imbued | /ˌɪmˈbjud/ | ~이 스며들어 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

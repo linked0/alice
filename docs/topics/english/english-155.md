@@ -30,11 +30,12 @@ Jay: Only as a joke. "There's a serpent in this codebase" gets a laugh; "there's
 
 
 
+
+
+
 ## Words
 | serpent | /ˈsɝpənt/ | (큰) 뱀, 신화·상징의 뱀 |
-| snake | /sneɪk/ | 동물 vs 상징 |
 | serpentine | /ˈsɝpənˌtaɪn/ | 구불구불한 |
-| get a laugh | /ɡɛt ə læf/ | 웃음을 얻다 / 사람들이 보게 만들다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

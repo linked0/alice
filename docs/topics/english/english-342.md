@@ -30,9 +30,10 @@ Jay: That's the biblical figurative sense. Fine to explain, not a word I'd use a
 
 
 
+
+
 ## Words
-| figurative sense | /ˈfɪɡjɚətɪv sɛns/ | 비유적 의미 |
-| something | /ˈsʌmθɪŋ/ | ~을 죄목으로 부르다 |
+| figurative | /ˈfɪɡjɚətɪv/ | 비유적 의미 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

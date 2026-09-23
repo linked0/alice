@@ -30,6 +30,8 @@ Jay: Thank you. I'd rather it got fixed than get anyone in trouble.
 
 
 
+
+
 ## Words
 | whimper | /ˈwɪmpɚ/ | 낑낑거리다, 훌쩍이다 |
 | alone | /əˈloʊn/ | 하루 종일 혼자 남겨지다 |

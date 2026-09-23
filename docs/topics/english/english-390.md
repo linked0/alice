@@ -30,9 +30,12 @@ Jay: Got it. Fab in the huddle, excellent in the document.
 
 
 
+
+
+
 ## Words
 | fab | /fæb/ | 근사한, 멋진 |
-| that's fab | /ðæts fæb/ | 멋지다 |
+| advert | /ˈædvɚt/ | 광고처럼 읽히다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,9 +26,12 @@ Jay: That's the trap. Internecine is inside one organisation, and heavy — I'd 
 
 
 
+
+
 ## Words
-| internecine fighting | /ˌɪnˈtɝnəˌsin ˈfaɪtɪŋ/ | 내부 항쟁 |
-| that's the trap | /ðæts ðə træp/ | 그게 함정이다 |
+| internecine | /ˌɪnˈtɝnəˌsin/ | 내부 항쟁 |
+| trap | /træp/ | 그게 함정이다 |
+| fighting | /ˈfaɪtɪŋ/ | 내부 항쟁 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

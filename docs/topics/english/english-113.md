@@ -30,9 +30,11 @@ Jay: Fair. I'll hold off until I've seen a few more rent payments.
 
 
 
+
+
 ## Words
 | rep | /rɛp/ | 담당 직원 |
-| hold off | /hoʊld ɔf/ | 보류하다, 미루다 |
+| mortgage | /ˈmɔrɡədʒ/ | 대출을 받다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

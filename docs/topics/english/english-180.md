@@ -30,9 +30,10 @@ Jay: A named trigger: a client pilot, an external audit, or SOC 2 prep. Until th
 
 
 
+
+
 ## Words
-| push back X | /pʊʃ bæk ɛks/ | X를 뒤로 미루다 |
-| named trigger | /neɪmd ˈtrɪɡɚ/ | 정해진 트리거 |
+| nobody's | /ˈnoʊˌbɑˌdiz/ | 아직 아무도 요청하지 않았다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

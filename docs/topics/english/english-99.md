@@ -30,9 +30,9 @@ Jay: It stays. I moved "those types" to the front, so the "for" is left waiting 
 
 
 
+
+
 ## Words
-| Watch out | /wɑtʃ aʊt/ | 조심해! |
-| types | /taɪps/ | 그런 부류의 사람들 |
 | tout | /taʊt/ | 호객꾼 |
 
 ## Expressions

@@ -30,11 +30,13 @@ Jay: My dentist used the same word last week, by the way. He dislodged a popcorn
 
 
 
+
+
+
 ## Words
 | dislodge | /dɪˈslɑdʒ/ | 박힌 것을 빼내다, 기존 강자를 밀어내다 |
+| wedged | /wɛdʒd/ | 꽉 끼어 있는, 박혀 있는 |
 | incumbent | /ˌɪnˈkʌmbənt/ | 기존 사업자, 현직자 |
-| wedged in | /wɛdʒd ɪn/ | 꽉 끼어 있는, 박혀 있는 |
-| pain of moving | /peɪn ʌv ˈmuvɪŋ/ | 옮기는 고통(전환 비용) |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

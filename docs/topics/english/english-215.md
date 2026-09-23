@@ -30,10 +30,12 @@ Jay: Usually. Put the two together and you get this shop on a Saturday.
 
 
 
+
+
+
 ## Words
-| wistful for something | /ˈwɪstfəl fɔr ˈsʌmθɪŋ/ | ~을 아쉬워하는 |
-| nostalgic for something | /nɔˈstældʒɪk fɔr ˈsʌmθɪŋ/ | ~을 그리워하는 |
-| time before television | /taɪm bɪˈfɔr ˈtɛləˌvɪʒən/ | 텔레비전 이전의 시절 |
+| wistful | /ˈwɪstfəl/ | ~을 아쉬워하는 |
+| nostalgic | /nɔˈstældʒɪk/ | ~을 그리워하는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

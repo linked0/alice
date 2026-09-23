@@ -30,10 +30,13 @@ Jay: Food scraps. So never call the canteen lunch slop where they can hear you.
 
 
 
+
+
+
 ## Words
-| spill | /spɪl/ | 쏟다 |
-| train jolted | /treɪn ˈdʒoʊltɪd/ | 전철이 덜컹거렸다 |
-| food scraps | /fud skræps/ | 음식물 찌꺼기 |
+| slop | /slɑp/ | 가장자리 너머로 출렁여 넘치다 |
+| jolted | /ˈdʒoʊltɪd/ | 전철이 덜컹거렸다 |
+| scraps | /skræps/ | 음식물 찌꺼기 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

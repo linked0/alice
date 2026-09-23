@@ -30,13 +30,12 @@ Jay: Steady and thorough. The move is about the family, not about the job.
 
 
 
+
+
+
 ## Words
-| steady and thorough | /ˈstɛdi ənd ˈθɝoʊ/ | 꾸준하고 꼼꼼한 |
 | evince | /ɪˈvɪns/ | ~하려는 강한 바람을 내비치다 |
-| strong | /strɔŋ/ | ~하려는 강한 바람을 내비치다 |
-| desire | /dɪˈzaɪɚ/ | ~하려는 강한 바람을 내비치다 |
 | reconciled | /ˈrɛkənˌsaɪld/ | ~와 화해하다 |
-| somebody | /ˈsʌmˌbɑdi/ | ~와 화해하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

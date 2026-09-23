@@ -28,11 +28,10 @@ Aoife: Fine. Merge the fix, and link the refactor ticket in the description.
 
 
 
+
+
 ## Words
-| hostage | /ˈhɑstɪdʒ/ | Y 때문에 X를 진행하지 못하게 묶어 두다 |
-| you're | /jʊr/ | 손댄 김에 |
 | ticketed | /ˈtɪkətɪd/ | 다음 스프린트 티켓으로 잡혀 있다 |
-| sprint | /sprɪnt/ | 다음 스프린트 티켓으로 잡혀 있다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

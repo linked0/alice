@@ -30,10 +30,13 @@ Jay: One calm reply with the vote timeline and the numbers, then we stop. You ca
 
 
 
+
+
+
 ## Words
 | unhinged | /ənˈhɪndʒd/ | 정신 나간, 이성을 잃은 |
-| heated | /ˈhitəd/ | 격앙된 / 건설적이지 않은 |
-| engage | /ɛnˈɡeɪdʒ/ | (논쟁에) 대응하다 |
+| hinges | /ˈhɪndʒɪz/ | 경첩에서 빠지다 |
+| constructive | /kənˈstrʌktɪv/ | 격앙된 / 건설적이지 않은 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

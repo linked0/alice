@@ -30,9 +30,14 @@ Jay: Weaker. He saw it and let it pass. I am not claiming that either, so I woul
 
 
 
+
+
+
 ## Words
-| connive at something | /kəˈnaɪv æt ˈsʌmθɪŋ/ | ~를 알고도 눈감아 주다 |
-| didn't check | /ˈdɪdənt tʃɛk/ | 확인하지 않았다 |
+| connive | /kəˈnaɪv/ | ~하는 데 공모하다 |
+| cheating | /ˈtʃitɪŋ/ | ~하는 데 공모하다 |
+| check | /tʃɛk/ | 확인하지 않았다 |
+| doing | /ˈduɪŋ/ | ~하는 데 공모하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

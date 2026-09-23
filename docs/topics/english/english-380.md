@@ -26,9 +26,10 @@ Jay: Then he knelt down and begged for forgiveness. Same posture, deliberate ver
 
 
 
+
+
 ## Words
-| kneel down | /nil daʊn/ | (의도해서) 무릎을 꿇다 |
-| beg for forgiveness | /bɛɡ fɔr fɚˈɡɪvnəs/ | 용서를 빌다 |
+| kneel | /nil/ | (의도해서) 무릎을 꿇다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

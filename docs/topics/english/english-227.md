@@ -30,9 +30,12 @@ Jay: Only as a joke. Now go, before I finish off the water instead.
 
 
 
+
+
 ## Words
-| finish something off | /ˈfɪnɪʃ ˈsʌmθɪŋ ɔf/ | ~을 마저 끝내다 |
-| finish somebody off | /ˈfɪnɪʃ ˈsʌmˌbɑdi ɔf/ | ~을 끝장내다; 완전히 지치게 하다 |
+| finish | /ˈfɪnɪʃ/ | ~을 마저 끝내다 |
+| wreck | /rɛk/ | 하루를 망칠 만큼 지치게 하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~을 끝장내다; 완전히 지치게 하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

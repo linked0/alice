@@ -30,10 +30,12 @@ Jay: I'll do it tonight and send you the confirmation.
 
 
 
+
+
+
 ## Words
 | consulate | /ˈkɑnsələt/ | 영사관 |
-| embassy | /ˈɛmbəsi/ | 대사관 |
-| consular appointment | /ˈkɑnsəlɚ əˈpɔɪntmənt/ | 영사 업무 예약 |
+| consular | /ˈkɑnsəlɚ/ | 영사 업무 예약 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

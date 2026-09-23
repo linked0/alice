@@ -30,9 +30,11 @@ Jay: A week more, and we stop having this argument every fork. Let's write the c
 
 
 
+
+
 ## Words
-| borrow contract code | /ˈbɑˌroʊ ˈkɑnˌtrækt koʊd/ | 컨트랙트 코드를 빌리다 |
-| either way | /ˈiðɚ weɪ/ | 어느 쪽이든 |
+| receipt | /rɪˈsit/ | 같은 미리보기, 같은 영수증 |
+| preview | /ˈpriˌvju/ | 같은 미리보기, 같은 영수증 |
 
 ## Expressions
 | go with 4337 | 4337로 가자 |

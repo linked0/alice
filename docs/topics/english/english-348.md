@@ -30,11 +30,12 @@ Jay: We do, and there it's an insult. Steamrollering a decision means ignoring e
 
 
 
+
+
+
 ## Words
-| steamroller a decision | /ˈstimˌroʊlɚ ə dɪˈsɪʒən/ | 반대를 무시하고 결정을 밀어붙이다 |
-| victory | /ˈvɪktɚi/ | 힘으로 밀어붙여 이기다 |
+| steamroller | /ˈstimˌroʊlɚ/ | 힘으로 밀어붙여 이기다 |
 | flatten | /ˈflætən/ | 앞에 있는 건 다 눌러 버리다 |
-| whatever | /ˌwʌˈtɛvɚ/ | 앞에 있는 건 다 눌러 버리다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

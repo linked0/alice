@@ -30,11 +30,12 @@ Jay: Exactly. In two weeks we'll know whether it's worth paying for, and we'll h
 
 
 
+
+
 ## Words
-| worth paying for | /wɝθ ˈpeɪɪŋ fɔr/ | 돈 낼 가치가 있는 |
-| something | /ˈsʌmθɪŋ/ | ~을 최대한 활용하다, 뽑아낼 수 있는 만큼 다 뽑다 |
+| worth | /wɝθ/ | ~을 최대한 활용하다, 뽑아낼 수 있는 만큼 다 뽑다 |
 | squeeze | /skwiz/ | 있는 대로 다 뽑아내다 |
-| everything | /ˈɛvriˌθɪŋ/ | 있는 대로 다 뽑아내다 |
+| paying | /ˈpeɪɪŋ/ | 돈 낼 가치가 있는 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

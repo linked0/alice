@@ -30,9 +30,10 @@ Jay: Same words. It's the safest way to tell someone they overreacted.
 
 
 
+
+
 ## Words
 | overreact | /ˌoʊvɚriˈækt/ | 과잉 반응하다 |
-| little | /ˈlɪtəl/ | 선을 (좀) 넘다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

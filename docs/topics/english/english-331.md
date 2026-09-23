@@ -30,10 +30,14 @@ Jay: Boring wins. I'll stoop to being boring, not to lying.
 
 
 
+
+
+
 ## Words
-| stoop to something | /stup tu ˈsʌmθɪŋ/ | ~할 만큼 수준을 낮추다 |
-| They started it | /ðeɪ ˈstɑrtɪd ɪt/ | 먼저 시작한 건 저쪽이야 |
-| I'd rather | /aɪd ˈræðɚ/ | 차라리 ~하겠다 |
+| stoop | /stup/ | ~할 만큼 수준을 낮추다 |
+| something | /ˈsʌmθɪŋ/ | ~할 만큼 수준을 낮추다 |
+| rather | /ˈræðɚ/ | 차라리 ~하겠다 |
+| I'd | /aɪd/ | 차라리 ~하겠다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

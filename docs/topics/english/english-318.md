@@ -30,10 +30,12 @@ Jay: Three letters, and completely different worlds. The lioness made a kill; th
 
 
 
+
+
 ## Words
-| make a kill | /meɪk ə kɪl/ | (포식자가) 사냥에 성공하다 |
-| make a killing | /meɪk ə ˈkɪlɪŋ/ | 큰돈을 단번에 벌다 |
-| pride of lions | /praɪd ʌv ˈlaɪənz/ | 사자 무리 |
+| kill | /kɪl/ | (포식자가) 사냥에 성공하다 |
+| lions | /ˈlaɪənz/ | 사자 무리 |
+| pride | /praɪd/ | 사자 무리 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

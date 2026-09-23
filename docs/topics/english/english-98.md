@@ -30,9 +30,12 @@ Jay: Fair. I'll open a thread today and pin it.
 
 
 
+
+
 ## Words
-| let it percolate | /lɛt ɪt ˈpɝkəˌleɪt/ | 생각이 익도록 며칠 두다 |
+| percolate | /ˈpɝkəˌleɪt/ | 생각이 익도록 며칠 두다 |
 | surface | /ˈsɝfəs/ | 저절로 드러나다 |
+| team | /tim/ | 팀 사이로 서서히 퍼지다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

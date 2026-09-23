@@ -30,13 +30,10 @@ Jay: It is, and it's the one I can stand behind. A listing we'd have to explain 
 
 
 
+
+
 ## Words
-| current price | /ˈkɝənt praɪs/ | 현재 가격 |
-| no external market | /noʊ ɪkˈstɝnəl ˈmɑrkət/ | 외부 시장이 없다 |
-| unit of account | /ˈjunət ʌv əˈkaʊnt/ | 계산 단위 |
-| first venue | /fɝst ˈvɛnju/ | 첫 거래 장소 |
-| heads-up | /ˈhɛdˌzʌp/ | 사전 통지 |
-| explain away later | /ɪkˈspleɪn əˈweɪ ˈleɪtɚ/ | 나중에 변명으로 넘기다 |
+| misrepresenting | /mɪsˌrɛprəˈzɛntɪŋ/ | 사실을 왜곡하는 것이 된다 |
 
 ## Expressions
 | the current price | 현재 가격 |

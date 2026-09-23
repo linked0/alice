@@ -26,9 +26,12 @@ Jay: It's a grand word for a claim with no numbers behind it. I'd only opine in 
 
 
 
+
+
 ## Words
 | opine | /oʊˈpaɪn/ | 의견을 밝히다 |
-| not a finding | /nɑt ə ˈfaɪndɪŋ/ | 발견[검증된 사실]이 아니라 |
+| finding | /ˈfaɪndɪŋ/ | 발견[검증된 사실]이 아니라 |
+| grand | /ɡrænd/ | ~에 비해 거창한 단어 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

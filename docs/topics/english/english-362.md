@@ -30,9 +30,11 @@ Jay: Completely different. You two clearly get on with each other, she just gets
 
 
 
+
+
 ## Words
-| break somebody | /breɪk ˈsʌmˌbɑdi/ | (버티던 사람을) 결국 굽히게 하다 |
-| something | /ˈsʌmθɪŋ/ | ~에게 …로 계속 잔소리하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~에게 …로 계속 잔소리하다 |
+| break | /breɪk/ | (버티던 사람을) 결국 굽히게 하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

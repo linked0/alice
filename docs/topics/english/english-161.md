@@ -30,10 +30,12 @@ Jay: Not the word. But I'd say I saw who approved the config, and I'd say it in 
 
 
 
+
+
 ## Words
 | craven | /ˈkreɪvən/ | 경멸스럽게 비겁한 |
-| take the hit | /teɪk ðə hɪt/ | 타격을 대신 받다 |
-| his face | /hɪz feɪs/ | 면전에서 |
+| throw | /θroʊ/ | ~을 희생양으로 삼다 |
+| bus | /bʌs/ | ~을 희생양으로 삼다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

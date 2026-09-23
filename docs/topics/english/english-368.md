@@ -26,9 +26,10 @@ Jay: Random would mean she has no taste. Eclectic says she has one and it's wide
 
 
 
+
+
 ## Words
-| shop for somebody | /ʃɑp fɔr ˈsʌmˌbɑdi/ | ~에게 줄 것을 고르다 |
-| it's a compliment | /ɪts ə ˈkɑmpləmɛnt/ | 그건 칭찬이다 |
+| eclectic | /ɪˈklɛktɪk/ | 문학 취향이 아주 다양한 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

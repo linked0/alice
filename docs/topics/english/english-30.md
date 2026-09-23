@@ -31,12 +31,13 @@ Jay: You asked me not to, and it turns out I didn't need it. That's usually a go
 
 
 
+
+
+
 ## Words
-| then you steer | /ðɛn ju stɪr/ | 그다음은 당신이 방향을 잡으세요 |
-| pages a human | /ˈpeɪdʒəz ə ˈhjumən/ | 사람을 호출하다(온콜 알림) |
-| drifted into | /ˈdrɪftəd ˈɪntu/ | 결정 없이 흘러가 도달한 |
-| number it protects | /ˈnʌmbɚ ɪt prəˈtɛkts/ | 그것이 보호하는 숫자 |
-| it turns out | /ɪt tɝnz aʊt/ | 드러난 바로는 |
+| drifted | /ˈdrɪftəd/ | 결정 없이 흘러가 도달한 |
+| steer | /stɪr/ | 그다음은 당신이 방향을 잡으세요 |
+| protects | /prəˈtɛkts/ | 그것이 보호하는 숫자 |
 
 ## Expressions
 | assume I don't know | 제가 모른다고 가정하세요 |

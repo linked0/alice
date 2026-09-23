@@ -30,13 +30,10 @@ Jay: Exactly. Add that one test and I'll approve.
 
 
 
+
+
 ## Words
-| 'cause | /kəz/ | because의 구어 |
-| doesn't | /ˈdʌzənt/ | A라고 해서 B인 건 아니다 |
 | assert | /əˈsɝt/ | 현재 반환값을 그대로 단정하다 |
-| whatever | /ˌwʌˈtɛvɚ/ | 현재 반환값을 그대로 단정하다 |
-| returns | /rɪˈtɝnz/ | 현재 반환값을 그대로 단정하다 |
-| today | /təˈdeɪ/ | 현재 반환값을 그대로 단정하다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -26,9 +26,11 @@ Jay: Expire the token in an hour. If the worst case is boring to prevent, we sho
 
 
 
+
+
 ## Words
-| that's a stretch | /ðæts ə strɛtʃ/ | 그건 억지다 |
-| worst case | /wɝst keɪs/ | 최악의 경우 |
+| stretch | /strɛtʃ/ | ~라고 상상하는 건 과장이 아니다 |
+| imagine | /ˌɪˈmædʒən/ | ~라고 상상하는 건 과장이 아니다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

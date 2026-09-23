@@ -30,13 +30,13 @@ Jay: It's a yes, with complaints. Six weeks of them.
 
 
 
+
+
+
 ## Words
-| hill repeats | /hɪl rɪˈpits/ | 언덕 반복 주행 |
 | somebody | /ˈsʌmˌbɑdi/ | ~를 좋지 않은 일에 끌어들이다. "you know what you've let me in for" |
 | something | /ˈsʌmθɪŋ/ | ~를 좋지 않은 일에 끌어들이다. "you know what you've let me in for" |
-| letting | /ˈlɛtɪŋ/ | 내가 자초하는 고생 |
-| myself | /ˌmaɪˈsɛlf/ | 내가 자초하는 고생 |
-| complaints | /kəmˈpleɪnts/ | 불평을 곁들인 승낙 |
+| repeats | /rɪˈpits/ | 언덕 반복 주행 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,12 @@ Jay: Which is exactly why the description should say what the code is, not how I
 
 
 
+
+
+
 ## Words
 | pejorative | /pəˈdʒɔrətɪv/ | (말이) 경멸적인 |
-| dig at | /dɪɡ æt/ | ~를 비꼬는 말 |
 | predate | /priˈdeɪt/ | ~보다 먼저 있다 |
-| be safe | /bi seɪf/ | 안전하게, 혹시 몰라서 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

@@ -30,11 +30,12 @@ Jay: Exactly. On parole, the rules follow you home.
 
 
 
+
+
 ## Words
 | parole | /pɚˈoʊl/ | 가석방 |
-| out on parole | /aʊt ɑn pɚˈoʊl/ | 가석방으로 나와 있는 |
 | bail | /beɪl/ | 보석 |
-| conviction stands | /kənˈvɪkʃən stændz/ | 유죄 판결은 그대로다 |
+| conviction | /kənˈvɪkʃən/ | 유죄 판결은 그대로다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |

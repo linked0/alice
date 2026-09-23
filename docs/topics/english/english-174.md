@@ -30,8 +30,9 @@ Jay: Then it doesn't ship, and we say so in the doc up front instead of building
 
 
 
+
+
 ## Words
-| ship a feature | /ʃɪp ə ˈfitʃɚ/ | 기능을 실제 사용자에게 출시하다 |
 | dependency | /dɪˈpɛndənsi/ | 그것을 의존성으로 달고 |
 
 ## Expressions

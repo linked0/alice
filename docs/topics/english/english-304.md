@@ -30,10 +30,12 @@ Jay: Don't. It stays violent. I'd keep it for history, medicine, or that leaders
 
 
 
+
+
+
 ## Words
 | decapitate | /diˈkæpəˌteɪt/ | 참수하다 |
-| firm is decapitated | /fɝm ɪz diˈkæpəˌteɪtɪd/ | 지도부가 한꺼번에 사라지다 |
-| sound clinical | /saʊnd ˈklɪnəkəl/ | 감정 없이 건조하게 들리다 |
+| decapitated | /diˈkæpəˌteɪtɪd/ | 지도부가 한꺼번에 사라지다 |
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
