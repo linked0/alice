@@ -30,13 +30,27 @@ Jay: That's honest. A table full of TBDs is a roadmap. A missing table is a ques
 1. **기능과 문서를 갈라서 말한다.** "The function is. What I can't find is…" 첫 두 단어로 기능에 동의한다고 못 박으면 뒤의 요구가 반대로 들리지 않는다.
 2. **제3자의 눈으로 번역한다.** "what an auditor asks about" 상대가 사소하게 본 단어가 왜 중요한지 제3자 기준으로 말하면 취향 싸움이 되지 않는다.
 3. **빈칸을 허용해 문턱을 낮춘다.** "Even TBD beats the column not existing." 완성도를 요구하면 아무도 시작하지 않는다. 표가 생기면 채워진다.
+4. **생략으로 대비를 만든다 — `…, not X` 와 `The function is.`** 이 대화는 같은 생략을 두 번 쓴다. `"The function is."` 는 `"The function is uncontroversial."` 의 줄임이고, `"…what an auditor asks about, not the modifier."` 는 `"the modifier is not what an auditor asks about"` 의 줄임이다. 앞 문장의 구조를 반복하지 않고 쉼표 + `not X` 로 끝내면 대비가 날카로워지고, 동의가 마지못한 것이 아니라 확신 있게 들린다. `Bring the report, not the slides.` / `It's the timing that worries me, not the price.` 와 같은 형태다.
 
 
 
 
 
 ## Words
-| uncontroversial | /ˌʌnˌkɑntrəˈvɝʃəl/ | 논란의 여지가 없다 |
+| modifier | /ˈmɑdəfaɪər/ | 영어 단어가 아니라 **Solidity 키워드**. 함수에 붙여 호출 자격을 검사하는 재사용 가능한 가드 — `function pause() external onlyOwner`. 여기서 "the modifier"는 `onlyOwner` 그 자체를 가리킨다 |
+| onlyOwner | /ˈoʊnli ˈoʊnər/ | 가장 흔한 modifier 이름. "Owner only, for now" 중 **"Owner only" 부분이 곧 modifier**이고, 감사자가 묻지 않는 쪽이다 |
+| guard | /ɡɑrd/ | (코드에서) 조건이 맞지 않으면 실행을 막는 장치 — "a modifier is a reusable guard" |
+| to pause | /pɔz/ | 일시정지시키다 · **to un-pause** /ʌnˈpɔz/ 는 그것을 해제하다. 하이픈이 붙는 즉석 조어이고, 회의에서 그대로 쓴다 |
+| settlement | /ˈsɛtl̩mənt/ | 정산, 결제의 최종 처리 — "stop settlement if the oracle goes bad" |
+| oracle | /ˈɔrəkl̩/ | 외부 데이터를 체인에 넣어 주는 장치 — 강세는 앞(OR-a-cle) |
+| to go bad | /ɡoʊ ˈbæd/ | (장비·데이터가) 맛이 가다, 망가지다 — 음식에 쓰는 말을 시스템에 쓴 것이라 가볍고 구어적이다 |
+| auditor | /ˈɔdɪtər/ | 감사자 — 강세는 앞(AU-di-tor). 여기서는 제3자의 시선을 대표하는 인물 |
+| uncontroversial | /ˌʌnkɑntrəˈvɜrʃl̩/ | 논란의 여지가 없는 — 강세는 VER에(un-con-tro-VER-sial). 여섯 음절이라 끊어 연습할 것 |
+| TBD | /ˌti bi ˈdi/ | to be determined, 미정 — 세 글자를 따로 읽고 강세는 마지막 D |
+| to give something up | /ɡɪv ˈʌp/ | (권한을) 내려놓다 — "when we give it up". 포기하다보다 "쥐고 있던 것을 넘기다"에 가깝다 |
+| roadmap | /ˈroʊdmæp/ | 앞으로의 계획표 — 한 단어 |
+| under pressure | /ˈprɛʃər/ | 압박 속에서 — "answer it under pressure later". pressure의 ss는 /ʃ/ 소리 |
+| elliptical | /ɪˈlɪptɪkl̩/ | (말이) 생략된 — 듣는 사람이 복원할 수 있는 말을 빼는 것. 기법 4의 이름 |
 
 ## Expressions
 | it's uncontroversial | 논란의 여지가 없다 |
@@ -49,3 +63,13 @@ Jay: That's honest. A table full of TBDs is a roadmap. A missing table is a ques
 | TBD (to be determined) | 미정 |
 | beats the column not existing | 열이 없는 것보다 낫다 |
 | answer it under pressure later | 나중에 압박 속에서 답하다 |
+| not the modifier | modifier가 아니라 · 앞 문장 전체를 반복하지 않고 쉼표 + not X 로 대비를 끝내는 형태 |
+| the function is | (그 말은) 함수에 대해서는 맞다 · uncontroversial을 생략한 동의. 두 단어로 동의하고 바로 본론으로 간다 |
+| bring the report, not the slides | 슬라이드 말고 보고서를 가져와 · 같은 생략 구조를 연습할 예문 |
+| it's the timing that worries me, not the price | 걱정되는 건 가격이 아니라 타이밍이다 · it's X that … 강조 구문 + not Y 꼬리 |
+| who holds the switch | 누가 그 스위치를 쥐고 있나 · 권한의 소재를 묻는 가장 짧은 형태 |
+| what an auditor asks about | 감사자가 묻는 것 · 취향 싸움을 제3자 기준으로 바꾸는 장치 |
+| it's already in the code | 그건 이미 코드에 있다 · 검증 가능한 쪽과 약속뿐인 쪽을 가르는 말 |
+| a promise, not a control | 강제되지 않는 약속일 뿐 · 보안·감사 대화의 핵심 대비 |
+| the easy half | 쉬운 절반 · 이미 풀린 쪽을 짚어 어려운 쪽을 드러낼 때 |
+| when do you stop being able to | 언제부터 그럴 수 없게 되나 · 권한의 종료 시점을 묻는 문장 |
