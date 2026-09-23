@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The brain trust works because it has no authority — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/961</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The brain trust works because it has no authority</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1840</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-23-the-brain-trust-has-no-authority.md">raw</a></span></p>
+      <h1>The brain trust works because it has no authority</h1>
+      <p class="lead">Ed Catmull&#39;s 2008 account of Pixar answers a studio head who said his problem was finding good ideas, not good people. Catmull disagrees completely, and the essay is the argument: a film contains tens of thousands of ideas contributed by a 200–250 person crew, so the initial concept is one step in a four-to-five-year process, and what determines the outcome is the team. His compressed version, learned from the Toy Story 2 rescue: give a good idea to a mediocre team and they will ruin it; give a mediocre idea to a great team and they will fix it or throw it away and find something that works.</p>
+      <p class="meta">Pasted in full by jay, 2026-09-23, from hbr.org. Everything factual here is the article&#39;s and I verified none of it; it describes Pixar as of 2008, two years after the Disney merger. The four readings below are mine, and the central one is that the single most transferable thing in the essay is a design constraint most organisations would remove without thinking: the review group has no power.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# The brain trust works because it has no authority\n\nEd Catmull's 2008 account of Pixar answers a studio head who said his problem was finding good ideas, not good people. Catmull disagrees completely, and the essay is the argument: a film contains tens of thousands of ideas contributed by a 200–250 person crew, so the initial concept is one step in a four-to-five-year process, and what determines the outcome is the team. His compressed version, learned from the Toy Story 2 rescue: give a good idea to a mediocre team and they will ruin it; give a mediocre idea to a great team and they will fix it or throw it away and find something that works.\n\nPasted in full by jay, 2026-09-23, from hbr.org. Everything factual here is the article's and I verified none of it; it describes Pixar as of 2008, two years after the Disney merger. The four readings below are mine, and the central one is that the single most transferable thing in the essay is a design constraint most organisations would remove without thinking: the review group has no power.\n\n## Why\n\nManagement essays about creative companies are usually unusable because the advice is inseparable from the talent. This one contains an exception — a structural detail with a reported natural experiment behind it.\n\nCatmull describes the brain trust: Lasseter and eight directors, convened when a director asks, two hours of unsparing discussion of work in progress, \"nobody pulls any punches to be polite\". Then the sentence that matters: **there are no mandatory notes, and the brain trust has no authority.** And then the evidence, which is the rare part:\n\n> \"When we tried to export the brain trust model to our technical area, we found at first that it didn't work. Eventually, I realized why: We had given these other review groups some authority. As soon as we said, 'This is purely peers giving feedback to each other,' the dynamic changed, and the effectiveness of the review sessions dramatically improved.\"\n\nSame model, tried twice, differing in one variable, with opposite results. That is as close to a controlled experiment as a management essay gets.\n\n## How it works\n\n### 1 — Why removing authority makes feedback work\n\n**This card's first argument.** Authority changes what feedback *is*, on both sides of the table.\n\n| | Feedback with authority | Feedback without |\n|---|---|---|\n| For the giver | A verdict, so it must be defensible and politically safe | An opinion, so it can be unvarnished |\n| For the receiver | Notes to comply with; disagreement is insubordination | Information to weigh; disagreement is free |\n| What gets said | The sayable | The useful |\n| Who owns the outcome | Diffused | The director, unambiguously |\n\nCatmull's two verbs are exact: the arrangement \"liberates the trust members\" and \"liberates the director\". Both halves are needed. A director who must obey the notes will stop asking for them, and a reviewer whose note becomes an order will soften it.\n\nThe practical rule: **if you want honest review, the reviewers must not be able to make you do anything.** Most organisations do the opposite — they add authority to make the review \"count\", and thereby destroy the thing they were trying to buy.\n\n### 2 — The dailies: remove the cost of being seen wrong\n\nUnfinished work is shown to the whole animation crew daily. The director decides; everyone may comment. Catmull lists four benefits, and the fourth is the one that pays:\n\n1. Once people get past the embarrassment of showing work in progress, they become more creative.\n2. The leads can communicate a point to the entire crew at once.\n3. People learn from and inspire each other; strong work raises everyone's game.\n4. **No surprises at the end.** \"People's overwhelming desire to make sure their work is 'good' before they show it to others increases the possibility that their finished version won't be what the director wants.\"\n\n**Second argument.** Point 4 inverts the usual intuition. Polishing before you show is normally read as conscientiousness; here it is identified as the **source of waste**, because the longer you work unobserved the more you invest in a direction nobody has confirmed. Showing rough work is not humility, it is **error-correction scheduled early**, when correction is cheap.\n\nAnd point 1 is the mechanism behind the risk-taking Catmull says the business requires: when being seen mid-failure is routine, failure stops being an event.\n\n### 3 — The operating principles, and the syndrome nobody names\n\nThree principles, as given:\n\n- **Everyone may communicate with anyone.** The decision-making hierarchy and the communication structure are different things. Managers must accept not being first to know — \"it's OK to walk into a meeting and be surprised.\"\n- **It must be safe to offer ideas.** Works in progress screened internally with staggered viewings so there are always fresh eyes, everyone in the company attending at some point, all invited to send notes on what they liked and didn't, and why.\n- **Stay close to academia.** Technical artists publish and attend conferences: \"Publishing may give away ideas, but it keeps us connected with the academic community. This connection is worth far more than any ideas we may have revealed.\"\n\nPlus Pixar University (cross-training, plus optional classes from screenwriting to yoga, novices beside world-class practitioners) and the building — Jobs's design — \"structured to maximize inadvertent encounters\", with the atrium holding the cafeteria, mailboxes, meeting rooms and bathrooms.\n\nOn staying alert, Catmull names two syndromes that block fresh perspective. Not-invented-here is the famous one. **\"The awe-of-the-institution syndrome\"** — young new hires too impressed to speak — is the one he says gets overlooked.\n\n**Third argument: the second syndrome is the worse one, because it is automatic.** Not-invented-here requires someone to reject an idea. Awe requires nobody to do anything: success alone silences the newcomer, and the organisation loses the outside view precisely as it becomes most likely to need it. Catmull's countermeasure is worth copying — he speaks at new-hire orientation **about Pixar's mistakes**, to establish that the place has not figured it out.\n\nThe postmortem advice is in the same spirit: vary the format, because a repeated format finds the same lessons; ask for the top five things to do again and the top five not to; and use data, because \"people tend to assume that much of what we do can't be measured or analyzed. That's wrong.\"\n\n### 4 — The sentence the retellings drop\n\n**Fourth argument, and the reason to read the original.** The Toy Story 2 rescue is the essay's centrepiece and it is usually retold as a triumph of the A team. Catmull includes what it cost:\n\n> \"We asked our crew to work inhumane hours, and lots of people suffered repetitive stress injuries.\"\n\nThe one-quality-bar culture — everything Pixar touches must be excellent — was, on his own account, **bought with that**. Eighteen months of work compressed into eight. He does not present it as a model to repeat, and he does not hide it either. Any use of this story that omits that sentence is selling the conclusion without the price.\n\n### Where it lands in Jayverse\n\n`go-stand-next-to-the-standard` (#1839), added today, is what the dailies institutionalise. Collison's advice is to go where the highest standard is and experience it firsthand; the dailies make that a daily event for an entire crew — everyone sees the best work in the building, in progress, before it is polished. **That is the #1839 mechanism running as a scheduled meeting.**\n\n`the-resource-that-runs-out` (#1838) is the counterweight. Its warning is that help defaulting to personal time creates bottlenecks. The brain trust is the well-designed version of the same transaction: **bounded** (two hours), **requested** (the director convenes it), and **non-binding** (no authority), so it spends personal resources deliberately rather than by accident.\n\n`room-sorted-by-time-constant` (#1836): the atrium is the same argument as removing the living-room television. Put the thing you want to happen where movement already goes, and stop relying on intention.\n\n`tang-show-up-truth-gut-follow-through` (#1831): \"finish it badly rather than wait for the fully formed version\" is §2 stated as a personal habit instead of a studio process.\n\n### Verified and unverified\n\n**Reported, not verified:** everything — the film list, the patent claim, the Toy Story 2 schedule, the brain trust membership, the research citations, the quotes. The article is from September 2008 and describes Pixar as of then, so treat the practices as historical rather than current.\n\n**Mine, and labelled in the body:** §1 (why authority destroys review, and the rule that follows), §2 (polishing before showing is the source of waste, not conscientiousness), §3 (awe of the institution is worse than not-invented-here because it requires no one to act), §4 (the cost sentence, and that retellings drop it).\n"</script>
+<h2>Why</h2>
+<p>Management essays about creative companies are usually unusable because the advice is inseparable from the talent. This one contains an exception — a structural detail with a reported natural experiment behind it.</p>
+<p>Catmull describes the brain trust: Lasseter and eight directors, convened when a director asks, two hours of unsparing discussion of work in progress, "nobody pulls any punches to be polite". Then the sentence that matters: <strong>there are no mandatory notes, and the brain trust has no authority.</strong> And then the evidence, which is the rare part:</p>
+<p>&gt; "When we tried to export the brain trust model to our technical area, we found at first that it didn&#39;t work. Eventually, I realized why: We had given these other review groups some authority. As soon as we said, &#39;This is purely peers giving feedback to each other,&#39; the dynamic changed, and the effectiveness of the review sessions dramatically improved."</p>
+<p>Same model, tried twice, differing in one variable, with opposite results. That is as close to a controlled experiment as a management essay gets.</p>
+<h2>How it works</h2>
+<h3>1 — Why removing authority makes feedback work</h3>
+<p><strong>This card&#39;s first argument.</strong> Authority changes what feedback <em>is</em>, on both sides of the table.</p>
+<table><thead><tr><th></th><th>Feedback with authority</th><th>Feedback without</th></tr></thead><tbody><tr><td>For the giver</td><td>A verdict, so it must be defensible and politically safe</td><td>An opinion, so it can be unvarnished</td></tr><tr><td>For the receiver</td><td>Notes to comply with; disagreement is insubordination</td><td>Information to weigh; disagreement is free</td></tr><tr><td>What gets said</td><td>The sayable</td><td>The useful</td></tr><tr><td>Who owns the outcome</td><td>Diffused</td><td>The director, unambiguously</td></tr></tbody></table>
+<p>Catmull&#39;s two verbs are exact: the arrangement "liberates the trust members" and "liberates the director". Both halves are needed. A director who must obey the notes will stop asking for them, and a reviewer whose note becomes an order will soften it.</p>
+<p>The practical rule: <strong>if you want honest review, the reviewers must not be able to make you do anything.</strong> Most organisations do the opposite — they add authority to make the review "count", and thereby destroy the thing they were trying to buy.</p>
+<h3>2 — The dailies: remove the cost of being seen wrong</h3>
+<p>Unfinished work is shown to the whole animation crew daily. The director decides; everyone may comment. Catmull lists four benefits, and the fourth is the one that pays:</p>
+<ol><li>Once people get past the embarrassment of showing work in progress, they become more creative.</li><li>The leads can communicate a point to the entire crew at once.</li><li>People learn from and inspire each other; strong work raises everyone&#39;s game.</li><li><strong>No surprises at the end.</strong> "People&#39;s overwhelming desire to make sure their work is &#39;good&#39; before they show it to others increases the possibility that their finished version won&#39;t be what the director wants."</li></ol>
+<p><strong>Second argument.</strong> Point 4 inverts the usual intuition. Polishing before you show is normally read as conscientiousness; here it is identified as the <strong>source of waste</strong>, because the longer you work unobserved the more you invest in a direction nobody has confirmed. Showing rough work is not humility, it is <strong>error-correction scheduled early</strong>, when correction is cheap.</p>
+<p>And point 1 is the mechanism behind the risk-taking Catmull says the business requires: when being seen mid-failure is routine, failure stops being an event.</p>
+<h3>3 — The operating principles, and the syndrome nobody names</h3>
+<p>Three principles, as given:</p>
+<ul><li><strong>Everyone may communicate with anyone.</strong> The decision-making hierarchy and the communication structure are different things. Managers must accept not being first to know — "it&#39;s OK to walk into a meeting and be surprised."</li><li><strong>It must be safe to offer ideas.</strong> Works in progress screened internally with staggered viewings so there are always fresh eyes, everyone in the company attending at some point, all invited to send notes on what they liked and didn&#39;t, and why.</li><li><strong>Stay close to academia.</strong> Technical artists publish and attend conferences: "Publishing may give away ideas, but it keeps us connected with the academic community. This connection is worth far more than any ideas we may have revealed."</li></ul>
+<p>Plus Pixar University (cross-training, plus optional classes from screenwriting to yoga, novices beside world-class practitioners) and the building — Jobs&#39;s design — "structured to maximize inadvertent encounters", with the atrium holding the cafeteria, mailboxes, meeting rooms and bathrooms.</p>
+<p>On staying alert, Catmull names two syndromes that block fresh perspective. Not-invented-here is the famous one. <strong>"The awe-of-the-institution syndrome"</strong> — young new hires too impressed to speak — is the one he says gets overlooked.</p>
+<p><strong>Third argument: the second syndrome is the worse one, because it is automatic.</strong> Not-invented-here requires someone to reject an idea. Awe requires nobody to do anything: success alone silences the newcomer, and the organisation loses the outside view precisely as it becomes most likely to need it. Catmull&#39;s countermeasure is worth copying — he speaks at new-hire orientation <strong>about Pixar&#39;s mistakes</strong>, to establish that the place has not figured it out.</p>
+<p>The postmortem advice is in the same spirit: vary the format, because a repeated format finds the same lessons; ask for the top five things to do again and the top five not to; and use data, because "people tend to assume that much of what we do can&#39;t be measured or analyzed. That&#39;s wrong."</p>
+<h3>4 — The sentence the retellings drop</h3>
+<p><strong>Fourth argument, and the reason to read the original.</strong> The Toy Story 2 rescue is the essay&#39;s centrepiece and it is usually retold as a triumph of the A team. Catmull includes what it cost:</p>
+<p>&gt; "We asked our crew to work inhumane hours, and lots of people suffered repetitive stress injuries."</p>
+<p>The one-quality-bar culture — everything Pixar touches must be excellent — was, on his own account, <strong>bought with that</strong>. Eighteen months of work compressed into eight. He does not present it as a model to repeat, and he does not hide it either. Any use of this story that omits that sentence is selling the conclusion without the price.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>go-stand-next-to-the-standard</code> (#1839), added today, is what the dailies institutionalise. Collison&#39;s advice is to go where the highest standard is and experience it firsthand; the dailies make that a daily event for an entire crew — everyone sees the best work in the building, in progress, before it is polished. <strong>That is the #1839 mechanism running as a scheduled meeting.</strong></p>
+<p><code>the-resource-that-runs-out</code> (#1838) is the counterweight. Its warning is that help defaulting to personal time creates bottlenecks. The brain trust is the well-designed version of the same transaction: <strong>bounded</strong> (two hours), <strong>requested</strong> (the director convenes it), and <strong>non-binding</strong> (no authority), so it spends personal resources deliberately rather than by accident.</p>
+<p><code>room-sorted-by-time-constant</code> (#1836): the atrium is the same argument as removing the living-room television. Put the thing you want to happen where movement already goes, and stop relying on intention.</p>
+<p><code>tang-show-up-truth-gut-follow-through</code> (#1831): "finish it badly rather than wait for the fully formed version" is §2 stated as a personal habit instead of a studio process.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported, not verified:</strong> everything — the film list, the patent claim, the Toy Story 2 schedule, the brain trust membership, the research citations, the quotes. The article is from September 2008 and describes Pixar as of then, so treat the practices as historical rather than current.</p>
+<p><strong>Mine, and labelled in the body:</strong> §1 (why authority destroys review, and the rule that follows), §2 (polishing before showing is the source of waste, not conscientiousness), §3 (awe of the institution is worse than not-invented-here because it requires no one to act), §4 (the cost sentence, and that retellings drop it).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>brain trust</strong></td><td>브레인 트러스트 · 감독이 청할 때 모이는 동료 자문단</td></tr><tr><td><strong>mandatory notes</strong></td><td>의무적인 노트(반드시 반영해야 하는 지적) · 픽사에는 없는 것</td></tr><tr><td><strong>to have no authority</strong></td><td>권한이 없다 · 이 구조가 작동하는 조건</td></tr><tr><td><strong>unvarnished</strong></td><td>가감 없는·꾸미지 않은 · "unvarnished expert opinions"</td></tr><tr><td><strong>to pull one&#39;s punches</strong></td><td>(예의상) 봐주다·약하게 말하다 · "nobody pulls any punches"</td></tr><tr><td><strong>to liberate</strong></td><td>자유롭게 하다 · 권한 부재가 양쪽에 하는 일</td></tr><tr><td><strong>dailies</strong></td><td>데일리 · 미완성 작업을 매일 전체에 보여주는 리뷰</td></tr><tr><td><strong>work in progress</strong></td><td>진행 중인 작업 · 완성 전에 보이는 것</td></tr><tr><td><strong>no surprises at the end</strong></td><td>끝에 가서 놀랄 일이 없다 · 데일리의 네 번째 이점</td></tr><tr><td><strong>error-correction scheduled early</strong></td><td>앞당겨 배치한 오류 수정 · 거친 작업을 보이는 일의 정체</td></tr><tr><td><strong>story reels</strong></td><td>스토리 릴 · 스토리보드에 대사와 임시 음악을 붙인 초기 편집본</td></tr><tr><td><strong>the high concept</strong></td><td>하이 콘셉트 · 영화의 최초 한 줄 아이디어</td></tr><tr><td><strong>one quality bar</strong></td><td>단일 품질 기준 · 모든 작품에 같은 수준을 요구</td></tr><tr><td><strong>filmmaker led</strong></td><td>제작자 주도의 · 경영진이나 개발부서가 아니라</td></tr><tr><td><strong>incubation team</strong></td><td>인큐베이션 팀 · 감독 자신의 아이디어를 다듬게 돕는 소규모 팀</td></tr><tr><td><strong>to second-guess</strong></td><td>나중에 딴지 걸다·재단하다 · 하지 않겠다고 한 것</td></tr><tr><td><strong>not-invented-here syndrome</strong></td><td>여기서 만들지 않은 것 증후군 · 외부 아이디어 거부</td></tr><tr><td><strong>awe-of-the-institution syndrome</strong></td><td>기관에 대한 경외 증후군 · 신입이 감탄해서 말을 못 하는 상태</td></tr><tr><td><strong>postmortem</strong></td><td>포스트모템·사후 검토 · 끝난 뒤 배운 것을 정리하는 회의</td></tr><tr><td><strong>to game the system</strong></td><td>제도를 편법으로 우회하다 · 불쾌한 것을 피하려 할 때</td></tr><tr><td><strong>inadvertent encounters</strong></td><td>우발적 마주침 · 건물 설계의 목표</td></tr><tr><td><strong>repetitive stress injuries</strong></td><td>반복사용 긴장성 손상 · 토이 스토리 2의 대가</td></tr><tr><td><strong>inhumane hours</strong></td><td>비인간적인 근무 시간 · 캣멀이 숨기지 않은 문장</td></tr><tr><td><strong>to sell the conclusion without the price</strong></td><td>값을 빼고 결론만 팔다 · 이 카드의 표현</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 브레인 트러스트는 권한이 없기 때문에 작동한다\n\n2008년 에드 캣멀의 픽사 기록은, 자기 문제는 좋은 사람이 아니라 좋은 아이디어를 찾는 것이라고 말한 한 스튜디오 대표에게 답하는 글이다. 캣멀은 완전히 반대하고, 에세이 전체가 그 논증이다. 영화 한 편에는 200~250명의 제작진이 기여한 **수만 개의 아이디어**가 들어 있으므로 최초 콘셉트는 4~5년짜리 과정의 한 단계일 뿐이고, 결과를 결정하는 것은 **팀**이다. 토이 스토리 2 구조 작업에서 배운 그의 압축판: **좋은 아이디어를 평범한 팀에 주면 망친다. 평범한 아이디어를 훌륭한 팀에 주면 고치거나, 버리고 되는 것을 찾아낸다.**\n\njay가 2026-09-23에 hbr.org에서 전문을 붙여넣었다. 여기 사실관계는 전부 기사의 것이고 나는 아무것도 확인하지 않았다. 디즈니 합병 2년 뒤인 **2008년 시점의 픽사**를 서술한다. 아래 네 독법은 내 것이고, 중심은 이 에세이에서 가장 이식 가능한 것이 **대부분의 조직이 생각 없이 제거할 설계 제약** — 리뷰 그룹에 권한이 없다는 것 — 이라는 점이다.\n\n## 왜\n\n창의적 회사에 대한 경영 에세이는 대개 쓸 수 없다. 조언이 재능과 분리되지 않기 때문이다. 이 글에는 예외가 하나 있다. **보고된 자연 실험이 뒤에 붙은 구조적 세부**다.\n\n캣멀은 브레인 트러스트를 서술한다. 래스터와 감독 여덟 명, 감독이 청할 때 소집되며, 진행 중인 작업을 두 시간 동안 가차 없이 논한다. \"예의를 차리려고 봐주는 사람은 없다.\" 그리고 중요한 문장: **의무적인 노트는 없고, 브레인 트러스트에는 권한이 없다.** 그다음이 드문 부분, 증거다.\n\n> \"이 모델을 기술 부문으로 옮겼을 때 처음엔 작동하지 않았다. 결국 이유를 알았다. 그 리뷰 그룹들에게 **약간의 권한을 줬던 것**이다. '이건 순전히 동료끼리 피드백을 주는 자리다'라고 말하는 순간 역학이 바뀌었고, 리뷰 세션의 효과가 극적으로 좋아졌다.\"\n\n같은 모델, 두 번의 시도, 변수 하나만 다르고, 정반대 결과. 경영 에세이가 통제 실험에 가장 가까워지는 지점이다.\n\n## 동작 방식\n\n### 1 — 권한을 없애면 피드백이 작동하는 이유\n\n**이 카드의 첫 논증.** 권한은 **피드백이 무엇인가**를 테이블 양쪽에서 바꾼다.\n\n| | 권한 있는 피드백 | 권한 없는 피드백 |\n|---|---|---|\n| 주는 쪽에게 | 판정이므로 방어 가능하고 정치적으로 안전해야 함 | 의견이므로 가감 없이 말할 수 있음 |\n| 받는 쪽에게 | 따라야 할 지시. 이견은 항명 | 저울질할 정보. 이견은 공짜 |\n| 말해지는 것 | **말할 수 있는 것** | **쓸모 있는 것** |\n| 결과의 주인 | 흩어짐 | **감독**, 명확하게 |\n\n캣멀의 동사 두 개가 정확하다. 이 배치가 \"트러스트 구성원을 자유롭게 하고\" \"감독을 자유롭게 한다\". **둘 다 필요하다.** 노트를 따라야 하는 감독은 노트를 청하지 않게 되고, 자기 의견이 명령이 되는 리뷰어는 말을 무르게 한다.\n\n실천 규칙: **정직한 리뷰를 원한다면, 리뷰어가 당신에게 무언가를 시킬 수 있어서는 안 된다.** 대부분의 조직은 반대로 한다. 리뷰가 \"효력을 갖도록\" 권한을 붙이고, 그럼으로써 **사려던 바로 그것을 파괴한다.**\n\n### 2 — 데일리: 틀린 모습을 보이는 비용을 없애기\n\n미완성 작업을 매일 애니메이션 팀 전체에 보여준다. 감독이 결정하고 누구나 의견을 낸다. 캣멀이 네 가지 이점을 드는데, **값을 하는 것은 네 번째**다.\n\n1. 진행 중인 작업을 보이는 민망함을 넘기고 나면 사람들이 더 창의적이 된다.\n2. 리드가 한 번에 전체 제작진에게 요점을 전달할 수 있다.\n3. 서로 배우고 자극받는다. 뛰어난 작업 하나가 모두의 수준을 끌어올린다.\n4. **끝에 가서 놀랄 일이 없다.** \"남에게 보이기 전에 자기 작업이 '괜찮은지' 확인하고 싶어 하는 압도적 욕구가, 완성본이 감독이 원한 것이 아닐 가능성을 높인다.\"\n\n**두 번째 논증.** 4번이 통상의 직관을 뒤집는다. 보이기 전에 다듬는 것은 보통 **성실함**으로 읽히는데, 여기서는 **낭비의 원천**으로 지목된다. **관찰되지 않은 채 오래 일할수록 아무도 확인해주지 않은 방향에 더 많이 투자하기** 때문이다. 거친 작업을 보이는 것은 겸손이 아니라 **교정이 쌀 때 앞당겨 배치한 오류 수정**이다.\n\n그리고 1번이 캣멀이 이 사업에 필요하다고 말하는 위험 감수의 메커니즘이다. **실패 중인 모습을 보이는 것이 일상이면, 실패는 사건이기를 그만둔다.**\n\n### 3 — 운영 원칙, 그리고 아무도 이름 붙이지 않는 증후군\n\n제시된 세 원칙:\n\n- **누구나 누구와도 소통할 수 있다.** 의사결정 위계와 소통 구조는 **다른 것**이다. 관리자는 가장 먼저 아는 사람이 아니어도 된다는 것을 받아들여야 한다 — \"회의에 들어갔다가 놀라도 괜찮다.\"\n- **아이디어를 내는 것이 안전해야 한다.** 진행 중인 작업을 사내 상영하되 **관람 시점을 엇갈리게** 해서 늘 새로운 눈이 있게 하고, 회사의 모든 사람이 언젠가 한 번은 보며, 무엇이 좋았고 무엇이 아니었는지 **그리고 왜인지**를 크리에이티브 리드에게 보내도록 초대한다.\n- **학계 가까이 머문다.** 기술 아티스트가 논문을 내고 학회에 간다. \"출판은 아이디어를 내주는 일일 수 있지만, 학계와 연결된 상태를 유지시켜 준다. **이 연결은 우리가 내준 어떤 아이디어보다 훨씬 값어치가 크다.**\"\n\n여기에 픽사 대학(교차 교육과 시나리오 작법부터 요가까지의 선택 수업, 초보자가 세계적 실력자 옆에 앉는다)과 건물 — 잡스의 설계 — 이 더해진다. \"**우발적 마주침을 극대화하도록**\" 지어졌고, 중앙 아트리움에 카페테리아·우편함·회의실·화장실이 있다.\n\n경계 유지에 대해 캣멀은 신선한 관점을 막는 두 증후군을 든다. **Not-invented-here**가 유명한 쪽이다. **\"기관에 대한 경외 증후군(awe-of-the-institution)\"** — 너무 감탄해서 말을 못 하는 신입 — 이 간과된다고 그가 말하는 쪽이다.\n\n**세 번째 논증: 두 번째가 더 나쁘다. 자동이기 때문이다.** Not-invented-here는 **누군가 아이디어를 거부해야** 성립한다. 경외는 **아무도 아무것도 하지 않아도** 된다. 성공 자체가 신입을 침묵시키고, 조직은 **바깥의 시선이 가장 필요해지는 바로 그 시점에** 그것을 잃는다. 캣멀의 대응책은 복사할 값이 있다. 그는 신입 오리엔테이션에서 **픽사가 저지른 실수들에 대해** 말한다. 이곳이 다 알아낸 곳이 아님을 세우기 위해서.\n\n포스트모템 조언도 같은 정신이다. **형식을 바꿔라** — 반복된 형식은 같은 교훈만 찾아낸다. **다시 할 다섯 가지와 하지 않을 다섯 가지**를 물어라. 그리고 **데이터를 써라.** \"창의적 조직이라 우리가 하는 일의 상당 부분을 측정하거나 분석할 수 없다고들 가정한다. 틀렸다.\"\n\n### 4 — 재전달에서 탈락하는 문장\n\n**네 번째 논증이자 원문을 읽을 이유.** 토이 스토리 2 구조는 이 에세이의 중심이고 보통 A팀의 승리담으로 전해진다. 캣멀은 **그 대가**를 적는다.\n\n> \"우리는 제작진에게 비인간적인 시간을 일하게 했고, 많은 사람이 반복사용 긴장성 손상 증후군을 겪었다.\"\n\n**모든 것이 탁월해야 한다**는 단일 품질 기준 문화는, 그 자신의 서술에 따르면 **그것으로 샀다.** 18개월치 작업을 8개월에 압축해서. 그는 이것을 따라 할 모델로 제시하지 않고, **숨기지도 않는다.** 이 문장을 빼고 이 이야기를 쓰는 것은 **값을 빼고 결론만 파는 것**이다.\n\n### Jayverse에서의 위치\n\n오늘 추가한 `go-stand-next-to-the-standard` (#1839)가 데일리가 제도화한 것이다. 콜리슨의 조언은 가장 높은 기준이 있는 곳에 가서 직접 경험하라는 것이고, 데일리는 그것을 **제작진 전체의 매일의 사건**으로 만든다. 건물 안에서 가장 좋은 작업을, **다듬어지기 전에, 진행 중인 상태로** 모두가 본다. **#1839의 메커니즘이 정기 회의로 돌아가는 것.**\n\n`the-resource-that-runs-out` (#1838)이 평형추다. 도움이 개인 시간을 기본값으로 삼으면 병목이 생긴다는 경고. **브레인 트러스트는 같은 거래의 잘 설계된 판본**이다. **경계가 있고**(두 시간), **요청된 것이고**(감독이 소집), **구속력이 없다**(권한 없음). 그래서 개인 자원을 **우연이 아니라 의도적으로** 쓴다.\n\n`room-sorted-by-time-constant` (#1836): 아트리움은 거실에서 TV를 치운 것과 같은 논증이다. **일어나길 바라는 일을 이미 움직임이 지나가는 자리에 놓고**, 의도에 기대는 것을 그만두라.\n\n`tang-show-up-truth-gut-follow-through` (#1831): \"완성형을 기다리지 말고 엉성하게라도 끝내라\"는 §2를 스튜디오 프로세스가 아니라 **개인 습관으로** 진술한 것이다.\n\n### 확인된 것과 미확인\n\n**보고된 것이고 확인하지 않은 것:** 전부 — 작품 목록, 특허 주장, 토이 스토리 2 일정, 브레인 트러스트 구성원, 인용. 2008년 9월 기사이고 **그 시점의 픽사**를 서술하므로, 관행들은 현재가 아니라 **역사적인 것**으로 다룰 것.\n\n**내 것이고 본문에 표시한 것:** §1(권한이 리뷰를 파괴하는 이유와 따라 나오는 규칙), §2(보이기 전에 다듬는 것은 성실함이 아니라 낭비의 원천), §3(기관에 대한 경외가 not-invented-here보다 나쁜 이유는 아무도 행동할 필요가 없기 때문), §4(대가를 적은 문장과, 재전달이 그것을 뺀다는 것).\n"</script>
+      <h1>브레인 트러스트는 권한이 없기 때문에 작동한다</h1>
+      <p class="lead">2008년 에드 캣멀의 픽사 기록은, 자기 문제는 좋은 사람이 아니라 좋은 아이디어를 찾는 것이라고 말한 한 스튜디오 대표에게 답하는 글이다. 캣멀은 완전히 반대하고, 에세이 전체가 그 논증이다. 영화 한 편에는 200~250명의 제작진이 기여한 **수만 개의 아이디어**가 들어 있으므로 최초 콘셉트는 4~5년짜리 과정의 한 단계일 뿐이고, 결과를 결정하는 것은 **팀**이다. 토이 스토리 2 구조 작업에서 배운 그의 압축판: **좋은 아이디어를 평범한 팀에 주면 망친다. 평범한 아이디어를 훌륭한 팀에 주면 고치거나, 버리고 되는 것을 찾아낸다.**</p>
+      <p class="meta">jay가 2026-09-23에 hbr.org에서 전문을 붙여넣었다. 여기 사실관계는 전부 기사의 것이고 나는 아무것도 확인하지 않았다. 디즈니 합병 2년 뒤인 <strong>2008년 시점의 픽사</strong>를 서술한다. 아래 네 독법은 내 것이고, 중심은 이 에세이에서 가장 이식 가능한 것이 <strong>대부분의 조직이 생각 없이 제거할 설계 제약</strong> — 리뷰 그룹에 권한이 없다는 것 — 이라는 점이다.</p>
+<h2>왜</h2>
+<p>창의적 회사에 대한 경영 에세이는 대개 쓸 수 없다. 조언이 재능과 분리되지 않기 때문이다. 이 글에는 예외가 하나 있다. <strong>보고된 자연 실험이 뒤에 붙은 구조적 세부</strong>다.</p>
+<p>캣멀은 브레인 트러스트를 서술한다. 래스터와 감독 여덟 명, 감독이 청할 때 소집되며, 진행 중인 작업을 두 시간 동안 가차 없이 논한다. "예의를 차리려고 봐주는 사람은 없다." 그리고 중요한 문장: <strong>의무적인 노트는 없고, 브레인 트러스트에는 권한이 없다.</strong> 그다음이 드문 부분, 증거다.</p>
+<p>&gt; "이 모델을 기술 부문으로 옮겼을 때 처음엔 작동하지 않았다. 결국 이유를 알았다. 그 리뷰 그룹들에게 <strong>약간의 권한을 줬던 것</strong>이다. &#39;이건 순전히 동료끼리 피드백을 주는 자리다&#39;라고 말하는 순간 역학이 바뀌었고, 리뷰 세션의 효과가 극적으로 좋아졌다."</p>
+<p>같은 모델, 두 번의 시도, 변수 하나만 다르고, 정반대 결과. 경영 에세이가 통제 실험에 가장 가까워지는 지점이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 권한을 없애면 피드백이 작동하는 이유</h3>
+<p><strong>이 카드의 첫 논증.</strong> 권한은 <strong>피드백이 무엇인가</strong>를 테이블 양쪽에서 바꾼다.</p>
+<table><thead><tr><th></th><th>권한 있는 피드백</th><th>권한 없는 피드백</th></tr></thead><tbody><tr><td>주는 쪽에게</td><td>판정이므로 방어 가능하고 정치적으로 안전해야 함</td><td>의견이므로 가감 없이 말할 수 있음</td></tr><tr><td>받는 쪽에게</td><td>따라야 할 지시. 이견은 항명</td><td>저울질할 정보. 이견은 공짜</td></tr><tr><td>말해지는 것</td><td><strong>말할 수 있는 것</strong></td><td><strong>쓸모 있는 것</strong></td></tr><tr><td>결과의 주인</td><td>흩어짐</td><td><strong>감독</strong>, 명확하게</td></tr></tbody></table>
+<p>캣멀의 동사 두 개가 정확하다. 이 배치가 "트러스트 구성원을 자유롭게 하고" "감독을 자유롭게 한다". <strong>둘 다 필요하다.</strong> 노트를 따라야 하는 감독은 노트를 청하지 않게 되고, 자기 의견이 명령이 되는 리뷰어는 말을 무르게 한다.</p>
+<p>실천 규칙: <strong>정직한 리뷰를 원한다면, 리뷰어가 당신에게 무언가를 시킬 수 있어서는 안 된다.</strong> 대부분의 조직은 반대로 한다. 리뷰가 "효력을 갖도록" 권한을 붙이고, 그럼으로써 <strong>사려던 바로 그것을 파괴한다.</strong></p>
+<h3>2 — 데일리: 틀린 모습을 보이는 비용을 없애기</h3>
+<p>미완성 작업을 매일 애니메이션 팀 전체에 보여준다. 감독이 결정하고 누구나 의견을 낸다. 캣멀이 네 가지 이점을 드는데, <strong>값을 하는 것은 네 번째</strong>다.</p>
+<ol><li>진행 중인 작업을 보이는 민망함을 넘기고 나면 사람들이 더 창의적이 된다.</li><li>리드가 한 번에 전체 제작진에게 요점을 전달할 수 있다.</li><li>서로 배우고 자극받는다. 뛰어난 작업 하나가 모두의 수준을 끌어올린다.</li><li><strong>끝에 가서 놀랄 일이 없다.</strong> "남에게 보이기 전에 자기 작업이 &#39;괜찮은지&#39; 확인하고 싶어 하는 압도적 욕구가, 완성본이 감독이 원한 것이 아닐 가능성을 높인다."</li></ol>
+<p><strong>두 번째 논증.</strong> 4번이 통상의 직관을 뒤집는다. 보이기 전에 다듬는 것은 보통 <strong>성실함</strong>으로 읽히는데, 여기서는 <strong>낭비의 원천</strong>으로 지목된다. <strong>관찰되지 않은 채 오래 일할수록 아무도 확인해주지 않은 방향에 더 많이 투자하기</strong> 때문이다. 거친 작업을 보이는 것은 겸손이 아니라 <strong>교정이 쌀 때 앞당겨 배치한 오류 수정</strong>이다.</p>
+<p>그리고 1번이 캣멀이 이 사업에 필요하다고 말하는 위험 감수의 메커니즘이다. <strong>실패 중인 모습을 보이는 것이 일상이면, 실패는 사건이기를 그만둔다.</strong></p>
+<h3>3 — 운영 원칙, 그리고 아무도 이름 붙이지 않는 증후군</h3>
+<p>제시된 세 원칙:</p>
+<ul><li><strong>누구나 누구와도 소통할 수 있다.</strong> 의사결정 위계와 소통 구조는 <strong>다른 것</strong>이다. 관리자는 가장 먼저 아는 사람이 아니어도 된다는 것을 받아들여야 한다 — "회의에 들어갔다가 놀라도 괜찮다."</li><li><strong>아이디어를 내는 것이 안전해야 한다.</strong> 진행 중인 작업을 사내 상영하되 <strong>관람 시점을 엇갈리게</strong> 해서 늘 새로운 눈이 있게 하고, 회사의 모든 사람이 언젠가 한 번은 보며, 무엇이 좋았고 무엇이 아니었는지 <strong>그리고 왜인지</strong>를 크리에이티브 리드에게 보내도록 초대한다.</li><li><strong>학계 가까이 머문다.</strong> 기술 아티스트가 논문을 내고 학회에 간다. "출판은 아이디어를 내주는 일일 수 있지만, 학계와 연결된 상태를 유지시켜 준다. <strong>이 연결은 우리가 내준 어떤 아이디어보다 훨씬 값어치가 크다.</strong>"</li></ul>
+<p>여기에 픽사 대학(교차 교육과 시나리오 작법부터 요가까지의 선택 수업, 초보자가 세계적 실력자 옆에 앉는다)과 건물 — 잡스의 설계 — 이 더해진다. "<strong>우발적 마주침을 극대화하도록</strong>" 지어졌고, 중앙 아트리움에 카페테리아·우편함·회의실·화장실이 있다.</p>
+<p>경계 유지에 대해 캣멀은 신선한 관점을 막는 두 증후군을 든다. <strong>Not-invented-here</strong>가 유명한 쪽이다. <strong>"기관에 대한 경외 증후군(awe-of-the-institution)"</strong> — 너무 감탄해서 말을 못 하는 신입 — 이 간과된다고 그가 말하는 쪽이다.</p>
+<p><strong>세 번째 논증: 두 번째가 더 나쁘다. 자동이기 때문이다.</strong> Not-invented-here는 <strong>누군가 아이디어를 거부해야</strong> 성립한다. 경외는 <strong>아무도 아무것도 하지 않아도</strong> 된다. 성공 자체가 신입을 침묵시키고, 조직은 <strong>바깥의 시선이 가장 필요해지는 바로 그 시점에</strong> 그것을 잃는다. 캣멀의 대응책은 복사할 값이 있다. 그는 신입 오리엔테이션에서 <strong>픽사가 저지른 실수들에 대해</strong> 말한다. 이곳이 다 알아낸 곳이 아님을 세우기 위해서.</p>
+<p>포스트모템 조언도 같은 정신이다. <strong>형식을 바꿔라</strong> — 반복된 형식은 같은 교훈만 찾아낸다. <strong>다시 할 다섯 가지와 하지 않을 다섯 가지</strong>를 물어라. 그리고 <strong>데이터를 써라.</strong> "창의적 조직이라 우리가 하는 일의 상당 부분을 측정하거나 분석할 수 없다고들 가정한다. 틀렸다."</p>
+<h3>4 — 재전달에서 탈락하는 문장</h3>
+<p><strong>네 번째 논증이자 원문을 읽을 이유.</strong> 토이 스토리 2 구조는 이 에세이의 중심이고 보통 A팀의 승리담으로 전해진다. 캣멀은 <strong>그 대가</strong>를 적는다.</p>
+<p>&gt; "우리는 제작진에게 비인간적인 시간을 일하게 했고, 많은 사람이 반복사용 긴장성 손상 증후군을 겪었다."</p>
+<p><strong>모든 것이 탁월해야 한다</strong>는 단일 품질 기준 문화는, 그 자신의 서술에 따르면 <strong>그것으로 샀다.</strong> 18개월치 작업을 8개월에 압축해서. 그는 이것을 따라 할 모델로 제시하지 않고, <strong>숨기지도 않는다.</strong> 이 문장을 빼고 이 이야기를 쓰는 것은 <strong>값을 빼고 결론만 파는 것</strong>이다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p>오늘 추가한 <code>go-stand-next-to-the-standard</code> (#1839)가 데일리가 제도화한 것이다. 콜리슨의 조언은 가장 높은 기준이 있는 곳에 가서 직접 경험하라는 것이고, 데일리는 그것을 <strong>제작진 전체의 매일의 사건</strong>으로 만든다. 건물 안에서 가장 좋은 작업을, <strong>다듬어지기 전에, 진행 중인 상태로</strong> 모두가 본다. <strong>#1839의 메커니즘이 정기 회의로 돌아가는 것.</strong></p>
+<p><code>the-resource-that-runs-out</code> (#1838)이 평형추다. 도움이 개인 시간을 기본값으로 삼으면 병목이 생긴다는 경고. <strong>브레인 트러스트는 같은 거래의 잘 설계된 판본</strong>이다. <strong>경계가 있고</strong>(두 시간), <strong>요청된 것이고</strong>(감독이 소집), <strong>구속력이 없다</strong>(권한 없음). 그래서 개인 자원을 <strong>우연이 아니라 의도적으로</strong> 쓴다.</p>
+<p><code>room-sorted-by-time-constant</code> (#1836): 아트리움은 거실에서 TV를 치운 것과 같은 논증이다. <strong>일어나길 바라는 일을 이미 움직임이 지나가는 자리에 놓고</strong>, 의도에 기대는 것을 그만두라.</p>
+<p><code>tang-show-up-truth-gut-follow-through</code> (#1831): "완성형을 기다리지 말고 엉성하게라도 끝내라"는 §2를 스튜디오 프로세스가 아니라 <strong>개인 습관으로</strong> 진술한 것이다.</p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보고된 것이고 확인하지 않은 것:</strong> 전부 — 작품 목록, 특허 주장, 토이 스토리 2 일정, 브레인 트러스트 구성원, 인용. 2008년 9월 기사이고 <strong>그 시점의 픽사</strong>를 서술하므로, 관행들은 현재가 아니라 <strong>역사적인 것</strong>으로 다룰 것.</p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §1(권한이 리뷰를 파괴하는 이유와 따라 나오는 규칙), §2(보이기 전에 다듬는 것은 성실함이 아니라 낭비의 원천), §3(기관에 대한 경외가 not-invented-here보다 나쁜 이유는 아무도 행동할 필요가 없기 때문), §4(대가를 적은 문장과, 재전달이 그것을 뺀다는 것).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>brain trust</strong></td><td>브레인 트러스트 · 감독이 청할 때 모이는 동료 자문단</td></tr><tr><td><strong>mandatory notes</strong></td><td>의무적인 노트(반드시 반영해야 하는 지적) · 픽사에는 없는 것</td></tr><tr><td><strong>to have no authority</strong></td><td>권한이 없다 · 이 구조가 작동하는 조건</td></tr><tr><td><strong>unvarnished</strong></td><td>가감 없는·꾸미지 않은 · "unvarnished expert opinions"</td></tr><tr><td><strong>to pull one&#39;s punches</strong></td><td>(예의상) 봐주다·약하게 말하다 · "nobody pulls any punches"</td></tr><tr><td><strong>to liberate</strong></td><td>자유롭게 하다 · 권한 부재가 양쪽에 하는 일</td></tr><tr><td><strong>dailies</strong></td><td>데일리 · 미완성 작업을 매일 전체에 보여주는 리뷰</td></tr><tr><td><strong>work in progress</strong></td><td>진행 중인 작업 · 완성 전에 보이는 것</td></tr><tr><td><strong>no surprises at the end</strong></td><td>끝에 가서 놀랄 일이 없다 · 데일리의 네 번째 이점</td></tr><tr><td><strong>error-correction scheduled early</strong></td><td>앞당겨 배치한 오류 수정 · 거친 작업을 보이는 일의 정체</td></tr><tr><td><strong>story reels</strong></td><td>스토리 릴 · 스토리보드에 대사와 임시 음악을 붙인 초기 편집본</td></tr><tr><td><strong>the high concept</strong></td><td>하이 콘셉트 · 영화의 최초 한 줄 아이디어</td></tr><tr><td><strong>one quality bar</strong></td><td>단일 품질 기준 · 모든 작품에 같은 수준을 요구</td></tr><tr><td><strong>filmmaker led</strong></td><td>제작자 주도의 · 경영진이나 개발부서가 아니라</td></tr><tr><td><strong>incubation team</strong></td><td>인큐베이션 팀 · 감독 자신의 아이디어를 다듬게 돕는 소규모 팀</td></tr><tr><td><strong>to second-guess</strong></td><td>나중에 딴지 걸다·재단하다 · 하지 않겠다고 한 것</td></tr><tr><td><strong>not-invented-here syndrome</strong></td><td>여기서 만들지 않은 것 증후군 · 외부 아이디어 거부</td></tr><tr><td><strong>awe-of-the-institution syndrome</strong></td><td>기관에 대한 경외 증후군 · 신입이 감탄해서 말을 못 하는 상태</td></tr><tr><td><strong>postmortem</strong></td><td>포스트모템·사후 검토 · 끝난 뒤 배운 것을 정리하는 회의</td></tr><tr><td><strong>to game the system</strong></td><td>제도를 편법으로 우회하다 · 불쾌한 것을 피하려 할 때</td></tr><tr><td><strong>inadvertent encounters</strong></td><td>우발적 마주침 · 건물 설계의 목표</td></tr><tr><td><strong>repetitive stress injuries</strong></td><td>반복사용 긴장성 손상 · 토이 스토리 2의 대가</td></tr><tr><td><strong>inhumane hours</strong></td><td>비인간적인 근무 시간 · 캣멀이 숨기지 않은 문장</td></tr><tr><td><strong>to sell the conclusion without the price</strong></td><td>값을 빼고 결론만 팔다 · 이 카드의 표현</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-go-stand-next-to-the-standard.html">&larr; 1839. Go stand next to the highest standard you can find</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="the-brain-trust-has-no-authority";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

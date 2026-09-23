@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-23 17:42 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-23 17:50 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 38 · done 76/959
+Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 40 · done 76/961
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -566,6 +566,8 @@ Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 38 · done 76/959
 | 1836 | Life | NEW | 2026-09-23 |  | PoC | gemini |  | [The room is sorted by time constant — a library where the television was](pocs-room-sorted-by-time-constant.html) | 시간 상수로 정렬된 방 — TV가 있던 자리의 서재 | `room-sorted-by-time-constant` | [raw](raw/2026-09-23-room-sorted-by-time-constant.md) |
 | 1837 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Adults who put children first — the general admiration and the specific commitment](pocs-adults-who-put-children-first.html) | 아이를 먼저 두는 어른 — 일반적 감탄과 구체적 약속 | `adults-who-put-children-first` | [raw](raw/2026-09-23-adults-who-put-children-first.md) |
 | 1838 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Collaborative overload — the request defaults to the resource that runs out](pocs-the-resource-that-runs-out.html) | 협업 과부하 — 요청은 바닥나는 자원을 기본값으로 고른다 | `the-resource-that-runs-out` | [raw](raw/2026-09-23-the-resource-that-runs-out.md) |
+| 1839 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Go stand next to the highest standard you can find](pocs-go-stand-next-to-the-standard.html) | 찾을 수 있는 가장 높은 기준 옆에 가서 서라 | `go-stand-next-to-the-standard` | [raw](raw/2026-09-23-go-stand-next-to-the-standard.md) |
+| 1840 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [The brain trust works because it has no authority](pocs-the-brain-trust-has-no-authority.html) | 브레인 트러스트는 권한이 없기 때문에 작동한다 | `the-brain-trust-has-no-authority` | [raw](raw/2026-09-23-the-brain-trust-has-no-authority.md) |
 | 2001 | Eng · Article | RECENTLY DONE | 2026-09-21 | 2026-09-23 | Article |  |  | [Trickle-down chiponomics](english-398.html) | Trickle-down chiponomics — AI 호황의 낙수효과, 대만과 한국이 주는 힌트 | `english-398` |  |
 | 2002 | Eng · Review | RECENTLY DONE | 2026-09-16 | 2026-09-23 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
 | 2003 | Eng · Interview | RECENTLY DONE | 2026-09-16 | 2026-09-21 | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
