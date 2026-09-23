@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-23 10:00 KST",
+"generated": "2026-09-23 10:18 KST",
 "counts": {
 "Tech": 296,
 "Theory": 189,
@@ -7,7 +7,7 @@
 "Eng": 399,
 "Life": 34
 },
-"done": 71,
+"done": 73,
 "all": 941,
 "items": [
 {
@@ -14498,10 +14498,24 @@
 {
 "no": 2001,
 "section": "Eng",
+"key": "english-398",
+"href": "english-398.html",
+"status": "TODAY DONE",
+"position": 1,
+"title_en": "Trickle-down chiponomics",
+"tag": "Article",
+"done": "2026-09-21T22:47:20+09:00",
+"type": "Article",
+"date": "2026-09-21",
+"title_ko": "Trickle-down chiponomics — AI 호황의 낙수효과, 대만과 한국이 주는 힌트"
+},
+{
+"no": 2002,
+"section": "Eng",
 "key": "english-1",
 "href": "english-1.html",
 "status": "YESTERDAY DONE",
-"position": 1,
+"position": 2,
 "title_en": "The function is fine. Who can call it?",
 "tag": "Review",
 "done": "2026-09-18T15:08+09:00",
@@ -14510,27 +14524,15 @@
 "title_ko": "함수는 괜찮다. 누가 호출하나?"
 },
 {
-"no": 2002,
-"section": "Eng",
-"key": "english-398",
-"href": "english-398.html",
-"status": "IMPORTANT",
-"position": 2,
-"title_en": "Trickle-down chiponomics",
-"tag": "Article",
-"type": "Article",
-"date": "2026-09-21",
-"title_ko": "Trickle-down chiponomics — AI 호황의 낙수효과, 대만과 한국이 주는 힌트"
-},
-{
 "no": 2003,
 "section": "Eng",
 "key": "english-21",
 "href": "english-21.html",
-"status": "IMPORTANT",
+"status": "TODAY DONE",
 "position": 3,
 "title_en": "Don't draw yet. Ask what the box is for.",
 "tag": "Interview",
+"done": "2026-09-21T23:07:39+09:00",
 "type": "Interview",
 "date": "2026-09-16",
 "title_ko": "아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라."

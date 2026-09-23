@@ -4,7 +4,9 @@ situation: A system design interview at a London fintech. The prompt is "design 
 situation_ko: 런던 핀테크의 시스템 설계 면접. 문제는 "예측시장의 정산 서비스를 설계하라." Jay에게는 45분과 화이트보드가 있고, 면접관은 무엇을 그리는지가 아니라 어떻게 시작하는지를 본다.
 why: The first five minutes decide the interview. Candidates who start drawing lose to candidates who scope, state assumptions out loud, and name the one constraint that shapes everything. This is that opening, sentence by sentence.
 why_ko: 처음 5분이 면접을 결정한다. 바로 그리기 시작하는 후보는 범위를 정하고, 가정을 소리 내어 말하고, 모든 것을 결정하는 제약 하나를 짚는 후보에게 진다. 그 오프닝을 문장 단위로 담았다.
-status: important
+status: done
+dones: 2026-09-21T23:07:39+09:00
+done: 2026-09-21T23:07:39+09:00
 
 ## Dialogue
 Interviewer: Design the settlement service for a prediction market. Take it wherever you like.
