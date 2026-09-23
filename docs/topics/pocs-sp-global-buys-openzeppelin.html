@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/942</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 75/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#61</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span><span title="done">done 2026-09-18</span></p>
+      <p class="topic-kicker"><span class="topic-no">#62</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span><span title="done">done 2026-09-18</span></p>
       <h1>S&amp;P Global is buying OpenZeppelin — the library under Jayverse&#39;s contracts now belongs to a ratings agency</h1>
       <p class="lead">On 2026-09-17 S&amp;P Global announced an agreement to acquire OpenZeppelin, founded 2015, whose Contracts library underpins more than $37 trillion in cumulative value transferred, including most of the largest stablecoins and tokenized funds, and whose team has run more than 900 security engagements. Terms are undisclosed and S&amp;P says the deal is not material to its results. OpenZeppelin keeps its name as a business unit; CEO Demian Brener reports to Yann Le Pallec, President of S&amp;P Global Ratings, which is the sentence that says what this is. S&amp;P&#39;s stated purpose is "the next generation of onchain security assessments, benchmarks", and it already publishes stablecoin stability assessments, issued the first credit rating of a DeFi protocol (Sky, August 2025), and tokenized its iBoxx Treasuries index with Kaiko. The library itself does not change: OpenZeppelin states every released version stays MIT-licensed and cannot be withdrawn. What changes is the relationship. The organisation that ships patches to the code under your contracts is now part of the organisation whose business is grading you.</p>
       <p class="meta">For Jayverse this is the most direct item of the week. Three of our contract repos import OpenZeppelin: jayverse-token and jayverse-personas pin Contracts v5.1.0 as a git submodule, and Verex inherits v4.7.0 from 2022 through the Polymarket ctf-exchange submodule, two majors behind. Nothing about that is riskier today than yesterday, and the file&#39;s own caution is right: MIT code is not recalled, and vendoring a copy is worse, because OpenZeppelin ships vulnerability patches and isolation from them is exposure. The practical moves are small and specific: keep the submodule pins exact and reviewed, subscribe to the release feed, count the money-moving code paths that touch the library (about seven files, with ERC20, Ownable, and ERC721 as the imports), and decide how Verex&#39;s 4.7.0 gets upgraded when ctf-exchange does not. The strategic reading follows the 09-16 line: Clarity failed, so rules do not arrive as law, they arrive as contracts and ratings. "Assessments and benchmarks" need comparable fields, and the three things this month kept asking for, a permission table, a total-supply invariant, and dated parameters, are exactly what a benchmark would score. Status on 2026-09-18: agreement signed, closing conditions pending, no date; methodology for any onchain benchmark unpublished.</p>
@@ -467,7 +467,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-kaiko-reference-rate-is-a-price-with-governance.html">&larr; 60. A reference rate is a price with a governance wrapper — what Kaiko sells, and why S&amp;P bought into it twice in a month</a><a href="pocs-clarity-is-permission-lubin-floodgates.html">62. Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price &rarr;</a></div>
+    <div class="pager"><a href="pocs-kaiko-reference-rate-is-a-price-with-governance.html">&larr; 61. A reference rate is a price with a governance wrapper — what Kaiko sells, and why S&amp;P bought into it twice in a month</a><a href="pocs-clarity-is-permission-lubin-floodgates.html">63. Clarity is permission — Lubin&#39;s "open the floodgates" is a claim about who is allowed to deploy, not about price &rarr;</a></div>
   </div>
   </main>
 </div>

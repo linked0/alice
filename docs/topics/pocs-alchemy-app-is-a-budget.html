@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/942</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 75/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#57</span><span>PoC</span><span title="done">done 2026-09-16</span></p>
+      <p class="topic-kicker"><span class="topic-no">#58</span><span>PoC</span><span title="done">done 2026-09-16</span></p>
       <h1>An app key is a budget, not a login — what Alchemy&#39;s create-app flow is really asking</h1>
       <p class="lead">Alchemy&#39;s three-step Create app flow — create, choose chains, activate services — looks like account setup, but it is a budget decision. Every service you switch on (Node, Bundler, Gas Manager, userOp simulation, Webhooks, Transfers…) meters against the same compute-unit quota shown at the bottom of the page, keyed to that one app key. So an app is a unit of quota, rate limit, and revocation — and you create one per environment and role, not one per developer.</p>
       <p class="meta">For Jayverse: one app for the devnet&#39;s upstream Sepolia fork (Node API only, read-heavy, its own key in Secret Manager), one for the Sepolia account-abstraction path (Bundler + Gas Manager + userOp simulation), and a separate one later for anything production. Name apps by environment-and-role, keep every key out of git, and read the dashboard per app so a runaway fork or a bundler test cannot starve the others.</p>
@@ -479,7 +479,7 @@ jayverse-prod-*            mainnet/Base · 필요에 따라          → 위의 
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-quick-slots-eip-8198.html">&larr; 56. Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</a><a href="pocs-stripe-bought-the-meter-openrouter.html">58. Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows &rarr;</a></div>
+    <div class="pager"><a href="pocs-quick-slots-eip-8198.html">&larr; 57. Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter</a><a href="pocs-stripe-bought-the-meter-openrouter.html">59. Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows &rarr;</a></div>
   </div>
   </main>
 </div>

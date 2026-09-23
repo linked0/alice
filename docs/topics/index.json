@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-23 11:23 KST",
+"generated": "2026-09-23 12:09 KST",
 "counts": {
 "Tech": 297,
 "Theory": 189,
@@ -7,7 +7,7 @@
 "Eng": 399,
 "Life": 34
 },
-"done": 74,
+"done": 75,
 "all": 942,
 "items": [
 {
@@ -85,10 +85,54 @@
 {
 "no": 3,
 "section": "Tech",
+"key": "agent-payments-korea-control-plane",
+"href": "pocs-agent-payments-korea-control-plane.html",
+"status": "REVISIT",
+"position": 3,
+"title_en": "AI agent payments in Korea — the payment rail is ready before the permission rail",
+"done": "2026-09-23T12:07+09:00",
+"type": "PoC",
+"date": "2026-09-13",
+"source": "chat",
+"bin": "deep",
+"raw": "raw/2026-09-23-agent-payments-korea-control-plane.md",
+"title_ko": "한국의 AI 에이전트 결제 — 결제 레일은 준비됐고 인허가 레일은 아직이다",
+"related": [],
+"vocab": [
+"control plane",
+"custodial",
+"merchant-bound",
+"hallucinated",
+"research agenda",
+"impossible to miss",
+"one-time authorization",
+"replay key",
+"abstract ... behind",
+"AML",
+"AP2",
+"VASP",
+"merchant of record",
+"credential abstraction",
+"fail closed",
+"upstream of",
+"eat it (a loss)",
+"earn its keep",
+"a hard stop",
+"stacked, not peers",
+"bounded (loop)",
+"fee abstraction",
+"narrowly scoped",
+"float",
+"system of record"
+]
+},
+{
+"no": 4,
+"section": "Tech",
 "key": "governance-capture-cost",
 "href": "pocs-governance-capture-cost.html",
 "status": "DONE",
-"position": 3,
+"position": 4,
 "title_en": "Governance capture — when the exploit is a market order",
 "type": "PoC",
 "title_ko": "거버넌스 장악 — 익스플로잇이 그냥 시장가 매수일 때",
@@ -113,12 +157,12 @@
 ]
 },
 {
-"no": 4,
+"no": 5,
 "section": "Tech",
 "key": "agentic-intent-veto",
 "href": "pocs-agentic-intent-veto.html",
 "status": "DONE",
-"position": 4,
+"position": 5,
 "title_en": "The budget is the wrong invariant",
 "type": "PoC",
 "title_ko": "한도는 틀린 불변식이다",
@@ -139,12 +183,12 @@
 ]
 },
 {
-"no": 5,
+"no": 6,
 "section": "Tech",
 "key": "aqua-shared-liquidity",
 "href": "pocs-aqua-shared-liquidity.html",
 "status": "DONE",
-"position": 5,
+"position": 6,
 "title_en": "Shared liquidity — quoted depth vs. the balance behind it",
 "type": "PoC",
 "title_ko": "공유 유동성 — 호가된 깊이와 그 뒤의 잔고",
@@ -170,12 +214,12 @@
 ]
 },
 {
-"no": 6,
+"no": 7,
 "section": "Tech",
 "key": "rwa-multichain",
 "href": "pocs-rwa-multichain.html",
 "status": "DONE",
-"position": 6,
+"position": 7,
 "title_en": "RWA across chains — the invariant nobody enforces",
 "lead": "Reading a practitioner's multichain RWA architecture and finding the one box it leaves empty: who stops the tokens on five chains from summing past the asset behind them.",
 "vocab": [
@@ -199,12 +243,12 @@
 ]
 },
 {
-"no": 7,
+"no": 8,
 "section": "Tech",
 "key": "oz-relayer",
 "href": "pocs-oz-relayer.html",
 "status": "DONE",
-"position": 7,
+"position": 8,
 "title_en": "OpenZeppelin Relayer & Monitor",
 "type": "PoC",
 "title_ko": "OpenZeppelin Relayer · Monitor",
@@ -223,12 +267,12 @@
 ]
 },
 {
-"no": 8,
+"no": 9,
 "section": "Tech",
 "key": "dvt",
 "href": "pocs-dvt.html",
 "status": "DONE",
-"position": 8,
+"position": 9,
 "title_en": "DVT in the protocol",
 "lead": "Reading notes on absorbing distributed validators into the protocol — m-of-n without splitting keys, plus what it makes buildable.",
 "vocab": [
@@ -248,12 +292,12 @@
 ]
 },
 {
-"no": 9,
+"no": 10,
 "section": "Tech",
 "key": "l1-zkevm-optional-proofs",
 "href": "pocs-l1-zkevm-optional-proofs.html",
 "status": "DONE",
-"position": 9,
+"position": 10,
 "title_en": "L1 zkEVM — the word doing the work is \"optional\"",
 "type": "PoC",
 "title_ko": "L1 zkEVM — 정작 일하는 단어는 '선택적'이다",
@@ -279,12 +323,12 @@
 ]
 },
 {
-"no": 10,
+"no": 11,
 "section": "Tech",
 "key": "erc-7683-settlement-security",
 "href": "pocs-erc-7683-settlement-security.html",
 "status": "DONE",
-"position": 10,
+"position": 11,
 "title_en": "ERC-7683 settlement security — the layer left deliberately unstandardized",
 "type": "PoC",
 "title_ko": "ERC-7683 정산 보안 — 표준이 일부러 비워둔 그 층",
@@ -308,12 +352,12 @@
 ]
 },
 {
-"no": 11,
+"no": 12,
 "section": "Tech",
 "key": "event-contract-plumbing",
 "href": "pocs-event-contract-plumbing.html",
 "status": "DONE",
-"position": 11,
+"position": 12,
 "title_en": "The hiring signal is the spec — event-contract plumbing",
 "type": "PoC",
 "title_ko": "채용 신호가 곧 명세서다 — 이벤트 계약 배관",
@@ -339,12 +383,12 @@
 ]
 },
 {
-"no": 12,
+"no": 13,
 "section": "Tech",
 "key": "tokenized-money-banks",
 "href": "pocs-tokenized-money-banks.html",
 "status": "DONE",
-"position": 12,
+"position": 13,
 "title_en": "Tokenized Money for Banks",
 "type": "PoC",
 "title_ko": "은행을 위한 토큰화된 화폐",
@@ -369,12 +413,12 @@
 ]
 },
 {
-"no": 13,
+"no": 14,
 "section": "Tech",
 "key": "what-needs-a-stablecoin",
 "href": "pocs-what-needs-a-stablecoin.html",
 "status": "DONE",
-"position": 13,
+"position": 14,
 "title_en": "Not what a stablecoin can do — what needs one",
 "type": "PoC",
 "title_ko": "스테이블코인으로 할 수 있는 일이 아니라, 스테이블코인이 필요한 일",
@@ -398,12 +442,12 @@
 ]
 },
 {
-"no": 14,
+"no": 15,
 "section": "Tech",
 "key": "monad-last-general-purpose-l1",
 "href": "pocs-monad-last-general-purpose-l1.html",
 "status": "DONE",
-"position": 14,
+"position": 15,
 "title_en": "Monad — the last general-purpose L1, and the number nobody adjusts for",
 "type": "PoC",
 "title_ko": "Monad, 마지막 범용 L1 — 그리고 아무도 보정하지 않는 숫자",
@@ -429,12 +473,12 @@
 ]
 },
 {
-"no": 15,
+"no": 16,
 "section": "Tech",
 "key": "the-bridge-is-inside-the-token",
 "href": "pocs-the-bridge-is-inside-the-token.html",
 "status": "DONE",
-"position": 15,
+"position": 16,
 "title_en": "The bridge is not beside the token any more — it is inside it",
 "type": "PoC",
 "title_ko": "브리지는 이제 토큰 옆이 아니라 토큰 안에 있다",
@@ -456,12 +500,12 @@
 ]
 },
 {
-"no": 16,
+"no": 17,
 "section": "Tech",
 "key": "decision-market-uncontrollability",
 "href": "pocs-decision-market-uncontrollability.html",
 "status": "DONE",
-"position": 16,
+"position": 17,
 "title_en": "The property that makes a market work is the one that makes it gambling",
 "type": "PoC",
 "title_ko": "시장을 작동하게 하는 속성이, 그것을 도박으로 만든다",
@@ -489,12 +533,12 @@
 ]
 },
 {
-"no": 17,
+"no": 18,
 "section": "Tech",
 "key": "stake-concentration",
 "href": "pocs-stake-concentration.html",
 "status": "DONE",
-"position": 17,
+"position": 18,
 "title_en": "Stake concentration risk",
 "type": "PoC",
 "title_ko": "스테이킹 집중 위험",
@@ -512,12 +556,12 @@
 ]
 },
 {
-"no": 18,
+"no": 19,
 "section": "Tech",
 "key": "the-settlement-instant",
 "href": "pocs-the-settlement-instant.html",
 "status": "DONE",
-"position": 18,
+"position": 19,
 "title_en": "A price at a moment — the instant, the window, and who can move it",
 "type": "PoC",
 "title_ko": "한 시점의 가격 — 그 순간, 그 창, 그리고 그것을 움직일 수 있는 자",
@@ -542,12 +586,12 @@
 ]
 },
 {
-"no": 19,
+"no": 20,
 "section": "Tech",
 "key": "stablecoin-redemption-desk",
 "href": "pocs-stablecoin-redemption-desk.html",
 "status": "DONE",
-"position": 19,
+"position": 20,
 "title_en": "The redemption desk — what actually makes a stablecoin's denominator",
 "type": "PoC",
 "title_ko": "상환 창구 — 스테이블코인의 분모를 만드는 것",
@@ -569,12 +613,12 @@
 ]
 },
 {
-"no": 20,
+"no": 21,
 "section": "Tech",
 "key": "arb-bots-are-the-peg",
 "href": "pocs-arb-bots-are-the-peg.html",
 "status": "DONE",
-"position": 20,
+"position": 21,
 "title_en": "Nobody runs the peg — the competing bots are the mechanism",
 "type": "PoC",
 "title_ko": "페그를 돌리는 주체는 없다 — 경쟁하는 봇들이 곧 메커니즘이다",
@@ -597,12 +641,12 @@
 ]
 },
 {
-"no": 21,
+"no": 22,
 "section": "Tech",
 "key": "third-party-blast-radius",
 "href": "pocs-third-party-blast-radius.html",
 "status": "DONE",
-"position": 21,
+"position": 22,
 "title_en": "Trusted third parties — the blast radius nobody maps",
 "type": "PoC",
 "title_ko": "신뢰된 서드파티 — 아무도 그리지 않는 폭발 반경",
@@ -628,12 +672,12 @@
 ]
 },
 {
-"no": 22,
+"no": 23,
 "section": "Tech",
 "key": "jurisdiction-decides-the-category",
 "href": "pocs-jurisdiction-decides-the-category.html",
 "status": "DONE",
-"position": 22,
+"position": 23,
 "title_en": "Same product, three verdicts in eight days",
 "type": "PoC",
 "title_ko": "같은 상품, 8일 사이 세 개의 판정",
@@ -655,12 +699,12 @@
 ]
 },
 {
-"no": 23,
+"no": 24,
 "section": "Tech",
 "key": "plumbing-skills-buyback",
 "href": "pocs-plumbing-skills-buyback.html",
 "status": "DONE",
-"position": 23,
+"position": 24,
 "title_en": "Four capabilities, each buying back what the chain gave away",
 "type": "PoC",
 "title_ko": "네 가지 역량, 각각은 체인이 버린 것을 되사는 일",
@@ -686,12 +730,12 @@
 ]
 },
 {
-"no": 24,
+"no": 25,
 "section": "Tech",
 "key": "irreversible-switch-design",
 "href": "pocs-irreversible-switch-design.html",
 "status": "DONE",
-"position": 24,
+"position": 25,
 "title_en": "The migration works by making the contract dumber",
 "type": "PoC",
 "title_ko": "마이그레이션은 컨트랙트를 더 멍청하게 만들어서 성립한다",
@@ -713,12 +757,12 @@
 ]
 },
 {
-"no": 25,
+"no": 26,
 "section": "Tech",
 "key": "quick-slots-10s",
 "href": "pocs-quick-slots-10s.html",
 "status": "DONE",
-"position": 25,
+"position": 26,
 "title_en": "Ten-second slots — the constant nobody wrote down",
 "type": "PoC",
 "title_ko": "10초 슬롯 — 아무도 적어두지 않은 상수",
@@ -735,12 +779,12 @@
 ]
 },
 {
-"no": 26,
+"no": 27,
 "section": "Tech",
 "key": "l1-data-pricing-dimensions",
 "href": "pocs-l1-data-pricing-dimensions.html",
 "status": "DONE",
-"position": 26,
+"position": 27,
 "title_en": "When gas stops being one number — data pricing and bandwidth accounting",
 "type": "PoC",
 "title_ko": "가스가 더 이상 숫자 하나가 아닐 때 — 데이터 가격과 대역폭 회계",
@@ -762,12 +806,12 @@
 ]
 },
 {
-"no": 27,
+"no": 28,
 "section": "Tech",
 "key": "rpc-view-not-consensus",
 "href": "pocs-rpc-view-not-consensus.html",
 "status": "DONE",
-"position": 27,
+"position": 28,
 "title_en": "An RPC response is a view, not consensus",
 "type": "PoC",
 "title_ko": "RPC 응답은 합의가 아니라 하나의 관점이다",
@@ -783,12 +827,12 @@
 ]
 },
 {
-"no": 28,
+"no": 29,
 "section": "Tech",
 "key": "ponder-reorg-indexer",
 "href": "pocs-ponder-reorg-indexer.html",
 "status": "DONE",
-"position": 28,
+"position": 29,
 "title_en": "Ponder — the indexer is the reorg handler",
 "type": "PoC",
 "title_ko": "Ponder — 인덱서가 리오그 핸들러다",
@@ -808,12 +852,12 @@
 ]
 },
 {
-"no": 29,
+"no": 30,
 "section": "Tech",
 "key": "embedded-wallet-policy",
 "href": "pocs-embedded-wallet-policy.html",
 "status": "DONE",
-"position": 29,
+"position": 30,
 "title_en": "The wallet disappeared into the app",
 "type": "PoC",
 "title_ko": "지갑이 앱 속으로 사라졌다",
@@ -837,12 +881,12 @@
 ]
 },
 {
-"no": 30,
+"no": 31,
 "section": "Tech",
 "key": "x402-settlement-retry",
 "href": "pocs-x402-settlement-retry.html",
 "status": "DONE",
-"position": 30,
+"position": 31,
 "title_en": "HTTP 402 is the easy part — settlement owns the retry",
 "type": "PoC",
 "title_ko": "HTTP 402 는 쉬운 부분이다 — 재시도는 정산의 책임이다",
@@ -863,12 +907,12 @@
 ]
 },
 {
-"no": 31,
+"no": 32,
 "section": "Tech",
 "key": "safe-module-root-key",
 "href": "pocs-safe-module-root-key.html",
 "status": "DONE",
-"position": 31,
+"position": 32,
 "title_en": "A Safe module is a root key with an interface",
 "type": "PoC",
 "title_ko": "Safe 모듈은 인터페이스를 가진 루트 키다",
@@ -886,12 +930,12 @@
 ]
 },
 {
-"no": 32,
+"no": 33,
 "section": "Tech",
 "key": "what-encryption-does-not-hide",
 "href": "pocs-what-encryption-does-not-hide.html",
 "status": "DONE",
-"position": 32,
+"position": 33,
 "title_en": "Hiding the amount is the easy half",
 "type": "PoC",
 "title_ko": "금액을 가리는 것은 쉬운 절반이다",
@@ -918,12 +962,12 @@
 ]
 },
 {
-"no": 33,
+"no": 34,
 "section": "Tech",
 "key": "erc-8141",
 "href": "pocs-erc-8141.html",
 "status": "DONE",
-"position": 33,
+"position": 34,
 "title_en": "ERC-8141",
 "type": "PoC",
 "title_ko": "ERC-8141",
@@ -949,12 +993,12 @@
 ]
 },
 {
-"no": 34,
+"no": 35,
 "section": "Tech",
 "key": "receipt-is-not-settlement",
 "href": "pocs-receipt-is-not-settlement.html",
 "status": "DONE",
-"position": 34,
+"position": 35,
 "title_en": "A successful receipt is not settlement",
 "type": "PoC",
 "title_ko": "성공한 receipt 는 정산이 아니다",
@@ -972,12 +1016,12 @@
 ]
 },
 {
-"no": 35,
+"no": 36,
 "section": "Tech",
 "key": "l2-finality-three-clocks",
 "href": "pocs-l2-finality-three-clocks.html",
 "status": "DONE",
-"position": 35,
+"position": 36,
 "title_en": "L2 finality is three clocks",
 "type": "PoC",
 "title_ko": "L2 파이널리티는 시계 세 개다",
@@ -996,12 +1040,12 @@
 ]
 },
 {
-"no": 36,
+"no": 37,
 "section": "Tech",
 "key": "simulate-before-sign",
 "href": "pocs-simulate-before-sign.html",
 "status": "DONE",
-"position": 36,
+"position": 37,
 "title_en": "Simulation belongs before the wallet prompt",
 "type": "PoC",
 "title_ko": "시뮬레이션은 지갑 프롬프트 앞에 놓인다",
@@ -1022,12 +1066,12 @@
 ]
 },
 {
-"no": 37,
+"no": 38,
 "section": "Tech",
 "key": "bundler-paymaster-dependencies",
 "href": "pocs-bundler-paymaster-dependencies.html",
 "status": "DONE",
-"position": 37,
+"position": 38,
 "title_en": "Gasless is two infrastructure services",
 "type": "PoC",
 "title_ko": "가스리스는 두 개의 인프라 서비스다",
@@ -1050,12 +1094,12 @@
 ]
 },
 {
-"no": 38,
+"no": 39,
 "section": "Tech",
 "key": "private-rpc-visibility",
 "href": "pocs-private-rpc-visibility.html",
 "status": "DONE",
-"position": 38,
+"position": 39,
 "title_en": "Private RPC changes visibility, not settlement",
 "type": "PoC",
 "title_ko": "프라이빗 RPC 가 바꾸는 것은 가시성이지 정산이 아니다",
@@ -1075,12 +1119,12 @@
 ]
 },
 {
-"no": 39,
+"no": 40,
 "section": "Tech",
 "key": "walletconnect-session-authority",
 "href": "pocs-walletconnect-session-authority.html",
 "status": "DONE",
-"position": 39,
+"position": 40,
 "title_en": "Connect once means authorize a session",
 "type": "PoC",
 "title_ko": "한 번 연결한다는 것은 세션을 인가한다는 뜻이다",
@@ -1101,12 +1145,12 @@
 ]
 },
 {
-"no": 40,
+"no": 41,
 "section": "Tech",
 "key": "foundry-invariant-reachability",
 "href": "pocs-foundry-invariant-reachability.html",
 "status": "DONE",
-"position": 40,
+"position": 41,
 "title_en": "An invariant test is only as good as the actions it reaches",
 "type": "PoC",
 "title_ko": "Invariant 테스트는 도달하는 동작만큼만 좋다",
@@ -1128,12 +1172,12 @@
 ]
 },
 {
-"no": 41,
+"no": 42,
 "section": "Tech",
 "key": "constraint-was-the-product",
 "href": "pocs-constraint-was-the-product.html",
 "status": "DONE",
-"position": 41,
+"position": 42,
 "title_en": "Constraint was the product — and no firewall blocks a sentence",
 "type": "PoC",
 "title_ko": "제약이 곧 제품이었다 — 그리고 어떤 방화벽도 문장은 막지 못한다",
@@ -1160,12 +1204,12 @@
 ]
 },
 {
-"no": 42,
+"no": 43,
 "section": "Tech",
 "key": "merkle-vs-verkle",
 "href": "pocs-merkle-vs-verkle.html",
 "status": "DONE",
-"position": 42,
+"position": 43,
 "title_en": "Merkle vs Verkle",
 "type": "PoC",
 "title_ko": "Merkle vs Verkle",
@@ -1184,12 +1228,12 @@
 ]
 },
 {
-"no": 43,
+"no": 44,
 "section": "Tech",
 "key": "encrypted-mempool",
 "href": "pocs-encrypted-mempool.html",
 "status": "DONE",
-"position": 43,
+"position": 44,
 "title_en": "What encryption does not hide",
 "type": "PoC",
 "title_ko": "암호화가 가리지 못하는 것",
@@ -1211,12 +1255,12 @@
 ]
 },
 {
-"no": 44,
+"no": 45,
 "section": "Tech",
 "key": "choosing-a-chain-is-a-lease",
 "href": "pocs-choosing-a-chain-is-a-lease.html",
 "status": "DONE",
-"position": 44,
+"position": 45,
 "title_en": "Choosing a chain is signing a lease",
 "type": "PoC",
 "title_ko": "체인을 고르는 일은 임대 계약을 맺는 일이다",
@@ -1237,12 +1281,12 @@
 ]
 },
 {
-"no": 45,
+"no": 46,
 "section": "Tech",
 "key": "chainlink-jayverse-cooperation",
 "href": "pocs-chainlink-jayverse-cooperation.html",
 "status": "DONE",
-"position": 45,
+"position": 46,
 "title_en": "Chainlink is infra Jayverse uses, not builds — where each product plugs in",
 "type": "PoC",
 "title_ko": "Chainlink은 Jayverse가 쓰는 인프라지 짓는 게 아니다 — 각 제품이 붙는 자리",
@@ -1261,12 +1305,12 @@
 ]
 },
 {
-"no": 46,
+"no": 47,
 "section": "Tech",
 "key": "liquid-issuance-not-authorization",
 "href": "pocs-liquid-issuance-not-authorization.html",
 "status": "DONE",
-"position": 46,
+"position": 47,
 "title_en": "Liquid's peg-out drain — the mint was poisoned, not the gate",
 "type": "PoC",
 "title_ko": "Liquid 페그아웃 유출 — 뚫린 건 문이 아니라 발행이었다",
@@ -1290,12 +1334,12 @@
 ]
 },
 {
-"no": 47,
+"no": 48,
 "section": "Tech",
 "key": "base-app-mini-app",
 "href": "pocs-base-app-mini-app.html",
 "status": "DONE",
-"position": 47,
+"position": 48,
 "title_en": "Base App — what a Mini App buys, and what it rents",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1316,12 +1360,12 @@
 ]
 },
 {
-"no": 48,
+"no": 49,
 "section": "Tech",
 "key": "layerzero-default-is-a-choice",
 "href": "pocs-layerzero-default-is-a-choice.html",
 "status": "DONE",
-"position": 48,
+"position": 49,
 "title_en": "LayerZero — the default verifier is a trust assumption nobody wrote down",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1348,12 +1392,12 @@
 ]
 },
 {
-"no": 49,
+"no": 50,
 "section": "Tech",
 "key": "refill-rate-is-the-real-cap",
 "href": "pocs-refill-rate-is-the-real-cap.html",
 "status": "DONE",
-"position": 49,
+"position": 50,
 "title_en": "A bridge's rate limit is not the loss cap — its refill speed is",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1373,12 +1417,12 @@
 ]
 },
 {
-"no": 50,
+"no": 51,
 "section": "Tech",
 "key": "nasdaq-nets-tokenization-goes-through-the-incumbent",
 "href": "pocs-nasdaq-nets-tokenization-goes-through-the-incumbent.html",
 "status": "DONE",
-"position": 50,
+"position": 51,
 "title_en": "Nasdaq + Kraken's NETs — the incumbent doesn't get disrupted, it builds the rail",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1403,12 +1447,12 @@
 ]
 },
 {
-"no": 51,
+"no": 52,
 "section": "Tech",
 "key": "tokenized-stock-premium-needs-a-mint-redeem-path",
 "href": "pocs-tokenized-stock-premium-needs-a-mint-redeem-path.html",
 "status": "DONE",
-"position": 51,
+"position": 52,
 "title_en": "Why AMC's tokenized stock ran to a premium — the peg needs an open mint/redeem path",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1434,12 +1478,12 @@
 ]
 },
 {
-"no": 52,
+"no": 53,
 "section": "Tech",
 "key": "hyperliquid-pays-for-the-public-good",
 "href": "pocs-hyperliquid-pays-for-the-public-good.html",
 "status": "DONE",
-"position": 52,
+"position": 53,
 "title_en": "Hyperliquid paid for a public good — the amicus brief as a regulatory moat",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1461,12 +1505,12 @@
 ]
 },
 {
-"no": 53,
+"no": 54,
 "section": "Tech",
 "key": "jayverse-build-on-the-shortlist",
 "href": "pocs-jayverse-build-on-the-shortlist.html",
 "status": "DONE",
-"position": 53,
+"position": 54,
 "title_en": "What Jayverse can build on — the shortlist of rails, by need",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1490,12 +1534,12 @@
 ]
 },
 {
-"no": 54,
+"no": 55,
 "section": "Tech",
 "key": "the-quote-is-a-product-promise",
 "href": "pocs-the-quote-is-a-product-promise.html",
 "status": "DONE",
-"position": 54,
+"position": 55,
 "title_en": "Priced in fiat, settled in tokens — the quote is a product promise",
 "done": "2026-09-12T23:37+09:00",
 "type": "PoC",
@@ -1515,12 +1559,12 @@
 ]
 },
 {
-"no": 55,
+"no": 56,
 "section": "Tech",
 "key": "trading-intel-cost-needs-a-denominator",
 "href": "pocs-trading-intel-cost-needs-a-denominator.html",
 "status": "DONE",
-"position": 55,
+"position": 56,
 "title_en": "“25× cheaper trading intel” needs a denominator — signals are not P&L",
 "done": "2026-09-14T16:06+09:00",
 "type": "PoC",
@@ -1542,12 +1586,12 @@
 ]
 },
 {
-"no": 56,
+"no": 57,
 "section": "Tech",
 "key": "quick-slots-eip-8198",
 "href": "pocs-quick-slots-eip-8198.html",
 "status": "DONE",
-"position": 56,
+"position": 57,
 "title_en": "Quick Slots (EIP-8198) — the change is not 12 → 10 s, it is making slot time a parameter",
 "done": "2026-09-16T11:13+09:00",
 "type": "PoC",
@@ -1578,12 +1622,12 @@
 ]
 },
 {
-"no": 57,
+"no": 58,
 "section": "Tech",
 "key": "alchemy-app-is-a-budget",
 "href": "pocs-alchemy-app-is-a-budget.html",
 "status": "DONE",
-"position": 57,
+"position": 58,
 "title_en": "An app key is a budget, not a login — what Alchemy's create-app flow is really asking",
 "done": "2026-09-16T11:41+09:00",
 "type": "PoC",
@@ -1606,12 +1650,12 @@
 ]
 },
 {
-"no": 58,
+"no": 59,
 "section": "Tech",
 "key": "stripe-bought-the-meter-openrouter",
 "href": "pocs-stripe-bought-the-meter-openrouter.html",
 "status": "DONE",
-"position": 58,
+"position": 59,
 "title_en": "Stripe bought the meter, not the model — what a $7.5 billion price for a 5 percent fee says about where AI money flows",
 "done": "2026-09-18T10:44+09:00",
 "type": "PoC",
@@ -1639,12 +1683,12 @@
 ]
 },
 {
-"no": 59,
+"no": 60,
 "section": "Tech",
 "key": "etf-outflows-sign-depends-on-window",
 "href": "pocs-etf-outflows-sign-depends-on-window.html",
 "status": "DONE",
-"position": 59,
+"position": 60,
 "title_en": "Two days of ETF outflows after the hike — the sign of the number depends on the unit you read it in",
 "done": "2026-09-18T10:44+09:00",
 "type": "PoC",
@@ -1672,12 +1716,12 @@
 ]
 },
 {
-"no": 60,
+"no": 61,
 "section": "Tech",
 "key": "kaiko-reference-rate-is-a-price-with-governance",
 "href": "pocs-kaiko-reference-rate-is-a-price-with-governance.html",
 "status": "DONE",
-"position": 60,
+"position": 61,
 "title_en": "A reference rate is a price with a governance wrapper — what Kaiko sells, and why S&P bought into it twice in a month",
 "done": "2026-09-18T12:51+09:00",
 "type": "PoC",
@@ -1706,12 +1750,12 @@
 ]
 },
 {
-"no": 61,
+"no": 62,
 "section": "Tech",
 "key": "sp-global-buys-openzeppelin",
 "href": "pocs-sp-global-buys-openzeppelin.html",
 "status": "DONE",
-"position": 61,
+"position": 62,
 "title_en": "S&P Global is buying OpenZeppelin — the library under Jayverse's contracts now belongs to a ratings agency",
 "done": "2026-09-18T12:51+09:00",
 "type": "PoC",
@@ -1740,12 +1784,12 @@
 ]
 },
 {
-"no": 62,
+"no": 63,
 "section": "Tech",
 "key": "clarity-is-permission-lubin-floodgates",
 "href": "pocs-clarity-is-permission-lubin-floodgates.html",
 "status": "DONE",
-"position": 62,
+"position": 63,
 "title_en": "Clarity is permission — Lubin's \"open the floodgates\" is a claim about who is allowed to deploy, not about price",
 "done": "2026-09-18T14:20+09:00",
 "type": "PoC",
@@ -1774,12 +1818,12 @@
 ]
 },
 {
-"no": 63,
+"no": 64,
 "section": "Tech",
 "key": "agentic-engineering-writes-boundaries",
 "href": "pocs-agentic-engineering-writes-boundaries.html",
 "status": "DONE",
-"position": 63,
+"position": 64,
 "title_en": "Agentic engineering writes the boundaries, not the lines — and vibe coding scales only inside them",
 "done": "2026-09-18T14:55+09:00",
 "type": "PoC",
@@ -1807,12 +1851,12 @@
 ]
 },
 {
-"no": 64,
+"no": 65,
 "section": "Tech",
 "key": "kb-kookmin-kinexys-deposit-rail",
 "href": "pocs-kb-kookmin-kinexys-deposit-rail.html",
 "status": "YESTERDAY DONE",
-"position": 64,
+"position": 65,
 "title_en": "KB Kookmin + Kinexys — the deposit moves onchain, the bank relationship does not",
 "done": "2026-09-21T12:01+09:00",
 "type": "PoC",
@@ -1846,32 +1890,6 @@
 "one entry on one balance sheet",
 "a claim on the bank that holds it",
 "network effect"
-]
-},
-{
-"no": 65,
-"section": "Tech",
-"key": "agent-payments-korea-control-plane",
-"href": "pocs-agent-payments-korea-control-plane.html",
-"status": "IMPORTANT",
-"position": 65,
-"title_en": "AI agent payments in Korea — the payment rail is ready before the permission rail",
-"type": "PoC",
-"title_ko": "한국의 AI 에이전트 결제 — 결제 레일보다 권한 레일이 늦다",
-"related": [],
-"vocab": [
-"control plane",
-"custodial",
-"merchant-bound",
-"hallucinated",
-"research agenda",
-"impossible to miss",
-"one-time authorization",
-"replay key",
-"abstract ... behind",
-"AML",
-"AP2",
-"VASP"
 ]
 },
 {
