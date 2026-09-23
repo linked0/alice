@@ -145,19 +145,23 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
 
 ## RECENTLY DONE — one fresh done state (jay, 2026-09-23)
 
-- When an item is marked done it becomes **RECENTLY DONE** (deep green, `#15803d`) and stays so for the newest
+- When an item is marked done it becomes **RECENTLY DONE** (blue, `#0284c7`) and stays so for the newest
   done-day **and the one before it**; after that it is plain **DONE** (`#22c55e`). A day starts at **06:00 KST**
   (jay: "done from the 6 a.m. today before the new day's first one is done"), and "the day before" means the
   previous day on which something was done, which is not always the calendar yesterday.
 - **Why one state and not two** (jay, 2026-09-23: "too many colors are confusing so Merge Yesterday and Today as
   Recently and remove blue that could be used later for more important mark"). From 2026-09-18 this was two states,
   TODAY DONE (midnight blue `#191970`) and YESTERDAY DONE (sky blue `#38bdf8`). They cost two hues to express a
-  distinction the `done YYYY-MM-DD` chip already makes precisely, and the rail read as noise. Merging them into one
-  state, a shade deeper than DONE, keeps the recency signal inside the done hue and adds no colour.
-- **Blue is now reserved.** `#191970`, `#38bdf8` and the `#0284c7` that Theory and Invest used for DONE are all gone
-  from the status palette, held for a future mark stronger than IMPORTANT. As a side effect **DONE is one colour in
-  every section**. Note `rtd-shell.mjs` still uses `#38bdf8` as the dark-theme *accent* — page chrome, not a status —
-  so a future blue status mark should check that it reads as distinct.
+  distinction the `done YYYY-MM-DD` chip already makes precisely, and the rail read as noise. One state in one blue
+  says the same thing.
+- **One blue, not two** (jay, 2026-09-23: "How about use blue for recently except the revisit"). The merged state was
+  first drawn deep green `#15803d`, to keep recency inside the DONE hue and leave blue free for a future mark stronger
+  than IMPORTANT; jay then picked blue for it instead, so RECENTLY DONE is `#0284c7` and REVISIT keeps its purple
+  `#a855f7`. The palette still lost a colour, because two blues became one. `#191970` and `#38bdf8` remain unused.
+  Note `rtd-shell.mjs` uses `#38bdf8` as the dark-theme *accent* — page chrome, not a status — so RECENTLY DONE and
+  that accent are deliberately different blues.
+- **DONE is one colour in every section.** Theory and Invest used `#0284c7` for plain DONE; it is `#22c55e` everywhere
+  now, which is what keeps `#0284c7` unambiguous as "recently".
 - **One colour per label, enforced.** `roll-done-states.py` now rewrites any item whose colour has drifted from
   `PALETTE` on every run. Six Theory items were still `#0284c7` and one Invest item `#f59e0b` — invisible on any one
   page, and exactly what makes a palette feel noisy.

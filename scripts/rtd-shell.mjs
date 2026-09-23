@@ -416,7 +416,7 @@ function railHtml(o, navGroupsHtml) {
 <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn" data-tier-mode="all" aria-pressed="false">All</button>
         <span class="tier-break" aria-hidden="true"></span>
         <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button>
-        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (deep green dot)">Recently</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
       </div>` : ''}
       <input id="filter" type="search" placeholder="${escapeHtml(o.filterPlaceholder)}" aria-label="${escapeHtml(o.filterPlaceholder)}" autocomplete="off">
     </div>
