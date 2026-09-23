@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/941</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#91</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
+      <p class="topic-kicker"><span class="topic-no">#92</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
       <h1>A dependency is not a file, it is authority you handed to someone else — Parity 2017 and event-stream 2018</h1>
       <p class="lead">Two incidents a year apart broke no cryptography and still cost more than most exploits. On 2017-11-06 a GitHub user, devops199, called an initialisation function on the shared library behind every Parity multisig wallet, became its owner because the library had never been initialised, and ran `selfdestruct`. About 587 wallets that delegated their logic to that address were left pointing at empty code; roughly 513,774 ETH were frozen permanently, not stolen, because the code they needed no longer existed. On 2018-09-09 a new maintainer of event-stream, an npm package with about two million weekly downloads, added a dependency called flatmap-stream; version 0.1.1 of it carried an encrypted payload that activated only inside Copay, a Bitcoin wallet app, and exfiltrated seed phrases from wallets holding more than 100 BTC or 1,000 BCH. It was found on 2018-11-20, after Copay had shipped it in versions 5.0.2 to 5.1.0. The original maintainer had handed the package over because he no longer used it and someone offered to help.</p>
       <p class="meta">The common surface is not a vulnerability class. It is that code you depend on is maintained by someone else, and maintenance includes the right to change it. Parity&#39;s wallets trusted a library address; event-stream&#39;s users trusted a name on a registry. In both cases the trust was to a party, not to a file, and the party changed, by accident in one case and by handover in the other. Three mistakes repeat: treating a dependency as a fixed object; equating "widely used" with "reviewed"; and auditing once without pinning, which means the audit described one commit and the deployment ran another. For Jayverse the checklist is short and applies today because of the S&amp;P and OpenZeppelin news: exact version pins and committed lockfiles, everywhere; count the dependencies that can move money and read at least those; and keep "the code is safe" and "the supply chain is safe" as two separate statements that fail for different reasons. Status on 2026-09-18: our Solidity pins are submodule commits, which is exact; one CI workflow freezes its lockfile; the rest is unverified.</p>
@@ -465,7 +465,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-model-is-weights-plus-objective.html">&larr; 90. A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</a><a href="pocs-toss-komsco-voucher-settlement-on-optimism.html">92. Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token &rarr;</a></div>
+    <div class="pager"><a href="pocs-model-is-weights-plus-objective.html">&larr; 91. A model is weights plus a next-token objective — fine-tuning aligns it, it does not teach it</a><a href="pocs-toss-komsco-voucher-settlement-on-optimism.html">93. Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token &rarr;</a></div>
   </div>
   </main>
 </div>

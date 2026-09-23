@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/941</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 74/942</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -408,7 +408,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#125</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#126</span><span>Talk</span><span title="added">2026-09-21</span><span title="source">gemini</span><span title="bin">converse</span><span title="raw"><a href="raw/2026-09-21-gemini-youtube.md">raw</a></span></p>
       <h1>Embeddings retrieve the right context, MCP governs what an agent may do with it — the loop between them is where trust holds or breaks</h1>
       <p class="lead">ByteMonk&#39;s video (YouTube, 10:03) ties together the four pieces that make up today&#39;s agent stack: embeddings, vector databases, the agent tool-calling loop, and Anthropic&#39;s Model Context Protocol (MCP). The claim is that modern AI is moving from standalone chat into autonomous agents that must reliably read and act on real data, and that requires all four pieces working together rather than any one of them in isolation. Embedding models project text, code and images into 768–1536-dimension vectors, where semantic similarity becomes geometric proximity, measured as cosine similarity, dot product or Euclidean distance. Because exact nearest-neighbor search across millions of vectors is an O(N) scan, production vector databases use approximate nearest-neighbor (ANN) indexes — HNSW graphs or IVF — to get sub-millisecond retrieval instead. The agent loop wraps a tool call around that retrieval: observe, reason, dispatch a structured JSON tool call, execute and feed the result back, repeat until the goal is verified. MCP is the standard that lets an agent reach any of those tools without one-off glue code for every model-tool pair.</p>
       <p class="meta">For Jayverse this is a primer rather than new ground: it names, in one place, the primitives that Tech #68 (MCP from three sides) and #99 (vibe modeling via Blender MCP) already touched separately. Worth reading before turning the Auditor into an actual MCP server, and worth keeping the four names straight — it&#39;s easy to talk about "RAG" when the real question is which of embeddings, ANN indexing, the loop, or MCP is the piece that&#39;s missing.</p>
@@ -467,7 +467,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-rag-vs-long-context-hybrid-filter-then-attend.html">&larr; 124. RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context</a><a href="pocs-nigeria-telesurgery-500km-latency-budget.html">126. Nigeria&#39;s first tele-robotic surgery — the 500 km distance was never the hard part, the loop was &rarr;</a></div>
+    <div class="pager"><a href="pocs-rag-vs-long-context-hybrid-filter-then-attend.html">&larr; 125. RAG or long context isn&#39;t a choice — the production pattern is filter with RAG, then attend with long context</a><a href="pocs-nigeria-telesurgery-500km-latency-budget.html">127. Nigeria&#39;s first tele-robotic surgery — the 500 km distance was never the hard part, the loop was &rarr;</a></div>
   </div>
   </main>
 </div>
