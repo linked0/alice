@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-23 17:50 KST",
+"generated": "2026-09-23 17:55 KST",
 "counts": {
 "Tech": 310,
 "Theory": 189,
 "Invest": 23,
 "Eng": 399,
-"Life": 40
+"Life": 44
 },
 "done": 76,
-"all": 961,
+"all": 965,
 "items": [
 {
 "no": 1,
@@ -15349,6 +15349,118 @@
 "repetitive stress injuries",
 "inhumane hours",
 "to sell the conclusion without the price"
+]
+},
+{
+"no": 1841,
+"section": "Life",
+"key": "effective-is-a-practice-not-a-personality",
+"href": "pocs-effective-is-a-practice-not-a-personality.html",
+"status": "NEW",
+"position": 41,
+"title_en": "Effective is a practice, not a personality — Drucker's variance argument",
+"type": "PoC",
+"date": "2026-09-23",
+"source": "chat",
+"raw": "raw/2026-09-23-effective-is-a-practice-not-a-personality.md",
+"title_ko": "유능함은 성격이 아니라 관행이다 — 드러커의 분산 논증",
+"vocab": [
+"an argument from variance",
+"to take X off the table",
+"not one ounce of",
+"all over the map",
+"parsimonious",
+"reclusive",
+"stereotypical",
+"load-bearing",
+"throat-clearing",
+"dispersion",
+"an enumerated discipline",
+"to refuse an explanation that cannot be copied"
+]
+},
+{
+"no": 1842,
+"section": "Life",
+"key": "the-body-commits-before-you-decide",
+"href": "pocs-the-body-commits-before-you-decide.html",
+"status": "NEW",
+"position": 42,
+"title_en": "The body commits before you decide — Gallo on difficult conversations",
+"type": "PoC",
+"date": "2026-09-23",
+"source": "chat",
+"raw": "raw/2026-09-23-the-body-commits-before-you-decide.md",
+"title_ko": "몸이 당신보다 먼저 결정한다 — 어려운 대화에 대한 갤로의 글",
+"vocab": [
+"to get worked up",
+"fight or flight",
+"the sympathetic nervous system",
+"to ramp up",
+"to discern between",
+"to be chased down by a bear",
+"to spike",
+"to interrupt a response",
+"to be calibrated for",
+"a timing problem, not a character problem",
+"to arrive after the decision was made",
+"a seat, not a veto"
+]
+},
+{
+"no": 1843,
+"section": "Life",
+"key": "the-average-is-not-the-advice",
+"href": "pocs-the-average-is-not-the-advice.html",
+"status": "NEW",
+"position": 43,
+"title_en": "Not all abused supervisors abuse — where the useful knowledge is",
+"type": "PoC",
+"date": "2026-09-23",
+"source": "chat",
+"raw": "raw/2026-09-23-the-average-is-not-the-advice.md",
+"title_ko": "학대받은 관리자가 모두 학대하지는 않는다 — 쓸모 있는 지식이 있는 자리",
+"vocab": [
+"to trickle down",
+"abusive supervision",
+"to perpetuate",
+"a moderator",
+"an average effect",
+"the exceptions are the finding",
+"actionable",
+"fatalism",
+"work-family conflict",
+"litigation",
+"disposition vs condition",
+"the low-deliberation path"
+]
+},
+{
+"no": 1844,
+"section": "Life",
+"key": "sold-as-an-expert-while-becoming-one",
+"href": "pocs-sold-as-an-expert-while-becoming-one.html",
+"status": "NEW",
+"position": 44,
+"title_en": "Sold as an expert while still becoming one",
+"type": "PoC",
+"date": "2026-09-23",
+"source": "chat",
+"raw": "raw/2026-09-23-sold-as-an-expert-while-becoming-one.md",
+"title_ko": "전문가가 되어가는 중에 전문가로 팔린다",
+"vocab": [
+"to be sold as",
+"a novice",
+"to project expertise",
+"backstage / front stage",
+"to embark on",
+"conversely",
+"a bind",
+"to pull knowledge",
+"to perform finishedness",
+"to pick a side",
+"incompatible in the same room",
+"structural to the work"
 ]
 },
 {

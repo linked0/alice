@@ -1,8 +1,8 @@
 # Knowledge Notes — index
 
-Generated 2026-09-23 17:50 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-23 17:55 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
-Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 40 · done 76/961
+Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 44 · done 76/965
 
 | No | Section | Status | Added | Done | Type | Source | Bin | Title | 제목 | Key | Raw |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -568,6 +568,10 @@ Counts: Tech 310 · Theory 189 · Invest 23 · Eng 399 · Life 40 · done 76/961
 | 1838 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Collaborative overload — the request defaults to the resource that runs out](pocs-the-resource-that-runs-out.html) | 협업 과부하 — 요청은 바닥나는 자원을 기본값으로 고른다 | `the-resource-that-runs-out` | [raw](raw/2026-09-23-the-resource-that-runs-out.md) |
 | 1839 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Go stand next to the highest standard you can find](pocs-go-stand-next-to-the-standard.html) | 찾을 수 있는 가장 높은 기준 옆에 가서 서라 | `go-stand-next-to-the-standard` | [raw](raw/2026-09-23-go-stand-next-to-the-standard.md) |
 | 1840 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [The brain trust works because it has no authority](pocs-the-brain-trust-has-no-authority.html) | 브레인 트러스트는 권한이 없기 때문에 작동한다 | `the-brain-trust-has-no-authority` | [raw](raw/2026-09-23-the-brain-trust-has-no-authority.md) |
+| 1841 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Effective is a practice, not a personality — Drucker's variance argument](pocs-effective-is-a-practice-not-a-personality.html) | 유능함은 성격이 아니라 관행이다 — 드러커의 분산 논증 | `effective-is-a-practice-not-a-personality` | [raw](raw/2026-09-23-effective-is-a-practice-not-a-personality.md) |
+| 1842 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [The body commits before you decide — Gallo on difficult conversations](pocs-the-body-commits-before-you-decide.html) | 몸이 당신보다 먼저 결정한다 — 어려운 대화에 대한 갤로의 글 | `the-body-commits-before-you-decide` | [raw](raw/2026-09-23-the-body-commits-before-you-decide.md) |
+| 1843 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Not all abused supervisors abuse — where the useful knowledge is](pocs-the-average-is-not-the-advice.html) | 학대받은 관리자가 모두 학대하지는 않는다 — 쓸모 있는 지식이 있는 자리 | `the-average-is-not-the-advice` | [raw](raw/2026-09-23-the-average-is-not-the-advice.md) |
+| 1844 | Life | NEW | 2026-09-23 |  | PoC | chat |  | [Sold as an expert while still becoming one](pocs-sold-as-an-expert-while-becoming-one.html) | 전문가가 되어가는 중에 전문가로 팔린다 | `sold-as-an-expert-while-becoming-one` | [raw](raw/2026-09-23-sold-as-an-expert-while-becoming-one.md) |
 | 2001 | Eng · Article | RECENTLY DONE | 2026-09-21 | 2026-09-23 | Article |  |  | [Trickle-down chiponomics](english-398.html) | Trickle-down chiponomics — AI 호황의 낙수효과, 대만과 한국이 주는 힌트 | `english-398` |  |
 | 2002 | Eng · Review | RECENTLY DONE | 2026-09-16 | 2026-09-23 | Review |  |  | [The function is fine. Who can call it?](english-1.html) | 함수는 괜찮다. 누가 호출하나? | `english-1` |  |
 | 2003 | Eng · Interview | RECENTLY DONE | 2026-09-16 | 2026-09-21 | Interview |  |  | [Don't draw yet. Ask what the box is for.](english-21.html) | 아직 그리지 마라. 그 상자가 무엇을 위한 것인지 물어라. | `english-21` |  |
