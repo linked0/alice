@@ -28,6 +28,14 @@ Jay: Capitals on the wall are fine. Capitals in an email look like shouting.
 1. **안내문은 "행동 촉구 + 진행 중인 사실" 두 문장으로 짠다.** "Let's support the Olympics! We're now accepting donations." — 구호 하나와 평서문 하나면 표지판이 완성된다.
 2. **매체에 따라 같은 내용을 줄이거나 늘린다.** 벽에는 "Donations welcome.", Slack에는 "We're now accepting donations." — 대문자와 생략은 벽에서만 허용된다.
 
+
+
+## Words
+| accept donations | /ækˈsɛpt doʊˈneɪʃənz/ | 기부금·기부 물품을 받다 |
+| Donations welcome | /doʊˈneɪʃənz ˈwɛlkəm/ | 기부 환영 |
+| call to action | /kɔl tu ˈækʃən/ | 행동 촉구 문구 |
+| look like shouting | /lʊk laɪk ˈʃaʊtɪŋ/ | 소리 지르는 것처럼 보이다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

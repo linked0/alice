@@ -28,6 +28,13 @@ Jay: Sure. In the plan I'll write "as a last resort"; the idiom is for this room
 1. **대안을 꺼낼 때 "if push comes to shove"로 시작하면 원래 계획이 우선이라는 뜻이 함께 전달된다.** "If push comes to shove, we launch with deposits capped…" 뒤에 "I'd rather not…, but it beats…"로 선호를 분명히 한다.
 2. **말과 문서의 격을 나눈다.** "the idiom is for this room, not the doc" — 회의에서는 관용구, 계획서에는 "as a last resort".
 
+
+
+## Words
+| resort | /rɪˈzɔrt/ | 최후의 수단으로 |
+| moving | /ˈmuvɪŋ/ | 날짜를 미루는 것보다는 낫다 |
+| report | /riˈpɔrt/ | 보고서가 나오면 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

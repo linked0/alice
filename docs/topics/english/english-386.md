@@ -28,6 +28,14 @@ Jay: Or quoting it. If you need the neutral word, say police informant.
 1. **한 단어가 직업 이름과 욕으로 동시에 쓰일 때는 장면별로 나눠 설명한다.** "The first time it was his job... The second time it was an insult"처럼 순서대로 짚으면 혼동이 없다.
 2. **위험한 속어에는 중립어를 함께 쥐어 준다.** "If you need the neutral word, say police informant."
 
+
+
+## Words
+| narc | /nɑrk/ | 마약 단속 경찰 |
+| be a narc | /bi ə nɑrk/ | 고자질쟁이 |
+| tell on somebody | /tɛl ɑn ˈsʌmˌbɑdi/ | ~를 이르다, 고자질하다 |
+| police informant | /pəˈlis ˌɪnˈfɔrmənt/ | 경찰 정보원 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

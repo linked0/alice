@@ -26,6 +26,12 @@ Marek: Fair. Put that sentence in the report exactly as you said it.
 1. **"It transpired that + 절"로 뒤늦게 드러난 사실을 보고한다.** "It transpired that the onboarding deck had been in a shared drive" — 주어가 사람이 아니라 사실이라서 책임 추궁처럼 들리지 않는다.
 2. **먼저 있었던 일에는 대과거를 쓴다.** 원문의 "had had a contact"와 대화의 "had been in a shared drive"가 같은 구조로, 드러난 시점보다 앞선 상태를 표시한다.
 
+
+
+## Words
+| surface later | /ˈsɝfəs ˈleɪtɚ/ | 나중에 드러나다 |
+| without blaming anyone | /wɪˈθaʊt ˈbleɪmɪŋ ˈɛniˌwʌn/ | 누구도 탓하지 않고 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

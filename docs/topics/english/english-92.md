@@ -28,6 +28,13 @@ Jay: Deal. Godspeed, and keep the pitch deck under twelve slides.
 1. **작별 인사는 한 단어 축원 뒤에 구체적인 당부를 붙인다.** "Godspeed, Mateo. Ship something before the money runs out." — 엄숙한 단어를 농담 섞인 당부가 눌러 주어 연설처럼 들리지 않는다.
 2. **상대가 단어를 되물으면 뜻, 어감, 쓰는 자리를 한 문장에 담는다.** "Old, a bit solemn, 'may it go well and fast.' You say it to someone leaving on a journey." — 뜻과 사용 맥락이 동시에 전달된다.
 
+
+
+## Words
+| Godspeed | /ˈɡɑdspid/ | 성공·무운을 빈다 |
+| money | /ˈmʌni/ | 자금이 떨어지기 전에 |
+| slides | /slaɪdz/ | 슬라이드를 N장 아래로 유지하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

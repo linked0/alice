@@ -24,6 +24,13 @@ Jay: They can argue before I rule, not after. That's the difference between adju
 1. **판정은 데모 전에, 공개적으로.** "I'll adjudicate on the deadline before anyone demos, and I'll say the rule out loud" — 시점과 공개 여부를 밝히는 것이 공정성의 핵심이다.
 2. **두 단어의 대비로 원칙을 세운다.** "the difference between adjudicating and negotiating"처럼 대비어를 쓰면 짧은 말로 태도를 설명할 수 있다.
 
+
+
+## Words
+| adjudicate on something | /əˈdʒudɪˌkeɪt ɑn ˈsʌmθɪŋ/ | ~에 대해 판정을 내리다 |
+| you call it | /ju kɔl ɪt/ | 네가 결정해 |
+| rule | /rul/ | 판정하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

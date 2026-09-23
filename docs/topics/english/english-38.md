@@ -42,6 +42,18 @@ Agent: That's your whole trip in one sentence. Gate 62B, and walk it — don't w
 2. **내 표현이 틀렸는지 대놓고 물어본다.** "I'd always said 'transfer flight' for this. Is that wrong?" 원어민에게 교정을 요청하는 가장 짧고 무례하지 않은 형식이고, 돌아온 답("Not wrong, just not what we call the ticket.")이 사전보다 정확하다.
 3. **마지막에 전체를 한 문장으로 되읽는다.** "Then I'll say it back to make sure I have it. One ticket, Austin is my connection, bags checked through…" 카운터든 면접이든 인수인계든 같은 수다. 틀린 곳이 있으면 상대가 그 자리에서 고쳐 준다 — Eng #37의 "숫자를 먼저 걸고 확인받기"와 짝.
 
+
+
+## Words
+| connecting flight | /kəˈnɛktɪŋ flaɪt/ | 연결 항공편 |
+| connection | /kəˈnɛkʃən/ | 갈아타는 그 편 자체. "Austin is my connection" |
+| transfer | /trænˈsfɝ/ | 갈아타다·옮겨 가다 |
+| layover | /ˈleɪˌoʊvɚ/ | 환승 대기 시간 (짧게 갈아타는 대기) |
+| stopover | /ˈstɑˌpoʊvɚ/ | 24시간 이상 머무는 경유 |
+| minimum connection time | /ˈmɪnəməm kəˈnɛkʃən taɪm/ | 최소 환승 시간 |
+| inbound slips | /ˌɪnˈbaʊnd slɪps/ | 들어오는 편이 지연되다 |
+| direct | /dɚˈɛkt/ | 편명이 바뀌지 않는 편 |
+
 ## Expressions
 | a connecting flight | 연결 항공편 — 한 여정으로 산 두 번째(이후) 구간. 항공권의 성격을 가리킨다 |
 | your connection | 갈아타는 그 편 자체. "Austin is my connection" |

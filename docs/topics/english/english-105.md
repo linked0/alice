@@ -28,6 +28,13 @@ Jay: Exactly. Let's ask for the total cost at our volume in one number. That's h
 1. **의심은 진행형으로 말하고, 근거를 바로 붙인다.** "he's trying to pull a fast one"은 아직 확인되지 않은 의심이라 "he pulled a fast one"보다 부드럽고, 뒤에 "the per-transaction rate went up"처럼 숫자를 붙여야 뒷담화가 아니라 분석이 된다.
 2. **상대가 강도를 되묻으면 수위를 명확히 한다.** "not saying it's fraud, just that he's up to something" — 비난과 의심을 구분해 주면 대화가 방어적으로 흐르지 않는다.
 
+
+
+## Words
+| on paper | /ɑn ˈpeɪpɚ/ | 서류상으로는, 이론상으로는 |
+| someone | /ˈsʌmˌwʌn/ | 잔꾀로 속이다, 수작 부리다 |
+| something | /ˈsʌmθɪŋ/ | 뭔가 꾸미고 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

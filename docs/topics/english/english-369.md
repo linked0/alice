@@ -24,6 +24,13 @@ Jay: No, it's personal now. If it were technical they'd still be arguing; they f
 1. **다툼의 원인은 "over + 명사"로 붙인다.** "a falling-out over a trivial misunderstanding" — about이 아니라 over가 기본형이다.
 2. **명사 a falling-out과 동사 fall out을 한 대화 안에서 함께 쓴다.** "They had a falling-out… they fell out, so they went quiet" — 형태를 바꿔 반복하면 둘 다 몸에 남는다.
 
+
+
+## Words
+| it's personal now | /ɪts ˈpɝsɪnəl naʊ/ | 이제 감정 문제다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~와 사이가 틀어지다 |
+| something | /ˈsʌmθɪŋ/ | ~때문에 다투고 멀어지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

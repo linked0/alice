@@ -28,6 +28,12 @@ Jay: That's the biblical figurative sense. Fine to explain, not a word I'd use a
 1. **무거운 단어는 "누가 말하고 있는가"로 설명하면 깔끔하다.** "the narrator is quoting a sermon"이면 번역 선택이 바로 납득된다.
 2. **쓰지 않을 단어라는 선을 스스로 그어 둔다.** "Fine to explain, not a word I'd use about anyone living."이 안전한 사용 범위다.
 
+
+
+## Words
+| figurative sense | /ˈfɪɡjɚətɪv sɛns/ | 비유적 의미 |
+| something | /ˈsʌmθɪŋ/ | ~을 죄목으로 부르다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

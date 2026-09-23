@@ -28,6 +28,12 @@ Jay: Nothing that grand. I just want the paymaster flow to be boring enough that
 1. **칭찬은 전해 들은 형태로, 근거 하나를 붙여서.** "I heard you made quite a name for yourself… with one of the first client libraries" — 무엇으로 유명한지 한 구절을 더하면 인사치레가 아니라 아는 사람의 말이 된다.
 2. **되돌아온 질문에는 겸손을 유머로 푼다.** "Nothing that grand. I just want… boring enough that nobody remembers who wrote it" — 자기 자랑 대신 일의 목표를 말하며 빠져나간다.
 
+
+
+## Words
+| that counts | /ðæt kaʊnts/ | 그것도 쳐준다, 그것으로 충분하다 |
+| yourself | /jɚˈsɛlf/ | 이름을 알리다, 평판을 얻다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

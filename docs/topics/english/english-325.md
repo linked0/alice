@@ -28,6 +28,12 @@ Jay: Fair. Next time: deploy at noon, lunch right after, gym in the evening.
 1. **과장 표현은 "I feel like I'm going to..."로 감싸면 안전하다.** 실제 사실이 아니라 느낌이라는 신호가 되어 상대가 놀라지 않는다.
 2. **상대가 걱정하면 과장임을 바로 밝히고 사실만 남긴다.** "I'm exaggerating ... but my hands are shaking"처럼 농담과 진짜 증상을 구분해 준다.
 
+
+
+## Words
+| keel over | /kil ˈoʊvɚ/ | (갑자기) 쓰러지다 |
+| skip lunch | /skɪp lʌntʃ/ | 점심을 거르다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

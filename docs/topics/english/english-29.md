@@ -31,6 +31,16 @@ Rachel: All right. Put the six packages in the review, and send me the list.
 2. **고칠 수 있는 것에 회의를 쓴다.** "only the second one is ours to fix, so that's the one I want to spend this meeting on." 책임 소재 논쟁을 행동으로 바꾸는 한 문장.
 3. **이미 고친 것으로 소유를 증명한다.** "As of this morning, the build fails… That took two hours; it should have taken two hours a year ago." 사과 대신 완료된 수정과 솔직한 자책 한 줄. 이것이 신뢰를 회복한다.
 
+
+
+## Words
+| two different failures | /tu ˈdɪfɚənt ˈfeɪljɚz/ | 서로 다른 두 실패 |
+| ours to fix | /ˈaʊɚz tu fɪks/ | 우리가 고칠 몫 |
+| process gap | /ˈprɑˌsɛs ɡæp/ | 프로세스 공백 |
+| I own both | /aɪ oʊn boʊθ/ | 둘 다 제 책임입니다 |
+| not as surprises | /nɑt æz sɚˈpraɪzɪz/ | 놀람이 아니라 |
+| post-mortem | /poʊstˈmɔrtɛm/ | 사후 분석 |
+
 ## Expressions
 | two different failures | 서로 다른 두 실패 |
 | ours to fix | 우리가 고칠 몫 |

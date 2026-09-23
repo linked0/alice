@@ -24,6 +24,15 @@ Jay: That's the part I'd want in writing if I'm paid partly in equity.
 1. **상대의 설명에 전문 용어를 붙여 확인한다.** "So a private placement." 한 마디로 이해했음을 보이고 대화를 한 단계 위로 올린다.
 2. **장점 뒤에 대가를 묻는 형식.** "cheaper …, but the shares are hard to sell later, right?" — 금융 대화에서 균형 잡힌 질문을 만드는 틀이다.
 
+
+
+## Words
+| private placement | /ˈpraɪvət ˈpleɪsmənt/ | 사모 발행 |
+| raising | /ˈreɪzɪŋ/ | 자본 조달 방식 |
+| capital | /ˈkæpətəl/ | 자본 조달 방식 |
+| partly | /ˈpɑrtli/ | 보수의 일부를 지분으로 받다 |
+| equity | /ˈɛkwəti/ | 보수의 일부를 지분으로 받다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

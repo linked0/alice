@@ -26,6 +26,12 @@ Lena: Friday, then. If nothing changes, we talk to him properly.
 1. **선의의 해석에는 기한을 붙인다.** "give him the benefit of the doubt until Friday" — 기한이 있어야 무른 판단이 아니라 판단의 유예로 들린다.
 2. **나빠 보인다는 사실을 먼저 인정한다.** "It looks bad, I'm just reading it the kinder way" — 사실을 부정하지 않아야 상대가 내 편들기를 진지하게 받아들인다.
 
+
+
+## Words
+| write something up | /raɪt ˈsʌmθɪŋ ʌp/ | (문제를) 공식 기록으로 남기다 |
+| sit untouched | /sɪt ənˈtʌtʃt/ | 손도 안 댄 채 방치되다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -24,6 +24,15 @@ Jay: I'm tired, not surprised. Next time I'll bring every stamped page I own and
 1. **체념의 관용구로 감정을 낮춘다.** "His reaction was par for the course"는 화를 내지 않으면서도 상황이 부당함을 드러내는 어른스러운 반응이다.
 2. **짜증과 놀람을 구분해서 말한다.** "I'm tired, not surprised" — 두 단어를 대비시키면 감정을 정확히 전달하면서 다툼을 피할 수 있다.
 
+
+
+## Words
+| course | /kɔrs/ | 늘 있는 일, 예상대로 |
+| somebody | /ˈsʌmˌbɑdi/ | ~을 받아 오라고 돌려보내다 |
+| something | /ˈsʌmθɪŋ/ | ~을 받아 오라고 돌려보내다 |
+| tired | /ˈtaɪɚd/ | 짜증이 아니라 지쳤다 |
+| surprised | /sɚˈpraɪzd/ | 짜증이 아니라 지쳤다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: I will. I'd rather lose the evening getting my bearings than arrive lost to
 1. **적응 시간을 요구가 아니라 계획으로 말한다.** "I need an hour to get my bearings."는 게으름이 아니라 준비로 들린다.
 2. **길 안내는 기준선 하나로 준다.** "north of the river… everything else is south" — 지도보다 강·큰길 하나가 기억에 남는다.
 
+
+
+## Words
+| get one's bearings | /ɡɛt wʌnz ˈbɛrɪŋz/ | 방향을 잡다, 새 환경에 적응하다 |
+| lose one's bearings | /luz wʌnz ˈbɛrɪŋz/ | 방향 감각을 잃다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Thank you. I'd rather fix the gate than keep flailing.
 1. **소용없는 몸짓을 말할 때 "but it doesn't help"를 붙인다.** 동작과 결과를 한 문장에 담는 틀이라 불평이 짧고 또렷해진다.
 2. **불평을 요청으로 바꾼다.** "Then could we put the parcel box at the main gate?" — 상황 설명 뒤 바로 구체적인 변경을 제안한다.
 
+
+
+## Words
+| wave to somebody | /weɪv tu ˈsʌmˌbɑdi/ | 손을 흔들어 인사하다 |
+| system | /ˈsɪstəm/ | 그건 방법이 아니다 |
+| meeting | /ˈmitɪŋ/ | 회의 안건으로 올리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

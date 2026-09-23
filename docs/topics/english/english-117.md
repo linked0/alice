@@ -28,6 +28,12 @@ Jay: None of those. Good to know, though; I'd have assumed betaxolol was just an
 1. **약 이름 대신 계열을 묻는다.** "What is betaxolol, exactly?"에 돌아온 답은 "It's a beta-blocker"였다. 계열 단어 하나가 부작용과 상호작용을 한꺼번에 설명한다.
 2. **설명을 듣고 함의를 되묻는다.** "A beta-blocker in an eye drop? So it can still affect the heart?" — 이해했다는 신호이자, 약사가 확인 질문을 꺼내게 만드는 되묻기다.
 
+
+
+## Words
+| eye pressure | /aɪ ˈprɛʃɚ/ | 안압 |
+| get absorbed | /ɡɛt əbˈzɔrbd/ | 흡수되다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

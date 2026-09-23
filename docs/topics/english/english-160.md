@@ -28,6 +28,12 @@ Jay: Then the base case holds. We're not betting the company on a vote in Washin
 1. **"X, not Y"를 두 번 겹쳐 쓰면 무엇이 변하고 무엇이 안 변하는지가 한 호흡에 정리된다.** "cheaper distribution, not a different product. Passage is upside, not the plan." — 투자자가 가장 듣고 싶은 "의존하지 않는다"가 문장 구조 자체로 전달된다.
 2. **추상어를 쓰면 되물음에 대비해 구체적 한 줄을 준비한다.** "Fewer state-by-state hoops, so partners can integrate us without their own legal review." — distribution이 무엇인지를 사례로 푼다.
 
+
+
+## Words
+| cheaper distribution | /ˈtʃipɚ ˌdɪstrəˈbjuʃən/ | 제품을 고객에게 닿게 하는 비용이 낮아짐 |
+| passage | /ˈpæsədʒ/ | 법안 통과 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

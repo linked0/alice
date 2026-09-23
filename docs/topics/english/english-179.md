@@ -28,6 +28,14 @@ Jay: No. In the retro it's "we had no deploy lock and no owner." Clownshow is fo
 1. **속어는 친구 앞에서 쓰고, 회고에서는 원인 문장으로 바꾼다.** "In the retro it's 'we had no deploy lock and no owner.'" — 같은 사건을 판단 없는 사실로 다시 말한다.
 2. **되묻는 상대에게는 비유를 한 단계 더 밀어서 설명한다.** "A circus with worse planning." — 뜻 설명과 농담을 한 문장에 담는다.
 
+
+
+## Words
+| deploy lock | /dɪˈplɔɪ lɑk/ | 배포 잠금 |
+| total | /ˈtoʊtəl/ | 완전 엉망진창 |
+| nobody | /ˈnoʊˌbɑˌdi/ | 아무도 그 환경을 책임지지 않았다 |
+| environment | /ɪnˈvaɪrənmənt/ | 아무도 그 환경을 책임지지 않았다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

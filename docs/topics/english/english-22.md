@@ -33,6 +33,13 @@ Jay: Monday is fine. And to be clear: if the answer is 105 and 12k, call me anyw
 2. **여러 라운드 대신 한 번의 요청.** "one clear ask rather than several rounds… I sign Friday, and I won't come back for more." 리크루터에게 내부에서 팔 수 있는 패키지를 준다. 확정성이 곧 협상력이다.
 3. **근거는 회사의 언어로.** "there's no ramp… the number has to survive a currency I don't earn in yet." 내 필요가 아니라 회사의 리스크 감소와 객관적 사정으로 말한다.
 
+
+
+## Words
+| one clear ask | /wʌn klɪr æsk/ | 명확한 요청 하나 |
+| several rounds | /ˈsɛvrəl raʊndz/ | 여러 라운드 |
+| there's no ramp | /ðɛrz noʊ ræmp/ | 적응 기간이 없다 |
+
 ## Expressions
 | get to a yes | 예스에 도달하다 |
 | one clear ask | 명확한 요청 하나 |

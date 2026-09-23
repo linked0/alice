@@ -28,6 +28,13 @@ Jay: That works, though with a job the word sounds like a warning, not a calling
 1. **건축 용어는 구조를 한 문장으로 그려 준다.** "Covered on one side, open to the garden on the other." 정의보다 형태 묘사가 기억에 남는다.
 2. **비유로 쓸 때 어감이 바뀐다는 점을 덧붙인다.** "with a job the word sounds like a warning, not a calling."
 
+
+
+## Words
+| cloister | /ˈklɔɪstɚ/ | (성당·수도원의) 회랑 |
+| cloistered life | /ˈklɔɪstɚd laɪf/ | 세상과 떨어진 삶 |
+| by choice | /baɪ tʃɔɪs/ | 스스로 택해서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

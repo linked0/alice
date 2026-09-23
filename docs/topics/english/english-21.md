@@ -33,6 +33,15 @@ Jay: Then the pure function is the thing I keep and the storage is the thing I c
 2. **가정을 소리 내어 말하고 반박을 초대한다.** "I'll say my key assumption out loud… Push back if that's wrong." 틀린 가정으로 20분을 쓰는 것이 시스템 설계 면접에서 떨어지는 가장 흔한 길이다.
 3. **트레이드오프의 소유권을 돌려준다.** "That's the trade, and it's yours to make, not mine." 시니어 신호. 정답을 고집하지 않고 결정을 요구사항에 묶는다.
 
+
+
+## Words
+| problem I invented | /ˈprɑbləm aɪ ˌɪnˈvɛntəd/ | 내가 만들어낸 문제 |
+| roughly | /ˈrʌfli/ | 대략 |
+| wrong versus late | /rɔŋ ˈvɝsəs leɪt/ | 잘못 대 늦음 |
+| pure function of | /pjʊr ˈfʌŋkʃən ʌv/ | ~의 순수 함수 |
+| only reversible failure | /ˈoʊnli rɪˈvɝsəbəl ˈfeɪljɚ/ | 되돌릴 수 있는 유일한 실패 |
+
 ## Expressions
 | take it wherever you like | 원하는 방향으로 가져가라 |
 | before I draw anything | 무엇을 그리기 전에 |

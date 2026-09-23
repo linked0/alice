@@ -28,6 +28,13 @@ Jay: And "voluntary" says nothing about the victim. That was my mistake; I read 
 1. **모순처럼 보이는 두 정의는 용어를 나누어 사다리로 정리한다.** "the ladder is murder at the top, then voluntary manslaughter, then involuntary manslaughter" — 법률 용어는 등급 구조로 외우면 헷갈리지 않는다.
 2. **오해한 지점을 그대로 말한다.** "That was my mistake; I read it as consent." — 뭘 잘못 읽었는지 밝히면 상대가 정확히 그 부분을 바로잡아 준다.
 
+
+
+## Words
+| manslaughter | /ˈmænˌslɔtɚ/ | 고살, 살인 고의 없는 살해 |
+| voluntary manslaughter | /ˈvɑləntɛri ˈmænˌslɔtɚ/ | 격정에 의한 고의 살해 |
+| involuntary manslaughter | /ˌɪnˈvɑlənˌtɛri ˈmænˌslɔtɚ/ | 과실치사 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

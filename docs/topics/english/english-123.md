@@ -28,6 +28,13 @@ Jay: Exactly why it fits. Fine, from Monday the greetings go; the "thanks" stays
 1. **놀림은 웃으며 되돌려 준다.** "Says the guy who has never once used an emoji." — 방어 대신 상대의 습관을 같은 무게로 되짚으면 분위기가 유지된다.
 2. **같은 계열의 단어를 골라 강도를 조절한다.** "If I'm way too proper, you're way too square." — proper(점잖은)보다 한 단계 센 square를 써서 농담의 균형을 맞춘다.
 
+
+
+## Words
+| way too proper | /weɪ tu ˈprɑpɚ/ | 너무 점잖은, 격식을 지나치게 차리는 |
+| square | /skwɛr/ | 고지식하고 재미없는 (낡은 속어) |
+| uptight | /əpˈtaɪt/ | 긴장해서 경직된 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

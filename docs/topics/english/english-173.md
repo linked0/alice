@@ -28,6 +28,12 @@ Jay: Perfect. Then I'll wire the deposit as soon as I've signed.
 1. **마지막 조건을 붙이면서 바로 마무리 제안을 한다.** "Eighteen hundred with the parking spot included, and I'm in. Let's shake on it." — 조건과 확정을 한 호흡에 넣어 협상을 끝낸다.
 2. **악수한 뒤 문서를 요청하되, 악수를 의심하는 말처럼 들리지 않게 이유를 붙인다.** "We've shaken on it, so I'll treat it as settled, but could you send the written lease tonight? My employer needs a copy."
 
+
+
+## Words
+| shake on it | /ʃeɪk ɑn ɪt/ | 악수로 합의를 확정하다 |
+| in writing | /ɪn ˈraɪtɪŋ/ | 문서로 / 서면 계약서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

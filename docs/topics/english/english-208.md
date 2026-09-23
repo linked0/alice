@@ -28,6 +28,12 @@ Jay: Never. The word already takes his side, so you choose it on purpose.
 1. **단어가 이미 입장을 담고 있음을 안다.** "The word already takes his side, so you choose it on purpose." — 중립적으로 보이는 동사도 화자의 판단을 드러낸다.
 2. **현재완료진행으로 "아직도 그렇다"를 만든다.** "has been languishing ... for the past 20 years" — 시작과 지속과 현재를 한 형태에 담는다.
 
+
+
+## Words
+| languish in jail | /ˈlæŋɡwɪʃ ɪn dʒeɪl/ | 감옥에서 잊힌 채 고달프게 지내다 |
+| serve a sentence | /sɝv ə ˈsɛntəns/ | 형을 살다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

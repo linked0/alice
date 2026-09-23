@@ -24,6 +24,13 @@ Jay: Good, because "issue" threw me — I read it as a problem at first. Here it
 1. **금융 용어는 정의를 한 문장으로 되짚어 확인한다.** "Cheap new shares offered to the people who already hold them, in proportion" — 상대의 설명을 내 말로 바꿔 말하면 오해가 그 자리에서 잡힌다.
 2. **오해한 단어를 솔직히 말하면 기억에 남는다.** "'issue' threw me — I read it as a problem at first."
 
+
+
+## Words
+| rights issue | /raɪts ˈɪʃu/ | 신주의 주주할당 발행 |
+| first refusal | /fɝst rəˈfjuzəl/ | 우선 매수권 |
+| X threw me | /ɛks θru mi/ | X 때문에 헷갈렸다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

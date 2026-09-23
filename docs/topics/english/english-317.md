@@ -28,6 +28,13 @@ Jay: Then I'll take the data platform and give billing a wide berth until the ow
 1. **회피를 부드럽지만 단호하게 말한다.** "give billing a wide berth until the ownership settles" — 조건을 붙이면 감정이 아니라 판단으로 들린다.
 2. **조언을 받으면 내 말로 다시 정의해 확인한다.** "A wide berth is more than 'don't join', isn't it?"
 
+
+
+## Words
+| something | /ˈsʌmθɪŋ/ | ~을 멀찍이 피하다 |
+| ownership | /ˈoʊnɚˌʃɪp/ | 담당이 정리될 때까지 |
+| settles | /ˈsɛtəlz/ | 담당이 정리될 때까지 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

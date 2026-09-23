@@ -28,6 +28,13 @@ Jay: Not the word. But I'd say I saw who approved the config, and I'd say it in 
 1. **강한 단어를 고를 때는 약한 단어와 대비시켜 차이를 한 줄로 말한다.** "Cowardly is being scared. Craven is being scared and letting someone else take the hit for you." — 정의가 아니라 대비로 뜻을 세운다.
 2. **판단의 단어와 실제로 할 말을 구분한다.** "Not the word. But I'd say I saw who approved the config" — 사석의 어휘와 공적인 자리의 행동을 나눠 말하면 감정적으로 들리지 않는다.
 
+
+
+## Words
+| craven | /ˈkreɪvən/ | 경멸스럽게 비겁한 |
+| take the hit | /teɪk ðə hɪt/ | 타격을 대신 받다 |
+| his face | /hɪz feɪs/ | 면전에서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

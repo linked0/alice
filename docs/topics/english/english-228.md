@@ -28,6 +28,13 @@ Jay: Unqualified. That's why I said nobody could fault it.
 1. **칭찬은 부정문으로 하면 더 강해진다.** "could not fault her dedication" — 흠을 찾지 못했다는 형식이 형용사 칭찬보다 무게가 있다.
 2. **칭찬과 유보는 문장을 나눈다.** "A separate one, not a qualification of that" — 같은 문장에 붙이면 앞의 칭찬이 통째로 깎인다.
 
+
+
+## Words
+| cannot fault something | /ˈkænɑt fɔlt ˈsʌmθɪŋ/ | ~에 흠잡을 데가 없다 |
+| chase somebody | /tʃeɪs ˈsʌmˌbɑdi/ | (일 진척을) 재촉하다 |
+| unqualified | /ənˈkwɑlɪˌfaɪd/ | 단서 없는, 무조건적인 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

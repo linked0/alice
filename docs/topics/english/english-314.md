@@ -28,6 +28,12 @@ Jay: Saturday I'm free. Pick the place and I'll be there at seven.
 1. **거절에는 이유와 대안과 확답을 함께 붙인다.** "I'm slammed until the release on Friday" → "Saturday I'm free. Pick the place and I'll be there at seven."
 2. **속어는 상대와 매체에 따라 갈아 끼운다.** 동료에게는 slammed, 고객에게는 "my week is very full".
 
+
+
+## Words
+| be slammed | /bi slæmd/ | 일이 밀려 정신없다 |
+| critics | /ˈkrɪtɪks/ | 혹평했다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

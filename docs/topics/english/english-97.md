@@ -28,6 +28,12 @@ Jay: Then we have a reason, on the record, and we build our own.
 1. **"In light of + 사실"로 결론의 근거를 먼저 내놓는다.** "In light of our boss's brotherhood pledge at the all-hands, shipping a competing dashboard would look like a declaration of war." — 근거를 앞세우면 반대가 개인 의견이 아니라 상황 판단으로 들린다.
 2. **반대만 하지 않고 검증 가능한 대안을 붙인다.** "let's send them a PR… and see how fast they merge it" — 상대 팀의 협조를 시험하는 조건이 곧 다음 행동이 된다.
 
+
+
+## Words
+| given X | /ˈɡɪvən ɛks/ | X를 고려하면 |
+| declaration of war | /ˌdɛklɚˈeɪʃən ʌv wɔr/ | 선전포고 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

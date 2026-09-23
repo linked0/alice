@@ -28,6 +28,14 @@ Jay: It always does. Investors read "acqui-hiring" as "the tech wasn't worth muc
 1. **업계 용어는 "So it's X — 풀어 쓴 설명" 형태로 확인한다.** "So it's an acqui-hire — they bought the company to get the engineers, not the software."처럼 말하면 상대도 정정하기 쉽다.
 2. **용어가 감추는 것을 한 줄로 짚는다.** 보도자료가 왜 다른 단어를 쓰는지 말하는 것은 자연스러운 업계 잡담 소재다.
 
+
+
+## Words
+| press release | /prɛs riˈlis/ | 보도자료 |
+| wanted | /ˈwɔntɪd/ | 그쪽이 원한 건 팀이었다 |
+| switch | /swɪtʃ/ | 제품을 종료하다 |
+| product | /ˈprɑdəkt/ | 제품을 종료하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

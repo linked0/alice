@@ -26,6 +26,14 @@ Ken: Good. I nearly put it in an email.
 1. **격식 단어는 쓰이는 자리부터 확인한다.** "Malfeasance sounds like a courtroom or a newspaper, not a standup" — 뜻을 알아도 자리를 모르면 이메일에서 사고가 난다.
 2. **뜻이 겹치는 단어는 무엇을 더 말하는지로 구분한다.** malfeasance는 corruption에 더해 위법성과 직위를 함께 말한다.
 
+
+
+## Words
+| malfeasance | /ˌmælˈfizəns/ | (공직자의) 불법 행위 |
+| misconduct | /mɪˈskɑndəkt/ | 부정 행위, 비위 |
+| hold an office | /hoʊld æn ˈɔfɪs/ | 공직·직책을 맡다 |
+| unlawful | /ənˈlɔfəl/ | 위법한 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

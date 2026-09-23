@@ -28,6 +28,12 @@ Jay: Twelve percent. On its own that sounds small. Once you know it's a single-k
 1. **숫자가 오해될 것 같으면 순서를 뒤집고, 뒤집는 데 걸릴 시간을 먼저 말한다.** "I want to tell you what the number is worth first. Thirty seconds." — 시간을 못 박으면 상사가 기다려 준다.
 2. **지표를 설명할 때는 "무엇이 아닌지"를 한 줄 넣는다.** "It's not a loss estimate. It's how much trust we're placing in one key." — 오해의 여지를 먼저 닫는다.
 
+
+
+## Words
+| on its own | /ɑn ɪts oʊn/ | 그것만 놓고 보면 |
+| exposure | /ɪkˈspoʊʒɚ/ | 익스포저, 위험 노출 규모 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

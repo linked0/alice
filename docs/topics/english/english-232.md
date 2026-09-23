@@ -28,6 +28,13 @@ Jay: Reading groups and internal talks. They cost hours, not budget.
 1. **없어진 계획은 완곡어 대신 한 표현으로 정리한다.** "The conference trip goes by the board" — 접었다고 분명히 말해야 목록이 유령처럼 남지 않는다.
 2. **폐기와 연기를 구분해서 말한다.** "Dropped, not postponed" — 두 단어 대비만으로 상대의 기대치를 맞출 수 있다.
 
+
+
+## Words
+| across the board | /əˈkrɔs ðə bɔrd/ | 전면적으로 |
+| dropped | /drɑpt/ | 연기가 아니라 폐기 |
+| postponed | /poʊstˈpoʊnd/ | 연기가 아니라 폐기 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

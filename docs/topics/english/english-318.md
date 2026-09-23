@@ -28,6 +28,13 @@ Jay: Three letters, and completely different worlds. The lioness made a kill; th
 1. **혼동 쌍은 한 문장에 나란히 넣어 외운다.** "The lioness made a kill; the trader made a killing."
 2. **틀렸을 때 상대에게 어떻게 들리는지까지 말해 준다.** "people hear a documentary" — 결과를 그려 주면 기억에 박힌다.
 
+
+
+## Words
+| make a kill | /meɪk ə kɪl/ | (포식자가) 사냥에 성공하다 |
+| make a killing | /meɪk ə ˈkɪlɪŋ/ | 큰돈을 단번에 벌다 |
+| pride of lions | /praɪd ʌv ˈlaɪənz/ | 사자 무리 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

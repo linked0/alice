@@ -28,6 +28,14 @@ Jay: Hands off the how, firm on the what and the when. That's the sentence I'll 
 1. **차용어는 분야에 따라 어조가 뒤집힌다는 걸 기억한다.** "In economics it's a doctrine, but about a manager it usually means absent."
 2. **위임을 말할 땐 놓지 않는 것을 함께 말한다.** "Hands off the how, firm on the what and the when." — 면접에서 바로 쓸 수 있는 한 문장이다.
 
+
+
+## Words
+| hands off | /hændz ɔf/ | 손을 떼는 / 직접 챙기는 |
+| capitalism | /ˈkæpɪtəˌlɪzəm/ | 자유방임적 자본주의 |
+| hands-on | /ˌhænˈzɔn/ | 손을 떼는 / 직접 챙기는 |
+| someone's | /ˈsʌmˌwʌnz/ | ~의 작업을 곁에서 감시하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

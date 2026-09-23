@@ -30,6 +30,14 @@ Jay: It usually is, the second time.
 2. **훈계 대신 습관 하나.** "one more search, in rails… Five minutes, every time. That's the whole lesson." 교훈을 한 문장으로 제한하면 실제로 남는다.
 3. **살릴 것을 찾는다.** "Keep the test, swap the implementation." 전면 부정 대신 PR 안의 좋은 부분을 지목해 다시 쓸 동력을 준다.
 
+
+
+## Words
+| before the code | /bɪˈfɔr ðə koʊd/ | 코드 얘기 전에 |
+| instinct was right | /ˈɪnstɪŋkt wɑz raɪt/ | 본능은 맞았다 |
+| keep that | /kip ðæt/ | 그건 유지하라 |
+| habit I'd add | /ˈhæbət aɪd æd/ | 내가 추가하고 싶은 습관 |
+
 ## Expressions
 | before the code | 코드 얘기 전에 |
 | the instinct was right | 본능은 맞았다 |

@@ -28,6 +28,13 @@ Jay: And I will help, which is different from owning it.
 1. **격식체와 회의체를 나눠 쓴다.** "In the meeting I would just say it isn't our call. In the minutes I will use the charter's words." 같은 내용을 자리에 맞게 두 가지로 말할 줄 알면 방어적으로 들리지 않는다.
 2. **책임과 도움을 분리한다.** "I will help, which is different from owning it."은 협조하면서도 소유권 논쟁에서 물러서지 않는 문장이다.
 
+
+
+## Words
+| devolve upon somebody | /dɪˈvɑlv əˈpɑn ˈsʌmˌbɑdi/ | (의무가) ~에게 넘어오다 |
+| own something | /oʊn ˈsʌmθɪŋ/ | ~를 책임지고 맡다 |
+| get paged | /ɡɛt peɪdʒd/ | 호출을 받다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

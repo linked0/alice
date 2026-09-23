@@ -28,6 +28,13 @@ Jay: Food scraps. So never call the canteen lunch slop where they can hear you.
 1. **비슷한 동사는 장면의 조건으로 가른다.** "It needs a full cup and a sudden movement" — spill과 slop의 차이를 정의가 아니라 조건으로 설명한다.
 2. **같은 철자의 명사 뜻은 경고와 함께 붙인다.** "never call the canteen lunch slop" — 뜻과 쓰면 안 되는 자리를 한 번에 기억하게 한다.
 
+
+
+## Words
+| spill | /spɪl/ | 쏟다 |
+| train jolted | /treɪn ˈdʒoʊltɪd/ | 전철이 덜컹거렸다 |
+| food scraps | /fud skræps/ | 음식물 찌꺼기 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

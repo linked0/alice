@@ -24,6 +24,12 @@ Jay: Only if you say it about someone else. About my own habits it's a joke, whi
 1. **자기 습관에 먼저 붙이면 놀림이 농담으로 바뀐다.** "I know it's fogeyish"처럼 상대가 말하기 전에 내가 그 단어를 꺼내면 공격이 아니라 자조가 된다.
 2. **생소한 단어는 바로 한 줄 풀이를 붙인다.** "old-fashioned in a fussy way" — 단어 뒤에 짧은 정의를 이어 붙이면 대화가 끊기지 않는다.
 
+
+
+## Words
+| plain text | /pleɪn tɛkst/ | 서식 없는 텍스트 |
+| fussy | /ˈfʌsi/ | 깐깐하게, 유난스럽게 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

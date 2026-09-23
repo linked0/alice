@@ -28,6 +28,14 @@ Jay: Fine. "The platform work ended, and I wanted a team-lead role." Then silenc
 1. **몸의 반응을 내가 먼저 이름 붙이면 방어가 아니라 자각이 된다.** "I squirmed. That question makes me squirm every time."
 2. **불안할수록 답을 짧게 자르고 멈춘다.** "Two sentences, then stop and let them ask." — 침묵을 견디는 것이 면접의 기술이다.
 
+
+
+## Words
+| squirm | /skwɝm/ | 꼼지락대다 |
+| make somebody squirm | /meɪk ˈsʌmˌbɑdi skwɝm/ | ~를 안절부절못하게 만들다 |
+| fill the silence | /fɪl ðə ˈsaɪləns/ | 침묵을 말로 메우다 |
+| let them ask | /lɛt ðɛm æsk/ | 상대가 묻게 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

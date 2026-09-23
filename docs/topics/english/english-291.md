@@ -28,6 +28,12 @@ Jay: I know. Their sandbox is flaky too, but I'll put that more diplomatically i
 1. **"It's X, not Y" 구문으로 오해를 먼저 끊는다.** "It's flaky, not wrong." 한 줄로 삭제하자는 주장의 전제를 무너뜨린다.
 2. **같은 단어라도 상대가 바뀌면 표현을 바꾼다고 예고한다.** "I'll put that more diplomatically in the email." 내부 어휘와 외부 어휘를 구분하는 습관이다.
 
+
+
+## Words
+| flaky | /ˈfleɪki/ | 불안정한, 못 미더운 |
+| quarantine a test | /ˈkwɔrənˌtin ə tɛst/ | 테스트를 격리하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

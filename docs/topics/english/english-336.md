@@ -28,6 +28,12 @@ Jay: Exactly — a noun or an -ing after "of". Day to day I'd just say I was abo
 1. **오래된 표현은 "평소엔 이렇게 말한다"를 함께 붙인다.** "Day to day I'd just say I was about to knock."이 없으면 문어체를 회화에 잘못 쓰게 된다.
 2. **of 뒤 형태를 예문으로 확인시킨다.** 상대가 "within an ace of losing the match"라고 만들어 보게 두면 문법이 몸에 남는다.
 
+
+
+## Words
+| hair away from | /hɛr əˈweɪ frʌm/ | 종이 한 장 차이로 |
+| within | /wɪˈðɪn/ | 하마터면 ~할 뻔한, 막 ~하려는 찰나 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,13 @@ Jay: Both, but the timing is about them. Once the market stops being skittish, w
 1. **낯선 형용사는 이미지로 풀어 준다.** "Not angry, jumpy. Like a horse that bolts at a car door slamming" — 상대가 뜻을 물으면 어원 이미지 한 줄이 가장 빠른 정의다.
 2. **감정 상태와 조치를 연결해 말한다.** "holders are skittish… so we want the reserves visibly off any exchange" — 시장 심리 단어 뒤에 "so"로 실행 이유를 붙인다.
 
+
+
+## Words
+| skittish | /ˈskɪtɪʃ/ | 겁이 많고 잘 놀라는, (시장·투자자가) 불안한 |
+| jumpy | /ˈdʒʌmpi/ | 신경이 곤두선, 잘 놀라는 |
+| revisit the split | /riˈvɪzɪt ðə splɪt/ | 배분을 다시 검토하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

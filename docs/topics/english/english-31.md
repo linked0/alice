@@ -31,6 +31,13 @@ Lucas: Friday, then.
 2. **할 수 없는 것을 먼저 말한다.** "I can't match twenty percent today, and I won't pretend I can." 지킬 수 없는 약속 하나가 남은 신뢰를 다 쓴다. 그리고 기한을 붙인다("by Friday, including if the answer is no").
 3. **떠나는 경우를 미리 좋게 만든다.** "you go with a good reference and a handover we plan together." 붙잡기가 아니라 관계 유지. 이 문장이 역설적으로 남을 확률을 높인다.
 
+
+
+## Words
+| before you decided | /bɪˈfɔr ju ˌdɪˈsaɪdɪd/ | 결정하기 전에 |
+| symptom | /ˈsɪmptəm/ | 증상(진짜 원인의 표면) |
+| own the rewrite | /oʊn ðə riˈraɪt/ | 재작성을 맡다(오너십) |
+
 ## Expressions
 | I haven't said yes | 아직 예스라고 하지 않았다 |
 | before you decided | 결정하기 전에 |

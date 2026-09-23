@@ -28,6 +28,12 @@ Jay: Right. Four hundred people lost money to a template. Petty operator, real d
 1. **구식 속어는 어원을 붙여 쓰면 농담이 된다.** "Two bits used to be 25 cents, so two-bit means worth a quarter" — 상대가 이상하게 들으면 바로 설명할 수 있어야 쓸 자격이 생긴다.
 2. **말과 글의 단어를 미리 나눈다.** "I'd write 'small-time' in the post-mortem" — 같은 판단을 서면에서는 중립어로 바꾼다고 대화 안에서 밝힌다.
 
+
+
+## Words
+| petty | /ˈpɛˌti/ | 잡범의, 사소한 |
+| fall for something | /fɔl fɔr ˈsʌmθɪŋ/ | ~에 속아 넘어가다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

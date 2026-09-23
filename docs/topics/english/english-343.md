@@ -28,6 +28,13 @@ Jay: Right. Nothing to do with wanting something. Same word, older sense.
 1. **평결을 한 문장으로 남길 때는 격식체 수동태가 안전하다.** "was tried and found wanting"은 사람을 탓하지 않고 결과만 말하므로 문서에 적기 좋다.
 2. **단어의 옛 뜻을 짚어 주면 오해가 사라진다.** "wanting there means lacking"처럼 한 줄만 덧붙이면 된다.
 
+
+
+## Words
+| fall short | /fɔl ʃɔrt/ | 기준에 못 미치다 |
+| wanting | /ˈwɑntɪŋ/ | 시험해 보니 부족한 것으로 드러난 |
+| didn't | /ˈdɪdənt/ | 잘 안 됐다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

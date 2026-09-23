@@ -28,6 +28,15 @@ Jay: Yes, and a scan of the history too. Twenty minutes is the window we noticed
 2. **범위 질문을 순서대로 던진다.** "what did that key open? Only that? Same app as…?" 사고 대응은 짧은 질문의 연쇄다.
 3. **알아챈 것과 실제를 구분한다.** "Twenty minutes is the window we noticed." 관측된 창과 진짜 창이 다를 수 있음을 짚어 후속 조치를 정당화한다.
 
+
+
+## Words
+| rotate a key | /ˈroʊˌteɪt ə ki/ | 키를 교체하다 |
+| right first move | /raɪt fɝst muv/ | 올바른 첫 조치 |
+| blast radius | /blæst ˈreɪdiəs/ | 피해 범위 |
+| usage spike | /ˈjusədʒ spaɪk/ | 사용량 급증 |
+| window we noticed | /ˈwɪndoʊ wi ˈnoʊtəst/ | 우리가 알아챈 창 |
+
 ## Expressions
 | the key was live for | 키가 …동안 유효했다 |
 | rotate a key | 키를 교체하다 |

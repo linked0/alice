@@ -28,6 +28,13 @@ Jay: That's the plan. Recovering from a flub is half the demo.
 1. **실수를 말할 때 규모를 한 문장으로 못 박는다.** "One word, and the whole demo was gone."처럼 원인과 결과를 나란히 놓으면 변명 없이 상황이 전달된다.
 2. **단어를 되물어 오면 뜻 + 쓰이는 자리 + 무게를 한 번에 준다.** "You flub a line, you flub a demo. It's a light word."
 
+
+
+## Words
+| mess something up | /mɛs ˈsʌmθɪŋ ʌp/ | 망치다 |
+| staging | /ˈsteɪdʒɪŋ/ | 운영 대신 스테이징 |
+| instead | /ˌɪnˈstɛd/ | 운영 대신 스테이징 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

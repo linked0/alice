@@ -26,6 +26,13 @@ Jay: Understood. Folklore yes, nationality joke no.
 1. **문화 관련 단어는 현지인에게 쓰는 자리를 직접 묻는다.** "Is a leprechaun a safe souvenir, or is it the cliché…?" — 뜻이 아니라 용법을 묻는 질문이다.
 2. **답을 한 줄로 요약해 확인한다.** "Folklore yes, nationality joke no" — 들은 규칙을 되짚어 말하면 기억에 남는다.
 
+
+
+## Words
+| leprechaun | /ˈlɛpɚkaʊn/ | 레프러콘 |
+| pot of gold | /pɑt ʌv ɡoʊld/ | 금 항아리 |
+| folklore | /ˈfoʊˌklɔr/ | 민담, 전승 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

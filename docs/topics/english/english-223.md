@@ -28,6 +28,13 @@ Jay: Then I'll keep both. Halo for the painting, halo effect for the bias.
 1. **모르는 단어는 문장으로 확인하고 뜻을 덧붙인다.** "That's the halo, right? The painted light that marks the figure as holy." — 단어만 묻지 말고 자기가 이해한 정의를 붙이면 상대가 바로 교정해 준다.
 2. **사전 뜻에서 비유 확장으로 넘어가기.** 그림의 halo에서 "the halo effect"로 옮겨 가며 같은 이미지(번지는 빛)를 짚으면 두 뜻이 한 덩어리로 기억된다.
 
+
+
+## Words
+| halo | /ˈheɪloʊ/ | 후광, 광륜 |
+| halo effect | /ˈheɪloʊ ɪˈfɛkt/ | 후광 효과 |
+| mark somebody as | /mɑrk ˈsʌmˌbɑdi æz/ | ~임을 표시하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

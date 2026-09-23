@@ -28,6 +28,12 @@ Jay: Exactly. It got you here, and that's real. It just won't get you to the nex
 1. **한계를 말하기 전에 성과를 인정한다.** "It got you here, and that's real. It just won't get you to the next number." — "only so far"는 진전을 부정하지 않고 천장을 짚는 표현이라 이 순서가 맞다.
 2. **"so far"와 "only so far"의 차이를 짧게 바로잡는다.** "No — 'only so far' means there's a ceiling." — 상대의 오해를 예시 한 줄("Hard work can only take you so far")로 고친다.
 
+
+
+## Words
+| top out | /tɑp aʊt/ | 한계에 닿다, 더 안 오르다 |
+| those don't scale | /ðoʊz doʊnt skeɪl/ | 그건 규모가 안 늘어난다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

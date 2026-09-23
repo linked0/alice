@@ -28,6 +28,13 @@ Jay: The mascot goes, one conference stays, and you show the board numbers befor
 1. **지출 이야기는 항목이 아니라 런웨이로 환산해서 말한다.** "that's five months of runway, not eleven"이 "비싸다"보다 훨씬 강하다.
 2. **관용구가 농담으로 쓰이는지 진담으로 쓰이는지 구분해 준다.** 부정문이면 농담, 긍정문이면 경고라는 감각을 한 문장으로 설명한다.
 
+
+
+## Words
+| break the bank | /breɪk ðə bæŋk/ | 감당 못 할 돈이 들다 |
+| wild spending | /waɪld ˈspɛndɪŋ/ | 통제되지 않은 지출 |
+| runway | /ˈrʌnˌweɪ/ | 남은 자금으로 버틸 수 있는 기간 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

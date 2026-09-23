@@ -28,6 +28,12 @@ Jay: Only as a joke. Saying our logs are good enough is blasphemy on this team.
 1. **번역어를 먼저 주고, 그 말이 덮는 범위를 말한다.** "It covers the religious insult and the old legal charge." 자막 번역에서는 범위가 곧 선택의 근거다.
 2. **진지한 뜻과 농담 용법을 분리해서 보여 준다.** "Only as a joke." 뒤에 실제 농담 한 문장을 붙이면 어디까지 허용되는지가 드러난다.
 
+
+
+## Words
+| blasphemy | /ˈblæsfəmi/ | 신성 모독 |
+| charge is X | /tʃɑrdʒ ɪz ɛks/ | 죄목은 X다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

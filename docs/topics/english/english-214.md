@@ -28,6 +28,12 @@ Jay: Same words. It's the safest way to tell someone they overreacted.
 1. **먼저 인정하고 But으로 뒤집는다.** "The protest closed a school for a day, sure. But ..." — 상대의 근거를 받아 주면 반대가 더 세게 선다.
 2. **"a little"로 세기를 조절한다.** "The 'a little' is deliberate." 완충어를 의식적으로 골랐다고 밝히면 애매함이 아니라 전략이 된다.
 
+
+
+## Words
+| overreact | /ˌoʊvɚriˈækt/ | 과잉 반응하다 |
+| little | /ˈlɪtəl/ | 선을 (좀) 넘다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

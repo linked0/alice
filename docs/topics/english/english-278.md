@@ -26,6 +26,13 @@ Marek: Noted. I'll hold you to it in two years.
 1. **위험한 예측은 예고 표현으로 감싼다.** "I'll go out on a limb and say…"를 앞에 붙이면 단정이 아니라 감수한 선택으로 들린다.
 2. **관용구의 뜻을 오해하면 한 문장으로 바로잡는다.** "Meaning nobody up here is standing with me on it" — 틀림이 아니라 고립이 핵심임을 짚는다.
 
+
+
+## Words
+| somebody | /ˈsʌmˌbɑdi/ | 한 말에 책임을 묻다 |
+| tooling | /ˈtulɪŋ/ | 도구가 이미 갖춰져 있다 |
+| already | /ɔlˈrɛdi/ | 도구가 이미 갖춰져 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

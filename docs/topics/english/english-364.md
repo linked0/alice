@@ -24,6 +24,12 @@ Jay: Ecclesiastes, four beats, stress on the "as". Knowing the source helps — 
 1. **인용 출처를 한 줄로 밝히는 법.** "It's from Ecclesiastes — the Old Testament book we call 전도서"처럼 영어 제목 + 한국어 대응어를 붙이면 상대가 바로 찾아본다.
 2. **발음을 묻는 질문에는 음절 수와 강세로 답한다.** "four beats, stress on the 'as'" — 길고 낯선 고유명사를 설명하는 실용적인 방법.
 
+
+
+## Words
+| nothing | /ˈnʌθɪŋ/ | 해 아래 새것이 없다 |
+| stress | /strɛs/ | "as"에 강세 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

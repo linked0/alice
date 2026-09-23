@@ -28,6 +28,12 @@ Jay: I won't. The team gets it in plain words: no listing until the ruling, and 
 1. **법률 동사는 전치사까지 묶어 외운다.** "'Enjoin someone from doing' means forbid, 'enjoin someone to do' means command." — from과 to가 뜻을 가르므로 구 단위로 기억한다.
 2. **격식어를 들으면 실무 언어로 바꿔 확인한다.** "so that's a court order to stop, not a recommendation?" — 법률 용어를 행동 지시로 번역해 되묻고, 팀에는 "in plain words"로 전달한다.
 
+
+
+## Words
+| injunction | /ˌɪnˈdʒʌŋkʃən/ | 가처분, 금지 명령 |
+| in plain words | /ɪn pleɪn wɝdz/ | 쉬운 말로 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

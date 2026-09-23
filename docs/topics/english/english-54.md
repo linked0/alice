@@ -28,6 +28,15 @@ Jay: Apology accepted. Now forward me the link.
 1. **must로 상대 행동의 이유를 추론해서 되돌려 준다.** "You must think so little of me"는 "네가 그렇게 행동했으니 나를 낮게 보는 게 분명하다"는 추론이지 명령이 아니다. 뒤에 근거("I've run three of those interviews")를 붙이면 감정이 아니라 반박이 된다.
 2. **상대가 부정하면 표현을 바꿔 말하게 시킨다.** "Then say that. 'Too much for you' sounds like…" — 상대의 말을 그대로 인용해 어떻게 들리는지 알려 주면 사과가 자연스럽게 나온다.
 
+
+
+## Words
+| must | /mʌst/ | 분명 ~일 것이다 |
+| little | /ˈlɪtəl/ | ~를 낮게 평가하다 |
+| someone | /ˈsʌmˌwʌn/ | ~를 낮게 평가하다 |
+| highly | /ˈhaɪli/ | ~를 높이 평가하다 |
+| inference | /ˈɪnfɚəns/ | 분명 ~일 것이다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

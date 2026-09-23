@@ -28,6 +28,14 @@ Jay: Removing it later costs a week too, so the spike is the cheaper week. Let's
 1. **보류를 요청할 때는 기간과 결과물을 함께 말한다.** "I'd rather we didn't agree yet. Give me a one-week spike and I'll bring numbers instead of opinions." — 막는 게 아니라 조건부 연기가 된다.
 2. **"would rather + 다른 주어"는 과거형.** "I'd rather we didn't agree", "I'd rather you waited". 주어가 나면 "I'd rather not decide".
 
+
+
+## Words
+| spike | /spaɪk/ | 짧은 기술 탐색 실험 |
+| rather | /ˈræðɚ/ | 우리 아직은 ~하지 않는 편이 좋겠다 |
+| didn't | /ˈdɪdənt/ | 우리 아직은 ~하지 않는 편이 좋겠다 |
+| deciding | /ˌdɪˈsaɪdɪŋ/ | 결정을 보류하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

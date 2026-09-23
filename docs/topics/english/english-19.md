@@ -28,6 +28,16 @@ Jay: No, it's on a state file. Only the listener changes. I'll do it after the c
 2. **피해를 정확한 크기로 말한다.** "Not a disaster, just a waste." 과장하면 신뢰를 잃고, 축소하면 무시된다. 크기를 맞춘다.
 3. **대안을 실행 절차와 함께 준다.** "I need to restart Anvil with --host 0.0.0.0" 원칙만 말하지 않고 다음 행동을 명시한다.
 
+
+
+## Words
+| no auth | /noʊ ɔθ/ | 인증 없음 |
+| Anvil | /ˈænvəl/ | 내 폰에서 당신의 Anvil에 접근하다 |
+| open | /ˈoʊpən/ | 무엇이든 열기 전에 |
+| anything | /ˈɛniˌθɪŋ/ | 무엇이든 열기 전에 |
+| themselves | /ðɛmˈsɛlvz/ | 자기에게 백만을 찍다 |
+| million | /ˈmɪljən/ | 자기에게 백만을 찍다 |
+
 ## Expressions
 | hit your Anvil from my phone | 내 폰에서 당신의 Anvil에 접근하다 |
 | before we open anything | 무엇이든 열기 전에 |

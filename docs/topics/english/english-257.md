@@ -24,6 +24,13 @@ Jay: Yes, and say which parts are thin rather than calling the docs skimpy to th
 1. **같은 형용사로 다른 대상을 묶으면 문장이 재밌어진다.** "a skimpy breakfast, and their API docs are skimpy too" — 한 단어로 아침과 문서를 함께 비판한다.
 2. **평가어 대신 구체적인 결핍을 말한다.** "say which parts are thin" — 상대에게 직접 말할 때는 감정어를 빼고 빠진 항목을 짚는 것이 안전하다.
 
+
+
+## Words
+| skimpy | /ˈskɪmpi/ | 양이 너무 적은, 부실한 |
+| thin | /θɪn/ | (문서가) 얇은, 내용이 부족한 |
+| scrimp on something | /skrɪmp ɑn ˈsʌmθɪŋ/ | ~에 돈·수고를 아끼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

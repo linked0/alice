@@ -28,6 +28,14 @@ Jay: Fine. One dramatic pause, no jazz hands.
 1. **오버하라는 요청은 양을 정해서 받는다.** "I can ham it up for one beat. Any more and … will roll their eyes." — 거절도 수락도 아닌, 청중에 맞춘 한도를 말한다.
 2. **연기 지시는 동작 순서로 주고받는다.** "Stare at the screen, count to three, then show the fix." — 형용사 대신 동사 세 개로 말하면 바로 연습할 수 있다.
 
+
+
+## Words
+| ham it up | /hæm ɪt ʌp/ | 과장되게 연기하다, 오버하다 |
+| fall flat | /fɔl flæt/ | 밋밋하다, 반응이 없다 |
+| beat | /bit/ | (연기·말의) 한 박자 |
+| roll their eyes | /roʊl ðɛr aɪz/ | 눈을 굴리다(어이없어하다) |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

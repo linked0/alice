@@ -28,6 +28,12 @@ Jay: Perfect use. Just do not hang it on a colleague who is simply energetic.
 1. **접두사와 단독 형용사를 구분해 준다.** "Same root, different job." 한 줄이면 hyper와 hyperactive의 관계가 정리된다.
 2. **상대가 만든 예문을 바로 승인하거나 고쳐 준다.** "my nephew was hyper at his party" → "Perfect use." 안전한 용례를 확인해 주면 기억에 남는다.
 
+
+
+## Words
+| hyper | /ˈhaɪpɚ/ | 들뜬, 흥분한 |
+| hyperactive | /ˌhaɪpɚˈæktɪv/ | 과잉 행동의 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

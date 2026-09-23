@@ -28,6 +28,13 @@ Jay: Exactly that. My team has a mandate to own payments, which is why nobody el
 1. **오해를 고칠 때 "방향"이라는 말로 설명한다.** "The other direction. A mandate is authority given to you" — 틀렸다고 하지 않고 화살표를 돌려 주는 방식이라 부드럽다.
 2. **역사 용어를 오늘의 업무 문장으로 옮겨 붙인다.** "My team has a mandate to own payments"처럼 바꿔 말하면 단어가 실제로 쓸 수 있는 것이 된다.
 
+
+
+## Words
+| mandatory | /ˈmændəˌtɔri/ | 의무적인 |
+| other direction | /ˈʌðɚ dɚˈɛkʃən/ | 방향이 반대다 |
+| That one | /ðæt wʌn/ | 그 문장 말이야? |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

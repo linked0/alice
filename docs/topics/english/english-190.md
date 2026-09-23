@@ -28,6 +28,12 @@ Jay: No. A eulogy is spoken at the funeral and it praises. An obituary reports, 
 1. **비슷한 단어는 "누가 어디서 하는가"로 갈라 준다.** "A eulogy is spoken at the funeral… An obituary reports." — 장소와 목적으로 구분하면 헷갈리지 않는다.
 2. **애도의 자리에서는 사실 한 줄을 곁들인다.** "half of it was work I use every day"처럼 구체적인 문장이 공허한 위로보다 낫다.
 
+
+
+## Words
+| obituary | /oʊˈbɪtʃuˌɛri/ | 사망 기사 |
+| eulogy | /ˈjulədʒi/ | 추도사 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

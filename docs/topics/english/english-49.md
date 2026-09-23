@@ -28,6 +28,13 @@ Jay: If you play it right. The talk is the small win; the offer is what you parl
 1. **어원을 한 줄로 말하면 뜻이 붙는다.** "That's where it comes from: you bet your winnings on the next round." — 도박 그림으로 지렛대와 약간의 위험이라는 뉘앙스까지 전한다.
 2. **동사의 틀을 상대의 예로 확인해 준다.** "The talk is the small win; the offer is what you parlay it into." — X와 Y 자리를 짚어 주면 상대가 바로 쓸 수 있다.
 
+
+
+## Words
+| come of something | /kʌm ʌv ˈsʌmθɪŋ/ | ~에서 결과가 나오다 |
+| paid pilot | /peɪd ˈpaɪlət/ | 유료 시범 사업 |
+| play it right | /pleɪ ɪt raɪt/ | 잘 처리하다, 요령 있게 하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

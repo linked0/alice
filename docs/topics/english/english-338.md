@@ -28,6 +28,12 @@ Jay: About or over. And it needs a crowd — one annoyed person isn't up in arms
 1. **한 표현의 옛 뜻과 지금 뜻을 같은 날의 두 장면으로 묶어 외운다.** 무기를 든 마을과 규정에 반발하는 사무실이 "Same phrase, no weapons."로 연결된다.
 2. **관용구는 뒤에 오는 전치사까지 한 덩어리로 기억한다.** "up in arms about/over"를 소리 내어 확인해 두면 실전에서 흔들리지 않는다.
 
+
+
+## Words
+| up in arms | /ʌp ɪn ɑrmz/ | 무기를 들고 맞서다 |
+| literal | /ˈlɪtɚəl/ | 모처럼 문자 그대로였다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

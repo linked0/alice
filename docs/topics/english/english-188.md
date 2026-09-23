@@ -28,6 +28,13 @@ Jay: About my own small mistakes, maybe. About someone else's serious one, never
 1. **완곡어는 "무엇을 가리는가"까지 함께 설명한다.** "a word chosen to say less" — 뜻만이 아니라 그 단어가 하는 일을 짚는 설명이다.
 2. **내 입에 올릴 수 있는 범위를 미리 정해 둔다.** "About my own small mistakes, maybe. About someone else's serious one, never."처럼 선을 그으면 말실수를 줄인다.
 
+
+
+## Words
+| indiscretion | /ˌɪndɪˈskrɛʃən/ | 무분별한·경솔한 행동 |
+| youthful indiscretion | /ˈjuθfəl ˌɪndɪˈskrɛʃən/ | 젊은 날의 치기 |
+| step down | /stɛp daʊn/ | 물러나다, 사임하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

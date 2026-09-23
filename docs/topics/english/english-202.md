@@ -28,6 +28,12 @@ Jay: Then he was listening, and the stolid face was just his face.
 1. **표정을 결론으로 바꾸지 않는다.** "stolid isn't the same as unhappy" — 반응 없는 청중을 읽을 때의 안전한 기본값이다.
 2. **짐작 대신 확인 수단을 만든다.** "I emailed him two questions instead of guessing from his face." — 회의 후 후속 메일이 실제 신호를 준다.
 
+
+
+## Words
+| stolid | /ˈstɑləd/ | 둔감한, 무표정한 |
+| stoic | /ˈstoʊɪk/ | 의연한 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

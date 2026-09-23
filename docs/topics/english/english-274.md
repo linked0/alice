@@ -28,6 +28,13 @@ Jay: Limited rotation from desk posture. Six weeks of exercises.
 1. **한 형용사가 두 부위를 가리키면 반드시 명사와 함께 말한다.** "I say cervical spine or cervical vertebrae, never cervical on its own" — 구 단위로 외우면 진료실에서 안전하다.
 2. **어원을 한 줄로 밝히면 두 뜻이 하나로 묶인다.** "It's Latin for neck" — 척추의 목과 자궁의 목이 같은 발상임을 알려 준다.
 
+
+
+## Words
+| cervical spine | /ˈsɝvəkəl spaɪn/ | 경추 |
+| limited rotation | /ˈlɪmətəd roʊˈteɪʃən/ | 회전 범위 제한 |
+| desk posture | /dɛsk ˈpɑstʃɚ/ | 책상 앞 자세 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

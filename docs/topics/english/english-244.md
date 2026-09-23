@@ -24,6 +24,13 @@ Jay: Good. I kept saying tendon, but a tendon joins muscle to bone and a ligamen
 1. **서류에 쓸 표현은 그 자리에서 확인한다.** "on the insurance form I should write a sprained ligament, not a fracture?"처럼 쓸 문구를 그대로 읽어 주면 오해가 남지 않는다.
 2. **헷갈리는 한 쌍은 정의를 대구로 외운다.** "a tendon joins muscle to bone and a ligament joins bone to bone" — 같은 문형에 넣으면 구분이 붙는다.
 
+
+
+## Words
+| ligament | /ˈlɪɡəmənt/ | 인대, 뼈와 뼈를 잇는 조직 |
+| sprain | /spreɪn/ | 인대를 삐다 / 파열하다 |
+| tendon | /ˈtɛndən/ | 힘줄, 근육과 뼈를 잇는 조직 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

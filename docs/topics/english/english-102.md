@@ -28,6 +28,13 @@ Jay: I'll post the runbook and a 15:00 window. Reply with a thumbs-up when your 
 1. **단독 조치의 결과를 먼저 말하고 나서 조율을 요구한다.** "If payments rotates the key and the other two services don't, every signature between them fails. This needs concerted action" — 이유가 앞에 오면 지시가 아니라 판단으로 들린다.
 2. **오해한 단어는 어원 이미지로 바로잡는다.** "together, like a concert: everyone plays from the same sheet at the same time" — concerted와 concentrated의 차이가 한 문장에 정리된다.
 
+
+
+## Words
+| take concerted action | /teɪk kənˈsɝtəd ˈækʃən/ | 여러 쪽이 조율해 함께 행동하다 |
+| coordinated rollout | /koʊˈɔrdəneɪtɪd ˈroʊˌlaʊt/ | 조율된 배포 |
+| who conducts | /hu kənˈdʌkts/ | 지휘는 누가 해? |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Good. And in Korean keep it as a diagnosis, not a description of someone's 
 1. **줄임말과 전체 명칭의 차이를 먼저 확인한다.** "That's anorexia nervosa" — 안내문에서는 전체 명칭을 쓰고 쉬운 말을 설명으로 붙이는 게 안전하다.
 2. **진단명은 진단으로만 옮긴다.** "keep it as a diagnosis, not a description of someone's body" — 번역에서 어조가 미끄러지지 않게 하는 원칙이다.
 
+
+
+## Words
+| anorexia | /ˌænɚˈɛksiə/ | 식욕 부진 / 신경성 식욕 부진증 |
+| loss of appetite | /lɔs ʌv ˈæpəˌtaɪt/ | 식욕 상실 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

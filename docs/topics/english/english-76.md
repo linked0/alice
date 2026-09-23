@@ -26,6 +26,12 @@ Tom: I'll remind you of that the next time you complain about the espresso machi
 1. **비교 대상을 "얼마나 ~했는지"로 잡는다.** "compared to how deafening downtown was" — 명사가 아니라 정도를 비교하면 대비가 훨씬 생생해진다.
 2. **강한 형용사는 되물음이 오면 근거로 받친다.** "Deafening? … The expo hall was. I couldn't hear my own demo." — 과장처럼 들릴 단어는 구체적 장면으로 정당화한다.
 
+
+
+## Words
+| deafening | /ˈdɛfənɪŋ/ | 귀가 먹먹할 만큼 시끄러운 |
+| at Ken's | /æt kɛnz/ | ~의 집에서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

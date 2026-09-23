@@ -28,6 +28,13 @@ Jay: Perfect. I'd rather ask an awkward question now than read an ambiguous line
 1. **애매한 문구는 내가 원하는 문장으로 바꿔 제시한다.** "The company will cover relocation up to this amount." — 불만을 말하는 대신 대안 문장을 준다.
 2. **요구를 예의로 감싸는 마무리 한 줄.** "I'd rather ask an awkward question now than read an ambiguous line later."처럼 이유를 붙이면 까다롭게 군다는 인상이 줄어든다.
 
+
+
+## Words
+| unequivocal | /ˌʌnɪˈkwɪvəkəl/ | 명백한, 달리 읽힐 여지가 없는 |
+| unequivocal yes | /ˌʌnɪˈkwɪvəkəl jɛs/ | 분명한 승낙 |
+| equivocate | /ɪˈkwɪvəˌkeɪt/ | 얼버무리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

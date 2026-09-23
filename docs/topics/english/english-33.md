@@ -37,6 +37,13 @@ Jay: Especially mine.
 2. **"누가 결정했나"를 묻는다.** "Did we decide that, or did the agent?" 계획 속 가정을 드러내는 가장 짧은 질문. 에이전트는 회의실에 없었던 정보를 알 수 없다.
 3. **개인 지적을 팀 규칙으로 바꾼다.** "let's make this the rule… Especially mine." 저자 한 사람에 대한 비판이 아니라 모두에게 적용되는 절차로 닫아, 관계와 규칙을 동시에 지킨다.
 
+
+
+## Words
+| out loud | /aʊt laʊd/ | 소리 내어 |
+| halfway | /ˌhæfˈweɪ/ | 중간에 |
+| especially mine | /əˈspɛʃli maɪn/ | 제 것에 특히 |
+
 ## Expressions
 | grill you on it | 그것에 대해 당신을 심문하다 |
 | out loud | 소리 내어 |

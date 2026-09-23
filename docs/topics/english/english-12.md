@@ -28,6 +28,14 @@ Jay: Static is fine for the first cut. Ship four, and put "matrix from config" i
 2. **조건부 견적을 리스크 지도로 읽는다.** "it tells me where the risk is" 두 숫자의 차이가 곧 불확실성의 위치다.
 3. **결정으로 시간을 산다.** "I decide now… Does five become four?" 압박 대신 미결 사항을 제거해 견적을 줄인다.
 
+
+
+## Words
+| few days | /fju deɪz/ | 며칠 |
+| concretely | /ˈkɑnˌkritli/ | 구체적으로 |
+| first cut | /fɝst kʌt/ | 첫 버전 |
+| ship four | /ʃɪp fɔr/ | 4일 안에 내다 |
+
 ## Expressions
 | a few days | 며칠 |
 | a number I can be wrong about | 내가 틀릴 수 있는 숫자 |

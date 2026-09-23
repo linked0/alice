@@ -28,6 +28,13 @@ Jay: A card, maybe. Not a group visit. I'd never use that word to her face eithe
 1. **강한 감정 어휘는 "누구에게 쓰는 말인지"까지 익힌다.** "a word for describing someone, not for comforting them" — 3인칭 서술용과 위로용을 구분한다.
 2. **슬퍼하는 사람에게는 행동의 크기를 줄여 제안한다.** "A card, maybe. Not a group visit."처럼 부담을 낮추는 선택지를 준다.
 
+
+
+## Words
+| leave it there | /liv ɪt ðɛr/ | 거기서 그만두다 |
+| something | /ˈsʌmθɪŋ/ | ~때문에 깊은 슬픔에 잠긴 |
+| personally | /ˈpɝsənəli/ | 기분 나쁘게 받아들이지 마라 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -24,6 +24,16 @@ Jay: Narrow on the market, not on the engineering. You carve the niche out delib
 1. **면접에서 주장은 예시 한 줄로 받친다.** "I read about a firm that has been able to carve out a niche market in dredgers" — 구체적인 예가 일반론보다 설득력 있다.
 2. **비유 동사를 풀어 쓰면 뜻이 또렷해진다.** "You carve the niche out deliberately — it doesn't appear on its own."
 
+
+
+## Words
+| market | /ˈmɑrkət/ | X 분야에서 틈새시장을 개척하다 |
+| nobody | /ˈnoʊˌbɑˌdi/ | 큰 회사들이 굳이 경쟁하지 않는다 |
+| bothers | /ˈbɑðɚz/ | 큰 회사들이 굳이 경쟁하지 않는다 |
+| compete | /kəmˈpit/ | 큰 회사들이 굳이 경쟁하지 않는다 |
+| narrow | /ˈnɛroʊ/ | 시장은 좁게, 기술은 좁지 않게 |
+| engineering | /ˌɛndʒəˈnɪrɪŋ/ | 시장은 좁게, 기술은 좁지 않게 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

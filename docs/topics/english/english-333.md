@@ -28,6 +28,12 @@ Jay: Perfect. Then "in the bag" still means something the day you finally use it
 1. **강한 표현은 조건을 붙여 되돌려 준다.** "It's in the bag when legal signs"는 상대를 부정하지 않고 기준만 옮긴다.
 2. **확신을 낮춘 대체 표현을 직접 건넨다.** "we're in a strong position"처럼 쓸 문장을 주면 상대가 바로 고쳐 말한다.
 
+
+
+## Words
+| in the bag | /ɪn ðə bæɡ/ | 따 놓은 당상이다 |
+| walk | /wɔk/ | (거래에서) 발을 빼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

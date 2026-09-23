@@ -28,6 +28,12 @@ Jay: Both true. Owning it first is what makes the second one shorter.
 1. **혼날 걸 알면 먼저 말하고, 이미 한 조치를 붙인다.** "I'm in for it. I already put a note in the channel owning it before she asks." — 예상되는 꾸중을 스스로 명명하면 상대가 더 세게 말할 필요가 없어진다.
 2. **헷갈리는 형제 표현을 한 문장에 나란히 놓는다.** "Friday you were in for a long night, and today you're in for it" — 같은 골격의 두 표현을 대비하면 둘 다 오래 남는다.
 
+
+
+## Words
+| get an earful | /ɡɛt æn ˈirˌfʌl/ | 한 소리 듣다 |
+| own it | /oʊn ɪt/ | 내 잘못이라고 인정하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

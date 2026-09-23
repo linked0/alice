@@ -28,6 +28,12 @@ Jay: Then she has a down on the missing test, not on you.
 1. **비난의 무게를 정확한 표현으로 되돌려 준다.** "You mean she has a down on you"처럼 상대의 말을 제 이름으로 바꿔 주면, 자기가 어떤 주장을 하고 있는지 스스로 보게 된다.
 2. **말하기 전에 근거를 확인하라고 순서로 권한다.** "read the three reviews again before you say it to anyone else" — 명령이 아니라 순서로 제시하면 조언이 잔소리로 들리지 않는다.
 
+
+
+## Words
+| grudge | /ɡrʌdʒ/ | 앙심 |
+| somebody | /ˈsʌmˌbɑdi/ | ~를 공연히 미워하다, 적대감을 갖다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

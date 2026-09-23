@@ -28,6 +28,13 @@ Jay: That's the trade I'm asking for.
 1. **전 직장은 양면이 있는 형용사 하나로 공정하게 묘사한다.** "It's a sedate place. Careful, well run, and a release every quarter." — 험담 없이 떠나는 이유가 드러난다.
 2. **단어의 어감을 되물으면 동사 뜻으로 농담을 만들어 답한다.** "It's also what a dentist does to you before pulling a tooth" — 형용사와 동사가 한 이미지로 묶여 기억된다.
 
+
+
+## Words
+| sedate place | /sɪˈdeɪt pleɪs/ | 차분하지만 조금 느린 곳 |
+| sedate someone | /sɪˈdeɪt ˈsʌmˌwʌn/ | 진정제를 놓다 |
+| well run | /wɛl rʌn/ | 운영이 잘 되는 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

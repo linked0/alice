@@ -28,6 +28,12 @@ Jay: "The next business I started", with "that" dropped. Same as "the last proje
 1. **목적격 관계대명사 생략 구문을 덩어리로 읽고 내 이력에 대입한다.** "'The next business I started', with 'that' dropped." — 드라마 문장을 면접 문장("the last project I shipped")으로 바로 바꿔 본다.
 2. **번역이 안 되는 문화 단어는 뜻 대신 상황을 말한다.** "In Japan a lounge can be a hostess bar" — 한 줄 배경 설명이 정의를 대신한다.
 
+
+
+## Words
+| hostess bar | /ˈhoʊstəs bɑr/ | 접객 술집 |
+| of all places | /ʌv ɔl ˈpleɪsəz/ | 하필 그곳에서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

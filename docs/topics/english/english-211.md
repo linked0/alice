@@ -28,6 +28,13 @@ Jay: Back row, silent. Close enough to help, far enough not to cramp your style.
 1. **부탁을 거절하는 대신 그 부탁이 낳을 결과를 말한다.** "They'd send the hard questions to me instead of you." — 거절이 배려로 읽히게 만드는 방법.
 2. **대안을 거리로 제시한다.** "Close enough to help, far enough not to cramp your style." 같은 구조를 두 번 반복하면 타협안이 선명해진다.
 
+
+
+## Words
+| cramp somebody's style | /kræmp ˈsʌmˌbɑdiz staɪl/ | ~가 마음껏 하지 못하게 하다 |
+| looking | /ˈlʊkɪŋ/ | 좌중의 시선이 당신에게 있다 |
+| enough | /ɪˈnʌf/ | A할 만큼 가깝고 B하지 않을 만큼 멀게 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: Then it doesn't ship, and we say so in the doc up front instead of building
 1. **원칙을 "No X ships that…" 꼴로 말하면 개인 의견이 아니라 팀 규칙으로 들린다.** "No feature ships that requires a licence we don't have a path to." — 반대가 아니라 조건을 말하는 것이 된다.
 2. **막는 조건을 좁혀서 말한다.** "Not having it isn't the blocker; having no path is." — 라이선스 부재와 경로 부재를 구분해 주면 상대는 무엇을 가져오면 되는지 안다.
 
+
+
+## Words
+| ship a feature | /ʃɪp ə ˈfitʃɚ/ | 기능을 실제 사용자에게 출시하다 |
+| dependency | /dɪˈpɛndənsi/ | 그것을 의존성으로 달고 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

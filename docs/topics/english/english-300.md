@@ -28,6 +28,16 @@ Jay: It's a yes, with complaints. Six weeks of them.
 1. **이 표현은 늘 "know / realise what" 뒤에 온다.** "I don't think you know what you've let me in for."라는 틀을 통째로 외우면 어순을 틀리지 않는다.
 2. **거절처럼 들린 뒤에 수락으로 뒤집으면 농담이 된다.** "It's a yes, with complaints." — 불평할 권리를 챙기면서 승낙한다.
 
+
+
+## Words
+| hill repeats | /hɪl rɪˈpits/ | 언덕 반복 주행 |
+| somebody | /ˈsʌmˌbɑdi/ | ~를 좋지 않은 일에 끌어들이다. "you know what you've let me in for" |
+| something | /ˈsʌmθɪŋ/ | ~를 좋지 않은 일에 끌어들이다. "you know what you've let me in for" |
+| letting | /ˈlɛtɪŋ/ | 내가 자초하는 고생 |
+| myself | /ˌmaɪˈsɛlf/ | 내가 자초하는 고생 |
+| complaints | /kəmˈpleɪnts/ | 불평을 곁들인 승낙 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

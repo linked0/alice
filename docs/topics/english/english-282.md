@@ -28,6 +28,14 @@ Jay: As a joke it does. For cigarettes it's the literal medical phrase.
 1. **명사구는 함께 쓰는 동사까지 묶어 외운다.** "Use it with get" — withdrawal symptoms는 have보다 get과 짝을 이루는 경우가 많다.
 2. **give up 뒤에는 동명사가 온다.** "after giving up smoking"의 -ing 형태를 문장째 기억하면 to부정사로 잘못 쓰지 않는다.
 
+
+
+## Words
+| get withdrawal symptoms | /ɡɛt wɪðˈdrɔəl ˈsɪmptəmz/ | 금단 증세를 겪다 |
+| give up smoking | /ɡɪv ʌp ˈsmoʊkɪŋ/ | 담배를 끊다 |
+| snap at somebody | /snæp æt ˈsʌmˌbɑdi/ | ~에게 신경질을 내다 |
+| cut out something | /kʌt aʊt ˈsʌmθɪŋ/ | (음식·습관을) 끊다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

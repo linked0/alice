@@ -28,6 +28,14 @@ Jay: In an opinion piece, yes. In a meeting it would sound like a speech, so I'd
 1. **강한 단어는 "어디서 쓸 수 있나"까지 같이 익힌다.** "In an opinion piece, yes. In a meeting it would sound like a speech." — 뜻과 사용 장소를 한 쌍으로 외운다.
 2. **완곡어와 직설어를 나란히 놓으면 뜻이 또렷해진다.** 박물관의 "acquired"와 다큐멘터리의 "looted"가 같은 사건의 두 표현이다.
 
+
+
+## Words
+| rapacious | /rəˈpæʃɪs/ | 힘으로 빼앗을 만큼 탐욕스러운 |
+| loot | /lut/ | 약탈하다; 약탈품 |
+| provenance | /ˈprɑvənəns/ | (미술품의) 출처 내력 |
+| predatory fees | /ˈprɛdəˌtɔri fiz/ | 약탈적 수수료 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

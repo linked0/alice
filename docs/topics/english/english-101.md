@@ -28,6 +28,14 @@ Jay: Slightly old-fashioned but right: the owner rented out the place. If I told
 1. **들은 말을 그대로 인용한 뒤 현대식 표현으로 바꿔 준다.** "'Today, we've been rented out…' … If I told the story I'd say 'they're booked out tonight.'" — 상대의 영어를 깎아내리지 않으면서 자연스러운 버전을 익힌다.
 2. **고유명사의 오해는 위치나 맥락으로 풀어 준다.** "We're two streets from the building, so it's MPs having dinner" — 사전 설명보다 눈앞의 단서가 더 잘 통한다.
 
+
+
+## Words
+| rent out | /rɛnt aʊt/ | (주인이) 빌려주다, 임대하다 |
+| booked out | /bʊkt aʊt/ | 예약이 꽉 찬, 통째로 예약된 |
+| private booking | /ˈpraɪvət ˈbʊkɪŋ/ | 단체 전용 예약 |
+| National Diet | /ˈnæʃənəl ˈdaɪət/ | 일본 국회 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

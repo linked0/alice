@@ -28,6 +28,13 @@ Jay: Understood. I'll tell my team I'm off the pork for a while, and I'd like a 
 1. **의학 용어는 되물으면서 내 말로 정의한다.** "The gall bladder, the small organ under the liver that stores bile? I want to make sure I'm following." — 진단을 확인하는 동시에 단어를 내 것으로 만든다.
 2. **진단 뒤에는 실질적 질문 두 개로 마무리한다.** "Does it need surgery?"와 "I'd like a note for my flight" — 원인, 처치, 그리고 내 일정에 미치는 영향까지 한 번의 진료에서 챙긴다.
 
+
+
+## Words
+| gall bladder | /ɡɔl ˈblædɚ/ | 쓸개, 담낭 |
+| gallstones | /ˈɡɑlˌstoʊnz/ | 담석 |
+| take  out | /teɪk aʊt/ | (장기를) 떼어 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

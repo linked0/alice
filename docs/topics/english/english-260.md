@@ -24,6 +24,15 @@ Jay: The neighbour commits perjury; she commits subornation for arranging it. Tw
 1. **드라마 대사로 법률 어휘를 정리한다.** "The neighbour commits perjury; she commits subornation" — 행위자별로 죄명을 나눠 말하면 어휘가 한 번에 정리된다.
 2. **되묻는 말은 짧게.** "What is he accusing her of, exactly?"의 exactly는 대충 아는 상태에서 정확한 설명을 요청하는 자연스러운 방식이다.
 
+
+
+## Words
+| perjury | /ˈpɝdʒɚi/ | 위증죄 |
+| witness | /ˈwɪtnəs/ | 증인을 매수해 위증하게 하다 |
+| accuse | /əˈkjuz/ | ~를 …혐의로 고발하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~를 …혐의로 고발하다 |
+| something | /ˈsʌmθɪŋ/ | ~를 …혐의로 고발하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

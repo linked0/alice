@@ -24,6 +24,12 @@ Jay: I want the timing question answered. The free play of market forces is an o
 1. **상대의 주장에 이름을 붙여 되돌려 준다.** "You mean the free play of market forces"는 동의도 반대도 아니고, 논점을 정확히 고정하는 수다.
 2. **원칙 논쟁을 시점 논쟁으로 좁힌다.** "supply catches up in five years and my neighbour moves out in March" — 구체적인 시간 차이를 들면 추상적인 말싸움을 피할 수 있다.
 
+
+
+## Words
+| market forces | /ˈmɑrkət ˈfɔrsɪz/ | 수요와 공급의 힘 |
+| supply catches up | /səˈplaɪ ˈkætʃəz ʌp/ | 공급이 따라잡다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

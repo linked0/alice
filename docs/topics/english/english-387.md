@@ -28,6 +28,12 @@ Jay: It repeats the verb to raise the stakes: not only the people, but the gods 
 1. **긴 문장은 동사 틀부터 잡는다.** "pit A against B" 하나만 쥐면 나머지는 목적어만 바뀌므로, 사람이 오든 신이 오든 같은 구조로 읽힌다.
 2. **"didn't just X, they also Y"는 강조를 쌓는 틀이다.** 동사를 반복하고 목적어만 키우면 규모가 한 단계 올라간다.
 
+
+
+## Words
+| be pitted against | /bi ˈpɪtɪd əˈɡɛnst/ | ~와 맞붙게 되다 |
+| raise the stakes | /reɪz ðə steɪks/ | 판을 키우다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

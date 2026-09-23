@@ -28,6 +28,12 @@ Jay: One change, in the module that owns it. That's the whole point.
 1. **잘못 들은 단어는 "Not A — B"로 즉시 바로잡고 바로 본론으로 간다.** "Not wait — wrap. I said wrap." — 사과나 설명 없이 틀린 단어와 맞는 단어만 나란히 놓으면 충분하다.
 2. **경계를 설명할 때는 "누가 소유하고 누가 호출하는가"로 말한다.** "One module owns … and everything else calls it." — 클래스 이름이 아니라 책임의 방향으로 구조를 전달한다.
 
+
+
+## Words
+| wrap | /ræp/ | 흩어진 호출을 추상화 하나 뒤로 감싸다 |
+| module owns X | /ˈmɑdʒul oʊnz ɛks/ | 모듈 하나가 X의 로직과 책임을 전담한다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -26,6 +26,14 @@ Mina: Then saunter it is, but I'll say it to you and not in the notes.
 1. **동작 단어는 태도까지 포함하는지 확인하고 고른다.** "He sauntered in. That word says he was in no hurry and knew it" — 같은 걸음이라도 단어가 평가를 싣는다.
 2. **평가가 실린 단어는 공식 기록에서 뺀다.** "I'll say it to you and not in the notes" — 뉘앙스를 알고 나면 쓰는 자리를 고르는 것까지가 어휘력이다.
 
+
+
+## Words
+| saunter in | /ˈsɔntɚ ɪn/ | 느긋하게 걸어 들어오다 |
+| stroll | /stroʊl/ | 한가롭게 거닐다 |
+| in no hurry | /ɪn noʊ ˈhɝi/ | 조금도 서두르지 않는 |
+| twenty minutes late | /ˈtwɛnti ˈmɪnəts leɪt/ | 20분 늦게 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

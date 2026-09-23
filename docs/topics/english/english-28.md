@@ -27,6 +27,18 @@ Jay: Deal. And to be clear, it's your design and your call. I'm flagging it beca
 2. **사례는 숫자와 함께.** "replayed a 3-day-old file… double-paid 212 merchants." 추상적 우려는 무시되고, 날짜와 숫자가 있는 사례는 의제가 된다.
 3. **추정 대신 측정을 제안한다.** "a benchmark in your branch by Thursday so we're arguing about a number rather than an estimate." 논쟁을 의견에서 데이터로 옮기고, 내가 일을 맡아 상대의 방어를 낮춘다. 그리고 결정권을 돌려준다("your design and your call").
 
+
+
+## Words
+| one blocking concern | /wʌn ˈblɑkɪŋ kənˈsɝn/ | 블로킹 우려 하나(승인을 막는 문제) |
+| rest looks solid | /rɛst lʊks ˈsɑləd/ | 나머지는 견고해 보인다 |
+| rare but real | /rɛr bʌt ril/ | 드물지만 실제로 있는 |
+| before anyone noticed | /bɪˈfɔr ˈɛniˌwʌn ˈnoʊtəst/ | 누군가 알아차리기 전에 |
+| fast path | /fæst pæθ/ | 빠른 경로 / 느린 경로 |
+| source of truth | /sɔrs ʌv truθ/ | 진실의 원천 |
+| falls through to | /fɔlz θru tu/ | ~로 떨어진다(다음 단계로 넘어간다) |
+| I'll take it | /aɪl teɪk ɪt/ | 받겠다(수락) |
+
 ## Expressions
 | one blocking concern | 블로킹 우려 하나(승인을 막는 문제) |
 | the rest looks solid | 나머지는 견고해 보인다 |

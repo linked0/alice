@@ -28,6 +28,12 @@ Jay: It is. The exciting version comes when we wire a real off-ramp and swap the
 2. **속성 하나로 압축한다.** "the one property that matters" 정의 논쟁 대신 사용자가 겪을 순간 하나를 말한다.
 3. **쓸 문장을 준다.** "So what do I write?" 에 완성된 문장으로 답하면 교정이 협업이 된다.
 
+
+
+## Words
+| promises the opposite | /ˈprɑməsəz ðə ˈɑpəzət/ | 반대를 약속한다 |
+| less exciting | /lɛs ɪkˈsaɪtɪŋ/ | 덜 흥미롭다 |
+
 ## Expressions
 | people know the word | 사람들이 그 단어를 안다 |
 | which is exactly why | 바로 그래서 |

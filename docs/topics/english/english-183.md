@@ -28,6 +28,12 @@ Jay: Thank you. Is it all right to fly home tomorrow evening?
 1. **증상을 이름 하나로 말한 뒤 근거를 한 줄로 붙인다.** "A plain headache I'd sleep off, but this one comes with nausea, so I call it a migraine." — 병명을 단정하지 않으면서도 의료진이 필요한 정보를 다 준다.
 2. **진료 끝에는 생활 일정으로 확인한다.** "Is it all right to fly home tomorrow evening?"처럼 물으면 추상적인 설명 대신 실제 지시를 받는다.
 
+
+
+## Words
+| migraine | /ˈmaɪˌɡreɪn/ | 편두통 |
+| sleep something off | /slip ˈsʌmθɪŋ ɔf/ | 자고 나서 (두통·취기를) 넘기다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

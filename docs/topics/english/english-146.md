@@ -28,6 +28,13 @@ Jay: Then the list is short: the replica, the second log retention tier, and the
 1. **"없어도 된다"는 이유를 복구 비용으로 말한다.** "We can rebuild it from a script in an hour, so losing it costs us nothing." — expendable의 근거는 잃었을 때의 대가다.
 2. **같은 단어가 대상에 따라 뜻이 바뀌면 그 자리에서 선을 긋는다.** "Supplies are expendable; people hear 'expendable' as 'disposable'." — 동료의 말투를 고쳐 주되 결정은 막지 않는다.
 
+
+
+## Words
+| expendable | /ɪkˈspɛndəbəl/ | 소모해도 되는, 없어도 되는 |
+| give someone notice | /ɡɪv ˈsʌmˌwʌn ˈnoʊtəs/ | 미리 알려 주다, 통보하다 |
+| nice to have | /naɪs tu hæv/ | 있으면 좋은 것 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,12 @@ Jay: A rule that's actually published there, ideally final. Proposed rules land 
 1. **"무엇이 생각을 바꾸게 하나"에는 증거 기준을 명사구로 답한다.** "A settled action that…, or a rule that…" — 예측 대신 기준을 말하고, 뒤에 "Not a senator's tweet, not a draft"로 기준 아래 것들을 잘라 낸다.
 2. **상대가 단어를 좁게 읽으면 그 단어를 다시 정의한다.** "Names a structure like ours: an enforcement action against anyone running our model" — 회사 이름이 아니라 구조라는 점을 예로 고친다.
 
+
+
+## Words
+| settled action | /ˈsɛtəld ˈækʃən/ | 확정된(최종) 규제·집행 조치 |
+| not under appeal | /nɑt ˈʌndɚ əˈpil/ | 항소 중이 아닌 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

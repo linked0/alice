@@ -28,6 +28,12 @@ Mina: Thanks. I've been chewing on it for a week.
 1. **관찰을 먼저 말하고 질문을 붙이면 추궁이 아니라 초대가 된다.** "You've been quiet all week ... What's the problem?"의 순서가 핵심이다.
 2. **"사소한 얘기"라며 망설이면 판단을 유보한 채 말하게 둔다.** "I might. Say it anyway."는 거짓 위로 없이 문을 열어 주는 답이다.
 
+
+
+## Words
+| petty | /ˈpɛˌti/ | 사소한, 좀스러운 |
+| chew on something | /tʃu ɑn ˈsʌmθɪŋ/ | ~을 곱씹다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

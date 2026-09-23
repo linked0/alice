@@ -26,6 +26,12 @@ Mateo: Then stop racking and start shipping. Build the thing you complained abou
 1. **드라마 대사를 통째로 인용한 뒤 내 상황에 그대로 옮긴다.** "I racked my brain trying to figure out what kind of side project to build" — 명사 하나만 바꿔 문장 구조를 통째로 재사용한다.
 2. **결과까지 붙여 말한다.** "and came up with nothing" — rack your brain은 노력만 말하므로 결과를 덧붙여야 이야기가 완결된다.
 
+
+
+## Words
+| rack your brain | /ræk jɔr breɪn/ | 머리를 쥐어짜다, 골똘히 생각하다 |
+| figure out | /ˈfɪɡjɚ aʊt/ | 알아내다, 답을 찾다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

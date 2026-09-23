@@ -24,6 +24,12 @@ Jay: We fix the messages and reply politely. If we answer a savage post with a s
 1. **말투와 내용을 분리해서 평가한다.** "The tone is the problem, not the facts" — 강한 비판을 받았을 때 감정을 낮추면서도 사실을 인정하는 표준적인 문장이다.
 2. **savage는 세기를 말하는 형용사다.** "It's a savage review, but most of it is correct"처럼 but을 붙이면 세다는 말이 곧 틀렸다는 말이 아님이 분명해진다.
 
+
+
+## Words
+| savage review | /ˈsævədʒ ˌriˈvju/ | 인정사정없는 혹평 |
+| savage cuts | /ˈsævədʒ kʌts/ | 가혹한 삭감 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

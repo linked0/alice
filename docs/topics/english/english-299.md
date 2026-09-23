@@ -28,6 +28,12 @@ Jay: That's the plan. Gates that depend on mood let things through.
 1. **일상의 관문을 업무의 관문에 겹친다.** "Same rule, different officer. That's exactly how our review process works." 비유가 문제의 원인을 한 줄로 요약한다.
 2. **책임은 1인칭 복수로 나눠 진다.** "Three of us approved that pull request and we all let it through." 누구를 지목하지 않고 사실만 남긴다.
 
+
+
+## Words
+| get let through | /ɡɛt lɛt θru/ | (잘못이) 걸러지지 않고 나가다 |
+| gate | /ɡeɪt/ | 관문 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

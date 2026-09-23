@@ -28,6 +28,12 @@ Jay: Right. Same highway metaphor. Nobody in this space says "deposit path"; the
 1. **업계 용어는 쓰고 나서 짝이 되는 반대말까지 같이 준다.** "That's the off-ramp" — on-ramp만 말하면 상대가 반쪽만 이해하지만, 출구까지 말하면 전체 그림이 잡힌다.
 2. **단계를 나눌 때는 어느 쪽이 더 어려운지 이유와 함께 말한다.** "it's the harder side. Bank rails, KYC, all of it." — 2단계로 미루는 이유가 곧 설명이 된다.
 
+
+
+## Words
+| cash out | /kæʃ aʊt/ | 현금화하다 |
+| bank rails | /bæŋk reɪlz/ | 은행 결제망 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

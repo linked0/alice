@@ -24,6 +24,12 @@ Jay: Then catenative is the label, and the pattern is still per verb. I'll keep 
 1. **용어를 알아도 규칙은 동사별로 외운다.** "catenative is the label, and the pattern is still per verb" — 이름표와 실제 규칙을 분리해서 생각한다.
 2. **어원 한 조각이 기억을 붙든다.** "Catena, a chain — each one hands off to the next."
 
+
+
+## Words
+| per verb | /pɝ vɝb/ | 동사마다 |
+| another | /əˈnʌðɚ/ | 동사를 또 받는 동사 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

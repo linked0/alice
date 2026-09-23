@@ -24,6 +24,13 @@ Jay: One short line tomorrow, no explanation. A gaffe gets smaller if you apolog
 1. **실수의 종류를 먼저 이름 붙인다.** "It was a gaffe, not a leak" — 실언인지 유출인지 규정해야 대응의 크기가 정해진다.
 2. **사과의 분량을 정하는 문장.** "One short line tomorrow, no explanation"은 회사 안에서 대응 수위를 제안할 때 그대로 쓸 수 있다.
 
+
+
+## Words
+| gaffe | /ɡæf/ | 공식·사교 자리에서의 실언 |
+| leak | /lik/ | (정보) 유출 |
+| apologize once | /əˈpɑləˌdʒaɪz wʌns/ | 한 번만 사과하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

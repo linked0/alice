@@ -28,6 +28,14 @@ Jay: If the curve is smooth, yes. If it spikes, say "spiky" — undulating promi
 1. **묘사어는 쓰이는 매체를 함께 배운다.** "It's a describing word… out here we'd just say rolling hills." 글말과 입말을 갈라 두면 어색하게 쓰지 않는다.
 2. **비유를 다른 분야로 옮길 때 조건을 붙여 허락한다.** "If the curve is smooth, yes. If it spikes, say 'spiky'."
 
+
+
+## Words
+| undulate | /ˈʌndʒəˌleɪt/ | 물결치듯 오르내리다 |
+| rolling hills | /ˈroʊlɪŋ hɪlz/ | 완만한 구릉 |
+| it spikes | /ɪt spaɪks/ | 급등하다 |
+| on a postcard | /ɑn ə ˈpoʊstˌkɑrd/ | 엽서에 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

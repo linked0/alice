@@ -28,6 +28,15 @@ Jay: They will, and I'd still take it. A wrong page costs a bad night. No page c
 2. **검증과 대사를 구분한다.** "We validated and never reconciled." 개별 항목의 정당성과 총량의 일치는 다른 검사다. 이 한 문장이 사고의 구조를 설명한다.
 3. **경보에는 행동을 묶는다.** "An alert with no action attached is decoration." 모니터링 논의를 대시보드에서 런북으로 옮기는 문장.
 
+
+
+## Words
+| passed validation | /pæst ˌvæləˈdeɪʃən/ | 검증을 통과했다 |
+| validate vs. reconcile | /ˈvælədeɪt ˈvɝsəz ˈrɛkənˌsaɪl/ | 검증하다 vs. 대사하다 |
+| locked against minted | /lɑkt əˈɡɛnst ˈmɪntɪd/ | 잠긴 양 대 발행량 |
+| someone gets paged | /ˈsʌmˌwʌn ɡɛts peɪdʒd/ | 누군가 호출된다 |
+| false positive | /fɔls ˈpɑzətɪv/ | 오탐 |
+
 ## Expressions
 | passed validation | 검증을 통과했다 |
 | that's the finding, not the dead end | 그게 막다른 길이 아니라 발견이다 |

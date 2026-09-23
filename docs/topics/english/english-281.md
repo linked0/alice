@@ -26,6 +26,13 @@ Lena: Good. Lead with what you shipped this year.
 1. **같은 형용사의 두 용법은 구조로 구분한다.** "Touchy about something for a person, a touchy subject for a topic" — 전치사냐 명사 앞이냐가 갈림길이다.
 2. **상대가 예민한 지점을 알면 화제를 바꾼다.** "I'll talk about scope, not about other bands" — 요구를 낮추는 게 아니라 근거를 바꾸는 협상 수다.
 
+
+
+## Words
+| touchy subject | /ˈtʌtʃi səbˈdʒɛkt/ | 민감한 주제 |
+| fair warning | /fɛr ˈwɔrnɪŋ/ | 미리 말해 두는데 |
+| lead with something | /lɛd wɪð ˈsʌmθɪŋ/ | ~부터 꺼내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -26,6 +26,13 @@ Sam: Four to six weeks. You'll join the Seoul contingent at the offsite in Novem
 1. **좋은 소식에 감사부터 하고 조건을 묻는다.** "Thank you… what is the offer contingent on?" — 기쁨을 먼저 표현해야 조건 질문이 계산적으로 들리지 않는다.
 2. **조건을 들으면 내 행동 방침을 그 단어로 되돌려 말한다.** "I'll treat it as contingent until the permit is approved" — 상대의 표현을 그대로 써서 이해했음을 보여 준다.
 
+
+
+## Words
+| contingent on X | /kənˈtɪndʒənt ɑn ɛks/ | X 여부에 달려 있는 |
+| Seoul contingent | /soʊl kənˈtɪndʒənt/ | 서울에서 온 대표단, 무리 |
+| work permit | /wɝk pɚˈmɪt/ | 취업 허가 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

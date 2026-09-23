@@ -28,6 +28,13 @@ Jay: I'll take the three that block the release myself today, and the rest wait 
 1. **부족 상태를 탓 없이 보고한다.** "we find ourselves short of reviewers. Nobody dropped the ball" — 상황을 서술하는 표현을 고르고, 책임 문제가 아님을 한 줄 덧붙인다.
 2. **비슷한 표현과의 차이를 수량으로 설명한다.** "'Ran out' means none left; 'short of' means not enough." — 정의가 아니라 남은 개수로 구별한다.
 
+
+
+## Words
+| drop the ball | /drɑp ðə bɔl/ | 맡은 일을 놓치다 |
+| oneself | /ˌwʌnˈsɛlf/ | 어느새 X가 부족한 처지가 되다 |
+| cover | /ˈkʌvɚ/ | PR 아홉 개를 감당하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

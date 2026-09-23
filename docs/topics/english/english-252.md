@@ -24,6 +24,14 @@ Jay: Then it carries the same weight as the contract. An unsigned addendum is ju
 1. **조건을 걸고 동의한다.** "An addendum is fine with me, as long as both sides sign it and it names…" — as long as 절에 요구 사항을 넣으면 거절하지 않으면서 협상한다.
 2. **문서의 효력을 한 문장으로 확인한다.** "it carries the same weight as the contract"는 계약 대화에서 그대로 쓸 수 있는 확인용 문장이다.
 
+
+
+## Words
+| addendum | /əˈdɛndəm/ | 계약·책에 덧붙이는 추가 문서 |
+| carry | /ˈkæri/ | ~과 같은 효력을 지니다 |
+| weight | /weɪt/ | ~과 같은 효력을 지니다 |
+| something | /ˈsʌmθɪŋ/ | ~과 같은 효력을 지니다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

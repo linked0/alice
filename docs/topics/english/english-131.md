@@ -28,6 +28,12 @@ Jay: Exactly. Remove the footgun and the flag is fine.
 1. **설계의 함정은 한 단어로 이름 붙이고, 사람이 아니라 기본값을 문제 삼는다.** "That's a footgun" 뒤에 "The code isn't wrong; the default is the trap."을 붙이면 작성자를 공격하지 않으면서 왜 위험한지 분명해진다.
 2. **은어를 쓰면 상대가 되물을 때 한 문장 정의를 준비해 둔다.** "A design that makes it easy to shoot yourself in the foot." — 정의 뒤에 바로 대안("Flip it: retries on by default")을 붙여 리뷰를 닫는다.
 
+
+
+## Words
+| safe by default | /seɪf baɪ dɪˈfɔlt/ | 기본값이 안전한 쪽 |
+| opt out | /ɑpt aʊt/ | (기본에서) 빠지기로 선택하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

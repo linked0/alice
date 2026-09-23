@@ -28,6 +28,14 @@ Jay: The verb, to thwart something. A foiled robbery is one the police stopped.
 1. **동형이의어는 한 문장 안에서 나란히 놓아 구분한다.** "same word as the foil in your drawer, completely different sense."
 2. **비평 용어는 기능으로 설명한다.** "Her calm is what makes the older one look reckless." 인물의 쓸모를 대조로 설명하면 반박이 쉬워진다.
 
+
+
+## Words
+| foil | /fɔɪl/ | 포일 |
+| foil for somebody | /fɔɪl fɔr ˈsʌmˌbɑdi/ | ~를 돋보이게 하는 상대역 |
+| foiled robbery | /fɔɪld ˈrɑbɚi/ | 저지된 강도 사건 |
+| completely different sense | /kəmˈplitli ˈdɪfɚənt sɛns/ | 전혀 다른 뜻 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

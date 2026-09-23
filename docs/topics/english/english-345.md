@@ -28,6 +28,14 @@ Jay: It is bookish. Day to day I'd say I choked up, or I held back tears.
 1. **감정을 설명할 때 몸의 동작으로 말하면 담백해진다.** "I made an effort to gulp down tears"는 슬프다고 말하지 않고 상태를 보여 준다.
 2. **문어체를 쓴 뒤에는 구어체 대체어를 함께 익혀 둔다.** "Day to day I'd say I choked up" — 같은 뜻의 두 층위를 짝으로 외우는 방법이다.
 
+
+
+## Words
+| gulp down tears | /ɡʌlp daʊn tɛrz/ | 눈물을 삼키다 |
+| choke up | /tʃoʊk ʌp/ | 목이 메다 |
+| hold back tears | /hoʊld bæk tɛrz/ | 눈물을 참다 |
+| let it show | /lɛt ɪt ʃoʊ/ | 티를 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

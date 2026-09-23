@@ -28,6 +28,13 @@ Jay: Clear. I'll write "blood relatives" in my own notes and keep the long word 
 1. **서류의 격식어는 일상어로 바꿔 확인한다.** "Blood relatives. Parents, siblings, grandparents" — 뜻을 묻고 예시까지 받으면 기입 실수가 없다.
 2. **경계선을 반대쪽으로 확인한다.** "So relatives by marriage don't belong on this line" — 포함되지 않는 쪽을 물으면 범위가 확정된다.
 
+
+
+## Words
+| blood relatives | /blʌd ˈrɛlətɪvz/ | 혈연 친척 |
+| relatives by marriage | /ˈrɛlətɪvz baɪ ˈmɛrɪdʒ/ | 인척 |
+| family history | /ˈfæməli ˈhɪstɚi/ | 가족력 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

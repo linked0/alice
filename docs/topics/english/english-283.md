@@ -26,6 +26,13 @@ Hana: Good call. After sedation we don't let anyone drive for the rest of the da
 1. **약의 효과를 확인할 때는 "A but not B" 형태로 되묻는다.** "A sedative makes me sleepy but doesn't block the pain, right?"처럼 물으면 오해가 한 번에 정리된다.
 2. **선택지를 거절할 때는 취향이 아니라 사정을 댄다.** "I'd rather stay awake and drive myself home afterwards" — 실용적인 이유 하나면 설득이 끝난다.
 
+
+
+## Words
+| sedative | /ˈsɛdətɪv/ | 진정제 |
+| sedation | /səˈdeɪʃən/ | 진정(수면) 상태·시술 |
+| local anaesthetic | /ˈloʊkəl ˌænəsˈθɛtɪk/ | 국소 마취 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

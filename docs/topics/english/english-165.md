@@ -28,6 +28,13 @@ Jay: Batching. Fewer calls, not cheaper calls. That's the next proposal.
 1. **비유를 쓸 때는 "as it were"로 비유임을 표시해 문자 그대로 받아들이지 않게 한다.** "we're bailing out the ocean with a teacup, as it were" — 상대가 뜻을 되물어도 "so to speak"로 한 줄이면 끝난다.
 2. **비유 다음에는 숫자를 붙여 비유가 과장이 아님을 보인다.** "forty storage writes per call and we shaved off two" — 그림과 수치를 같이 주면 설득력이 산다.
 
+
+
+## Words
+| as it were | /æz ɪt wɝ/ | 말하자면, 이를테면 |
+| so to speak | /soʊ tu spik/ | 말하자면 |
+| shave off | /ʃeɪv ɔf/ | (조금) 깎아 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

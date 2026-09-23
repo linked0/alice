@@ -28,6 +28,12 @@ Jay: The subject tells you: a part comes off, a plan or a joke comes off. "Come 
 1. **다의 구동사는 주어로 구분한다.** "A part comes off; a plan or a joke comes off."
 2. **명령형 전용 표현은 따로 표시해 둔다.** come off it은 문장 속 동사로 굴리지 않고 그 형태 그대로만 쓴다.
 
+
+
+## Words
+| come off | /kʌm ɔf/ | 떨어지다, 빠지다 |
+| come off it | /kʌm ɔf ɪt/ | 말도 안 되는 소리 마 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

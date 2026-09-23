@@ -28,6 +28,12 @@ Jay: Exactly, and the nubbin is what we see because of it.
 1. **철자가 비슷한 두 단어는 역할을 갈라 외운다.** nubbin은 물리적 토막, nub은 핵심.
 2. **사전 뜻보다 구체적 비유가 오래 남는다.** "like the last inch of a pencil"처럼 손에 잡히는 예를 하나 붙여 설명한다.
 
+
+
+## Words
+| stick out | /stɪk aʊt/ | 튀어나오다 |
+| problem | /ˈprɑbləm/ | 문제의 핵심 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

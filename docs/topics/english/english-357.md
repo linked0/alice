@@ -28,6 +28,16 @@ Jay: Steady and thorough. The move is about the family, not about the job.
 1. **말한 것과 드러난 것을 구분해 말한다.** "He never said it directly, but he evinced…" — 평판 조회에서 추측을 사실처럼 말하지 않는 안전한 틀이다.
 2. **드러난 것을 주장했으면 증거를 한 줄 붙인다.** "He took every call from his brother"처럼 구체적인 행동이 근거가 된다.
 
+
+
+## Words
+| steady and thorough | /ˈstɛdi ənd ˈθɝoʊ/ | 꾸준하고 꼼꼼한 |
+| evince | /ɪˈvɪns/ | ~하려는 강한 바람을 내비치다 |
+| strong | /strɔŋ/ | ~하려는 강한 바람을 내비치다 |
+| desire | /dɪˈzaɪɚ/ | ~하려는 강한 바람을 내비치다 |
+| reconciled | /ˈrɛkənˌsaɪld/ | ~와 화해하다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~와 화해하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

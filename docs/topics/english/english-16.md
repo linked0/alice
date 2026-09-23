@@ -28,6 +28,12 @@ Jay: Put it next to the chain-id decision. That's where someone will look.
 2. **검증 사실을 날짜와 함께 말한다.** "I verified that on the fourteenth." 기억이 아니라 기록으로 말하면 신뢰가 다르다.
 3. **문서의 위치까지 정한다.** "Put it next to the chain-id decision." 문서는 쓰는 것보다 찾는 곳에 두는 게 중요하다.
 
+
+
+## Words
+| never appears | /ˈnɛvɚ əˈpɪrz/ | 절대 나타나지 않는다 |
+| deploys fine | /dɪˈplɔɪz faɪn/ | 잘 배포된다 |
+
 ## Expressions
 | never appears | 절대 나타나지 않는다 |
 | nothing's wrong with the chain | 체인에는 문제가 없다 |

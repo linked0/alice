@@ -28,6 +28,13 @@ Jay: Not in those words. In writing I'd say the allocation creates a conflict of
 1. **소사가 뜻을 가른다.** "Buy out is when you purchase someone's share. Buy off is when you pay someone to stay quiet." — 같은 동사도 off/out에 따라 전혀 다른 행위가 된다.
 2. **말과 글의 수위를 나눈다.** 술자리에서는 "they bought the auditor off", 보고서에서는 "creates a conflict of interest" — 같은 사실을 두 등급으로 말할 수 있어야 한다.
 
+
+
+## Words
+| buy somebody off | /baɪ ˈsʌmˌbɑdi ɔf/ | 매수하다, 돈으로 입을 막다 |
+| buy somebody out | /baɪ ˈsʌmˌbɑdi aʊt/ | 지분을 사들이다 |
+| conflict of interest | /ˈkɑnflɪkt ʌv ˈɪntrəst/ | 이해 충돌 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

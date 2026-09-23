@@ -28,6 +28,13 @@ Jay: Two uses of the same word in one minute. Wind and laughter.
 1. **한 단어의 두 뜻을 한 장면에서 붙잡는다.** 직원의 "a gale over the coast"와 "gales of laughter"가 바람과 웃음을 나란히 보여 준다.
 2. **지연 안내를 받을 때는 확인 + 다음 행동으로 답한다.** "Understood. I'll email my hotel" — 불평 대신 처리 계획을 말하면 대화가 짧게 끝난다.
 
+
+
+## Words
+| gale | /ɡeɪl/ | 강풍 |
+| gales of laughter | /ɡeɪlz ʌv ˈlæftɚ/ | 한바탕 터지는 폭소 |
+| hold departures | /hoʊld dɪˈpɑrtʃɚz/ | 출발을 잡아 두다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

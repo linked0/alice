@@ -28,6 +28,12 @@ Jay: To her credit, just "Thanks, we've got it." His access was gone by that aft
 1. **have the nerve to는 비난, have the guts to는 칭찬이다.** Tom이 "at least he had the guts to show his face"라고 하자 Jay는 "That's not guts, that's nerve"로 바로잡는다. 같은 행동도 어느 표현을 고르느냐에 따라 평가가 뒤집힌다.
 2. **상대가 쓴 단어를 받아서 정정하면 논점이 선명해진다.** "Guts would be owning it in the retro. This was pretending…"처럼 두 단어의 기준을 각각 한 문장으로 보여 주면 설명이 길어지지 않는다.
 
+
+## Words
+| nerve | /nɝv/ | 뻔뻔함, 배짱 — have the nerve to 에서는 '뻔뻔하게도' |
+| guts | /ɡʌts/ | 배짱 — nerve 와 반대 방향의 칭찬 |
+| credit | /ˈkrɛdət/ | 공, 인정 — to her credit 에서는 '그래도 잘한 점은' |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

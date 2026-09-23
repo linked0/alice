@@ -28,6 +28,12 @@ Jay: Then we rewrite the key store. That's why the breath is bated and not just 
 1. **철자가 헷갈리는 관용구는 어원을 한 줄로 못 박는다.** "bated, short for abated, held back"이면 baited와 다시 헷갈리지 않는다.
 2. **긴장을 말할 때 이유를 숫자나 일정으로 붙인다.** "Our whole Q3 hangs on it."이 과장 없이 무게를 전한다.
 
+
+
+## Words
+| with bated breath | /wɪð ˈbeɪtɪd brɛθ/ | 숨죽이고, 마음 졸이며 |
+| hang on something | /hæŋ ɑn ˈsʌmθɪŋ/ | ~에 달려 있다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

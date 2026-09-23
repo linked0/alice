@@ -28,6 +28,13 @@ Marek: Removing it now. Thanks for not quoting me.
 1. **욕설을 옮기지 않고 보고하는 방법이 이 단어다.** "I'd rather not type it into the review thread. That's why I said 'an expletive'."
 2. **사소해 보이는 지적에는 이유를 한 문장으로 붙인다.** "Anything shipped gets read by someone we haven't met." — 규칙이 아니라 결과로 설득한다.
 
+
+
+## Words
+| expletive | /ˈɛksplətɪv/ | 욕설 |
+| expletive deleted | /ˈɛksplətɪv dɪˈlitəd/ | 욕설 삭제 |
+| take something out | /teɪk ˈsʌmθɪŋ aʊt/ | ~을 빼다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

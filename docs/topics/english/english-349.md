@@ -28,6 +28,12 @@ Jay: The cloud bill and the conference booth. Neither one buys you a customer th
 1. **상대의 상태를 내 말로 요약해 확인한다.** "That's what I'm hearing"을 붙이면 단정이 아니라 확인이 되어 상대가 부정하기 쉽다.
 2. **한계를 말한 뒤 범위를 좁혀 준다.** "talk about the six weeks instead of the whole year" — 감정을 다룬 다음 다룰 수 있는 크기로 문제를 자른다.
 
+
+
+## Words
+| runway | /ˈrʌnˌweɪ/ | (스타트업의) 남은 자금으로 버틸 기간 |
+| tether | /ˈtɛðɚ/ | 같은 뜻의 영국식 표현 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

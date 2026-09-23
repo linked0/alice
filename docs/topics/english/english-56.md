@@ -28,6 +28,12 @@ Jay: That if I'm knee-deep in something for six months with no way out, that's a
 1. **이야기의 주인공을 문장 끝으로 미룬다.** "And knee-deep in that stagnation, keeping alive a service nobody used, was me." 배경을 먼저 쌓고 마지막에 주어를 던지는 도치는 면접 답변에서 한 번 쓰면 기억에 남고, 두 번 쓰면 연극이 된다.
 2. **비유를 쓴 뒤에는 사실 한 문장으로 착지한다.** "we were in the clutches of a decision nobody would make. So I made one for myself." — 비유가 불평으로 흐르지 않도록 행동으로 끝맺는다.
 
+
+
+## Words
+| inversion | /ˌɪnˈvɝʒən/ | 장소·상태를 앞에, 주어를 맨 뒤에 놓는 문학적 도치 |
+| clutches | /ˈklʌtʃəz/ | ~의 손아귀에 붙잡혀 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

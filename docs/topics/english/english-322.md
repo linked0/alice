@@ -28,6 +28,13 @@ Jay: That one means it lasted too long, and a car can run over a fox. The subjec
 1. **한 구동사의 여러 뜻은 예문 세 개를 한 줄로 묶어 외운다.** "Run over the slides, the meeting ran over, a car ran over a fox."
 2. **리허설 요청은 범위를 좁혀서 한다.** "the opening two slides one more time" — 시간이 없을 때 상대가 바로 응할 수 있게 만드는 요청법이다.
 
+
+
+## Words
+| run over something | /rʌn ˈoʊvɚ ˈsʌmθɪŋ/ | ~을 빠르게 훑어보다, 맞춰 보다 |
+| run through something | /rʌn θru ˈsʌmθɪŋ/ | 같은 뜻 |
+| meeting ran over | /ˈmitɪŋ ræn ˈoʊvɚ/ | 회의가 예정보다 길어졌다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

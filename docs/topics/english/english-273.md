@@ -26,6 +26,13 @@ Tom: And liposuction is the same lipo.
 1. **접두사를 알면 의학 용어는 조각 맞추기가 된다.** "Lipo- means fat, and it becomes lip- before a vowel" — 규칙 한 줄이 단어 네 개를 한꺼번에 설명한다.
 2. **낯선 단어는 조각을 소리 내어 풀어 본다.** "lipoprotein is literally fat plus protein"처럼 되물으면 뜻이 굳는다.
 
+
+
+## Words
+| lipoprotein | /ˌlɪpəˈproʊtin/ | 지단백 |
+| word family | /wɝd ˈfæməli/ | 같은 어근을 쓰는 단어 무리 |
+| half readable | /hæf ˈridəbəl/ | 절반은 읽히는 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

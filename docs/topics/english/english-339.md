@@ -28,6 +28,11 @@ Jay: Mostly. There's a small edge — great fire, occasional gaps. I'd write it 
 1. **평가는 "대체로 칭찬 + 작은 유보"로 두 겹을 만든다.** "Mostly. There's a small edge"는 예의와 솔직함을 같이 지킨다.
 2. **격식 있는 단어는 쓸 자리를 함께 정해 둔다.** "I'd write it in a summary, not say it to his face."가 사전에 없는 정보다.
 
+
+## Words
+| to exude | /ɪɡˈzud/ | 뿜어내다 — x 를 /ɡz/ 로 낸다. '엑슈드'가 아니라 '이그주드' |
+| confidence | /ˈkɑnfədəns/ | 자신감 — 첫 음절 강세 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

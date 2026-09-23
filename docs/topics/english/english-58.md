@@ -28,6 +28,12 @@ Jay: Deal. Just don't make a big deal out of it in front of sales.
 1. **접촉의 세기를 동사로 조절한다.** hit → touch → graze 순으로 약해진다. "my hand barely grazed you"에 barely까지 붙이면 "거의 안 닿았다"가 된다. 상대가 의심하면 "A graze is when it touches you and keeps going"처럼 한 줄로 정의해 준다.
 2. **같은 말을 두 버전으로 반복한다.** 처음엔 "Don't make a fuss", 마지막엔 "don't make a big deal out of it" — 뜻은 같고 두 번째가 더 요즘 말투다. 두 표현을 한 대화에서 번갈아 쓰면 둘 다 몸에 붙는다.
 
+
+
+## Words
+| graze | /ɡreɪz/ | 살짝 스치다 |
+| make a fuss | /meɪk ə fʌs/ | 소란을 피우다, 야단법석을 떨다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

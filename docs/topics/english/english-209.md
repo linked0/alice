@@ -28,6 +28,12 @@ Jay: Give me ten minutes with the diagram and ask me again.
 1. **"안다"의 기준을 행동으로 정의한다.** "Down as in I can explain it while someone interrupts me twice." — 면접 준비에서 암기와 숙지의 차이를 가르는 문장.
 2. **아는 것과 모르는 것을 한 문장에 나란히 둔다.** "I have that part down. The failure modes I still read off the page." 준비 상태를 정직하게 보고하는 형식.
 
+
+
+## Words
+| have something down | /hæv ˈsʌmθɪŋ daʊn/ | ~을 숙지하다 |
+| drill something | /drɪl ˈsʌmθɪŋ/ | ~을 반복 훈련하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -24,6 +24,12 @@ Jay: Expire the token in an hour. If the worst case is boring to prevent, we sho
 1. **"과장 아니다"로 시작하고 곧바로 사례를 댄다.** "It's not a stretch… Two vendors we use had exactly that incident" — 겸손한 주장 뒤에 사실을 붙이면 설득력이 생긴다.
 2. **확률 논쟁을 비용 논쟁으로 바꾼다.** "If the worst case is boring to prevent, we shouldn't need a debate about how likely it is"는 보안 리뷰에서 자주 쓰는 전환이다.
 
+
+
+## Words
+| that's a stretch | /ðæts ə strɛtʃ/ | 그건 억지다 |
+| worst case | /wɝst keɪs/ | 최악의 경우 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

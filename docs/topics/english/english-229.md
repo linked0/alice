@@ -28,6 +28,12 @@ Jay: Then it's "yeah, right" at work and my ass at home.
 1. **비속어는 안전한 짝과 함께 외운다.** "It's 'yeah, right' at work and my ass at home" — 장면별로 쓸 말을 짝지어 두면 실수로 튀어나오지 않는다.
 2. **패턴을 소리 내어 확인한다.** "You repeat their words and put 'my ass' after them?" — 구조를 말로 정리하면 그대로 재사용할 수 있다.
 
+
+
+## Words
+| ass | /æs/ | 웃기고 있네, 설마 |
+| go down | /ɡoʊ daʊn/ | (선수가) 넘어지다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

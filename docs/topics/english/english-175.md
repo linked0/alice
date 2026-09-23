@@ -28,6 +28,13 @@ Jay: Already drafted: twenty requests a second per key, plus a pinned status pos
 1. **인시던트 설명은 시각, 원인, 양의 순서로 한다.** "The listing went live at 5:30. We've had a deluge of requests since then, mostly bots…" — 언제부터, 무엇이, 얼마나.
 2. **같은 단어를 명사와 동사로 한 번씩 써서 굳힌다.** "a deluge of requests" / "Support is deluged too" — 뜻을 묻는 동료에게 "a flood of them"으로 바꿔 말해 주면 설명이 끝난다.
 
+
+
+## Words
+| deluge of requests | /ˈdɛljudʒ ʌv rɪˈkwɛsts/ | 요청의 쇄도 |
+| be deluged with | /bi ˈdɛljudʒd wɪð/ | ~이 쇄도하다 |
+| flood of | /flʌd ʌv/ | ~의 홍수 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

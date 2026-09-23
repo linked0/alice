@@ -24,6 +24,12 @@ Jay: Then he knelt down and begged for forgiveness. Same posture, deliberate ver
 1. **같은 자세를 두 동사로 갈라 쓴다.** 갑작스러운 것은 "fell to his knees", 의도한 것은 "knelt down" — 동사가 곧 상황 설명이다.
 2. **신체 부위 앞에는 소유격.** "his knees, never the knees" — 한국어 "무릎을"을 the knees로 옮기는 습관을 여기서 끊는다.
 
+
+
+## Words
+| kneel down | /nil daʊn/ | (의도해서) 무릎을 꿇다 |
+| beg for forgiveness | /bɛɡ fɔr fɚˈɡɪvnəs/ | 용서를 빌다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

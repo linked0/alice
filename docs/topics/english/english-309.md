@@ -28,6 +28,12 @@ Jay: It works alone — "I need to fill up", and the noun is a fill-up. I'd bett
 1. **영국식과 미국식 어휘는 쌍으로 묶어 둔다.** petrol station ↔ gas station, petrol ↔ gas.
 2. **had better는 결과가 붙은 조동사다.** "I'd better is for when there's a penalty" — should와 달리 안 했을 때의 불이익이 전제된다.
 
+
+
+## Words
+| fill up | /fɪl ʌp/ | 기름을 가득 채우다 |
+| petrol | /ˈpɛtroʊl/ | 영국 petrol, 미국 gas |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

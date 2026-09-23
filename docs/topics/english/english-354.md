@@ -28,6 +28,12 @@ Jay: Never. In a standup I'd say he got a talking-to. Castigation belongs in the
 1. **명사 하나가 어디까지 포함하는지 확인한다.** "The word only covers the telling-off" — 질책과 처분을 구분하면 보고서를 오독하지 않는다.
 2. **격식 어휘에는 구어 짝을 붙여 둔다.** 문서의 castigation, 말할 때의 a talking-to.
 
+
+
+## Words
+| castigate somebody | /ˈkæstəˌɡeɪt ˈsʌmˌbɑdi/ | ~를 혹독하게 비난하다 |
+| waive a review | /weɪv ə ˌriˈvju/ | 검토를 면제하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

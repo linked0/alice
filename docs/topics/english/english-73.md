@@ -26,6 +26,12 @@ Ken: Sensible. Sit less, walk more, and don't lift your suitcase with your back.
 1. **약을 받기 전에 분류를 묻고 이유를 붙인다.** "Is the painkiller a narcotic? I have an interview on Thursday…" — 이유를 주면 의사가 대안까지 제시해 준다.
 2. **가정법으로 자기 기준을 말한다.** "If it were a narcotic I'd rather manage with…" — 거절이 아니라 조건부 선호로 표현해 대화가 부드럽다.
 
+
+
+## Words
+| narcotic | /nɑrˈkɑtɪk/ | 마약; 마약성 진통제 |
+| muscle strain | /ˈmʌsəl streɪn/ | 근육 염좌 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

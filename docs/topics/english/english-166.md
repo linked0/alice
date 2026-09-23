@@ -28,6 +28,12 @@ Mateo: Then lean lightly. Treat 40 as your number and be pleasantly surprised.
 1. **전문가에게는 "아마"가 아니라 숫자를 요구하는 형태로 묻는다.** "What odds do you put on … passing this year?" — put odds on은 상대가 확률을 확정하게 만드는 질문이다.
 2. **받은 숫자는 기준 수치와 나란히 놓고 차이를 묻는다.** "Forty. The prediction markets are at 65." — 숫자 둘을 대면 상대가 차이의 이유를 설명하게 된다.
 
+
+
+## Words
+| price in | /praɪs ɪn/ | 가격에 반영하다 |
+| lean on | /lin ɑn/ | ~에 기대다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

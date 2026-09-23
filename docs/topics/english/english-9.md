@@ -28,6 +28,12 @@ Jay: A week more, and we stop having this argument every fork. Let's write the c
 2. **가짜 논점을 걷어낸다.** "So it's not really a devnet argument." 상대가 스스로 말하게 유도해 진짜 질문으로 돌아온다.
 3. **선택을 어댑터로 바꾼다.** "the account type is an adapter" 양자택일을 설계 층 하나로 흡수하면 논쟁이 반복되지 않는다.
 
+
+
+## Words
+| borrow contract code | /ˈbɑˌroʊ ˈkɑnˌtrækt koʊd/ | 컨트랙트 코드를 빌리다 |
+| either way | /ˈiðɚ weɪ/ | 어느 쪽이든 |
+
 ## Expressions
 | go with 4337 | 4337로 가자 |
 | the one they arrived with | 그들이 가지고 온 것 |

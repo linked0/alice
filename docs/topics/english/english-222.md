@@ -28,6 +28,12 @@ Jay: No. It sounds like we think they are helpless. We just say "office hours".
 1. **부정적 함의가 있는 단어는 내부 대화에서만 쓴다.** "Do we use the word on the call?" — "No. It sounds like we think they are helpless." 같은 뜻을 중립적인 말로 바꾸는 습관.
 2. **지원의 양을 시간 단위로 못 박는다.** "Two office hours a week. After that, tickets like anyone else." 약속은 기간과 형식으로 적는다.
 
+
+
+## Words
+| office hours | /ˈɔfɪs ˈaʊɚz/ | 정해진 시간에 열어 두는 질의 시간 |
+| hand something over | /hænd ˈsʌmθɪŋ ˈoʊvɚ/ | ~을 인계하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

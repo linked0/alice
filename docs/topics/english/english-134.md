@@ -28,6 +28,12 @@ Jay: A year of two-timing her. She's better off knowing.
 1. **되물음에 뜻만이 아니라 격(register)까지 답한다.** "It sounds a bit old-school; most people would just say he cheated on her." — 단어를 알려 주면서 실제로 더 흔한 표현도 같이 준다.
 2. **동사의 주어 방향을 문장으로 고정한다.** "he was two-timing her" — 항상 바람피운 쪽이 주어, 속은 쪽이 목적어. 이 순서를 그대로 외운다.
 
+
+
+## Words
+| cheat on someone | /tʃit ɑn ˈsʌmˌwʌn/ | ~를 두고 바람피우다 |
+| turns out | /tɝnz aʊt/ | 알고 보니 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

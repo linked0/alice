@@ -33,6 +33,13 @@ Jay: You'll have it today, with the three things that would move December.
 2. **거절 대신 더 좋은 데모를 팔다.** "That's a stronger demo than 'it's live,' because it shows… whether the numbers are right." 상대의 진짜 목표(이사회 신뢰)를 내 일정이 더 잘 채운다고 보여준다.
 3. **압축되지 않는 것을 이름 붙인다.** "The shadow period doesn't compress with headcount; it's calendar time." 인원을 더 준다는 제안에 대한 정직한 답. 이 한 문장이 "현실적인 리드"와 "핑계 대는 리드"를 나눈다.
 
+
+
+## Words
+| what's the gap | /wʌts ðə ɡæp/ | 차이가 뭔가 |
+| shadow running | /ˈʃæˌdoʊ ˈrʌnɪŋ/ | 구 시스템 옆에서 병행 운영 |
+| calendar time | /ˈkæləndɚ taɪm/ | 달력 시간(병렬화 불가한 기간) |
+
 ## Expressions
 | can you commit to that | 그것을 약속할 수 있나 |
 | I'd rather tell you now than on the 10th | 10일보다 지금 말하는 게 낫다 |

@@ -26,6 +26,14 @@ Mina: Thanks. And thanks for just saying so instead of arguing the log.
 1. **착각 인정은 두 절로 끝낸다: 책임 + 원인.** "My mistake — I misread it." 뒤에 "I saw your name … and stopped reading"처럼 구체적 원인을 붙이면 사과를 늘릴 필요가 없다.
 2. **사과 대신 다음 행동으로 넘어간다.** "I'll start over from the e2e logs and post what I find here." — 상대가 원하는 건 미안함이 아니라 정정된 사실과 다음 단계다.
 
+
+
+## Words
+| no harm done | /noʊ hɑrm dʌn/ | 문제없어, 괜찮아 |
+| mistake | /mɪˈsteɪk/ | 제가 착각했습니다, 잘못 읽었어요 |
+| misread | /mɪsˈrid/ | 제가 착각했습니다, 잘못 읽었어요 |
+| thinking | /ˈθɪŋkɪŋ/ | 다른 걸 생각했어요 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

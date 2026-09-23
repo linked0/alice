@@ -28,6 +28,13 @@ Jay: Exactly. Easygoing people, unforgiving pipeline.
 1. **오해될 수 있는 형용사는 반대편 기준을 붙여서 쓴다.** "Laid-back on the surface, strict underneath"처럼 대비를 한 문장에 넣으면 "느긋하다"가 "허술하다"로 들리지 않는다.
 2. **면접관이 단어를 문제 삼으면 정의를 내 것으로 좁힌다.** "To me laid-back is about hours and tone, not about quality" — about X, not about Y 구조로 범위를 한정한다.
 
+
+
+## Words
+| non-negotiable | /ˌnɑnəˈɡoʊʃəbəl/ | 타협 불가한 |
+| raise your voice | /reɪz jɔr vɔɪs/ | 언성을 높이다 |
+| easygoing | /ˌiziˈɡoʊɪŋ/ | 태평한, 무던한 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

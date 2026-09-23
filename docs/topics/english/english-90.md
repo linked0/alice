@@ -28,6 +28,12 @@ Jay: Not unless you want to sound like a novel. "Relatives" or "family" is plent
 1. **상대가 건넨 표현을 그대로 받아 관계를 확인한다.** "Kindred spirits, then. Same scars, I suspect" — 복수형으로 되돌려 주고 공통 경험 한 줄을 붙이면 처음 만난 사람과도 빨리 가까워진다.
 2. **단어의 살아 있는 용법과 죽은 용법을 구분해 준다.** "'kindred spirit' is the phrase people actually say. The noun sense … is old-fashioned." — 사전의 여러 뜻 중 실제로 쓸 것 하나를 짚어 준다.
 
+
+
+## Words
+| kindred spirit | /ˈkɪndrɪd ˈspɪrət/ | 마음이 통하는 사람, 동류 |
+| same scars | /seɪm skɑrz/ | 같은 흉터, 같은 실패 경험 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

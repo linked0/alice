@@ -28,6 +28,13 @@ Jay: And keep it for machines. About a person's voice it sounds harsh.
 1. **동사의 원뜻으로 비유를 설명한다.** "Something rubbing until your nerves are raw" — 치즈를 가는 grate에서 신경을 갉는 grate로 이어 주면 뜻이 한 번에 붙는다.
 2. **전치사가 있는 표현은 틀린 형태와 나란히 보여 준다.** "It grates on me, not it grates me" — 짝을 지어 말하면 전치사가 기억에 남는다.
 
+
+
+## Words
+| grate on somebody | /ɡreɪt ɑn ˈsʌmˌbɑdi/ | ~의 신경을 거스르다 |
+| on a loop | /ɑn ə lup/ | 계속 반복되어 |
+| it sounds harsh | /ɪt saʊndz hɑrʃ/ | 험하게 들린다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

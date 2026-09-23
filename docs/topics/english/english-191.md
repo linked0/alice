@@ -28,6 +28,12 @@ Jay: Agreed. I'd rather come back slowly than lose another two weeks.
 1. **비슷한 두 단어 중 왜 이걸 골랐는지 근거를 댄다.** "Nine hours a night and it doesn't help. That's why I say lassitude and not tiredness."
 2. **회복 계획은 숫자를 내려놓는 말로 합의한다.** "stop watching the numbers"는 운동, 업무 속도 어디에나 쓰이는 표현이다.
 
+
+
+## Words
+| have no energy | /hæv noʊ ˈɛnɚdʒi/ | 기운이 없다 |
+| come back slowly | /kʌm bæk ˈsloʊli/ | 천천히 복귀하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

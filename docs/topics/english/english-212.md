@@ -28,6 +28,13 @@ Jay: For a negotiator, yes. Our VP is a snake charmer in the boardroom.
 1. **사전형과 실제 사용형을 구분해서 묻고 답한다.** "Which one would you actually say?" — 사전에 있다고 다 쓰는 말은 아니다.
 2. **어휘의 격을 다른 텍스트에 빗대어 설명한다.** "Serpent sounds like an old translation of the Bible." 한 문장으로 레지스터를 전달하는 방법.
 
+
+
+## Words
+| charmer | /ˈtʃɑrmɚ/ | 뱀 부리는 사람 |
+| actually | /ˈækˌtʃuəli/ | 실제로는 어느 쪽을 써? |
+| boardroom | /ˈbɔrˌdrum/ | 이사회에서 위험한 사람들을 잘 다루는 사람 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

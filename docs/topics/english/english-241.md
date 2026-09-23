@@ -28,6 +28,15 @@ Jay: Right. Remiss of them not to inform us. Then I list the dates and ask for a
 1. **항의는 감정어 대신 의무를 지적하는 단어로 쓴다.** "they had a duty and skipped it" — 격식어가 오히려 더 강하게 읽힌다.
 2. **부정의 위치를 확인하고 요구를 덧붙인다.** "Remiss of them not to inform us" 뒤에 날짜와 "a notice window" 요구를 붙여야 항의가 실행으로 이어진다.
 
+
+
+## Words
+| notice window | /ˈnoʊtəs ˈwɪndoʊ/ | 사전 통지 기간 |
+| remiss | /riˈmɪs/ | ~가 …한 것은 태만이었다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~가 …한 것은 태만이었다 |
+| inform | /ˌɪnˈfɔrm/ | ~에게 …을 알리다 |
+| something | /ˈsʌmθɪŋ/ | ~에게 …을 알리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

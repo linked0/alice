@@ -28,6 +28,12 @@ Jay: That's trying once. You gave it a go in March; now you're making a go of it
 1. **비슷한 두 표현을 시간 축으로 구분한다.** give it a go(한 번 시도) → make a go of it(계속해서 성공시키다).
 2. **격려는 구체적 근거와 함께 한다.** "You have two repeat clients and the rent covered" 다음에 판단을 붙이면 빈말로 들리지 않는다.
 
+
+
+## Words
+| keep at it | /kip æt ɪt/ | 꾸준히 매달리다 |
+| something | /ˈsʌmθɪŋ/ | ~을 노력해서 성공시키다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

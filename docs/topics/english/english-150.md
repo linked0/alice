@@ -28,6 +28,12 @@ Jay: "Shrouded in secrecy", folded into one adjective. With "previously unannoun
 1. **긴 주어는 수식을 걷어 내고 뼈대만 말한다.** "The documentary premieres … at Telluride. Everything between … just describes the documentary." — 관계절을 통째로 접어서 본동사를 찾는다.
 2. **합성 형용사는 원래 구로 풀어서 설명한다.** "'Shrouded in secrecy', folded into one adjective." — X-ed 형태의 합성어는 뒤집으면 전치사구가 된다.
 
+
+
+## Words
+| premiere | /prɛˈmɪr/ | 첫 공개되다, 초연되다 |
+| shrouded in secrecy | /ˈʃraʊdɪd ɪn ˈsikrəsi/ | 비밀에 싸인 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

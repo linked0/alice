@@ -24,6 +24,14 @@ Jay: It is. In conversation I'd say I can't shake it — but "divest myself of" 
 1. **격식체와 구어체를 한 쌍으로 익힌다.** "In conversation I'd say I can't shake it — but 'divest myself of' is what I'd write in a letter."
 2. **재귀 목적어 + of 구조.** divest는 목적어로 myself를 두고 뒤에 of를 붙인다. "divest myself of the idea"의 어순을 통째로 외우자.
 
+
+
+## Words
+| six months on | /sɪks mʌnθs ɑn/ | 반년이 지난 지금도 |
+| divest | /daɪˈvɛst/ | ~을 떨쳐 버리다, 처분하다 |
+| oneself | /ˌwʌnˈsɛlf/ | ~을 떨쳐 버리다, 처분하다 |
+| something | /ˈsʌmθɪŋ/ | ~을 떨쳐 버리다, 처분하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

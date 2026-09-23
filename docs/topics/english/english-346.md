@@ -28,6 +28,13 @@ Jay: Good. Then I'll tell compliance the timeline isn't as short as they think.
 1. **법률 용어는 "그게 어느 단계냐"로 확인한다.** "Is that the trial?"처럼 단계를 물으면 사전 뜻보다 정확히 이해된다.
 2. **기일을 말하는 수동 패턴을 통째로 외운다.** "his arraignment has been set for January 9th" — <심리> has been set for <날짜>.
 
+
+
+## Words
+| arraignment | /ɚˈeɪnmənt/ | 기소인부 심리 |
+| enter a plea | /ˈɛntɚ ə pli/ | 인정 여부를 답하다 |
+| trial date | /ˈtraɪəl deɪt/ | 재판 기일 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

@@ -28,6 +28,14 @@ Jay: Which is exactly why the description should say what the code is, not how I
 1. **오해를 부인하고 곧바로 단어를 바꾼다.** "I didn't mean it as pejorative … so I'll change it to 'pre-v2 billing module' to be safe." — 의도를 설명하는 데 그치지 않고 애매한 딱지를 사실 서술로 교체한다.
 2. **격식 단어는 상대가 되물으면 한 구로 정의한다.** "A word that carries contempt." — 정의 뒤에 "can be neutral or pejorative depending on tone"으로 왜 그 단어가 필요했는지 보여 준다.
 
+
+
+## Words
+| pejorative | /pəˈdʒɔrətɪv/ | (말이) 경멸적인 |
+| dig at | /dɪɡ æt/ | ~를 비꼬는 말 |
+| predate | /priˈdeɪt/ | ~보다 먼저 있다 |
+| be safe | /bi seɪf/ | 안전하게, 혹시 몰라서 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

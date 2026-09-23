@@ -28,6 +28,16 @@ Jay: One line. I said I'd been nervous and skipped the estimates, and I put the 
 1. **실수의 원인이 감정이면 "X got the better of me"로 한 절에 끝낸다.** "my nerves got the better of me and I skipped the capacity numbers" — 원인과 결과를 붙이고 거기서 멈춘다.
 2. **후속 메일에서는 사실과 보완만 쓴다.** "I said I'd been nervous and skipped the estimates, and I put the estimates in the note." — 사과 문단 대신 빠진 내용을 채운다.
 
+
+
+## Words
+| no apology paragraph | /noʊ əˈpɑləˌdʒi ˈpærəˌɡræf/ | 사과 문단 없이 |
+| nerves | /nɝvz/ | 긴장이 나를 압도했다 |
+| better | /ˈbɛtɚ/ | 긴장이 나를 압도했다 |
+| somebody | /ˈsʌmˌbɑdi/ | ~을 이기다 |
+| numbers | /ˈnʌmbɚz/ | 알고는 있었는데 말을 안 했다 |
+| didn't | /ˈdɪdənt/ | 알고는 있었는데 말을 안 했다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

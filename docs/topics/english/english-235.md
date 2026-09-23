@@ -28,6 +28,12 @@ Jay: It is. I'd say it about a tactic, not about a person's belief.
 1. **비유의 원래 그림을 짚으면 정치 용어가 쉬워진다.** "A wedge, as in splitting wood" — 쐐기 이미지 하나로 정의가 끝난다.
 2. **평가가 실린 말은 대상을 좁혀서 쓴다.** "I'd say it about a tactic, not about a person's belief" — 전술을 비판하되 사람을 공격하지 않는 안전한 위치다.
 
+
+
+## Words
+| wedge issue | /wɛdʒ ˈɪʃu/ | 분열 쟁점 |
+| coalition | /ˌkoʊəˈlɪʃən/ | 연합의 틈 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

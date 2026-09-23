@@ -28,6 +28,15 @@ Jay: If I said tomorrow, I'd be lying, so I'd rather promise a date I can keep.
 1. **가정법 질문엔 같은 시제로 답한다.** "If I could, yes… I'd leave because…" — could로 물으면 would/'d로 받아야 현실과 거리 두기가 유지된다.
 2. **가정법으로 조건을 제안한다.** "If I could hand it over cleanly in four weeks, would that work for your start date?" — 확정 전 조건을 부드럽게 던지는 협상 문형.
 
+
+
+## Words
+| outta | /ˈutə/ | 구어 축약 |
+| tomorrow | /təˈmɑˌroʊ/ | 내일이라고 하면 거짓말일 거예요 |
+| lying | /ˈlaɪɪŋ/ | 내일이라고 하면 거짓말일 거예요 |
+| something | /ˈsʌmθɪŋ/ | 깔끔하게 인계하다 |
+| cleanly | /ˈklinli/ | 깔끔하게 인계하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

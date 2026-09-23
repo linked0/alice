@@ -28,6 +28,13 @@ Jay: Sloppy is a word for the code, not for you. I'd rather say it now than debu
 1. **평가는 작업물에, 사람에게는 아니다.** "the error handling is sloppy"처럼 주어를 코드로 두면 같은 단어도 인신공격이 되지 않는다. "Sloppy is a word for the code, not for you."
 2. **형용사를 되물으면 한 단어로 다시 정의한다.** "Sloppy as in wrong?" → "Sloppy as in careless." — "X as in Y" 패턴으로 뜻을 좁혀 준다.
 
+
+
+## Words
+| sloppy | /ˈslɑpi/ | 엉성한, 대충 한 |
+| swallow an error | /ˈswɑloʊ æn ˈɛrɚ/ | 에러를 삼키다(잡고 아무것도 안 하다) |
+| could be tighter | /kʊd bi ˈtaɪtɚ/ | 좀 더 다듬을 수 있겠다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

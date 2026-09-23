@@ -28,6 +28,14 @@ Jay: Thanks. And if you want to poke at checkout, use staging — you can mess w
 1. **경고는 행동 + 이유 한 문장으로 붙인다.** "Please don't mess with the prod config by hand … on-call gets paged with no record of what changed" — 금지만 말하지 않고 왜 위험한지를 바로 잇는다.
 2. **같은 단어의 다른 뜻은 짝 예문으로 보여 준다.** "Same word when I say 'don't mess with the auditors'" — 설정을 건드리는 것과 위험한 상대와 얽히는 것을 한 단어로 묶어 기억시킨다.
 
+
+
+## Words
+| mess with | /mɛs wɪð/ | 참견하다·함부로 건드리다·위험한 것과 얽히다 |
+| get paged | /ɡɛt peɪdʒd/ | 온콜 알림을 받다 |
+| poke at | /poʊk æt/ | 이것저것 찔러 보며 시험하다 |
+| all you like | /ɔl ju laɪk/ | 마음껏 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

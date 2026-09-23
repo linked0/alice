@@ -28,6 +28,13 @@ Jay: It does. I'll keep abnegation for essays and say "gave up a lot" when I'm t
 1. **격식어에 담긴 평가를 드러낸다.** "the praise is built into it" — 단어가 이미 판단을 품고 있다는 지적은 토론에서 강한 한 수다.
 2. **문어체와 회화체를 스스로 나눠 둔다.** "I'll keep abnegation for essays and say 'gave up a lot' when I'm talking."
 
+
+
+## Words
+| abnegation | /ˌæbnɛˈɡeɪʃən/ | 자기 욕구의 포기, 극기 |
+| praise | /preɪz/ | 칭찬이 단어에 이미 들어 있다 |
+| stumble | /ˈstʌmbəl/ | (읽다가) 한 단어에서 걸리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

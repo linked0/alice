@@ -28,6 +28,14 @@ Jay: Of course. But the day it's confirmed, they hear it the same day.
 1. **강한 단어는 범위를 되물어 확인한다.** "Axe it completely, or cut its budget?" — axe가 취소인지 삭감인지 상대에게 정확히 묻는다.
 2. **같은 동사가 대상에 따라 무게가 다르면 대비로 말한다.** "A project getting axed is a line item; a person getting the axe is someone's rent." — 세미콜론 대구로 차이를 보여 준다.
 
+
+
+## Words
+| axe a project | /æks ə ˈprɑdʒɛkt/ | 사업을 중단하다, 인원을 감축하다 |
+| get the axe | /ɡɛt ðə æks/ | 잘리다, 중단되다 |
+| wind down | /waɪnd daʊn/ | (일·사업을) 정리하다, 서서히 종료하다 |
+| line item | /laɪn ˈaɪtəm/ | (예산·명세의) 항목 하나 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

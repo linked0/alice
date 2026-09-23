@@ -28,6 +28,14 @@ Jay: Then two weeks should show it, not two months. If it clears the gate, we mo
 1. **예산 논의 전에 "단 하나의 질문"을 요구한다.** "What's the one question a PoC would have to answer for this to move forward?" — 목록이 아니라 기준 하나를 받아 내는 질문의 꼴이다.
 2. **질문이 나오면 숫자와 기한으로 바꾼다.** "put numbers on it, fill rate and p95 latency, fixed up front" → "two weeks should show it, not two months" — 게이트 지표가 정해지면 기간도 줄어든다.
 
+
+
+## Words
+| clear the gate | /klɪr ðə ɡeɪt/ | 게이트(사전 정의 기준)를 통과하다 |
+| question | /ˈkwɛstʃən/ | PoC가 반드시 답해야 할 단 하나의 질문 |
+| answer | /ˈænsɚ/ | PoC가 반드시 답해야 할 단 하나의 질문 |
+| forward | /ˈfɔrwɚd/ | 이것이 다음 단계로 가려면 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

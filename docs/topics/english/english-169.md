@@ -28,6 +28,14 @@ Jay: The oracle is fine. We need a margin buffer so a small move can't touch off
 1. **계기와 원인을 동사로 갈라 말한다.** "Touched it off, yes. Caused it, no." — touch off는 작은 방아쇠, cause는 밑바닥 조건이라는 구분이 한 줄에 들어간다.
 2. **구분한 뒤에는 수정 방향을 원인 쪽으로 돌린다.** "The oracle is fine. We need a margin buffer" — 방아쇠가 아니라 연료를 고친다는 결론까지 말해야 분석이 끝난다.
 
+
+
+## Words
+| touch something off | /tʌtʃ ˈsʌmθɪŋ ɔf/ | ~을 촉발하다 |
+| set off | /sɛt ɔf/ | 촉발하다 |
+| match | /mætʃ/ | 방아쇠 대 연료 |
+| on its own | /ɑn ɪts oʊn/ | 그 자체로는 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

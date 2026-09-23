@@ -29,6 +29,13 @@ Jay: Treat it like a well-read colleague who's had two drinks. Ask for the reaso
 2. **선이 구한 사례는 비용도 함께.** "an hour I resented… it would have shipped." 자기 규율의 비용을 인정할 때 사례가 진짜로 들린다.
 3. **팀 관점으로 끝낸다.** "in three years I have a team that can prompt and can't judge." 리드 면접에서 개인 습관은 팀 정책으로 번역되어야 점수가 된다.
 
+
+
+## Words
+| errands and walks | /ˈɛrəndz ənd wɔks/ | 심부름과 걷기(위임할 일과 직접 할 일) |
+| hour I resented | /ˈaʊɚ aɪ riˈzɛntɪd/ | 짜증났던 한 시간 |
+| confidently wrong | /ˈkɑnfədəntli rɔŋ/ | 자신 있게 틀린 |
+
 ## Expressions
 | errands and walks | 심부름과 걷기(위임할 일과 직접 할 일) |
 | whose interface I've fixed | 내가 인터페이스를 고정한 |

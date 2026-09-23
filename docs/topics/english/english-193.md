@@ -28,6 +28,14 @@ Jay: Good. I'd rather fix the naming than muddle through another month of this.
 1. **책임을 사람이 아니라 설정 탓으로 돌린다.** "Both accounts are saved under the same nickname. That's where it starts." — 창구에서 다투지 않고 문제를 고치는 순서다.
 2. **muddle의 세 형태를 한 대화에서 쓴다.** 동사(muddled the two), 구동사(muddle them up), 명사(in a muddle) — 한 단어의 쓰임을 몸에 붙이는 방법이다.
 
+
+
+## Words
+| muddle | /ˈmʌdəl/ | 뒤죽박죽으로 만들다 |
+| muddle something up | /ˈmʌdəl ˈsʌmθɪŋ ʌp/ | 둘을 섞어 헷갈리다 |
+| in a muddle | /ɪn ə ˈmʌdəl/ | 뒤죽박죽인 상태로 |
+| muddle through | /ˈmʌdəl θru/ | 서툴게나마 버텨 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

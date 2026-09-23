@@ -28,6 +28,12 @@ Jay: Fair. I'll open a thread today and pin it.
 1. **즉답 요구에는 기한을 붙인 유예를 제안한다.** "Can we let it percolate until Thursday?" — 거부가 아니라 날짜가 있는 연기라서 매니저가 받아들이기 쉽다.
 2. **비유 단어의 뜻은 원래 이미지로 돌아가 설명한다.** "Water drips through the grounds slowly; an idea drips through a team the same way." — 커피의 이미지 하나가 세 가지 사전 뜻을 잇는다.
 
+
+
+## Words
+| let it percolate | /lɛt ɪt ˈpɝkəˌleɪt/ | 생각이 익도록 며칠 두다 |
+| surface | /ˈsɝfəs/ | 저절로 드러나다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

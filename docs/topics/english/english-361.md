@@ -28,6 +28,11 @@ Jay: Yes, if the joke is about my own life. It's usually a little uncomfortable,
 1. **글에 대한 평가와 나에 대한 반응을 구분한다.** "Well written is about the essay. Close to home is about me." — 두 층을 나눠 말하면 감상이 정확해진다.
 2. **감상을 말할 때는 왜 가까운지 근거를 댄다.** "He's my age, same stack"처럼 구체적인 공통점이 표현을 살린다.
 
+
+## Words
+| to hit close to home | /hɪt kloʊs tə hoʊm/ | 남 일 같지 않다 — close 는 /s/, 동사 /z/ 가 아니다 |
+| relatable | /rɪˈleɪtəbəl/ | 공감되는 — 강세는 -LAT- |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

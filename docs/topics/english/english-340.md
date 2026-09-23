@@ -28,6 +28,12 @@ Jay: Then we patch for another year and I've saved us six months. Either way, I 
 1. **찬성 논거는 반대 논거를 스스로 세운 뒤에 더 강해진다.** "The case for lands harder once I've made the case against."가 설득의 순서를 요약한다.
 2. **동사형 "make the case for"를 함께 익힌다.** 명사구만 외우면 문장으로 쓸 때 막힌다.
 
+
+
+## Words
+| case for something | /keɪs fɔr ˈsʌmθɪŋ/ | ~에 찬성하는 논거 |
+| case against something | /keɪs əˈɡɛnst ˈsʌmθɪŋ/ | ~에 반대하는 논거 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

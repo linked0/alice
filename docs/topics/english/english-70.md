@@ -26,6 +26,12 @@ Aoife: Noted. Next round's on the vendor, technically.
 1. **놀리는 칭찬 뒤에 진짜 질문을 붙인다.** "You're such a smooth talker. Goodness! Was it actually the best you'd seen?" — 감탄사로 웃긴 뒤 바로 사실 확인을 하면 놀림이 가볍게 끝난다.
 2. **같은 표현을 부정적 쪽으로 뒤집어 경고한다.** "Just don't be a smooth talker with the CFO" — smooth talker가 칭찬과 경계의 양면을 가진다는 점을 대화 안에서 보여 준다.
 
+
+
+## Words
+| smooth talker | /smuð ˈtɔkɚ/ | 말솜씨로 사람을 구슬리는 사람 |
+| Goodness | /ˈɡʊdnəs/ | 어머, 세상에 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

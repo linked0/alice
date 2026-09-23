@@ -28,6 +28,12 @@ Jay: See, you were living it up a little. Nothing wrong with that; you gave a ta
 1. **과거의 한때를 추측할 때는 must have been -ing.** "you must have been really living it up"은 지금이 아니라 리스본에 있던 그 며칠 동안의 상태를 확신하며 짐작하는 형태다. "You must be tired"(현재)와 구분한다.
 2. **놀림은 짧은 증거 한 줄로 이어 간다.** "Sure you did. Then explain the tan." — 반박 대신 눈에 보이는 것 하나를 던지면 상대가 웃으면서 인정한다.
 
+
+
+## Words
+| live it up | /laɪv ɪt ʌp/ | 돈 쓰며 신나게 즐기다, 호화롭게 놀다 |
+| I bet | /aɪ bɛt/ | 틀림없겠네, 안 봐도 알겠다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

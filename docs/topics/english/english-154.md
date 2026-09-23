@@ -28,6 +28,16 @@ Jay: Right. Walk through and you can't walk back. A two-way door you can come ba
 1. **선택지를 되돌릴 수 있느냐로 다시 분류한다.** "It's a risk we can undo." — 위험의 크기가 아니라 가역성으로 프레임을 바꾸면 논쟁의 축이 이동한다.
 2. **비유를 말한 뒤 곧바로 결정 규칙으로 잇는다.** "let's not spend a one-way-door amount of deliberation on it" — 문 비유가 "얼마나 고민할지"의 규칙이 된다.
 
+
+
+## Words
+| one-way door | /ˌwʌnˈweɪ dɔr/ | 되돌릴 수 없는 결정 / 되돌릴 수 있는 결정 |
+| two-way | /ˈtuˌweɪ/ | 되돌릴 수 없는 결정 / 되돌릴 수 있는 결정 |
+| asymmetry | /ˌeɪˈsɪmətri/ | 그 비대칭이 내 주장의 전부다 |
+| argument | /ˈɑrɡjəmənt/ | 그 비대칭이 내 주장의 전부다 |
+| undo | /ənˈdu/ | 되돌릴 수 있는 위험 |
+| revisit | /riˈvɪzɪt/ | 한 분기 뒤에 다시 검토하다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

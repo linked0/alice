@@ -28,6 +28,12 @@ Jay: Then I'll stop calling it a prenup like it's a plot twist. Congratulations,
 1. **선입견은 내 것으로 말하고 상대에게 정정할 자리를 준다.** "I've only ever seen those in films, where they mean trouble." — 판단이 아니라 고백이라서 상대가 편하게 설명한다.
 2. **상대의 표현을 그대로 받아 요약한다.** "less like distrust and more like keeping a business tidy" — 상대의 뜻을 확인해 주는 되말하기.
 
+
+
+## Words
+| prenuptial agreement | /priˈnʌpʃəl əˈɡrimənt/ | 혼전 합의서 |
+| venue is booked | /ˈvɛnju ɪz bʊkt/ | 식장을 예약했다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

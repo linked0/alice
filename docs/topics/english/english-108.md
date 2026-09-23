@@ -28,6 +28,13 @@ Jay: Call it a concern, not a beef, and attach the two dates we actually missed.
 1. **"beef"는 불만의 내용이 아니라 반복성을 담는다.** "Same beef as last quarter"처럼 쓰면 "또 그 얘기"라는 뉘앙스가 함께 전해진다.
 2. **회화어와 서면어를 갈아 끼운다.** "Call it a concern, not a beef" — 같은 불만을 서면에서는 concern으로 바꾸고 근거를 붙이는 것이 팀 리드의 언어다.
 
+
+
+## Words
+| beef | /bif/ | 불평, 불만(반복되는) |
+| tune something out | /tun ˈsʌmθɪŋ aʊt/ | 흘려듣다, 무시하다 |
+| side with someone | /saɪd wɪð ˈsʌmˌwʌn/ | ~의 편을 들다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

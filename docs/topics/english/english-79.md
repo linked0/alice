@@ -28,6 +28,12 @@ Jay: Good. And I'll tell Sam the point itself was valid, so it doesn't get lost 
 1. **내용과 태도를 분리해서 평가한다.** "He had a point about the scope creep, but mouthing off at Sam … was the wrong way to make it" — 주장은 인정하고 방식만 비판하면 험담이 아니라 평가가 된다.
 2. **비슷한 표현과 대비해 뜻을 한 줄로 설명한다.** "If he'd raised it one-on-one, that's speaking up. Shouting across the table is mouthing off." — 대비 한 문장이 사전 정의보다 빨리 전달된다.
 
+
+
+## Words
+| have a point | /hæv ə pɔɪnt/ | 일리가 있다 |
+| speak up | /spik ʌp/ | 정당하게 의견을 내다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

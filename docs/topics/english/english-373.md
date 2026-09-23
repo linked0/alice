@@ -24,6 +24,14 @@ Jay: Different, not just worse. A complaint asks for something; he launched into
 1. **"launch into a tirade"는 통째로 외우는 연어.** tirade는 동사가 없으니 launch into, deliver, unleash 같은 동사를 빌려 쓴다.
 2. **비슷한 말은 "무엇을 하는 말인가"로 구분한다.** "A complaint asks for something; a tirade asks for nothing" — 기능으로 가르는 설명이 가장 오래 남는다.
 
+
+
+## Words
+| tirade | /taɪˈreɪd/ | 장황한 비난 |
+| launch | /lɔntʃ/ | 장광설을 퍼붓기 시작하다 |
+| someone | /ˈsʌmˌwʌn/ | 자리를 뜰 수 없는 사람 |
+| away | /əˈweɪ/ | 자리를 뜰 수 없는 사람 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

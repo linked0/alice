@@ -28,6 +28,13 @@ Jay: I'd write "the process was documented" and attach the quotes. Above board i
 1. **관용구의 그림을 함께 기억하면 뜻이 흔들리지 않는다.** "your hands stay above the table so nobody can swap one".
 2. **말과 증거를 나눈다.** "Above board is what you say; documents are what you show." — 감사·심사 자리에서 쓰는 화법이다.
 
+
+
+## Words
+| above board | /əˈbʌv bɔrd/ | 공명정대한, 숨긴 것이 없는 |
+| open tender | /ˈoʊpən ˈtɛndɚ/ | 공개 입찰 |
+| sound defensive | /saʊnd dɪˈfɛnsɪv/ | 변명처럼 들리다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

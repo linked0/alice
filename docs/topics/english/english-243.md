@@ -24,6 +24,12 @@ Jay: No, tipping is roll. Yaw is the flat left-right swing. Pilots do it on purp
 1. **모르는 움직임은 축(axis) 세 개로 나눠서 설명한다.** "tipping is roll. Yaw is the flat left-right swing"처럼 아닌 것과 맞는 것을 나란히 두면 한 줄로 정의가 끝난다.
 2. **불안한 사람에게는 "정상이다"를 마지막에 붙인다.** "It's normal on final approach" 한마디가 설명을 안심으로 바꾼다.
 
+
+
+## Words
+| yaw | /jɔ/ | 수직축 기준 좌우로 기수가 틀어지다 |
+| on final approach | /ɑn ˈfaɪnəl əˈproʊtʃ/ | 최종 접근 중에 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|

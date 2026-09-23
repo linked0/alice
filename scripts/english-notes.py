@@ -69,12 +69,16 @@ def parse(path):
                 sp, _, en = l.partition(":"); it["dialogue"].append({"who": sp.strip(), "en": en.strip(), "ko": ""})
         elif sec == "techniques":
             it["techniques"].append(re.sub(r'^\d+\.\s*', '', l))
-        elif sec == "expressions":
+        elif sec in ("expressions", "words"):
+            # A markdown table's own header and separator rows are not data. Both were being rendered
+            # as table rows in 361 pages — "Expression | 뜻 · 쓰이는 자리" and "--- | ---" sitting at the
+            # top of the rendered table (found 2026-09-23). Skipped here rather than stripped from 399
+            # source files, because the source is a valid markdown table and should stay one.
             cells = [c.strip() for c in l.strip().strip("|").split("|")]
-            if len(cells) >= 2: it["expressions"].append(cells[:2])
-        elif sec == "words":
-            cells = [c.strip() for c in l.strip().strip("|").split("|")]
-            if len(cells) >= 3 and not set(cells[0]) <= set("-: "): it["words"].append(cells[:3])
+            if set("".join(cells)) <= set("-: "): continue                      # separator row
+            if cells[0].lower() in ("expression", "word"): continue             # header row
+            need = 3 if sec == "words" else 2
+            if len(cells) >= need: it[sec].append(cells[:need])
     for k in ("title_ko", "situation", "situation_ko", "why", "why_ko"): assert k in it, (path, k)
     # added date (jay, 2026-09-21: "It is missing the date when the item is added"): the optional `added:` header,
     # else the day the .md file entered git — shown in the kicker and written to _nav.js (index, one-week NEW rule).
@@ -98,9 +102,13 @@ items = sorted(items, key=lambda x: (RANK[x["status"]], _pin(x), x["n"])); POS.u
 N = len(items); DONE = sum(1 for x in items if x["status"] in ("done", "recent", "revisit"))
 # The pronunciation rule (jay, 2026-09-22) applies to items added from that day on. A warning, not an
 # assert: a rebuild must never be blocked by an editorial rule, and 398 earlier items predate it.
-WORDS_RULE_FROM = "2026-09-22"
-_no_words = [x["n"] for x in items if x["added"] >= WORDS_RULE_FROM and not x["words"]]
-if _no_words: print(f"warning: no '## Words' section (rule since {WORDS_RULE_FROM}): english-{', english-'.join(map(str, _no_words))}.md", file=sys.stderr)
+# jay, 2026-09-23: "for all eng items i want the new words included" — the rule is no longer
+# limited to items added from 2026-09-22 on. Still a warning, never an assert: a rebuild must not be
+# blocked by an editorial rule.
+_no_words = [x["n"] for x in items if not x["words"]]
+if _no_words:
+    _shown = ", ".join(map(str, _no_words[:12])) + (" …" if len(_no_words) > 12 else "")
+    print(f"warning: {len(_no_words)} item(s) with no '## Words' section: {_shown}", file=sys.stderr)
 key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 
 # ---------------- detail pages ----------------

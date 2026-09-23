@@ -28,6 +28,12 @@ Jay: Yes, revert it. I'll leave a note on the review thread so the record shows 
 1. **정정 메시지는 목적 → 무엇이 틀렸나 → 왜 지금인가 순서로, 사과 없이.** "flagging a correction to my own review. What I said yesterday … was wrong, and I want to correct it before it costs you more time." — 상대가 첫 줄에서 용건을 안다.
 2. **틀린 원인을 한 문장으로 특정한다.** "My reading of the call path. I had the handler invoking the wrapper twice; it doesn't." — 원인이 구체적이어야 상대가 남은 판단을 신뢰한다.
 
+
+
+## Words
+| correct | /kɚˈɛkt/ | 이미 아는 오류를 바로잡다 vs 오류를 발견하다 |
+| move buys nothing | /muv baɪz ˈnʌθɪŋ/ | 옮겨도 얻는 게 없다 |
+
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
 |---|---|
