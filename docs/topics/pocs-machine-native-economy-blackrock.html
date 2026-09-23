@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine-native money, machine-native intelligence — and the clause that undercuts the channel — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Machine-native money, machine-native intelligence — and the clause that undercuts the channel</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#76</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-23-machine-native-economy-blackrock.md">raw</a></span></p>
+      <h1>Machine-native money, machine-native intelligence — and the clause that undercuts the channel</h1>
+      <p class="lead">BlackRock Digital Assets Research argues that AI and digital assets have been running on parallel tracks and are now converging, because agentic AI needs to transact and blockchains are the programmable infrastructure that connects intelligence to economic activity. The paper&#39;s frame is a pair: AI is machine-native intelligence, digital assets are machine-native money. It explores three overlaps — tokenization as a shared architecture, agentic commerce needing machine-native rails, and compute becoming a market for digital assets — and concludes that AI adoption is an underappreciated source of demand for the digital asset economy.</p>
+      <p class="meta">Pasted in full by jay, 2026-09-23. Authors: Will Su (Head of Digital Assets Research), Robert Mitchnick (Head of Digital Assets), Jay Jacobs (U.S. Head of Equity ETFs) and William Helm (Head of U.S. iShares Product Innovation); document code CE0926-M-5936357-EXP0927. I did not obtain the PDF and verified none of its cited figures. The five arguments this card adds are marked as mine in the body, and the sharpest one is that the paper&#39;s own example breaks the transmission channel it proposes.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Machine-native money, machine-native intelligence — and the clause that undercuts the channel\n\nBlackRock Digital Assets Research argues that AI and digital assets have been running on parallel tracks and are now converging, because agentic AI needs to transact and blockchains are the programmable infrastructure that connects intelligence to economic activity. The paper's frame is a pair: AI is machine-native intelligence, digital assets are machine-native money. It explores three overlaps — tokenization as a shared architecture, agentic commerce needing machine-native rails, and compute becoming a market for digital assets — and concludes that AI adoption is an underappreciated source of demand for the digital asset economy.\n\nPasted in full by jay, 2026-09-23. Authors: Will Su (Head of Digital Assets Research), Robert Mitchnick (Head of Digital Assets), Jay Jacobs (U.S. Head of Equity ETFs) and William Helm (Head of U.S. iShares Product Innovation); document code CE0926-M-5936357-EXP0927. I did not obtain the PDF and verified none of its cited figures. The five arguments this card adds are marked as mine in the body, and the sharpest one is that the paper's own example breaks the transmission channel it proposes.\n\n## Why\n\nThis is the most complete institutional statement of the agent-payments thesis so far, and it is worth reading closely for two opposite reasons.\n\nFirst, it is careful where most such papers are loose. It distinguishes M2M from B2M and C2M, names the specific properties that make card and ACH rails a bad fit for sub-cent always-on payments, flags its own weakest evidence as simulation rather than observation, and hedges the native-token value-capture claim instead of asserting it. That is a higher standard than the genre usually meets.\n\nSecond, the hedges are where the real content is, and a reader who skims will take away the headline and miss them. **One subordinate clause in this paper contradicts the mechanism its own section proposes**, and the paper names the counterexample itself without marking it as one. Section 6 below is that finding.\n\nThere is also a fact about the byline worth keeping in view: two of four authors run product functions — Equity ETFs and iShares Product Innovation — not research. This is not a reason to discount the argument, which has to stand on its own. But a paper whose last substantive section argues that compute should become a standardized, transferable, pledgeable, exchange-traded claim is a paper upstream of a product category, and the document's own disclaimer says it should not be relied on as research or investment advice.\n\n## How it works\n\n### 1 — The thesis\n\nAI is machine-native intelligence; digital assets are machine-native money. Agentic AI — systems that plan and execute multistep tasks toward an objective by interacting with external tools and infrastructure with limited human intervention — is what makes the pairing bite, because it extends AI from content generation to real-world action, including purchases and transactions. AI interprets information and directs action; blockchains provide machine-readable assets and programmable settlement.\n\n### 2 — Overlap one: the tokenization parallel\n\nThe paper places the two workflows side by side:\n\n| Step | LLM tokenization | Digital-asset tokenization |\n|---|---|---|\n| Input | \"AI is changing the world\" | A $100 beneficial interest in a money market fund |\n| Discretise | Tokens: \"AI\", \"is\", \"changing\", \"the\", \"world\" | Tokenized fund shares assigned to an investor's wallet |\n| Encode | Numerical IDs `[101, 23, 4587, 5, 982]` | Transaction fields `[Asset ID, Sender ID, Recipient ID, Units, Eligibility Flag]` |\n| Represent | Embedding vectors the model computes over | A finalized ledger record: `tx_hash`, `asset_id`, `from_id`, `to_id`, `token_units`, `block`, `status: finalized` |\n\nIt is explicit that \"the functions are distinct\" and the processes are \"technically distinct\", and the claim is only that both translate real-world inputs into machine-native formats.\n\n**This card's first argument: the parallel is a pun, and the paper's next paragraph says so.** An LLM token is a lossy statistical encoding with no referent — token `4587` is not owned by anyone, confers nothing, and would be meaningless to transfer. An asset token is the opposite: its entire value is the enforceability of a claim that lives outside the encoding. The two share the word \"token\" and the property of being discrete and machine-readable. That is not a shared architecture.\n\nThe paper concedes the difference two paragraphs later without flagging it as a concession: AML, KYC and KYA checks \"generally occur off-chain… with verified results passed on-chain\", and tokenized RWAs sit \"within a broader legal and regulated-service framework that relies on authoritative off-chain registries\". **An LLM token needs no registry, no eligibility flag and no regulated framework.** The `Eligibility Flag` in its own diagram is the tell: it is the field where the legal world reaches in, and there is no counterpart on the AI side.\n\nWhat survives, and does not need the analogy: agents interface more easily with standardized, machine-readable representations than with fragmented legacy systems, and standardisation across asset classes reduces bespoke integrations. That claim is true and load-bearing. It is about API surface, not about tokenization.\n\n### 3 — The Bitcoin Policy Institute study\n\nCited as preliminary support: across controlled simulations, model outputs generally favoured stablecoins for everyday payments and bitcoin for long-term value preservation, pointing to a possible AI-native monetary architecture with stablecoins as transaction money and bitcoin as store of value. The paper states plainly that these are \"simulated model responses rather than observed agent behavior\".\n\n**This card's second argument.** The caveat is honest but understates the problem. The study measures what a model *says* when asked. An agent does not choose its money — **it spends what its operator funded its wallet with**, under whatever policy the operator set. If an agent's budget arrives as USDC on a corporate account with a spending mandate, the model's stated preference for bitcoin is irrelevant to every transaction it will ever make. The signal worth tracking is not model preference; it is operator treasury policy and what the payment protocols make cheap. The paper's own footnote hints at this — \"analysis based on the currency being held as cash\".\n\n### 4 — Overlap two: why existing rails do not fit\n\nThe specific objections, which are the strongest passage in the paper:\n\n| Constraint | What it breaks for agents |\n|---|---|\n| Account setup, credentialing and authorization may require human involvement | Defeats \"limited human intervention\" at onboarding, before any transaction |\n| Merchant acceptance fees | Makes very low-value transactions uneconomic — a fixed fee against a sub-cent payment |\n| Settlement and finality | Most ACH volume settles within one business day or less; card authorization is near-instant but merchant settlement and dispute finality take longer |\n| Scalability | Machine-generated volumes may exceed what the rails were sized for |\n\nThe division of labour it draws from this: **crypto-native rails for high-frequency, sub-cent, around-the-clock M2M** — API calls, on-demand data, consumption-based compute — and **modified traditional rails for B2M and C2M**, where an agent meets a human-operated business or consumer.\n\nThat second half is already happening without any agent involved, which is the connection to `stablecoin-in-the-leg-nobody-sees` (added the same day): a card program moving its settlement leg to a bank-issued stablecoin is exactly \"adaptation to traditional payment rails\", arriving from the institutional side rather than the agent side.\n\n### 5 — The protocol stack, as the paper lays it out\n\n| Protocol | From | Introduced | What it does |\n|---|---|---|---|\n| MCP (Model Context Protocol) | Anthropic | Nov 2024 | Standardises how AI applications access external data and workflows |\n| A2A (Agent2Agent) | Google | Apr 2025 | Lets agents communicate and coordinate across platforms |\n| x402 | Coinbase | — | Open payment protocol using HTTP 402 \"Payment Required\" for machine-initiated payments; blockchain-agnostic, USDC as early primary use case |\n| MPP (Machine Payments Protocol) | Stripe + Tempo | — | Payments for APIs and other HTTP resources, settling via stablecoins *or* traditional methods |\n| ACP (Agentic Commerce Protocol) | Stripe + OpenAI | — | Programmatic checkout between agents and businesses, sellers keep their existing commerce and payment infrastructure |\n| AP2 (Agents Payment Protocol) | Google | — | Cryptographic mandates and audit trails as evidence of user authorization |\n| TAP (Trusted Agent Protocol) | Visa | — | Helps merchants verify trusted agents and receive payment credentials securely |\n\nOn x402 specifically: 24/7 near-real-time verifiable settlement reduces the resource provider's counterparty exposure and lets the service be released immediately on payment confirmation. That is the correct framing — x402's value is not speed for its own sake, it is that **the provider no longer extends credit to an anonymous caller.**\n\nThe illustrative workflow (Figure 2) is worth keeping because it shows where each protocol sits: a user says \"book my trip for under $2,500\"; the primary agent reaches calendar, email and payment credentials through MCP; delegates fare-gathering to a travel sub-agent through A2A; the sub-agent pays airfare and hotel-rate APIs through x402, settled on-chain; the primary agent completes reservations through airline and hotel checkout via ACP; receipts return to the user. **x402 pays for the data that informs the decision; ACP executes the purchase on the merchant's existing rails.** Those are different jobs, and most coverage collapses them.\n\n### 6 — Overlap two, continued: the clause that undercuts the channel\n\nThe paper proposes a transmission channel from agent activity to native cryptoassets: where settlement happens on permissionless networks, greater usage could increase demand for blockspace and validator services. Then the hedge: \"The extent of value capture will depend on each network's fee, staking, and gas-sponsorship design.\"\n\n**This card's third argument, and the sharpest thing in the paper.** That clause is not a caveat, it is the whole question, and the paper answers it against itself one page later. It names Circle's Arc as a purpose-built stablecoin network \"where USDC is designed to serve as the native gas asset\", and says Arc offers \"a complementary model in which greater payment activity could deepen USDC's utility as both a settlement asset and the means of paying transaction fees\".\n\nRead those together. The channel from agent payments to ETH requires that the payer buys and burns a native asset to transact. **Gas sponsorship severs exactly that link** — when a paymaster or facilitator covers the fee, the agent never touches the native token, and the sponsor buys wholesale. Arc severs it more completely by making the stablecoin *be* the gas asset: on that venue, more payment volume is more USDC demand and zero native-cryptoasset demand, because there is no separate native cryptoasset in the loop.\n\nSo the paper contains both the mechanism and its counterexample, and presents them a page apart as complementary rather than competing. The honest summary is narrower than the section heading suggests: **agentic payment growth is a demand signal for stablecoins; whether any of it reaches a native cryptoasset is a design choice made by each venue, and two of the venues the paper names have already chosen \"no\".** This is the same argument `pocs-agent-payments-korea-control-plane` (#3, REVISIT) makes about Kora — a sponsored-fee signer means the agent transacts without ever holding the chain's asset.\n\n### 7 — The stablecoin numbers, and how to read them\n\nReported figures, all BlackRock citing others:\n\n| Figure | Value | Source cited |\n|---|---|---|\n| Stablecoin circulating market cap | >$300bn as of Sept 2026 | RWA.xyz |\n| Adjusted stablecoin transaction volume, 2025 | >$11tn | Visa Onchain Analytics / Allium |\n| ACH transferred, 2025 | $93tn | Nacha |\n| Stablecoin CAGR 2020–2025 | 80% | — |\n| ACH CAGR 2020–2025 | ~8.5% | — |\n\nThe paper's own note on Figure 3 is the important part and it is buried: **\"measures are not directly comparable.\"** Adjusted stablecoin volume includes selected exchange, DeFi, lending, mint/burn and ramp activity after filters; Visa reports total volume including cash volume; Mastercard reports gross dollar volume; Visa is on a fiscal year ended 30 Sept 2025 while the others are calendar-year. The text's careful phrasing is \"in the same broad range as Visa and Mastercard's annual payment volumes\" — not \"has overtaken\", and not \"is comparable to\". **The growth-rate contrast — 80% against 8.5% — is the durable claim; the level comparison is not.**\n\nThe regulatory tailwinds named: the GENIUS Act (US), MiCA (EU), Hong Kong's stablecoin licensing regime, Singapore's framework. Note that `reserve-that-makes-the-bank-fragile` (#76) is about MiCA cutting the other way — a reserve rule that makes the token safer and the banking system more fragile. \"Regulatory clarity supports adoption\" is true and incomplete.\n\n### 8 — Overlap three: compute as an asset\n\nThe scale claims:\n\n- Cumulative AI capital spending above **$5tn between 2025 and 2030** (Goldman Sachs).\n- AWS + Microsoft Intelligent Cloud + Google Cloud combined revenue **~$1.1tn by 2030**, a **29% CAGR** from 2025 (Bloomberg-compiled sell-side estimates as of 31 Aug 2026), used as a proxy for the AI cloud compute market.\n- **Inference expected to become the largest AI workload by 2030** and a growing share of data-center power demand (McKinsey), with an inference user base far larger and more fragmented than the concentrated training market.\n\nThe paper's move is from CapEx to OpEx: investors watch the build-out, but the recurring operating spend that monetizes installed equipment and the electricity to run it is what turns compute into \"a distinct, large, and increasingly investable economic resource\".\n\nIt then lists what has to be solved before standardized compute products can scale — differences in chip-generation productivity, regional economics where energy costs diverge, and workable standards for cash settlement *and* physical delivery of contracted capacity — and calls these \"important but ultimately resolvable\". Precedents offered: basis markets and contracts for difference from established commodity markets; on-chain tokenized markets for more granular regional and hardware-specific contracts within shared settlement infrastructure. The endpoint: exchange-traded compute futures, and compute claims that can be \"represented, transferred, pledged as collateral, and settled through programmable infrastructure\".\n\n**This card's fourth argument: compute is less like oil than the precedent implies.** Basis markets work because the underlying is fungible at delivery — a barrel is a barrel, and basis prices the *difference* between grades and locations around a common reference. Compute breaks that in three ways at once:\n\n- **Hardware is not substitutable per job.** An H100-hour and a next-generation-hour are not interchangeable for a workload pinned to a memory footprint or an interconnect topology.\n- **Location is a hard constraint, not a basis.** Latency and data residency mean the buyer often cannot take delivery elsewhere at any price. That is not a spread, it is a different good.\n- **It is perishable.** An unused GPU-hour is gone. There is no storage, so no cost-of-carry, and the forward curve has no arbitrage anchor.\n\nThat combination — perishable, non-fungible, location-locked — puts compute closer to **airline seats, data-center colocation or electricity in a constrained node** than to crude. Those markets do exist and do have derivatives, so the paper's conclusion can still hold. But the analogy that makes standardisation look easy is the wrong one, and \"ultimately resolvable\" is doing real work in that sentence. This is `tokenized-compute-is-a-forward-contract` (#78) one step further: that card argued the instrument is a forward; this one says the underlying resists the standardisation a forward needs.\n\n### 9 — The OpenRouter signal\n\nStripe's August 2026 agreement to acquire OpenRouter, which distributes workloads across **more than 400 models from over 80 providers** by workload need and cost-performance tradeoff. The paper's reading: routing and compute-usage optimisation are becoming part of the financial infrastructure around AI, and the *buyer* matters — given Stripe's position across payments, stablecoins, billing and agentic commerce, the deal points to convergence between compute procurement, usage-based billing and programmable settlement.\n\nThis is the best-argued claim in the paper, because it is an observation about revealed behaviour rather than a projection. A payments company buying a routing layer is a bet that **choosing where a token gets computed and charging for it are the same problem.** Note who is on both sides of the paper's protocol table: Stripe co-authors MPP with Tempo and ACP with OpenAI, and now owns the routing layer.\n\n### Where it lands in Jayverse\n\n`tokenized-compute-is-a-forward-contract` (#78) came from the headline version of this paper's third section. This item is the full document behind it, and §8 extends that card: the forward-contract framing is right, and the obstacle is not contract design but the non-fungibility of the underlying.\n\n`agent-payments-korea-control-plane` (#3, REVISIT) is where §6 lands hardest. That card's finding is that control sits with whoever holds the legal relationships, and its Kora section describes a fee-payer that sponsors gas so the agent never holds the chain's asset. BlackRock proposes the opposite channel and then names two venues that close it. **Same conclusion from two directions: the settlement asset is the thing with demand; the native asset is a design choice.**\n\n`stablecoin-in-the-leg-nobody-sees` (added today) is §4's \"modified traditional rails\" happening for real — but arriving from banks and card networks, not from agents. Worth holding both: the paper predicts agent demand pulls the rails forward; the SoFi deployment shows the rails moving for reasons that have nothing to do with agents.\n\n`consumed-authorization` (#72 at the time) is what §5's protocol table needs and does not have. AP2's \"cryptographic mandates and audit trails\" and TAP's credential handling are authorization artefacts, and an authorization that is not consumed can be used again. A protocol table that lists mandates without discussing replay protection is incomplete in exactly the way the DoinGud bug was.\n\n`https-won-because-it-got-cheap` is the frame for the whole paper. The question is not whether machine-native payments are better; it is when they get cheap enough and standard enough that not using them costs more. §4's four constraints are a list of prices, not a list of impossibilities.\n\n`never-about-issuance` and `four-seats-and-the-empty-one` supply the missing piece: the paper treats stablecoins as infrastructure that exists. Who may issue one, in which jurisdiction, is the gate everything else waits behind, and it is the one topic the paper does not address beyond a list of regimes.\n\n### Verified and unverified\n\n**Reported, not verified by me:** every figure in this card. I did not obtain the PDF and did not open the Bitcoin Policy Institute study, the x402 whitepaper, Visa Onchain Analytics, Nacha's statistics, the Goldman or McKinsey pieces, or the Stripe newsroom post. Where a number appears here, it is BlackRock citing someone else and me citing BlackRock.\n\n**Two figures I will not repeat as numbers.** Figure 3's values arrive from the PDF extraction as `11.2 8.5 16.7 10.6` with no axis mapping; the body text is what pins $11tn to 2025 stablecoin volume, so the rest is a plausible reading of a mangled table, not something I saw. Figure 4's `28% 25% 28% 43%` arrive with no year mapping, so the only thing taken from it is the sentence the body states in words: inference becomes the largest AI workload by 2030.\n\n**Mine, and labelled in the body:** §2 (the tokenization parallel is a pun, and the off-chain-registry paragraph is the concession); §3 (agents spend what their operator funds, so operator treasury policy beats model preference); §6 (gas sponsorship and Arc break the native-cryptoasset channel the paper proposes); §8 (compute is perishable, non-fungible and location-locked, so the commodity-basis precedent understates the problem); and the byline observation in \"Why\".\n\n**Stated fairly, in the paper's favour:** it flags the Bitcoin Policy Institute result as simulated rather than observed, it notes that the Figure 3 measures are not directly comparable, it says the ecosystem \"remains nascent\" and agentic payment activity and compute-market liquidity are \"still limited\", and it hedges value capture rather than asserting it. The criticisms above are about emphasis and about one internal contradiction — not about candour.\n"</script>
+<h2>Why</h2>
+<p>This is the most complete institutional statement of the agent-payments thesis so far, and it is worth reading closely for two opposite reasons.</p>
+<p>First, it is careful where most such papers are loose. It distinguishes M2M from B2M and C2M, names the specific properties that make card and ACH rails a bad fit for sub-cent always-on payments, flags its own weakest evidence as simulation rather than observation, and hedges the native-token value-capture claim instead of asserting it. That is a higher standard than the genre usually meets.</p>
+<p>Second, the hedges are where the real content is, and a reader who skims will take away the headline and miss them. <strong>One subordinate clause in this paper contradicts the mechanism its own section proposes</strong>, and the paper names the counterexample itself without marking it as one. Section 6 below is that finding.</p>
+<p>There is also a fact about the byline worth keeping in view: two of four authors run product functions — Equity ETFs and iShares Product Innovation — not research. This is not a reason to discount the argument, which has to stand on its own. But a paper whose last substantive section argues that compute should become a standardized, transferable, pledgeable, exchange-traded claim is a paper upstream of a product category, and the document&#39;s own disclaimer says it should not be relied on as research or investment advice.</p>
+<h2>How it works</h2>
+<h3>1 — The thesis</h3>
+<p>AI is machine-native intelligence; digital assets are machine-native money. Agentic AI — systems that plan and execute multistep tasks toward an objective by interacting with external tools and infrastructure with limited human intervention — is what makes the pairing bite, because it extends AI from content generation to real-world action, including purchases and transactions. AI interprets information and directs action; blockchains provide machine-readable assets and programmable settlement.</p>
+<h3>2 — Overlap one: the tokenization parallel</h3>
+<p>The paper places the two workflows side by side:</p>
+<table><thead><tr><th>Step</th><th>LLM tokenization</th><th>Digital-asset tokenization</th></tr></thead><tbody><tr><td>Input</td><td>"AI is changing the world"</td><td>A $100 beneficial interest in a money market fund</td></tr><tr><td>Discretise</td><td>Tokens: "AI", "is", "changing", "the", "world"</td><td>Tokenized fund shares assigned to an investor&#39;s wallet</td></tr><tr><td>Encode</td><td>Numerical IDs <code>[101, 23, 4587, 5, 982]</code></td><td>Transaction fields <code>[Asset ID, Sender ID, Recipient ID, Units, Eligibility Flag]</code></td></tr><tr><td>Represent</td><td>Embedding vectors the model computes over</td><td>A finalized ledger record: <code>tx_hash</code>, <code>asset_id</code>, <code>from_id</code>, <code>to_id</code>, <code>token_units</code>, <code>block</code>, <code>status: finalized</code></td></tr></tbody></table>
+<p>It is explicit that "the functions are distinct" and the processes are "technically distinct", and the claim is only that both translate real-world inputs into machine-native formats.</p>
+<p><strong>This card&#39;s first argument: the parallel is a pun, and the paper&#39;s next paragraph says so.</strong> An LLM token is a lossy statistical encoding with no referent — token <code>4587</code> is not owned by anyone, confers nothing, and would be meaningless to transfer. An asset token is the opposite: its entire value is the enforceability of a claim that lives outside the encoding. The two share the word "token" and the property of being discrete and machine-readable. That is not a shared architecture.</p>
+<p>The paper concedes the difference two paragraphs later without flagging it as a concession: AML, KYC and KYA checks "generally occur off-chain… with verified results passed on-chain", and tokenized RWAs sit "within a broader legal and regulated-service framework that relies on authoritative off-chain registries". <strong>An LLM token needs no registry, no eligibility flag and no regulated framework.</strong> The <code>Eligibility Flag</code> in its own diagram is the tell: it is the field where the legal world reaches in, and there is no counterpart on the AI side.</p>
+<p>What survives, and does not need the analogy: agents interface more easily with standardized, machine-readable representations than with fragmented legacy systems, and standardisation across asset classes reduces bespoke integrations. That claim is true and load-bearing. It is about API surface, not about tokenization.</p>
+<h3>3 — The Bitcoin Policy Institute study</h3>
+<p>Cited as preliminary support: across controlled simulations, model outputs generally favoured stablecoins for everyday payments and bitcoin for long-term value preservation, pointing to a possible AI-native monetary architecture with stablecoins as transaction money and bitcoin as store of value. The paper states plainly that these are "simulated model responses rather than observed agent behavior".</p>
+<p><strong>This card&#39;s second argument.</strong> The caveat is honest but understates the problem. The study measures what a model <em>says</em> when asked. An agent does not choose its money — <strong>it spends what its operator funded its wallet with</strong>, under whatever policy the operator set. If an agent&#39;s budget arrives as USDC on a corporate account with a spending mandate, the model&#39;s stated preference for bitcoin is irrelevant to every transaction it will ever make. The signal worth tracking is not model preference; it is operator treasury policy and what the payment protocols make cheap. The paper&#39;s own footnote hints at this — "analysis based on the currency being held as cash".</p>
+<h3>4 — Overlap two: why existing rails do not fit</h3>
+<p>The specific objections, which are the strongest passage in the paper:</p>
+<table><thead><tr><th>Constraint</th><th>What it breaks for agents</th></tr></thead><tbody><tr><td>Account setup, credentialing and authorization may require human involvement</td><td>Defeats "limited human intervention" at onboarding, before any transaction</td></tr><tr><td>Merchant acceptance fees</td><td>Makes very low-value transactions uneconomic — a fixed fee against a sub-cent payment</td></tr><tr><td>Settlement and finality</td><td>Most ACH volume settles within one business day or less; card authorization is near-instant but merchant settlement and dispute finality take longer</td></tr><tr><td>Scalability</td><td>Machine-generated volumes may exceed what the rails were sized for</td></tr></tbody></table>
+<p>The division of labour it draws from this: <strong>crypto-native rails for high-frequency, sub-cent, around-the-clock M2M</strong> — API calls, on-demand data, consumption-based compute — and <strong>modified traditional rails for B2M and C2M</strong>, where an agent meets a human-operated business or consumer.</p>
+<p>That second half is already happening without any agent involved, which is the connection to <code>stablecoin-in-the-leg-nobody-sees</code> (added the same day): a card program moving its settlement leg to a bank-issued stablecoin is exactly "adaptation to traditional payment rails", arriving from the institutional side rather than the agent side.</p>
+<h3>5 — The protocol stack, as the paper lays it out</h3>
+<table><thead><tr><th>Protocol</th><th>From</th><th>Introduced</th><th>What it does</th></tr></thead><tbody><tr><td>MCP (Model Context Protocol)</td><td>Anthropic</td><td>Nov 2024</td><td>Standardises how AI applications access external data and workflows</td></tr><tr><td>A2A (Agent2Agent)</td><td>Google</td><td>Apr 2025</td><td>Lets agents communicate and coordinate across platforms</td></tr><tr><td>x402</td><td>Coinbase</td><td>—</td><td>Open payment protocol using HTTP 402 "Payment Required" for machine-initiated payments; blockchain-agnostic, USDC as early primary use case</td></tr><tr><td>MPP (Machine Payments Protocol)</td><td>Stripe + Tempo</td><td>—</td><td>Payments for APIs and other HTTP resources, settling via stablecoins <em>or</em> traditional methods</td></tr><tr><td>ACP (Agentic Commerce Protocol)</td><td>Stripe + OpenAI</td><td>—</td><td>Programmatic checkout between agents and businesses, sellers keep their existing commerce and payment infrastructure</td></tr><tr><td>AP2 (Agents Payment Protocol)</td><td>Google</td><td>—</td><td>Cryptographic mandates and audit trails as evidence of user authorization</td></tr><tr><td>TAP (Trusted Agent Protocol)</td><td>Visa</td><td>—</td><td>Helps merchants verify trusted agents and receive payment credentials securely</td></tr></tbody></table>
+<p>On x402 specifically: 24/7 near-real-time verifiable settlement reduces the resource provider&#39;s counterparty exposure and lets the service be released immediately on payment confirmation. That is the correct framing — x402&#39;s value is not speed for its own sake, it is that <strong>the provider no longer extends credit to an anonymous caller.</strong></p>
+<p>The illustrative workflow (Figure 2) is worth keeping because it shows where each protocol sits: a user says "book my trip for under $2,500"; the primary agent reaches calendar, email and payment credentials through MCP; delegates fare-gathering to a travel sub-agent through A2A; the sub-agent pays airfare and hotel-rate APIs through x402, settled on-chain; the primary agent completes reservations through airline and hotel checkout via ACP; receipts return to the user. <strong>x402 pays for the data that informs the decision; ACP executes the purchase on the merchant&#39;s existing rails.</strong> Those are different jobs, and most coverage collapses them.</p>
+<h3>6 — Overlap two, continued: the clause that undercuts the channel</h3>
+<p>The paper proposes a transmission channel from agent activity to native cryptoassets: where settlement happens on permissionless networks, greater usage could increase demand for blockspace and validator services. Then the hedge: "The extent of value capture will depend on each network&#39;s fee, staking, and gas-sponsorship design."</p>
+<p><strong>This card&#39;s third argument, and the sharpest thing in the paper.</strong> That clause is not a caveat, it is the whole question, and the paper answers it against itself one page later. It names Circle&#39;s Arc as a purpose-built stablecoin network "where USDC is designed to serve as the native gas asset", and says Arc offers "a complementary model in which greater payment activity could deepen USDC&#39;s utility as both a settlement asset and the means of paying transaction fees".</p>
+<p>Read those together. The channel from agent payments to ETH requires that the payer buys and burns a native asset to transact. <strong>Gas sponsorship severs exactly that link</strong> — when a paymaster or facilitator covers the fee, the agent never touches the native token, and the sponsor buys wholesale. Arc severs it more completely by making the stablecoin <em>be</em> the gas asset: on that venue, more payment volume is more USDC demand and zero native-cryptoasset demand, because there is no separate native cryptoasset in the loop.</p>
+<p>So the paper contains both the mechanism and its counterexample, and presents them a page apart as complementary rather than competing. The honest summary is narrower than the section heading suggests: <strong>agentic payment growth is a demand signal for stablecoins; whether any of it reaches a native cryptoasset is a design choice made by each venue, and two of the venues the paper names have already chosen "no".</strong> This is the same argument <code>pocs-agent-payments-korea-control-plane</code> (#3, REVISIT) makes about Kora — a sponsored-fee signer means the agent transacts without ever holding the chain&#39;s asset.</p>
+<h3>7 — The stablecoin numbers, and how to read them</h3>
+<p>Reported figures, all BlackRock citing others:</p>
+<table><thead><tr><th>Figure</th><th>Value</th><th>Source cited</th></tr></thead><tbody><tr><td>Stablecoin circulating market cap</td><td>&gt;$300bn as of Sept 2026</td><td>RWA.xyz</td></tr><tr><td>Adjusted stablecoin transaction volume, 2025</td><td>&gt;$11tn</td><td>Visa Onchain Analytics / Allium</td></tr><tr><td>ACH transferred, 2025</td><td>$93tn</td><td>Nacha</td></tr><tr><td>Stablecoin CAGR 2020–2025</td><td>80%</td><td>—</td></tr><tr><td>ACH CAGR 2020–2025</td><td>~8.5%</td><td>—</td></tr></tbody></table>
+<p>The paper&#39;s own note on Figure 3 is the important part and it is buried: <strong>"measures are not directly comparable."</strong> Adjusted stablecoin volume includes selected exchange, DeFi, lending, mint/burn and ramp activity after filters; Visa reports total volume including cash volume; Mastercard reports gross dollar volume; Visa is on a fiscal year ended 30 Sept 2025 while the others are calendar-year. The text&#39;s careful phrasing is "in the same broad range as Visa and Mastercard&#39;s annual payment volumes" — not "has overtaken", and not "is comparable to". <strong>The growth-rate contrast — 80% against 8.5% — is the durable claim; the level comparison is not.</strong></p>
+<p>The regulatory tailwinds named: the GENIUS Act (US), MiCA (EU), Hong Kong&#39;s stablecoin licensing regime, Singapore&#39;s framework. Note that <code>reserve-that-makes-the-bank-fragile</code> (#76) is about MiCA cutting the other way — a reserve rule that makes the token safer and the banking system more fragile. "Regulatory clarity supports adoption" is true and incomplete.</p>
+<h3>8 — Overlap three: compute as an asset</h3>
+<p>The scale claims:</p>
+<ul><li>Cumulative AI capital spending above <strong>$5tn between 2025 and 2030</strong> (Goldman Sachs).</li><li>AWS + Microsoft Intelligent Cloud + Google Cloud combined revenue <strong>~$1.1tn by 2030</strong>, a <strong>29% CAGR</strong> from 2025 (Bloomberg-compiled sell-side estimates as of 31 Aug 2026), used as a proxy for the AI cloud compute market.</li><li><strong>Inference expected to become the largest AI workload by 2030</strong> and a growing share of data-center power demand (McKinsey), with an inference user base far larger and more fragmented than the concentrated training market.</li></ul>
+<p>The paper&#39;s move is from CapEx to OpEx: investors watch the build-out, but the recurring operating spend that monetizes installed equipment and the electricity to run it is what turns compute into "a distinct, large, and increasingly investable economic resource".</p>
+<p>It then lists what has to be solved before standardized compute products can scale — differences in chip-generation productivity, regional economics where energy costs diverge, and workable standards for cash settlement <em>and</em> physical delivery of contracted capacity — and calls these "important but ultimately resolvable". Precedents offered: basis markets and contracts for difference from established commodity markets; on-chain tokenized markets for more granular regional and hardware-specific contracts within shared settlement infrastructure. The endpoint: exchange-traded compute futures, and compute claims that can be "represented, transferred, pledged as collateral, and settled through programmable infrastructure".</p>
+<p><strong>This card&#39;s fourth argument: compute is less like oil than the precedent implies.</strong> Basis markets work because the underlying is fungible at delivery — a barrel is a barrel, and basis prices the <em>difference</em> between grades and locations around a common reference. Compute breaks that in three ways at once:</p>
+<ul><li><strong>Hardware is not substitutable per job.</strong> An H100-hour and a next-generation-hour are not interchangeable for a workload pinned to a memory footprint or an interconnect topology.</li><li><strong>Location is a hard constraint, not a basis.</strong> Latency and data residency mean the buyer often cannot take delivery elsewhere at any price. That is not a spread, it is a different good.</li><li><strong>It is perishable.</strong> An unused GPU-hour is gone. There is no storage, so no cost-of-carry, and the forward curve has no arbitrage anchor.</li></ul>
+<p>That combination — perishable, non-fungible, location-locked — puts compute closer to <strong>airline seats, data-center colocation or electricity in a constrained node</strong> than to crude. Those markets do exist and do have derivatives, so the paper&#39;s conclusion can still hold. But the analogy that makes standardisation look easy is the wrong one, and "ultimately resolvable" is doing real work in that sentence. This is <code>tokenized-compute-is-a-forward-contract</code> (#78) one step further: that card argued the instrument is a forward; this one says the underlying resists the standardisation a forward needs.</p>
+<h3>9 — The OpenRouter signal</h3>
+<p>Stripe&#39;s August 2026 agreement to acquire OpenRouter, which distributes workloads across <strong>more than 400 models from over 80 providers</strong> by workload need and cost-performance tradeoff. The paper&#39;s reading: routing and compute-usage optimisation are becoming part of the financial infrastructure around AI, and the <em>buyer</em> matters — given Stripe&#39;s position across payments, stablecoins, billing and agentic commerce, the deal points to convergence between compute procurement, usage-based billing and programmable settlement.</p>
+<p>This is the best-argued claim in the paper, because it is an observation about revealed behaviour rather than a projection. A payments company buying a routing layer is a bet that <strong>choosing where a token gets computed and charging for it are the same problem.</strong> Note who is on both sides of the paper&#39;s protocol table: Stripe co-authors MPP with Tempo and ACP with OpenAI, and now owns the routing layer.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>tokenized-compute-is-a-forward-contract</code> (#78) came from the headline version of this paper&#39;s third section. This item is the full document behind it, and §8 extends that card: the forward-contract framing is right, and the obstacle is not contract design but the non-fungibility of the underlying.</p>
+<p><code>agent-payments-korea-control-plane</code> (#3, REVISIT) is where §6 lands hardest. That card&#39;s finding is that control sits with whoever holds the legal relationships, and its Kora section describes a fee-payer that sponsors gas so the agent never holds the chain&#39;s asset. BlackRock proposes the opposite channel and then names two venues that close it. <strong>Same conclusion from two directions: the settlement asset is the thing with demand; the native asset is a design choice.</strong></p>
+<p><code>stablecoin-in-the-leg-nobody-sees</code> (added today) is §4&#39;s "modified traditional rails" happening for real — but arriving from banks and card networks, not from agents. Worth holding both: the paper predicts agent demand pulls the rails forward; the SoFi deployment shows the rails moving for reasons that have nothing to do with agents.</p>
+<p><code>consumed-authorization</code> (#72 at the time) is what §5&#39;s protocol table needs and does not have. AP2&#39;s "cryptographic mandates and audit trails" and TAP&#39;s credential handling are authorization artefacts, and an authorization that is not consumed can be used again. A protocol table that lists mandates without discussing replay protection is incomplete in exactly the way the DoinGud bug was.</p>
+<p><code>https-won-because-it-got-cheap</code> is the frame for the whole paper. The question is not whether machine-native payments are better; it is when they get cheap enough and standard enough that not using them costs more. §4&#39;s four constraints are a list of prices, not a list of impossibilities.</p>
+<p><code>never-about-issuance</code> and <code>four-seats-and-the-empty-one</code> supply the missing piece: the paper treats stablecoins as infrastructure that exists. Who may issue one, in which jurisdiction, is the gate everything else waits behind, and it is the one topic the paper does not address beyond a list of regimes.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported, not verified by me:</strong> every figure in this card. I did not obtain the PDF and did not open the Bitcoin Policy Institute study, the x402 whitepaper, Visa Onchain Analytics, Nacha&#39;s statistics, the Goldman or McKinsey pieces, or the Stripe newsroom post. Where a number appears here, it is BlackRock citing someone else and me citing BlackRock.</p>
+<p><strong>Two figures I will not repeat as numbers.</strong> Figure 3&#39;s values arrive from the PDF extraction as <code>11.2 8.5 16.7 10.6</code> with no axis mapping; the body text is what pins $11tn to 2025 stablecoin volume, so the rest is a plausible reading of a mangled table, not something I saw. Figure 4&#39;s <code>28% 25% 28% 43%</code> arrive with no year mapping, so the only thing taken from it is the sentence the body states in words: inference becomes the largest AI workload by 2030.</p>
+<p><strong>Mine, and labelled in the body:</strong> §2 (the tokenization parallel is a pun, and the off-chain-registry paragraph is the concession); §3 (agents spend what their operator funds, so operator treasury policy beats model preference); §6 (gas sponsorship and Arc break the native-cryptoasset channel the paper proposes); §8 (compute is perishable, non-fungible and location-locked, so the commodity-basis precedent understates the problem); and the byline observation in "Why".</p>
+<p><strong>Stated fairly, in the paper&#39;s favour:</strong> it flags the Bitcoin Policy Institute result as simulated rather than observed, it notes that the Figure 3 measures are not directly comparable, it says the ecosystem "remains nascent" and agentic payment activity and compute-market liquidity are "still limited", and it hedges value capture rather than asserting it. The criticisms above are about emphasis and about one internal contradiction — not about candour.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>machine-native</strong></td><td>기계 네이티브의(사람이 아니라 기계가 원래 쓰도록 만들어진) · 논문의 핵심 짝, "machine-native intelligence / machine-native money"</td></tr><tr><td><strong>agentic AI</strong></td><td>에이전틱 AI · 목표를 향해 다단계 작업을 스스로 계획·실행하는 시스템</td></tr><tr><td><strong>structural catalyst</strong></td><td>구조적 촉매 · 일시적 유행이 아니라 구조를 바꾸는 요인. "AI as a structural catalyst for digital asset adoption"</td></tr><tr><td><strong>underappreciated</strong></td><td>과소평가된 · 논문이 자기 주장의 지위를 말할 때 반복해 쓰는 말</td></tr><tr><td><strong>transmission channel</strong></td><td>전달 경로 · 한 곳의 활동이 다른 자산의 수요로 이어지는 통로. §6의 핵심어</td></tr><tr><td><strong>value capture</strong></td><td>가치 포착 · 네트워크 사용이 토큰 가치로 이어지는 정도</td></tr><tr><td><strong>gas sponsorship</strong></td><td>가스 스폰서십 · 제3자가 수수료를 대신 내주는 설계. 전달 경로를 끊는 바로 그 메커니즘</td></tr><tr><td><strong>paymaster</strong></td><td>페이마스터 · 사용자 대신 수수료를 지불하는 계약·서비스</td></tr><tr><td><strong>native gas asset</strong></td><td>네이티브 가스 자산 · 수수료를 내는 데 쓰이는 체인 고유 자산. Arc에서는 USDC</td></tr><tr><td><strong>load-bearing (clause)</strong></td><td>하중을 받는 (문장) · 다른 주장들이 그 위에 서 있는 전제. "The hedge is load-bearing"</td></tr><tr><td><strong>a hedge</strong></td><td>유보·완충 표현 · 단정하지 않으려고 붙이는 조건절</td></tr><tr><td><strong>to undercut</strong></td><td>(스스로) 무너뜨리다·깎아내리다 · 논문이 자기 논증을 약화시키는 상황</td></tr><tr><td><strong>a pun</strong></td><td>말장난 · 같은 단어를 쓴다고 같은 구조는 아니라는 §2의 비판</td></tr><tr><td><strong>referent</strong></td><td>지시 대상 · LLM 토큰에는 없고 자산 토큰에는 있는 것</td></tr><tr><td><strong>lossy</strong></td><td>손실 있는 · 원본 정보를 일부 버리는 인코딩</td></tr><tr><td><strong>enforceability</strong></td><td>집행 가능성 · 자산 토큰의 가치가 실제로 놓인 자리</td></tr><tr><td><strong>eligibility flag</strong></td><td>적격성 플래그 · 법·규제가 거래 데이터 안으로 손을 뻗어 들어오는 필드</td></tr><tr><td><strong>authoritative off-chain registry</strong></td><td>권위 있는 오프체인 등기부 · 토큰화 RWA가 여전히 의존하는 것</td></tr><tr><td><strong>bespoke integration</strong></td><td>맞춤 연동 · 표준화가 줄여주는 비용</td></tr><tr><td><strong>counterparty exposure</strong></td><td>거래상대방 노출 · 상대가 이행하지 않을 위험. x402가 줄인다고 논문이 주장하는 것</td></tr><tr><td><strong>to extend credit</strong></td><td>신용을 주다 · 선불 없이 서비스를 먼저 내어주는 것</td></tr><tr><td><strong>sub-cent</strong></td><td>1센트 미만의 · 기존 레일이 감당 못 하는 금액대</td></tr><tr><td><strong>M2M / B2M / C2M</strong></td><td>기계 간 / 사업자-기계 / 소비자-기계 · 논문이 구분하는 세 가지 거래 축</td></tr><tr><td><strong>finality</strong></td><td>확정성 · 거래가 되돌려지지 않는 상태</td></tr><tr><td><strong>CapEx vs OpEx</strong></td><td>자본지출 대 운영지출 · 컴퓨트 섹션의 전환점. 투자자는 앞을 보지만 시장은 뒤에서 생긴다</td></tr><tr><td><strong>hyperscaler</strong></td><td>하이퍼스케일러 · AWS·애저·구글 클라우드 같은 초대형 클라우드 사업자</td></tr><tr><td><strong>basis market</strong></td><td>베이시스 시장 · 기준 가격 대비 등급·지역 차이를 거래하는 시장</td></tr><tr><td><strong>contract for difference (CFD)</strong></td><td>차액결제거래 · 실물 인도 없이 가격 차이만 정산하는 계약</td></tr><tr><td><strong>fungible at delivery</strong></td><td>인도 시점에 대체 가능한 · 베이시스 시장이 성립하는 조건. 컴퓨트는 이걸 깬다</td></tr><tr><td><strong>perishable</strong></td><td>소멸하는 · 쓰지 않으면 사라지는 재화. 쓰지 않은 GPU 시간</td></tr><tr><td><strong>cost of carry</strong></td><td>보유비용 · 저장 가능한 상품의 선도곡선을 고정하는 값. 컴퓨트에는 없다</td></tr><tr><td><strong>forward curve</strong></td><td>선도곡선 · 만기별 선도가격의 곡선</td></tr><tr><td><strong>to pledge as collateral</strong></td><td>담보로 제공하다 · 컴퓨트 청구권이 하게 될 것이라고 논문이 말하는 것</td></tr><tr><td><strong>price discovery</strong></td><td>가격 발견 · 시장이 적정 가격을 찾아가는 기능</td></tr><tr><td><strong>revealed behaviour</strong></td><td>드러난 행동 · 말이 아니라 실제로 한 일. OpenRouter 인수를 평가하는 기준</td></tr><tr><td><strong>upstream of a product</strong></td><td>어떤 상품의 상류에 있는 · 논문이 무엇의 앞 단계인지 말할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 기계 네이티브 화폐, 기계 네이티브 지능 — 그리고 스스로 채널을 무너뜨리는 한 문장\n\n블랙록 디지털자산 리서치는 AI와 디지털자산이 지금까지 평행선을 달려왔지만 이제 수렴하고 있다고 주장한다. 에이전틱 AI가 거래를 해야 하고, 블록체인이 지능과 경제 활동을 잇는 프로그래머블 인프라이기 때문이다. 논문의 틀은 한 쌍이다. AI는 기계 네이티브 지능이고, 디지털자산은 기계 네이티브 화폐다. 세 가지 겹치는 영역 — 공유된 아키텍처로서의 토큰화, 기계 네이티브 레일을 요구하는 에이전틱 커머스, 디지털자산의 시장이 되어가는 컴퓨트 — 을 다루고, AI 채택이 디지털자산 경제에 대한 과소평가된 수요 원천이라고 결론짓는다.\n\njay가 2026-09-23에 전문을 붙여넣었다. 저자: Will Su(디지털자산 리서치 총괄), Robert Mitchnick(디지털자산 총괄), Jay Jacobs(미국 주식 ETF 총괄), William Helm(미국 iShares 상품 혁신 총괄). 문서 코드 CE0926-M-5936357-EXP0927. PDF를 직접 구하지 않았고 인용된 수치는 하나도 확인하지 않았다. 이 카드가 덧붙이는 다섯 논증은 본문에 내 것으로 표시했고, 그중 가장 날카로운 것은 **논문 자신의 사례가 논문이 제안한 전달 경로를 무너뜨린다**는 것이다.\n\n## 왜\n\n지금까지 나온 에이전트 결제 논제의 가장 완결된 기관 버전이고, 정반대의 두 이유로 꼼꼼히 읽을 값이 있다.\n\n첫째, 이런 논문들이 대개 느슨한 지점에서 이 논문은 조심스럽다. M2M과 B2M·C2M을 구분하고, 카드·ACH 레일이 1센트 미만 상시 결제에 맞지 않는 구체적 속성들을 지목하며, 자기 논거 중 가장 약한 것을 \"관찰이 아니라 시뮬레이션\"이라고 스스로 표시하고, 네이티브 토큰 가치 포착 주장을 단정하지 않고 유보한다. 장르의 평균보다 높은 기준이다.\n\n둘째, **바로 그 유보 안에 진짜 내용이 들어 있고**, 훑어 읽는 독자는 헤드라인만 가져가고 그걸 놓친다. **이 논문의 종속절 하나가 해당 섹션이 제안한 메커니즘을 반박한다.** 그리고 논문은 그 반례를 스스로 거명하면서 반례로 표시하지 않는다. 아래 §6이 그 발견이다.\n\n바이라인에 대해서도 염두에 둘 사실이 하나 있다. 저자 네 명 중 둘이 리서치가 아니라 **상품** 부문 — 주식 ETF와 iShares 상품 혁신 — 을 맡고 있다. 논증을 깎아내릴 이유는 아니다. 논증은 스스로 서야 한다. 다만 마지막 실질 섹션이 \"컴퓨트가 표준화되고 이전 가능하며 담보로 잡히고 거래소에서 거래되는 청구권이 되어야 한다\"고 주장하는 논문은 **어떤 상품 범주의 상류에 있는 문서**이고, 이 문서 자체의 면책 조항도 리서치나 투자 조언으로 의존하지 말라고 적어두었다.\n\n## 동작 방식\n\n### 1 — 논제\n\nAI는 기계 네이티브 지능, 디지털자산은 기계 네이티브 화폐다. 이 짝을 물리게 만드는 것이 **에이전틱 AI** — 정의된 목표를 향해 외부 도구·인프라와 상호작용하며 최소한의 사람 개입으로 다단계 작업을 계획하고 실행하는 시스템 — 이다. 콘텐츠 생성을 넘어 구매와 금융 거래를 포함한 실제 행동으로 AI를 확장하기 때문이다. AI는 정보를 해석하고 행동을 지시하며, 블록체인은 기계가 읽을 수 있는 자산과 프로그래머블 정산을 제공한다.\n\n### 2 — 겹침 하나: 토큰화의 평행\n\n논문이 두 워크플로를 나란히 놓는다.\n\n| 단계 | LLM 토큰화 | 디지털자산 토큰화 |\n|---|---|---|\n| 입력 | \"AI is changing the world\" | MMF에 대한 100달러 수익적 지분 |\n| 이산화 | 토큰: \"AI\", \"is\", \"changing\", \"the\", \"world\" | 투자자 지갑에 배정된 토큰화 펀드 지분 |\n| 인코딩 | 수치 ID `[101, 23, 4587, 5, 982]` | 거래 필드 `[Asset ID, Sender ID, Recipient ID, Units, Eligibility Flag]` |\n| 표현 | 모델이 연산하는 임베딩 벡터 | 확정된 원장 기록: `tx_hash`, `asset_id`, `from_id`, `to_id`, `token_units`, `block`, `status: finalized` |\n\n논문은 \"기능은 다르다\", 과정도 \"기술적으로 구별된다\"고 명시하고, 주장하는 바는 둘 다 실세계 입력을 기계 네이티브 형식으로 번역한다는 것뿐이다.\n\n**이 카드의 첫 논증: 이 평행은 말장난이고, 논문의 다음 문단이 그렇게 말한다.** LLM 토큰은 지시 대상이 없는 손실 있는 통계적 인코딩이다. 토큰 `4587`은 누구의 소유도 아니고, 아무것도 부여하지 않으며, 이전한다는 말 자체가 무의미하다. 자산 토큰은 정반대다. **그 가치 전부가 인코딩 바깥에 사는 청구권의 집행 가능성**에 있다. 둘이 공유하는 것은 \"토큰\"이라는 단어와 \"이산적이고 기계가 읽을 수 있다\"는 속성이다. 그건 공유된 아키텍처가 아니다.\n\n논문은 두 문단 뒤에 이 차이를 양보하면서 양보로 표시하지 않는다. AML·KYC·KYA 점검은 \"일반적으로 오프체인에서 이뤄지고… 검증 결과가 온체인으로 전달\"되며, 토큰화 RWA는 \"권위 있는 오프체인 등기부에 의존하는 더 넓은 법적·규제 서비스 프레임워크\" 안에 있다. **LLM 토큰에는 등기부도, 적격성 플래그도, 규제 프레임워크도 필요 없다.** 논문 자신의 도표에 있는 `Eligibility Flag`가 결정적 증거다. 법의 세계가 손을 뻗어 들어오는 필드이고, AI 쪽에는 대응물이 없다.\n\n살아남는 것, 그리고 이 비유가 필요 없는 것: 에이전트는 파편화된 레거시 시스템보다 표준화된 기계 판독 표현과 더 쉽게 접속하고, 자산군을 가로지르는 표준화는 맞춤 연동을 줄인다. 이 주장은 참이고 하중을 받는다. 다만 **토큰화가 아니라 API 표면에 관한 이야기**다.\n\n### 3 — 비트코인 정책연구소 연구\n\n예비적 근거로 인용된다. 통제된 시뮬레이션 전반에서 모델 출력은 일상 결제에는 스테이블코인을, 장기 가치 보존에는 비트코인을 선호했고, 스테이블코인이 거래 화폐, 비트코인이 가치 저장 수단인 AI 네이티브 통화 구조를 시사한다는 것. 논문은 이것이 \"관찰된 에이전트 행동이 아니라 시뮬레이션된 모델 응답\"이라고 분명히 밝힌다.\n\n**이 카드의 두 번째 논증.** 그 단서는 정직하지만 문제를 축소한다. 연구가 측정한 것은 질문받았을 때 모델이 **뭐라고 말하는가**다. 에이전트는 자기 돈을 고르지 않는다. **운영자가 지갑에 넣어준 것을 쓴다.** 운영자가 정한 정책 아래에서. 에이전트의 예산이 지출 권한과 함께 법인 계정의 USDC로 도착한다면, 모델이 비트코인을 선호한다고 말하는 것은 그 에이전트가 평생 할 모든 거래와 무관하다. 추적할 신호는 모델 선호가 아니라 **운영자의 자금 정책과 결제 프로토콜이 무엇을 싸게 만드는가**다. 논문 자신의 각주도 이를 암시한다 — \"현금으로 보유하는 통화를 기준으로 한 분석\".\n\n### 4 — 겹침 둘: 기존 레일이 맞지 않는 이유\n\n논문에서 가장 강한 대목이다.\n\n| 제약 | 에이전트에게 무엇이 깨지나 |\n|---|---|\n| 계정 개설·자격 부여·승인 절차에 사람이 필요할 수 있음 | 거래가 시작되기도 전, 온보딩 단계에서 \"최소한의 사람 개입\"이 무너짐 |\n| 가맹점 수수료 | 아주 작은 금액의 거래를 비경제적으로 만듦 — 1센트 미만 결제에 고정 수수료 |\n| 정산과 확정성 | ACH 물량 대부분은 1영업일 이내 정산되고, 카드 승인은 거의 즉시지만 가맹점 정산과 분쟁 확정은 더 걸림 |\n| 확장성 | 기계가 만드는 거래량이 레일의 설계 용량을 넘어설 수 있음 |\n\n여기서 끌어낸 분업: **암호 네이티브 레일은 고빈도·1센트 미만·24시간 M2M** — API 호출, 온디맨드 데이터, 사용량 기반 컴퓨트 — 을, **수정된 전통 레일은 B2M·C2M**, 즉 에이전트가 사람이 운영하는 사업자나 소비자를 만나는 자리를 맡는다.\n\n그 후반부는 에이전트 없이 이미 일어나고 있고, 그것이 같은 날 추가한 `stablecoin-in-the-leg-nobody-sees`와의 연결점이다. 카드 프로그램이 정산 구간을 은행 발행 스테이블코인으로 옮기는 것은 정확히 \"전통 결제 레일에 대한 적응\"이며, 다만 에이전트 쪽이 아니라 **기관 쪽에서** 도착했다.\n\n### 5 — 프로토콜 스택, 논문이 정리한 대로\n\n| 프로토콜 | 출처 | 발표 | 하는 일 |\n|---|---|---|---|\n| MCP (Model Context Protocol) | Anthropic | 2024-11 | AI 애플리케이션이 외부 데이터·워크플로에 접근하는 방식 표준화 |\n| A2A (Agent2Agent) | Google | 2025-04 | 에이전트들이 플랫폼을 넘어 통신·조율 |\n| x402 | Coinbase | — | HTTP 402 \"Payment Required\"를 쓰는 개방형 결제 프로토콜. 블록체인 불문, USDC가 초기 주요 사례 |\n| MPP (Machine Payments Protocol) | Stripe + Tempo | — | API 등 HTTP 자원에 대한 결제. 스테이블코인 **또는** 전통 수단으로 정산 |\n| ACP (Agentic Commerce Protocol) | Stripe + OpenAI | — | 에이전트와 사업자 간 프로그래matic 체크아웃. 판매자는 기존 커머스·결제 인프라 유지 |\n| AP2 (Agents Payment Protocol) | Google | — | 암호학적 맨데이트와 감사 추적으로 사용자 승인 증거 제공 |\n| TAP (Trusted Agent Protocol) | Visa | — | 가맹점이 신뢰할 수 있는 에이전트를 검증하고 결제 자격증명을 안전하게 수령 |\n\nx402에 대해: 24시간 준실시간 검증 가능 정산이 자원 제공자의 거래상대방 노출을 줄이고, 결제 확인 즉시 서비스를 내어줄 수 있게 한다. 정확한 프레이밍이다. **x402의 가치는 속도 자체가 아니라, 제공자가 익명 호출자에게 더 이상 신용을 주지 않아도 된다는 것**이다.\n\nFigure 2의 예시 워크플로는 각 프로토콜의 자리를 보여줘서 남길 값이 있다. 사용자가 \"2,500달러 이하로 여행을 예약해줘\"라고 한다. 주 에이전트가 MCP로 캘린더·이메일·결제 자격증명에 접근하고, A2A로 여행 서브에이전트에게 요금 수집을 위임한다. 서브에이전트가 x402로 항공권·객실 요금 API에 결제하고 온체인에서 정산한다. 주 에이전트가 ACP로 항공사·호텔 체크아웃에서 예약을 마치고, 일정과 영수증이 사용자에게 돌아간다. **x402는 판단의 근거가 되는 데이터에 값을 치르고, ACP는 가맹점의 기존 레일 위에서 구매를 실행한다.** 다른 일이고, 대부분의 보도가 이 둘을 뭉갠다.\n\n### 6 — 겹침 둘의 계속: 채널을 무너뜨리는 문장\n\n논문은 에이전트 활동에서 네이티브 암호자산으로 가는 전달 경로를 제안한다. 정산이 퍼미션리스 네트워크에서 일어나는 한, 사용 증가가 블록스페이스와 검증자 서비스 수요를 늘릴 수 있다고. 그리고 유보를 단다. **\"가치 포착의 정도는 각 네트워크의 수수료·스테이킹·가스 스폰서십 설계에 달려 있다.\"**\n\n**이 카드의 세 번째 논증이자, 논문에서 가장 날카로운 지점.** 그 절은 단서가 아니라 **질문 전체**이고, 논문은 한 페이지 뒤에 스스로에게 불리하게 답한다. 서클의 Arc를 \"USDC가 네이티브 가스 자산 역할을 하도록 설계된\" 목적 특화 스테이블코인 네트워크로 거명하고, Arc가 \"결제 활동 증가가 USDC의 유용성을 정산 자산이자 거래 수수료 지불 수단 양쪽으로 심화시키는 보완 모델\"을 제시한다고 쓴다.\n\n둘을 함께 읽어보라. 에이전트 결제에서 ETH로 가는 채널은 **지불자가 거래를 위해 네이티브 자산을 사고 태워야** 성립한다. **가스 스폰서십은 정확히 그 고리를 끊는다** — 페이마스터나 퍼실리테이터가 수수료를 대면 에이전트는 네이티브 토큰을 만질 일이 없고, 스폰서는 도매로 산다. Arc는 더 완전히 끊는다. 스테이블코인을 가스 자산으로 **만들어버리기** 때문에, 그 장에서는 결제량 증가가 곧 USDC 수요 증가이고 네이티브 암호자산 수요는 0이다. 루프 안에 별도의 네이티브 암호자산이 없으니까.\n\n그러니까 논문은 메커니즘과 그 반례를 둘 다 담고 있고, 한 페이지 간격으로 **경쟁이 아니라 보완**인 것처럼 제시한다. 정직한 요약은 섹션 제목이 암시하는 것보다 좁다. **에이전틱 결제 성장은 스테이블코인에 대한 수요 신호다. 그중 일부라도 네이티브 암호자산에 닿느냐는 각 장이 내리는 설계 선택이고, 논문이 거명한 장 중 둘은 이미 \"아니오\"를 택했다.** `pocs-agent-payments-korea-control-plane` (#3, REVISIT)이 Kora에 대해 하는 것과 같은 논증이다 — 수수료를 대신 내주는 서명자가 있으면 에이전트는 그 체인의 자산을 한 번도 보유하지 않고 거래한다.\n\n### 7 — 스테이블코인 수치, 그리고 읽는 법\n\n보고된 수치. 전부 블랙록이 남을 인용한 것이다.\n\n| 항목 | 값 | 인용된 출처 |\n|---|---|---|\n| 스테이블코인 유통 시가총액 | 2026년 9월 기준 3,000억 달러 초과 | RWA.xyz |\n| 조정 스테이블코인 거래량, 2025 | 11조 달러 초과 | Visa Onchain Analytics / Allium |\n| ACH 이체액, 2025 | 93조 달러 | Nacha |\n| 스테이블코인 CAGR 2020–2025 | 80% | — |\n| ACH CAGR 2020–2025 | 약 8.5% | — |\n\nFigure 3에 붙은 논문 자신의 주석이 중요한데 파묻혀 있다. **\"측정치는 직접 비교 가능하지 않다.\"** 조정 스테이블코인 거래량에는 필터를 거친 거래소·DeFi·대출·발행/소각·램프 활동이 포함되고, 비자는 현금 거래액을 포함한 총액을, 마스터카드는 총달러거래액을 보고하며, 비자는 2025년 9월 30일 종료 회계연도이고 나머지는 역년 기준이다. 본문의 조심스러운 표현은 \"비자와 마스터카드의 연간 결제액과 **같은 대략적 범위**\"이지 \"추월했다\"도 \"비교할 만하다\"도 아니다. **80% 대 8.5%라는 성장률 대비가 지속되는 주장이고, 수준 비교는 아니다.**\n\n거명된 규제 순풍: GENIUS Act(미국), MiCA(EU), 홍콩 스테이블코인 라이선스 체제, 싱가포르 프레임워크. `reserve-that-makes-the-bank-fragile` (#76)은 MiCA가 반대 방향으로 작용하는 이야기임을 기억해두자 — 토큰을 더 안전하게 만들면서 은행 시스템을 더 취약하게 만드는 준비금 규칙. \"규제 명확성이 채택을 뒷받침한다\"는 참이지만 불완전하다.\n\n### 8 — 겹침 셋: 자산으로서의 컴퓨트\n\n규모 주장:\n\n- 2025–2030년 누적 AI 자본지출 **5조 달러 초과**(골드만삭스).\n- AWS + 마이크로소프트 Intelligent Cloud + 구글 클라우드 합산 매출 **2030년 약 1.1조 달러**, 2025년 대비 **29% CAGR**(2026년 8월 31일 기준 블룸버그 집계 셀사이드 추정치). AI 클라우드 컴퓨트 시장 규모의 대리 지표로 사용.\n- **2030년까지 추론이 최대 AI 워크로드가 될 전망**이고 데이터센터 전력 수요에서 차지하는 비중도 커짐(맥킨지). 추론 사용자 기반은 집중된 학습 시장 참여자들보다 훨씬 크고 분산되어 있음.\n\n논문의 수는 CapEx에서 OpEx로 옮기는 것이다. 투자자는 건설을 보지만, 설치된 장비와 그것을 돌리는 전기를 수익화하는 **반복적 운영 지출**이 컴퓨트를 \"구별되고, 크고, 점점 더 투자 가능한 경제 자원\"으로 만든다.\n\n이어서 표준화된 컴퓨트 상품이 확장되기 전에 풀려야 할 것들을 나열한다 — 칩 세대별 생산성 차이, 에너지 비용이 갈리는 지역별 경제성, 현금 정산 **과** 계약 용량의 실물 인도 양쪽에 대한 작동 가능한 표준 — 그리고 이를 \"중요하지만 궁극적으로 해결 가능한\" 문제라고 부른다. 제시된 선례: 기성 상품시장의 베이시스 시장과 차액결제거래(CFD), 그리고 공유 정산 인프라 안에서 더 세분화된 지역별·하드웨어별 계약을 가능케 할 온체인 토큰화 시장. 도착점: 거래소 상장 컴퓨트 선물, 그리고 \"표현되고, 이전되고, 담보로 제공되고, 프로그래머블 인프라를 통해 정산될 수 있는\" 컴퓨트 청구권.\n\n**이 카드의 네 번째 논증: 컴퓨트는 선례가 암시하는 것보다 원유와 덜 닮았다.** 베이시스 시장이 작동하는 이유는 기초자산이 **인도 시점에 대체 가능**하기 때문이다. 배럴은 배럴이고, 베이시스는 공통 기준 대비 등급·지역의 **차이**에 값을 매긴다. 컴퓨트는 이것을 세 방향에서 동시에 깬다.\n\n- **하드웨어가 작업 단위로 대체 불가능하다.** 메모리 풋프린트나 인터커넥트 토폴로지에 고정된 워크로드에서 H100 시간과 차세대 시간은 서로 바꿔 쓸 수 없다.\n- **위치가 베이시스가 아니라 경성 제약이다.** 지연과 데이터 소재지 요건 때문에 구매자는 종종 **어떤 값을 치러도** 다른 곳에서 인도받을 수 없다. 그건 스프레드가 아니라 다른 재화다.\n- **소멸한다.** 쓰지 않은 GPU 시간은 사라진다. 저장이 없으니 보유비용(cost of carry)이 없고, 선도곡선에 차익거래 앵커가 없다.\n\n이 조합 — 소멸성, 비대체성, 위치 고정 — 은 컴퓨트를 원유보다 **항공기 좌석, 데이터센터 코로케이션, 제약이 걸린 노드의 전력**에 가깝게 놓는다. 그 시장들도 존재하고 파생상품도 있으니 논문의 결론은 여전히 성립할 수 있다. 하지만 표준화를 쉬워 보이게 만드는 그 비유는 틀린 비유이고, \"궁극적으로 해결 가능한\"이라는 표현이 그 문장에서 실제로 큰 일을 하고 있다. `tokenized-compute-is-a-forward-contract` (#78)의 한 걸음 더다. 그 카드는 **상품이 선도계약**이라고 논했고, 이 카드는 **기초자산이 선도계약에 필요한 표준화를 거부한다**고 말한다.\n\n### 9 — OpenRouter라는 신호\n\n2026년 8월 스트라이프의 OpenRouter 인수 합의. OpenRouter는 **80개 이상 제공자의 400개 이상 모델**에 워크로드 요구와 비용·성능 트레이드오프에 따라 작업을 분배한다. 논문의 독법: 라우팅과 컴퓨트 사용 최적화가 AI를 둘러싼 금융 인프라의 일부가 되고 있으며, **인수자가 중요하다** — 결제·스테이블코인·빌링·에이전틱 커머스를 아우르는 스트라이프의 위치를 감안하면, 이 거래는 컴퓨트 조달·사용량 기반 과금·프로그래머블 정산의 수렴을 가리킨다.\n\n논문에서 가장 잘 논증된 주장이다. 전망이 아니라 **드러난 행동에 대한 관찰**이기 때문이다. 결제 회사가 라우팅 계층을 사는 것은 **토큰이 어디서 계산될지 고르는 일과 그것에 과금하는 일이 같은 문제**라는 데 건 베팅이다. 논문의 프로토콜 표 양쪽에 누가 있는지 보라. 스트라이프는 Tempo와 MPP를, OpenAI와 ACP를 공동 개발했고, 이제 라우팅 계층을 소유한다.\n\n### Jayverse에서의 위치\n\n`tokenized-compute-is-a-forward-contract` (#78)은 이 논문 세 번째 섹션의 헤드라인 버전에서 나왔다. 이 항목이 그 뒤의 전문이고, §8이 그 카드를 확장한다. 선도계약 프레이밍은 옳고, 장애물은 계약 설계가 아니라 **기초자산의 비대체성**이다.\n\n`agent-payments-korea-control-plane` (#3, REVISIT)에 §6이 가장 세게 내려앉는다. 그 카드의 발견은 통제권이 법적 관계를 쥔 쪽에 있다는 것이고, Kora 섹션은 에이전트가 체인의 자산을 결코 보유하지 않도록 가스를 대신 내주는 수수료 지불자를 서술한다. 블랙록은 반대 방향의 채널을 제안한 뒤 그것을 닫는 장 두 곳을 거명한다. **두 방향에서 같은 결론: 수요가 있는 것은 정산 자산이고, 네이티브 자산은 설계 선택이다.**\n\n`stablecoin-in-the-leg-nobody-sees` (오늘 추가)는 §4의 \"수정된 전통 레일\"이 실제로 일어난 것이다. 다만 에이전트가 아니라 **은행과 카드 네트워크 쪽에서** 도착했다. 둘을 함께 쥐는 게 좋다. 논문은 에이전트 수요가 레일을 끌어당긴다고 예측하고, 소파이 배치는 에이전트와 무관한 이유로 레일이 움직이는 것을 보여준다.\n\n`consumed-authorization`은 §5의 프로토콜 표에 필요한데 없는 것이다. AP2의 \"암호학적 맨데이트와 감사 추적\", TAP의 자격증명 취급은 **권한 부여 산출물**이고, 소비되지 않은 권한은 다시 쓸 수 있다. 맨데이트를 나열하면서 재생 방지를 논하지 않는 프로토콜 표는 DoinGud 버그와 정확히 같은 방식으로 불완전하다.\n\n`https-won-because-it-got-cheap`이 논문 전체의 틀이다. 질문은 기계 네이티브 결제가 더 나으냐가 아니라, **언제 충분히 싸고 충분히 표준이 되어 쓰지 않는 쪽이 더 비싸지느냐**다. §4의 네 가지 제약은 불가능 목록이 아니라 **가격 목록**이다.\n\n`never-about-issuance`와 `four-seats-and-the-empty-one`이 빠진 조각을 댄다. 논문은 스테이블코인을 이미 존재하는 인프라로 다룬다. **누가, 어느 관할에서 발행할 수 있는가**가 나머지 전부가 기다리는 관문이고, 규제 체제를 나열하는 것 외에 논문이 다루지 않는 유일한 주제다.\n\n### 확인된 것과 미확인\n\n**보도된 것이고 내가 확인하지 않은 것:** 이 카드의 모든 수치. PDF를 구하지 않았고, 비트코인 정책연구소 연구, x402 백서, Visa Onchain Analytics, Nacha 통계, 골드만·맥킨지 자료, 스트라이프 뉴스룸 글 어느 것도 열지 않았다. 여기 나오는 숫자는 **블랙록이 남을 인용한 것을 내가 인용한 것**이다.\n\n**숫자로 옮기지 않을 도표 둘.** Figure 3의 값은 PDF 추출에서 `11.2 8.5 16.7 10.6`으로 축 대응 없이 도착한다. 2025년 스테이블코인 거래량 11조 달러를 고정하는 것은 본문이고, 나머지는 망가진 표에 대한 그럴듯한 독해일 뿐 내가 본 것이 아니다. Figure 4의 `28% 25% 28% 43%`도 연도 대응 없이 도착해서, 거기서 가져온 것은 본문이 말로 진술한 문장 하나뿐이다 — 2030년까지 추론이 최대 AI 워크로드가 된다.\n\n**내 것이고 본문에 표시한 것:** §2(토큰화 평행은 말장난이고, 오프체인 등기부 문단이 그 양보), §3(에이전트는 운영자가 넣어준 것을 쓰므로 운영자 자금 정책이 모델 선호를 이긴다), §6(가스 스폰서십과 Arc가 논문이 제안한 네이티브 암호자산 채널을 끊는다), §8(컴퓨트는 소멸하고 대체 불가능하며 위치 고정이라 상품 베이시스 선례가 문제를 과소평가한다), 그리고 \"왜\"의 바이라인 관찰.\n\n**논문에 유리한 쪽으로 공정하게 적으면:** 비트코인 정책연구소 결과를 관찰이 아니라 시뮬레이션이라고 표시하고, Figure 3의 측정치가 직접 비교 불가함을 밝히고, 생태계가 \"초기 단계\"이며 에이전틱 결제 활동과 컴퓨트 시장 유동성이 \"여전히 제한적\"이라고 말하고, 가치 포착을 단정 대신 유보한다. 위의 비판은 **강조점과 내부 모순 하나**에 관한 것이지 솔직함에 관한 것이 아니다.\n"</script>
+      <h1>기계 네이티브 화폐, 기계 네이티브 지능 — 그리고 스스로 채널을 무너뜨리는 한 문장</h1>
+      <p class="lead">블랙록 디지털자산 리서치는 AI와 디지털자산이 지금까지 평행선을 달려왔지만 이제 수렴하고 있다고 주장한다. 에이전틱 AI가 거래를 해야 하고, 블록체인이 지능과 경제 활동을 잇는 프로그래머블 인프라이기 때문이다. 논문의 틀은 한 쌍이다. AI는 기계 네이티브 지능이고, 디지털자산은 기계 네이티브 화폐다. 세 가지 겹치는 영역 — 공유된 아키텍처로서의 토큰화, 기계 네이티브 레일을 요구하는 에이전틱 커머스, 디지털자산의 시장이 되어가는 컴퓨트 — 을 다루고, AI 채택이 디지털자산 경제에 대한 과소평가된 수요 원천이라고 결론짓는다.</p>
+      <p class="meta">jay가 2026-09-23에 전문을 붙여넣었다. 저자: Will Su(디지털자산 리서치 총괄), Robert Mitchnick(디지털자산 총괄), Jay Jacobs(미국 주식 ETF 총괄), William Helm(미국 iShares 상품 혁신 총괄). 문서 코드 CE0926-M-5936357-EXP0927. PDF를 직접 구하지 않았고 인용된 수치는 하나도 확인하지 않았다. 이 카드가 덧붙이는 다섯 논증은 본문에 내 것으로 표시했고, 그중 가장 날카로운 것은 <strong>논문 자신의 사례가 논문이 제안한 전달 경로를 무너뜨린다</strong>는 것이다.</p>
+<h2>왜</h2>
+<p>지금까지 나온 에이전트 결제 논제의 가장 완결된 기관 버전이고, 정반대의 두 이유로 꼼꼼히 읽을 값이 있다.</p>
+<p>첫째, 이런 논문들이 대개 느슨한 지점에서 이 논문은 조심스럽다. M2M과 B2M·C2M을 구분하고, 카드·ACH 레일이 1센트 미만 상시 결제에 맞지 않는 구체적 속성들을 지목하며, 자기 논거 중 가장 약한 것을 "관찰이 아니라 시뮬레이션"이라고 스스로 표시하고, 네이티브 토큰 가치 포착 주장을 단정하지 않고 유보한다. 장르의 평균보다 높은 기준이다.</p>
+<p>둘째, <strong>바로 그 유보 안에 진짜 내용이 들어 있고</strong>, 훑어 읽는 독자는 헤드라인만 가져가고 그걸 놓친다. <strong>이 논문의 종속절 하나가 해당 섹션이 제안한 메커니즘을 반박한다.</strong> 그리고 논문은 그 반례를 스스로 거명하면서 반례로 표시하지 않는다. 아래 §6이 그 발견이다.</p>
+<p>바이라인에 대해서도 염두에 둘 사실이 하나 있다. 저자 네 명 중 둘이 리서치가 아니라 <strong>상품</strong> 부문 — 주식 ETF와 iShares 상품 혁신 — 을 맡고 있다. 논증을 깎아내릴 이유는 아니다. 논증은 스스로 서야 한다. 다만 마지막 실질 섹션이 "컴퓨트가 표준화되고 이전 가능하며 담보로 잡히고 거래소에서 거래되는 청구권이 되어야 한다"고 주장하는 논문은 <strong>어떤 상품 범주의 상류에 있는 문서</strong>이고, 이 문서 자체의 면책 조항도 리서치나 투자 조언으로 의존하지 말라고 적어두었다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 논제</h3>
+<p>AI는 기계 네이티브 지능, 디지털자산은 기계 네이티브 화폐다. 이 짝을 물리게 만드는 것이 <strong>에이전틱 AI</strong> — 정의된 목표를 향해 외부 도구·인프라와 상호작용하며 최소한의 사람 개입으로 다단계 작업을 계획하고 실행하는 시스템 — 이다. 콘텐츠 생성을 넘어 구매와 금융 거래를 포함한 실제 행동으로 AI를 확장하기 때문이다. AI는 정보를 해석하고 행동을 지시하며, 블록체인은 기계가 읽을 수 있는 자산과 프로그래머블 정산을 제공한다.</p>
+<h3>2 — 겹침 하나: 토큰화의 평행</h3>
+<p>논문이 두 워크플로를 나란히 놓는다.</p>
+<table><thead><tr><th>단계</th><th>LLM 토큰화</th><th>디지털자산 토큰화</th></tr></thead><tbody><tr><td>입력</td><td>"AI is changing the world"</td><td>MMF에 대한 100달러 수익적 지분</td></tr><tr><td>이산화</td><td>토큰: "AI", "is", "changing", "the", "world"</td><td>투자자 지갑에 배정된 토큰화 펀드 지분</td></tr><tr><td>인코딩</td><td>수치 ID <code>[101, 23, 4587, 5, 982]</code></td><td>거래 필드 <code>[Asset ID, Sender ID, Recipient ID, Units, Eligibility Flag]</code></td></tr><tr><td>표현</td><td>모델이 연산하는 임베딩 벡터</td><td>확정된 원장 기록: <code>tx_hash</code>, <code>asset_id</code>, <code>from_id</code>, <code>to_id</code>, <code>token_units</code>, <code>block</code>, <code>status: finalized</code></td></tr></tbody></table>
+<p>논문은 "기능은 다르다", 과정도 "기술적으로 구별된다"고 명시하고, 주장하는 바는 둘 다 실세계 입력을 기계 네이티브 형식으로 번역한다는 것뿐이다.</p>
+<p><strong>이 카드의 첫 논증: 이 평행은 말장난이고, 논문의 다음 문단이 그렇게 말한다.</strong> LLM 토큰은 지시 대상이 없는 손실 있는 통계적 인코딩이다. 토큰 <code>4587</code>은 누구의 소유도 아니고, 아무것도 부여하지 않으며, 이전한다는 말 자체가 무의미하다. 자산 토큰은 정반대다. <strong>그 가치 전부가 인코딩 바깥에 사는 청구권의 집행 가능성</strong>에 있다. 둘이 공유하는 것은 "토큰"이라는 단어와 "이산적이고 기계가 읽을 수 있다"는 속성이다. 그건 공유된 아키텍처가 아니다.</p>
+<p>논문은 두 문단 뒤에 이 차이를 양보하면서 양보로 표시하지 않는다. AML·KYC·KYA 점검은 "일반적으로 오프체인에서 이뤄지고… 검증 결과가 온체인으로 전달"되며, 토큰화 RWA는 "권위 있는 오프체인 등기부에 의존하는 더 넓은 법적·규제 서비스 프레임워크" 안에 있다. <strong>LLM 토큰에는 등기부도, 적격성 플래그도, 규제 프레임워크도 필요 없다.</strong> 논문 자신의 도표에 있는 <code>Eligibility Flag</code>가 결정적 증거다. 법의 세계가 손을 뻗어 들어오는 필드이고, AI 쪽에는 대응물이 없다.</p>
+<p>살아남는 것, 그리고 이 비유가 필요 없는 것: 에이전트는 파편화된 레거시 시스템보다 표준화된 기계 판독 표현과 더 쉽게 접속하고, 자산군을 가로지르는 표준화는 맞춤 연동을 줄인다. 이 주장은 참이고 하중을 받는다. 다만 <strong>토큰화가 아니라 API 표면에 관한 이야기</strong>다.</p>
+<h3>3 — 비트코인 정책연구소 연구</h3>
+<p>예비적 근거로 인용된다. 통제된 시뮬레이션 전반에서 모델 출력은 일상 결제에는 스테이블코인을, 장기 가치 보존에는 비트코인을 선호했고, 스테이블코인이 거래 화폐, 비트코인이 가치 저장 수단인 AI 네이티브 통화 구조를 시사한다는 것. 논문은 이것이 "관찰된 에이전트 행동이 아니라 시뮬레이션된 모델 응답"이라고 분명히 밝힌다.</p>
+<p><strong>이 카드의 두 번째 논증.</strong> 그 단서는 정직하지만 문제를 축소한다. 연구가 측정한 것은 질문받았을 때 모델이 <strong>뭐라고 말하는가</strong>다. 에이전트는 자기 돈을 고르지 않는다. <strong>운영자가 지갑에 넣어준 것을 쓴다.</strong> 운영자가 정한 정책 아래에서. 에이전트의 예산이 지출 권한과 함께 법인 계정의 USDC로 도착한다면, 모델이 비트코인을 선호한다고 말하는 것은 그 에이전트가 평생 할 모든 거래와 무관하다. 추적할 신호는 모델 선호가 아니라 <strong>운영자의 자금 정책과 결제 프로토콜이 무엇을 싸게 만드는가</strong>다. 논문 자신의 각주도 이를 암시한다 — "현금으로 보유하는 통화를 기준으로 한 분석".</p>
+<h3>4 — 겹침 둘: 기존 레일이 맞지 않는 이유</h3>
+<p>논문에서 가장 강한 대목이다.</p>
+<table><thead><tr><th>제약</th><th>에이전트에게 무엇이 깨지나</th></tr></thead><tbody><tr><td>계정 개설·자격 부여·승인 절차에 사람이 필요할 수 있음</td><td>거래가 시작되기도 전, 온보딩 단계에서 "최소한의 사람 개입"이 무너짐</td></tr><tr><td>가맹점 수수료</td><td>아주 작은 금액의 거래를 비경제적으로 만듦 — 1센트 미만 결제에 고정 수수료</td></tr><tr><td>정산과 확정성</td><td>ACH 물량 대부분은 1영업일 이내 정산되고, 카드 승인은 거의 즉시지만 가맹점 정산과 분쟁 확정은 더 걸림</td></tr><tr><td>확장성</td><td>기계가 만드는 거래량이 레일의 설계 용량을 넘어설 수 있음</td></tr></tbody></table>
+<p>여기서 끌어낸 분업: <strong>암호 네이티브 레일은 고빈도·1센트 미만·24시간 M2M</strong> — API 호출, 온디맨드 데이터, 사용량 기반 컴퓨트 — 을, <strong>수정된 전통 레일은 B2M·C2M</strong>, 즉 에이전트가 사람이 운영하는 사업자나 소비자를 만나는 자리를 맡는다.</p>
+<p>그 후반부는 에이전트 없이 이미 일어나고 있고, 그것이 같은 날 추가한 <code>stablecoin-in-the-leg-nobody-sees</code>와의 연결점이다. 카드 프로그램이 정산 구간을 은행 발행 스테이블코인으로 옮기는 것은 정확히 "전통 결제 레일에 대한 적응"이며, 다만 에이전트 쪽이 아니라 <strong>기관 쪽에서</strong> 도착했다.</p>
+<h3>5 — 프로토콜 스택, 논문이 정리한 대로</h3>
+<table><thead><tr><th>프로토콜</th><th>출처</th><th>발표</th><th>하는 일</th></tr></thead><tbody><tr><td>MCP (Model Context Protocol)</td><td>Anthropic</td><td>2024-11</td><td>AI 애플리케이션이 외부 데이터·워크플로에 접근하는 방식 표준화</td></tr><tr><td>A2A (Agent2Agent)</td><td>Google</td><td>2025-04</td><td>에이전트들이 플랫폼을 넘어 통신·조율</td></tr><tr><td>x402</td><td>Coinbase</td><td>—</td><td>HTTP 402 "Payment Required"를 쓰는 개방형 결제 프로토콜. 블록체인 불문, USDC가 초기 주요 사례</td></tr><tr><td>MPP (Machine Payments Protocol)</td><td>Stripe + Tempo</td><td>—</td><td>API 등 HTTP 자원에 대한 결제. 스테이블코인 <strong>또는</strong> 전통 수단으로 정산</td></tr><tr><td>ACP (Agentic Commerce Protocol)</td><td>Stripe + OpenAI</td><td>—</td><td>에이전트와 사업자 간 프로그래matic 체크아웃. 판매자는 기존 커머스·결제 인프라 유지</td></tr><tr><td>AP2 (Agents Payment Protocol)</td><td>Google</td><td>—</td><td>암호학적 맨데이트와 감사 추적으로 사용자 승인 증거 제공</td></tr><tr><td>TAP (Trusted Agent Protocol)</td><td>Visa</td><td>—</td><td>가맹점이 신뢰할 수 있는 에이전트를 검증하고 결제 자격증명을 안전하게 수령</td></tr></tbody></table>
+<p>x402에 대해: 24시간 준실시간 검증 가능 정산이 자원 제공자의 거래상대방 노출을 줄이고, 결제 확인 즉시 서비스를 내어줄 수 있게 한다. 정확한 프레이밍이다. <strong>x402의 가치는 속도 자체가 아니라, 제공자가 익명 호출자에게 더 이상 신용을 주지 않아도 된다는 것</strong>이다.</p>
+<p>Figure 2의 예시 워크플로는 각 프로토콜의 자리를 보여줘서 남길 값이 있다. 사용자가 "2,500달러 이하로 여행을 예약해줘"라고 한다. 주 에이전트가 MCP로 캘린더·이메일·결제 자격증명에 접근하고, A2A로 여행 서브에이전트에게 요금 수집을 위임한다. 서브에이전트가 x402로 항공권·객실 요금 API에 결제하고 온체인에서 정산한다. 주 에이전트가 ACP로 항공사·호텔 체크아웃에서 예약을 마치고, 일정과 영수증이 사용자에게 돌아간다. <strong>x402는 판단의 근거가 되는 데이터에 값을 치르고, ACP는 가맹점의 기존 레일 위에서 구매를 실행한다.</strong> 다른 일이고, 대부분의 보도가 이 둘을 뭉갠다.</p>
+<h3>6 — 겹침 둘의 계속: 채널을 무너뜨리는 문장</h3>
+<p>논문은 에이전트 활동에서 네이티브 암호자산으로 가는 전달 경로를 제안한다. 정산이 퍼미션리스 네트워크에서 일어나는 한, 사용 증가가 블록스페이스와 검증자 서비스 수요를 늘릴 수 있다고. 그리고 유보를 단다. <strong>"가치 포착의 정도는 각 네트워크의 수수료·스테이킹·가스 스폰서십 설계에 달려 있다."</strong></p>
+<p><strong>이 카드의 세 번째 논증이자, 논문에서 가장 날카로운 지점.</strong> 그 절은 단서가 아니라 <strong>질문 전체</strong>이고, 논문은 한 페이지 뒤에 스스로에게 불리하게 답한다. 서클의 Arc를 "USDC가 네이티브 가스 자산 역할을 하도록 설계된" 목적 특화 스테이블코인 네트워크로 거명하고, Arc가 "결제 활동 증가가 USDC의 유용성을 정산 자산이자 거래 수수료 지불 수단 양쪽으로 심화시키는 보완 모델"을 제시한다고 쓴다.</p>
+<p>둘을 함께 읽어보라. 에이전트 결제에서 ETH로 가는 채널은 <strong>지불자가 거래를 위해 네이티브 자산을 사고 태워야</strong> 성립한다. <strong>가스 스폰서십은 정확히 그 고리를 끊는다</strong> — 페이마스터나 퍼실리테이터가 수수료를 대면 에이전트는 네이티브 토큰을 만질 일이 없고, 스폰서는 도매로 산다. Arc는 더 완전히 끊는다. 스테이블코인을 가스 자산으로 <strong>만들어버리기</strong> 때문에, 그 장에서는 결제량 증가가 곧 USDC 수요 증가이고 네이티브 암호자산 수요는 0이다. 루프 안에 별도의 네이티브 암호자산이 없으니까.</p>
+<p>그러니까 논문은 메커니즘과 그 반례를 둘 다 담고 있고, 한 페이지 간격으로 <strong>경쟁이 아니라 보완</strong>인 것처럼 제시한다. 정직한 요약은 섹션 제목이 암시하는 것보다 좁다. <strong>에이전틱 결제 성장은 스테이블코인에 대한 수요 신호다. 그중 일부라도 네이티브 암호자산에 닿느냐는 각 장이 내리는 설계 선택이고, 논문이 거명한 장 중 둘은 이미 "아니오"를 택했다.</strong> <code>pocs-agent-payments-korea-control-plane</code> (#3, REVISIT)이 Kora에 대해 하는 것과 같은 논증이다 — 수수료를 대신 내주는 서명자가 있으면 에이전트는 그 체인의 자산을 한 번도 보유하지 않고 거래한다.</p>
+<h3>7 — 스테이블코인 수치, 그리고 읽는 법</h3>
+<p>보고된 수치. 전부 블랙록이 남을 인용한 것이다.</p>
+<table><thead><tr><th>항목</th><th>값</th><th>인용된 출처</th></tr></thead><tbody><tr><td>스테이블코인 유통 시가총액</td><td>2026년 9월 기준 3,000억 달러 초과</td><td>RWA.xyz</td></tr><tr><td>조정 스테이블코인 거래량, 2025</td><td>11조 달러 초과</td><td>Visa Onchain Analytics / Allium</td></tr><tr><td>ACH 이체액, 2025</td><td>93조 달러</td><td>Nacha</td></tr><tr><td>스테이블코인 CAGR 2020–2025</td><td>80%</td><td>—</td></tr><tr><td>ACH CAGR 2020–2025</td><td>약 8.5%</td><td>—</td></tr></tbody></table>
+<p>Figure 3에 붙은 논문 자신의 주석이 중요한데 파묻혀 있다. <strong>"측정치는 직접 비교 가능하지 않다."</strong> 조정 스테이블코인 거래량에는 필터를 거친 거래소·DeFi·대출·발행/소각·램프 활동이 포함되고, 비자는 현금 거래액을 포함한 총액을, 마스터카드는 총달러거래액을 보고하며, 비자는 2025년 9월 30일 종료 회계연도이고 나머지는 역년 기준이다. 본문의 조심스러운 표현은 "비자와 마스터카드의 연간 결제액과 <strong>같은 대략적 범위</strong>"이지 "추월했다"도 "비교할 만하다"도 아니다. <strong>80% 대 8.5%라는 성장률 대비가 지속되는 주장이고, 수준 비교는 아니다.</strong></p>
+<p>거명된 규제 순풍: GENIUS Act(미국), MiCA(EU), 홍콩 스테이블코인 라이선스 체제, 싱가포르 프레임워크. <code>reserve-that-makes-the-bank-fragile</code> (#76)은 MiCA가 반대 방향으로 작용하는 이야기임을 기억해두자 — 토큰을 더 안전하게 만들면서 은행 시스템을 더 취약하게 만드는 준비금 규칙. "규제 명확성이 채택을 뒷받침한다"는 참이지만 불완전하다.</p>
+<h3>8 — 겹침 셋: 자산으로서의 컴퓨트</h3>
+<p>규모 주장:</p>
+<ul><li>2025–2030년 누적 AI 자본지출 <strong>5조 달러 초과</strong>(골드만삭스).</li><li>AWS + 마이크로소프트 Intelligent Cloud + 구글 클라우드 합산 매출 <strong>2030년 약 1.1조 달러</strong>, 2025년 대비 <strong>29% CAGR</strong>(2026년 8월 31일 기준 블룸버그 집계 셀사이드 추정치). AI 클라우드 컴퓨트 시장 규모의 대리 지표로 사용.</li><li><strong>2030년까지 추론이 최대 AI 워크로드가 될 전망</strong>이고 데이터센터 전력 수요에서 차지하는 비중도 커짐(맥킨지). 추론 사용자 기반은 집중된 학습 시장 참여자들보다 훨씬 크고 분산되어 있음.</li></ul>
+<p>논문의 수는 CapEx에서 OpEx로 옮기는 것이다. 투자자는 건설을 보지만, 설치된 장비와 그것을 돌리는 전기를 수익화하는 <strong>반복적 운영 지출</strong>이 컴퓨트를 "구별되고, 크고, 점점 더 투자 가능한 경제 자원"으로 만든다.</p>
+<p>이어서 표준화된 컴퓨트 상품이 확장되기 전에 풀려야 할 것들을 나열한다 — 칩 세대별 생산성 차이, 에너지 비용이 갈리는 지역별 경제성, 현금 정산 <strong>과</strong> 계약 용량의 실물 인도 양쪽에 대한 작동 가능한 표준 — 그리고 이를 "중요하지만 궁극적으로 해결 가능한" 문제라고 부른다. 제시된 선례: 기성 상품시장의 베이시스 시장과 차액결제거래(CFD), 그리고 공유 정산 인프라 안에서 더 세분화된 지역별·하드웨어별 계약을 가능케 할 온체인 토큰화 시장. 도착점: 거래소 상장 컴퓨트 선물, 그리고 "표현되고, 이전되고, 담보로 제공되고, 프로그래머블 인프라를 통해 정산될 수 있는" 컴퓨트 청구권.</p>
+<p><strong>이 카드의 네 번째 논증: 컴퓨트는 선례가 암시하는 것보다 원유와 덜 닮았다.</strong> 베이시스 시장이 작동하는 이유는 기초자산이 <strong>인도 시점에 대체 가능</strong>하기 때문이다. 배럴은 배럴이고, 베이시스는 공통 기준 대비 등급·지역의 <strong>차이</strong>에 값을 매긴다. 컴퓨트는 이것을 세 방향에서 동시에 깬다.</p>
+<ul><li><strong>하드웨어가 작업 단위로 대체 불가능하다.</strong> 메모리 풋프린트나 인터커넥트 토폴로지에 고정된 워크로드에서 H100 시간과 차세대 시간은 서로 바꿔 쓸 수 없다.</li><li><strong>위치가 베이시스가 아니라 경성 제약이다.</strong> 지연과 데이터 소재지 요건 때문에 구매자는 종종 <strong>어떤 값을 치러도</strong> 다른 곳에서 인도받을 수 없다. 그건 스프레드가 아니라 다른 재화다.</li><li><strong>소멸한다.</strong> 쓰지 않은 GPU 시간은 사라진다. 저장이 없으니 보유비용(cost of carry)이 없고, 선도곡선에 차익거래 앵커가 없다.</li></ul>
+<p>이 조합 — 소멸성, 비대체성, 위치 고정 — 은 컴퓨트를 원유보다 <strong>항공기 좌석, 데이터센터 코로케이션, 제약이 걸린 노드의 전력</strong>에 가깝게 놓는다. 그 시장들도 존재하고 파생상품도 있으니 논문의 결론은 여전히 성립할 수 있다. 하지만 표준화를 쉬워 보이게 만드는 그 비유는 틀린 비유이고, "궁극적으로 해결 가능한"이라는 표현이 그 문장에서 실제로 큰 일을 하고 있다. <code>tokenized-compute-is-a-forward-contract</code> (#78)의 한 걸음 더다. 그 카드는 <strong>상품이 선도계약</strong>이라고 논했고, 이 카드는 <strong>기초자산이 선도계약에 필요한 표준화를 거부한다</strong>고 말한다.</p>
+<h3>9 — OpenRouter라는 신호</h3>
+<p>2026년 8월 스트라이프의 OpenRouter 인수 합의. OpenRouter는 <strong>80개 이상 제공자의 400개 이상 모델</strong>에 워크로드 요구와 비용·성능 트레이드오프에 따라 작업을 분배한다. 논문의 독법: 라우팅과 컴퓨트 사용 최적화가 AI를 둘러싼 금융 인프라의 일부가 되고 있으며, <strong>인수자가 중요하다</strong> — 결제·스테이블코인·빌링·에이전틱 커머스를 아우르는 스트라이프의 위치를 감안하면, 이 거래는 컴퓨트 조달·사용량 기반 과금·프로그래머블 정산의 수렴을 가리킨다.</p>
+<p>논문에서 가장 잘 논증된 주장이다. 전망이 아니라 <strong>드러난 행동에 대한 관찰</strong>이기 때문이다. 결제 회사가 라우팅 계층을 사는 것은 <strong>토큰이 어디서 계산될지 고르는 일과 그것에 과금하는 일이 같은 문제</strong>라는 데 건 베팅이다. 논문의 프로토콜 표 양쪽에 누가 있는지 보라. 스트라이프는 Tempo와 MPP를, OpenAI와 ACP를 공동 개발했고, 이제 라우팅 계층을 소유한다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>tokenized-compute-is-a-forward-contract</code> (#78)은 이 논문 세 번째 섹션의 헤드라인 버전에서 나왔다. 이 항목이 그 뒤의 전문이고, §8이 그 카드를 확장한다. 선도계약 프레이밍은 옳고, 장애물은 계약 설계가 아니라 <strong>기초자산의 비대체성</strong>이다.</p>
+<p><code>agent-payments-korea-control-plane</code> (#3, REVISIT)에 §6이 가장 세게 내려앉는다. 그 카드의 발견은 통제권이 법적 관계를 쥔 쪽에 있다는 것이고, Kora 섹션은 에이전트가 체인의 자산을 결코 보유하지 않도록 가스를 대신 내주는 수수료 지불자를 서술한다. 블랙록은 반대 방향의 채널을 제안한 뒤 그것을 닫는 장 두 곳을 거명한다. <strong>두 방향에서 같은 결론: 수요가 있는 것은 정산 자산이고, 네이티브 자산은 설계 선택이다.</strong></p>
+<p><code>stablecoin-in-the-leg-nobody-sees</code> (오늘 추가)는 §4의 "수정된 전통 레일"이 실제로 일어난 것이다. 다만 에이전트가 아니라 <strong>은행과 카드 네트워크 쪽에서</strong> 도착했다. 둘을 함께 쥐는 게 좋다. 논문은 에이전트 수요가 레일을 끌어당긴다고 예측하고, 소파이 배치는 에이전트와 무관한 이유로 레일이 움직이는 것을 보여준다.</p>
+<p><code>consumed-authorization</code>은 §5의 프로토콜 표에 필요한데 없는 것이다. AP2의 "암호학적 맨데이트와 감사 추적", TAP의 자격증명 취급은 <strong>권한 부여 산출물</strong>이고, 소비되지 않은 권한은 다시 쓸 수 있다. 맨데이트를 나열하면서 재생 방지를 논하지 않는 프로토콜 표는 DoinGud 버그와 정확히 같은 방식으로 불완전하다.</p>
+<p><code>https-won-because-it-got-cheap</code>이 논문 전체의 틀이다. 질문은 기계 네이티브 결제가 더 나으냐가 아니라, <strong>언제 충분히 싸고 충분히 표준이 되어 쓰지 않는 쪽이 더 비싸지느냐</strong>다. §4의 네 가지 제약은 불가능 목록이 아니라 <strong>가격 목록</strong>이다.</p>
+<p><code>never-about-issuance</code>와 <code>four-seats-and-the-empty-one</code>이 빠진 조각을 댄다. 논문은 스테이블코인을 이미 존재하는 인프라로 다룬다. <strong>누가, 어느 관할에서 발행할 수 있는가</strong>가 나머지 전부가 기다리는 관문이고, 규제 체제를 나열하는 것 외에 논문이 다루지 않는 유일한 주제다.</p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보도된 것이고 내가 확인하지 않은 것:</strong> 이 카드의 모든 수치. PDF를 구하지 않았고, 비트코인 정책연구소 연구, x402 백서, Visa Onchain Analytics, Nacha 통계, 골드만·맥킨지 자료, 스트라이프 뉴스룸 글 어느 것도 열지 않았다. 여기 나오는 숫자는 <strong>블랙록이 남을 인용한 것을 내가 인용한 것</strong>이다.</p>
+<p><strong>숫자로 옮기지 않을 도표 둘.</strong> Figure 3의 값은 PDF 추출에서 <code>11.2 8.5 16.7 10.6</code>으로 축 대응 없이 도착한다. 2025년 스테이블코인 거래량 11조 달러를 고정하는 것은 본문이고, 나머지는 망가진 표에 대한 그럴듯한 독해일 뿐 내가 본 것이 아니다. Figure 4의 <code>28% 25% 28% 43%</code>도 연도 대응 없이 도착해서, 거기서 가져온 것은 본문이 말로 진술한 문장 하나뿐이다 — 2030년까지 추론이 최대 AI 워크로드가 된다.</p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §2(토큰화 평행은 말장난이고, 오프체인 등기부 문단이 그 양보), §3(에이전트는 운영자가 넣어준 것을 쓰므로 운영자 자금 정책이 모델 선호를 이긴다), §6(가스 스폰서십과 Arc가 논문이 제안한 네이티브 암호자산 채널을 끊는다), §8(컴퓨트는 소멸하고 대체 불가능하며 위치 고정이라 상품 베이시스 선례가 문제를 과소평가한다), 그리고 "왜"의 바이라인 관찰.</p>
+<p><strong>논문에 유리한 쪽으로 공정하게 적으면:</strong> 비트코인 정책연구소 결과를 관찰이 아니라 시뮬레이션이라고 표시하고, Figure 3의 측정치가 직접 비교 불가함을 밝히고, 생태계가 "초기 단계"이며 에이전틱 결제 활동과 컴퓨트 시장 유동성이 "여전히 제한적"이라고 말하고, 가치 포착을 단정 대신 유보한다. 위의 비판은 <strong>강조점과 내부 모순 하나</strong>에 관한 것이지 솔직함에 관한 것이 아니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>machine-native</strong></td><td>기계 네이티브의(사람이 아니라 기계가 원래 쓰도록 만들어진) · 논문의 핵심 짝, "machine-native intelligence / machine-native money"</td></tr><tr><td><strong>agentic AI</strong></td><td>에이전틱 AI · 목표를 향해 다단계 작업을 스스로 계획·실행하는 시스템</td></tr><tr><td><strong>structural catalyst</strong></td><td>구조적 촉매 · 일시적 유행이 아니라 구조를 바꾸는 요인. "AI as a structural catalyst for digital asset adoption"</td></tr><tr><td><strong>underappreciated</strong></td><td>과소평가된 · 논문이 자기 주장의 지위를 말할 때 반복해 쓰는 말</td></tr><tr><td><strong>transmission channel</strong></td><td>전달 경로 · 한 곳의 활동이 다른 자산의 수요로 이어지는 통로. §6의 핵심어</td></tr><tr><td><strong>value capture</strong></td><td>가치 포착 · 네트워크 사용이 토큰 가치로 이어지는 정도</td></tr><tr><td><strong>gas sponsorship</strong></td><td>가스 스폰서십 · 제3자가 수수료를 대신 내주는 설계. 전달 경로를 끊는 바로 그 메커니즘</td></tr><tr><td><strong>paymaster</strong></td><td>페이마스터 · 사용자 대신 수수료를 지불하는 계약·서비스</td></tr><tr><td><strong>native gas asset</strong></td><td>네이티브 가스 자산 · 수수료를 내는 데 쓰이는 체인 고유 자산. Arc에서는 USDC</td></tr><tr><td><strong>load-bearing (clause)</strong></td><td>하중을 받는 (문장) · 다른 주장들이 그 위에 서 있는 전제. "The hedge is load-bearing"</td></tr><tr><td><strong>a hedge</strong></td><td>유보·완충 표현 · 단정하지 않으려고 붙이는 조건절</td></tr><tr><td><strong>to undercut</strong></td><td>(스스로) 무너뜨리다·깎아내리다 · 논문이 자기 논증을 약화시키는 상황</td></tr><tr><td><strong>a pun</strong></td><td>말장난 · 같은 단어를 쓴다고 같은 구조는 아니라는 §2의 비판</td></tr><tr><td><strong>referent</strong></td><td>지시 대상 · LLM 토큰에는 없고 자산 토큰에는 있는 것</td></tr><tr><td><strong>lossy</strong></td><td>손실 있는 · 원본 정보를 일부 버리는 인코딩</td></tr><tr><td><strong>enforceability</strong></td><td>집행 가능성 · 자산 토큰의 가치가 실제로 놓인 자리</td></tr><tr><td><strong>eligibility flag</strong></td><td>적격성 플래그 · 법·규제가 거래 데이터 안으로 손을 뻗어 들어오는 필드</td></tr><tr><td><strong>authoritative off-chain registry</strong></td><td>권위 있는 오프체인 등기부 · 토큰화 RWA가 여전히 의존하는 것</td></tr><tr><td><strong>bespoke integration</strong></td><td>맞춤 연동 · 표준화가 줄여주는 비용</td></tr><tr><td><strong>counterparty exposure</strong></td><td>거래상대방 노출 · 상대가 이행하지 않을 위험. x402가 줄인다고 논문이 주장하는 것</td></tr><tr><td><strong>to extend credit</strong></td><td>신용을 주다 · 선불 없이 서비스를 먼저 내어주는 것</td></tr><tr><td><strong>sub-cent</strong></td><td>1센트 미만의 · 기존 레일이 감당 못 하는 금액대</td></tr><tr><td><strong>M2M / B2M / C2M</strong></td><td>기계 간 / 사업자-기계 / 소비자-기계 · 논문이 구분하는 세 가지 거래 축</td></tr><tr><td><strong>finality</strong></td><td>확정성 · 거래가 되돌려지지 않는 상태</td></tr><tr><td><strong>CapEx vs OpEx</strong></td><td>자본지출 대 운영지출 · 컴퓨트 섹션의 전환점. 투자자는 앞을 보지만 시장은 뒤에서 생긴다</td></tr><tr><td><strong>hyperscaler</strong></td><td>하이퍼스케일러 · AWS·애저·구글 클라우드 같은 초대형 클라우드 사업자</td></tr><tr><td><strong>basis market</strong></td><td>베이시스 시장 · 기준 가격 대비 등급·지역 차이를 거래하는 시장</td></tr><tr><td><strong>contract for difference (CFD)</strong></td><td>차액결제거래 · 실물 인도 없이 가격 차이만 정산하는 계약</td></tr><tr><td><strong>fungible at delivery</strong></td><td>인도 시점에 대체 가능한 · 베이시스 시장이 성립하는 조건. 컴퓨트는 이걸 깬다</td></tr><tr><td><strong>perishable</strong></td><td>소멸하는 · 쓰지 않으면 사라지는 재화. 쓰지 않은 GPU 시간</td></tr><tr><td><strong>cost of carry</strong></td><td>보유비용 · 저장 가능한 상품의 선도곡선을 고정하는 값. 컴퓨트에는 없다</td></tr><tr><td><strong>forward curve</strong></td><td>선도곡선 · 만기별 선도가격의 곡선</td></tr><tr><td><strong>to pledge as collateral</strong></td><td>담보로 제공하다 · 컴퓨트 청구권이 하게 될 것이라고 논문이 말하는 것</td></tr><tr><td><strong>price discovery</strong></td><td>가격 발견 · 시장이 적정 가격을 찾아가는 기능</td></tr><tr><td><strong>revealed behaviour</strong></td><td>드러난 행동 · 말이 아니라 실제로 한 일. OpenRouter 인수를 평가하는 기준</td></tr><tr><td><strong>upstream of a product</strong></td><td>어떤 상품의 상류에 있는 · 논문이 무엇의 앞 단계인지 말할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-privacy-as-a-query-parameter.html">&larr; 75. Privacy became a query parameter — Ekubo&#39;s private swap, and why a swap is harder than a transfer</a><a href="pocs-stablecoin-in-the-leg-nobody-sees.html">77. The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="machine-native-economy-blackrock";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+BlackRock Digital Assets Research white paper, pasted in full by jay on 2026-09-23.
+
+Title: The MachineNative Economy — How digital assets connect intelligence, commerce, and compute
+Authors: Will Su (Head of Digital Assets Research), Robert Mitchnick (Head of Digital Assets),
+         Jay Jacobs (U.S. Head of Equity ETFs), William Helm (Head of U.S. iShares Product Innovation)
+Document code: CE0926-M-5936357-EXP0927 (11 pages)
+
+WHAT THIS FILE IS
+jay's paste of the paper, kept as received (PDF text extraction, so figure captions and chart
+labels arrive interleaved and partly scrambled). I did not obtain the PDF myself and checked none
+of its cited figures against their sources. Everything below is the paper's own text and its own
+footnotes.
+
+--- PASTED CONTENT (verbatim) ---
+
+Executive Summary
+
+The extraordinary growth in artificial intelligence is the defining technology theme of this era. The rise of digital assets, meanwhile, represents a concurrent technology theme with particularly relevant implications for financial infrastructure. These themes have historically developed along largely parallel tracks, but they are beginning to converge as AI systems become more capable of interacting with financial and economic networks. This paper examines this growing relationship and explains why broad AI adoption may represent an underappreciated source of demand, utility, and application growth across the digital asset economy.
+
+At the core of this convergence, AI and digital assets both arise from a common foundation: AI represents machine-native intelligence, while digital assets represent machine-native money. This alignment becomes particularly important with the rise of agentic AI, which refers to systems that can plan and execute multistep tasks toward a defined objective by interacting with external tools and infrastructure with limited human intervention, with blockchains providing the programmable infrastructure that connects intelligence with economic activity. These capabilities extend AI beyond content generation toward real-world action, including making purchases and initiating financial transactions.
+
+Specifically, we explore three key areas of overlap:
+• LLMs and blockchains share analogous tokenization architectures. Large language models divide human language into tokens and encode them numerically for model interpretation and processing. Blockchains similarly represent economic value and entitlements as digital asset tokens designed for machine-verifiable transfer and settlement. The functions are distinct, but both workflows translate real-world inputs into formats that machines can use natively.
+• Agentic commerce requires machine-native payment rails. The rise of agentic AI and machine-to-machine payments will likely increase demand for blockchains and other programmable payment infrastructure; stablecoins, native cryptoassets, and other on-chain assets can serve as machine-native instruments for payment and settlement across these rails. Existing rails such as ACH and card networks support substantial automation, although their onboarding requirements and settlement economics can make them less suited to always-on, very low-value transactions requiring programmable execution. Emerging protocols such as x402 and ACP are being deployed on blockchain networks and alongside adaptations to traditional payment rails, creating a transaction and settlement layer for more complex agentic workflows.
+• Compute is emerging as a new and potentially large market for digital assets. Compute, the processing capacity required to train and run AI systems, is becoming an increasingly important economic resource. Analyst estimates suggest that hyperscaler cloud revenues could exceed $1 trillion annually by 2030. As agents become more capable and persistent, standardized claims on compute capacity could become a significant digital asset use case for financing and programmable settlement.
+
+Together, these developments position AI as a structural catalyst for digital asset adoption and digital assets as a potential facilitator of the AI economy: AI interprets information and directs action, while blockchains provide machine-readable assets and programmable settlement. This relationship remains underappreciated and could expand the role of digital assets as core infrastructure for an increasingly autonomous digital economy.
+
+[Section] AI and digital asset tokenization convert real-world inputs into machine-native representations
+
+At the architectural level, tokenization in artificial intelligence and digital assets serves an analogous purpose: translating information and economic entitlements into discrete, standardized representations that machines can process natively. AI tokens encode information, while digital asset tokens represent units of value, ownership, or economic claims. In large language models (LLMs), a tokenizer divides human-readable text into smaller units, typically words, sub-words, or characters, and maps them to numerical identifiers. An embedding layer then converts those identifiers into vector representations that the model can use for computation. The model generates numerical token IDs that are decoded back into human-readable text. By continuously translating incoming text into standardized numerical units, LLMs can process large input streams efficiently using the highly parallel calculations for which modern chips are optimized.
+
+Blockchains apply a functionally comparable, though technically distinct, process to stores of value and economic claims. Digital asset tokenization is the process of representing a financial or real-world asset (RWA) such as cash, a fund interest, a security, or another ownership claim as a standardized digital token recorded on a distributed ledger. Existing on-chain assets such as stablecoins can be transferred through smart contract transactions. At the transaction level, these assets are expressed through machine-readable transaction data and governing rules. The network verifies authorization and transaction validity, while smart contracts or transaction scripts apply asset-specific permissions and conditions. Together, these mechanisms update the ledger by transferring token balances. Once a transaction has been recorded and sufficiently finalized under the network's consensus rules, it becomes part of the network's canonical ledger state.
+
+In the blockchain workflow, smart contracts execute transaction logic and apply rules specific to financial assets. Anti-money laundering (AML), know-your-customer (KYC), and know-your-agent (KYA) checks generally occur off-chain, where identity and compliance data can be assessed, with verified results passed on-chain to determine transaction eligibility. For tokenized RWAs, these controls sit within a broader legal and regulated-service framework that relies on authoritative off-chain registries, while reducing dependence on closed databases and manual reconciliation.
+
+Figure 1: Illustrative Tokenization Workflows in LLMs and Blockchain Transactions
+  AI Tokenization: Text to LLM Representation
+    "AI is changing the world"  [Text]
+    → "AI", "is", "changing", "the", "world"  [Tokens]   (Encoding)
+    → [101, 23, 4587, 5, 982]  [Numerical IDs]
+    → embedding matrix rows e.g. [0.48, -0.37, 0.20, -0.88, 0.12] …  [Embedding]
+  DA Tokenization: RWAs to On-Chain Ownership Record
+    $100 beneficial interest in a money market fund  [Real-world asset (RWA)]
+    → Tokenized fund shares assigned to investor's digital wallet  [Tokenized ownership]
+    → [Asset ID, Sender ID, Recipient ID, Units, Eligibility Flag]  [Encoded transaction fields]
+       (Validation, locking, encoding)
+    → tx_hash: 0x8F3A...91C2 / asset_id: 0x2D7B...44E1 / from_id: 0x91C3...0A77 /
+      to_id: 0x71A9...3F06 / token_units: 100.000000 / block: 21845902 / status: finalized
+      [Blockchain transaction record]  (Execution and finalization)
+  For illustrative purposes only. Source: BlackRock Digital Assets Research.
+
+These parallel workflows, one encoding human context and the other encoding economic entitlement, are becoming more relevant as systems of intelligence and transaction execution converge. Both systems use structured, machine-readable representations, which can give LLM-based AI agents a more direct interface with blockchain data than with many fragmented legacy systems. In turn, greater standardization across asset classes can reduce reliance on bespoke integrations and make it easier for agents to orchestrate more complex multi-asset workflows. Through programmable interfaces, agents can evaluate balances and rules before executing authorized transactions and verifying settlement, with limited reliance on manual processes.
+
+Recent Bitcoin Policy Institute research offers preliminary support for this framework, reporting that model outputs across controlled simulations generally favored stablecoins for everyday payments and bitcoin for long-term value preservation.[1] These findings reflect simulated model responses rather than observed agent behavior, but point to a potential AI-native monetary architecture in which stablecoins serve as transaction money and bitcoin as a store of value. As we explore in the next section, this shared machine-native foundation could support meaningful agentic payment use cases that some traditional financial rails may serve less efficiently or economically.
+
+[Section] Machine-native transactions require purpose-built agentic payment protocols
+
+As AI agents become more capable and as their real-world applications expand, they increasingly demand payment and asset infrastructure designed natively for machine-speed commerce. Crypto-native blockchain rails are particularly well suited to high-frequency, sub-cent, machine-to-machine (M2M) transactions that take place around-the-clock, including API calls, on-demand data, and consumption-based compute. In parallel, modified traditional payment systems will remain important for connecting agents with human-operated businesses and consumers in business-to-machine (B2M) and consumer-to-machine (C2M) settings.
+
+Stablecoins, native cryptoassets, tokenized real-world assets, and other programmable instruments can support transactions and digital ownership, including collateral use, with the required granularity on an always-on basis. More broadly, tokenization can provide standardized, machine-readable representations across asset classes, reducing bespoke integrations across financial infrastructure and enabling agents to orchestrate increasingly complex workflows more efficiently.
+
+Many existing payment rails are less well suited to high-volume, low-denomination agentic transactions. They involve:
+• Account setup, credentialing, and authorization processes that may require human involvement;
+• Merchant acceptance fees that can make very low-value transactions uneconomic;
+• Settlement and finality constraints, as most ACH volume settles within one business day or less, while card authorization is near-instant but merchant settlement and dispute finality can take longer; and
+• Potential scalability limitations as machine-generated transaction volumes grow.
+
+Agentic payment protocols build on foundational standards such as MCP and A2A, which connect agents with external systems and one another. MCP[2] (Model Context Protocol), introduced by Anthropic in November 2024, standardizes how AI applications access external data and workflows. A2A[3] (Agent2Agent), launched by Google in April 2025, enables agents to communicate and coordinate across platforms.
+
+Agents using MCP and A2A leverage multiple agentic payment protocols to complete complex workflows involving payments. x402[4], an open payment protocol developed by Coinbase, uses the HTTP 402 "Payment Required" status code to facilitate machine-initiated payments. The protocol is blockchain-agnostic, with stablecoins such as USDC representing an early primary use case, and is emerging as one potential standard for high-velocity M2M transactions. By providing 24/7, near-real-time, verifiable settlement, x402 can reduce the resource provider's counterparty exposure and enable the immediate release of requested data or services upon payment confirmation. Because x402 uses digital currencies, including stablecoins held in on-chain wallets, it can support high-frequency, low-denomination transactions without human intervention. Where settlement occurs on permissionless networks, greater usage could increase demand for blockspace and validator services, creating a potential transmission channel to native cryptoassets. The extent of value capture will depend on each network's fee, staking, and gas-sponsorship design.
+
+Other emerging standards connect agentic transactions with existing payment rails and establish guardrails for trusted financial execution. The Machine Payments Protocol (MPP[5]), developed by Stripe and Tempo, enables payments for APIs and other HTTP resources with flexible settlement via stablecoins or traditional payment methods. The Agentic Commerce Protocol (ACP[6]), developed by Stripe and OpenAI, enables programmatic checkout between agents and businesses while allowing sellers to retain their existing commerce and payment infrastructure. Google's Agents Payment Protocol (AP2[7]) uses cryptographic mandates and audit trails to provide evidence of user authorization, while Visa's Trusted Agents Protocol (TAP[8]) helps merchants verify trusted agents and securely receive payment credentials.
+
+Figure 2: Illustrative Agentic Payment Workflow Involving Foundational and Financial Protocols
+  MCP: helps agents access external tools and data
+  A2A: helps agents communicate with each other
+  x402: powers fast machine-to-machine transactions
+  ACP: connects agents to vendors' existing payment rails
+  (1) Human User → Primary Agent: "Book my trip for under $2,500"  [User prompt]
+  (2) Primary Agent → Tools/Data via MCP: Calendar, Email, Payment Credentials
+  (3) Primary Agent → AI Travel Sub-Agent via A2A: "Get schedules and fares"
+  (4) Sub-Agent → Airfare/Room Rates API via x402: agent pays for data to build optimal itinerary
+      (Tools/Data: Routing, Seat Maps, Loyalty)
+  (5) Primary Agent → Airline/Hotel Checkout via ACP: finalize reservations
+  (6) → Human User: Itinerary, Receipts
+  For illustrative purposes only. Source: BlackRock Digital Assets Research.
+
+Several types of digital assets may support agentic commerce, but stablecoins are likely to lead transactional use. Stablecoins are digital tokens designed to maintain a stable value relative to a reference currency, most commonly the U.S. dollar. Their price stability provides a reliable unit of account and greater predictability in pricing and settlement. Stablecoins represent the largest category of tokenized real-world assets, with more than $300 billion in circulating market capitalization as of September 2026.[9] Adjusted stablecoin transaction volume exceeded $11 trillion in 2025, placing it in the same broad range as Visa and Mastercard's annual payment volumes.[10] Adjusted stablecoin volume remained well below the $93 trillion transferred over ACH in 2025; from 2020 to 2025, however, it grew at an 80% CAGR, compared with approximately 8.5% for ACH.[11] Growing regulatory clarity, including the GENIUS Act in the U.S., MiCA in the EU, Hong Kong's stablecoin licensing regime, and Singapore's stablecoin regulatory framework, should support continued stablecoin adoption and growth.
+
+Figure 3: Stablecoin and Major Card Networks Transaction Volumes (US $ Trillions, 2018–1H2026)
+  Labelled values appearing in the extraction: Stablecoins 11.2 and 8.5; Visa 16.7; Mastercard 10.6.
+  2026 stablecoin data through June 2026.
+  Note: measures are not directly comparable. Adjusted stablecoin volume includes selected exchange,
+  DeFi, lending, mint/burn, and ramp activity after methodological filters. Visa reports total volume,
+  including payment and cash volume, while Mastercard reports gross dollar volume. Visa data are for
+  the fiscal year ended Sept. 30, 2025; Mastercard and stablecoin data are presented on a calendar-year
+  basis. Source: Visa Onchain Analytics, Allium, Visa and Mastercard annual reports, and SEC filings.
+
+For digital assets, the implications of this growth extend beyond stablecoins to the blockchain networks on which they are issued and settled. Many major stablecoins are issued across multiple blockchains, allowing market participants to select among supported settlement venues based on economics and technical fit. These venues include general-purpose permissionless networks such as Ethereum as well as purpose-built stablecoin networks such as Circle's Arc, where USDC is designed to serve as the native gas asset. On permissionless networks, native cryptoassets (e.g. ETH) support consensus, validator compensation, transaction fees, and settlement. As stablecoin activity scales, greater demand for blockspace and network services could support usage-related demand and potential value capture for these assets, subject to each network's fee, staking, and gas-sponsorship design. Arc also offers a complementary model in which greater payment activity could deepen USDC's utility as both a settlement asset and the means of paying transaction fees.
+
+[Section] Compute is emerging as a new and potentially large market for digital assets as autonomous agents proliferate
+
+AI systems and agents require substantial computing power and energy to operate. Investors have largely focused on the sheer scale of capital expenditures (CapEx) needed to build AI infrastructure, with some estimates placing cumulative AI capital spending above $5 trillion between 2025 and 2030.[12] But the accompanying rise in ongoing operating expenses (OpEx) to support AI deployments deserves equal attention. A meaningful share of this operating spend flows through the AI cloud compute market, which monetizes access to installed IT equipment and the electricity required to operate it. As this market expands, compute is becoming a distinct, large, and increasingly investable economic resource that could support a new class of digital assets. Using hyperscalers' major cloud segments as a broad proxy for market scale, consensus estimates for Amazon Web Services (AWS), Microsoft's Intelligent Cloud segment, and Google Cloud imply combined revenue of approximately $1.1 trillion by 2030, representing a 29% CAGR from 2025 levels.[13]
+
+As compute becomes a larger economic input, the need to price and allocate capacity while supporting financing and hedging should also increase. Historically, large resource markets have developed trading infrastructure that improves liquidity and risk management. In our view, compute may follow a similar path as AI adoption scales. Recent market developments already point in this direction, including GPU-backed financings and financing platforms designed around long-duration, usage-linked compute revenue. These structures reflect the capital intensity of securing leading-edge GPUs and building capacity for frontier-model development. Demand for both training and inference should continue to grow as models improve. As real-world AI use cases expand, inference is expected to become the largest AI workload by 2030 and account for a growing share of data-center power demand.[14] The potential inference user base, spanning enterprises and individual consumers, is considerably larger and more fragmented than the concentrated set of training-market participants.
+
+Even as this market takes shape, meaningful contract-design and market-structure challenges remain before standardized compute products can scale. These include accounting for substantial differences in chip-generation productivity and regional economics, particularly where energy costs diverge, as well as establishing workable standards for both cash settlement and delivery of contracted capacity. We view these as important but ultimately resolvable design considerations. The development of basis markets, contracts for difference, and other mechanisms used in established commodity markets offers a useful precedent for managing heterogeneous assets and localized pricing, while on-chain tokenized markets may enable more granular regional and hardware-specific contracts within shared settlement infrastructure. As these frameworks mature, we expect standardized products, including exchange-traded compute futures, to support more transparent price discovery and more effective hedging for both providers and consumers of compute capacity. Standardized compute contracts could also create claims on compute capacity and related usage rights that can be represented, transferred, pledged as collateral, and settled through programmable infrastructure. This could in turn broaden institutional investor participation and establish compute as a new opportunity for the broader digital asset ecosystem.
+
+Figure 4: Global Data Center Power Demand by Workload (Gigawatts, 2025–2030E)
+  Categories: AI Training, AI Inference, Non-AI. Percentages show each category's share of total
+  data center power demand. Values appearing in the extraction: 28%, 25%, 28%, 43%.
+  Source: McKinsey Data Center Demand Model, estimates and projections as of Dec. 2025.
+
+This functionality may become particularly valuable as agentic AI adoption scales and agents increasingly discover, provision, optimize, and pay for compute through programmable payment rails such as x402. Agents could query real-time marketplace APIs to compare available capacity by price, performance, latency, location, and hardware specialization, then provision the resources best suited to a given workload. MCP and A2A could facilitate data access and agent-to-agent coordination, while x402 could support on-demand settlement on a per-use, per-model-token, or per-job basis. This framework could enable elastic, just-in-time access to compute with limited human intervention. Although agentic payment activity remains nascent today, the structural fit between autonomous agents and machine-native payments makes this an area worth monitoring as the ecosystem develops.
+
+Figure 5: Illustrative Agentic Workflow for Optimizing and Securing On-Demand Compute Resources
+  (1) Human User → Agent: "Run extended analysis" [User prompt]
+  Agent ↔ Tools/Data via MCP; continuously executes task and estimates compute needs
+  Discovery → Compute Providers: GPU/CPU providers, specialized compute, edge/regional nodes;
+  real-time pricing, availability, and reliability metrics
+  Compute capacity delivered to support agentic task → Returns output
+  For illustrative purposes only. Source: BlackRock Digital Assets Research.
+
+Stripe's August 2026 agreement to acquire OpenRouter provides an early strategic signal that model routing and compute-usage optimization are becoming part of the financial infrastructure surrounding AI.[15] OpenRouter distributes workloads across more than 400 models from over 80 providers based on workload needs and cost-performance tradeoffs, highlighting the economic value of allocating scarce compute efficiently. The buyer also matters to the thesis: given Stripe's broader activity across payments, stablecoins, billing, and agentic commerce, this transaction points to a potential convergence between compute procurement, usage-based billing, and programmable settlement. In our view, this could support a future in which agents autonomously source and pay for compute over blockchains and other programmable payment rails.
+
+Conclusion
+
+AI and blockchain-based digital assets are increasingly converging as machines take a greater role in economic activity. The structured, machine-readable representations created through LLM and blockchain tokenization can give AI agents a more direct interface with programmable assets, while stablecoins and protocols such as x402 may support high-frequency, low-value, always-on transactions. At the same time, standardized and liquid markets for compute claims could allow agents to source, optimize, finance, and pay for computing resources as inference demand expands. The ecosystem remains nascent, with agentic payment activity and compute-market liquidity still limited. As AI adoption broadens and agentic systems become more capable, digital assets could become increasingly integral to AI's economic infrastructure, expanding utility across stablecoins, tokenized RWAs, and native cryptoassets that support blockchain settlement.
+
+Footnotes / sources cited by the paper
+[1] Bitcoin Policy Institute, "Which money do AI agents prefer?",
+    https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat
+[2] Model Context Protocol, https://modelcontextprotocol.io/docs/getting-started/intro
+    (analysis based on the currency being held as cash)
+[3] Google Codelabs, https://codelabs.developers.google.com/intro-a2a-purchasing-concierge#0
+[4] Coinbase, x402, https://x402.org/wp-content/uploads/sites/10/2026/06/x402-whitepaper.pdf
+[5] Tempo & Stripe, Machine Payments Protocol, https://mpp.dev/overview
+[6] Stripe, Agentic Commerce Protocol, https://www.agenticcommerce.dev/docs
+[7] Google, Agentic Payments Protocol, https://ap2-protocol.org/
+[8] Visa, Trusted Agent Protocol, https://developer.visa.com/capabilities/trusted-agent-protocol
+[9] RWA.xyz, https://app.rwa.xyz/stablecoins
+[10] Visa/Allium, https://visaonchainanalytics.com/transactions
+[11] Nacha, https://www.nacha.org/content/ach-network-volume-and-value-statistics
+[12] Goldman Sachs, "Private markets are expected to have a growing role in data center financing"
+[13] Bloomberg-compiled sell-side analyst estimates as of Aug. 31, 2026
+[14] McKinsey, "The next big shifts in AI workloads and hyperscaler strategies"
+[15] Stripe, "Stripe agrees to acquire OpenRouter to help businesses optimize token routing and usage"
+
+Disclaimer (abridged from p.11)
+"This material is not intended to be relied upon as a forecast, research or investment advice, and
+is not a recommendation, offer or solicitation to buy or sell any securities or to adopt any
+investment strategy. … This material may contain 'forward-looking' information … There is no
+guarantee that any of these views will come to pass." © 2026 BlackRock, Inc.
+
+--- END PASTED CONTENT ---
+
+NOTES ON SOURCING (written when the card was built, 2026-09-23)
+
+Reported, from the paper: the whole of the above — thesis, three overlaps, protocol list and
+provenance, the stablecoin and compute figures, the two illustrative workflows, the OpenRouter
+observation, and the conclusion.
+
+NOT verified by me: every external figure. I did not open the PDF, the Bitcoin Policy Institute
+study, the x402 whitepaper, the Visa Onchain Analytics page, Nacha's statistics, the Goldman or
+McKinsey pieces, or the Stripe newsroom post. Where the card repeats a number it is repeating
+BlackRock repeating someone else, and says so.
+
+Figure extraction is unreliable in two places and the card flags both rather than guessing:
+ - Figure 3's labelled values arrive as "11.2 8.5 16.7 10.6" with no axis mapping. The body text
+   pins $11tn to 2025 stablecoin volume and says 2026 data runs through June, which makes 8.5 most
+   plausibly 1H2026 stablecoins, 16.7 Visa and 10.6 Mastercard — but this is a reading of a
+   mangled extraction, not something I saw.
+ - Figure 4's values arrive as "28% 25% 28% 43%" with no year mapping. The only claim the card
+   takes from it is the one the body text states in words: inference is expected to become the
+   largest AI workload by 2030.
+
+The card's own arguments, labelled as such in the body:
+ 1. That the LLM-tokenization / asset-tokenization parallel is a pun rather than a shared
+    architecture, and that the paper's own paragraph on off-chain AML/KYC/KYA and "authoritative
+    off-chain registries" is the concession that breaks it. The useful claim underneath — that
+    agents interface better with standardized machine-readable representations — survives without
+    the analogy.
+ 2. That the paper's own example undercuts its native-cryptoasset transmission channel: it
+    proposes that agent payment volume could flow through to ETH via blockspace demand, then names
+    Circle's Arc, where USDC is the gas asset, and hedges with "subject to each network's fee,
+    staking, and gas-sponsorship design". Gas sponsorship is precisely the mechanism that severs
+    usage from native-token demand. The hedge is load-bearing and belongs in the main text.
+ 3. That the Bitcoin Policy Institute result measures what models SAY, not what agents DO, and
+    that an agent spends whatever its operator funds it with — so operator treasury policy, not
+    model preference, is the signal to watch. The paper does disclose the simulation caveat.
+ 4. That compute is less like crude oil than the basis-market precedent implies, because a
+    GPU-hour is not fungible at the point of delivery (chip generation, locality, latency), which
+    puts it closer to perishable, location-constrained capacity — airline seats or colocation —
+    than to a storable commodity. This sharpens tokenized-compute-is-a-forward-contract (#78).
+ 5. That the byline is product, not only research: two of the four authors run ETF and iShares
+    product functions. Not a reason to discount the argument, but the paper is upstream of a
+    product category and the reader should know it. The document's own disclaimer says it is not
+    research or investment advice.
+
+Related items already in Jayverse: tokenized-compute-is-a-forward-contract (#78),
+agent-payments-korea-control-plane (Tech #3, REVISIT), stablecoin-in-the-leg-nobody-sees (#72/#73,
+added the same day), never-about-issuance, https-won-because-it-got-cheap,
+consumed-authorization, four-seats-and-the-empty-one.

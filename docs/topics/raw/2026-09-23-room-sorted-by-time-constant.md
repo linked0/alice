@@ -1,0 +1,89 @@
+Gemini summary of a 이혜성의 1% 북클럽 YouTube room tour, pasted by jay on 2026-09-23.
+
+Video: 「이것은 집 공개인가 책 추천인가 | 방송에도 공개하지 않은 집🏠ㅣ책과 빵 이야기📚🥐」
+Link: https://www.youtube.com/watch?v=qpNuPufPI_w
+
+WHAT THIS FILE IS
+jay's paste, kept as received — a Gemini-generated summary with timestamps, not a transcript,
+and not something I watched. Every timestamp is the summary's own. The card built from it
+(pocs-room-sorted-by-time-constant.html) separates what is reported here from what it argues.
+
+--- PASTED CONTENT (verbatim) ---
+
+이 영상은 유튜브 채널 이혜성의 1% 북클럽의 룸투어 및 서재 소개 영상인 「이것은 집 공개인가 책 추천인가 | 방송에도 공개하지 않은 집🏠ㅣ책과 빵 이야기📚🥐」입니다 [00:00:27, 00:00:41].
+
+이사를 앞두고 방송에서 한 번도 공개하지 않았던 집을 최초로 공개하며, 거실 TV를 없애고 벽면 전체를 서재로 꾸민 공간 철학과 [00:21:05], 그녀의 삶을 지탱해 온 인생 책들, 베이킹/빵에 대한 진심, 그리고 일상의 영감들을 서점 코너처럼 큐레이션해 소개합니다 [00:03:55, 00:23:03, 00:29:22].
+
+1. 공간 철학: "거실 TV와 소파를 치우고 서재를 집의 중심에" [00:21:05]
+* 인테리어의 지향점: 대형 TV와 큰 소파 중심의 전통적 거실 배치를 과감히 배제하고, 직접 주문 제작한 대형 책장으로 거실을 채워 '집의 메인이 서재가 되는 구조'를 구축함 [00:21:05, 00:21:17].
+* 일상의 오브제들:
+  * 현관 입구의 무라카미 다카시 '스마일' 그림(귀가 시 긍정적 에너지 충전) [00:00:52, 00:01:05].
+  * 침탈당한 왕국 유물이 고향으로 돌아가는 과정을 다룬 다큐멘터리 『다호메이(Dahomey)』 포스터 [00:02:30, 00:02:43].
+  * 베를린 장벽이 무너졌을 당시(1989년)의 실제 그라피티 벽돌 파편(역사의 순간 소장) [00:22:11, 00:22:23].
+  * 디오니소스를 힙합/레게 머리와 나이키 운동화로 재해석한 파격적 연극 카탈로그 등 [00:13:07, 00:13:28].
+
+2. '빵 굽는 아나운서'의 베이킹 루틴과 빵 보관 팁 [00:03:55, 00:04:43]
+* 베이킹 도구와 진심: 피자삽, 날과 길이별 빵칼 컬렉션, 케이크 아이싱 도구 등을 구비하고 있으며, 제빵 서바이벌 『천하제빵』에 참가했던 명패를 소장 [00:03:30, 00:03:55, 00:04:17, 00:04:29, 00:04:53].
+* 2021년부터 키운 사워도우 천연 발효종(르방): 일주일에 한 번씩 프랑스 밀가루와 물을 동량으로 공급하며 유지 [00:07:36, 00:07:50, 00:07:59].
+* 빵 관리 메커니즘 [00:06:32, 00:07:03]:
+  * 절대 냉장 보관 금지: 전분의 노화(Retrogradation)가 냉장 온도에서 가장 빠르게 진행되어 빵이 푸석해짐 [00:06:54, 00:07:03].
+  * 즉시 냉동 원칙: 먹을 만큼만 남기고 수분이 날아가기 전 랩으로 소분해 즉시 냉동실에 보관 [00:06:22, 00:06:32, 00:06:44].
+  * 발뮤다 토스터에 넣기 전 표면에 분무기로 물을 살짝 뿌려주면 갓 구운 상태의 촉촉함이 완벽히 복원됨 [00:05:05, 00:05:16, 00:05:50].
+
+3. 서재의 핵심 큐레이션 및 올타임 인생 책들 [00:00:00, 00:23:03]
+① 중심을 지키는 올타임 인생 책: 박웅현 『여덟 단어』 [00:00:00, 00:31:16]
+* 인생 책 서가의 정중앙에 배치한 책 [00:00:00, 00:31:26]. "누군가 나에게 평생 단 한 권의 인생 책만 꼽으라면 주저 없이 이 책을 말할 것이며, 이 선택은 앞으로도 바뀌지 않을 것"이라고 밝힘 [00:00:08, 00:31:37].
+
+② 인간학, 심리, 멘탈 회복의 책들
+* 빅터 프랭클 『죽음의 수용소에서』 [00:33:10, 00:33:23]: 아우슈비츠의 극단적 비극 속에서도 인간은 삶의 의미를 선택할 수 있음을 보여주며, 읽을 때마다 자신의 삶을 겸허히 반성하게 만드는 책 [00:33:39, 00:33:48].
+* 버트런드 러셀 『행복의 정복』 [00:32:38, 00:33:01]: 행복의 진정한 비결은 끝없는 자극이 아니라 "권태를 담담하게 견뎌낼 줄 아는 능력"에 있음을 통찰 [00:33:10].
+* 정혜신 『당신이 옳다』 [00:30:16, 00:30:31]: 어떤 전문 심리 상담 클리닉보다 깊은 치유와 공감을 주는 책으로, 마음이 완전히 무너졌을 때 가장 먼저 읽기를 권함 [00:30:31, 00:30:41].
+* 애덤 그랜트 『기브앤테이크 (Give and Take)』 [00:31:46]: 베푸는 사람(Giver), 취하는 사람(Taker), 균형자(Matcher) 중 성공의 사다리 최상단에 오르는 사람은 '스마트하게 베푸는 기버'임을 실증한 사회과학서 [00:31:58, 00:32:18].
+* 수전 케인 『콰이어트 (Quiet)』 [00:33:48]: 외향 중심 사회에서 내향인의 고유한 깊이와 강점을 증명한 필독서 [00:33:59].
+
+③ 일, 과학, 삶의 태도
+* 이어령 『모크』 [00:16:14, 00:16:26]: 딸을 먼저 떠나보낸 뒤, 서재에서 일에 몰두하느라 문을 열고 다가온 딸을 뒤돌아 안아주지 못했던 순간을 통렬히 후회하는 서문이 깊은 울림을 줌 [00:16:38, 00:17:06].
+* 마이클 셸런버거 『지구를 위한다는 착각』 [00:15:45, 00:15:55]: 고래를 멸종에서 구한 것은 환경단체의 시위가 아니라 등유/화석연료라는 기술 대체물의 등장이었듯, 환경 문제는 도덕적 설교가 아닌 기술적 혁신으로 풀어야 함을 설파 [00:15:55, 00:16:14].
+* 『녹기 전에』 사장님의 서비스 철학 에세이 [00:17:06, 00:17:23]: 동네 작은 아이스크림 매장의 접객과 환대를 고도의 기획과 '예술의 경지'로 끌어올린 서비스 디자인의 정수 [00:17:23, 00:17:36].
+* 정성근 『백년 목 / 백년 허리』 [00:26:33, 00:26:45]: 병원 진료 대기 대신 척추 위생과 일상 자세를 교정해 몸을 지키는 실천 의학서 [00:26:57, 00:27:05].
+* 김자야(김영한) 『내 사랑 백석』 [00:24:00, 00:24:11]: 시가 1,000억 원 상당의 성북동 대원각(길상사)을 법정 스님에게 시주하며 "1,000억은 백석의 시 한 줄만 못하다"고 말한 위대한 사랑의 기록 [00:24:25, 00:24:50].
+* 모건 하우절 『돈의 심리학』 [00:37:16]: 일확천금의 투자 열풍 속에서 복리의 마법과 자본 저축의 원론적 태도를 일깨우는 금융 고전 [00:37:16, 00:37:39].
+
+4. 에필로그: 지그문트 프로이트의 문장 [00:39:52]
+현관 문 앞에 적어두고 아침마다 마주하는 프로이트의 명언으로 영상을 맺습니다 [00:39:52, 00:40:17]:
+"돌이켜보면, 가장 치열하게 발버둥치며 힘들었던 그 날들이야말로 인생에서 가장 아름다웠던 순간으로 느껴질 것이다." [00:40:04]
+
+기존 분석 프레임워크와의 유기적 결합점 (jay's own cross-references)
+* BBC 독서의 뇌과학 & 황석영 작가: 수동적 영상 매체(TV)를 제거하고 책장 중심의 물리적 환경을 설계함으로써 뇌의 실행 기능과 전뇌 신경망을 보호하는 '환경 설계(Choice Architecture)'의 전형입니다 [00:21:05].
+* 지니 로메티의 '네트워크의 본질(What you give)': 애덤 그랜트의 『기브앤테이크』와 지니 로메티의 "관계는 내가 얻는 것이 아니라 먼저 주는 것에서 시작된다"는 리더십 원칙이 정확히 궤를 같이합니다 [00:31:46].
+* 러셀의 '권태를 견디는 힘' & 노박 조코비치: 현대인의 스마트폰 도파민 중독에 맞서, 아무 자극 없는 고요함과 권태를 견뎌내는 능력이 진정한 정신적 자유와 창의성의 기초 체력임을 재확인해 줍니다 [00:33:10].
+
+--- END PASTED CONTENT ---
+
+NOTES ON SOURCING (written when the card was built, 2026-09-23)
+
+Reported, from the summary: the removed TV and sofa, the custom shelving, the four objects
+(Murakami 'Smile', the Dahomey poster, the 1989 Berlin Wall fragment, the Dionysus catalogue),
+the baking tools and 천하제빵 nameplate, the levain kept since 2021 and fed weekly with equal
+French flour and water, the three bread rules, the twelve books and what she says about each,
+and the Freud line at the door.
+
+NOT verified: I did not watch the video. Titles, timestamps, the 2021 date, the ~₩100bn
+valuation attached to 대원각, and the attributions of each summary sentence to the speaker are
+as the paste gives them. The Freud line at 40:04 is quoted in the paste without a source work —
+it circulates widely as a Freud quotation and I have not confirmed it appears in his writing.
+The card says so in the body rather than repeating it as his.
+
+Checked against general knowledge, not against the video: the starch-retrogradation claim is
+sound food science, and the card states the mechanism (recrystallisation fastest just above
+freezing, arrested below it, partly reversed by heat plus moisture) as the reason the three
+rules work. That explanation is the card's, not the video's.
+
+The card's own argument, which the video does not make: that the room is sorted by time
+constant — every object kept has a long one, and the single object removed had the shortest —
+and that removing the television is subtraction rather than discipline.
+
+Cross-references that map to items already in Jayverse: reading-rewires-brain-deep-reading
+(#1807), djokovic-discipline-watch-the-loss (#1817), hwang-sokyong-read-classics-ai-era (#1824),
+rometty-resilience-relationships-attitude (#1827), and the item added the same day,
+ship-that-is-not-moving-cannot-turn (#1835).

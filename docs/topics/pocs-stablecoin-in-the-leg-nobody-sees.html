@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#77</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-23-stablecoin-in-the-leg-nobody-sees.md">raw</a></span></p>
+      <h1>The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement</h1>
+      <p class="lead">SoFi Bank has begun settling its debit and credit card programs in SoFiUSD, its own dollar stablecoin, across Mastercard&#39;s global network — live since 22 September, about six months after the two announced the partnership in March, with the whole card program being converted and annualised program volume reported above $25bn (₩34tn). The detail that decides what this means is one sentence in the article: consumers are not paying in stablecoin. The token sits in the settlement process between financial institutions, after the card transaction has already happened.</p>
+      <p class="meta">Reported from the Digital Asset Works article jay pasted (박재연, 2026-09-23), which links SoFi&#39;s press release; I did not open the release and verified none of the figures. The three arguments this card adds — that the consumer leg was never the slow part, that "$25bn settled in stablecoin" is almost certainly not $25bn moving on-chain, and that the merchant-side benefit is partly a closed-loop effect — are labelled as mine in the body. For Jayverse this is the production counterpart to <code>four-seats-and-the-empty-one</code> (#74): the seat Korea has not created is occupied here by a chartered bank.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement\n\nSoFi Bank has begun settling its debit and credit card programs in SoFiUSD, its own dollar stablecoin, across Mastercard's global network — live since 22 September, about six months after the two announced the partnership in March, with the whole card program being converted and annualised program volume reported above $25bn (₩34tn). The detail that decides what this means is one sentence in the article: consumers are not paying in stablecoin. The token sits in the settlement process between financial institutions, after the card transaction has already happened.\n\nReported from the Digital Asset Works article jay pasted (박재연, 2026-09-23), which links SoFi's press release; I did not open the release and verified none of the figures. The three arguments this card adds — that the consumer leg was never the slow part, that \"$25bn settled in stablecoin\" is almost certainly not $25bn moving on-chain, and that the merchant-side benefit is partly a closed-loop effect — are labelled as mine in the body. For Jayverse this is the production counterpart to `four-seats-and-the-empty-one` (#74): the seat Korea has not created is occupied here by a chartered bank.\n\n## Why\n\nEvery retail crypto-payments story for a decade has had the same shape: you will pay for coffee with a token. It has never worked, and the reasons are boring and structural — the consumer leg already works, the merchant does not want price volatility, and the chargeback machinery that cardholders actually rely on has no on-chain equivalent.\n\nThis is the other shape, and it is the one worth tracking. **Nothing about the cardholder's experience changed.** Same card, same network, same authorisation, same dispute rights. The stablecoin was inserted into the leg between institutions — the part that happens after the purchase, between issuer, network and acquirer, and that no cardholder has ever seen or thought about.\n\nThat placement is the whole finding. It says the adoption path for this technology runs through back-office plumbing, not through checkout, and it explains why the release can claim production status at $25bn scale six months after announcement: the hard parts of retail payments were never touched.\n\n## How it works\n\n### 1 — What actually changed, and what did not\n\n| Leg | Before | Now (as reported) |\n|---|---|---|\n| Cardholder → merchant | Swipe/tap, authorisation in about a second | Unchanged |\n| Authorisation, network routing | Mastercard | Unchanged |\n| Inter-institution settlement | Conventional bank rails, batch, business-hours-bounded | SoFiUSD, on-chain, \"currently being processed on the blockchain\" |\n| Merchant receipt of funds | Settlement cycle | Instant into a SoFi Bank account, withdrawable as cash 24/7 (Noto) |\n\nMastercard's framing, via Sherri Haymond: this moves \"beyond experiment\" into \"regulated stablecoin settlement in a live production environment\", while keeping \"the trust, scale and safeguards Mastercard provides\". Read that as a claim about which layer absorbed the change — the network's guarantees are stated as unaffected, which is only possible because the token did not go near the guarantee-bearing legs.\n\n### 2 — The issuer is a bank, and that is the story\n\nSoFiUSD is issued by SoFi Bank, a national bank supervised by the OCC. Redeemable 1:1 for dollars, reserves mostly cash. Institutions and SoFi users can use it for payment and settlement.\n\nThat sentence is doing more work than the $25bn. A bank-issued dollar token that settles a Mastercard program is not a crypto company partnering with a bank; it is the bank being the issuer, which changes who is on the hook and which supervisor is in the room. Compare the three neighbours already in this section:\n\n- `kb-kookmin-kinexys-deposit-rail` (#65) — a deposit rail built by a bank, but domestic and inside one institution's corridor.\n- `one-bank-both-doors` (#73) — SocGen-FORGE's EURCV proposed into a lending protocol: the same bank issuing the token and standing behind it, with the risk compressed into a supply cap.\n- `four-seats-and-the-empty-one` (#74) — Korea has distribution, a licensed bank and a custodian, and no won issuer, because the legal category does not exist.\n\nThis item is what the occupied seat looks like in production. The difference between it and the Kakao MoU is not technology; it is a charter.\n\n### 3 — Argument one: the consumer leg was never the slow part\n\nCard authorisation is already near-instant. What is slow is everything after: clearing, netting, settlement windows, cut-off times, weekends, and the two-to-three-day wait before a merchant sees money. A faster rail has nowhere useful to go at the front of the transaction, and a great deal of room at the back.\n\nThis is the same shape as the Trueo argument in `uniswap-hook-cannot-move` (#77). There the objection was \"12-second blocks are too slow for a prediction market\", and the answer was that an AMM has no matching latency, so the chain was never the binding constraint. Here the mirror image holds: the chain is not competing with a one-second authorisation, it is competing with a T+2 batch. **Put the faster component where the slow one actually is.** Most blockchain payment proposals fail this test and this one passes it, which is a better reason to pay attention than the headline number.\n\n### 4 — Argument two: $25bn of card volume is not $25bn on-chain\n\nThe headline reads \"₩34tn of card transactions settled in stablecoin\". The figure given is the card program's **annualised transaction volume** — what cardholders spend. Settlement between institutions in a four-party card system is **net**, not gross: obligations in both directions are offset across a cycle and only the net position moves. The on-chain amount would therefore be a fraction of the program volume, and the fraction depends on netting efficiency, not on anything announced.\n\n**This is my inference from how card settlement generally works, not something the article or the release says**, and it is the first thing I would check against the primary document. But the direction is not in doubt: a program volume figure and a settlement volume figure are different quantities, and the headline uses the first as if it were the second. If you repeat the number, repeat it as program volume.\n\n### 5 — Argument three: how much of \"instant, 24/7\" is the stablecoin?\n\nNoto's claim is that merchants receive settlement funds instantly into a **SoFi Bank account**, reached through **SoFi's own corporate banking platform**, and can withdraw cash 24/7.\n\nLook at where the endpoints are. The issuer is SoFi. The merchant's account is at SoFi. The platform is SoFi's. Inside one institution, instant crediting is a ledger entry and has been possible for decades — it does not need a blockchain, and a bank moving money between two of its own accounts is the oldest fast payment there is.\n\nSo the merchant-visible benefit is a **composite**: a genuinely novel on-chain leg between institutions, plus an ordinary closed-loop advantage that belongs to the bank, not to the token. That does not make it less useful to a merchant — instant is instant — but it makes the causal claim weaker than it sounds. **The test is whether a merchant who banks elsewhere gets the same experience**, and the article does not say. Until that is answered, \"stablecoin settlement gives merchants instant funds\" is an overstatement of what has been shown.\n\n### 6 — What is missing from the report\n\n- **Which chain**, and whether it is public or permissioned. The article does not say. On a permissionless chain this is a demand signal for blockspace; on a permissioned one it is a database with better reconciliation. These are very different stories and the coverage does not distinguish them.\n- **Deposit token or reserve-backed stablecoin.** \"Issued by the bank, redeemable 1:1, reserves mostly cash\" is compatible with both. If SoFiUSD is a liability of SoFi Bank it is closer to a tokenised deposit and sits inside the bank's balance sheet and its protections; if it is a claim on a segregated reserve it does not. This decides what a holder actually owns and it is not stated.\n- **Gross vs net**, per §4.\n- **Whether merchants must bank with SoFi**, per §5.\n\nNone of these make the item less interesting. They mark the boundary between what has been demonstrated and what has been announced.\n\n### Where it lands in Jayverse\n\n`four-seats-and-the-empty-one` (#74) asked what is missing in Korea and answered: the issuer's seat, because the legal category for a won stablecoin does not exist. This item is the same seat filled, by a bank with a national charter, in a live card program. The lesson runs one way — the constraint was never engineering.\n\n`uniswap-hook-cannot-move` (#77) supplies §3's method: before believing a speed claim, find the slowest component. Trueo's critics put it in the wrong place; this deployment puts the new rail in the right one.\n\n`never-about-issuance` (#81) is sharpened here. Issuing a token is easy; what is hard is being the institution that redeems it, and SoFi's answer is to be a bank. That is not a workaround for the hard part, it is paying for it.\n\n`one-bank-both-doors` (#73) and `reserve-that-makes-the-bank-fragile` (#76) are the risk-side counterparts. Both are about what happens when a bank stands behind a token — the first when the token enters a lending market, the second when reserve rules push the token's backing into bank deposits. This item is the same structure in its benign phase, and the two together say what to watch: **not the go-live, but the first time redemption is tested under stress.**\n\nFor the agent-payments thread — `pocs-agent-payments-korea-control-plane` (Tech #3, REVISIT) — there is a direct read. That card's argument is that control of the rails sits with whoever holds the legal relationships, not with whoever writes the protocol. Mastercard keeping \"trust, scale and safeguards\" while swapping the settlement medium is exactly that: the medium is replaceable, the relationships are not.\n\n### Verified and unverified\n\n**Reported, not verified by me:** all of it. The go-live date, the $25bn annualised figure, the OCC supervision and 1:1 redemption, \"first national bank\", the March announcement, and both executive quotes come from the pasted Digital Asset Works article. I did not open the linked SoFi press release and checked nothing against Mastercard's or SoFi's filings.\n\n**Mine, and labelled in the body:** §3 (the slow leg was the back office, same test as #77), §4 (net vs gross settlement — an inference from how four-party card settlement generally works, flagged as the first thing to check), and §5 (the closed-loop component of the merchant benefit, resting on the article's own wording about a SoFi Bank account reached through SoFi's platform).\n\n**What I would not repeat without the primary document:** the headline form \"₩34tn settled in stablecoin\". Say \"a card program with annualised volume above $25bn is being converted to stablecoin settlement\" — longer, and it does not claim something the report has not shown.\n"</script>
+<h2>Why</h2>
+<p>Every retail crypto-payments story for a decade has had the same shape: you will pay for coffee with a token. It has never worked, and the reasons are boring and structural — the consumer leg already works, the merchant does not want price volatility, and the chargeback machinery that cardholders actually rely on has no on-chain equivalent.</p>
+<p>This is the other shape, and it is the one worth tracking. <strong>Nothing about the cardholder&#39;s experience changed.</strong> Same card, same network, same authorisation, same dispute rights. The stablecoin was inserted into the leg between institutions — the part that happens after the purchase, between issuer, network and acquirer, and that no cardholder has ever seen or thought about.</p>
+<p>That placement is the whole finding. It says the adoption path for this technology runs through back-office plumbing, not through checkout, and it explains why the release can claim production status at $25bn scale six months after announcement: the hard parts of retail payments were never touched.</p>
+<h2>How it works</h2>
+<h3>1 — What actually changed, and what did not</h3>
+<table><thead><tr><th>Leg</th><th>Before</th><th>Now (as reported)</th></tr></thead><tbody><tr><td>Cardholder → merchant</td><td>Swipe/tap, authorisation in about a second</td><td>Unchanged</td></tr><tr><td>Authorisation, network routing</td><td>Mastercard</td><td>Unchanged</td></tr><tr><td>Inter-institution settlement</td><td>Conventional bank rails, batch, business-hours-bounded</td><td>SoFiUSD, on-chain, "currently being processed on the blockchain"</td></tr><tr><td>Merchant receipt of funds</td><td>Settlement cycle</td><td>Instant into a SoFi Bank account, withdrawable as cash 24/7 (Noto)</td></tr></tbody></table>
+<p>Mastercard&#39;s framing, via Sherri Haymond: this moves "beyond experiment" into "regulated stablecoin settlement in a live production environment", while keeping "the trust, scale and safeguards Mastercard provides". Read that as a claim about which layer absorbed the change — the network&#39;s guarantees are stated as unaffected, which is only possible because the token did not go near the guarantee-bearing legs.</p>
+<h3>2 — The issuer is a bank, and that is the story</h3>
+<p>SoFiUSD is issued by SoFi Bank, a national bank supervised by the OCC. Redeemable 1:1 for dollars, reserves mostly cash. Institutions and SoFi users can use it for payment and settlement.</p>
+<p>That sentence is doing more work than the $25bn. A bank-issued dollar token that settles a Mastercard program is not a crypto company partnering with a bank; it is the bank being the issuer, which changes who is on the hook and which supervisor is in the room. Compare the three neighbours already in this section:</p>
+<ul><li><code>kb-kookmin-kinexys-deposit-rail</code> (#65) — a deposit rail built by a bank, but domestic and inside one institution&#39;s corridor.</li><li><code>one-bank-both-doors</code> (#73) — SocGen-FORGE&#39;s EURCV proposed into a lending protocol: the same bank issuing the token and standing behind it, with the risk compressed into a supply cap.</li><li><code>four-seats-and-the-empty-one</code> (#74) — Korea has distribution, a licensed bank and a custodian, and no won issuer, because the legal category does not exist.</li></ul>
+<p>This item is what the occupied seat looks like in production. The difference between it and the Kakao MoU is not technology; it is a charter.</p>
+<h3>3 — Argument one: the consumer leg was never the slow part</h3>
+<p>Card authorisation is already near-instant. What is slow is everything after: clearing, netting, settlement windows, cut-off times, weekends, and the two-to-three-day wait before a merchant sees money. A faster rail has nowhere useful to go at the front of the transaction, and a great deal of room at the back.</p>
+<p>This is the same shape as the Trueo argument in <code>uniswap-hook-cannot-move</code> (#77). There the objection was "12-second blocks are too slow for a prediction market", and the answer was that an AMM has no matching latency, so the chain was never the binding constraint. Here the mirror image holds: the chain is not competing with a one-second authorisation, it is competing with a T+2 batch. <strong>Put the faster component where the slow one actually is.</strong> Most blockchain payment proposals fail this test and this one passes it, which is a better reason to pay attention than the headline number.</p>
+<h3>4 — Argument two: $25bn of card volume is not $25bn on-chain</h3>
+<p>The headline reads "₩34tn of card transactions settled in stablecoin". The figure given is the card program&#39;s <strong>annualised transaction volume</strong> — what cardholders spend. Settlement between institutions in a four-party card system is <strong>net</strong>, not gross: obligations in both directions are offset across a cycle and only the net position moves. The on-chain amount would therefore be a fraction of the program volume, and the fraction depends on netting efficiency, not on anything announced.</p>
+<p><strong>This is my inference from how card settlement generally works, not something the article or the release says</strong>, and it is the first thing I would check against the primary document. But the direction is not in doubt: a program volume figure and a settlement volume figure are different quantities, and the headline uses the first as if it were the second. If you repeat the number, repeat it as program volume.</p>
+<h3>5 — Argument three: how much of "instant, 24/7" is the stablecoin?</h3>
+<p>Noto&#39;s claim is that merchants receive settlement funds instantly into a <strong>SoFi Bank account</strong>, reached through <strong>SoFi&#39;s own corporate banking platform</strong>, and can withdraw cash 24/7.</p>
+<p>Look at where the endpoints are. The issuer is SoFi. The merchant&#39;s account is at SoFi. The platform is SoFi&#39;s. Inside one institution, instant crediting is a ledger entry and has been possible for decades — it does not need a blockchain, and a bank moving money between two of its own accounts is the oldest fast payment there is.</p>
+<p>So the merchant-visible benefit is a <strong>composite</strong>: a genuinely novel on-chain leg between institutions, plus an ordinary closed-loop advantage that belongs to the bank, not to the token. That does not make it less useful to a merchant — instant is instant — but it makes the causal claim weaker than it sounds. <strong>The test is whether a merchant who banks elsewhere gets the same experience</strong>, and the article does not say. Until that is answered, "stablecoin settlement gives merchants instant funds" is an overstatement of what has been shown.</p>
+<h3>6 — What is missing from the report</h3>
+<ul><li><strong>Which chain</strong>, and whether it is public or permissioned. The article does not say. On a permissionless chain this is a demand signal for blockspace; on a permissioned one it is a database with better reconciliation. These are very different stories and the coverage does not distinguish them.</li><li><strong>Deposit token or reserve-backed stablecoin.</strong> "Issued by the bank, redeemable 1:1, reserves mostly cash" is compatible with both. If SoFiUSD is a liability of SoFi Bank it is closer to a tokenised deposit and sits inside the bank&#39;s balance sheet and its protections; if it is a claim on a segregated reserve it does not. This decides what a holder actually owns and it is not stated.</li><li><strong>Gross vs net</strong>, per §4.</li><li><strong>Whether merchants must bank with SoFi</strong>, per §5.</li></ul>
+<p>None of these make the item less interesting. They mark the boundary between what has been demonstrated and what has been announced.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>four-seats-and-the-empty-one</code> (#74) asked what is missing in Korea and answered: the issuer&#39;s seat, because the legal category for a won stablecoin does not exist. This item is the same seat filled, by a bank with a national charter, in a live card program. The lesson runs one way — the constraint was never engineering.</p>
+<p><code>uniswap-hook-cannot-move</code> (#77) supplies §3&#39;s method: before believing a speed claim, find the slowest component. Trueo&#39;s critics put it in the wrong place; this deployment puts the new rail in the right one.</p>
+<p><code>never-about-issuance</code> (#81) is sharpened here. Issuing a token is easy; what is hard is being the institution that redeems it, and SoFi&#39;s answer is to be a bank. That is not a workaround for the hard part, it is paying for it.</p>
+<p><code>one-bank-both-doors</code> (#73) and <code>reserve-that-makes-the-bank-fragile</code> (#76) are the risk-side counterparts. Both are about what happens when a bank stands behind a token — the first when the token enters a lending market, the second when reserve rules push the token&#39;s backing into bank deposits. This item is the same structure in its benign phase, and the two together say what to watch: <strong>not the go-live, but the first time redemption is tested under stress.</strong></p>
+<p>For the agent-payments thread — <code>pocs-agent-payments-korea-control-plane</code> (Tech #3, REVISIT) — there is a direct read. That card&#39;s argument is that control of the rails sits with whoever holds the legal relationships, not with whoever writes the protocol. Mastercard keeping "trust, scale and safeguards" while swapping the settlement medium is exactly that: the medium is replaceable, the relationships are not.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported, not verified by me:</strong> all of it. The go-live date, the $25bn annualised figure, the OCC supervision and 1:1 redemption, "first national bank", the March announcement, and both executive quotes come from the pasted Digital Asset Works article. I did not open the linked SoFi press release and checked nothing against Mastercard&#39;s or SoFi&#39;s filings.</p>
+<p><strong>Mine, and labelled in the body:</strong> §3 (the slow leg was the back office, same test as #77), §4 (net vs gross settlement — an inference from how four-party card settlement generally works, flagged as the first thing to check), and §5 (the closed-loop component of the merchant benefit, resting on the article&#39;s own wording about a SoFi Bank account reached through SoFi&#39;s platform).</p>
+<p><strong>What I would not repeat without the primary document:</strong> the headline form "₩34tn settled in stablecoin". Say "a card program with annualised volume above $25bn is being converted to stablecoin settlement" — longer, and it does not claim something the report has not shown.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>settlement leg</strong></td><td>정산 구간 · 결제 흐름을 구간(leg)으로 나눠 부를 때. "the leg nobody sees"</td></tr><tr><td><strong>inter-institution</strong></td><td>기관 간의 · 소비자가 아니라 발행사·네트워크·매입사 사이. "the settlement process between financial institutions"</td></tr><tr><td><strong>to go live</strong></td><td>실제 운영에 들어가다 · 시범을 넘어 가동됨. "SoFi Becomes First National Bank to Go Live"</td></tr><tr><td><strong>in production</strong></td><td>실제 운영 환경에서 · 실험(experiment)의 반대말로 쓰임</td></tr><tr><td><strong>annualised volume</strong></td><td>연환산 거래액 · 일부 기간 실적을 1년으로 환산한 값. 실현액이 아님</td></tr><tr><td><strong>gross vs net</strong></td><td>총액 대 순액 · 카드 정산은 상계 후 순액만 움직인다는 이 카드의 핵심 지적</td></tr><tr><td><strong>to net (obligations)</strong></td><td>채무를 상계하다 · 양방향 채무를 차감해 순포지션만 남기는 것</td></tr><tr><td><strong>four-party card system</strong></td><td>4자 카드 체계 · 카드 소지자·가맹점·발행사·매입사 구조</td></tr><tr><td><strong>acquirer</strong></td><td>매입사(가맹점 쪽 은행) · 발행사(issuer)의 반대편</td></tr><tr><td><strong>issuer</strong></td><td>발행사 · 여기서는 카드 발행사이자 토큰 발행자, 둘 다 소파이</td></tr><tr><td><strong>chargeback</strong></td><td>차지백(카드 결제 취소·환불 청구) · 온체인 대응물이 없는 소비자 보호 장치</td></tr><tr><td><strong>dispute finality</strong></td><td>분쟁 확정 · 결제가 되돌려지지 않는다고 확신할 수 있는 시점</td></tr><tr><td><strong>cut-off time</strong></td><td>마감 시각 · 그 시각 이후 건은 다음 주기로 넘어감</td></tr><tr><td><strong>T+2</strong></td><td>거래일 + 2영업일 · 자금이 실제로 도착하는 시점을 가리키는 표준 표기</td></tr><tr><td><strong>batch</strong></td><td>배치(모아서 한꺼번에 처리) · 실시간(real-time)의 반대</td></tr><tr><td><strong>closed loop</strong></td><td>폐쇄 루프 · 발행·계좌·플랫폼이 한 기관 안에 있는 구조. 즉시성의 상당 부분이 여기서 나옴</td></tr><tr><td><strong>composite (benefit)</strong></td><td>합성된 (이점) · 두 원인이 섞여 하나처럼 보일 때</td></tr><tr><td><strong>to overstate</strong></td><td>과장하다 · "보여진 것보다 과한 말"이라고 지적할 때</td></tr><tr><td><strong>national bank charter</strong></td><td>국립은행 인가 · 미국에서 OCC가 내주는 은행 면허</td></tr><tr><td><strong>OCC (통화감독청)</strong></td><td>Office of the Comptroller of the Currency · 미국 국립은행 감독기관</td></tr><tr><td><strong>deposit token</strong></td><td>예금 토큰 · 은행의 부채로서 토큰화된 예금. 준비금 담보 스테이블코인과 구분됨</td></tr><tr><td><strong>reserve-backed</strong></td><td>준비금 담보의 · 분리된 자산에 대한 청구권 형태</td></tr><tr><td><strong>liability of the bank</strong></td><td>은행의 부채 · 보유자가 무엇을 소유하는지를 결정하는 회계상 위치</td></tr><tr><td><strong>redeemable 1:1</strong></td><td>1대1 상환 가능한 · 토큰 1개를 달러 1개로 바꿀 수 있다는 약속</td></tr><tr><td><strong>safeguards</strong></td><td>안전장치 · 마스터카드가 유지한다고 말한 것</td></tr><tr><td><strong>the binding constraint</strong></td><td>구속 조건(실제로 발목을 잡는 병목) · 속도 논증에서 가장 느린 부품을 가리킴</td></tr><tr><td><strong>permissioned vs permissionless</strong></td><td>허가형 대 무허가형 · 어느 체인인지가 이야기 전체를 바꾼다</td></tr><tr><td><strong>blockspace demand</strong></td><td>블록스페이스 수요 · 퍼블릭 체인일 때만 성립하는 파급</td></tr><tr><td><strong>load-bearing (claim)</strong></td><td>하중을 받는 (주장) · 다른 주장들이 그 위에 서 있는 핵심 전제</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 스테이블코인은 아무도 보지 않는 구간으로 들어갔다 — 마스터카드, 소파이, 그리고 정산\n\n소파이은행이 직불·신용카드 프로그램의 정산을 자체 달러 스테이블코인 SoFiUSD로 시작했다. 마스터카드의 글로벌 네트워크 위에서, 9월 22일(현지시간) 가동됐고, 지난 3월 협력 발표로부터 약 6개월 만이다. 전체 카드 프로그램을 전환 중이며 연환산 거래액은 250억 달러(약 34조 원) 이상으로 보도됐다. 이 사건의 의미를 결정하는 것은 기사 속 한 문장이다. 소비자가 스테이블코인으로 결제하는 구조가 아니다. 토큰은 카드거래가 이미 끝난 뒤, 금융기관 사이의 정산 과정에 놓인다.\n\njay가 붙여넣은 디지털에셋 기사(박재연, 2026-09-23)에서 옮겼다. 기사가 링크한 소파이 보도자료는 열어보지 않았고, 어떤 수치도 확인하지 않았다. 이 카드가 덧붙이는 세 논증 — 소비자 구간은 애초에 느린 쪽이 아니었다는 것, \"250억 달러를 스테이블코인으로 정산\"이 250억 달러가 온체인에서 움직인다는 뜻은 거의 확실히 아니라는 것, 가맹점 쪽 이점의 상당 부분이 폐쇄 루프 효과라는 것 — 은 본문에 내 것으로 표시했다. Jayverse에서 이것은 `four-seats-and-the-empty-one` (#74)의 실전판이다. 한국이 만들지 못한 그 자리를 여기서는 인가받은 은행이 차지하고 있다.\n\n## 왜\n\n지난 10년간 소매 암호화폐 결제 기사는 전부 같은 형태였다. 언젠가 토큰으로 커피를 사게 된다는 것. 한 번도 되지 않았고, 이유는 지루하고 구조적이다. 소비자 구간은 이미 잘 돌아가고, 가맹점은 가격 변동을 원하지 않으며, 카드 소지자가 실제로 기대는 차지백 기계장치에는 온체인 대응물이 없다.\n\n이건 다른 형태이고, 추적할 값이 있는 쪽이다. **카드 소지자의 경험은 아무것도 바뀌지 않았다.** 같은 카드, 같은 네트워크, 같은 승인, 같은 분쟁 권리. 스테이블코인은 기관 사이의 구간 — 구매 이후에 발행사·네트워크·매입사 사이에서 일어나고, 카드 소지자가 본 적도 생각해본 적도 없는 부분 — 에 삽입됐다.\n\n그 배치가 곧 발견이다. 이 기술의 채택 경로가 체크아웃이 아니라 **백오피스 배관**을 통과한다는 뜻이고, 발표 6개월 만에 250억 달러 규모에서 \"실제 운영\"을 주장할 수 있는 이유도 설명한다. 소매 결제의 어려운 부분에는 손대지 않았기 때문이다.\n\n## 동작 방식\n\n### 1 — 실제로 바뀐 것과 바뀌지 않은 것\n\n| 구간 | 이전 | 지금 (보도 기준) |\n|---|---|---|\n| 카드 소지자 → 가맹점 | 긁거나 대면 1초 내외 승인 | 그대로 |\n| 승인, 네트워크 라우팅 | 마스터카드 | 그대로 |\n| 기관 간 정산 | 기존 은행 레일, 배치, 영업시간에 묶임 | SoFiUSD, 온체인, \"현재 블록체인에서 실제 처리\" |\n| 가맹점의 자금 수령 | 정산 주기 | 소파이은행 계좌로 즉시, 24시간 현금 인출 (노토) |\n\n셰리 헤이먼드를 통한 마스터카드의 프레이밍: \"실험을 넘어\" \"규제된 스테이블코인 정산을 실제 운영 환경에\" 적용하면서, \"마스터카드가 제공하는 신뢰와 규모, 안전장치\"는 유지한다는 것. 이건 **어느 층이 변화를 흡수했는가**에 대한 주장으로 읽어야 한다. 네트워크의 보증이 영향을 받지 않았다고 말할 수 있는 이유는, 토큰이 그 보증을 지는 구간 근처에 가지 않았기 때문이다.\n\n### 2 — 발행자가 은행이고, 그게 핵심이다\n\nSoFiUSD는 미국 통화감독청(OCC)의 감독을 받는 국립은행인 소파이은행이 발행한다. 달러와 1대1 상환, 준비자산은 주로 현금. 기관과 소파이 이용자가 결제·정산에 쓸 수 있다.\n\n이 문장이 250억 달러보다 더 많은 일을 한다. 마스터카드 프로그램을 정산하는 은행 발행 달러 토큰은 \"암호화폐 회사가 은행과 제휴한 것\"이 아니라 **은행이 발행자인 것**이고, 이건 누가 책임을 지고 어느 감독기관이 방에 들어오는지를 바꾼다. 이 섹션에 이미 있는 이웃 셋과 비교해보라.\n\n- `kb-kookmin-kinexys-deposit-rail` (#65) — 은행이 만든 예금 레일. 다만 국내용이고 한 기관의 회랑 안에 있다.\n- `one-bank-both-doors` (#73) — 소시에테제네랄-FORGE의 EURCV를 대출 프로토콜에 상장하는 제안. 같은 은행이 토큰을 발행하고 뒤를 받치며, 위험은 공급 상한으로 압축된다.\n- `four-seats-and-the-empty-one` (#74) — 한국에는 유통도, 인가 은행도, 커스터디도 있지만 원화 발행사가 없다. 법적 범주가 존재하지 않기 때문이다.\n\n이 항목은 **그 자리가 채워진 모습**이 실제 운영에서 어떻게 생겼는지 보여준다. 카카오 MoU와의 차이는 기술이 아니라 **인가**다.\n\n### 3 — 논증 하나: 소비자 구간은 애초에 느린 쪽이 아니었다\n\n카드 승인은 이미 거의 즉시다. 느린 것은 그 이후 전부다 — 청산, 네팅, 정산 윈도우, 마감 시각, 주말, 그리고 가맹점이 돈을 보기까지의 2~3일. 더 빠른 레일은 거래의 앞단에서 갈 데가 없고, 뒷단에는 갈 데가 아주 많다.\n\n`uniswap-hook-cannot-move` (#77)의 트루오 논증과 같은 형태다. 거기서 반론은 \"12초 블록은 예측시장에 너무 느리다\"였고, 답은 AMM에는 체결 지연이 없으므로 체인이 구속 조건이었던 적이 없다는 것이었다. 여기서는 거울상이 성립한다. 체인은 1초짜리 승인과 경쟁하는 게 아니라 **T+2 배치와 경쟁한다**. **빠른 부품을 느린 부품이 실제로 있는 자리에 놓을 것.** 대부분의 블록체인 결제 제안이 이 시험에 떨어지고 이건 통과한다. 헤드라인 숫자보다 그게 주목할 이유다.\n\n### 4 — 논증 둘: 카드 거래액 250억 달러는 온체인 250억 달러가 아니다\n\n헤드라인은 \"34조원 카드거래 스테이블코인으로 정산\"이다. 제시된 수치는 카드 프로그램의 **연환산 거래액** — 카드 소지자가 쓰는 돈이다. 4자 카드 체계에서 기관 간 정산은 **총액(gross)이 아니라 순액(net)** 이다. 주기 동안 양방향 채무가 상계되고 순포지션만 움직인다. 따라서 온체인 금액은 프로그램 거래액의 일부이고, 그 비율은 발표된 무엇이 아니라 네팅 효율에 달려 있다.\n\n**이건 4자 카드 정산이 일반적으로 작동하는 방식에서 끌어낸 내 추론이지, 기사나 보도자료가 말한 것이 아니다.** 1차 문서와 대조할 때 가장 먼저 확인할 항목이다. 다만 방향은 의심스럽지 않다. 프로그램 거래액과 정산액은 다른 양이고, 헤드라인은 앞의 것을 뒤의 것처럼 쓴다. 숫자를 옮길 거라면 **프로그램 거래액으로** 옮기자.\n\n### 5 — 논증 셋: \"즉시, 24시간\" 중 스테이블코인 몫은 얼마인가\n\n노토의 주장은 가맹점이 **소파이의 기업금융 플랫폼**을 통해 **소파이은행 계좌**로 정산금을 즉시 받고 24시간 현금 인출이 가능하다는 것이다.\n\n끝점이 어디인지 보라. 발행자가 소파이다. 가맹점 계좌가 소파이에 있다. 플랫폼이 소파이 것이다. 한 기관 안에서 즉시 입금은 장부 한 줄이고 수십 년 전부터 가능했다. 블록체인이 필요 없고, 은행이 자기 계좌 둘 사이에서 돈을 옮기는 것은 세상에서 가장 오래된 빠른 결제다.\n\n그러니 가맹점이 체감하는 이점은 **합성물**이다. 기관 사이의 진짜로 새로운 온체인 구간 + 토큰이 아니라 은행에 속하는 평범한 폐쇄 루프 이점. 가맹점에게 덜 유용하다는 뜻은 아니다 — 즉시는 즉시다 — 하지만 인과 주장은 들리는 것보다 약하다. **시험은 다른 은행을 쓰는 가맹점도 같은 경험을 얻느냐이고**, 기사는 말하지 않는다. 그 답이 나오기 전까지 \"스테이블코인 정산이 가맹점에게 즉시 자금을 준다\"는 **보여진 것보다 과한 말**이다.\n\n### 6 — 보도에서 빠진 것\n\n- **어느 체인이고**, 퍼블릭인가 퍼미션드인가. 기사는 말하지 않는다. 퍼미션리스 체인이라면 블록스페이스 수요 신호이고, 퍼미션드라면 대사(reconciliation)가 나은 데이터베이스다. 전혀 다른 이야기인데 보도는 구분하지 않는다.\n- **예금 토큰인가, 준비금 담보 스테이블코인인가.** \"은행이 발행, 1대1 상환, 준비자산 주로 현금\"은 둘 다와 양립한다. SoFiUSD가 소파이은행의 **부채**라면 토큰화 예금에 가깝고 은행 대차대조표와 그 보호 안에 있다. 분리된 준비금에 대한 청구권이라면 아니다. 보유자가 실제로 무엇을 소유하는지를 결정하는데 명시되지 않았다.\n- **총액 대 순액** — §4.\n- **가맹점이 소파이에 계좌를 둬야 하는지** — §5.\n\n이것들이 항목의 가치를 깎지 않는다. **입증된 것과 발표된 것 사이의 경계**를 표시할 뿐이다.\n\n### Jayverse에서의 위치\n\n`four-seats-and-the-empty-one` (#74)은 한국에 무엇이 없는지 묻고 발행사의 자리라고 답했다. 원화 스테이블코인의 법적 범주가 존재하지 않기 때문이라고. 이 항목은 **같은 자리가 채워진 모습**이다. 국립은행 인가를 가진 은행이, 실제 카드 프로그램 안에서. 교훈은 한 방향이다 — 제약은 애초에 공학이 아니었다.\n\n`uniswap-hook-cannot-move` (#77)은 §3의 방법을 제공한다. 속도 주장을 믿기 전에 가장 느린 부품을 찾을 것. 트루오의 비판자들은 그걸 엉뚱한 곳에 두었고, 이번 배치는 제자리에 두었다.\n\n`never-about-issuance` (#81)이 여기서 날카로워진다. 토큰을 발행하는 것은 쉽다. 어려운 것은 그걸 **상환해주는 기관이 되는 것**이고, 소파이의 답은 은행이 되는 것이었다. 어려운 부분에 대한 우회가 아니라 값을 치른 것이다.\n\n`one-bank-both-doors` (#73)과 `reserve-that-makes-the-bank-fragile` (#76)은 위험 쪽 짝이다. 둘 다 은행이 토큰 뒤를 받칠 때 무슨 일이 생기는지에 관한 것 — 하나는 토큰이 대출 시장에 들어갈 때, 하나는 준비금 규칙이 토큰의 담보를 은행 예금으로 밀어 넣을 때. 이 항목은 같은 구조의 **평온한 국면**이고, 셋을 합치면 무엇을 볼지가 나온다. **가동 시점이 아니라, 스트레스 상황에서 상환이 처음 시험받는 순간.**\n\n에이전트 결제 갈래 — `pocs-agent-payments-korea-control-plane` (Tech #3, REVISIT) — 와도 직접 읽힌다. 그 카드의 논증은 레일의 통제권이 프로토콜을 쓰는 쪽이 아니라 **법적 관계를 쥔 쪽**에 있다는 것이었다. 마스터카드가 정산 매체를 바꾸면서도 \"신뢰·규모·안전장치\"를 유지한다는 것이 정확히 그것이다. **매체는 교체 가능하고, 관계는 아니다.**\n\n### 확인된 것과 미확인\n\n**보도된 것이고 내가 확인하지 않은 것:** 전부. 가동 일자, 연환산 250억 달러, OCC 감독과 1대1 상환, \"최초의 국립은행\", 3월 발표, 두 경영자 인용 모두 붙여넣은 디지털에셋 기사에서 왔다. 링크된 소파이 보도자료를 열지 않았고 마스터카드·소파이 공시와 대조하지 않았다.\n\n**내 것이고 본문에 표시한 것:** §3(느린 구간은 백오피스였다, #77과 같은 시험), §4(순액 대 총액 — 4자 카드 정산의 일반 작동 방식에서 끌어낸 추론이며 가장 먼저 확인할 것으로 표시), §5(가맹점 이점의 폐쇄 루프 성분 — 소파이 플랫폼을 통해 소파이은행 계좌로라는 기사 자체의 표현에 근거).\n\n**1차 문서 없이 옮기지 않을 것:** \"34조원을 스테이블코인으로 정산\"이라는 헤드라인 형태. \"연환산 거래액 250억 달러 이상인 카드 프로그램이 스테이블코인 정산으로 전환되고 있다\"고 말하자. 더 길지만, 보도가 보여주지 않은 것을 주장하지 않는다.\n"</script>
+      <h1>스테이블코인은 아무도 보지 않는 구간으로 들어갔다 — 마스터카드, 소파이, 그리고 정산</h1>
+      <p class="lead">소파이은행이 직불·신용카드 프로그램의 정산을 자체 달러 스테이블코인 SoFiUSD로 시작했다. 마스터카드의 글로벌 네트워크 위에서, 9월 22일(현지시간) 가동됐고, 지난 3월 협력 발표로부터 약 6개월 만이다. 전체 카드 프로그램을 전환 중이며 연환산 거래액은 250억 달러(약 34조 원) 이상으로 보도됐다. 이 사건의 의미를 결정하는 것은 기사 속 한 문장이다. 소비자가 스테이블코인으로 결제하는 구조가 아니다. 토큰은 카드거래가 이미 끝난 뒤, 금융기관 사이의 정산 과정에 놓인다.</p>
+      <p class="meta">jay가 붙여넣은 디지털에셋 기사(박재연, 2026-09-23)에서 옮겼다. 기사가 링크한 소파이 보도자료는 열어보지 않았고, 어떤 수치도 확인하지 않았다. 이 카드가 덧붙이는 세 논증 — 소비자 구간은 애초에 느린 쪽이 아니었다는 것, "250억 달러를 스테이블코인으로 정산"이 250억 달러가 온체인에서 움직인다는 뜻은 거의 확실히 아니라는 것, 가맹점 쪽 이점의 상당 부분이 폐쇄 루프 효과라는 것 — 은 본문에 내 것으로 표시했다. Jayverse에서 이것은 <code>four-seats-and-the-empty-one</code> (#74)의 실전판이다. 한국이 만들지 못한 그 자리를 여기서는 인가받은 은행이 차지하고 있다.</p>
+<h2>왜</h2>
+<p>지난 10년간 소매 암호화폐 결제 기사는 전부 같은 형태였다. 언젠가 토큰으로 커피를 사게 된다는 것. 한 번도 되지 않았고, 이유는 지루하고 구조적이다. 소비자 구간은 이미 잘 돌아가고, 가맹점은 가격 변동을 원하지 않으며, 카드 소지자가 실제로 기대는 차지백 기계장치에는 온체인 대응물이 없다.</p>
+<p>이건 다른 형태이고, 추적할 값이 있는 쪽이다. <strong>카드 소지자의 경험은 아무것도 바뀌지 않았다.</strong> 같은 카드, 같은 네트워크, 같은 승인, 같은 분쟁 권리. 스테이블코인은 기관 사이의 구간 — 구매 이후에 발행사·네트워크·매입사 사이에서 일어나고, 카드 소지자가 본 적도 생각해본 적도 없는 부분 — 에 삽입됐다.</p>
+<p>그 배치가 곧 발견이다. 이 기술의 채택 경로가 체크아웃이 아니라 <strong>백오피스 배관</strong>을 통과한다는 뜻이고, 발표 6개월 만에 250억 달러 규모에서 "실제 운영"을 주장할 수 있는 이유도 설명한다. 소매 결제의 어려운 부분에는 손대지 않았기 때문이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 실제로 바뀐 것과 바뀌지 않은 것</h3>
+<table><thead><tr><th>구간</th><th>이전</th><th>지금 (보도 기준)</th></tr></thead><tbody><tr><td>카드 소지자 → 가맹점</td><td>긁거나 대면 1초 내외 승인</td><td>그대로</td></tr><tr><td>승인, 네트워크 라우팅</td><td>마스터카드</td><td>그대로</td></tr><tr><td>기관 간 정산</td><td>기존 은행 레일, 배치, 영업시간에 묶임</td><td>SoFiUSD, 온체인, "현재 블록체인에서 실제 처리"</td></tr><tr><td>가맹점의 자금 수령</td><td>정산 주기</td><td>소파이은행 계좌로 즉시, 24시간 현금 인출 (노토)</td></tr></tbody></table>
+<p>셰리 헤이먼드를 통한 마스터카드의 프레이밍: "실험을 넘어" "규제된 스테이블코인 정산을 실제 운영 환경에" 적용하면서, "마스터카드가 제공하는 신뢰와 규모, 안전장치"는 유지한다는 것. 이건 <strong>어느 층이 변화를 흡수했는가</strong>에 대한 주장으로 읽어야 한다. 네트워크의 보증이 영향을 받지 않았다고 말할 수 있는 이유는, 토큰이 그 보증을 지는 구간 근처에 가지 않았기 때문이다.</p>
+<h3>2 — 발행자가 은행이고, 그게 핵심이다</h3>
+<p>SoFiUSD는 미국 통화감독청(OCC)의 감독을 받는 국립은행인 소파이은행이 발행한다. 달러와 1대1 상환, 준비자산은 주로 현금. 기관과 소파이 이용자가 결제·정산에 쓸 수 있다.</p>
+<p>이 문장이 250억 달러보다 더 많은 일을 한다. 마스터카드 프로그램을 정산하는 은행 발행 달러 토큰은 "암호화폐 회사가 은행과 제휴한 것"이 아니라 <strong>은행이 발행자인 것</strong>이고, 이건 누가 책임을 지고 어느 감독기관이 방에 들어오는지를 바꾼다. 이 섹션에 이미 있는 이웃 셋과 비교해보라.</p>
+<ul><li><code>kb-kookmin-kinexys-deposit-rail</code> (#65) — 은행이 만든 예금 레일. 다만 국내용이고 한 기관의 회랑 안에 있다.</li><li><code>one-bank-both-doors</code> (#73) — 소시에테제네랄-FORGE의 EURCV를 대출 프로토콜에 상장하는 제안. 같은 은행이 토큰을 발행하고 뒤를 받치며, 위험은 공급 상한으로 압축된다.</li><li><code>four-seats-and-the-empty-one</code> (#74) — 한국에는 유통도, 인가 은행도, 커스터디도 있지만 원화 발행사가 없다. 법적 범주가 존재하지 않기 때문이다.</li></ul>
+<p>이 항목은 <strong>그 자리가 채워진 모습</strong>이 실제 운영에서 어떻게 생겼는지 보여준다. 카카오 MoU와의 차이는 기술이 아니라 <strong>인가</strong>다.</p>
+<h3>3 — 논증 하나: 소비자 구간은 애초에 느린 쪽이 아니었다</h3>
+<p>카드 승인은 이미 거의 즉시다. 느린 것은 그 이후 전부다 — 청산, 네팅, 정산 윈도우, 마감 시각, 주말, 그리고 가맹점이 돈을 보기까지의 2~3일. 더 빠른 레일은 거래의 앞단에서 갈 데가 없고, 뒷단에는 갈 데가 아주 많다.</p>
+<p><code>uniswap-hook-cannot-move</code> (#77)의 트루오 논증과 같은 형태다. 거기서 반론은 "12초 블록은 예측시장에 너무 느리다"였고, 답은 AMM에는 체결 지연이 없으므로 체인이 구속 조건이었던 적이 없다는 것이었다. 여기서는 거울상이 성립한다. 체인은 1초짜리 승인과 경쟁하는 게 아니라 <strong>T+2 배치와 경쟁한다</strong>. <strong>빠른 부품을 느린 부품이 실제로 있는 자리에 놓을 것.</strong> 대부분의 블록체인 결제 제안이 이 시험에 떨어지고 이건 통과한다. 헤드라인 숫자보다 그게 주목할 이유다.</p>
+<h3>4 — 논증 둘: 카드 거래액 250억 달러는 온체인 250억 달러가 아니다</h3>
+<p>헤드라인은 "34조원 카드거래 스테이블코인으로 정산"이다. 제시된 수치는 카드 프로그램의 <strong>연환산 거래액</strong> — 카드 소지자가 쓰는 돈이다. 4자 카드 체계에서 기관 간 정산은 <strong>총액(gross)이 아니라 순액(net)</strong> 이다. 주기 동안 양방향 채무가 상계되고 순포지션만 움직인다. 따라서 온체인 금액은 프로그램 거래액의 일부이고, 그 비율은 발표된 무엇이 아니라 네팅 효율에 달려 있다.</p>
+<p><strong>이건 4자 카드 정산이 일반적으로 작동하는 방식에서 끌어낸 내 추론이지, 기사나 보도자료가 말한 것이 아니다.</strong> 1차 문서와 대조할 때 가장 먼저 확인할 항목이다. 다만 방향은 의심스럽지 않다. 프로그램 거래액과 정산액은 다른 양이고, 헤드라인은 앞의 것을 뒤의 것처럼 쓴다. 숫자를 옮길 거라면 <strong>프로그램 거래액으로</strong> 옮기자.</p>
+<h3>5 — 논증 셋: "즉시, 24시간" 중 스테이블코인 몫은 얼마인가</h3>
+<p>노토의 주장은 가맹점이 <strong>소파이의 기업금융 플랫폼</strong>을 통해 <strong>소파이은행 계좌</strong>로 정산금을 즉시 받고 24시간 현금 인출이 가능하다는 것이다.</p>
+<p>끝점이 어디인지 보라. 발행자가 소파이다. 가맹점 계좌가 소파이에 있다. 플랫폼이 소파이 것이다. 한 기관 안에서 즉시 입금은 장부 한 줄이고 수십 년 전부터 가능했다. 블록체인이 필요 없고, 은행이 자기 계좌 둘 사이에서 돈을 옮기는 것은 세상에서 가장 오래된 빠른 결제다.</p>
+<p>그러니 가맹점이 체감하는 이점은 <strong>합성물</strong>이다. 기관 사이의 진짜로 새로운 온체인 구간 + 토큰이 아니라 은행에 속하는 평범한 폐쇄 루프 이점. 가맹점에게 덜 유용하다는 뜻은 아니다 — 즉시는 즉시다 — 하지만 인과 주장은 들리는 것보다 약하다. <strong>시험은 다른 은행을 쓰는 가맹점도 같은 경험을 얻느냐이고</strong>, 기사는 말하지 않는다. 그 답이 나오기 전까지 "스테이블코인 정산이 가맹점에게 즉시 자금을 준다"는 <strong>보여진 것보다 과한 말</strong>이다.</p>
+<h3>6 — 보도에서 빠진 것</h3>
+<ul><li><strong>어느 체인이고</strong>, 퍼블릭인가 퍼미션드인가. 기사는 말하지 않는다. 퍼미션리스 체인이라면 블록스페이스 수요 신호이고, 퍼미션드라면 대사(reconciliation)가 나은 데이터베이스다. 전혀 다른 이야기인데 보도는 구분하지 않는다.</li><li><strong>예금 토큰인가, 준비금 담보 스테이블코인인가.</strong> "은행이 발행, 1대1 상환, 준비자산 주로 현금"은 둘 다와 양립한다. SoFiUSD가 소파이은행의 <strong>부채</strong>라면 토큰화 예금에 가깝고 은행 대차대조표와 그 보호 안에 있다. 분리된 준비금에 대한 청구권이라면 아니다. 보유자가 실제로 무엇을 소유하는지를 결정하는데 명시되지 않았다.</li><li><strong>총액 대 순액</strong> — §4.</li><li><strong>가맹점이 소파이에 계좌를 둬야 하는지</strong> — §5.</li></ul>
+<p>이것들이 항목의 가치를 깎지 않는다. <strong>입증된 것과 발표된 것 사이의 경계</strong>를 표시할 뿐이다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>four-seats-and-the-empty-one</code> (#74)은 한국에 무엇이 없는지 묻고 발행사의 자리라고 답했다. 원화 스테이블코인의 법적 범주가 존재하지 않기 때문이라고. 이 항목은 <strong>같은 자리가 채워진 모습</strong>이다. 국립은행 인가를 가진 은행이, 실제 카드 프로그램 안에서. 교훈은 한 방향이다 — 제약은 애초에 공학이 아니었다.</p>
+<p><code>uniswap-hook-cannot-move</code> (#77)은 §3의 방법을 제공한다. 속도 주장을 믿기 전에 가장 느린 부품을 찾을 것. 트루오의 비판자들은 그걸 엉뚱한 곳에 두었고, 이번 배치는 제자리에 두었다.</p>
+<p><code>never-about-issuance</code> (#81)이 여기서 날카로워진다. 토큰을 발행하는 것은 쉽다. 어려운 것은 그걸 <strong>상환해주는 기관이 되는 것</strong>이고, 소파이의 답은 은행이 되는 것이었다. 어려운 부분에 대한 우회가 아니라 값을 치른 것이다.</p>
+<p><code>one-bank-both-doors</code> (#73)과 <code>reserve-that-makes-the-bank-fragile</code> (#76)은 위험 쪽 짝이다. 둘 다 은행이 토큰 뒤를 받칠 때 무슨 일이 생기는지에 관한 것 — 하나는 토큰이 대출 시장에 들어갈 때, 하나는 준비금 규칙이 토큰의 담보를 은행 예금으로 밀어 넣을 때. 이 항목은 같은 구조의 <strong>평온한 국면</strong>이고, 셋을 합치면 무엇을 볼지가 나온다. <strong>가동 시점이 아니라, 스트레스 상황에서 상환이 처음 시험받는 순간.</strong></p>
+<p>에이전트 결제 갈래 — <code>pocs-agent-payments-korea-control-plane</code> (Tech #3, REVISIT) — 와도 직접 읽힌다. 그 카드의 논증은 레일의 통제권이 프로토콜을 쓰는 쪽이 아니라 <strong>법적 관계를 쥔 쪽</strong>에 있다는 것이었다. 마스터카드가 정산 매체를 바꾸면서도 "신뢰·규모·안전장치"를 유지한다는 것이 정확히 그것이다. <strong>매체는 교체 가능하고, 관계는 아니다.</strong></p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보도된 것이고 내가 확인하지 않은 것:</strong> 전부. 가동 일자, 연환산 250억 달러, OCC 감독과 1대1 상환, "최초의 국립은행", 3월 발표, 두 경영자 인용 모두 붙여넣은 디지털에셋 기사에서 왔다. 링크된 소파이 보도자료를 열지 않았고 마스터카드·소파이 공시와 대조하지 않았다.</p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §3(느린 구간은 백오피스였다, #77과 같은 시험), §4(순액 대 총액 — 4자 카드 정산의 일반 작동 방식에서 끌어낸 추론이며 가장 먼저 확인할 것으로 표시), §5(가맹점 이점의 폐쇄 루프 성분 — 소파이 플랫폼을 통해 소파이은행 계좌로라는 기사 자체의 표현에 근거).</p>
+<p><strong>1차 문서 없이 옮기지 않을 것:</strong> "34조원을 스테이블코인으로 정산"이라는 헤드라인 형태. "연환산 거래액 250억 달러 이상인 카드 프로그램이 스테이블코인 정산으로 전환되고 있다"고 말하자. 더 길지만, 보도가 보여주지 않은 것을 주장하지 않는다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>settlement leg</strong></td><td>정산 구간 · 결제 흐름을 구간(leg)으로 나눠 부를 때. "the leg nobody sees"</td></tr><tr><td><strong>inter-institution</strong></td><td>기관 간의 · 소비자가 아니라 발행사·네트워크·매입사 사이. "the settlement process between financial institutions"</td></tr><tr><td><strong>to go live</strong></td><td>실제 운영에 들어가다 · 시범을 넘어 가동됨. "SoFi Becomes First National Bank to Go Live"</td></tr><tr><td><strong>in production</strong></td><td>실제 운영 환경에서 · 실험(experiment)의 반대말로 쓰임</td></tr><tr><td><strong>annualised volume</strong></td><td>연환산 거래액 · 일부 기간 실적을 1년으로 환산한 값. 실현액이 아님</td></tr><tr><td><strong>gross vs net</strong></td><td>총액 대 순액 · 카드 정산은 상계 후 순액만 움직인다는 이 카드의 핵심 지적</td></tr><tr><td><strong>to net (obligations)</strong></td><td>채무를 상계하다 · 양방향 채무를 차감해 순포지션만 남기는 것</td></tr><tr><td><strong>four-party card system</strong></td><td>4자 카드 체계 · 카드 소지자·가맹점·발행사·매입사 구조</td></tr><tr><td><strong>acquirer</strong></td><td>매입사(가맹점 쪽 은행) · 발행사(issuer)의 반대편</td></tr><tr><td><strong>issuer</strong></td><td>발행사 · 여기서는 카드 발행사이자 토큰 발행자, 둘 다 소파이</td></tr><tr><td><strong>chargeback</strong></td><td>차지백(카드 결제 취소·환불 청구) · 온체인 대응물이 없는 소비자 보호 장치</td></tr><tr><td><strong>dispute finality</strong></td><td>분쟁 확정 · 결제가 되돌려지지 않는다고 확신할 수 있는 시점</td></tr><tr><td><strong>cut-off time</strong></td><td>마감 시각 · 그 시각 이후 건은 다음 주기로 넘어감</td></tr><tr><td><strong>T+2</strong></td><td>거래일 + 2영업일 · 자금이 실제로 도착하는 시점을 가리키는 표준 표기</td></tr><tr><td><strong>batch</strong></td><td>배치(모아서 한꺼번에 처리) · 실시간(real-time)의 반대</td></tr><tr><td><strong>closed loop</strong></td><td>폐쇄 루프 · 발행·계좌·플랫폼이 한 기관 안에 있는 구조. 즉시성의 상당 부분이 여기서 나옴</td></tr><tr><td><strong>composite (benefit)</strong></td><td>합성된 (이점) · 두 원인이 섞여 하나처럼 보일 때</td></tr><tr><td><strong>to overstate</strong></td><td>과장하다 · "보여진 것보다 과한 말"이라고 지적할 때</td></tr><tr><td><strong>national bank charter</strong></td><td>국립은행 인가 · 미국에서 OCC가 내주는 은행 면허</td></tr><tr><td><strong>OCC (통화감독청)</strong></td><td>Office of the Comptroller of the Currency · 미국 국립은행 감독기관</td></tr><tr><td><strong>deposit token</strong></td><td>예금 토큰 · 은행의 부채로서 토큰화된 예금. 준비금 담보 스테이블코인과 구분됨</td></tr><tr><td><strong>reserve-backed</strong></td><td>준비금 담보의 · 분리된 자산에 대한 청구권 형태</td></tr><tr><td><strong>liability of the bank</strong></td><td>은행의 부채 · 보유자가 무엇을 소유하는지를 결정하는 회계상 위치</td></tr><tr><td><strong>redeemable 1:1</strong></td><td>1대1 상환 가능한 · 토큰 1개를 달러 1개로 바꿀 수 있다는 약속</td></tr><tr><td><strong>safeguards</strong></td><td>안전장치 · 마스터카드가 유지한다고 말한 것</td></tr><tr><td><strong>the binding constraint</strong></td><td>구속 조건(실제로 발목을 잡는 병목) · 속도 논증에서 가장 느린 부품을 가리킴</td></tr><tr><td><strong>permissioned vs permissionless</strong></td><td>허가형 대 무허가형 · 어느 체인인지가 이야기 전체를 바꾼다</td></tr><tr><td><strong>blockspace demand</strong></td><td>블록스페이스 수요 · 퍼블릭 체인일 때만 성립하는 파급</td></tr><tr><td><strong>load-bearing (claim)</strong></td><td>하중을 받는 (주장) · 다른 주장들이 그 위에 서 있는 핵심 전제</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-machine-native-economy-blackrock.html">&larr; 76. Machine-native money, machine-native intelligence — and the clause that undercuts the channel</a><a href="pocs-consumed-authorization.html">78. An authorization that is not consumed is an authorization that can be used again &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="stablecoin-in-the-leg-nobody-sees";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

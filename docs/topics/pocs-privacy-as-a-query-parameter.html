@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy became a query parameter — Ekubo&#39;s private swap, and why a swap is harder than a transfer — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Privacy became a query parameter — Ekubo&#39;s private swap, and why a swap is harder than a transfer</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#75</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-23-privacy-as-a-query-parameter.md">raw</a></span></p>
+      <h1>Privacy became a query parameter — Ekubo&#39;s private swap, and why a swap is harder than a transfer</h1>
+      <p class="lead">Ekubo Protocol announced private swaps on Starknet, and Eli Ben-Sasson — Starknet/StarkWare, and a Zcash co-founder — called it the thing he has been waiting more than a decade for. His reason is precise and worth separating from the enthusiasm: the real problem of privacy, he says, was never the cryptography but making it usable with good UX, and for doing more than transferring a single asset. He adds that for the single-asset transfer case, ZEC already works. The demo link tells the same story in a shorter form: it is an ordinary swap URL with `inputCurrency`, `outputCurrency`, `amount`, `chainId` — and `privacy=private`.</p>
+      <p class="meta">Pasted by jay, 2026-09-23. I did not open ekubo.org, execute a swap, read any documentation, or learn what provides the privacy, so this card describes what the claim means and what would have to be true, not how Ekubo does it. The four arguments below are mine and labelled in the body; the most important is the third, which is why a day-one privacy launch has no privacy.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Privacy became a query parameter — Ekubo's private swap, and why a swap is harder than a transfer\n\nEkubo Protocol announced private swaps on Starknet, and Eli Ben-Sasson — Starknet/StarkWare, and a Zcash co-founder — called it the thing he has been waiting more than a decade for. His reason is precise and worth separating from the enthusiasm: the real problem of privacy, he says, was never the cryptography but making it usable with good UX, and for doing more than transferring a single asset. He adds that for the single-asset transfer case, ZEC already works. The demo link tells the same story in a shorter form: it is an ordinary swap URL with `inputCurrency`, `outputCurrency`, `amount`, `chainId` — and `privacy=private`.\n\nPasted by jay, 2026-09-23. I did not open ekubo.org, execute a swap, read any documentation, or learn what provides the privacy, so this card describes what the claim means and what would have to be true, not how Ekubo does it. The four arguments below are mine and labelled in the body; the most important is the third, which is why a day-one privacy launch has no privacy.\n\n## Why\n\nPrivacy technology has a long record of being cryptographically excellent and practically unused, and the failure has almost always been at the same place: it asked the user to go somewhere else. A different wallet, a different asset, a manual shield step, a waiting period before spending, and a mental model nobody outside the field wants to hold. The tooling was a destination, and destinations lose to defaults.\n\nBen-Sasson's claim is that this — not the proving system — was the binding constraint, and he is in an unusually strong position to say so, having co-founded the project that solved the cryptography for shielded transfers. **The interesting part of the announcement is therefore not that private swaps exist. It is where the privacy lives in the interface.**\n\nIt lives in a query parameter. `privacy=private`, next to `amount=1`. Same site, same swap, one flag. Whatever the mechanism underneath, the product decision is that privacy is an option on the thing you were already doing.\n\n## How it works\n\n### 1 — What was said\n\n| Who | What |\n|---|---|\n| Ekubo Protocol | \"You can now swap privately via Ekubo Protocol on Starknet\", with a link whose parameters include `privacy=private` and `chainId=0x534e5f4d41494e` (ASCII `SN_MAIN` — Starknet mainnet) |\n| Eli Ben-Sasson | \"This is what I've been dreaming about for more than a decade\"; the real problem of privacy is usable UX for end users, and doing more than transferring a single asset; \"for that case, ZEC rocks\"; credits `@sendmoodz` and `@EkuboProtocol` |\n| StarkWare | reposted it |\n\nThat is the entire primary record I have.\n\n### 2 — Why a private swap is strictly harder than a private transfer\n\n**This card's first argument.** Ben-Sasson's phrase \"more than just transferring a single asset\" is doing a lot of work, and it is worth unpacking, because the difficulty jump is not incremental.\n\nA **shielded transfer** is a closed problem. Value enters a shielded pool of one asset, moves inside it, and leaves. The public sees deposits and withdrawals; inside, sender, recipient and amount are hidden, and the invariant the proof must establish is simple — nothing was created, nothing was double-spent. Everything the observer needs to be denied stays inside one boundary.\n\nA **swap** breaks that boundary by construction:\n\n- It involves **two assets**, so the shielded set is no longer one pool but a relationship between two.\n- It has a **counterparty** — an AMM pool — and that pool is public infrastructure other people use.\n- It moves a **price**. The pool's reserves change, and the change is visible to everyone.\n\nThat last one is the real problem, and it is worth stating plainly: **the pool can leak what the transaction hides.** If your swap is private but the reserves move by an amount and a direction that only your swap could have caused, the observer reconstructs the trade from the state delta without ever breaking a proof. Privacy at the transaction layer is undone by observability at the state layer.\n\nThe known ways out all change the shape of the market rather than the strength of the cryptography — batching many swaps so a single reserve delta is a sum, settling privately against a shielded balance and only netting in aggregate, encrypting orders until execution, or intent-style designs where a solver takes the public side. **I do not know which of these Ekubo uses, and this card does not guess.** The point is structural: a private swap has to solve a leak that a private transfer does not have.\n\n### 3 — The anonymity set is the whole security property, and today it is smallest\n\n**Second argument, and the one to hold onto.** Privacy systems do not protect individuals; they protect members of a crowd. The guarantee is always \"you are indistinguishable from the others doing the same thing\", and its strength is the size of the set.\n\nWhich means the honest reading of any launch-day privacy feature is uncomfortable: **on day one the set is nearly empty.** With few private swaps, timing and amount correlate trivially — one private swap in a ten-minute window, against one reserve movement, against one wallet that funded shortly before, is not private in any sense that matters. The mechanism can be flawless and the privacy still zero.\n\nThis is not a criticism of the launch. It is what the right question is for the next few months, and it is a measurement, not an opinion: **how many private swaps per day, spread over how many distinct assets and how many hours?** Until that number is meaningful, the correct description is \"a promising mechanism, not yet a privacy guarantee\". It is also the reason privacy features benefit from being boring and default-adjacent rather than exciting and niche — which brings the argument back to the URL.\n\n### 4 — An opt-in privacy toggle is itself a disclosure\n\n**Third argument, and the tension nobody has solved.** If `privacy=private` is off by default, then everyone who turns it on has declared something about themselves by turning it on. The set of private users is self-selected, which is precisely the set an observer most wants to watch. This is the old Tor problem: using the anonymity tool is itself a signal, and in a small population the signal can be more informative than the content it hides.\n\nDefault-on fixes the anonymity set and breaks nearly everything else — cost, latency, integrations, and the ability of a business to explain itself to a regulator. Default-off is adoptable and leaks the selection.\n\nThere is no clean answer here, and the honest version of the roadmap question is: **does the private path become cheap enough and fast enough that it can be the default?** That is the same question `https-won-because-it-got-cheap` asks about encryption on the web, and the same answer applies — HTTPS did not win by persuading people that privacy mattered. It won when the cost of using it fell below the cost of explaining why you had not. A privacy toggle is a waypoint; a privacy default is the destination.\n\n### 5 — What the URL actually demonstrates\n\n**Fourth argument.** Strip the announcement of everything unverified and one fact remains, checkable by anyone: privacy is expressed as a parameter in a link, alongside amount and token addresses, on the same page as the ordinary swap.\n\nThat is a small thing that reports a large one. It means privacy has been made **composable with the existing product surface** — shareable, linkable, presumably togglable in the UI — rather than being a parallel application with its own balances to manage. Every previous generation of this technology failed at exactly that step, and it failed for UX reasons rather than mathematical ones, which is precisely Ben-Sasson's claim.\n\nIt is also the limit of what the announcement proves. A parameter in a URL says the surface is right. It says nothing about the fee, the latency, the proving cost, the trust assumptions, or whether the privacy survives an observer who watches the pool.\n\n### Where it lands in Jayverse\n\n`https-won-because-it-got-cheap` is the frame, per §4. The question for any privacy feature is never \"is it better\" but \"when does not using it cost more\". Ekubo's toggle is a bet that the answer is soon; the way to check is the anonymity-set measurement in §3.\n\nThe Zama material in the raw layer (`2026-09-23-zama-blockchain-https.md`) is the other approach to the same goal — confidentiality as a property of computation rather than as a mode of a transaction. Worth holding side by side: one hides the trade inside a public pool, the other computes on data it never decrypts. They fail differently, and comparing the failure modes is more useful than comparing the pitches.\n\n`uniswap-hook-cannot-move` (#77) supplies the discipline for reading claims like this one: find the component that actually binds. There the binding constraint was not block time; here it is not the proving system. It is the observability of pool state (§2) and the size of the crowd (§3).\n\n`consumed-authorization` is the neighbouring caution. A private swap still has to prevent replay, and doing that without a public nonce is genuinely harder — a nullifier is the standard answer, and it is the same primitive that card lists. Privacy does not remove the requirement that an authorization be usable once; it removes the easy way of checking.\n\nFor the agent-payments thread (`agent-payments-korea-control-plane`, #3): if agents end up transacting continuously, the transaction graph becomes a behavioural record of a business, and per-transaction privacy stops being a fringe preference. This is the feature that thread eventually needs, arriving early.\n\n### Verified and unverified\n\n**Reported:** the two posts and the shape of the link. Nothing else.\n\n**Not verified by me:** everything that matters operationally. I did not open ekubo.org, run a swap, read documentation, or look up `@sendmoodz`, who is credited alongside Ekubo and may be the party providing the privacy layer — I do not know. I do not know the mechanism, the fee, the latency, the trust assumptions, or whether the feature is live for everyone. The `chainId` in the URL decodes to `SN_MAIN`, which is Starknet mainnet, but that is a property of a link, not evidence of general availability.\n\n**Mine, and labelled in the body:** §2 (why a swap is structurally harder than a transfer, and that the pool can leak what the transaction hides), §3 (anonymity set as the real security property, smallest at launch, with the measurement to run), §4 (opt-in privacy is itself a disclosure, and the default question is the HTTPS question), §5 (the URL demonstrates surface, not guarantee).\n\n**Not claimed:** how Ekubo implements this. Batching, shielded balances with aggregate netting, encrypted orders and intent designs are all plausible; §2 lists them as the option space, not as a description of the product.\n\n**One thing in the same paste that is not part of this item:** an unrelated German news post about heating and electricity prices. It is preserved in the raw file so the source is whole, and it is not the subject of anything here.\n"</script>
+<h2>Why</h2>
+<p>Privacy technology has a long record of being cryptographically excellent and practically unused, and the failure has almost always been at the same place: it asked the user to go somewhere else. A different wallet, a different asset, a manual shield step, a waiting period before spending, and a mental model nobody outside the field wants to hold. The tooling was a destination, and destinations lose to defaults.</p>
+<p>Ben-Sasson&#39;s claim is that this — not the proving system — was the binding constraint, and he is in an unusually strong position to say so, having co-founded the project that solved the cryptography for shielded transfers. <strong>The interesting part of the announcement is therefore not that private swaps exist. It is where the privacy lives in the interface.</strong></p>
+<p>It lives in a query parameter. <code>privacy=private</code>, next to <code>amount=1</code>. Same site, same swap, one flag. Whatever the mechanism underneath, the product decision is that privacy is an option on the thing you were already doing.</p>
+<h2>How it works</h2>
+<h3>1 — What was said</h3>
+<table><thead><tr><th>Who</th><th>What</th></tr></thead><tbody><tr><td>Ekubo Protocol</td><td>"You can now swap privately via Ekubo Protocol on Starknet", with a link whose parameters include <code>privacy=private</code> and <code>chainId=0x534e5f4d41494e</code> (ASCII <code>SN_MAIN</code> — Starknet mainnet)</td></tr><tr><td>Eli Ben-Sasson</td><td>"This is what I&#39;ve been dreaming about for more than a decade"; the real problem of privacy is usable UX for end users, and doing more than transferring a single asset; "for that case, ZEC rocks"; credits <code>@sendmoodz</code> and <code>@EkuboProtocol</code></td></tr><tr><td>StarkWare</td><td>reposted it</td></tr></tbody></table>
+<p>That is the entire primary record I have.</p>
+<h3>2 — Why a private swap is strictly harder than a private transfer</h3>
+<p><strong>This card&#39;s first argument.</strong> Ben-Sasson&#39;s phrase "more than just transferring a single asset" is doing a lot of work, and it is worth unpacking, because the difficulty jump is not incremental.</p>
+<p>A <strong>shielded transfer</strong> is a closed problem. Value enters a shielded pool of one asset, moves inside it, and leaves. The public sees deposits and withdrawals; inside, sender, recipient and amount are hidden, and the invariant the proof must establish is simple — nothing was created, nothing was double-spent. Everything the observer needs to be denied stays inside one boundary.</p>
+<p>A <strong>swap</strong> breaks that boundary by construction:</p>
+<ul><li>It involves <strong>two assets</strong>, so the shielded set is no longer one pool but a relationship between two.</li><li>It has a <strong>counterparty</strong> — an AMM pool — and that pool is public infrastructure other people use.</li><li>It moves a <strong>price</strong>. The pool&#39;s reserves change, and the change is visible to everyone.</li></ul>
+<p>That last one is the real problem, and it is worth stating plainly: <strong>the pool can leak what the transaction hides.</strong> If your swap is private but the reserves move by an amount and a direction that only your swap could have caused, the observer reconstructs the trade from the state delta without ever breaking a proof. Privacy at the transaction layer is undone by observability at the state layer.</p>
+<p>The known ways out all change the shape of the market rather than the strength of the cryptography — batching many swaps so a single reserve delta is a sum, settling privately against a shielded balance and only netting in aggregate, encrypting orders until execution, or intent-style designs where a solver takes the public side. <strong>I do not know which of these Ekubo uses, and this card does not guess.</strong> The point is structural: a private swap has to solve a leak that a private transfer does not have.</p>
+<h3>3 — The anonymity set is the whole security property, and today it is smallest</h3>
+<p><strong>Second argument, and the one to hold onto.</strong> Privacy systems do not protect individuals; they protect members of a crowd. The guarantee is always "you are indistinguishable from the others doing the same thing", and its strength is the size of the set.</p>
+<p>Which means the honest reading of any launch-day privacy feature is uncomfortable: <strong>on day one the set is nearly empty.</strong> With few private swaps, timing and amount correlate trivially — one private swap in a ten-minute window, against one reserve movement, against one wallet that funded shortly before, is not private in any sense that matters. The mechanism can be flawless and the privacy still zero.</p>
+<p>This is not a criticism of the launch. It is what the right question is for the next few months, and it is a measurement, not an opinion: <strong>how many private swaps per day, spread over how many distinct assets and how many hours?</strong> Until that number is meaningful, the correct description is "a promising mechanism, not yet a privacy guarantee". It is also the reason privacy features benefit from being boring and default-adjacent rather than exciting and niche — which brings the argument back to the URL.</p>
+<h3>4 — An opt-in privacy toggle is itself a disclosure</h3>
+<p><strong>Third argument, and the tension nobody has solved.</strong> If <code>privacy=private</code> is off by default, then everyone who turns it on has declared something about themselves by turning it on. The set of private users is self-selected, which is precisely the set an observer most wants to watch. This is the old Tor problem: using the anonymity tool is itself a signal, and in a small population the signal can be more informative than the content it hides.</p>
+<p>Default-on fixes the anonymity set and breaks nearly everything else — cost, latency, integrations, and the ability of a business to explain itself to a regulator. Default-off is adoptable and leaks the selection.</p>
+<p>There is no clean answer here, and the honest version of the roadmap question is: <strong>does the private path become cheap enough and fast enough that it can be the default?</strong> That is the same question <code>https-won-because-it-got-cheap</code> asks about encryption on the web, and the same answer applies — HTTPS did not win by persuading people that privacy mattered. It won when the cost of using it fell below the cost of explaining why you had not. A privacy toggle is a waypoint; a privacy default is the destination.</p>
+<h3>5 — What the URL actually demonstrates</h3>
+<p><strong>Fourth argument.</strong> Strip the announcement of everything unverified and one fact remains, checkable by anyone: privacy is expressed as a parameter in a link, alongside amount and token addresses, on the same page as the ordinary swap.</p>
+<p>That is a small thing that reports a large one. It means privacy has been made <strong>composable with the existing product surface</strong> — shareable, linkable, presumably togglable in the UI — rather than being a parallel application with its own balances to manage. Every previous generation of this technology failed at exactly that step, and it failed for UX reasons rather than mathematical ones, which is precisely Ben-Sasson&#39;s claim.</p>
+<p>It is also the limit of what the announcement proves. A parameter in a URL says the surface is right. It says nothing about the fee, the latency, the proving cost, the trust assumptions, or whether the privacy survives an observer who watches the pool.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>https-won-because-it-got-cheap</code> is the frame, per §4. The question for any privacy feature is never "is it better" but "when does not using it cost more". Ekubo&#39;s toggle is a bet that the answer is soon; the way to check is the anonymity-set measurement in §3.</p>
+<p>The Zama material in the raw layer (<code>2026-09-23-zama-blockchain-https.md</code>) is the other approach to the same goal — confidentiality as a property of computation rather than as a mode of a transaction. Worth holding side by side: one hides the trade inside a public pool, the other computes on data it never decrypts. They fail differently, and comparing the failure modes is more useful than comparing the pitches.</p>
+<p><code>uniswap-hook-cannot-move</code> (#77) supplies the discipline for reading claims like this one: find the component that actually binds. There the binding constraint was not block time; here it is not the proving system. It is the observability of pool state (§2) and the size of the crowd (§3).</p>
+<p><code>consumed-authorization</code> is the neighbouring caution. A private swap still has to prevent replay, and doing that without a public nonce is genuinely harder — a nullifier is the standard answer, and it is the same primitive that card lists. Privacy does not remove the requirement that an authorization be usable once; it removes the easy way of checking.</p>
+<p>For the agent-payments thread (<code>agent-payments-korea-control-plane</code>, #3): if agents end up transacting continuously, the transaction graph becomes a behavioural record of a business, and per-transaction privacy stops being a fringe preference. This is the feature that thread eventually needs, arriving early.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported:</strong> the two posts and the shape of the link. Nothing else.</p>
+<p><strong>Not verified by me:</strong> everything that matters operationally. I did not open ekubo.org, run a swap, read documentation, or look up <code>@sendmoodz</code>, who is credited alongside Ekubo and may be the party providing the privacy layer — I do not know. I do not know the mechanism, the fee, the latency, the trust assumptions, or whether the feature is live for everyone. The <code>chainId</code> in the URL decodes to <code>SN_MAIN</code>, which is Starknet mainnet, but that is a property of a link, not evidence of general availability.</p>
+<p><strong>Mine, and labelled in the body:</strong> §2 (why a swap is structurally harder than a transfer, and that the pool can leak what the transaction hides), §3 (anonymity set as the real security property, smallest at launch, with the measurement to run), §4 (opt-in privacy is itself a disclosure, and the default question is the HTTPS question), §5 (the URL demonstrates surface, not guarantee).</p>
+<p><strong>Not claimed:</strong> how Ekubo implements this. Batching, shielded balances with aggregate netting, encrypted orders and intent designs are all plausible; §2 lists them as the option space, not as a description of the product.</p>
+<p><strong>One thing in the same paste that is not part of this item:</strong> an unrelated German news post about heating and electricity prices. It is preserved in the raw file so the source is whole, and it is not the subject of anything here.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>query parameter</strong></td><td>쿼리 파라미터 · URL의 <code>?key=value</code> 부분. 이 카드가 뉴스로 꼽은 것</td></tr><tr><td><strong>shielded transfer</strong></td><td>실드 전송 · 송신자·수신자·금액을 가린 이전. Zcash가 푼 문제</td></tr><tr><td><strong>shielded pool</strong></td><td>실드 풀 · 가려진 가치가 머무는 집합</td></tr><tr><td><strong>anonymity set</strong></td><td>익명 집합 · 나와 구별되지 않는 사람들의 무리. 프라이버시의 실제 강도</td></tr><tr><td><strong>indistinguishable from</strong></td><td>~와 구별되지 않는 · 프라이버시 보장의 정확한 형태</td></tr><tr><td><strong>to leak (state)</strong></td><td>(상태가) 흘리다 · 숨긴 정보가 다른 경로로 드러나는 것</td></tr><tr><td><strong>state delta</strong></td><td>상태 변화량 · 리저브가 얼마나 움직였는가. 거래를 복원하는 단서</td></tr><tr><td><strong>observability</strong></td><td>관측 가능성 · 바깥에서 볼 수 있는 정도</td></tr><tr><td><strong>reserves</strong></td><td>(풀의) 리저브 · AMM이 보유한 두 자산의 잔고</td></tr><tr><td><strong>counterparty</strong></td><td>거래 상대방 · 스왑에서는 공용 AMM 풀</td></tr><tr><td><strong>invariant</strong></td><td>불변식 · 증명이 세워야 하는, 항상 참이어야 할 조건</td></tr><tr><td><strong>double-spend</strong></td><td>이중지불 · 같은 돈을 두 번 쓰는 것</td></tr><tr><td><strong>nullifier</strong></td><td>널리파이어 · 무엇이 소비됐는지 밝히지 않고 재사용을 막는 표시</td></tr><tr><td><strong>replay</strong></td><td>재생(재사용 공격) · 이미 쓴 권한을 다시 제출하는 것</td></tr><tr><td><strong>batching</strong></td><td>배칭 · 여러 거래를 묶어 하나의 상태 변화로 만드는 것</td></tr><tr><td><strong>netting in aggregate</strong></td><td>총량으로 상계하다 · 개별 건을 감추고 합계만 드러내는 정산</td></tr><tr><td><strong>encrypted order</strong></td><td>암호화 주문 · 실행 시점까지 내용을 가린 주문</td></tr><tr><td><strong>intent (design)</strong></td><td>인텐트 설계 · 사용자가 원하는 결과만 표명하고 솔버가 실행하는 구조</td></tr><tr><td><strong>solver</strong></td><td>솔버 · 인텐트를 실제 거래로 바꿔주는 참여자</td></tr><tr><td><strong>opt-in</strong></td><td>옵트인(기본 꺼짐, 켜야 적용) · 반대는 default-on</td></tr><tr><td><strong>self-selected</strong></td><td>자기선택된 · 스스로 고른 집단. 그래서 관찰자에게 흥미로운 집단</td></tr><tr><td><strong>a disclosure</strong></td><td>정보 공개 · 감추려는 행위가 오히려 드러내는 것</td></tr><tr><td><strong>the binding constraint</strong></td><td>구속 조건 · 실제로 발목을 잡는 요소</td></tr><tr><td><strong>waypoint vs destination</strong></td><td>경유지 대 목적지 · 토글은 경유지, 기본값이 목적지</td></tr><tr><td><strong>composable with the product surface</strong></td><td>제품 표면과 조합 가능한 · 별도 앱이 아니라 기존 흐름 안에 들어간 상태</td></tr><tr><td><strong>general availability</strong></td><td>일반 가용성 · 모두에게 열려 있는 상태. 링크가 있다고 증명되지 않음</td></tr><tr><td><strong>proving cost</strong></td><td>증명 비용 · 영지식 증명을 만드는 데 드는 계산·시간</td></tr><tr><td><strong>trust assumption</strong></td><td>신뢰 가정 · 안전하려면 누구를 믿어야 하는가</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 프라이버시가 쿼리 파라미터가 됐다 — Ekubo의 프라이빗 스왑, 그리고 스왑이 전송보다 어려운 이유\n\nEkubo Protocol이 Starknet에서 프라이빗 스왑을 발표했고, Eli Ben-Sasson — Starknet/StarkWare, 그리고 Zcash 공동창업자 — 이 10년 넘게 기다려온 것이라고 했다. 그의 이유는 정확하고 흥분과 분리해서 볼 값이 있다. 프라이버시의 진짜 문제는 한 번도 암호학이 아니었고, **좋은 UX로 쓸 수 있게 만드는 것**과 **단일 자산 전송 이상을 하는 것**이었다는 말이다. 단일 자산 전송이라면 ZEC로 이미 된다고 덧붙인다. 데모 링크가 같은 이야기를 더 짧게 한다. `inputCurrency`, `outputCurrency`, `amount`, `chainId`가 붙은 평범한 스왑 URL에 — `privacy=private` 하나가 더 있다.\n\njay가 2026-09-23에 붙여넣었다. ekubo.org를 열지 않았고, 스왑을 실행하지 않았고, 문서를 읽지 않았고, 무엇이 프라이버시를 제공하는지 모른다. 그래서 이 카드는 **Ekubo가 어떻게 하는지가 아니라, 그 주장이 무엇을 뜻하고 무엇이 참이어야 하는지**를 서술한다. 아래 네 논증은 내 것이고 본문에 표시했다. 가장 중요한 건 세 번째 — 출시 당일의 프라이버시 기능에는 프라이버시가 없다는 것.\n\n## 왜\n\n프라이버시 기술은 암호학적으로 훌륭하면서 실제로는 안 쓰이는 긴 전력을 갖고 있고, 실패는 거의 항상 같은 자리에서 났다. **사용자에게 다른 데로 가라고 요구했다는 것.** 다른 지갑, 다른 자산, 수동 실드 단계, 쓰기 전 대기 시간, 그리고 업계 밖 누구도 들고 싶어 하지 않는 멘탈 모델. 그 도구는 **목적지**였고, 목적지는 기본값에게 진다.\n\nBen-Sasson의 주장은 증명 시스템이 아니라 **이것이** 구속 조건이었다는 것이고, 그렇게 말하기에 유난히 좋은 위치에 있다. 실드 전송의 암호학을 푼 프로젝트를 공동 창업했으니까. **그래서 이 발표에서 흥미로운 것은 프라이빗 스왑이 존재한다는 사실이 아니다. 인터페이스 어디에 프라이버시가 놓였는가다.**\n\n쿼리 파라미터에 놓였다. `amount=1` 옆의 `privacy=private`. 같은 사이트, 같은 스왑, 플래그 하나. 아래의 메커니즘이 무엇이든, 제품 결정은 **프라이버시를 이미 하고 있던 일의 옵션으로 만든 것**이다.\n\n## 동작 방식\n\n### 1 — 무엇이 말해졌나\n\n| 누가 | 무엇을 |\n|---|---|\n| Ekubo Protocol | \"You can now swap privately via Ekubo Protocol on Starknet\". 링크 파라미터에 `privacy=private`와 `chainId=0x534e5f4d41494e`(ASCII `SN_MAIN`, Starknet 메인넷) |\n| Eli Ben-Sasson | \"10년 넘게 꿈꿔온 것\". 프라이버시의 진짜 문제는 최종 사용자를 위한 쓸 만한 UX와 단일 자산 전송 이상을 하는 것. \"for that case, ZEC rocks\". `@sendmoodz`와 `@EkuboProtocol`을 언급 |\n| StarkWare | 리포스트 |\n\n내가 가진 1차 기록은 이게 전부다.\n\n### 2 — 프라이빗 스왑이 프라이빗 전송보다 엄밀히 더 어려운 이유\n\n**이 카드의 첫 논증.** Ben-Sasson의 \"단일 자산 전송 이상\"이라는 표현이 많은 일을 하고 있고, 풀어볼 값이 있다. 난이도 도약이 점진적이지 않기 때문이다.\n\n**실드 전송**은 닫힌 문제다. 가치가 한 자산의 실드 풀에 들어가고, 그 안에서 움직이고, 나온다. 바깥에서는 입금과 출금이 보이고, 안에서는 송신자·수신자·금액이 숨는다. 증명이 세워야 할 불변식은 단순하다 — 아무것도 새로 만들어지지 않았고, 이중지불되지 않았다. **관찰자에게 감춰야 할 모든 것이 하나의 경계 안에 머문다.**\n\n**스왑**은 구조적으로 그 경계를 깬다.\n\n- **자산이 둘**이다. 실드 집합이 더 이상 하나의 풀이 아니라 두 풀 사이의 관계가 된다.\n- **거래 상대방**이 있다 — AMM 풀 — 그리고 그 풀은 다른 사람들도 쓰는 공용 인프라다.\n- **가격이 움직인다.** 풀의 리저브가 바뀌고, 그 변화는 모두에게 보인다.\n\n마지막이 진짜 문제이고 분명히 적을 값이 있다. **풀이, 거래가 숨긴 것을 흘린다.** 스왑이 프라이빗이어도 리저브가 오직 당신의 스왑만이 일으킬 수 있는 크기와 방향으로 움직인다면, 관찰자는 증명을 깨지 않고도 **상태 변화량에서 거래를 복원한다.** 거래 계층의 프라이버시가 상태 계층의 관측 가능성에 의해 무효화된다.\n\n알려진 탈출구들은 암호학의 강도가 아니라 **시장의 형태**를 바꾼다 — 여러 스왑을 묶어서 리저브 변화 하나가 합이 되게 하거나, 실드 잔액에 대해 프라이빗하게 정산하고 총량만 네팅하거나, 주문을 실행 시점까지 암호화하거나, 솔버가 공개 측을 맡는 인텐트 설계. **Ekubo가 어느 것을 쓰는지 나는 모르고, 이 카드는 추측하지 않는다.** 요점은 구조적인 것이다. 프라이빗 스왑은 프라이빗 전송에는 없는 누수를 풀어야 한다.\n\n### 3 — 익명 집합이 보안 속성 전부이고, 오늘 그것은 가장 작다\n\n**두 번째 논증이자 붙잡아둘 것.** 프라이버시 시스템은 개인을 보호하지 않는다. **군중의 구성원**을 보호한다. 보장은 언제나 \"같은 일을 하는 다른 사람들과 구별되지 않는다\"이고, 그 강도는 집합의 크기다.\n\n그래서 출시 당일 프라이버시 기능에 대한 정직한 독해는 불편하다. **첫날 그 집합은 거의 비어 있다.** 프라이빗 스왑이 몇 건 없으면 시간과 금액이 사소하게 상관된다. 10분 창에 프라이빗 스왑 하나, 리저브 움직임 하나, 직전에 자금이 들어온 지갑 하나 — 어떤 의미로도 프라이빗하지 않다. **메커니즘이 완벽해도 프라이버시는 0일 수 있다.**\n\n출시에 대한 비판이 아니다. 앞으로 몇 달의 올바른 질문이 무엇인지에 대한 것이고, 의견이 아니라 **측정**이다. **하루 몇 건의 프라이빗 스왑이, 몇 종의 자산에, 몇 시간에 걸쳐 퍼져 있는가?** 그 수가 유의미해지기 전까지 올바른 서술은 \"유망한 메커니즘, 아직 프라이버시 보장은 아님\"이다. 프라이버시 기능이 흥미롭고 틈새인 것보다 **지루하고 기본값에 가까운** 편이 유리한 이유이기도 하다. 그러면 논의가 다시 URL로 돌아온다.\n\n### 4 — 옵트인 프라이버시 토글은 그 자체가 정보 공개다\n\n**세 번째 논증이자, 아무도 풀지 못한 긴장.** `privacy=private`가 기본 꺼짐이라면, 그것을 켠 사람은 **켰다는 사실로 자신에 대해 무언가를 선언한 것**이다. 프라이빗 사용자 집합은 자기선택된 집합이고, 그건 관찰자가 가장 보고 싶어 하는 바로 그 집합이다. 오래된 Tor 문제다. **익명 도구를 쓴다는 것 자체가 신호**이고, 인구가 작으면 그 신호가 감춘 내용보다 더 많은 것을 알려줄 수 있다.\n\n기본 켜짐은 익명 집합을 고치고 거의 모든 다른 것을 깬다 — 비용, 지연, 연동, 그리고 사업체가 규제기관에 자신을 설명할 수 있는 능력. 기본 꺼짐은 채택 가능하고 **선택을 흘린다.**\n\n여기에 깔끔한 답은 없고, 로드맵 질문의 정직한 판본은 이것이다. **프라이빗 경로가 기본값이 될 만큼 싸고 빨라지는가?** `https-won-because-it-got-cheap`이 웹의 암호화에 대해 묻는 것과 같은 질문이고 같은 답이 적용된다. HTTPS는 프라이버시가 중요하다고 설득해서 이긴 게 아니다. **쓰는 비용이 안 쓰는 이유를 설명하는 비용보다 낮아졌을 때** 이겼다. 프라이버시 토글은 경유지이고, 프라이버시 기본값이 목적지다.\n\n### 5 — URL이 실제로 입증하는 것\n\n**네 번째 논증.** 발표에서 확인되지 않은 것을 전부 걷어내면 누구나 확인할 수 있는 사실 하나가 남는다. **프라이버시가 링크 안의 파라미터로, 금액과 토큰 주소 옆에, 평범한 스왑과 같은 페이지에서 표현된다.**\n\n작은 것이 큰 것을 보고한다. 프라이버시가 **기존 제품 표면과 조합 가능**해졌다는 뜻이다 — 공유 가능하고, 링크 가능하고, 아마 UI에서 토글 가능하고 — 자기 잔액을 따로 관리해야 하는 평행 애플리케이션이 아니라. 이 기술의 이전 세대 전부가 정확히 그 단계에서 실패했고, 수학이 아니라 UX 때문에 실패했다. 그게 바로 Ben-Sasson의 주장이다.\n\n동시에 발표가 입증하는 것의 **한계**이기도 하다. URL 안의 파라미터는 표면이 옳다고 말한다. 수수료, 지연, 증명 비용, 신뢰 가정, 그리고 **풀을 지켜보는 관찰자 앞에서 프라이버시가 살아남는지**에 대해서는 아무것도 말하지 않는다.\n\n### Jayverse에서의 위치\n\n`https-won-because-it-got-cheap`이 §4의 틀이다. 어떤 프라이버시 기능에 대해서도 질문은 \"더 나은가\"가 아니라 \"언제 안 쓰는 쪽이 더 비싸지는가\"다. Ekubo의 토글은 그 시점이 가깝다는 베팅이고, 확인하는 방법은 §3의 익명 집합 측정이다.\n\nraw 레이어의 Zama 자료(`2026-09-23-zama-blockchain-https.md`)가 같은 목표에 대한 다른 접근이다 — 거래의 모드가 아니라 **연산의 속성**으로서의 기밀성. 나란히 놓을 값이 있다. 하나는 공개 풀 안에서 거래를 숨기고, 하나는 복호화하지 않은 데이터 위에서 계산한다. **실패하는 방식이 다르고**, 피치를 비교하는 것보다 실패 양상을 비교하는 게 유용하다.\n\n`uniswap-hook-cannot-move` (#77)이 이런 주장을 읽는 규율을 댄다. **실제로 발목을 잡는 부품을 찾을 것.** 거기서는 블록 시간이 아니었고, 여기서는 증명 시스템이 아니다. 풀 상태의 관측 가능성(§2)과 군중의 크기(§3)다.\n\n`consumed-authorization`이 이웃한 주의다. 프라이빗 스왑도 재생(replay)을 막아야 하고, **공개 nonce 없이 그것을 하는 건 진짜로 더 어렵다.** 표준 답은 nullifier이고, 그 카드가 나열한 바로 그 프리미티브다. 프라이버시는 \"권한이 한 번만 쓰여야 한다\"는 요구를 없애지 않는다. **확인하는 쉬운 방법을 없앨 뿐이다.**\n\n에이전트 결제 갈래(`agent-payments-korea-control-plane`, #3)에 대해서는: 에이전트가 끊임없이 거래하게 되면 **거래 그래프가 사업의 행동 기록**이 되고, 건별 프라이버시는 더 이상 주변적 취향이 아니게 된다. 그 갈래가 결국 필요로 할 기능이 일찍 도착한 것이다.\n\n### 확인된 것과 미확인\n\n**보고된 것:** 두 게시물과 링크의 모양. 그 외에는 없다.\n\n**내가 확인하지 않은 것:** 운영상 중요한 전부. ekubo.org를 열지 않았고, 스왑을 돌리지 않았고, 문서를 읽지 않았고, Ekubo와 함께 언급되며 프라이버시 계층을 제공하는 쪽일 수도 있는 `@sendmoodz`를 찾아보지 않았다 — 모른다. 메커니즘도, 수수료도, 지연도, 신뢰 가정도, 모두에게 열려 있는지도 모른다. URL의 `chainId`는 `SN_MAIN`으로 디코딩되어 Starknet 메인넷이지만, 그건 **링크의 속성이지 일반 가용성의 증거가 아니다.**\n\n**내 것이고 본문에 표시한 것:** §2(스왑이 전송보다 구조적으로 어려운 이유와, 풀이 거래가 숨긴 것을 흘린다는 것), §3(익명 집합이 진짜 보안 속성이고 출시 시점에 가장 작다는 것, 그리고 돌려야 할 측정), §4(옵트인 프라이버시가 그 자체로 공개이고, 기본값 질문이 곧 HTTPS 질문이라는 것), §5(URL은 표면을 입증하지 보장을 입증하지 않는다는 것).\n\n**주장하지 않은 것:** Ekubo가 이것을 어떻게 구현하는지. 배칭, 실드 잔액과 총량 네팅, 암호화 주문, 인텐트 설계 모두 그럴듯하다. §2는 그것들을 **선택지의 공간**으로 나열하지 제품의 서술로 나열하지 않는다.\n\n**같은 붙여넣기에 있었지만 이 항목의 일부가 아닌 것:** 독일 난방·전기 요금에 대한 무관한 뉴스 게시물. 출처를 온전히 남기려고 raw 파일에 보존했고, 여기서 다루는 주제가 아니다.\n"</script>
+      <h1>프라이버시가 쿼리 파라미터가 됐다 — Ekubo의 프라이빗 스왑, 그리고 스왑이 전송보다 어려운 이유</h1>
+      <p class="lead">Ekubo Protocol이 Starknet에서 프라이빗 스왑을 발표했고, Eli Ben-Sasson — Starknet/StarkWare, 그리고 Zcash 공동창업자 — 이 10년 넘게 기다려온 것이라고 했다. 그의 이유는 정확하고 흥분과 분리해서 볼 값이 있다. 프라이버시의 진짜 문제는 한 번도 암호학이 아니었고, **좋은 UX로 쓸 수 있게 만드는 것**과 **단일 자산 전송 이상을 하는 것**이었다는 말이다. 단일 자산 전송이라면 ZEC로 이미 된다고 덧붙인다. 데모 링크가 같은 이야기를 더 짧게 한다. `inputCurrency`, `outputCurrency`, `amount`, `chainId`가 붙은 평범한 스왑 URL에 — `privacy=private` 하나가 더 있다.</p>
+      <p class="meta">jay가 2026-09-23에 붙여넣었다. ekubo.org를 열지 않았고, 스왑을 실행하지 않았고, 문서를 읽지 않았고, 무엇이 프라이버시를 제공하는지 모른다. 그래서 이 카드는 <strong>Ekubo가 어떻게 하는지가 아니라, 그 주장이 무엇을 뜻하고 무엇이 참이어야 하는지</strong>를 서술한다. 아래 네 논증은 내 것이고 본문에 표시했다. 가장 중요한 건 세 번째 — 출시 당일의 프라이버시 기능에는 프라이버시가 없다는 것.</p>
+<h2>왜</h2>
+<p>프라이버시 기술은 암호학적으로 훌륭하면서 실제로는 안 쓰이는 긴 전력을 갖고 있고, 실패는 거의 항상 같은 자리에서 났다. <strong>사용자에게 다른 데로 가라고 요구했다는 것.</strong> 다른 지갑, 다른 자산, 수동 실드 단계, 쓰기 전 대기 시간, 그리고 업계 밖 누구도 들고 싶어 하지 않는 멘탈 모델. 그 도구는 <strong>목적지</strong>였고, 목적지는 기본값에게 진다.</p>
+<p>Ben-Sasson의 주장은 증명 시스템이 아니라 <strong>이것이</strong> 구속 조건이었다는 것이고, 그렇게 말하기에 유난히 좋은 위치에 있다. 실드 전송의 암호학을 푼 프로젝트를 공동 창업했으니까. <strong>그래서 이 발표에서 흥미로운 것은 프라이빗 스왑이 존재한다는 사실이 아니다. 인터페이스 어디에 프라이버시가 놓였는가다.</strong></p>
+<p>쿼리 파라미터에 놓였다. <code>amount=1</code> 옆의 <code>privacy=private</code>. 같은 사이트, 같은 스왑, 플래그 하나. 아래의 메커니즘이 무엇이든, 제품 결정은 <strong>프라이버시를 이미 하고 있던 일의 옵션으로 만든 것</strong>이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 무엇이 말해졌나</h3>
+<table><thead><tr><th>누가</th><th>무엇을</th></tr></thead><tbody><tr><td>Ekubo Protocol</td><td>"You can now swap privately via Ekubo Protocol on Starknet". 링크 파라미터에 <code>privacy=private</code>와 <code>chainId=0x534e5f4d41494e</code>(ASCII <code>SN_MAIN</code>, Starknet 메인넷)</td></tr><tr><td>Eli Ben-Sasson</td><td>"10년 넘게 꿈꿔온 것". 프라이버시의 진짜 문제는 최종 사용자를 위한 쓸 만한 UX와 단일 자산 전송 이상을 하는 것. "for that case, ZEC rocks". <code>@sendmoodz</code>와 <code>@EkuboProtocol</code>을 언급</td></tr><tr><td>StarkWare</td><td>리포스트</td></tr></tbody></table>
+<p>내가 가진 1차 기록은 이게 전부다.</p>
+<h3>2 — 프라이빗 스왑이 프라이빗 전송보다 엄밀히 더 어려운 이유</h3>
+<p><strong>이 카드의 첫 논증.</strong> Ben-Sasson의 "단일 자산 전송 이상"이라는 표현이 많은 일을 하고 있고, 풀어볼 값이 있다. 난이도 도약이 점진적이지 않기 때문이다.</p>
+<p><strong>실드 전송</strong>은 닫힌 문제다. 가치가 한 자산의 실드 풀에 들어가고, 그 안에서 움직이고, 나온다. 바깥에서는 입금과 출금이 보이고, 안에서는 송신자·수신자·금액이 숨는다. 증명이 세워야 할 불변식은 단순하다 — 아무것도 새로 만들어지지 않았고, 이중지불되지 않았다. <strong>관찰자에게 감춰야 할 모든 것이 하나의 경계 안에 머문다.</strong></p>
+<p><strong>스왑</strong>은 구조적으로 그 경계를 깬다.</p>
+<ul><li><strong>자산이 둘</strong>이다. 실드 집합이 더 이상 하나의 풀이 아니라 두 풀 사이의 관계가 된다.</li><li><strong>거래 상대방</strong>이 있다 — AMM 풀 — 그리고 그 풀은 다른 사람들도 쓰는 공용 인프라다.</li><li><strong>가격이 움직인다.</strong> 풀의 리저브가 바뀌고, 그 변화는 모두에게 보인다.</li></ul>
+<p>마지막이 진짜 문제이고 분명히 적을 값이 있다. <strong>풀이, 거래가 숨긴 것을 흘린다.</strong> 스왑이 프라이빗이어도 리저브가 오직 당신의 스왑만이 일으킬 수 있는 크기와 방향으로 움직인다면, 관찰자는 증명을 깨지 않고도 <strong>상태 변화량에서 거래를 복원한다.</strong> 거래 계층의 프라이버시가 상태 계층의 관측 가능성에 의해 무효화된다.</p>
+<p>알려진 탈출구들은 암호학의 강도가 아니라 <strong>시장의 형태</strong>를 바꾼다 — 여러 스왑을 묶어서 리저브 변화 하나가 합이 되게 하거나, 실드 잔액에 대해 프라이빗하게 정산하고 총량만 네팅하거나, 주문을 실행 시점까지 암호화하거나, 솔버가 공개 측을 맡는 인텐트 설계. <strong>Ekubo가 어느 것을 쓰는지 나는 모르고, 이 카드는 추측하지 않는다.</strong> 요점은 구조적인 것이다. 프라이빗 스왑은 프라이빗 전송에는 없는 누수를 풀어야 한다.</p>
+<h3>3 — 익명 집합이 보안 속성 전부이고, 오늘 그것은 가장 작다</h3>
+<p><strong>두 번째 논증이자 붙잡아둘 것.</strong> 프라이버시 시스템은 개인을 보호하지 않는다. <strong>군중의 구성원</strong>을 보호한다. 보장은 언제나 "같은 일을 하는 다른 사람들과 구별되지 않는다"이고, 그 강도는 집합의 크기다.</p>
+<p>그래서 출시 당일 프라이버시 기능에 대한 정직한 독해는 불편하다. <strong>첫날 그 집합은 거의 비어 있다.</strong> 프라이빗 스왑이 몇 건 없으면 시간과 금액이 사소하게 상관된다. 10분 창에 프라이빗 스왑 하나, 리저브 움직임 하나, 직전에 자금이 들어온 지갑 하나 — 어떤 의미로도 프라이빗하지 않다. <strong>메커니즘이 완벽해도 프라이버시는 0일 수 있다.</strong></p>
+<p>출시에 대한 비판이 아니다. 앞으로 몇 달의 올바른 질문이 무엇인지에 대한 것이고, 의견이 아니라 <strong>측정</strong>이다. <strong>하루 몇 건의 프라이빗 스왑이, 몇 종의 자산에, 몇 시간에 걸쳐 퍼져 있는가?</strong> 그 수가 유의미해지기 전까지 올바른 서술은 "유망한 메커니즘, 아직 프라이버시 보장은 아님"이다. 프라이버시 기능이 흥미롭고 틈새인 것보다 <strong>지루하고 기본값에 가까운</strong> 편이 유리한 이유이기도 하다. 그러면 논의가 다시 URL로 돌아온다.</p>
+<h3>4 — 옵트인 프라이버시 토글은 그 자체가 정보 공개다</h3>
+<p><strong>세 번째 논증이자, 아무도 풀지 못한 긴장.</strong> <code>privacy=private</code>가 기본 꺼짐이라면, 그것을 켠 사람은 <strong>켰다는 사실로 자신에 대해 무언가를 선언한 것</strong>이다. 프라이빗 사용자 집합은 자기선택된 집합이고, 그건 관찰자가 가장 보고 싶어 하는 바로 그 집합이다. 오래된 Tor 문제다. <strong>익명 도구를 쓴다는 것 자체가 신호</strong>이고, 인구가 작으면 그 신호가 감춘 내용보다 더 많은 것을 알려줄 수 있다.</p>
+<p>기본 켜짐은 익명 집합을 고치고 거의 모든 다른 것을 깬다 — 비용, 지연, 연동, 그리고 사업체가 규제기관에 자신을 설명할 수 있는 능력. 기본 꺼짐은 채택 가능하고 <strong>선택을 흘린다.</strong></p>
+<p>여기에 깔끔한 답은 없고, 로드맵 질문의 정직한 판본은 이것이다. <strong>프라이빗 경로가 기본값이 될 만큼 싸고 빨라지는가?</strong> <code>https-won-because-it-got-cheap</code>이 웹의 암호화에 대해 묻는 것과 같은 질문이고 같은 답이 적용된다. HTTPS는 프라이버시가 중요하다고 설득해서 이긴 게 아니다. <strong>쓰는 비용이 안 쓰는 이유를 설명하는 비용보다 낮아졌을 때</strong> 이겼다. 프라이버시 토글은 경유지이고, 프라이버시 기본값이 목적지다.</p>
+<h3>5 — URL이 실제로 입증하는 것</h3>
+<p><strong>네 번째 논증.</strong> 발표에서 확인되지 않은 것을 전부 걷어내면 누구나 확인할 수 있는 사실 하나가 남는다. <strong>프라이버시가 링크 안의 파라미터로, 금액과 토큰 주소 옆에, 평범한 스왑과 같은 페이지에서 표현된다.</strong></p>
+<p>작은 것이 큰 것을 보고한다. 프라이버시가 <strong>기존 제품 표면과 조합 가능</strong>해졌다는 뜻이다 — 공유 가능하고, 링크 가능하고, 아마 UI에서 토글 가능하고 — 자기 잔액을 따로 관리해야 하는 평행 애플리케이션이 아니라. 이 기술의 이전 세대 전부가 정확히 그 단계에서 실패했고, 수학이 아니라 UX 때문에 실패했다. 그게 바로 Ben-Sasson의 주장이다.</p>
+<p>동시에 발표가 입증하는 것의 <strong>한계</strong>이기도 하다. URL 안의 파라미터는 표면이 옳다고 말한다. 수수료, 지연, 증명 비용, 신뢰 가정, 그리고 <strong>풀을 지켜보는 관찰자 앞에서 프라이버시가 살아남는지</strong>에 대해서는 아무것도 말하지 않는다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>https-won-because-it-got-cheap</code>이 §4의 틀이다. 어떤 프라이버시 기능에 대해서도 질문은 "더 나은가"가 아니라 "언제 안 쓰는 쪽이 더 비싸지는가"다. Ekubo의 토글은 그 시점이 가깝다는 베팅이고, 확인하는 방법은 §3의 익명 집합 측정이다.</p>
+<p>raw 레이어의 Zama 자료(<code>2026-09-23-zama-blockchain-https.md</code>)가 같은 목표에 대한 다른 접근이다 — 거래의 모드가 아니라 <strong>연산의 속성</strong>으로서의 기밀성. 나란히 놓을 값이 있다. 하나는 공개 풀 안에서 거래를 숨기고, 하나는 복호화하지 않은 데이터 위에서 계산한다. <strong>실패하는 방식이 다르고</strong>, 피치를 비교하는 것보다 실패 양상을 비교하는 게 유용하다.</p>
+<p><code>uniswap-hook-cannot-move</code> (#77)이 이런 주장을 읽는 규율을 댄다. <strong>실제로 발목을 잡는 부품을 찾을 것.</strong> 거기서는 블록 시간이 아니었고, 여기서는 증명 시스템이 아니다. 풀 상태의 관측 가능성(§2)과 군중의 크기(§3)다.</p>
+<p><code>consumed-authorization</code>이 이웃한 주의다. 프라이빗 스왑도 재생(replay)을 막아야 하고, <strong>공개 nonce 없이 그것을 하는 건 진짜로 더 어렵다.</strong> 표준 답은 nullifier이고, 그 카드가 나열한 바로 그 프리미티브다. 프라이버시는 "권한이 한 번만 쓰여야 한다"는 요구를 없애지 않는다. <strong>확인하는 쉬운 방법을 없앨 뿐이다.</strong></p>
+<p>에이전트 결제 갈래(<code>agent-payments-korea-control-plane</code>, #3)에 대해서는: 에이전트가 끊임없이 거래하게 되면 <strong>거래 그래프가 사업의 행동 기록</strong>이 되고, 건별 프라이버시는 더 이상 주변적 취향이 아니게 된다. 그 갈래가 결국 필요로 할 기능이 일찍 도착한 것이다.</p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보고된 것:</strong> 두 게시물과 링크의 모양. 그 외에는 없다.</p>
+<p><strong>내가 확인하지 않은 것:</strong> 운영상 중요한 전부. ekubo.org를 열지 않았고, 스왑을 돌리지 않았고, 문서를 읽지 않았고, Ekubo와 함께 언급되며 프라이버시 계층을 제공하는 쪽일 수도 있는 <code>@sendmoodz</code>를 찾아보지 않았다 — 모른다. 메커니즘도, 수수료도, 지연도, 신뢰 가정도, 모두에게 열려 있는지도 모른다. URL의 <code>chainId</code>는 <code>SN_MAIN</code>으로 디코딩되어 Starknet 메인넷이지만, 그건 <strong>링크의 속성이지 일반 가용성의 증거가 아니다.</strong></p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §2(스왑이 전송보다 구조적으로 어려운 이유와, 풀이 거래가 숨긴 것을 흘린다는 것), §3(익명 집합이 진짜 보안 속성이고 출시 시점에 가장 작다는 것, 그리고 돌려야 할 측정), §4(옵트인 프라이버시가 그 자체로 공개이고, 기본값 질문이 곧 HTTPS 질문이라는 것), §5(URL은 표면을 입증하지 보장을 입증하지 않는다는 것).</p>
+<p><strong>주장하지 않은 것:</strong> Ekubo가 이것을 어떻게 구현하는지. 배칭, 실드 잔액과 총량 네팅, 암호화 주문, 인텐트 설계 모두 그럴듯하다. §2는 그것들을 <strong>선택지의 공간</strong>으로 나열하지 제품의 서술로 나열하지 않는다.</p>
+<p><strong>같은 붙여넣기에 있었지만 이 항목의 일부가 아닌 것:</strong> 독일 난방·전기 요금에 대한 무관한 뉴스 게시물. 출처를 온전히 남기려고 raw 파일에 보존했고, 여기서 다루는 주제가 아니다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>query parameter</strong></td><td>쿼리 파라미터 · URL의 <code>?key=value</code> 부분. 이 카드가 뉴스로 꼽은 것</td></tr><tr><td><strong>shielded transfer</strong></td><td>실드 전송 · 송신자·수신자·금액을 가린 이전. Zcash가 푼 문제</td></tr><tr><td><strong>shielded pool</strong></td><td>실드 풀 · 가려진 가치가 머무는 집합</td></tr><tr><td><strong>anonymity set</strong></td><td>익명 집합 · 나와 구별되지 않는 사람들의 무리. 프라이버시의 실제 강도</td></tr><tr><td><strong>indistinguishable from</strong></td><td>~와 구별되지 않는 · 프라이버시 보장의 정확한 형태</td></tr><tr><td><strong>to leak (state)</strong></td><td>(상태가) 흘리다 · 숨긴 정보가 다른 경로로 드러나는 것</td></tr><tr><td><strong>state delta</strong></td><td>상태 변화량 · 리저브가 얼마나 움직였는가. 거래를 복원하는 단서</td></tr><tr><td><strong>observability</strong></td><td>관측 가능성 · 바깥에서 볼 수 있는 정도</td></tr><tr><td><strong>reserves</strong></td><td>(풀의) 리저브 · AMM이 보유한 두 자산의 잔고</td></tr><tr><td><strong>counterparty</strong></td><td>거래 상대방 · 스왑에서는 공용 AMM 풀</td></tr><tr><td><strong>invariant</strong></td><td>불변식 · 증명이 세워야 하는, 항상 참이어야 할 조건</td></tr><tr><td><strong>double-spend</strong></td><td>이중지불 · 같은 돈을 두 번 쓰는 것</td></tr><tr><td><strong>nullifier</strong></td><td>널리파이어 · 무엇이 소비됐는지 밝히지 않고 재사용을 막는 표시</td></tr><tr><td><strong>replay</strong></td><td>재생(재사용 공격) · 이미 쓴 권한을 다시 제출하는 것</td></tr><tr><td><strong>batching</strong></td><td>배칭 · 여러 거래를 묶어 하나의 상태 변화로 만드는 것</td></tr><tr><td><strong>netting in aggregate</strong></td><td>총량으로 상계하다 · 개별 건을 감추고 합계만 드러내는 정산</td></tr><tr><td><strong>encrypted order</strong></td><td>암호화 주문 · 실행 시점까지 내용을 가린 주문</td></tr><tr><td><strong>intent (design)</strong></td><td>인텐트 설계 · 사용자가 원하는 결과만 표명하고 솔버가 실행하는 구조</td></tr><tr><td><strong>solver</strong></td><td>솔버 · 인텐트를 실제 거래로 바꿔주는 참여자</td></tr><tr><td><strong>opt-in</strong></td><td>옵트인(기본 꺼짐, 켜야 적용) · 반대는 default-on</td></tr><tr><td><strong>self-selected</strong></td><td>자기선택된 · 스스로 고른 집단. 그래서 관찰자에게 흥미로운 집단</td></tr><tr><td><strong>a disclosure</strong></td><td>정보 공개 · 감추려는 행위가 오히려 드러내는 것</td></tr><tr><td><strong>the binding constraint</strong></td><td>구속 조건 · 실제로 발목을 잡는 요소</td></tr><tr><td><strong>waypoint vs destination</strong></td><td>경유지 대 목적지 · 토글은 경유지, 기본값이 목적지</td></tr><tr><td><strong>composable with the product surface</strong></td><td>제품 표면과 조합 가능한 · 별도 앱이 아니라 기존 흐름 안에 들어간 상태</td></tr><tr><td><strong>general availability</strong></td><td>일반 가용성 · 모두에게 열려 있는 상태. 링크가 있다고 증명되지 않음</td></tr><tr><td><strong>proving cost</strong></td><td>증명 비용 · 영지식 증명을 만드는 데 드는 계산·시간</td></tr><tr><td><strong>trust assumption</strong></td><td>신뢰 가정 · 안전하려면 누구를 믿어야 하는가</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-admin-rights-protect-the-evidence.html">&larr; 74. Taking admin rights away is not an access control — it protects your own evidence</a><a href="pocs-machine-native-economy-blackrock.html">76. Machine-native money, machine-native intelligence — and the clause that undercuts the channel &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="privacy-as-a-query-parameter";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The room is sorted by time constant — a library where the television was — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The room is sorted by time constant — a library where the television was</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1836</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">gemini</span><span title="raw"><a href="raw/2026-09-23-room-sorted-by-time-constant.md">raw</a></span></p>
+      <h1>The room is sorted by time constant — a library where the television was</h1>
+      <p class="lead">이혜성&#39;s 1% 북클럽 opens the apartment she had never shown on television, on the way out of it, and the tour turns out to be an argument about space rather than a tour (00:27, 00:41). The living room has no TV and no large sofa. Custom-built shelving fills the wall instead, so the library is not a room in the house — it is the main room (21:05, 21:17). Around it: a 1989 graffiti fragment of the Berlin Wall, a sourdough starter fed weekly since 2021, a dozen books she can say something specific about, and a Freud line taped where she sees it every morning.</p>
+      <p class="meta">Reported from jay&#39;s pasted Gemini summary with its timestamps — I did not watch the video, and titles, dates and attributions are as the summary gives them. The reading that the room is sorted by time constant is this card&#39;s argument, not hers, and the food-science explanation behind her three bread rules is mine as well. For Jayverse it is the physical counterpart to <code>ship-that-is-not-moving-cannot-turn</code> (#1835), added the same day: that card installs an obligation in a community, this one installs it in a floor plan.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# The room is sorted by time constant — a library where the television was\n\n이혜성's 1% 북클럽 opens the apartment she had never shown on television, on the way out of it, and the tour turns out to be an argument about space rather than a tour (00:27, 00:41). The living room has no TV and no large sofa. Custom-built shelving fills the wall instead, so the library is not a room in the house — it is the main room (21:05, 21:17). Around it: a 1989 graffiti fragment of the Berlin Wall, a sourdough starter fed weekly since 2021, a dozen books she can say something specific about, and a Freud line taped where she sees it every morning.\n\nReported from jay's pasted Gemini summary with its timestamps — I did not watch the video, and titles, dates and attributions are as the summary gives them. The reading that the room is sorted by time constant is this card's argument, not hers, and the food-science explanation behind her three bread rules is mine as well. For Jayverse it is the physical counterpart to `ship-that-is-not-moving-cannot-turn` (#1835), added the same day: that card installs an obligation in a community, this one installs it in a floor plan.\n\n## Why\n\nA room tour is normally unusable as a note. It documents taste, and taste does not transfer. What makes this one worth keeping is that a single decision in it — taking the television out of the living room — is a structural move that can be copied by someone with entirely different taste, and that the rest of the apartment turns out to be the same move repeated on smaller objects.\n\nThe tempting lesson is \"read more, watch less\", which is a resolution and therefore worthless. The actual lesson is narrower and mechanical: **she did not add books to the living room, she removed the competitor from it.** The living room is the highest-traffic surface in a home. Whatever occupies it collects the residual attention — the attention left over after intention has been spent, which is most of the attention anyone has in the evening. She did not try to win that competition with willpower every night. She deleted the other contestant once.\n\nThat is a subtraction strategy, and subtraction has a property addition does not: it does not need to be re-decided. This is the same structure as #1835's reading communities, where the exit was made unavailable rather than the will made stronger.\n\n## How it works\n\n### 1 — The living room as the unit of decision (21:05, 21:17)\n\nThe conventional layout puts a large screen on one axis and a large sofa on the other, and the room's geometry then instructs everyone who enters it what to do. Replacing both with wall-length custom shelving does not make reading more pleasant; it makes reading **the default activity of the largest room**. The distinction matters, because a bookshelf added to a room that still contains a television is decoration, and this is not decoration.\n\n### 2 — The objects, and what they have in common\n\n| Object | Where | Reported detail |\n|---|---|---|\n| Takashi Murakami, *Smile* | Entrance | Positioned so it is what she meets on coming home (00:52, 01:05) |\n| *Dahomey* poster | Wall | The documentary about looted royal artefacts returning to their country of origin (02:30, 02:43) |\n| Berlin Wall fragment | Shelf | An actual graffitied brick fragment from 1989 (22:11, 22:23) |\n| Dionysus theatre catalogue | Shelf | A production that restages Dionysus in dreadlocks and Nikes (13:07, 13:28) |\n| Sourdough levain | Kitchen | Kept alive since 2021, fed weekly with equal weights of French flour and water (07:36, 07:50, 07:59) |\n| 천하제빵 nameplate | Kitchen | From the baking competition she took part in (04:53) |\n\n**This card's argument.** Look at the time constants. A brick from 1989. A documentary about objects returning across a century. A starter that has been fed every week for five years and dies the moment the weeks stop. A staging that reaches back to a Greek god and pulls him forward. Books she has re-read for decades. Every object kept in this apartment has a time constant measured in years, and the single object she removed — the television — is the one whose content has a time constant of seconds and whose supply is infinite.\n\nThe room is not organised by subject, and not really by taste. It is organised by how long a thing takes.\n\nThat gives Russell's line, which she quotes at 33:10, somewhere concrete to land: happiness is not endless stimulus but the capacity to endure boredom calmly. A room full of long-time-constant objects is that capacity built into furniture. Nothing in it pays out immediately. `djokovic-discipline-watch-the-loss` (#1817) makes the same claim about attention under pressure — the discipline is in the interval where nothing is happening.\n\n### 3 — The bread rules, and why they are right (05:05 – 07:59)\n\nThree rules, reported:\n\n1. **Never refrigerate bread.** Starch retrogradation — staling — runs fastest at fridge temperature (06:54, 07:03).\n2. **Freeze immediately.** Keep out only what will be eaten, wrap the rest in portions before the moisture leaves, freeze at once (06:22, 06:32, 06:44).\n3. **Spray water on the surface before toasting.** A light mist before the toaster restores the just-baked texture (05:05, 05:16, 05:50).\n\n**The mechanism, which is mine and not the video's.** Staling is not primarily drying out; it is recrystallisation. When bread bakes, starch granules gelatinise — they absorb water and lose their ordered structure. As the loaf cools, the amylopectin slowly re-forms crystals and squeezes water out of the network. That recrystallisation has a temperature dependence with an awkward shape: it is **fastest just above freezing** and slows down both above and below that band. A refrigerator sits exactly in the worst band. A freezer is past it, and the process is effectively arrested. Room temperature is in between — worse than a freezer, better than a fridge.\n\nSo the three rules are one rule: *keep the loaf out of the recrystallisation band*. Rule 1 says don't sit in it. Rule 2 says get past it before the moisture is gone, since freezing preserves whatever water is still inside the crumb, not water that already left. Rule 3 works because retrogradation is **partly reversible** — heat above roughly 60 °C re-gelatinises the starch, and the surface water replaces what the crust lost and turns to steam in the toaster.\n\nThe transferable shape is worth more than the bread: **the intuitive middle setting was the worst available one.** \"Put it in the fridge\" is what care looks like, and it is the single fastest way to ruin the loaf. The correct move is to go all the way to the far end. That pattern — a monotonic intuition applied to a non-monotonic process — is a bug class, not a baking tip.\n\n### 4 — The shelf, and what she says about each book (15:45 – 37:39)\n\nReported, and worth keeping as a reading list rather than summarised away:\n\n| Book | The claim she attaches to it |\n|---|---|\n| 박웅현, 『여덟 단어』 | Placed at the dead centre of the life-book shelf; the one book she would name if allowed one, and she says the choice will not change (00:08, 31:16, 31:26, 31:37) |\n| 빅터 프랭클, 『죽음의 수용소에서』 | Meaning is selectable even inside the worst available circumstance (33:23, 33:39, 33:48) |\n| 버트런드 러셀, 『행복의 정복』 | Happiness is the ability to bear boredom calmly, not to escape it (32:38, 33:01, 33:10) |\n| 정혜신, 『당신이 옳다』 | The first thing to read when the mind has come apart; deeper than a clinic (30:16, 30:31, 30:41) |\n| 애덤 그랜트, 『기브앤테이크』 | Givers occupy both the bottom *and* the top; the top ones are the ones who give with judgement (31:46, 31:58, 32:18) |\n| 수전 케인, 『콰이어트』 | Introversion as a distinct capability, in a society scored for extroversion (33:48, 33:59) |\n| 이어령, 『모크』 | The preface: absorbed in work in his study, he did not turn to embrace the daughter who opened the door — written after her death (16:14, 16:38, 17:06) |\n| 마이클 셸런버거, 『지구를 위한다는 착각』 | Whales were saved by kerosene, not by protest — substitutes beat sermons (15:45, 15:55, 16:14) |\n| 『녹기 전에』 | A neighbourhood ice-cream shop's hospitality, raised to deliberate service design (17:06, 17:23, 17:36) |\n| 정성근, 『백년 목 / 백년 허리』 | Spinal hygiene and daily posture instead of waiting rooms (26:33, 26:57, 27:05) |\n| 김자야, 『내 사랑 백석』 | She donated 대원각 — reported at around ₩100bn — and said it was worth less than one line of Baek Seok's poetry (24:00, 24:25, 24:50) |\n| 모건 하우절, 『돈의 심리학』 | Compounding and the plain habit of saving capital, against the get-rich-quick mood (37:16, 37:39) |\n\nTwo of these argue against the room they are sitting in, which is the interesting part. Shellenberger's whale argument is that moral exhortation loses to a technical substitute — the same claim this card makes about the television. She did not exhort herself to watch less; she removed the substitute's competitor. And 이어령's preface is the sharpest thing in the tour: a man in his study, absorbed in work, failing to turn around. A library at the centre of a home can be an instrument of attention or a place to hide from it, and the book at 16:38 is the one that names the second possibility.\n\n### 5 — The line at the door (39:52 – 40:17)\n\nTaped where she passes it every morning: *looking back, the days you struggled hardest will turn out to have been the most beautiful of your life.* The paste attributes it to Freud without naming a work. It circulates widely under his name and I have not found it in his writing, so treat it as a line she lives with rather than as Freud — the placement is the point, not the attribution.\n\nIts function is the same as the Murakami at the entrance (00:52, 01:05). Both are on the path, not on a wall you choose to visit. The apartment puts its intentions where movement already goes.\n\n### Where it lands in Jayverse\n\n`ship-that-is-not-moving-cannot-turn` (#1835, added the same day) and this card are the two halves of one mechanism. #1835 installs an obligation in a community with deadlines, because willpower was not reliable. This one installs it in a floor plan, for the same reason. Between them: **if a behaviour needs to be re-decided nightly, it will fail; move it into something that does not ask.**\n\n`reading-rewires-brain-deep-reading` (#1807) supplies the reason the substitution is not neutral. Deep reading has no dedicated circuit — it is built by use out of circuits meant for other things, so it is the thing that decays when unused. Swapping the highest-traffic room from a passive medium to a demanding one is choice architecture aimed at exactly that decay.\n\n`hwang-sokyong-read-classics-ai-era` (#1824) is the input claim; this apartment is a physical version of it. And the correction #1835 attached still holds: input alone did nothing there until an output was forced. A library that produces nothing is a very well-designed waiting room.\n\n`djokovic-discipline-watch-the-loss` (#1817) and Russell's line meet at §2. Both say the ability that matters shows up in the empty interval, not in the exciting one.\n\n`rometty-resilience-relationships-attitude` (#1827) is where 『기브앤테이크』 lands — Rometty's \"relationships start with what you give first\" and Grant's finding that the top of the ladder is held by judgement-exercising givers are the same claim, one from a career and one from data.\n\n### Verified and unverified\n\n**From the summary, not verified by me:** everything factual in this card. I did not watch the video. The removed TV, the 2021 levain, the Berlin Wall fragment, the twelve books, every summary of what she says about each of them, and all timestamps come from jay's pasted Gemini summary.\n\n**Attribution I would not repeat as given:** the Freud line at 40:04. Widely circulated under his name, not located in his work by me. Also the ₩100bn figure for 대원각 — a reported valuation, not a transaction price, and the shape of the story does not need it.\n\n**Checked against general knowledge, not against the video:** the retrogradation mechanism in §3. The claim that staling is fastest at refrigerator temperature is sound and the explanation given there — recrystallisation of amylopectin, arrested by freezing, partly reversed above about 60 °C — is the card's, not hers. She states the rules; the reason they work is added here.\n\n**This card's argument, labelled as such in the body:** the time-constant reading in §2, the subtraction-not-addition framing in \"Why\", and the observation in §4 that two of her own books argue against the room they sit in.\n"</script>
+<h2>Why</h2>
+<p>A room tour is normally unusable as a note. It documents taste, and taste does not transfer. What makes this one worth keeping is that a single decision in it — taking the television out of the living room — is a structural move that can be copied by someone with entirely different taste, and that the rest of the apartment turns out to be the same move repeated on smaller objects.</p>
+<p>The tempting lesson is "read more, watch less", which is a resolution and therefore worthless. The actual lesson is narrower and mechanical: <strong>she did not add books to the living room, she removed the competitor from it.</strong> The living room is the highest-traffic surface in a home. Whatever occupies it collects the residual attention — the attention left over after intention has been spent, which is most of the attention anyone has in the evening. She did not try to win that competition with willpower every night. She deleted the other contestant once.</p>
+<p>That is a subtraction strategy, and subtraction has a property addition does not: it does not need to be re-decided. This is the same structure as #1835&#39;s reading communities, where the exit was made unavailable rather than the will made stronger.</p>
+<h2>How it works</h2>
+<h3>1 — The living room as the unit of decision (21:05, 21:17)</h3>
+<p>The conventional layout puts a large screen on one axis and a large sofa on the other, and the room&#39;s geometry then instructs everyone who enters it what to do. Replacing both with wall-length custom shelving does not make reading more pleasant; it makes reading <strong>the default activity of the largest room</strong>. The distinction matters, because a bookshelf added to a room that still contains a television is decoration, and this is not decoration.</p>
+<h3>2 — The objects, and what they have in common</h3>
+<table><thead><tr><th>Object</th><th>Where</th><th>Reported detail</th></tr></thead><tbody><tr><td>Takashi Murakami, <em>Smile</em></td><td>Entrance</td><td>Positioned so it is what she meets on coming home (00:52, 01:05)</td></tr><tr><td><em>Dahomey</em> poster</td><td>Wall</td><td>The documentary about looted royal artefacts returning to their country of origin (02:30, 02:43)</td></tr><tr><td>Berlin Wall fragment</td><td>Shelf</td><td>An actual graffitied brick fragment from 1989 (22:11, 22:23)</td></tr><tr><td>Dionysus theatre catalogue</td><td>Shelf</td><td>A production that restages Dionysus in dreadlocks and Nikes (13:07, 13:28)</td></tr><tr><td>Sourdough levain</td><td>Kitchen</td><td>Kept alive since 2021, fed weekly with equal weights of French flour and water (07:36, 07:50, 07:59)</td></tr><tr><td>천하제빵 nameplate</td><td>Kitchen</td><td>From the baking competition she took part in (04:53)</td></tr></tbody></table>
+<p><strong>This card&#39;s argument.</strong> Look at the time constants. A brick from 1989. A documentary about objects returning across a century. A starter that has been fed every week for five years and dies the moment the weeks stop. A staging that reaches back to a Greek god and pulls him forward. Books she has re-read for decades. Every object kept in this apartment has a time constant measured in years, and the single object she removed — the television — is the one whose content has a time constant of seconds and whose supply is infinite.</p>
+<p>The room is not organised by subject, and not really by taste. It is organised by how long a thing takes.</p>
+<p>That gives Russell&#39;s line, which she quotes at 33:10, somewhere concrete to land: happiness is not endless stimulus but the capacity to endure boredom calmly. A room full of long-time-constant objects is that capacity built into furniture. Nothing in it pays out immediately. <code>djokovic-discipline-watch-the-loss</code> (#1817) makes the same claim about attention under pressure — the discipline is in the interval where nothing is happening.</p>
+<h3>3 — The bread rules, and why they are right (05:05 – 07:59)</h3>
+<p>Three rules, reported:</p>
+<ol><li><strong>Never refrigerate bread.</strong> Starch retrogradation — staling — runs fastest at fridge temperature (06:54, 07:03).</li><li><strong>Freeze immediately.</strong> Keep out only what will be eaten, wrap the rest in portions before the moisture leaves, freeze at once (06:22, 06:32, 06:44).</li><li><strong>Spray water on the surface before toasting.</strong> A light mist before the toaster restores the just-baked texture (05:05, 05:16, 05:50).</li></ol>
+<p><strong>The mechanism, which is mine and not the video&#39;s.</strong> Staling is not primarily drying out; it is recrystallisation. When bread bakes, starch granules gelatinise — they absorb water and lose their ordered structure. As the loaf cools, the amylopectin slowly re-forms crystals and squeezes water out of the network. That recrystallisation has a temperature dependence with an awkward shape: it is <strong>fastest just above freezing</strong> and slows down both above and below that band. A refrigerator sits exactly in the worst band. A freezer is past it, and the process is effectively arrested. Room temperature is in between — worse than a freezer, better than a fridge.</p>
+<p>So the three rules are one rule: <em>keep the loaf out of the recrystallisation band</em>. Rule 1 says don&#39;t sit in it. Rule 2 says get past it before the moisture is gone, since freezing preserves whatever water is still inside the crumb, not water that already left. Rule 3 works because retrogradation is <strong>partly reversible</strong> — heat above roughly 60 °C re-gelatinises the starch, and the surface water replaces what the crust lost and turns to steam in the toaster.</p>
+<p>The transferable shape is worth more than the bread: <strong>the intuitive middle setting was the worst available one.</strong> "Put it in the fridge" is what care looks like, and it is the single fastest way to ruin the loaf. The correct move is to go all the way to the far end. That pattern — a monotonic intuition applied to a non-monotonic process — is a bug class, not a baking tip.</p>
+<h3>4 — The shelf, and what she says about each book (15:45 – 37:39)</h3>
+<p>Reported, and worth keeping as a reading list rather than summarised away:</p>
+<table><thead><tr><th>Book</th><th>The claim she attaches to it</th></tr></thead><tbody><tr><td>박웅현, 『여덟 단어』</td><td>Placed at the dead centre of the life-book shelf; the one book she would name if allowed one, and she says the choice will not change (00:08, 31:16, 31:26, 31:37)</td></tr><tr><td>빅터 프랭클, 『죽음의 수용소에서』</td><td>Meaning is selectable even inside the worst available circumstance (33:23, 33:39, 33:48)</td></tr><tr><td>버트런드 러셀, 『행복의 정복』</td><td>Happiness is the ability to bear boredom calmly, not to escape it (32:38, 33:01, 33:10)</td></tr><tr><td>정혜신, 『당신이 옳다』</td><td>The first thing to read when the mind has come apart; deeper than a clinic (30:16, 30:31, 30:41)</td></tr><tr><td>애덤 그랜트, 『기브앤테이크』</td><td>Givers occupy both the bottom <em>and</em> the top; the top ones are the ones who give with judgement (31:46, 31:58, 32:18)</td></tr><tr><td>수전 케인, 『콰이어트』</td><td>Introversion as a distinct capability, in a society scored for extroversion (33:48, 33:59)</td></tr><tr><td>이어령, 『모크』</td><td>The preface: absorbed in work in his study, he did not turn to embrace the daughter who opened the door — written after her death (16:14, 16:38, 17:06)</td></tr><tr><td>마이클 셸런버거, 『지구를 위한다는 착각』</td><td>Whales were saved by kerosene, not by protest — substitutes beat sermons (15:45, 15:55, 16:14)</td></tr><tr><td>『녹기 전에』</td><td>A neighbourhood ice-cream shop&#39;s hospitality, raised to deliberate service design (17:06, 17:23, 17:36)</td></tr><tr><td>정성근, 『백년 목 / 백년 허리』</td><td>Spinal hygiene and daily posture instead of waiting rooms (26:33, 26:57, 27:05)</td></tr><tr><td>김자야, 『내 사랑 백석』</td><td>She donated 대원각 — reported at around ₩100bn — and said it was worth less than one line of Baek Seok&#39;s poetry (24:00, 24:25, 24:50)</td></tr><tr><td>모건 하우절, 『돈의 심리학』</td><td>Compounding and the plain habit of saving capital, against the get-rich-quick mood (37:16, 37:39)</td></tr></tbody></table>
+<p>Two of these argue against the room they are sitting in, which is the interesting part. Shellenberger&#39;s whale argument is that moral exhortation loses to a technical substitute — the same claim this card makes about the television. She did not exhort herself to watch less; she removed the substitute&#39;s competitor. And 이어령&#39;s preface is the sharpest thing in the tour: a man in his study, absorbed in work, failing to turn around. A library at the centre of a home can be an instrument of attention or a place to hide from it, and the book at 16:38 is the one that names the second possibility.</p>
+<h3>5 — The line at the door (39:52 – 40:17)</h3>
+<p>Taped where she passes it every morning: <em>looking back, the days you struggled hardest will turn out to have been the most beautiful of your life.</em> The paste attributes it to Freud without naming a work. It circulates widely under his name and I have not found it in his writing, so treat it as a line she lives with rather than as Freud — the placement is the point, not the attribution.</p>
+<p>Its function is the same as the Murakami at the entrance (00:52, 01:05). Both are on the path, not on a wall you choose to visit. The apartment puts its intentions where movement already goes.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>ship-that-is-not-moving-cannot-turn</code> (#1835, added the same day) and this card are the two halves of one mechanism. #1835 installs an obligation in a community with deadlines, because willpower was not reliable. This one installs it in a floor plan, for the same reason. Between them: <strong>if a behaviour needs to be re-decided nightly, it will fail; move it into something that does not ask.</strong></p>
+<p><code>reading-rewires-brain-deep-reading</code> (#1807) supplies the reason the substitution is not neutral. Deep reading has no dedicated circuit — it is built by use out of circuits meant for other things, so it is the thing that decays when unused. Swapping the highest-traffic room from a passive medium to a demanding one is choice architecture aimed at exactly that decay.</p>
+<p><code>hwang-sokyong-read-classics-ai-era</code> (#1824) is the input claim; this apartment is a physical version of it. And the correction #1835 attached still holds: input alone did nothing there until an output was forced. A library that produces nothing is a very well-designed waiting room.</p>
+<p><code>djokovic-discipline-watch-the-loss</code> (#1817) and Russell&#39;s line meet at §2. Both say the ability that matters shows up in the empty interval, not in the exciting one.</p>
+<p><code>rometty-resilience-relationships-attitude</code> (#1827) is where 『기브앤테이크』 lands — Rometty&#39;s "relationships start with what you give first" and Grant&#39;s finding that the top of the ladder is held by judgement-exercising givers are the same claim, one from a career and one from data.</p>
+<h3>Verified and unverified</h3>
+<p><strong>From the summary, not verified by me:</strong> everything factual in this card. I did not watch the video. The removed TV, the 2021 levain, the Berlin Wall fragment, the twelve books, every summary of what she says about each of them, and all timestamps come from jay&#39;s pasted Gemini summary.</p>
+<p><strong>Attribution I would not repeat as given:</strong> the Freud line at 40:04. Widely circulated under his name, not located in his work by me. Also the ₩100bn figure for 대원각 — a reported valuation, not a transaction price, and the shape of the story does not need it.</p>
+<p><strong>Checked against general knowledge, not against the video:</strong> the retrogradation mechanism in §3. The claim that staling is fastest at refrigerator temperature is sound and the explanation given there — recrystallisation of amylopectin, arrested by freezing, partly reversed above about 60 °C — is the card&#39;s, not hers. She states the rules; the reason they work is added here.</p>
+<p><strong>This card&#39;s argument, labelled as such in the body:</strong> the time-constant reading in §2, the subtraction-not-addition framing in "Why", and the observation in §4 that two of her own books argue against the room they sit in.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time constant</strong></td><td>시간 상수(어떤 과정이 변하는 데 걸리는 고유 시간) · 이 카드가 방의 사물들을 정렬하는 기준. "The room is sorted by time constant"</td></tr><tr><td><strong>residual attention</strong></td><td>잔여 주의력(의도를 다 쓰고 남은 주의) · 저녁에 거실을 차지한 것이 가져가는 것. "collects the residual attention"</td></tr><tr><td><strong>high-traffic surface</strong></td><td>통행량이 많은 면 · 집에서 거실의 지위를 설명할 때. "the highest-traffic surface in a home"</td></tr><tr><td><strong>subtraction strategy</strong></td><td>뺄셈 전략(더하지 않고 빼서 문제를 없애는 방식) · TV 제거의 본질. 반대는 addition</td></tr><tr><td><strong>to be re-decided</strong></td><td>다시 결정되어야 하다 · 매일 밤 의지로 이겨야 하는 행동의 약점. "it does not need to be re-decided"</td></tr><tr><td><strong>choice architecture</strong></td><td>선택 설계(고르는 사람의 환경을 미리 배치하는 것) · 행동경제학 용어, jay가 직접 붙인 틀</td></tr><tr><td><strong>the default activity</strong></td><td>기본값이 되는 행동 · 아무 결심 없이 하게 되는 것. "makes reading the default activity"</td></tr><tr><td><strong>decoration vs structure</strong></td><td>장식 대 구조 · TV 있는 방의 책장은 장식, 없는 방의 책장은 구조</td></tr><tr><td><strong>retrogradation</strong></td><td>(전분) 노화·재결정화 · 빵이 굳는 진짜 원인. 건조(drying out)와 구분됨</td></tr><tr><td><strong>to gelatinize</strong></td><td>호화되다(전분이 물을 흡수하고 정렬을 잃다) · 굽는 동안 일어나는 일</td></tr><tr><td><strong>amylopectin</strong></td><td>아밀로펙틴(전분의 가지 많은 성분) · 식으면서 결정을 다시 만드는 쪽</td></tr><tr><td><strong>recrystallisation</strong></td><td>재결정화 · 망 밖으로 물을 밀어내는 과정</td></tr><tr><td><strong>partly reversible</strong></td><td>부분적으로 가역인 · 열과 수분으로 되돌릴 수 있다는 뜻. 분무 후 토스터가 통하는 이유</td></tr><tr><td><strong>the band</strong></td><td>(온도) 구간·띠 · 재결정화가 가장 빠른 0–7 °C 부근을 가리킴. "keep the loaf out of the recrystallisation band"</td></tr><tr><td><strong>arrested</strong></td><td>정지된 · 냉동에서 노화가 멈추는 상태. "the process is effectively arrested"</td></tr><tr><td><strong>monotonic</strong></td><td>단조로운(한 방향으로만 증가·감소하는) · "차가울수록 오래 간다"는 직관의 성격</td></tr><tr><td><strong>bug class</strong></td><td>버그 클래스(개별 버그가 아니라 반복되는 결함 유형) · 냉장고 실수의 일반형</td></tr><tr><td><strong>to exhort</strong></td><td>훈계하다·권고하다 · 셸런버거의 "설교 대신 대체재" 논증에서. "moral exhortation loses to a technical substitute"</td></tr><tr><td><strong>substitute</strong></td><td>대체재 · 고래를 구한 등유. 도덕이 아니라 기술이 이긴다는 주장의 핵심어</td></tr><tr><td><strong>levain / starter</strong></td><td>르방·천연 발효종 · 매주 먹이지 않으면 죽는 것, 시간 상수의 대표 사례</td></tr><tr><td><strong>to be on the path</strong></td><td>동선 위에 있다 · 찾아가야 하는 자리가 아니라 지나갈 수밖에 없는 자리</td></tr><tr><td><strong>to circulate under someone&#39;s name</strong></td><td>누구의 말로 돌아다니다 · 출처 미확인 인용을 표시할 때. "It circulates widely under his name"</td></tr><tr><td><strong>a well-designed waiting room</strong></td><td>잘 설계된 대기실 · 아웃풋 없는 서재에 대한 이 카드의 비판</td></tr><tr><td><strong>judgement-exercising giver</strong></td><td>분별 있게 베푸는 기버 · 그랜트가 사다리 꼭대기에 놓은 유형</td></tr><tr><td><strong>to argue against the room they sit in</strong></td><td>자기가 놓인 방을 반박하다 · 서가의 두 책이 하는 일을 가리키는 표현</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 시간 상수로 정렬된 방 — TV가 있던 자리의 서재\n\n이혜성의 1% 북클럽이 이사를 앞두고, 방송에서 한 번도 공개하지 않았던 집을 연다. 그런데 결과물은 룸투어가 아니라 공간에 대한 하나의 논증이다 (00:27, 00:41). 거실에 TV도, 큰 소파도 없다. 대신 주문 제작한 책장이 벽면 전체를 채워서, 서재가 집 안의 한 방이 아니라 **집의 메인 방**이 된다 (21:05, 21:17). 그 둘레에는 1989년 베를린 장벽의 그라피티 파편, 2021년부터 매주 먹여 키운 사워도우 발효종, 각각에 대해 구체적으로 말할 수 있는 열두 권의 책, 그리고 매일 아침 마주치도록 붙여둔 프로이트의 문장이 있다.\n\njay가 붙여넣은 Gemini 요약과 그 타임스탬프에서 옮겼다. 영상은 보지 않았고, 제목·연도·발언 귀속은 요약이 준 그대로다. 이 방이 **시간 상수로 정렬되어 있다**는 독법은 인터뷰이가 아니라 이 카드의 주장이고, 빵 규칙 세 가지 뒤의 식품과학 설명도 내가 덧붙인 것이다. Jayverse에서 이것은 같은 날 추가한 `ship-that-is-not-moving-cannot-turn` (#1835)의 물리적 짝이다. 그 카드는 의무를 커뮤니티에 설치했고, 이 카드는 평면도에 설치한다.\n\n## 왜\n\n룸투어는 보통 노트로 쓸 수 없다. 취향을 기록하는데 취향은 이전되지 않는다. 이 영상이 남길 만한 이유는, 그 안의 결정 하나 — 거실에서 TV를 들어낸 것 — 가 전혀 다른 취향을 가진 사람도 복사할 수 있는 **구조적 수**이고, 집의 나머지가 더 작은 사물들 위에서 같은 수를 반복한 것으로 드러나기 때문이다.\n\n솔깃한 교훈은 \"덜 보고 더 읽자\"인데, 그건 결심이므로 쓸모가 없다. 실제 교훈은 더 좁고 기계적이다. **그는 거실에 책을 더한 게 아니라, 거실에서 경쟁자를 제거했다.** 거실은 집에서 통행량이 가장 많은 면이다. 거기를 차지한 것이 잔여 주의력을 가져간다 — 의도를 다 쓰고 남은 주의력, 즉 저녁에 사람이 가진 주의력의 대부분을. 그는 매일 밤 의지로 그 경쟁에서 이기려 하지 않았다. **다른 출전자를 한 번에 지웠다.**\n\n이것은 뺄셈 전략이고, 뺄셈에는 덧셈에 없는 성질이 있다. **다시 결정할 필요가 없다.** #1835의 독서 커뮤니티와 같은 구조다. 거기서도 의지를 강화한 게 아니라 출구를 없앴다.\n\n## 동작 방식\n\n### 1 — 결정의 단위는 거실이다 (21:05, 21:17)\n\n관습적 배치는 한 축에 큰 화면을, 다른 축에 큰 소파를 놓는다. 그러면 방의 기하 구조가 들어오는 모든 사람에게 무엇을 할지 지시한다. 둘 다 치우고 벽 길이의 주문 제작 책장으로 바꾼 것은 독서를 더 **쾌적하게** 만드는 일이 아니다. 독서를 **가장 큰 방의 기본값**으로 만드는 일이다. 이 구분이 중요한 이유는, TV가 여전히 있는 방에 책장을 하나 더한 것은 장식이고, 이건 장식이 아니기 때문이다.\n\n### 2 — 사물들, 그리고 그들의 공통점\n\n| 사물 | 위치 | 보고된 내용 |\n|---|---|---|\n| 무라카미 다카시 『스마일』 | 현관 | 귀가할 때 가장 먼저 마주치도록 배치 (00:52, 01:05) |\n| 『다호메이』 포스터 | 벽 | 침탈당한 왕국의 유물이 고향으로 돌아가는 과정을 다룬 다큐멘터리 (02:30, 02:43) |\n| 베를린 장벽 파편 | 선반 | 1989년 당시의 실제 그라피티 벽돌 조각 (22:11, 22:23) |\n| 디오니소스 연극 카탈로그 | 선반 | 디오니소스를 레게 머리와 나이키로 재해석한 무대 (13:07, 13:28) |\n| 사워도우 르방 | 주방 | 2021년부터 살려둠. 매주 프랑스 밀가루와 물을 동량으로 급여 (07:36, 07:50, 07:59) |\n| 『천하제빵』 명패 | 주방 | 참가했던 제빵 서바이벌의 명패 (04:53) |\n\n**이 카드의 논증.** 시간 상수를 보라. 1989년의 벽돌. 한 세기를 건너 유물이 돌아가는 다큐멘터리. 5년간 매주 먹인, 그 주기가 끊기는 순간 죽는 발효종. 그리스 신까지 거슬러 올라가 끌어당겨 오는 무대. 수십 년을 다시 읽은 책들. **이 집이 지킨 모든 사물의 시간 상수는 연 단위**이고, 그가 제거한 단 하나의 사물 — 텔레비전 — 은 내용물의 시간 상수가 초 단위이고 공급이 무한한 유일한 물건이다.\n\n이 방은 주제로 정리되어 있지 않고, 사실 취향으로도 아니다. **무언가가 얼마나 오래 걸리는가**로 정리되어 있다.\n\n그러면 33:10에서 그가 인용하는 러셀의 문장이 내려앉을 구체적인 자리가 생긴다. 행복은 끝없는 자극이 아니라 **권태를 담담하게 견디는 능력**이라는 것. 시간 상수가 긴 사물로 채운 방은 그 능력을 가구로 구현한 것이다. 그 안의 어떤 것도 즉시 지불하지 않는다. `djokovic-discipline-watch-the-loss` (#1817)가 압박 속 주의력에 대해 같은 주장을 한다 — 규율은 아무 일도 일어나지 않는 구간에 있다.\n\n### 3 — 빵 규칙 세 가지, 그리고 그것이 맞는 이유 (05:05 – 07:59)\n\n보고된 규칙 셋:\n\n1. **절대 냉장하지 말 것.** 전분 노화(retrogradation)는 냉장 온도에서 가장 빠르다 (06:54, 07:03).\n2. **즉시 냉동할 것.** 먹을 만큼만 남기고, 수분이 빠지기 전에 랩으로 소분해 바로 냉동 (06:22, 06:32, 06:44).\n3. **굽기 전 표면에 분무할 것.** 토스터에 넣기 전 가볍게 물을 뿌리면 갓 구운 식감이 돌아온다 (05:05, 05:16, 05:50).\n\n**메커니즘 — 영상이 아니라 내가 덧붙인 것.** 빵이 굳는 것은 일차적으로 건조가 아니라 **재결정화**다. 빵을 구우면 전분 입자가 호화(gelatinize)되어 물을 흡수하고 정렬된 구조를 잃는다. 식으면서 아밀로펙틴이 천천히 결정을 다시 만들고, 그 과정에서 망 밖으로 물을 밀어낸다. 이 재결정화의 온도 의존성은 형태가 고약하다. **빙점 바로 위에서 가장 빠르고**, 그보다 높아도 낮아도 느려진다. 냉장고는 정확히 그 최악의 구간에 앉아 있다. 냉동고는 그 구간을 지나쳐 있어 과정이 사실상 정지한다. 실온은 그 사이 — 냉동보다 나쁘고 냉장보다 낫다.\n\n그래서 세 규칙은 사실 하나다. **덩어리를 재결정화 구간 밖에 둘 것.** 규칙 1은 그 구간에 앉지 말라는 뜻이고, 규칙 2는 수분이 빠지기 전에 그 구간을 통과하라는 뜻이다(냉동은 속살에 남아 있는 물을 보존할 뿐, 이미 나간 물을 되돌리지 못한다). 규칙 3이 통하는 이유는 노화가 **부분적으로 가역**이기 때문이다. 대략 60 °C 이상의 열이 전분을 다시 호화시키고, 표면의 물은 크러스트가 잃은 수분을 대신하며 토스터 안에서 증기가 된다.\n\n빵보다 값어치 있는 건 이전 가능한 형태다. **직관적인 중간 설정이 가용한 선택지 중 최악이었다.** \"냉장고에 넣어둬라\"는 보살핌처럼 보이고, 실제로는 빵을 망치는 가장 빠른 방법이다. 올바른 수는 끝까지 반대쪽으로 가는 것이다. 단조로운 직관을 단조롭지 않은 과정에 적용하는 것 — 이건 제빵 팁이 아니라 **버그 클래스**다.\n\n### 4 — 서가, 그리고 각 책에 붙인 말 (15:45 – 37:39)\n\n요약해서 날리기보다 독서 목록으로 남길 값이 있다.\n\n| 책 | 그가 붙인 주장 |\n|---|---|\n| 박웅현, 『여덟 단어』 | 인생 책 서가의 정중앙. 한 권만 꼽으라면 이 책이고, 그 선택은 앞으로도 바뀌지 않을 것 (00:08, 31:16, 31:26, 31:37) |\n| 빅터 프랭클, 『죽음의 수용소에서』 | 가용한 최악의 상황 안에서도 의미는 선택 가능하다 (33:23, 33:39, 33:48) |\n| 버트런드 러셀, 『행복의 정복』 | 행복은 권태에서 벗어나는 능력이 아니라 담담히 견디는 능력 (32:38, 33:01, 33:10) |\n| 정혜신, 『당신이 옳다』 | 마음이 완전히 무너졌을 때 가장 먼저 읽을 것. 어떤 클리닉보다 깊다 (30:16, 30:31, 30:41) |\n| 애덤 그랜트, 『기브앤테이크』 | 기버는 사다리의 맨 아래**와** 맨 위를 동시에 차지한다. 위에 있는 쪽은 분별 있게 베푸는 기버 (31:46, 31:58, 32:18) |\n| 수전 케인, 『콰이어트』 | 외향 중심으로 채점되는 사회에서 내향성은 별개의 역량 (33:48, 33:59) |\n| 이어령, 『모크』 | 서문 — 서재에서 일에 몰두하느라, 문을 열고 다가온 딸에게 돌아서 안아주지 못했던 순간. 딸을 먼저 보낸 뒤 쓴 글 (16:14, 16:38, 17:06) |\n| 마이클 셸런버거, 『지구를 위한다는 착각』 | 고래를 구한 것은 시위가 아니라 등유였다 — 설교가 아니라 대체재가 이긴다 (15:45, 15:55, 16:14) |\n| 『녹기 전에』 | 동네 아이스크림 가게의 환대를, 의도된 서비스 디자인의 수준으로 (17:06, 17:23, 17:36) |\n| 정성근, 『백년 목 / 백년 허리』 | 대기실 대신 척추 위생과 일상 자세 (26:33, 26:57, 27:05) |\n| 김자야, 『내 사랑 백석』 | 대원각(보도된 시가 약 1,000억 원)을 시주하며 \"백석의 시 한 줄만 못하다\"고 말한 기록 (24:00, 24:25, 24:50) |\n| 모건 하우절, 『돈의 심리학』 | 일확천금의 분위기에 맞서는 복리와 저축이라는 평범한 습관 (37:16, 37:39) |\n\n이 중 두 권이 자기가 놓인 방을 **반박한다**는 점이 흥미롭다. 셸런버거의 고래 논증은 도덕적 권고가 기술적 대체재에 진다는 것 — 이 카드가 텔레비전에 대해 하는 주장과 같다. 그는 덜 보자고 스스로를 타이르지 않았고, 대체재의 경쟁자를 치웠다. 그리고 이어령의 서문은 이 투어에서 가장 날카로운 물건이다. 서재에서 일에 몰두하던 남자가 돌아보지 못한 장면. **집 한가운데의 서재는 주의력의 도구일 수도, 주의력으로부터 숨는 장소일 수도 있고**, 16:38의 책은 그 두 번째 가능성을 이름 붙인 책이다.\n\n### 5 — 문 앞의 문장 (39:52 – 40:17)\n\n매일 아침 지나치는 자리에 붙여둔 문장: *돌이켜보면, 가장 치열하게 발버둥치며 힘들었던 그 날들이야말로 인생에서 가장 아름다웠던 순간으로 느껴질 것이다.* 붙여넣기는 출처 저작 없이 프로이트로 귀속한다. 그의 이름으로 널리 퍼져 있지만 그의 글에서 확인하지 못했으므로, **프로이트의 말이 아니라 그가 함께 사는 문장**으로 다루는 편이 낫다. 요점은 귀속이 아니라 배치다.\n\n기능은 현관의 무라카미와 같다 (00:52, 01:05). 둘 다 **동선 위에** 있지, 찾아가야 하는 벽에 있지 않다. 이 집은 자기 의도를 이미 움직임이 지나가는 자리에 놓는다.\n\n### Jayverse에서의 위치\n\n`ship-that-is-not-moving-cannot-turn` (#1835, 같은 날 추가)과 이 카드는 한 메커니즘의 두 절반이다. #1835는 의지가 믿을 만하지 않아서 마감 있는 커뮤니티에 의무를 설치했다. 이 카드는 같은 이유로 그것을 평면도에 설치한다. 둘 사이의 규칙: **밤마다 다시 결정해야 하는 행동은 실패한다. 다시 묻지 않는 것 안으로 옮겨라.**\n\n`reading-rewires-brain-deep-reading` (#1807)이 이 치환이 중립적이지 않은 이유를 댄다. 깊이 읽기에는 전용 회로가 없다 — 다른 용도의 회로를 써서 사용으로 지어 올리는 것이라, 쓰지 않으면 가장 먼저 무너지는 쪽이다. 통행량이 가장 많은 방을 수동적 매체에서 요구가 많은 매체로 바꾸는 것은 정확히 그 쇠퇴를 겨눈 선택 설계다.\n\n`hwang-sokyong-read-classics-ai-era` (#1824)는 인풋 주장이고, 이 집은 그 물리적 판본이다. 그리고 #1835가 붙인 교정은 여기서도 유효하다. 거기서도 아웃풋이 강제되기 전까지 인풋만으로는 아무 일도 없었다. **아무것도 생산하지 않는 서재는 아주 잘 설계된 대기실이다.**\n\n`djokovic-discipline-watch-the-loss` (#1817)와 러셀의 문장은 §2에서 만난다. 둘 다 중요한 능력은 흥미로운 구간이 아니라 **빈 구간**에서 드러난다고 말한다.\n\n`rometty-resilience-relationships-attitude` (#1827)는 『기브앤테이크』가 내려앉는 자리다. \"관계는 얻는 것이 아니라 먼저 주는 것에서 시작된다\"는 로메티의 원칙과, 사다리 꼭대기를 분별 있는 기버가 차지한다는 그랜트의 실증은 같은 주장이다. 하나는 경력에서, 하나는 데이터에서 왔을 뿐.\n\n### 확인된 것과 미확인\n\n**요약에서 왔고 내가 확인하지 않은 것:** 이 카드의 모든 사실. 영상을 보지 않았다. 치운 TV, 2021년의 르방, 베를린 장벽 파편, 열두 권의 책, 각 책에 대한 발언 요약, 모든 타임스탬프는 jay가 붙여넣은 Gemini 요약에서 왔다.\n\n**받은 그대로 옮기지 않을 귀속:** 40:04의 프로이트 문장. 그의 이름으로 널리 돌지만 내가 그의 저작에서 찾지 못했다. 대원각의 1,000억 원도 마찬가지다 — 거래가가 아니라 보도된 시가이고, 이야기의 형태는 그 숫자를 필요로 하지 않는다.\n\n**영상이 아니라 일반 지식에 비춰 확인한 것:** §3의 노화 메커니즘. 냉장 온도에서 가장 빠르다는 주장은 타당하고, 거기 적은 설명 — 아밀로펙틴의 재결정화, 냉동에 의한 정지, 약 60 °C 이상에서의 부분적 가역 — 은 그의 것이 아니라 이 카드의 것이다. 그는 규칙을 말하고, 그것이 통하는 이유는 여기서 덧붙였다.\n\n**이 카드의 주장이고 본문에 그렇게 표시한 것:** §2의 시간 상수 독법, \"왜\"의 덧셈이 아니라 뺄셈이라는 틀, 그리고 §4에서 그의 책 두 권이 자기가 놓인 방을 반박한다는 관찰.\n"</script>
+      <h1>시간 상수로 정렬된 방 — TV가 있던 자리의 서재</h1>
+      <p class="lead">이혜성의 1% 북클럽이 이사를 앞두고, 방송에서 한 번도 공개하지 않았던 집을 연다. 그런데 결과물은 룸투어가 아니라 공간에 대한 하나의 논증이다 (00:27, 00:41). 거실에 TV도, 큰 소파도 없다. 대신 주문 제작한 책장이 벽면 전체를 채워서, 서재가 집 안의 한 방이 아니라 **집의 메인 방**이 된다 (21:05, 21:17). 그 둘레에는 1989년 베를린 장벽의 그라피티 파편, 2021년부터 매주 먹여 키운 사워도우 발효종, 각각에 대해 구체적으로 말할 수 있는 열두 권의 책, 그리고 매일 아침 마주치도록 붙여둔 프로이트의 문장이 있다.</p>
+      <p class="meta">jay가 붙여넣은 Gemini 요약과 그 타임스탬프에서 옮겼다. 영상은 보지 않았고, 제목·연도·발언 귀속은 요약이 준 그대로다. 이 방이 <strong>시간 상수로 정렬되어 있다</strong>는 독법은 인터뷰이가 아니라 이 카드의 주장이고, 빵 규칙 세 가지 뒤의 식품과학 설명도 내가 덧붙인 것이다. Jayverse에서 이것은 같은 날 추가한 <code>ship-that-is-not-moving-cannot-turn</code> (#1835)의 물리적 짝이다. 그 카드는 의무를 커뮤니티에 설치했고, 이 카드는 평면도에 설치한다.</p>
+<h2>왜</h2>
+<p>룸투어는 보통 노트로 쓸 수 없다. 취향을 기록하는데 취향은 이전되지 않는다. 이 영상이 남길 만한 이유는, 그 안의 결정 하나 — 거실에서 TV를 들어낸 것 — 가 전혀 다른 취향을 가진 사람도 복사할 수 있는 <strong>구조적 수</strong>이고, 집의 나머지가 더 작은 사물들 위에서 같은 수를 반복한 것으로 드러나기 때문이다.</p>
+<p>솔깃한 교훈은 "덜 보고 더 읽자"인데, 그건 결심이므로 쓸모가 없다. 실제 교훈은 더 좁고 기계적이다. <strong>그는 거실에 책을 더한 게 아니라, 거실에서 경쟁자를 제거했다.</strong> 거실은 집에서 통행량이 가장 많은 면이다. 거기를 차지한 것이 잔여 주의력을 가져간다 — 의도를 다 쓰고 남은 주의력, 즉 저녁에 사람이 가진 주의력의 대부분을. 그는 매일 밤 의지로 그 경쟁에서 이기려 하지 않았다. <strong>다른 출전자를 한 번에 지웠다.</strong></p>
+<p>이것은 뺄셈 전략이고, 뺄셈에는 덧셈에 없는 성질이 있다. <strong>다시 결정할 필요가 없다.</strong> #1835의 독서 커뮤니티와 같은 구조다. 거기서도 의지를 강화한 게 아니라 출구를 없앴다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 결정의 단위는 거실이다 (21:05, 21:17)</h3>
+<p>관습적 배치는 한 축에 큰 화면을, 다른 축에 큰 소파를 놓는다. 그러면 방의 기하 구조가 들어오는 모든 사람에게 무엇을 할지 지시한다. 둘 다 치우고 벽 길이의 주문 제작 책장으로 바꾼 것은 독서를 더 <strong>쾌적하게</strong> 만드는 일이 아니다. 독서를 <strong>가장 큰 방의 기본값</strong>으로 만드는 일이다. 이 구분이 중요한 이유는, TV가 여전히 있는 방에 책장을 하나 더한 것은 장식이고, 이건 장식이 아니기 때문이다.</p>
+<h3>2 — 사물들, 그리고 그들의 공통점</h3>
+<table><thead><tr><th>사물</th><th>위치</th><th>보고된 내용</th></tr></thead><tbody><tr><td>무라카미 다카시 『스마일』</td><td>현관</td><td>귀가할 때 가장 먼저 마주치도록 배치 (00:52, 01:05)</td></tr><tr><td>『다호메이』 포스터</td><td>벽</td><td>침탈당한 왕국의 유물이 고향으로 돌아가는 과정을 다룬 다큐멘터리 (02:30, 02:43)</td></tr><tr><td>베를린 장벽 파편</td><td>선반</td><td>1989년 당시의 실제 그라피티 벽돌 조각 (22:11, 22:23)</td></tr><tr><td>디오니소스 연극 카탈로그</td><td>선반</td><td>디오니소스를 레게 머리와 나이키로 재해석한 무대 (13:07, 13:28)</td></tr><tr><td>사워도우 르방</td><td>주방</td><td>2021년부터 살려둠. 매주 프랑스 밀가루와 물을 동량으로 급여 (07:36, 07:50, 07:59)</td></tr><tr><td>『천하제빵』 명패</td><td>주방</td><td>참가했던 제빵 서바이벌의 명패 (04:53)</td></tr></tbody></table>
+<p><strong>이 카드의 논증.</strong> 시간 상수를 보라. 1989년의 벽돌. 한 세기를 건너 유물이 돌아가는 다큐멘터리. 5년간 매주 먹인, 그 주기가 끊기는 순간 죽는 발효종. 그리스 신까지 거슬러 올라가 끌어당겨 오는 무대. 수십 년을 다시 읽은 책들. <strong>이 집이 지킨 모든 사물의 시간 상수는 연 단위</strong>이고, 그가 제거한 단 하나의 사물 — 텔레비전 — 은 내용물의 시간 상수가 초 단위이고 공급이 무한한 유일한 물건이다.</p>
+<p>이 방은 주제로 정리되어 있지 않고, 사실 취향으로도 아니다. <strong>무언가가 얼마나 오래 걸리는가</strong>로 정리되어 있다.</p>
+<p>그러면 33:10에서 그가 인용하는 러셀의 문장이 내려앉을 구체적인 자리가 생긴다. 행복은 끝없는 자극이 아니라 <strong>권태를 담담하게 견디는 능력</strong>이라는 것. 시간 상수가 긴 사물로 채운 방은 그 능력을 가구로 구현한 것이다. 그 안의 어떤 것도 즉시 지불하지 않는다. <code>djokovic-discipline-watch-the-loss</code> (#1817)가 압박 속 주의력에 대해 같은 주장을 한다 — 규율은 아무 일도 일어나지 않는 구간에 있다.</p>
+<h3>3 — 빵 규칙 세 가지, 그리고 그것이 맞는 이유 (05:05 – 07:59)</h3>
+<p>보고된 규칙 셋:</p>
+<ol><li><strong>절대 냉장하지 말 것.</strong> 전분 노화(retrogradation)는 냉장 온도에서 가장 빠르다 (06:54, 07:03).</li><li><strong>즉시 냉동할 것.</strong> 먹을 만큼만 남기고, 수분이 빠지기 전에 랩으로 소분해 바로 냉동 (06:22, 06:32, 06:44).</li><li><strong>굽기 전 표면에 분무할 것.</strong> 토스터에 넣기 전 가볍게 물을 뿌리면 갓 구운 식감이 돌아온다 (05:05, 05:16, 05:50).</li></ol>
+<p><strong>메커니즘 — 영상이 아니라 내가 덧붙인 것.</strong> 빵이 굳는 것은 일차적으로 건조가 아니라 <strong>재결정화</strong>다. 빵을 구우면 전분 입자가 호화(gelatinize)되어 물을 흡수하고 정렬된 구조를 잃는다. 식으면서 아밀로펙틴이 천천히 결정을 다시 만들고, 그 과정에서 망 밖으로 물을 밀어낸다. 이 재결정화의 온도 의존성은 형태가 고약하다. <strong>빙점 바로 위에서 가장 빠르고</strong>, 그보다 높아도 낮아도 느려진다. 냉장고는 정확히 그 최악의 구간에 앉아 있다. 냉동고는 그 구간을 지나쳐 있어 과정이 사실상 정지한다. 실온은 그 사이 — 냉동보다 나쁘고 냉장보다 낫다.</p>
+<p>그래서 세 규칙은 사실 하나다. <strong>덩어리를 재결정화 구간 밖에 둘 것.</strong> 규칙 1은 그 구간에 앉지 말라는 뜻이고, 규칙 2는 수분이 빠지기 전에 그 구간을 통과하라는 뜻이다(냉동은 속살에 남아 있는 물을 보존할 뿐, 이미 나간 물을 되돌리지 못한다). 규칙 3이 통하는 이유는 노화가 <strong>부분적으로 가역</strong>이기 때문이다. 대략 60 °C 이상의 열이 전분을 다시 호화시키고, 표면의 물은 크러스트가 잃은 수분을 대신하며 토스터 안에서 증기가 된다.</p>
+<p>빵보다 값어치 있는 건 이전 가능한 형태다. <strong>직관적인 중간 설정이 가용한 선택지 중 최악이었다.</strong> "냉장고에 넣어둬라"는 보살핌처럼 보이고, 실제로는 빵을 망치는 가장 빠른 방법이다. 올바른 수는 끝까지 반대쪽으로 가는 것이다. 단조로운 직관을 단조롭지 않은 과정에 적용하는 것 — 이건 제빵 팁이 아니라 <strong>버그 클래스</strong>다.</p>
+<h3>4 — 서가, 그리고 각 책에 붙인 말 (15:45 – 37:39)</h3>
+<p>요약해서 날리기보다 독서 목록으로 남길 값이 있다.</p>
+<table><thead><tr><th>책</th><th>그가 붙인 주장</th></tr></thead><tbody><tr><td>박웅현, 『여덟 단어』</td><td>인생 책 서가의 정중앙. 한 권만 꼽으라면 이 책이고, 그 선택은 앞으로도 바뀌지 않을 것 (00:08, 31:16, 31:26, 31:37)</td></tr><tr><td>빅터 프랭클, 『죽음의 수용소에서』</td><td>가용한 최악의 상황 안에서도 의미는 선택 가능하다 (33:23, 33:39, 33:48)</td></tr><tr><td>버트런드 러셀, 『행복의 정복』</td><td>행복은 권태에서 벗어나는 능력이 아니라 담담히 견디는 능력 (32:38, 33:01, 33:10)</td></tr><tr><td>정혜신, 『당신이 옳다』</td><td>마음이 완전히 무너졌을 때 가장 먼저 읽을 것. 어떤 클리닉보다 깊다 (30:16, 30:31, 30:41)</td></tr><tr><td>애덤 그랜트, 『기브앤테이크』</td><td>기버는 사다리의 맨 아래<strong>와</strong> 맨 위를 동시에 차지한다. 위에 있는 쪽은 분별 있게 베푸는 기버 (31:46, 31:58, 32:18)</td></tr><tr><td>수전 케인, 『콰이어트』</td><td>외향 중심으로 채점되는 사회에서 내향성은 별개의 역량 (33:48, 33:59)</td></tr><tr><td>이어령, 『모크』</td><td>서문 — 서재에서 일에 몰두하느라, 문을 열고 다가온 딸에게 돌아서 안아주지 못했던 순간. 딸을 먼저 보낸 뒤 쓴 글 (16:14, 16:38, 17:06)</td></tr><tr><td>마이클 셸런버거, 『지구를 위한다는 착각』</td><td>고래를 구한 것은 시위가 아니라 등유였다 — 설교가 아니라 대체재가 이긴다 (15:45, 15:55, 16:14)</td></tr><tr><td>『녹기 전에』</td><td>동네 아이스크림 가게의 환대를, 의도된 서비스 디자인의 수준으로 (17:06, 17:23, 17:36)</td></tr><tr><td>정성근, 『백년 목 / 백년 허리』</td><td>대기실 대신 척추 위생과 일상 자세 (26:33, 26:57, 27:05)</td></tr><tr><td>김자야, 『내 사랑 백석』</td><td>대원각(보도된 시가 약 1,000억 원)을 시주하며 "백석의 시 한 줄만 못하다"고 말한 기록 (24:00, 24:25, 24:50)</td></tr><tr><td>모건 하우절, 『돈의 심리학』</td><td>일확천금의 분위기에 맞서는 복리와 저축이라는 평범한 습관 (37:16, 37:39)</td></tr></tbody></table>
+<p>이 중 두 권이 자기가 놓인 방을 <strong>반박한다</strong>는 점이 흥미롭다. 셸런버거의 고래 논증은 도덕적 권고가 기술적 대체재에 진다는 것 — 이 카드가 텔레비전에 대해 하는 주장과 같다. 그는 덜 보자고 스스로를 타이르지 않았고, 대체재의 경쟁자를 치웠다. 그리고 이어령의 서문은 이 투어에서 가장 날카로운 물건이다. 서재에서 일에 몰두하던 남자가 돌아보지 못한 장면. <strong>집 한가운데의 서재는 주의력의 도구일 수도, 주의력으로부터 숨는 장소일 수도 있고</strong>, 16:38의 책은 그 두 번째 가능성을 이름 붙인 책이다.</p>
+<h3>5 — 문 앞의 문장 (39:52 – 40:17)</h3>
+<p>매일 아침 지나치는 자리에 붙여둔 문장: <em>돌이켜보면, 가장 치열하게 발버둥치며 힘들었던 그 날들이야말로 인생에서 가장 아름다웠던 순간으로 느껴질 것이다.</em> 붙여넣기는 출처 저작 없이 프로이트로 귀속한다. 그의 이름으로 널리 퍼져 있지만 그의 글에서 확인하지 못했으므로, <strong>프로이트의 말이 아니라 그가 함께 사는 문장</strong>으로 다루는 편이 낫다. 요점은 귀속이 아니라 배치다.</p>
+<p>기능은 현관의 무라카미와 같다 (00:52, 01:05). 둘 다 <strong>동선 위에</strong> 있지, 찾아가야 하는 벽에 있지 않다. 이 집은 자기 의도를 이미 움직임이 지나가는 자리에 놓는다.</p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>ship-that-is-not-moving-cannot-turn</code> (#1835, 같은 날 추가)과 이 카드는 한 메커니즘의 두 절반이다. #1835는 의지가 믿을 만하지 않아서 마감 있는 커뮤니티에 의무를 설치했다. 이 카드는 같은 이유로 그것을 평면도에 설치한다. 둘 사이의 규칙: <strong>밤마다 다시 결정해야 하는 행동은 실패한다. 다시 묻지 않는 것 안으로 옮겨라.</strong></p>
+<p><code>reading-rewires-brain-deep-reading</code> (#1807)이 이 치환이 중립적이지 않은 이유를 댄다. 깊이 읽기에는 전용 회로가 없다 — 다른 용도의 회로를 써서 사용으로 지어 올리는 것이라, 쓰지 않으면 가장 먼저 무너지는 쪽이다. 통행량이 가장 많은 방을 수동적 매체에서 요구가 많은 매체로 바꾸는 것은 정확히 그 쇠퇴를 겨눈 선택 설계다.</p>
+<p><code>hwang-sokyong-read-classics-ai-era</code> (#1824)는 인풋 주장이고, 이 집은 그 물리적 판본이다. 그리고 #1835가 붙인 교정은 여기서도 유효하다. 거기서도 아웃풋이 강제되기 전까지 인풋만으로는 아무 일도 없었다. <strong>아무것도 생산하지 않는 서재는 아주 잘 설계된 대기실이다.</strong></p>
+<p><code>djokovic-discipline-watch-the-loss</code> (#1817)와 러셀의 문장은 §2에서 만난다. 둘 다 중요한 능력은 흥미로운 구간이 아니라 <strong>빈 구간</strong>에서 드러난다고 말한다.</p>
+<p><code>rometty-resilience-relationships-attitude</code> (#1827)는 『기브앤테이크』가 내려앉는 자리다. "관계는 얻는 것이 아니라 먼저 주는 것에서 시작된다"는 로메티의 원칙과, 사다리 꼭대기를 분별 있는 기버가 차지한다는 그랜트의 실증은 같은 주장이다. 하나는 경력에서, 하나는 데이터에서 왔을 뿐.</p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>요약에서 왔고 내가 확인하지 않은 것:</strong> 이 카드의 모든 사실. 영상을 보지 않았다. 치운 TV, 2021년의 르방, 베를린 장벽 파편, 열두 권의 책, 각 책에 대한 발언 요약, 모든 타임스탬프는 jay가 붙여넣은 Gemini 요약에서 왔다.</p>
+<p><strong>받은 그대로 옮기지 않을 귀속:</strong> 40:04의 프로이트 문장. 그의 이름으로 널리 돌지만 내가 그의 저작에서 찾지 못했다. 대원각의 1,000억 원도 마찬가지다 — 거래가가 아니라 보도된 시가이고, 이야기의 형태는 그 숫자를 필요로 하지 않는다.</p>
+<p><strong>영상이 아니라 일반 지식에 비춰 확인한 것:</strong> §3의 노화 메커니즘. 냉장 온도에서 가장 빠르다는 주장은 타당하고, 거기 적은 설명 — 아밀로펙틴의 재결정화, 냉동에 의한 정지, 약 60 °C 이상에서의 부분적 가역 — 은 그의 것이 아니라 이 카드의 것이다. 그는 규칙을 말하고, 그것이 통하는 이유는 여기서 덧붙였다.</p>
+<p><strong>이 카드의 주장이고 본문에 그렇게 표시한 것:</strong> §2의 시간 상수 독법, "왜"의 덧셈이 아니라 뺄셈이라는 틀, 그리고 §4에서 그의 책 두 권이 자기가 놓인 방을 반박한다는 관찰.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>time constant</strong></td><td>시간 상수(어떤 과정이 변하는 데 걸리는 고유 시간) · 이 카드가 방의 사물들을 정렬하는 기준. "The room is sorted by time constant"</td></tr><tr><td><strong>residual attention</strong></td><td>잔여 주의력(의도를 다 쓰고 남은 주의) · 저녁에 거실을 차지한 것이 가져가는 것. "collects the residual attention"</td></tr><tr><td><strong>high-traffic surface</strong></td><td>통행량이 많은 면 · 집에서 거실의 지위를 설명할 때. "the highest-traffic surface in a home"</td></tr><tr><td><strong>subtraction strategy</strong></td><td>뺄셈 전략(더하지 않고 빼서 문제를 없애는 방식) · TV 제거의 본질. 반대는 addition</td></tr><tr><td><strong>to be re-decided</strong></td><td>다시 결정되어야 하다 · 매일 밤 의지로 이겨야 하는 행동의 약점. "it does not need to be re-decided"</td></tr><tr><td><strong>choice architecture</strong></td><td>선택 설계(고르는 사람의 환경을 미리 배치하는 것) · 행동경제학 용어, jay가 직접 붙인 틀</td></tr><tr><td><strong>the default activity</strong></td><td>기본값이 되는 행동 · 아무 결심 없이 하게 되는 것. "makes reading the default activity"</td></tr><tr><td><strong>decoration vs structure</strong></td><td>장식 대 구조 · TV 있는 방의 책장은 장식, 없는 방의 책장은 구조</td></tr><tr><td><strong>retrogradation</strong></td><td>(전분) 노화·재결정화 · 빵이 굳는 진짜 원인. 건조(drying out)와 구분됨</td></tr><tr><td><strong>to gelatinize</strong></td><td>호화되다(전분이 물을 흡수하고 정렬을 잃다) · 굽는 동안 일어나는 일</td></tr><tr><td><strong>amylopectin</strong></td><td>아밀로펙틴(전분의 가지 많은 성분) · 식으면서 결정을 다시 만드는 쪽</td></tr><tr><td><strong>recrystallisation</strong></td><td>재결정화 · 망 밖으로 물을 밀어내는 과정</td></tr><tr><td><strong>partly reversible</strong></td><td>부분적으로 가역인 · 열과 수분으로 되돌릴 수 있다는 뜻. 분무 후 토스터가 통하는 이유</td></tr><tr><td><strong>the band</strong></td><td>(온도) 구간·띠 · 재결정화가 가장 빠른 0–7 °C 부근을 가리킴. "keep the loaf out of the recrystallisation band"</td></tr><tr><td><strong>arrested</strong></td><td>정지된 · 냉동에서 노화가 멈추는 상태. "the process is effectively arrested"</td></tr><tr><td><strong>monotonic</strong></td><td>단조로운(한 방향으로만 증가·감소하는) · "차가울수록 오래 간다"는 직관의 성격</td></tr><tr><td><strong>bug class</strong></td><td>버그 클래스(개별 버그가 아니라 반복되는 결함 유형) · 냉장고 실수의 일반형</td></tr><tr><td><strong>to exhort</strong></td><td>훈계하다·권고하다 · 셸런버거의 "설교 대신 대체재" 논증에서. "moral exhortation loses to a technical substitute"</td></tr><tr><td><strong>substitute</strong></td><td>대체재 · 고래를 구한 등유. 도덕이 아니라 기술이 이긴다는 주장의 핵심어</td></tr><tr><td><strong>levain / starter</strong></td><td>르방·천연 발효종 · 매주 먹이지 않으면 죽는 것, 시간 상수의 대표 사례</td></tr><tr><td><strong>to be on the path</strong></td><td>동선 위에 있다 · 찾아가야 하는 자리가 아니라 지나갈 수밖에 없는 자리</td></tr><tr><td><strong>to circulate under someone&#39;s name</strong></td><td>누구의 말로 돌아다니다 · 출처 미확인 인용을 표시할 때. "It circulates widely under his name"</td></tr><tr><td><strong>a well-designed waiting room</strong></td><td>잘 설계된 대기실 · 아웃풋 없는 서재에 대한 이 카드의 비판</td></tr><tr><td><strong>judgement-exercising giver</strong></td><td>분별 있게 베푸는 기버 · 그랜트가 사다리 꼭대기에 놓은 유형</td></tr><tr><td><strong>to argue against the room they sit in</strong></td><td>자기가 놓인 방을 반박하다 · 서가의 두 책이 하는 일을 가리키는 표현</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-ship-that-is-not-moving-cannot-turn.html">&larr; 1835. A ship that is not moving cannot be steered — starting at fifty, from the worst possible moment</a><a href="pocs-adults-who-put-children-first.html">1837. Adults who put children first — the general admiration and the specific commitment &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="room-sorted-by-time-constant";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

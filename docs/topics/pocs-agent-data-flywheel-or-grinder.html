@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coinbase for Agents — the flywheel is a grinder unless the data pays for itself — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Coinbase for Agents — the flywheel is a grinder unless the data pays for itself</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#73</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-23-agent-data-flywheel-or-grinder.md">raw</a></span></p>
+      <h1>Coinbase for Agents — the flywheel is a grinder unless the data pays for itself</h1>
+      <p class="lead">Coinbase opened stock trading through its agent interface: crypto, derivatives and 6,000+ stocks through one MCP server, with x402 letting an agent pay for live market data mid-task out of a USDC balance, and no subscription required. Brian Armstrong&#39;s framing is "connect your favorite AI Agent to Coinbase to trade, pay, and manage your finances". Coinbase&#39;s Lincoln Murr sketched the loop it is meant to create: the agent wants to trade, pays for premium data, makes a better-informed trade, and pays for more data to make more money. That loop is the interesting part, and it only turns in the direction described under an assumption nobody stated.</p>
+      <p class="meta">Pasted by jay, 2026-09-23, across two messages and merged here because they are one announcement. One of the quoted posts is truncated in the paste. I did not open the documentation, connect an agent, or look at the authorization model, so nothing here describes how it actually works — and the part I most want, the spending limits and revocation, is not in the posts at all. The five readings below are mine.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Coinbase for Agents — the flywheel is a grinder unless the data pays for itself\n\nCoinbase opened stock trading through its agent interface: crypto, derivatives and 6,000+ stocks through one MCP server, with x402 letting an agent pay for live market data mid-task out of a USDC balance, and no subscription required. Brian Armstrong's framing is \"connect your favorite AI Agent to Coinbase to trade, pay, and manage your finances\". Coinbase's Lincoln Murr sketched the loop it is meant to create: the agent wants to trade, pays for premium data, makes a better-informed trade, and pays for more data to make more money. That loop is the interesting part, and it only turns in the direction described under an assumption nobody stated.\n\nPasted by jay, 2026-09-23, across two messages and merged here because they are one announcement. One of the quoted posts is truncated in the paste. I did not open the documentation, connect an agent, or look at the authorization model, so nothing here describes how it actually works — and the part I most want, the spending limits and revocation, is not in the posts at all. The five readings below are mine.\n\n## Why\n\nOn the same day BlackRock published a paper arguing that agentic commerce will need machine-native payment rails for exactly this — API calls, on-demand data, consumption-based services that subscriptions and card fees serve badly — Coinbase shipped it. That coincidence is worth noting and then setting aside, because the product raises a question the thesis does not.\n\nThe pitch contains a growth story in four steps, and the steps are a loop. Loops are the most persuasive object in a product announcement and the easiest to get wrong, because **a loop's direction depends on a term nobody put in the diagram.** Here the missing term is whether the purchased data actually improves the trade by more than the data costs.\n\nGet that term right and the description is correct: a flywheel. Get it wrong and the identical architecture runs the other way — **a mechanism that converts a balance into data spend at machine speed, with no human in the loop to notice.** The architecture does not change. Only the sign of one number does.\n\n## How it works\n\n### 1 — What was announced\n\n| Claim | As stated |\n|---|---|\n| Coverage | Crypto, derivatives, and 6,000+ stocks, through Coinbase for Agents |\n| Interface | An MCP server — \"trade stocks through the Coinbase MCP\" |\n| Data | x402 payments for live market data, mid-task, from a USDC balance on Coinbase |\n| Billing | \"No subscriptions needed\" |\n| Client | Armstrong: shown on Muse, \"works on just about all of them\" |\n| Positioning | \"We're bringing the everything exchange to agents\" |\n\n### 2 — The flywheel, and the term it omits\n\nThe loop as posted:\n\n1. agent wants to make a trade\n2. agent pays for premium trading data\n3. agent makes a more well-informed trade\n4. agent pays for more data to make more money\n\n**This card's first argument.** Steps 2 and 3 are joined by an assumption: that the data improves the decision by more than it costs. Call that the edge, net of the data price. The loop compounds only while that quantity is reliably positive.\n\nThe trouble is the asymmetry in how certain the two halves are:\n\n| Term | How certain |\n|---|---|\n| The cost of the data | Certain, immediate, and incurred on every iteration |\n| The gain from the data | Uncertain, probabilistic, realised later, and possibly negative |\n\nA loop that spends deterministically and earns stochastically is a **grinder** whenever the expectation is below the price. That is not a hypothetical failure mode; it is the default one, because market data is priced by people who know what it is worth, and any edge that reliably exceeded its price would be repriced.\n\nAnd the machine-speed part makes it worse rather than better. A human paying for data feels each subscription renewal and asks whether it earned its keep. An agent paying per call, mid-task, from a balance, feels nothing. **The loop removes the moment at which a person would have noticed.**\n\nNone of which says the product is bad. It says the four steps describe a mechanism, not a result, and the same mechanism has two directions. The honest version of the pitch is: *this makes the loop possible at all, which it was not before; whether it turns forward is an empirical question about your strategy.*\n\n### 3 — \"No subscriptions needed\" removes a cap as well as a friction\n\n**Second argument.** A subscription is friction and it is also a **bound**. $200 a month is $200 a month regardless of how busy the agent gets, and the worst case is known before it happens.\n\nPer-call pricing removes the friction and the bound together. The cost ceiling stops being a contract term and becomes a property of the agent's behaviour — and agent behaviour is the thing least well understood by everyone involved, including the people who built the agent. A retry loop, a poorly bounded research step, a prompt that encourages thoroughness: each of these is now a spending decision.\n\nThis is the real risk surface of agentic payments, and it is the exact inverse of how they are marketed. The marketed benefit is *granularity*: pay only for what you use. The unmarketed consequence is that **the budget moved from the contract into the model's behaviour.** The mitigations are known — spend caps, per-scope mandates, rate limits, dry-run modes, approval thresholds — and the posts say nothing about any of them, which is the single largest gap in what was announced.\n\nThe BlackRock paper's protocol table is relevant here: AP2's contribution is cryptographic mandates and audit trails as evidence of user authorisation, precisely because \"the agent may spend\" has to be bounded and provable. x402 solves the payment. Mandates are what bound it, and this announcement does not mention them.\n\n### 4 — Step 2 into step 3 is the composition to worry about\n\n**Third argument, and the one I would raise first in a design review.** Look at what the loop does: an agent with **trade authority over a funded account** fetches **external content** and conditions its next trade on it.\n\nPaying for data does not make the data trusted input. A paid feed is still content arriving from outside the trust boundary into a loop that can spend money, and an agent that reads text and then acts has the standard problem — anything in that text that reads like an instruction is competing with the instructions it was given. A premium provider is less likely to be hostile than a random endpoint, but \"less likely\" is a supply-chain argument, not a boundary.\n\nThe safe shape is well known and worth stating because the announcement does not: **data goes in as data, not as instruction**; the trading tool is called with parameters the model justified from that data, under limits the model cannot raise; and the authority to trade never widens because of something the agent read. Whether Coinbase's MCP server does any of this I do not know, and it is the thing I would check before connecting an account.\n\n### 5 — Who this is really aimed at\n\n**Fourth argument.** \"The everything exchange for agents\" reads as a claim about breadth — crypto plus derivatives plus 6,000 stocks. The structural claim underneath is about **surface**. If the agent interface becomes how people reach their accounts, the MCP server is where the relationship lives, and the venue that holds it is positioned the way an exchange was positioned when the app was the interface.\n\nThis is the argument `agent-payments-korea-control-plane` (#3, REVISIT) makes about rails generally: control belongs to whoever holds the legal relationships, not to whoever writes the protocol. Coinbase is unusual here in trying to hold both — x402 is Coinbase's protocol, and this is Coinbase generating first-party demand for it.\n\nWhich cuts two ways honestly. It is a strong signal of commitment: the protocol's author is building the flagship consumer of it. It is a weak signal of adoption: one party using its own standard is not yet a standard. **What would make it one is a competitor's agent paying a Coinbase endpoint through x402, or the reverse.**\n\n### Where it lands in Jayverse\n\n`machine-native-economy-blackrock` (added the same day) is the thesis and this is the product, published hours apart. Read together they are a good test of the thesis's specificity: BlackRock predicted agents paying per-call for data and compute over programmable rails, and here it is, with the caveat that the company shipping it also wrote the protocol being cited as the emerging standard.\n\n`agent-payments-korea-control-plane` (#3, REVISIT) supplies §5. Also worth revisiting with this in hand: that card's x402 walkthrough describes the facilitator's role, and this announcement is the first consumer-facing product where the facilitator and the exchange are the same company.\n\n`consumed-authorization` is §3's and §4's neighbour. An agent's spending authority is an authorization, and the questions that card asks about every authorization apply here: what is its scope, when is it consumed, how is it cancelled cheaply, and does it expire. \"Connect your agent to manage your finances\" is a mandate with none of those specified in public.\n\n`mcp-three-sides` is the structural frame: a server, a client and the agent between them, and the security properties live in what the server exposes and what the client permits. A trading MCP server is the highest-stakes version of that diagram so far.\n\n### Verified and unverified\n\n**Reported:** the three posts, one of them truncated in the paste. That is all.\n\n**Not verified by me:** everything. I did not open the developer documentation, connect an agent, inspect the MCP server's tools, or check the authorization model. The 6,000+ figure, the derivatives coverage, jurisdictional availability, which providers sell data over x402 and at what prices — none of it is confirmed here. I do not know what Muse is beyond Armstrong naming it as the client in his demo.\n\n**Missing from the announcement, and the reason this card is cautious:** spending limits, scopes, approval steps, revocation. An announcement about connecting an agent to your finances that does not mention any of these is describing the capability and not the control, and the control is the part a reader needs.\n\n**Mine, and labelled in the body:** §2 (the flywheel needs a positive net edge or the identical mechanism is a grinder, and machine speed removes the moment a person would have noticed), §3 (per-call pricing removes a cap, so the budget moves into model behaviour), §4 (purchased data is still untrusted input into a loop with trade authority), §5 (the claim is about surface, and first-party demand is a strong intent signal and a weak adoption signal).\n"</script>
+<h2>Why</h2>
+<p>On the same day BlackRock published a paper arguing that agentic commerce will need machine-native payment rails for exactly this — API calls, on-demand data, consumption-based services that subscriptions and card fees serve badly — Coinbase shipped it. That coincidence is worth noting and then setting aside, because the product raises a question the thesis does not.</p>
+<p>The pitch contains a growth story in four steps, and the steps are a loop. Loops are the most persuasive object in a product announcement and the easiest to get wrong, because <strong>a loop&#39;s direction depends on a term nobody put in the diagram.</strong> Here the missing term is whether the purchased data actually improves the trade by more than the data costs.</p>
+<p>Get that term right and the description is correct: a flywheel. Get it wrong and the identical architecture runs the other way — <strong>a mechanism that converts a balance into data spend at machine speed, with no human in the loop to notice.</strong> The architecture does not change. Only the sign of one number does.</p>
+<h2>How it works</h2>
+<h3>1 — What was announced</h3>
+<table><thead><tr><th>Claim</th><th>As stated</th></tr></thead><tbody><tr><td>Coverage</td><td>Crypto, derivatives, and 6,000+ stocks, through Coinbase for Agents</td></tr><tr><td>Interface</td><td>An MCP server — "trade stocks through the Coinbase MCP"</td></tr><tr><td>Data</td><td>x402 payments for live market data, mid-task, from a USDC balance on Coinbase</td></tr><tr><td>Billing</td><td>"No subscriptions needed"</td></tr><tr><td>Client</td><td>Armstrong: shown on Muse, "works on just about all of them"</td></tr><tr><td>Positioning</td><td>"We&#39;re bringing the everything exchange to agents"</td></tr></tbody></table>
+<h3>2 — The flywheel, and the term it omits</h3>
+<p>The loop as posted:</p>
+<ol><li>agent wants to make a trade</li><li>agent pays for premium trading data</li><li>agent makes a more well-informed trade</li><li>agent pays for more data to make more money</li></ol>
+<p><strong>This card&#39;s first argument.</strong> Steps 2 and 3 are joined by an assumption: that the data improves the decision by more than it costs. Call that the edge, net of the data price. The loop compounds only while that quantity is reliably positive.</p>
+<p>The trouble is the asymmetry in how certain the two halves are:</p>
+<table><thead><tr><th>Term</th><th>How certain</th></tr></thead><tbody><tr><td>The cost of the data</td><td>Certain, immediate, and incurred on every iteration</td></tr><tr><td>The gain from the data</td><td>Uncertain, probabilistic, realised later, and possibly negative</td></tr></tbody></table>
+<p>A loop that spends deterministically and earns stochastically is a <strong>grinder</strong> whenever the expectation is below the price. That is not a hypothetical failure mode; it is the default one, because market data is priced by people who know what it is worth, and any edge that reliably exceeded its price would be repriced.</p>
+<p>And the machine-speed part makes it worse rather than better. A human paying for data feels each subscription renewal and asks whether it earned its keep. An agent paying per call, mid-task, from a balance, feels nothing. <strong>The loop removes the moment at which a person would have noticed.</strong></p>
+<p>None of which says the product is bad. It says the four steps describe a mechanism, not a result, and the same mechanism has two directions. The honest version of the pitch is: <em>this makes the loop possible at all, which it was not before; whether it turns forward is an empirical question about your strategy.</em></p>
+<h3>3 — "No subscriptions needed" removes a cap as well as a friction</h3>
+<p><strong>Second argument.</strong> A subscription is friction and it is also a <strong>bound</strong>. $200 a month is $200 a month regardless of how busy the agent gets, and the worst case is known before it happens.</p>
+<p>Per-call pricing removes the friction and the bound together. The cost ceiling stops being a contract term and becomes a property of the agent&#39;s behaviour — and agent behaviour is the thing least well understood by everyone involved, including the people who built the agent. A retry loop, a poorly bounded research step, a prompt that encourages thoroughness: each of these is now a spending decision.</p>
+<p>This is the real risk surface of agentic payments, and it is the exact inverse of how they are marketed. The marketed benefit is <em>granularity</em>: pay only for what you use. The unmarketed consequence is that <strong>the budget moved from the contract into the model&#39;s behaviour.</strong> The mitigations are known — spend caps, per-scope mandates, rate limits, dry-run modes, approval thresholds — and the posts say nothing about any of them, which is the single largest gap in what was announced.</p>
+<p>The BlackRock paper&#39;s protocol table is relevant here: AP2&#39;s contribution is cryptographic mandates and audit trails as evidence of user authorisation, precisely because "the agent may spend" has to be bounded and provable. x402 solves the payment. Mandates are what bound it, and this announcement does not mention them.</p>
+<h3>4 — Step 2 into step 3 is the composition to worry about</h3>
+<p><strong>Third argument, and the one I would raise first in a design review.</strong> Look at what the loop does: an agent with <strong>trade authority over a funded account</strong> fetches <strong>external content</strong> and conditions its next trade on it.</p>
+<p>Paying for data does not make the data trusted input. A paid feed is still content arriving from outside the trust boundary into a loop that can spend money, and an agent that reads text and then acts has the standard problem — anything in that text that reads like an instruction is competing with the instructions it was given. A premium provider is less likely to be hostile than a random endpoint, but "less likely" is a supply-chain argument, not a boundary.</p>
+<p>The safe shape is well known and worth stating because the announcement does not: <strong>data goes in as data, not as instruction</strong>; the trading tool is called with parameters the model justified from that data, under limits the model cannot raise; and the authority to trade never widens because of something the agent read. Whether Coinbase&#39;s MCP server does any of this I do not know, and it is the thing I would check before connecting an account.</p>
+<h3>5 — Who this is really aimed at</h3>
+<p><strong>Fourth argument.</strong> "The everything exchange for agents" reads as a claim about breadth — crypto plus derivatives plus 6,000 stocks. The structural claim underneath is about <strong>surface</strong>. If the agent interface becomes how people reach their accounts, the MCP server is where the relationship lives, and the venue that holds it is positioned the way an exchange was positioned when the app was the interface.</p>
+<p>This is the argument <code>agent-payments-korea-control-plane</code> (#3, REVISIT) makes about rails generally: control belongs to whoever holds the legal relationships, not to whoever writes the protocol. Coinbase is unusual here in trying to hold both — x402 is Coinbase&#39;s protocol, and this is Coinbase generating first-party demand for it.</p>
+<p>Which cuts two ways honestly. It is a strong signal of commitment: the protocol&#39;s author is building the flagship consumer of it. It is a weak signal of adoption: one party using its own standard is not yet a standard. <strong>What would make it one is a competitor&#39;s agent paying a Coinbase endpoint through x402, or the reverse.</strong></p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>machine-native-economy-blackrock</code> (added the same day) is the thesis and this is the product, published hours apart. Read together they are a good test of the thesis&#39;s specificity: BlackRock predicted agents paying per-call for data and compute over programmable rails, and here it is, with the caveat that the company shipping it also wrote the protocol being cited as the emerging standard.</p>
+<p><code>agent-payments-korea-control-plane</code> (#3, REVISIT) supplies §5. Also worth revisiting with this in hand: that card&#39;s x402 walkthrough describes the facilitator&#39;s role, and this announcement is the first consumer-facing product where the facilitator and the exchange are the same company.</p>
+<p><code>consumed-authorization</code> is §3&#39;s and §4&#39;s neighbour. An agent&#39;s spending authority is an authorization, and the questions that card asks about every authorization apply here: what is its scope, when is it consumed, how is it cancelled cheaply, and does it expire. "Connect your agent to manage your finances" is a mandate with none of those specified in public.</p>
+<p><code>mcp-three-sides</code> is the structural frame: a server, a client and the agent between them, and the security properties live in what the server exposes and what the client permits. A trading MCP server is the highest-stakes version of that diagram so far.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported:</strong> the three posts, one of them truncated in the paste. That is all.</p>
+<p><strong>Not verified by me:</strong> everything. I did not open the developer documentation, connect an agent, inspect the MCP server&#39;s tools, or check the authorization model. The 6,000+ figure, the derivatives coverage, jurisdictional availability, which providers sell data over x402 and at what prices — none of it is confirmed here. I do not know what Muse is beyond Armstrong naming it as the client in his demo.</p>
+<p><strong>Missing from the announcement, and the reason this card is cautious:</strong> spending limits, scopes, approval steps, revocation. An announcement about connecting an agent to your finances that does not mention any of these is describing the capability and not the control, and the control is the part a reader needs.</p>
+<p><strong>Mine, and labelled in the body:</strong> §2 (the flywheel needs a positive net edge or the identical mechanism is a grinder, and machine speed removes the moment a person would have noticed), §3 (per-call pricing removes a cap, so the budget moves into model behaviour), §4 (purchased data is still untrusted input into a loop with trade authority), §5 (the claim is about surface, and first-party demand is a strong intent signal and a weak adoption signal).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flywheel</strong></td><td>플라이휠 · 한 바퀴가 다음 바퀴를 키우는 자기강화 루프</td></tr><tr><td><strong>grinder</strong></td><td>분쇄기 · 같은 구조가 반대로 돌 때. 이 카드가 붙인 대조어</td></tr><tr><td><strong>edge (net of cost)</strong></td><td>(비용을 뺀) 우위 · 루프의 방향을 결정하는 항</td></tr><tr><td><strong>to compound</strong></td><td>복리로 불어나다 · 플라이휠이 성립하는 조건</td></tr><tr><td><strong>deterministic vs stochastic</strong></td><td>결정론적 대 확률적 · 비용은 확실하고 이득은 불확실하다는 비대칭</td></tr><tr><td><strong>to be repriced</strong></td><td>재가격되다 · 알려진 우위가 가격에 흡수되는 현상</td></tr><tr><td><strong>granularity</strong></td><td>세분성 · 쓴 만큼만 낸다는 홍보 포인트</td></tr><tr><td><strong>a cap / a bound</strong></td><td>상한 · 구독이 주던 것, 호출당 과금이 없애는 것</td></tr><tr><td><strong>cost ceiling</strong></td><td>비용 천장 · 최악의 경우 얼마까지 쓰는가</td></tr><tr><td><strong>spend cap / rate limit / dry-run mode</strong></td><td>지출 한도 / 호출 제한 / 시험 실행 모드 · 표준 완화책들</td></tr><tr><td><strong>approval threshold</strong></td><td>승인 임계값 · 이 금액 넘으면 사람이 확인</td></tr><tr><td><strong>mandate</strong></td><td>맨데이트(권한 위임 증서) · AP2가 암호학적으로 제공하는 것</td></tr><tr><td><strong>scope</strong></td><td>범위 · 권한이 어디까지 미치는가</td></tr><tr><td><strong>revocation</strong></td><td>취소·철회 · 권한을 거두는 방법</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계 · 안과 밖을 가르는 선</td></tr><tr><td><strong>untrusted input</strong></td><td>비신뢰 입력 · 값을 치렀다고 신뢰되지 않는다</td></tr><tr><td><strong>prompt injection</strong></td><td>프롬프트 주입 · 읽은 텍스트가 지시처럼 작용하는 공격</td></tr><tr><td><strong>supply-chain argument</strong></td><td>공급망 논증 · "그 제공자는 적대적일 가능성이 낮다". 경계의 대체물이 아님</td></tr><tr><td><strong>data as data, not as instruction</strong></td><td>지시가 아니라 데이터로 · 안전한 합성의 규칙</td></tr><tr><td><strong>trade authority</strong></td><td>거래 권한 · 에이전트가 실제로 주문을 낼 수 있는 힘</td></tr><tr><td><strong>first-party demand</strong></td><td>자사 수요 · 프로토콜 저자가 스스로 만드는 수요</td></tr><tr><td><strong>intent signal vs adoption signal</strong></td><td>의지 신호 대 채택 신호 · 이 카드가 나누는 두 가지</td></tr><tr><td><strong>product surface</strong></td><td>제품 표면 · 사용자가 실제로 닿는 접점</td></tr><tr><td><strong>the everything exchange</strong></td><td>무엇이든 거래소 · 코인베이스의 자기 포지셔닝 표현</td></tr><tr><td><strong>mid-task</strong></td><td>작업 중간에 · 사람의 확인 없이 지출이 일어나는 시점</td></tr><tr><td><strong>no subscriptions needed</strong></td><td>구독 불필요 · 마찰과 상한을 함께 없앤 문구</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# Coinbase for Agents — 데이터가 제값을 못 하면 플라이휠은 분쇄기다\n\n코인베이스가 에이전트 인터페이스로 주식 거래를 열었다. 암호자산, 파생상품, 그리고 6,000개 이상의 주식을 MCP 서버 하나로. x402로 에이전트가 작업 중간에 코인베이스의 USDC 잔액에서 실시간 시장 데이터 값을 치를 수 있고, 구독은 필요 없다. 브라이언 암스트롱의 표현은 \"좋아하는 AI 에이전트를 코인베이스에 연결해 거래하고, 지불하고, 재무를 관리하라\"다. 코인베이스의 Lincoln Murr가 이것이 만들려는 루프를 스케치했다. 에이전트가 거래하고 싶어 하고, 프리미엄 데이터 값을 치르고, 더 잘 아는 상태로 거래하고, 더 벌기 위해 데이터를 더 산다. **그 루프가 흥미로운 부분이고, 아무도 말하지 않은 가정 아래에서만 서술된 방향으로 돈다.**\n\njay가 2026-09-23에 두 메시지로 붙여넣었고, 하나의 발표이므로 여기서 합쳤다. 인용된 게시물 하나는 붙여넣기에서 잘려 있다. 문서를 열지 않았고, 에이전트를 연결하지 않았고, 권한 모델을 보지 않았다. 그래서 여기 있는 어떤 것도 **실제 작동 방식을 서술하지 않는다** — 그리고 내가 가장 원하는 것, **지출 한도와 취소 방법**은 게시물에 아예 없다. 아래 다섯 독법은 내 것이다.\n\n## 왜\n\n블랙록이 에이전틱 커머스에 정확히 이런 것 — API 호출, 온디맨드 데이터, 구독과 카드 수수료가 잘 못 다루는 소비 기반 서비스 — 을 위한 기계 네이티브 결제 레일이 필요하다고 주장한 논문을 낸 **같은 날**, 코인베이스가 그것을 출시했다. 이 우연은 기록해두고 옆으로 치워두는 게 맞다. 제품이 논제가 던지지 않는 질문을 던지기 때문이다.\n\n피치에는 네 단계짜리 성장 이야기가 들어 있고, 그 단계들은 **루프**다. 루프는 제품 발표에서 가장 설득력 있는 물건이자 가장 틀리기 쉬운 물건이다. **루프의 방향은 다이어그램에 아무도 넣지 않은 항에 달려 있기** 때문이다. 여기서 빠진 항은 **구매한 데이터가 정말로 데이터 값보다 더 많이 거래를 개선하는가**이다.\n\n그 항이 맞으면 서술이 옳다. 플라이휠이다. 틀리면 **동일한 아키텍처가 반대로 돈다** — **잔액을 기계 속도로 데이터 지출로 바꾸는 장치, 그것을 알아챌 사람은 루프 안에 없다.** 아키텍처는 바뀌지 않는다. 숫자 하나의 **부호**만 바뀐다.\n\n## 동작 방식\n\n### 1 — 무엇이 발표됐나\n\n| 항목 | 발표된 대로 |\n|---|---|\n| 취급 범위 | 암호자산, 파생상품, 6,000개 이상의 주식, Coinbase for Agents를 통해 |\n| 인터페이스 | MCP 서버 — \"trade stocks through the Coinbase MCP\" |\n| 데이터 | x402 결제로 작업 중간에 실시간 시장 데이터를, 코인베이스의 USDC 잔액에서 |\n| 과금 | \"No subscriptions needed\" |\n| 클라이언트 | 암스트롱: Muse에서 시연했지만 \"거의 전부에서 작동\" |\n| 포지셔닝 | \"We're bringing the everything exchange to agents\" |\n\n### 2 — 플라이휠, 그리고 빠진 항\n\n게시된 루프:\n\n1. 에이전트가 거래하고 싶어 한다\n2. 에이전트가 프리미엄 거래 데이터 값을 치른다\n3. 에이전트가 더 잘 아는 상태로 거래한다\n4. 더 벌기 위해 데이터를 더 산다\n\n**이 카드의 첫 논증.** 2단계와 3단계는 가정으로 이어져 있다. **데이터가 그 값보다 더 많이 판단을 개선한다**는 가정. 그것을 데이터 가격을 뺀 **엣지**라고 부르자. 루프는 그 양이 **안정적으로 양수인 동안에만** 복리로 돈다.\n\n문제는 두 절반의 확실성이 비대칭이라는 것이다.\n\n| 항 | 얼마나 확실한가 |\n|---|---|\n| 데이터 비용 | 확실하고, 즉시이며, **매 회전마다** 발생 |\n| 데이터로 인한 이득 | 불확실하고, 확률적이며, 나중에 실현되고, **음수일 수 있음** |\n\n**결정론적으로 쓰고 확률적으로 버는 루프**는 기댓값이 가격보다 낮은 순간 **분쇄기**다. 가설적 실패 양상이 아니라 **기본값**이다. 시장 데이터는 그것이 얼마짜리인지 아는 사람들이 값을 매기고, 가격을 안정적으로 넘어서는 엣지는 재가격된다.\n\n그리고 **기계 속도**가 이를 낫게 만드는 게 아니라 나쁘게 만든다. 사람이 데이터 값을 치르면 갱신 때마다 그것을 체감하고 값을 했는지 묻는다. 작업 중간에, 잔액에서, 호출당으로 지불하는 에이전트는 아무것도 느끼지 않는다. **루프는 사람이 알아챘을 바로 그 순간을 제거한다.**\n\n이것이 제품이 나쁘다는 말은 아니다. **네 단계가 결과가 아니라 장치를 서술하고, 같은 장치에 두 방향이 있다**는 말이다. 정직한 판본의 피치는 이렇다. *이것이 그 루프를 처음으로 가능하게 만든다. 앞으로 도는지는 당신 전략에 대한 경험적 질문이다.*\n\n### 3 — \"구독 불필요\"는 마찰과 함께 상한도 없앤다\n\n**두 번째 논증.** 구독은 마찰이고 동시에 **상한**이다. 월 200달러는 에이전트가 아무리 바빠도 월 200달러이고, **최악의 경우가 발생 전에 알려져 있다.**\n\n호출당 과금은 마찰과 상한을 함께 없앤다. 비용 천장이 계약 조항이기를 그만두고 **에이전트 행동의 속성**이 된다 — 그리고 에이전트 행동은 만든 사람을 포함해 관련된 모두가 가장 덜 이해하는 것이다. 재시도 루프, 경계가 헐거운 조사 단계, 철저함을 권하는 프롬프트. 이제 각각이 **지출 결정**이다.\n\n이것이 에이전틱 결제의 진짜 위험 표면이고, 마케팅되는 방식의 **정확한 역**이다. 홍보되는 이점은 **세분성**이다. 쓴 만큼만 낸다. 홍보되지 않는 결과는 **예산이 계약에서 모델의 행동으로 옮겨갔다**는 것이다. 완화책은 알려져 있다 — 지출 한도, 범위별 맨데이트, 레이트 리밋, 드라이런 모드, 승인 임계값 — 그리고 게시물은 그중 어느 것도 말하지 않는다. **발표된 내용에서 가장 큰 공백이다.**\n\n블랙록 논문의 프로토콜 표가 여기 관련된다. AP2의 기여가 **암호학적 맨데이트와 감사 추적**인 이유가 정확히 \"에이전트가 쓸 수 있다\"는 것에 경계가 있고 증명 가능해야 하기 때문이다. x402는 **결제**를 푼다. 맨데이트가 그것을 **묶는** 것이고, 이 발표는 그것을 언급하지 않는다.\n\n### 4 — 2단계에서 3단계로 넘어가는 합성이 걱정할 지점\n\n**세 번째 논증이자, 설계 리뷰에서 내가 가장 먼저 꺼낼 것.** 루프가 하는 일을 보라. **자금이 든 계좌에 대한 거래 권한**을 가진 에이전트가 **외부 콘텐츠**를 가져와 다음 거래를 그것에 조건 지운다.\n\n**데이터 값을 치렀다고 그 데이터가 신뢰된 입력이 되지 않는다.** 유료 피드도 신뢰 경계 바깥에서 **돈을 쓸 수 있는 루프 안으로** 들어오는 콘텐츠이고, 글을 읽고 행동하는 에이전트는 표준적인 문제를 갖는다 — 그 글 안에서 지시처럼 읽히는 무엇이든 원래 받은 지시와 경쟁한다. 프리미엄 제공자가 적대적일 가능성이 낮은 건 맞지만, \"가능성이 낮다\"는 **공급망 논증이지 경계가 아니다.**\n\n안전한 형태는 잘 알려져 있고, 발표가 말하지 않으니 적어둘 값이 있다. **데이터는 지시가 아니라 데이터로 들어온다.** 거래 도구는 모델이 그 데이터로부터 **정당화한 파라미터**로 호출되고, **모델이 올릴 수 없는 한도** 아래에서 호출된다. 그리고 **에이전트가 읽은 무엇 때문에 거래 권한이 넓어지는 일은 없다.** 코인베이스의 MCP 서버가 이 중 무엇을 하는지 나는 모르고, **계좌를 연결하기 전에 확인할 것**이 바로 그것이다.\n\n### 5 — 이것이 실제로 겨냥하는 것\n\n**네 번째 논증.** \"the everything exchange for agents\"는 **폭**에 대한 주장처럼 읽힌다 — 암호자산에 파생상품에 주식 6,000개. 그 아래의 구조적 주장은 **표면**에 관한 것이다. 에이전트 인터페이스가 사람들이 자기 계좌에 닿는 방식이 되면, **MCP 서버가 관계가 사는 자리**이고, 그것을 쥔 장은 앱이 인터페이스이던 시절 거래소가 놓였던 자리에 놓인다.\n\n`agent-payments-korea-control-plane` (#3, REVISIT)이 레일 일반에 대해 하는 논증이다. 통제는 프로토콜을 쓰는 쪽이 아니라 **법적 관계를 쥔 쪽**에 있다. 코인베이스는 여기서 특이하게 **둘 다 쥐려 한다** — x402는 코인베이스의 프로토콜이고, 이것은 코인베이스가 그것에 대한 **자사 수요**를 만드는 것이다.\n\n정직하게 말하면 양쪽으로 갈린다. 강한 **의지 신호**다. 프로토콜의 저자가 그 대표 소비자를 짓고 있다. 약한 **채택 신호**다. 한 당사자가 자기 표준을 쓰는 것은 아직 표준이 아니다. **표준으로 만들 것은 경쟁사의 에이전트가 x402로 코인베이스 엔드포인트에 지불하거나, 그 반대가 일어나는 것이다.**\n\n### Jayverse에서의 위치\n\n`machine-native-economy-blackrock` (같은 날 추가)이 논제이고 이것이 제품이다. 몇 시간 간격으로 나왔다. 함께 읽으면 논제의 구체성을 시험하는 좋은 재료가 된다. 블랙록은 에이전트가 데이터와 컴퓨트에 호출당 지불하는 것을 예측했고, 여기 그것이 있다. 다만 **출시한 회사가 신흥 표준으로 인용되는 그 프로토콜을 직접 쓴 회사**라는 단서와 함께.\n\n`agent-payments-korea-control-plane` (#3, REVISIT)이 §5를 댄다. 이것을 손에 들고 다시 볼 값도 있다. 그 카드의 x402 설명이 퍼실리테이터의 역할을 서술하는데, 이 발표는 **퍼실리테이터와 거래소가 같은 회사인 첫 소비자용 제품**이다.\n\n`consumed-authorization`이 §3·§4의 이웃이다. 에이전트의 지출 권한은 **권한 부여**이고, 그 카드가 모든 권한에 대해 던지는 질문이 그대로 적용된다. 범위는 무엇인가, 언제 소비되는가, 어떻게 싸게 취소하는가, 만료되는가. \"에이전트를 연결해 재무를 관리하라\"는 **이 중 무엇도 공개적으로 명시되지 않은 맨데이트**다.\n\n`mcp-three-sides`가 구조적 틀이다. 서버, 클라이언트, 그 사이의 에이전트. 보안 속성은 **서버가 무엇을 노출하고 클라이언트가 무엇을 허용하는가**에 산다. 거래용 MCP 서버는 지금까지 그 다이어그램의 가장 판돈 큰 판본이다.\n\n### 확인된 것과 미확인\n\n**보고된 것:** 게시물 셋, 그중 하나는 붙여넣기에서 잘림. 그게 전부다.\n\n**내가 확인하지 않은 것:** 전부. 개발자 문서를 열지 않았고, 에이전트를 연결하지 않았고, MCP 서버의 도구 목록을 보지 않았고, 권한 모델을 확인하지 않았다. 6,000개 수치, 파생상품 범위, 관할별 가용성, x402로 데이터를 파는 제공자와 가격 — 어느 것도 확인되지 않았다. Muse가 무엇인지도 암스트롱이 시연 클라이언트로 언급한 것 이상은 모른다.\n\n**발표에서 빠졌고, 이 카드가 조심스러운 이유:** 지출 한도, 범위, 승인 단계, 취소. **에이전트를 당신 재무에 연결하라는 발표가 이 중 무엇도 언급하지 않는다면 그것은 역량을 서술한 것이지 통제를 서술한 것이 아니고**, 독자에게 필요한 부분은 통제다.\n\n**내 것이고 본문에 표시한 것:** §2(플라이휠에는 양의 순엣지가 필요하고, 아니면 동일한 장치가 분쇄기이며, 기계 속도가 사람이 알아챌 순간을 없앤다), §3(호출당 과금이 상한을 없애 예산이 모델 행동으로 옮겨간다), §4(구매한 데이터도 거래 권한을 가진 루프에 들어가는 비신뢰 입력이다), §5(주장은 표면에 관한 것이고, 자사 수요는 강한 의지 신호이자 약한 채택 신호다).\n"</script>
+      <h1>Coinbase for Agents — 데이터가 제값을 못 하면 플라이휠은 분쇄기다</h1>
+      <p class="lead">코인베이스가 에이전트 인터페이스로 주식 거래를 열었다. 암호자산, 파생상품, 그리고 6,000개 이상의 주식을 MCP 서버 하나로. x402로 에이전트가 작업 중간에 코인베이스의 USDC 잔액에서 실시간 시장 데이터 값을 치를 수 있고, 구독은 필요 없다. 브라이언 암스트롱의 표현은 "좋아하는 AI 에이전트를 코인베이스에 연결해 거래하고, 지불하고, 재무를 관리하라"다. 코인베이스의 Lincoln Murr가 이것이 만들려는 루프를 스케치했다. 에이전트가 거래하고 싶어 하고, 프리미엄 데이터 값을 치르고, 더 잘 아는 상태로 거래하고, 더 벌기 위해 데이터를 더 산다. **그 루프가 흥미로운 부분이고, 아무도 말하지 않은 가정 아래에서만 서술된 방향으로 돈다.**</p>
+      <p class="meta">jay가 2026-09-23에 두 메시지로 붙여넣었고, 하나의 발표이므로 여기서 합쳤다. 인용된 게시물 하나는 붙여넣기에서 잘려 있다. 문서를 열지 않았고, 에이전트를 연결하지 않았고, 권한 모델을 보지 않았다. 그래서 여기 있는 어떤 것도 <strong>실제 작동 방식을 서술하지 않는다</strong> — 그리고 내가 가장 원하는 것, <strong>지출 한도와 취소 방법</strong>은 게시물에 아예 없다. 아래 다섯 독법은 내 것이다.</p>
+<h2>왜</h2>
+<p>블랙록이 에이전틱 커머스에 정확히 이런 것 — API 호출, 온디맨드 데이터, 구독과 카드 수수료가 잘 못 다루는 소비 기반 서비스 — 을 위한 기계 네이티브 결제 레일이 필요하다고 주장한 논문을 낸 <strong>같은 날</strong>, 코인베이스가 그것을 출시했다. 이 우연은 기록해두고 옆으로 치워두는 게 맞다. 제품이 논제가 던지지 않는 질문을 던지기 때문이다.</p>
+<p>피치에는 네 단계짜리 성장 이야기가 들어 있고, 그 단계들은 <strong>루프</strong>다. 루프는 제품 발표에서 가장 설득력 있는 물건이자 가장 틀리기 쉬운 물건이다. <strong>루프의 방향은 다이어그램에 아무도 넣지 않은 항에 달려 있기</strong> 때문이다. 여기서 빠진 항은 <strong>구매한 데이터가 정말로 데이터 값보다 더 많이 거래를 개선하는가</strong>이다.</p>
+<p>그 항이 맞으면 서술이 옳다. 플라이휠이다. 틀리면 <strong>동일한 아키텍처가 반대로 돈다</strong> — <strong>잔액을 기계 속도로 데이터 지출로 바꾸는 장치, 그것을 알아챌 사람은 루프 안에 없다.</strong> 아키텍처는 바뀌지 않는다. 숫자 하나의 <strong>부호</strong>만 바뀐다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 무엇이 발표됐나</h3>
+<table><thead><tr><th>항목</th><th>발표된 대로</th></tr></thead><tbody><tr><td>취급 범위</td><td>암호자산, 파생상품, 6,000개 이상의 주식, Coinbase for Agents를 통해</td></tr><tr><td>인터페이스</td><td>MCP 서버 — "trade stocks through the Coinbase MCP"</td></tr><tr><td>데이터</td><td>x402 결제로 작업 중간에 실시간 시장 데이터를, 코인베이스의 USDC 잔액에서</td></tr><tr><td>과금</td><td>"No subscriptions needed"</td></tr><tr><td>클라이언트</td><td>암스트롱: Muse에서 시연했지만 "거의 전부에서 작동"</td></tr><tr><td>포지셔닝</td><td>"We&#39;re bringing the everything exchange to agents"</td></tr></tbody></table>
+<h3>2 — 플라이휠, 그리고 빠진 항</h3>
+<p>게시된 루프:</p>
+<ol><li>에이전트가 거래하고 싶어 한다</li><li>에이전트가 프리미엄 거래 데이터 값을 치른다</li><li>에이전트가 더 잘 아는 상태로 거래한다</li><li>더 벌기 위해 데이터를 더 산다</li></ol>
+<p><strong>이 카드의 첫 논증.</strong> 2단계와 3단계는 가정으로 이어져 있다. <strong>데이터가 그 값보다 더 많이 판단을 개선한다</strong>는 가정. 그것을 데이터 가격을 뺀 <strong>엣지</strong>라고 부르자. 루프는 그 양이 <strong>안정적으로 양수인 동안에만</strong> 복리로 돈다.</p>
+<p>문제는 두 절반의 확실성이 비대칭이라는 것이다.</p>
+<table><thead><tr><th>항</th><th>얼마나 확실한가</th></tr></thead><tbody><tr><td>데이터 비용</td><td>확실하고, 즉시이며, <strong>매 회전마다</strong> 발생</td></tr><tr><td>데이터로 인한 이득</td><td>불확실하고, 확률적이며, 나중에 실현되고, <strong>음수일 수 있음</strong></td></tr></tbody></table>
+<p><strong>결정론적으로 쓰고 확률적으로 버는 루프</strong>는 기댓값이 가격보다 낮은 순간 <strong>분쇄기</strong>다. 가설적 실패 양상이 아니라 <strong>기본값</strong>이다. 시장 데이터는 그것이 얼마짜리인지 아는 사람들이 값을 매기고, 가격을 안정적으로 넘어서는 엣지는 재가격된다.</p>
+<p>그리고 <strong>기계 속도</strong>가 이를 낫게 만드는 게 아니라 나쁘게 만든다. 사람이 데이터 값을 치르면 갱신 때마다 그것을 체감하고 값을 했는지 묻는다. 작업 중간에, 잔액에서, 호출당으로 지불하는 에이전트는 아무것도 느끼지 않는다. <strong>루프는 사람이 알아챘을 바로 그 순간을 제거한다.</strong></p>
+<p>이것이 제품이 나쁘다는 말은 아니다. <strong>네 단계가 결과가 아니라 장치를 서술하고, 같은 장치에 두 방향이 있다</strong>는 말이다. 정직한 판본의 피치는 이렇다. <em>이것이 그 루프를 처음으로 가능하게 만든다. 앞으로 도는지는 당신 전략에 대한 경험적 질문이다.</em></p>
+<h3>3 — "구독 불필요"는 마찰과 함께 상한도 없앤다</h3>
+<p><strong>두 번째 논증.</strong> 구독은 마찰이고 동시에 <strong>상한</strong>이다. 월 200달러는 에이전트가 아무리 바빠도 월 200달러이고, <strong>최악의 경우가 발생 전에 알려져 있다.</strong></p>
+<p>호출당 과금은 마찰과 상한을 함께 없앤다. 비용 천장이 계약 조항이기를 그만두고 <strong>에이전트 행동의 속성</strong>이 된다 — 그리고 에이전트 행동은 만든 사람을 포함해 관련된 모두가 가장 덜 이해하는 것이다. 재시도 루프, 경계가 헐거운 조사 단계, 철저함을 권하는 프롬프트. 이제 각각이 <strong>지출 결정</strong>이다.</p>
+<p>이것이 에이전틱 결제의 진짜 위험 표면이고, 마케팅되는 방식의 <strong>정확한 역</strong>이다. 홍보되는 이점은 <strong>세분성</strong>이다. 쓴 만큼만 낸다. 홍보되지 않는 결과는 <strong>예산이 계약에서 모델의 행동으로 옮겨갔다</strong>는 것이다. 완화책은 알려져 있다 — 지출 한도, 범위별 맨데이트, 레이트 리밋, 드라이런 모드, 승인 임계값 — 그리고 게시물은 그중 어느 것도 말하지 않는다. <strong>발표된 내용에서 가장 큰 공백이다.</strong></p>
+<p>블랙록 논문의 프로토콜 표가 여기 관련된다. AP2의 기여가 <strong>암호학적 맨데이트와 감사 추적</strong>인 이유가 정확히 "에이전트가 쓸 수 있다"는 것에 경계가 있고 증명 가능해야 하기 때문이다. x402는 <strong>결제</strong>를 푼다. 맨데이트가 그것을 <strong>묶는</strong> 것이고, 이 발표는 그것을 언급하지 않는다.</p>
+<h3>4 — 2단계에서 3단계로 넘어가는 합성이 걱정할 지점</h3>
+<p><strong>세 번째 논증이자, 설계 리뷰에서 내가 가장 먼저 꺼낼 것.</strong> 루프가 하는 일을 보라. <strong>자금이 든 계좌에 대한 거래 권한</strong>을 가진 에이전트가 <strong>외부 콘텐츠</strong>를 가져와 다음 거래를 그것에 조건 지운다.</p>
+<p><strong>데이터 값을 치렀다고 그 데이터가 신뢰된 입력이 되지 않는다.</strong> 유료 피드도 신뢰 경계 바깥에서 <strong>돈을 쓸 수 있는 루프 안으로</strong> 들어오는 콘텐츠이고, 글을 읽고 행동하는 에이전트는 표준적인 문제를 갖는다 — 그 글 안에서 지시처럼 읽히는 무엇이든 원래 받은 지시와 경쟁한다. 프리미엄 제공자가 적대적일 가능성이 낮은 건 맞지만, "가능성이 낮다"는 <strong>공급망 논증이지 경계가 아니다.</strong></p>
+<p>안전한 형태는 잘 알려져 있고, 발표가 말하지 않으니 적어둘 값이 있다. <strong>데이터는 지시가 아니라 데이터로 들어온다.</strong> 거래 도구는 모델이 그 데이터로부터 <strong>정당화한 파라미터</strong>로 호출되고, <strong>모델이 올릴 수 없는 한도</strong> 아래에서 호출된다. 그리고 <strong>에이전트가 읽은 무엇 때문에 거래 권한이 넓어지는 일은 없다.</strong> 코인베이스의 MCP 서버가 이 중 무엇을 하는지 나는 모르고, <strong>계좌를 연결하기 전에 확인할 것</strong>이 바로 그것이다.</p>
+<h3>5 — 이것이 실제로 겨냥하는 것</h3>
+<p><strong>네 번째 논증.</strong> "the everything exchange for agents"는 <strong>폭</strong>에 대한 주장처럼 읽힌다 — 암호자산에 파생상품에 주식 6,000개. 그 아래의 구조적 주장은 <strong>표면</strong>에 관한 것이다. 에이전트 인터페이스가 사람들이 자기 계좌에 닿는 방식이 되면, <strong>MCP 서버가 관계가 사는 자리</strong>이고, 그것을 쥔 장은 앱이 인터페이스이던 시절 거래소가 놓였던 자리에 놓인다.</p>
+<p><code>agent-payments-korea-control-plane</code> (#3, REVISIT)이 레일 일반에 대해 하는 논증이다. 통제는 프로토콜을 쓰는 쪽이 아니라 <strong>법적 관계를 쥔 쪽</strong>에 있다. 코인베이스는 여기서 특이하게 <strong>둘 다 쥐려 한다</strong> — x402는 코인베이스의 프로토콜이고, 이것은 코인베이스가 그것에 대한 <strong>자사 수요</strong>를 만드는 것이다.</p>
+<p>정직하게 말하면 양쪽으로 갈린다. 강한 <strong>의지 신호</strong>다. 프로토콜의 저자가 그 대표 소비자를 짓고 있다. 약한 <strong>채택 신호</strong>다. 한 당사자가 자기 표준을 쓰는 것은 아직 표준이 아니다. <strong>표준으로 만들 것은 경쟁사의 에이전트가 x402로 코인베이스 엔드포인트에 지불하거나, 그 반대가 일어나는 것이다.</strong></p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>machine-native-economy-blackrock</code> (같은 날 추가)이 논제이고 이것이 제품이다. 몇 시간 간격으로 나왔다. 함께 읽으면 논제의 구체성을 시험하는 좋은 재료가 된다. 블랙록은 에이전트가 데이터와 컴퓨트에 호출당 지불하는 것을 예측했고, 여기 그것이 있다. 다만 <strong>출시한 회사가 신흥 표준으로 인용되는 그 프로토콜을 직접 쓴 회사</strong>라는 단서와 함께.</p>
+<p><code>agent-payments-korea-control-plane</code> (#3, REVISIT)이 §5를 댄다. 이것을 손에 들고 다시 볼 값도 있다. 그 카드의 x402 설명이 퍼실리테이터의 역할을 서술하는데, 이 발표는 <strong>퍼실리테이터와 거래소가 같은 회사인 첫 소비자용 제품</strong>이다.</p>
+<p><code>consumed-authorization</code>이 §3·§4의 이웃이다. 에이전트의 지출 권한은 <strong>권한 부여</strong>이고, 그 카드가 모든 권한에 대해 던지는 질문이 그대로 적용된다. 범위는 무엇인가, 언제 소비되는가, 어떻게 싸게 취소하는가, 만료되는가. "에이전트를 연결해 재무를 관리하라"는 <strong>이 중 무엇도 공개적으로 명시되지 않은 맨데이트</strong>다.</p>
+<p><code>mcp-three-sides</code>가 구조적 틀이다. 서버, 클라이언트, 그 사이의 에이전트. 보안 속성은 <strong>서버가 무엇을 노출하고 클라이언트가 무엇을 허용하는가</strong>에 산다. 거래용 MCP 서버는 지금까지 그 다이어그램의 가장 판돈 큰 판본이다.</p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보고된 것:</strong> 게시물 셋, 그중 하나는 붙여넣기에서 잘림. 그게 전부다.</p>
+<p><strong>내가 확인하지 않은 것:</strong> 전부. 개발자 문서를 열지 않았고, 에이전트를 연결하지 않았고, MCP 서버의 도구 목록을 보지 않았고, 권한 모델을 확인하지 않았다. 6,000개 수치, 파생상품 범위, 관할별 가용성, x402로 데이터를 파는 제공자와 가격 — 어느 것도 확인되지 않았다. Muse가 무엇인지도 암스트롱이 시연 클라이언트로 언급한 것 이상은 모른다.</p>
+<p><strong>발표에서 빠졌고, 이 카드가 조심스러운 이유:</strong> 지출 한도, 범위, 승인 단계, 취소. <strong>에이전트를 당신 재무에 연결하라는 발표가 이 중 무엇도 언급하지 않는다면 그것은 역량을 서술한 것이지 통제를 서술한 것이 아니고</strong>, 독자에게 필요한 부분은 통제다.</p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §2(플라이휠에는 양의 순엣지가 필요하고, 아니면 동일한 장치가 분쇄기이며, 기계 속도가 사람이 알아챌 순간을 없앤다), §3(호출당 과금이 상한을 없애 예산이 모델 행동으로 옮겨간다), §4(구매한 데이터도 거래 권한을 가진 루프에 들어가는 비신뢰 입력이다), §5(주장은 표면에 관한 것이고, 자사 수요는 강한 의지 신호이자 약한 채택 신호다).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>flywheel</strong></td><td>플라이휠 · 한 바퀴가 다음 바퀴를 키우는 자기강화 루프</td></tr><tr><td><strong>grinder</strong></td><td>분쇄기 · 같은 구조가 반대로 돌 때. 이 카드가 붙인 대조어</td></tr><tr><td><strong>edge (net of cost)</strong></td><td>(비용을 뺀) 우위 · 루프의 방향을 결정하는 항</td></tr><tr><td><strong>to compound</strong></td><td>복리로 불어나다 · 플라이휠이 성립하는 조건</td></tr><tr><td><strong>deterministic vs stochastic</strong></td><td>결정론적 대 확률적 · 비용은 확실하고 이득은 불확실하다는 비대칭</td></tr><tr><td><strong>to be repriced</strong></td><td>재가격되다 · 알려진 우위가 가격에 흡수되는 현상</td></tr><tr><td><strong>granularity</strong></td><td>세분성 · 쓴 만큼만 낸다는 홍보 포인트</td></tr><tr><td><strong>a cap / a bound</strong></td><td>상한 · 구독이 주던 것, 호출당 과금이 없애는 것</td></tr><tr><td><strong>cost ceiling</strong></td><td>비용 천장 · 최악의 경우 얼마까지 쓰는가</td></tr><tr><td><strong>spend cap / rate limit / dry-run mode</strong></td><td>지출 한도 / 호출 제한 / 시험 실행 모드 · 표준 완화책들</td></tr><tr><td><strong>approval threshold</strong></td><td>승인 임계값 · 이 금액 넘으면 사람이 확인</td></tr><tr><td><strong>mandate</strong></td><td>맨데이트(권한 위임 증서) · AP2가 암호학적으로 제공하는 것</td></tr><tr><td><strong>scope</strong></td><td>범위 · 권한이 어디까지 미치는가</td></tr><tr><td><strong>revocation</strong></td><td>취소·철회 · 권한을 거두는 방법</td></tr><tr><td><strong>trust boundary</strong></td><td>신뢰 경계 · 안과 밖을 가르는 선</td></tr><tr><td><strong>untrusted input</strong></td><td>비신뢰 입력 · 값을 치렀다고 신뢰되지 않는다</td></tr><tr><td><strong>prompt injection</strong></td><td>프롬프트 주입 · 읽은 텍스트가 지시처럼 작용하는 공격</td></tr><tr><td><strong>supply-chain argument</strong></td><td>공급망 논증 · "그 제공자는 적대적일 가능성이 낮다". 경계의 대체물이 아님</td></tr><tr><td><strong>data as data, not as instruction</strong></td><td>지시가 아니라 데이터로 · 안전한 합성의 규칙</td></tr><tr><td><strong>trade authority</strong></td><td>거래 권한 · 에이전트가 실제로 주문을 낼 수 있는 힘</td></tr><tr><td><strong>first-party demand</strong></td><td>자사 수요 · 프로토콜 저자가 스스로 만드는 수요</td></tr><tr><td><strong>intent signal vs adoption signal</strong></td><td>의지 신호 대 채택 신호 · 이 카드가 나누는 두 가지</td></tr><tr><td><strong>product surface</strong></td><td>제품 표면 · 사용자가 실제로 닿는 접점</td></tr><tr><td><strong>the everything exchange</strong></td><td>무엇이든 거래소 · 코인베이스의 자기 포지셔닝 표현</td></tr><tr><td><strong>mid-task</strong></td><td>작업 중간에 · 사람의 확인 없이 지출이 일어나는 시점</td></tr><tr><td><strong>no subscriptions needed</strong></td><td>구독 불필요 · 마찰과 상한을 함께 없앤 문구</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-the-shelf-is-stocked-the-market-is-not.html">&larr; 72. Availability is far ahead of demand — a $4bn shelf with $4.5m moving on it</a><a href="pocs-admin-rights-protect-the-evidence.html">74. Taking admin rights away is not an access control — it protects your own evidence &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="agent-data-flywheel-or-grinder";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

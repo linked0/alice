@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/949</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/959</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; An authorization that is not consumed is an authorization that can be used again</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#72</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-23-consumed-authorization.md">raw</a></span></p>
+      <p class="topic-kicker"><span class="topic-no">#78</span><span>PoC</span><span title="added">2026-09-23</span><span title="source">chat</span><span title="bin">deep</span><span title="raw"><a href="raw/2026-09-23-consumed-authorization.md">raw</a></span></p>
       <h1>An authorization that is not consumed is an authorization that can be used again</h1>
       <p class="lead">DoinGud, an NFT platform on Polygon, lost about $35,486 in USDC on 2026-09-21 because its Diamond bidding contract never cleared an accepted bid. The record stayed alive after acceptance, so the same bid could be accepted again. The amount is small and the shape is old: this is the simplest form of the oldest bug class on chain, an authorization that is checked but never marked as spent.</p>
       <p class="meta">Its famous relative is signature replay — an off-chain EIP-712 order or permit that remains valid after it has been used, so anyone can resubmit it. Three answers converged on the same sentence, and they are the same answer in three shapes: nonces, counters and bitmaps, and nullifiers. <strong>An authorization must record that it was consumed, in the same transaction that checked it.</strong> That is the pair to the deterministic pre-check: the gate asks "is this action allowed", the consume mark asks "has this permission already been used".</p>
@@ -467,7 +467,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-system-design-course-single-server-to-scale.html">&larr; 71. System Design Course — a two-hour walk from one server to the seven decisions every design interview tests</a><a href="pocs-one-bank-both-doors.html">73. One bank, both doors — and the supply cap is the number that says how much DeFi believes it &rarr;</a></div>
+    <div class="pager"><a href="pocs-stablecoin-in-the-leg-nobody-sees.html">&larr; 77. The stablecoin went into the leg nobody sees — Mastercard, SoFi, and settlement</a><a href="pocs-one-bank-both-doors.html">79. One bank, both doors — and the supply cap is the number that says how much DeFi believes it &rarr;</a></div>
   </div>
   </main>
 </div>
