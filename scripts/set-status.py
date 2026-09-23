@@ -13,7 +13,7 @@ page on this very day. So this writes to the existing home and re-runs the exist
 stays the single source of truth and the published site is regenerated from it.
 
 Statuses: planned | new | important | done | recent | revisit
-  recent  = done today (TODAY DONE, midnight blue; rolls to YESTERDAY DONE then DONE)
+  recent  = done today (RECENTLY DONE, deep green; stays for two done-days, then rolls to DONE)
   done    = done, let roll-done-states.py decide the shade from the stamp
   revisit = done but come back to it (purple, sorts first, counts as done)
 A stamp (`done:` / `"done"`) is written for done/recent/revisit and removed for the other three, because
@@ -26,7 +26,7 @@ import argparse, datetime, json, pathlib, re, subprocess, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 NAV = ROOT / "docs" / "topics" / "_nav.js"
 KST = datetime.timezone(datetime.timedelta(hours=9))
-COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#191970", "TODAY DONE"),
+COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#15803d", "RECENTLY DONE"),
           "important": ("#ef4444", "IMPORTANT"), "new": ("#eab308", "NEW"), "revisit": ("#a855f7", "REVISIT")}
 DONE_LIKE = ("done", "recent", "revisit")
 

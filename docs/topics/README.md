@@ -143,22 +143,29 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   pages. The password is never written to a file; `add-tech-item.py` leaves these cards alone (no key in `_nav.js`,
   numbers are not renumbered).
 
-## TODAY DONE / YESTERDAY DONE — the two fresh done states (jay, 2026-09-18)
+## RECENTLY DONE — one fresh done state (jay, 2026-09-23)
 
-- When an item is marked done it becomes **TODAY DONE** (midnight blue, `#191970`) and stays so until the first item
-  of the *next* day is marked done; then it becomes **YESTERDAY DONE** (sky blue, `#38bdf8`; jay, 2026-09-18:
-  "add the other day done status of which name tells everything") for one more done-day, and then plain **DONE**
-  (green; Theory blue). jay renamed the states from "lately done" / "done the other day" to **Today done** /
-  **Yesterday done** ("아예 change …"); "yesterday" means the previous day on which something was done, which is not
-  always the calendar yesterday. "The other day" means the previous day on which something was done, not necessarily
-  yesterday. A day starts at
-  **06:00 KST** (jay: "done from the 6 a.m. today before the new day's first one is done"). This replaces the old
-  RECENTLY DONE (sky blue), which never rolled over.
+- When an item is marked done it becomes **RECENTLY DONE** (deep green, `#15803d`) and stays so for the newest
+  done-day **and the one before it**; after that it is plain **DONE** (`#22c55e`). A day starts at **06:00 KST**
+  (jay: "done from the 6 a.m. today before the new day's first one is done"), and "the day before" means the
+  previous day on which something was done, which is not always the calendar yesterday.
+- **Why one state and not two** (jay, 2026-09-23: "too many colors are confusing so Merge Yesterday and Today as
+  Recently and remove blue that could be used later for more important mark"). From 2026-09-18 this was two states,
+  TODAY DONE (midnight blue `#191970`) and YESTERDAY DONE (sky blue `#38bdf8`). They cost two hues to express a
+  distinction the `done YYYY-MM-DD` chip already makes precisely, and the rail read as noise. Merging them into one
+  state, a shade deeper than DONE, keeps the recency signal inside the done hue and adds no colour.
+- **Blue is now reserved.** `#191970`, `#38bdf8` and the `#0284c7` that Theory and Invest used for DONE are all gone
+  from the status palette, held for a future mark stronger than IMPORTANT. As a side effect **DONE is one colour in
+  every section**. Note `rtd-shell.mjs` still uses `#38bdf8` as the dark-theme *accent* — page chrome, not a status —
+  so a future blue status mark should check that it reads as distinct.
+- **One colour per label, enforced.** `roll-done-states.py` now rewrites any item whose colour has drifted from
+  `PALETTE` on every run. Six Theory items were still `#0284c7` and one Invest item `#f59e0b` — invisible on any one
+  page, and exactly what makes a palette feel noisy.
 - Mechanics: `add-tech-item.py --status recent` (alias `today`; `--done-at` to override the time) stamps `done`
   (ISO, +09:00) on the `_nav.js` item; English items take `status: recent` + `done: <ISO +09:00>` in
   `docs/topics/english/english-N.md`, which `english-notes.py` carries into `_nav.js`. Both scripts then run
-  `scripts/roll-done-states.py`, which buckets every stamped item by `(done − 6h).date()`, keeps the newest bucket as
-  TODAY DONE and the one before it as YESTERDAY DONE, relabels the rest DONE, syncs every rail dot in `notes.html`
+  `scripts/roll-done-states.py`, which buckets every stamped item by `(done − 6h).date()`, keeps the newest bucket
+  and the one before it as RECENTLY DONE, relabels the rest DONE, syncs every rail dot in `notes.html`
   with `_nav.js`, and collapses duplicate rail entries. The roll script is safe to run alone.
 - **Done date in the kicker (jay, 2026-09-21: "From now on, you should add the done date in a detail page").** Every
   item with a `done` stamp shows `<span title="done">done YYYY-MM-DD</span>` at the end of its detail-page kicker (the
@@ -167,9 +174,9 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   `add-tech-item.py` writes it for a new `recent` / `revisit` page; `roll-done-states.py` adds, updates or removes it on
   every page from the `_nav.js` stamp, so it never drifts. Items done before stamps existed (pre-2026-09-18) have no
   stamp and therefore no date. `index.md` has a Done column.
-- Rail buttons in two rows — **Important · New · All** / **Revisit · Yesterday · Today** (Done button removed 2026-09-21) (a `.tier-break` span forces the
-  break; list page, every detail page, template `rtd-shell.mjs`): Done = plain DONE only, i.e. finished before yesterday (jay, 2026-09-18: "Add done button also" … "Done before
-  Yesterday"), Today = TODAY DONE only, Yesterday = YESTERDAY DONE only, **Important = IMPORTANT only** (jay,
+- Rail buttons in two rows — **Important · New · All** / **Revisit · Repeated · Recently** (Done button removed 2026-09-21; Today and Yesterday merged into Recently 2026-09-23) (a `.tier-break` span forces the
+  break; list page, every detail page, template `rtd-shell.mjs`): Recently = RECENTLY DONE only, Repeated = items
+  finished on more than one day (`data-times`), **Important = IMPORTANT only** (jay,
   2026-09-18: "make the important button only shows important"; the 2026-09-08/09 rule that Important also showed new
   and recently done items is retired). Each button shows exactly one state, inside the selected category (see the pills rule below). The state labels changed everywhere, including the page template `scripts/rtd-shell.mjs`.
 
@@ -180,11 +187,11 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   but that I should remind later … filled with very important thing"; the name was Claude's suggestion, accepted).
   First two, marked the same day: Tech #1 learning greed (bin `deep`) and #2 the agent-team workflow.
 - **Counts as done** everywhere a done total is computed (section pill, section meta, `_nav.js` jump, overall badge):
-  `add-tech-item.py`, `english-notes.py`, `roll-done-states.py` all include it. It never rolls: the TODAY / YESTERDAY
-  DONE rule leaves REVISIT alone.
+  `add-tech-item.py`, `english-notes.py`, `roll-done-states.py` all include it. It never rolls: the RECENTLY DONE
+  rule leaves REVISIT alone.
 - **Sorts before Done.** `reorder-by-status.py` ranks it −1, so in Tech, Theory and Invest the order is **REVISIT <
   done < IMPORTANT < NEW < PLANNED**. Marking an item REVISIT therefore moves it to the top of its section.
-- **Rail button:** row 2 is now **Revisit · Yesterday · Today** (the Done button was removed on 2026-09-21, jay: "I don't think I need the Done button"; plain DONE items are reached through All), the Revisit button first — on the list page, on
+- **Rail button:** row 2 is now **Revisit · Repeated · Recently** (the Done button was removed on 2026-09-21, jay: "I don't think I need the Done button"; plain DONE items are reached through All), the Revisit button first — on the list page, on
   every detail page that has the rail buttons (411 of 558; the older Theory pages never had them), and in the
   template `scripts/rtd-shell.mjs`. It shows REVISIT only.
 - **How to mark one:** `add-tech-item.py --key <k> --status revisit …` (re-run in place), or `status: revisit` in an
@@ -193,10 +200,9 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   on its `_nav.js` entry by hand, then run `reorder-by-status.py` and `roll-done-states.py`; the roll syncs the rail
   dots, the counts, the overall badge on every page and the `index.html` landing card. There is no cap.
 - **The stamp is a done day.** Marking an item REVISIT stamps `done`, and that stamp counts when `roll-done-states.py`
-  picks the TODAY / YESTERDAY DONE days (jay, 2026-09-21: "today is KST 09-21"). The item keeps its purple dot and
-  REVISIT label, and the roll adds `day: today | yesterday` to its `_nav.js` entry, rendered as `data-day` on the rail
-  dot, so the **Today and Yesterday buttons show it too** (the filters match the label *or* `data-day`). It is still
-  never relabelled.
+  picks the RECENTLY DONE days (jay, 2026-09-21: "today is KST 09-21"). The item keeps its purple dot and REVISIT
+  label, and the roll adds `day: recent` to its `_nav.js` entry, rendered as `data-day` on the rail dot, so the
+  **Recently button shows it too** (the filter matches the label *or* `data-day`). It is still never relabelled.
 
 ## LLM-wiki layers — raw, index, search, bins, interview bank, closing three (jay, 2026-09-21)
 

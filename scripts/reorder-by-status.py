@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Order Tech and Theory items by status (jay, 2026-09-18: "make the important ones have lower number than
-new ones but higher than done"): REVISIT < done (DONE / YESTERDAY DONE / TODAY DONE) < IMPORTANT < NEW < PLANNED, stable
+new ones but higher than done"): REVISIT < done (DONE / RECENTLY DONE) < IMPORTANT < NEW < PLANNED, stable
 within each rank, in every section (Life since 2026-09-21; the Health cards keep their own numbering). English is
 ordered the same way by english-notes.py, which numbers by rank position while the files stay english-N.md.
 
@@ -11,7 +11,7 @@ import json, re, pathlib, subprocess, sys, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent)); from notes_numbering import display
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 RANK = {"REVISIT": -1,   # done, come back later — sits above every other done item (jay, 2026-09-21: "one more category before Done")
-        "DONE": 0, "YESTERDAY DONE": 0, "TODAY DONE": 0, "RECENTLY DONE": 0, "IMPORTANT": 1, "NEW": 2, "PLANNED": 3}
+        "DONE": 0, "RECENTLY DONE": 0, "YESTERDAY DONE": 0, "TODAY DONE": 0, "IMPORTANT": 1, "NEW": 2, "PLANNED": 3}
 SECTIONS = {"nav-sec-blockchain": "sec-blockchain", "nav-sec-fundamentals": "sec-fundamentals", "nav-sec-invest": "sec-invest", "nav-sec-mindset": "sec-mindset"}
 SORTED = ("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest", "nav-sec-mindset")   # Life joined on 2026-09-21 (jay: "The number should be in order for all the category"); English is ordered by english-notes.py itself
 NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav-sec-fundamentals": ("nav-sec-invest", "sec-invest"), "nav-sec-invest": ("nav-sec-mindset", "sec-mindset"), "nav-sec-mindset": ("nav-sec-english", "sec-english")}   # order Tech · Theory · Invest · Life · Eng (jay, 2026-09-21); Eng is last

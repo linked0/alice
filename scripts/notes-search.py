@@ -13,7 +13,7 @@ prints nothing, the subject is new to the site. Exit status 0 when something mat
 import json, sys, pathlib, argparse
 ap = argparse.ArgumentParser()
 ap.add_argument("words", nargs="+"); ap.add_argument("--any", action="store_true", help="match if any word matches (default: all)")
-ap.add_argument("--section", help="Tech | Theory | Invest | Eng | Life"); ap.add_argument("--status", help="REVISIT | DONE | TODAY DONE | YESTERDAY DONE | IMPORTANT | NEW | PLANNED")
+ap.add_argument("--section", help="Tech | Theory | Invest | Eng | Life"); ap.add_argument("--status", help="REVISIT | DONE | RECENTLY DONE | IMPORTANT | NEW | PLANNED")
 ap.add_argument("--json", action="store_true", help="print matching items as JSON")
 A = ap.parse_args()
 idx = json.loads((pathlib.Path(__file__).resolve().parent.parent / "docs" / "topics" / "index.json").read_text())

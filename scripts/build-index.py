@@ -86,7 +86,7 @@ for sec in nav["sections"]:
 
 now = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
 counts = {s: sum(1 for i in items if i["section"] == s) for s in SECTION.values()}
-done = sum(1 for i in items if i["status"] in ("DONE", "TODAY DONE", "YESTERDAY DONE", "REVISIT"))
+done = sum(1 for i in items if i["status"] in ("DONE", "RECENTLY DONE", "REVISIT"))
 (TOPICS / "index.json").write_text(json.dumps({"generated": now, "counts": counts, "done": done, "all": len(items), "items": items}, ensure_ascii=False, indent=0) + "\n")
 
 def cell(v): return (v or "").replace("|", "\\|").replace("\n", " ")

@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
-"""Apply the TODAY DONE rule (jay, 2026-09-18) to docs/topics/_nav.js and docs/notes.html.
+"""Apply the RECENTLY DONE rule (jay, 2026-09-23) to docs/topics/_nav.js and docs/notes.html.
 
-Rule: an item marked done is "TODAY DONE" (midnight blue, #191970) from the moment it is done until the first
-item of the *next* day is done. A day starts at 06:00 KST ("done from the 6 a.m. today before the new day's
-first one is done"), so every item carries `done` (ISO time, +09:00) and the day bucket is (done - 6h).date().
-Items in the previous done-day bucket are "YESTERDAY DONE" (sky blue, #38bdf8; jay, 2026-09-18: "add the
-other day done status of which name tells everything"). Older buckets, and items with no `done` time, are plain DONE.
-So each new day's first done item rolls everything one step: LATELY → OTHER DAY → DONE.
+Rule: an item marked done is "RECENTLY DONE" (deep green, #15803d) while its done-day is either the newest
+done-day or the one before it; older buckets, and items with no `done` time, are plain DONE (#22c55e).
+A day starts at 06:00 KST ("done from the 6 a.m. today before the new day's first one is done"), so every
+item carries `done` (ISO time, +09:00) and the day bucket is (done - 6h).date(). Each new day's first done
+item rolls everything one step: RECENTLY → RECENTLY → DONE.
+
+Was TODAY DONE (midnight blue) + YESTERDAY DONE (sky blue) until 2026-09-23, when jay merged them:
+"too many colors are confusing so Merge Yesterday and Today as Recently and remove blue that could be
+used later for more important mark". Two done-states differing only by a day cost two hues and told the
+rail nothing a date does not; one state in the DONE hue, a shade deeper, says the same thing with no new
+colour. Blue (#191970, #38bdf8, and the #0284c7 that Theory/Invest used for DONE) is now unused across the
+whole status palette and is reserved for a future stronger-than-IMPORTANT mark. DONE is one colour in every
+section as a result.
 
 REVISIT (purple, #a855f7; jay, 2026-09-21) is a done item kept for a later reminder: it is never relabelled here and counts as done.
 Also syncs every rail dot in notes.html (colour + title) with _nav.js and removes duplicate rail entries.
@@ -14,10 +21,13 @@ Run by scripts/add-tech-item.py after each change; safe to run alone at any time
 """
 import json, re, pathlib, subprocess, sys, datetime
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
-DONE_COLOR = {"nav-sec-blockchain": "#22c55e", "nav-sec-fundamentals": "#0284c7", "nav-sec-invest": "#0284c7", "nav-sec-mindset": "#22c55e", "nav-sec-english": "#22c55e"}
-LATELY = ("#191970", "TODAY DONE")
-OTHER = ("#38bdf8", "YESTERDAY DONE")
-STAGED = ("TODAY DONE", "YESTERDAY DONE", "RECENTLY DONE")
+DONE_COLOR = dict.fromkeys(("nav-sec-blockchain", "nav-sec-fundamentals", "nav-sec-invest", "nav-sec-mindset", "nav-sec-english"), "#22c55e")   # one DONE colour everywhere (jay, 2026-09-23): Theory/Invest used #0284c7, and blue is now reserved
+RECENT = ("#15803d", "RECENTLY DONE")
+# One colour per label, enforced on every run (jay, 2026-09-23: "too many colors are confusing").
+# Six Theory items were still #0284c7 and one Invest item #f59e0b — drift from hand edits and older
+# generators, invisible in any single page but exactly what makes a palette feel noisy.
+PALETTE = {"REVISIT": "#a855f7", "IMPORTANT": "#ef4444", "NEW": "#eab308", "PLANNED": "#64748b"}
+STAGED = ("TODAY DONE", "YESTERDAY DONE", "RECENTLY DONE")   # old labels stay here so an existing page rolls forward on the first run
 KST = datetime.timezone(datetime.timedelta(hours=9))
 def bucket(ts):
     dt = datetime.datetime.fromisoformat(ts)
@@ -31,19 +41,22 @@ latest = days[0] if days else None; previous = days[1] if len(days) > 1 else Non
 changed = []
 for s in nav["sections"]:
     for x in s["items"]:
-        if x["label"] in STAGED or (x["label"] == "DONE" and x.get("done")):
+        if x["label"] in STAGED or x["label"] == "DONE":   # unstamped DONE items too — they kept the old per-section blue
             b = bucket(x["done"]) if x.get("done") else None
-            want = LATELY if b and b == latest else OTHER if b and b == previous else (DONE_COLOR[s["navId"]], "DONE")
+            want = RECENT if b and b in (latest, previous) else (DONE_COLOR[s["navId"]], "DONE")
             if (x["color"], x["label"]) != want: x["color"], x["label"] = want; changed.append(x["key"])
-    done = sum(1 for x in s["items"] if x["label"] in ("DONE", "TODAY DONE", "YESTERDAY DONE", "REVISIT"))   # REVISIT never rolls; it counts as done (jay, 2026-09-21)
+    for x in s["items"]:
+        c = PALETTE.get(x["label"])
+        if c and x["color"] != c: x["color"] = c; changed.append(x["key"])
+    done = sum(1 for x in s["items"] if x["label"] in ("DONE", "RECENTLY DONE", "REVISIT"))   # REVISIT never rolls; it counts as done (jay, 2026-09-21)
     for j in nav["jump"]:
         if j["id"] == s["navId"].replace("nav-", ""): j["done"], j["all"] = done, len(s["items"])
-# REVISIT keeps its label and purple dot, but the Today / Yesterday buttons must still find it by its stamp
-# (jay, 2026-09-21: "Today does not show anything" … "today is KST 09-21"): `day` = today | yesterday on the item, rendered as data-day on the dot.
+# REVISIT keeps its label and purple dot, but the Recently button must still find it by its stamp
+# (jay, 2026-09-21: "Today does not show anything" … "today is KST 09-21"): `day` = "recent" on the item, rendered as data-day on the dot.
 for s in nav["sections"]:
     for x in s["items"]:
         b = bucket(x["done"]) if x["label"] == "REVISIT" and x.get("done") else None
-        day = "today" if b and b == latest else "yesterday" if b and b == previous else None
+        day = "recent" if b and b in (latest, previous) else None
         if day: x["day"] = day
         else: x.pop("day", None)
 # Daily closing log (jay, 2026-09-22: the grey badge still read 2026-09-17). The rule used to be
