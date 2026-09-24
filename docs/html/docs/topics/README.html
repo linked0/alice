@@ -270,6 +270,30 @@ picks the RECENTLY DONE days (jay, 2026-09-21: &quot;today is KST 09-21&quot;). 
 label, and the roll adds <code>day: recent</code> to its <code>_nav.js</code> entry, rendered as <code>data-day</code> on the rail dot, so the
 <strong>Recently button shows it too</strong> (the filter matches the label <em>or</em> <code>data-day</code>). It is still never relabelled.</li>
 </ul>
+<h2 id="every-item-carries-its-article-source-jay-2026-09-24">Every item carries its article source (jay, 2026-09-24)</h2>
+<p>jay: &quot;whenever you add new items, you should add the article source also.&quot; Every new item that has a public
+source — an article, a paper, a thread, a repo, a video, a press release — must link to <strong>that source</strong>, not only
+to the raw copy of it.</p>
+<ul>
+<li><strong>How.</strong> <code>add-tech-item.py --src-url &lt;url&gt; [--src-name &lt;label&gt;]</code>. It renders a link in the page kicker, next to
+the added date and the channel. <code>--src-name</code> is a short label; leave it out and the URL&#39;s host is used
+(<code>hbr.org</code>, <code>news.hada.io</code>, <code>github.com</code>).</li>
+<li><strong><code>--source</code> is not this.</strong> <code>--source chat | file | gemini</code> records the <strong>channel it reached jay through</strong>, which
+is a different fact and stays. An item can be <code>chat</code> and still have an <code>hbr.org</code> source URL; most do.</li>
+<li><strong><code>--raw</code> is not this either.</strong> The raw file is <em>our copy</em> of the source, so it can be reopened after the original
+moves or disappears. <code>--src-url</code> is <em>the original</em>, so a reader can check the card against it. Items should have
+both: the copy for durability, the link for verification.</li>
+<li><strong>When there is no public source</strong> — jay&#39;s own line, a private paste, a conversation — say so in the raw file and
+leave <code>--src-url</code> off. Silence means &quot;no public source&quot;, not &quot;nobody looked&quot;.</li>
+<li><strong>Why.</strong> A card that separates what was reported from what it argues is only checkable if the reader can reach
+what was reported. Without the link, every &quot;Verified and unverified&quot; section is an assertion about work nobody
+else can repeat.</li>
+<li><strong>Backfill.</strong> Items added before 2026-09-24 mostly carry only the channel and the raw copy. Re-running
+<code>add-tech-item.py</code> with the same key and <code>--src-url</code> upgrades one in place without changing its number.
+<strong>Pass <code>--date</code> when you do.</strong> Without it the added date is reset to today and a second <code>raw/</code> copy is written
+under today&#39;s name, orphaning the original. Ten items were reset this way on 2026-09-24 and restored with
+<code>--date 2026-09-23</code>; the orphaned raw copies were removed before they were committed.</li>
+</ul>
 <h2 id="llm-wiki-layers--raw-index-search-bins-interview-bank-closing-three-jay-2026-09-21">LLM-wiki layers — raw, index, search, bins, interview bank, closing three (jay, 2026-09-21)</h2>
 <p>The learning-greed item (Tech #1, REVISIT) asked for Karpathy&#39;s LLM-wiki layers (Tech #109) on top of this site.
 jay: &quot;make the alice Knowledge Notes system aligned with … Let the system hold the index&quot;. What exists now:</p>

@@ -231,6 +231,31 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   label, and the roll adds `day: recent` to its `_nav.js` entry, rendered as `data-day` on the rail dot, so the
   **Recently button shows it too** (the filter matches the label *or* `data-day`). It is still never relabelled.
 
+## Every item carries its article source (jay, 2026-09-24)
+
+jay: "whenever you add new items, you should add the article source also." Every new item that has a public
+source — an article, a paper, a thread, a repo, a video, a press release — must link to **that source**, not only
+to the raw copy of it.
+
+- **How.** `add-tech-item.py --src-url <url> [--src-name <label>]`. It renders a link in the page kicker, next to
+  the added date and the channel. `--src-name` is a short label; leave it out and the URL's host is used
+  (`hbr.org`, `news.hada.io`, `github.com`).
+- **`--source` is not this.** `--source chat | file | gemini` records the **channel it reached jay through**, which
+  is a different fact and stays. An item can be `chat` and still have an `hbr.org` source URL; most do.
+- **`--raw` is not this either.** The raw file is *our copy* of the source, so it can be reopened after the original
+  moves or disappears. `--src-url` is *the original*, so a reader can check the card against it. Items should have
+  both: the copy for durability, the link for verification.
+- **When there is no public source** — jay's own line, a private paste, a conversation — say so in the raw file and
+  leave `--src-url` off. Silence means "no public source", not "nobody looked".
+- **Why.** A card that separates what was reported from what it argues is only checkable if the reader can reach
+  what was reported. Without the link, every "Verified and unverified" section is an assertion about work nobody
+  else can repeat.
+- **Backfill.** Items added before 2026-09-24 mostly carry only the channel and the raw copy. Re-running
+  `add-tech-item.py` with the same key and `--src-url` upgrades one in place without changing its number.
+  **Pass `--date` when you do.** Without it the added date is reset to today and a second `raw/` copy is written
+  under today's name, orphaning the original. Ten items were reset this way on 2026-09-24 and restored with
+  `--date 2026-09-23`; the orphaned raw copies were removed before they were committed.
+
 ## LLM-wiki layers — raw, index, search, bins, interview bank, closing three (jay, 2026-09-21)
 
 The learning-greed item (Tech #1, REVISIT) asked for Karpathy's LLM-wiki layers (Tech #109) on top of this site.

@@ -1,5 +1,5 @@
 {
-"generated": "2026-09-24 10:48 KST",
+"generated": "2026-09-24 11:09 KST",
 "counts": {
 "Tech": 311,
 "Theory": 189,
@@ -15158,7 +15158,7 @@
 "title_en": "A ship that is not moving cannot be steered — starting at fifty, from the worst possible moment",
 "type": "PoC",
 "date": "2026-09-23",
-"source": "gemini",
+"source": "chat",
 "raw": "raw/2026-09-23-ship-that-is-not-moving-cannot-turn.md",
 "title_ko": "움직이지 않는 배는 방향을 틀 수 없다 — 가장 나쁜 순간에 시작한 쉰 살",
 "vocab": [
@@ -15199,7 +15199,7 @@
 "title_en": "The room is sorted by time constant — a library where the television was",
 "type": "PoC",
 "date": "2026-09-23",
-"source": "gemini",
+"source": "chat",
 "raw": "raw/2026-09-23-room-sorted-by-time-constant.md",
 "title_ko": "시간 상수로 정렬된 방 — TV가 있던 자리의 서재",
 "vocab": [

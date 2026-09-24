@@ -3,6 +3,7 @@
 
     python3 scripts/add-tech-item.py --key <key> --slot <N> --en <en.md> --ko <ko.md> \
         [--status new|important|planned|recent|done|revisit] [--date YYYY-MM-DD] [--type PoC] [--source chat|file]
+        [--src-url <url of the article> [--src-name <label>]]
 
 Source markdown (both languages, same shape):
     # Title
@@ -37,6 +38,11 @@ ap.add_argument("--vocab", help="markdown table of key expressions (Expression |
 ap.add_argument("--bin", choices=["deep", "converse", "file"], help="learning bin at capture time (learning-greed item, jay 2026-09-21): deep = moves the through line, gets the hours; converse = one interview sentence, no more; file = card + expressions, then release")
 ap.add_argument("--raw", help="source file (paste, fetched text, briefing) copied once into docs/topics/raw/<date>-<key>.<ext> and linked from the kicker; never overwritten")
 ap.add_argument("--sentence", help="with --bin converse: the one sentence you could say in an interview; appended to docs/topics/interview-bank.md")
+# The article's own source, not the channel it reached jay through (jay, 2026-09-24: "whenever you add
+# new items, you should add the article source also"). --source stays as the channel (chat/file/gemini);
+# --src-url is where the thing actually lives so a reader can go and check it.
+ap.add_argument("--src-url", help="URL of the article, paper, thread, repo or video the item is built from; rendered as a link in the page kicker. Required for any item with a public source (jay, 2026-09-24)")
+ap.add_argument("--src-name", help="short label for --src-url, e.g. the publication or site (default: the URL host)")
 A = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 COLORS = {"planned": ("#64748b", "PLANNED"), "done": ("#22c55e", "DONE"), "recent": ("#0284c7", "RECENTLY DONE"), "lately": ("#0284c7", "RECENTLY DONE"), "today": ("#0284c7", "RECENTLY DONE"),
@@ -62,6 +68,17 @@ if A.raw:   # raw layer (docs/topics/raw/README.md): append-only copy of the sou
         _dest = _rawdir / f"{DATE}-{KEY}{_src.suffix or '.txt'}"
         if not _dest.exists(): _dest.write_bytes(_src.read_bytes())
     RAW_SPAN = f'<span title="raw"><a href="raw/{_dest.name}">raw</a></span>'
+SRCURL_SPAN = ""
+if A.src_url:   # the article itself, so a reader can verify the card against what it was built from
+    if A.src_name:
+        _label = A.src_name
+    elif "//" in A.src_url:
+        _label = re.sub(r"^www\.", "", A.src_url.split("/")[2])
+    else:
+        _label = A.src_url
+    SRCURL_SPAN = ('<span title="article source"><a href="' + html.escape(A.src_url, quote=True)
+                   + '" rel="noopener noreferrer" target="_blank">'
+                   + html.escape(_label, quote=False) + '</a></span>')
 E = lambda s: html.escape(s, quote=False).replace("'", "&#39;")
 
 def inline(t):
@@ -199,7 +216,7 @@ tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY
 DONE_SPAN = f'<span title="done">done {new_item["done"][:10]}</span>' if new_item.get("done") else ""   # done date in the kicker (jay, 2026-09-21); roll-done-states.py keeps it in sync afterwards
 mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#{SHOWN}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span>{BIN_SPAN}{RAW_SPAN}{DONE_SPAN}</p>
+      <p class="topic-kicker"><span class="topic-no">#{SHOWN}</span><span>{E(A.type)}</span><span title="added">{DATE}</span><span title="source">{A.source}</span>{SRCURL_SPAN}{BIN_SPAN}{RAW_SPAN}{DONE_SPAN}</p>
       <h1>{E(TITLE)}</h1>
       <p class="lead">{E(SUMMARY)}</p>
       <p class="meta">{inline(META)}</p>
