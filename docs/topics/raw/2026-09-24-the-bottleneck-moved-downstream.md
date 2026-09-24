@@ -1,0 +1,154 @@
+GeekNews topic 34176, fetched from https://news.hada.io/topic?id=34176 on 2026-09-24 at jay's
+request. Submitted by GN+ (@neo), 1P, about 12 hours before the fetch.
+
+Source it links: https://www.reddit.com/r/ClaudeAI/comments/1wm5c21/i_am_done_with_this_shit/
+GeekNews title: "이딴 짓은 이제 못 해 먹겠다"
+
+I read the GeekNews page, which carries a Korean digest of the Reddit post plus a long Korean
+digest of the Hacker News discussion. I did NOT open the Reddit thread or the Hacker News thread
+themselves, so everything below is GeekNews's rendering of them.
+
+--- THE POST, as GeekNews renders it ---
+
+A developer two weeks into a large company. Specs, code, tests, product requirements, tickets and
+reports are all produced by Claude Code.
+
+- 경영진은 "코드 작성이 더는 병목이 아닌데 왜 느리냐"고 재촉하고, 개발자들은 하루 12~13시간씩
+  AI에 지시하고 엔터를 누르며 최대한 많이 출시하라는 압박을 받음
+- 주니어부터 시니어까지 같은 방식으로 일하며, 생성된 내용을 읽거나 시스템을 이해하는 과정이
+  사라지고, 팀원들도 이런 업무 방식을 좋아하지 않음
+- 직접 버그를 해결하고 무언가를 완성했다는 성취감 없이, 모든 일을 LLM에 맡기는 과정이 사람을
+  소진시킴
+- AI를 쓰는 것 자체보다 생성된 코드가 어떻게 동작하는지 확인할 시간조차 주지 않는 것이
+  문제이며, 무엇이 어떻게 되든 일단 출시하는 것만 목표가 됨
+
+AI가 쓴 문서를 AI가 읽는 업무
+- 동료의 AI가 만든 요구사항 문서를 내 AI가 읽고 수정하면, 다시 동료의 AI가 검토해 돌려보내는
+  식으로 일이 반복됨. 사람끼리 직접 대화하는 대신 AI가 만든 문서와 코드를 주고받는 중간
+  전달자가 된 듯한 기분. 하루 종일 엔터를 누르기 위해 존재하는 사람처럼 느껴짐
+- 컨설팅에서도 고객사 개발자와 외부 인력이 나란히 AI를 사용하면서, 외부 전문가가 어떤 가치를
+  더하는지 설명하기 어려워짐
+- AI가 만든 코드를 읽지도 않고 보내는 협업 상대에게는 신뢰가 떨어지고, 함께 일하려는 의욕도
+  사라짐
+
+결과물은 나와도 성취감은 남지 않음
+- 예전에는 유용하거나 영리한 기능을 완성하면 스스로 뿌듯했고 동료들도 알아줬지만, 이제는
+  어차피 Claude가 만들었을 것이라는 반응에 직접 기여한 부분까지 묻힘
+- 결과가 잘 나와도 자신이 한 일은 프롬프트를 입력하고 엔터를 누른 뒤 대충 확인한 것뿐이라는
+  공허함이 남음
+- 문제를 직접 풀고 실력을 쌓는 과정이 사라지면서, 업무를 끝내도 무언가 해냈다는 감각을 얻기
+  어려움
+- 25년간 소통이 업무의 중심이었던 한 UX 디자이너는 이제 Claude에 지시하고 AI 활용 회의에
+  참석하는 일이 대부분이며, Figma를 거의 6개월째 쓰지 않았다고 함. 동료들에게 둘러싸여 있어도
+  함께 일한다는 느낌은 줄고, 사내의 일상적인 교류마저 사라짐
+
+생산성 기대가 인력 축소와 업무 확대로 돌아옴
+- AI로 일을 빨리할 수 있다는 기대가 검토할 여유보다 더 많은 업무와 더 적은 인력으로 이어짐
+- 한 인수합병 사례에서는 기존에 20명 이상이 맡던 플랫폼 작업을 5명으로 수행하도록 요구받았으며,
+  처음에는 엔지니어 한 명이면 된다는 기대까지 있었음. 새 플랫폼 완성, 양사 고객 이전, 신규 고객
+  대응을 동시에 맡았지만 추가 채용은 허용되지 않음. AI가 기존 코드에서 뽑아낸 100쪽 넘는 기능
+  분석과 수십 개 시트의 표를 검토하라는 요구도 뒤따름. 사람이 검토할 수 있는 수준으로 핵심
+  차이부터 정리하자고 요청해도, 협조하지 않는다는 반응을 받음
+- 신입 개발자는 선배에게 배우기보다 "Claude에게 물어보라"는 답을 듣고, 이해하기 어려운 규모의
+  변경을 처리하게 됨. 업무 중 배울 시간이 부족해 퇴근 후 혼자 공부하며 자신이 바꾼 코드를
+  따라잡아야 함
+
+AI를 써도 사람이 이해하고 책임지는 팀은 다름
+- AI로 코드와 문서를 만든다고 해서 반드시 업무를 이해하지 못하게 되는 것은 아님
+- 한 스타트업에서는 모든 코드와 문서를 AI로 만들지만, 각 작업에 책임자가 있고 무엇을 왜 했는지
+  설명할 수 있어야 한다는 원칙을 유지함. AI가 사람을 위해 일하는 것이지, 사람이 AI를 위해 일하는
+  것은 아니라는 구분
+- 엔터를 누르기 전에 생각하고 계획하는 시간을 충분히 갖는 방식도 필요함
+- AI를 쓰는 사람 사이에서도 차이가 큼. 취미 수준의 결과물을 대량으로 만드는 경우, 기존보다 기술
+  부채를 빠르게 쌓는 경우, 축적한 경험과 판단력으로 도구를 잘 활용하는 경우를 같은 것으로 볼
+  수는 없음
+
+달라지는 직업을 받아들일 것인가, 지키고 싶은 일을 찾을 것인가
+- 소프트웨어 개발도 다른 산업처럼 표준화와 자동화를 거치며, 직접 만드는 일에서 기계가 만든
+  결과를 감독하고 검토하고 통합하는 일로 바뀔 수 있음. 기업이 더 싸고 빠르게 결과를 얻을 수
+  있다면, 개인의 솜씨와 만족감은 우선순위에서 밀릴 수 있음. 변화에 적응해야 한다는 현실과, 새
+  업무 방식이 더 보람 있다는 평가는 별개임
+- 반대로 더 높은 연봉보다 이미 깊이 이해하고 개선할 아이디어가 있는 제품을 계속 다루는 일을
+  택하려는 시각도 있음
+- AI가 멈췄을 때 아무도 자기 일을 할 수 없게 되는 상황에 대한 불안도 남음. 결과물을 생성하는
+  능력과 그 결과물을 이해하고 유지할 능력은 같지 않음
+
+--- HACKER NEWS DISCUSSION, as GeekNews renders it (selected, condensed) ---
+
+- 기업들이 지식재산을 다른 회사에 넘기는 데 이렇게 거리낌이 없다는 게 놀라움. 로컬 도구를 만들
+  줄 알았는데 결국 Claude만 쓰고 토큰 사용량만 극대화하는 쪽으로 갔음.
+- 이건 Claude Code나 특정 코딩 에이전트보다는 기업 문화와 납품 압박에 더 가까운 문제임. 최대한
+  빨리 출시하는 문화에서 관리자가 비용에 상관없이 10배 빨리 낼 수 있다고 믿는 순간 이런 결과가
+  나옴.
+  - 외주 사례: 개발자 4명이 한 코드베이스에서 서로 다른 아키텍처 4개를 씀. 서로의 코드를 이해하지
+    못해 자기 영역만 건드렸고 경계마다 임시방편. 동시성 문제는 전역 변수와 주기적 확인으로,
+    화면 이동 문제는 홈 화면 초기화로 때움. 테스트는 거의 없고 기존 테스트도 망가진 채 방치.
+    다른 프로젝트에서는 첫 GET 요청이 3분 넘게 걸리는데 DB 인덱스조차 없었음.
+    - 이런 환경에서 AI 코딩은 엉망인 코드를 더 대량으로 생산하겠지만, 제대로 고치려는 소수에게는
+      예전보다 훨씬 빠르게 정리할 수 있는 도구이기도 함.
+  - 혼자 일하는데도 LLM으로 코딩하는 과정 자체를 견디기 어려움. 슬롯머신과 말다툼하는 듯한
+    과정이 가장 지독한 버그보다 더 스트레스를 주고 진을 빼놓음.
+  - AI 이전에도 인력 공급형 외주 업체는 있었고 티켓을 최대한 빨리 처리하는 생산라인 노동이
+    전부였음. AI는 그 강도를 더 높임.
+    - 우리 회사도 AI를 도입했지만 에이전트 수십 개를 지휘하는 수준은 아님. 한 번에 한 작업씩
+      AI와 처리하고, 남는 시간에 협업하며 코드 너머의 큰 그림을 고민하는 것만으로도 효과를
+      크게 높일 수 있음.
+  - 속도가 아니라 고객이 원하는 것을 만드는 일이 핵심임.
+- 반응이 양극단으로 갈리는 것이 흥미로움. 한쪽은 유토피아처럼 느끼는데 다른 쪽은 업무와 완전히
+  단절된 채 공허함 속에서 세상이 무너지는 듯한 기분을 겪고 있음.
+  - 문제 해결 과정 자체를 좋아하는 탐구형 개발자와, 판매할 최종 제품에 관심 있는 사업가의 구분.
+    지금은 사업가에게 천국이고 탐구형 개발자에게 지옥임.
+  - 열광하는 쪽은 실제 제품을 AI로 만들어야 할 필요가 없는 창업자·경영진·투자자임. 처음 80%는
+    쉬워지지만 마지막 20%는 더 어려워지고, 바이브 코딩 3개월 만에 10년 된 레거시 같은
+    코드베이스가 된다는 점을 이해하지 못함.
+    - 직원은 산출물 10배를 요구받으면서 PM·디자인·QA·DevOps·고객 발굴까지 떠맡음. 지분은
+      잘해야 0.05%임.
+  - 중간 지대도 있음. 잘 조직된 개발·제품 팀이 서로 대화하고 의사결정하면서 AI를 효율적으로
+    활용할 수 있음.
+  - 이해하는 속도보다 빨리 출시하려면 이해를 포기해야 함. 작년까지만 해도 좋은 개발자는 대체로
+    라이브러리·코드·인프라를 깊이 이해하려 했고 그 이해가 품질로 이어졌음.
+    - 시스템을 깊이 이해하는 데 관심 없던 쪽은 AI를 좋아하지만, 이해를 중시하던 쪽은 이제
+      코드베이스 상태를 따라갈 수 없어 자신에게 너무 부자연스러운 방식으로 일하게 됨.
+    - 나도 체계적인 머릿속 모델을 만드는 데 시간을 쓰던 사람이라 지난 1년간 힘들었음. 이제는
+      AI가 이해하겠거니 하고 기능을 완성하는 데 필요한 일만 함.
+- 맨 위 댓글이 AI 요약이라 내가 직접 생각하거나 관점을 종합할 필요조차 없다는 게 역설적임.
+  - 그 댓글이 맨 위인 건 사용자 투표 때문이 아니라 Reddit이 AI를 억지로 밀어 넣기로 했기 때문임.
+- (인력·임금 논쟁, 소프트웨어 비대화와 붕괴 전망, 에이전트 무리로 협상력을 얻는다는 주장과 그에
+  대한 반박 — 문맥이 약 2천 줄을 넘으면 일관성이 무너지고, LLM을 더 투입할수록 규모만 부풀고
+  내부 정합성은 떨어진다는 지적 — 이 이어짐.)
+
+--- END ---
+
+NOTES ON SOURCING (2026-09-24)
+
+NOT verified: everything. This is one anonymous Reddit account's description of one workplace,
+plus anonymous Hacker News commenters, rendered into Korean by GeekNews, read by me at one more
+remove. I did not open the Reddit thread or the HN thread. Every number in it — 12-13 hour days,
+20+ people replaced by 5, 100+ pages of generated analysis, six months without Figma, 0.05% equity,
+2,000 lines of context — is one person's account and none of it is checkable from here.
+
+That does not make it worthless; it makes it testimony rather than data, and the card says so.
+
+The card's own arguments, labelled as such in the body:
+ 1. That management's premise is true and its inference is wrong: relieving a non-binding
+    constraint relocates the bottleneck rather than removing it, so "code writing is no longer the
+    bottleneck" implies the bottleneck is now comprehension — which has not got faster and now has
+    more to process per hour.
+ 2. That the one thing separating the teams that are fine is a checkable invariant, not a value:
+    "there is an owner for each task and they must be able to explain what was done and why." That
+    is a stop, in the sense of an-invariant-is-a-stop-not-an-alarm (#67), which is why it works
+    where "use AI thoughtfully" does not.
+ 3. That the AI-writes-what-AI-reads loop is a lossy round trip whose surviving content is what
+    two models find plausible rather than what either human meant, and that the diagnostic is
+    simply whether any human read the artifact at any hop.
+ 4. That the explorer/businessman split the HN thread reaches for is better stated as a question
+    about where your value sits: in the artifact, or in understanding the system. Generation
+    multiplies the first and destroys the conditions for the second.
+ 5. That the thread's own counterweights are real and belong in the card — the same tool is a
+    fast cleanup instrument for whoever is actually fixing things, and "one task at a time, use
+    the saved time to think" is the startup's responsibility principle restated as a cadence.
+
+Related items: admin-rights-protect-the-evidence, an-invariant-is-a-stop-not-an-alarm (#67),
+third-party-blast-radius, harness-engineering-shift-left, agent-data-flywheel-or-grinder,
+the-resource-that-runs-out (#1838), the-brain-trust-has-no-authority (#1840),
+sold-as-an-expert-while-becoming-one (#1844), go-stand-next-to-the-standard (#1839).
