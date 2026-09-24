@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>might be ~ing, would: one case, not a guess — Eng — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/968</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#sec-english">Eng</a> &rsaquo; might be ~ing, would: one case, not a guess</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#2376</span><span>Grammar</span><span title="added">2026-09-25</span><span title="raw"><a href="raw/2026-09-25-english-400.md">raw</a></span></p>
+      <h1>might be ~ing, would: one case, not a guess</h1>
+      <p class="lead">In a design review Jay keeps reaching for "For example, let&#39;s say a user uploads a large file…" and it lands flat every time — too many words before the point, and the conditional makes it sound like he is unsure the case exists. Reading Toni Morrison&#39;s Beloved the night before, he hits a sentence that does the same job in one move: `She might be hurrying across a field… Nothing else would be in her mind.` It is not a guess about Sethe. It is one representative instance, narrated. Jay wants that move in his own English.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy source</button></p>
+      <script type="application/json" id="copy-en">"# 400 · Grammar — might be ~ing, would: one case, not a guess\ntitle_ko: might be ~ing … would — 추측이 아니라 \"가령\"\nsituation: In a design review Jay keeps reaching for \"For example, let's say a user uploads a large file…\" and it lands flat every time — too many words before the point, and the conditional makes it sound like he is unsure the case exists. Reading Toni Morrison's Beloved the night before, he hits a sentence that does the same job in one move: `She might be hurrying across a field… Nothing else would be in her mind.` It is not a guess about Sethe. It is one representative instance, narrated. Jay wants that move in his own English.\nsituation_ko: 디자인 리뷰에서 Jay는 자꾸 \"For example, let's say a user uploads a large file…\"로 시작하는데 매번 힘이 빠진다. 요점까지 말이 너무 길고, 조건절 때문에 그런 경우가 있는지조차 확신이 없어 보인다. 전날 밤 토니 모리슨의 『빌러비드』를 읽다가 같은 일을 한 수로 해내는 문장을 만난다. `She might be hurrying across a field… Nothing else would be in her mind.` 세스에 대한 추측이 아니다. **대표적인 한 경우를 골라서 서술한 것**이다. Jay는 그 수를 자기 영어에 넣고 싶다.\nwhy: The trap is reading `might` as 추측. Here it is not epistemic at all — Morrison is not wondering whether Sethe was in a field. She is picking one typical occasion and running it, and the giveaway is the `would` that follows: `might` sets the case up, `would` states what holds inside it. A real guess would stay in `might` or switch to `probably`. Once Jay sees the pair he can use it at work, where the same construction replaces the clumsy \"let's say\" frame and sounds like someone who has watched the system behave. Second point: `devious` with a non-human subject is not 교활한 — a devious brain is one that does not go straight, the same root as `deviate`.\nwhy_ko: 함정은 `might`를 추측으로 읽는 것이다. 여기서는 인식적 추측이 전혀 아니다. 모리슨은 세스가 들판에 있었는지 궁금해하고 있지 않다. **전형적인 경우 하나를 골라 굴리고 있고**, 표지는 뒤따르는 `would`다. `might`가 상황을 세우고 `would`가 그 안에서 성립하는 것을 진술한다. 진짜 추측이라면 `might`에 머물거나 `probably`로 바꿨을 것이다. 이 짝이 보이면 회사에서 쓸 수 있다. 어설픈 \"let's say\" 틀을 대체하고, **시스템이 그렇게 움직이는 걸 실제로 본 사람처럼** 들린다. 두 번째 요점: 사람이 아닌 주어의 `devious`는 교활한이 아니다. **곧장 가지 않는** 머리라는 뜻이고, `deviate`와 같은 어원이다.\nstatus: new\nadded: 2026-09-25\nsource: Toni Morrison, *Beloved* (Alfred A. Knopf, 1987) — three sentences quoted for commentary on the grammar, kept short and attributed; the novel's text is not otherwise reproduced here. The grammatical reading of `might … would` as exemplification, and the argument for adding \"가령\" in Korean, were pasted by jay on 2026-09-25 from another assistant and are that assistant's, not mine. What this item adds is the name for the move, the `would` diagnostic, and the transfer to working English. I did not check the quotation against a copy of the novel, and I have not read the sentences that follow it — which the pasted explanation itself says would settle why `might` was chosen. That stays open.\nsource_ko: 토니 모리슨, 『빌러비드』(Alfred A. Knopf, 1987) — 문법 논평을 위해 세 문장을 짧게 인용하고 출처를 밝혔다. 소설 본문은 그 외에 이 저장소에 옮기지 않았다. `might … would`를 예시로 읽는 문법 해석과 한국어에 \"가령\"을 넣자는 논거는 jay가 2026-09-25에 다른 어시스턴트에게서 받아 붙여넣은 것이고 **그쪽의 것이지 내 것이 아니다.** 이 항목이 더한 것은 그 수의 이름, `would` 진단법, 그리고 실무 영어로의 이전이다. 인용문을 소설 원본과 대조하지 않았고, 뒤따르는 문장들도 읽지 않았다 — 붙여넣은 설명 자신이 그것이 `might`가 쓰인 이유를 확정해줄 거라고 말한 부분이다. **열린 채로 둔다.**\nraw: 2026-09-25-english-400.md\n\n## Dialogue\nHana: Walk me through the failure. Start with when it actually happens.\n> 실패 경로를 설명해줘. 실제로 언제 일어나는지부터.\nJay: A user might be uploading a two-gigabyte export over hotel wifi, with the tab in the background. Nothing else would be competing for that socket.\n> 사용자가 호텔 와이파이로 2기가짜리 내보내기 파일을 올리고 있다고 하자. 탭은 백그라운드에 있고. 그 소켓을 두고 경쟁하는 건 아무것도 없을 거야.\nHana: So the connection looks idle to the proxy.\n> 그럼 프록시 입장에서는 연결이 놀고 있는 것처럼 보이겠네.\nJay: It does. The proxy would reap it at sixty seconds, the client would retry from zero, and the user would watch the bar reset for the third time.\n> 그래. 프록시는 60초에 그걸 회수하고, 클라이언트는 처음부터 다시 시도하고, 사용자는 진행 바가 세 번째로 초기화되는 걸 보게 되는 거지.\nHana: Is that hypothetical or did you see it?\n> 그거 가정이야, 아니면 본 거야?\nJay: I watched it happen twice last week. I'm describing the typical case, not guessing at one.\n> 지난주에 두 번 봤어. **추측하는 게 아니라 전형적인 경우를 서술하는 거야.**\nHana: Good — say that next time. \"I'm describing the typical case\" is worth ten minutes of argument.\n> 좋네 — 다음엔 그렇게 말해. \"전형적인 경우를 서술하는 중\"이라는 한마디가 10분짜리 논쟁을 아껴줘.\n\n## Techniques\n1. **`might be ~ing`는 추측이 아니라 예시일 수 있다.** 모리슨의 `She might be hurrying across a field`는 세스가 들판에 있었는지에 대한 의문이 아니다. **전형적인 경우 하나를 골라 그 안으로 들어간 것**이다. 한국어로는 \"~하고 있을 수도 있었다\"가 아니라 **\"가령 ~하고 있다고 하자\"** 또는 **\"~하고 있을 때면\"** 이 맞는다.\n2. **표지는 뒤따르는 `would`다.** `Nothing else would be in her mind.` 진짜 추측이라면 `might`에 머물거나 `probably`로 갔을 것이다. **`might`가 무대를 세우고 `would`가 그 무대 위에서 성립하는 것을 말한다.** 이 짝이 보이면 문장 전체의 성격이 정해진다. 회의에서도 같은 짝을 쓰면 된다. \"A user **might be** uploading… Nothing else **would be** competing.\"\n3. **회의에서 \"For example, let's say…\"를 버려라.** 요점까지 단어가 너무 많고, 조건절이 **그런 경우가 실제로 있는지조차 모른다는 인상**을 준다. `might be ~ing … would`로 바로 들어가면 짧고, **그 장면을 본 사람처럼 들린다.** 진짜로 봤다면 한 줄 덧붙여라. \"I'm describing the typical case, not guessing at one.\"\n4. **사람이 아닌 주어의 `devious`는 교활한이 아니다.** `her brain was devious`는 **곧장 가지 않고 옆길로 새는** 머리라는 뜻이고, `deviate`(벗어나다)와 같은 어원이다. 사람에게 쓰면 교활한이 맞지만 brain, route, path, argument 같은 주어에는 **\"에두르는, 빙 도는\"** 이다.\n\n## Expressions\n| Expression | 뜻 · 쓰이는 자리 |\n|---|---|\n| might be ~ing … would … | 가령 ~하고 있다고 하자, 그러면 ~할 것이다 — 추측이 아니라 **전형적인 한 경우를 세우는** 짝 |\n| I'm describing the typical case | 전형적인 경우를 서술하는 겁니다 — 가정이냐고 물을 때의 답. **추측과 선을 긋는 한마디** |\n| not guessing at one | 추측하는 게 아니라 — 위 문장 뒤에 붙여 대비를 세운다 |\n| Is that hypothetical or did you see it? | 그거 가정이에요, 본 거예요? — 리뷰에서 상대가 던지는 표준 질문. 미리 답을 준비해둘 것 |\n| to run a case | 한 경우를 굴려보다 — 시나리오를 처음부터 끝까지 따라가는 것 |\n| a representative instance | 대표적인 한 사례 — \"하나만 예로 들면\"의 격식 있는 표현 |\n| a devious route | 에두르는 경로 — 사람이 아닌 주어에서는 교활함이 아니라 **곧장 가지 않음** |\n| to deviate from | ~에서 벗어나다 — `devious`와 같은 어원 |\n| practically (= almost) | 거의 — `running practically`는 \"실질적으로\"가 아니라 **\"거의 뛰다시피\"** |\n| to reap a connection | 연결을 회수하다 — 유휴 연결을 서버가 끊는 것 |\n| to compete for a socket | 소켓을 두고 경쟁하다 — 같은 연결을 여러 요청이 쓰려 할 때 |\n| to retry from zero | 처음부터 다시 시도하다 — 이어받기가 없을 때 |\n| to watch the bar reset | 진행 바가 초기화되는 걸 보다 — 사용자 입장에서의 증상 |\n| to land flat | (말이) 힘없이 떨어지다 — 설명이 먹히지 않을 때 |\n| worth ten minutes of argument | 10분짜리 논쟁을 아껴주는 — 한마디의 값을 매길 때 |\n\n## Words\n| devious | /ˈdiviəs/ | (사람) 교활한 / (길·생각) 곧장 가지 않는, 에두르는 |\n| to deviate | /ˈdiviˌeɪt/ | (경로·기준에서) 벗어나다 |\n| sap | /sæp/ | (식물의) 수액, 즙 |\n| chamomile | /ˈkæməˌmaɪl/ | 캐모마일 (국화과 허브) |\n| to rinse | /rɪns/ | 헹구다, 씻어내다 |\n| practically | /ˈpræktɪkli/ | 거의 (= almost); \"실질적으로\"의 뜻도 있으니 문맥으로 가른다 |\n| hypothetical | /ˌhaɪpəˈθɛtɪkəl/ | 가정의, 가설적인 |\n| epistemic | /ˌɛpɪˈstimɪk/ | 인식적인 — 화자가 얼마나 확신하는가에 관한 |\n| to exemplify | /ɪɡˈzɛmpləˌfaɪ/ | 예시하다, 전형적으로 보여주다 |\n| a tell | /tɛl/ | (숨기려 해도 드러나는) 표지, 단서 |\n| representative | /ˌrɛprɪˈzɛntətɪv/ | 대표적인 |\n| an instance | /ˈɪnstəns/ | 사례, 한 경우 |\n| to reap | /rip/ | 거둬들이다 — 서버가 유휴 연결을 회수할 때도 씀 |\n| intrusive | /ɪnˈtrusɪv/ | 침입하는 — 기억이 불쑥 밀고 들어올 때 |\n"</script>
+<h2>Why this conversation</h2>
+<p>The trap is reading <code>might</code> as 추측. Here it is not epistemic at all — Morrison is not wondering whether Sethe was in a field. She is picking one typical occasion and running it, and the giveaway is the <code>would</code> that follows: <code>might</code> sets the case up, <code>would</code> states what holds inside it. A real guess would stay in <code>might</code> or switch to <code>probably</code>. Once Jay sees the pair he can use it at work, where the same construction replaces the clumsy "let&#39;s say" frame and sounds like someone who has watched the system behave. Second point: <code>devious</code> with a non-human subject is not 교활한 — a devious brain is one that does not go straight, the same root as <code>deviate</code>.</p>
+<h2>Dialogue</h2>
+<p><strong>Hana:</strong> Walk me through the failure. Start with when it actually happens.</p>
+<p><strong>Jay:</strong> A user might be uploading a two-gigabyte export over hotel wifi, with the tab in the background. Nothing else would be competing for that socket.</p>
+<p><strong>Hana:</strong> So the connection looks idle to the proxy.</p>
+<p><strong>Jay:</strong> It does. The proxy would reap it at sixty seconds, the client would retry from zero, and the user would watch the bar reset for the third time.</p>
+<p><strong>Hana:</strong> Is that hypothetical or did you see it?</p>
+<p><strong>Jay:</strong> I watched it happen twice last week. I&#39;m describing the typical case, not guessing at one.</p>
+<p><strong>Hana:</strong> Good — say that next time. "I&#39;m describing the typical case" is worth ten minutes of argument.</p>
+<h2>Key words</h2>
+<table><thead><tr><th>Word</th><th>Say it</th><th>쓰인 자리</th></tr></thead><tbody><tr><td><strong>devious</strong></td><td><code>/ˈdiviəs/</code></td><td>(사람) 교활한 / (길·생각) 곧장 가지 않는, 에두르는</td></tr><tr><td><strong>to deviate</strong></td><td><code>/ˈdiviˌeɪt/</code></td><td>(경로·기준에서) 벗어나다</td></tr><tr><td><strong>sap</strong></td><td><code>/sæp/</code></td><td>(식물의) 수액, 즙</td></tr><tr><td><strong>chamomile</strong></td><td><code>/ˈkæməˌmaɪl/</code></td><td>캐모마일 (국화과 허브)</td></tr><tr><td><strong>to rinse</strong></td><td><code>/rɪns/</code></td><td>헹구다, 씻어내다</td></tr><tr><td><strong>practically</strong></td><td><code>/ˈpræktɪkli/</code></td><td>거의 (= almost); "실질적으로"의 뜻도 있으니 문맥으로 가른다</td></tr><tr><td><strong>hypothetical</strong></td><td><code>/ˌhaɪpəˈθɛtɪkəl/</code></td><td>가정의, 가설적인</td></tr><tr><td><strong>epistemic</strong></td><td><code>/ˌɛpɪˈstimɪk/</code></td><td>인식적인 — 화자가 얼마나 확신하는가에 관한</td></tr><tr><td><strong>to exemplify</strong></td><td><code>/ɪɡˈzɛmpləˌfaɪ/</code></td><td>예시하다, 전형적으로 보여주다</td></tr><tr><td><strong>a tell</strong></td><td><code>/tɛl/</code></td><td>(숨기려 해도 드러나는) 표지, 단서</td></tr><tr><td><strong>representative</strong></td><td><code>/ˌrɛprɪˈzɛntətɪv/</code></td><td>대표적인</td></tr><tr><td><strong>an instance</strong></td><td><code>/ˈɪnstəns/</code></td><td>사례, 한 경우</td></tr><tr><td><strong>to reap</strong></td><td><code>/rip/</code></td><td>거둬들이다 — 서버가 유휴 연결을 회수할 때도 씀</td></tr><tr><td><strong>intrusive</strong></td><td><code>/ɪnˈtrusɪv/</code></td><td>침입하는 — 기억이 불쑥 밀고 들어올 때</td></tr></tbody></table>
+<h2>Key expressions</h2>
+<table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>might be ~ing … would …</strong></td><td>가령 ~하고 있다고 하자, 그러면 ~할 것이다 — 추측이 아니라 <strong>전형적인 한 경우를 세우는</strong> 짝</td></tr><tr><td><strong>I&#39;m describing the typical case</strong></td><td>전형적인 경우를 서술하는 겁니다 — 가정이냐고 물을 때의 답. <strong>추측과 선을 긋는 한마디</strong></td></tr><tr><td><strong>not guessing at one</strong></td><td>추측하는 게 아니라 — 위 문장 뒤에 붙여 대비를 세운다</td></tr><tr><td><strong>Is that hypothetical or did you see it?</strong></td><td>그거 가정이에요, 본 거예요? — 리뷰에서 상대가 던지는 표준 질문. 미리 답을 준비해둘 것</td></tr><tr><td><strong>to run a case</strong></td><td>한 경우를 굴려보다 — 시나리오를 처음부터 끝까지 따라가는 것</td></tr><tr><td><strong>a representative instance</strong></td><td>대표적인 한 사례 — "하나만 예로 들면"의 격식 있는 표현</td></tr><tr><td><strong>a devious route</strong></td><td>에두르는 경로 — 사람이 아닌 주어에서는 교활함이 아니라 <strong>곧장 가지 않음</strong></td></tr><tr><td><strong>to deviate from</strong></td><td>~에서 벗어나다 — <code>devious</code>와 같은 어원</td></tr><tr><td><strong>practically (= almost)</strong></td><td>거의 — <code>running practically</code>는 "실질적으로"가 아니라 <strong>"거의 뛰다시피"</strong></td></tr><tr><td><strong>to reap a connection</strong></td><td>연결을 회수하다 — 유휴 연결을 서버가 끊는 것</td></tr><tr><td><strong>to compete for a socket</strong></td><td>소켓을 두고 경쟁하다 — 같은 연결을 여러 요청이 쓰려 할 때</td></tr><tr><td><strong>to retry from zero</strong></td><td>처음부터 다시 시도하다 — 이어받기가 없을 때</td></tr><tr><td><strong>to watch the bar reset</strong></td><td>진행 바가 초기화되는 걸 보다 — 사용자 입장에서의 증상</td></tr><tr><td><strong>to land flat</strong></td><td>(말이) 힘없이 떨어지다 — 설명이 먹히지 않을 때</td></tr><tr><td><strong>worth ten minutes of argument</strong></td><td>10분짜리 논쟁을 아껴주는 — 한마디의 값을 매길 때</td></tr></tbody></table>
+<h2>Source</h2>
+<p class="meta">Toni Morrison, *Beloved* (Alfred A. Knopf, 1987) — three sentences quoted for commentary on the grammar, kept short and attributed; the novel&#39;s text is not otherwise reproduced here. The grammatical reading of <code>might … would</code> as exemplification, and the argument for adding "가령" in Korean, were pasted by jay on 2026-09-25 from another assistant and are that assistant&#39;s, not mine. What this item adds is the name for the move, the <code>would</code> diagnostic, and the transfer to working English. I did not check the quotation against a copy of the novel, and I have not read the sentences that follow it — which the pasted explanation itself says would settle why <code>might</code> was chosen. That stays open. &middot; <a href="raw/2026-09-25-english-400.md">raw</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">All Notes</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <h1>might be ~ing … would — 추측이 아니라 "가령"</h1>
+      <p class="lead">디자인 리뷰에서 Jay는 자꾸 "For example, let&#39;s say a user uploads a large file…"로 시작하는데 매번 힘이 빠진다. 요점까지 말이 너무 길고, 조건절 때문에 그런 경우가 있는지조차 확신이 없어 보인다. 전날 밤 토니 모리슨의 『빌러비드』를 읽다가 같은 일을 한 수로 해내는 문장을 만난다. `She might be hurrying across a field… Nothing else would be in her mind.` 세스에 대한 추측이 아니다. **대표적인 한 경우를 골라서 서술한 것**이다. Jay는 그 수를 자기 영어에 넣고 싶다.</p>
+<h2>왜 이 대화인가</h2>
+<p>함정은 <code>might</code>를 추측으로 읽는 것이다. 여기서는 인식적 추측이 전혀 아니다. 모리슨은 세스가 들판에 있었는지 궁금해하고 있지 않다. <strong>전형적인 경우 하나를 골라 굴리고 있고</strong>, 표지는 뒤따르는 <code>would</code>다. <code>might</code>가 상황을 세우고 <code>would</code>가 그 안에서 성립하는 것을 진술한다. 진짜 추측이라면 <code>might</code>에 머물거나 <code>probably</code>로 바꿨을 것이다. 이 짝이 보이면 회사에서 쓸 수 있다. 어설픈 "let&#39;s say" 틀을 대체하고, <strong>시스템이 그렇게 움직이는 걸 실제로 본 사람처럼</strong> 들린다. 두 번째 요점: 사람이 아닌 주어의 <code>devious</code>는 교활한이 아니다. <strong>곧장 가지 않는</strong> 머리라는 뜻이고, <code>deviate</code>와 같은 어원이다.</p>
+<h2>대화</h2>
+<p><strong>Hana:</strong> 실패 경로를 설명해줘. 실제로 언제 일어나는지부터.</p>
+<p><strong>Jay:</strong> 사용자가 호텔 와이파이로 2기가짜리 내보내기 파일을 올리고 있다고 하자. 탭은 백그라운드에 있고. 그 소켓을 두고 경쟁하는 건 아무것도 없을 거야.</p>
+<p><strong>Hana:</strong> 그럼 프록시 입장에서는 연결이 놀고 있는 것처럼 보이겠네.</p>
+<p><strong>Jay:</strong> 그래. 프록시는 60초에 그걸 회수하고, 클라이언트는 처음부터 다시 시도하고, 사용자는 진행 바가 세 번째로 초기화되는 걸 보게 되는 거지.</p>
+<p><strong>Hana:</strong> 그거 가정이야, 아니면 본 거야?</p>
+<p><strong>Jay:</strong> 지난주에 두 번 봤어. **추측하는 게 아니라 전형적인 경우를 서술하는 거야.**</p>
+<p><strong>Hana:</strong> 좋네 — 다음엔 그렇게 말해. "전형적인 경우를 서술하는 중"이라는 한마디가 10분짜리 논쟁을 아껴줘.</p>
+<h2>협업 기법 세 가지</h2>
+<ol><li><strong><code>might be ~ing</code>는 추측이 아니라 예시일 수 있다.</strong> 모리슨의 <code>She might be hurrying across a field</code>는 세스가 들판에 있었는지에 대한 의문이 아니다. <strong>전형적인 경우 하나를 골라 그 안으로 들어간 것</strong>이다. 한국어로는 "~하고 있을 수도 있었다"가 아니라 <strong>"가령 ~하고 있다고 하자"</strong> 또는 <strong>"~하고 있을 때면"</strong> 이 맞는다.</li><li><strong>표지는 뒤따르는 <code>would</code>다.</strong> <code>Nothing else would be in her mind.</code> 진짜 추측이라면 <code>might</code>에 머물거나 <code>probably</code>로 갔을 것이다. <strong><code>might</code>가 무대를 세우고 <code>would</code>가 그 무대 위에서 성립하는 것을 말한다.</strong> 이 짝이 보이면 문장 전체의 성격이 정해진다. 회의에서도 같은 짝을 쓰면 된다. "A user <strong>might be</strong> uploading… Nothing else <strong>would be</strong> competing."</li><li><strong>회의에서 "For example, let&#39;s say…"를 버려라.</strong> 요점까지 단어가 너무 많고, 조건절이 <strong>그런 경우가 실제로 있는지조차 모른다는 인상</strong>을 준다. <code>might be ~ing … would</code>로 바로 들어가면 짧고, <strong>그 장면을 본 사람처럼 들린다.</strong> 진짜로 봤다면 한 줄 덧붙여라. "I&#39;m describing the typical case, not guessing at one."</li><li><strong>사람이 아닌 주어의 <code>devious</code>는 교활한이 아니다.</strong> <code>her brain was devious</code>는 <strong>곧장 가지 않고 옆길로 새는</strong> 머리라는 뜻이고, <code>deviate</code>(벗어나다)와 같은 어원이다. 사람에게 쓰면 교활한이 맞지만 brain, route, path, argument 같은 주어에는 <strong>"에두르는, 빙 도는"</strong> 이다.</li></ol>
+<h2>출처</h2>
+<p class="meta">토니 모리슨, 『빌러비드』(Alfred A. Knopf, 1987) — 문법 논평을 위해 세 문장을 짧게 인용하고 출처를 밝혔다. 소설 본문은 그 외에 이 저장소에 옮기지 않았다. <code>might … would</code>를 예시로 읽는 문법 해석과 한국어에 "가령"을 넣자는 논거는 jay가 2026-09-25에 다른 어시스턴트에게서 받아 붙여넣은 것이고 <strong>그쪽의 것이지 내 것이 아니다.</strong> 이 항목이 더한 것은 그 수의 이름, <code>would</code> 진단법, 그리고 실무 영어로의 이전이다. 인용문을 소설 원본과 대조하지 않았고, 뒤따르는 문장들도 읽지 않았다 — 붙여넣은 설명 자신이 그것이 <code>might</code>가 쓰인 이유를 확정해줄 거라고 말한 부분이다. <strong>열린 채로 둔다.</strong> &middot; <a href="raw/2026-09-25-english-400.md">raw</a></p>
+      <p><a href="../notes.html#sec-english">&larr; English</a> &middot; <a href="../notes.html?list">전체 노트</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="english-399.html">&larr; 2375. Slop grenade</a><a href="english-2.html">2377. Fail closed or fail open &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="english-400";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
