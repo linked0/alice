@@ -44,6 +44,12 @@ Jay: That's exactly what I meant. Walk me through it.
    - **`finding out in a hallway`가 가리키는 장면.** 직역은 "복도에서 알게 되는 것". **누가 알게 되는가? Jay다.** 즉 *Fiona가 회의에서는 말하지 않고, 나중에 다른 사람들에게 말하고, 그 말이 돌고 돌아 Jay의 귀에 우연히 들어오는 상황.* 복도(hallway)는 **회의실에서 하지 않은 말이 실제로 오가는 장소**를 가리키는 영어권 사무실의 상투적 이미지다 — 우리로 치면 "탕비실에서 듣는다", "회식 자리에서 알게 된다"에 해당한다.
    - **situation 문장과 이어진다.** 맨 위 상황 설명의 `working around him`(→ 기법 4)이 **실제로 눈에 보이는 순간이 바로 복도다.** Jay가 두려워하는 건 갈등이 아니라 **우회**이고, 복도는 우회가 남기는 흔적이다.
    - **한 거래로 읽으면**: *직접 말해 달라* ↔ *나는 거절할 때도 이유를 말하겠다.* **양쪽 다 '불편한 쪽'을 맡는 교환**이고, 이게 이 대화에서 Jay가 내는 마지막 카드다. 자원도 인정도 아닌 **운영 규칙**.
+7. **그러면 부하인 Fiona는 언제 `no`라고 하는가 — 이 장면의 실제 결말.** 기법 6에서 `the answer`가 **Jay의 답**이라고 못 박았는데, 그러면 Fiona의 거절은 어디 있느냐는 질문이 남는다. **있다. 두 번 있고, 종류가 다르다.**
+   - **첫 번째 — 협상의 no.** *"That's a lot of unpaid consulting."* ("그건 무급 컨설팅이 많네요.") 요청 자체를 거절하는 게 아니라 **가격을 지적한다.** 영어권 협상에서 아주 흔한 형태다 — **거절하지 않고 비용을 테이블에 올려놓는 것.** 이 한마디가 Jay에게 "대가를 내놓으라"고 요구하고, 실제로 Jay는 바로 다음 턴에 자원과 공개 인정을 내놓는다. **이 no가 없었으면 Jay는 공짜로 얻었을 것이다.**
+   - **두 번째 — 기술적 no, 그리고 이게 진짜다.** *"All right. First thing, then: the deploy plan you sent yesterday runs migrations during the Bacs window. **Don't.**"* — **`Don't.` 한 단어.** 이유도 완충도 사과도 없다. Bacs는 영국의 은행 자동이체 정산 시스템이고, **그 처리 창(window)에 DB 마이그레이션을 돌리면 결제가 깨진다.** 9년치 맥락이 있어야만 나오는 지적이다.
+   - **여기서 구조를 보라.** Jay가 *"I want to hear it directly from you"*라고 요청한 **바로 두 턴 뒤에 Fiona가 그걸 실행한다.** 복도가 아니라, 회의에서가 아니라, **지금 이 방에서 직접.** 약속이 추상으로 끝나지 않고 **그 자리에서 한 번 작동해 보인 것**이고, 그래서 Jay가 *"That's exactly what I meant. Walk me through it."*로 받는다. **대화가 닫히는 방식이 곧 거래가 성립했다는 증거다.**
+   - **다만 정확히 해둘 것 — Jay의 약속은 아직 시험되지 않았다.** 이 장면에서 Jay의 답은 사실상 **예스**다(그는 지적을 받아들이고 설명을 청한다). `even when the answer is no`가 진짜로 값을 치르는 순간은 **Jay가 Fiona의 지적을 듣고도 뒤집지 않기로 하고, 그 이유를 말해야 하는 날**이다. 그 날은 이 대화 밖에 있다. **약속은 쉬운 경우에 맺어지고 어려운 경우에 검증된다** — 이 장면이 보여주는 건 전자까지다.
+   - **정리하면 no가 세 종류다.** Fiona의 **협상 no**("비싼데요") · Fiona의 **기술 no**("하지 마세요") · Jay의 **결정 no**("그래도 이렇게 갑니다, 이유는 —"). **앞의 둘은 대사에 나오고, 세 번째는 약속으로만 존재한다.**
 
 
 
@@ -59,6 +65,8 @@ Jay: That's exactly what I meant. Walk me through it.
 | reconcile | /ˈrɛkənˌsaɪl/ | 맞추다, 대사하다 · 화해시키다 |
 | audit | /ˈɔdɪt/ | 감사 |
 | ledger | /ˈlɛdʒɚ/ | 원장, 장부 |
+| migration | /maɪˈgreɪʃən/ | (DB) 마이그레이션, 스키마 변경 |
+| consulting | /kənˈsʌltɪŋ/ | 자문 (unpaid consulting = 무급 자문) |
 
 ## Expressions
 | working around him | 그를 우회해서 일하다 (사람을 장애물 취급) |
@@ -81,4 +89,8 @@ Jay: That's exactly what I meant. Walk me through it.
 | I'll tell you what I decided and why | 무엇을 왜 결정했는지 말하겠다 (주어가 리더인 것이 핵심) |
 | What I can't work with is ~ | 내가 같이 일할 수 없는 건 ~다 (경계선 긋기 · what-cleft) |
 | hear it directly from you | 당신에게서 직접 듣다 |
+| That's a lot of unpaid consulting | 그건 무급 컨설팅이 많네요 (거절 대신 비용을 올려놓는 no) |
+| Don't. | 하지 마세요 — 이유 없이 한 단어로 끊는 기술적 no |
+| Walk me through it | 차근차근 설명해 주세요 (지적을 받아들였다는 신호) |
+| the Bacs window | Bacs 처리 창 — 영국 은행 자동이체 정산이 도는 시간대 |
 | walk me through it | 차근차근 설명해 달라 |
