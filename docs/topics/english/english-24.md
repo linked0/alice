@@ -35,6 +35,14 @@ Jay: That's exactly what I meant. Walk me through it.
    - `a reconciliation system`은 그 작업을 자동으로 돌리는 시스템이다. **핀테크에서 가장 지루하고 가장 중요한 축**에 속한다. 화려한 기능이 아니라 **틀리면 회사가 죽는 쪽**이라서다.
    - 그래서 `the reconciliation system that got us through the audit`이 무게를 갖는다. **감사(audit)에서 가장 먼저 무너지는 지점이 정확히 대사**다. 숫자가 안 맞으면 변명이 통하지 않는다. Fiona가 만든 것이 회사를 감사에서 통과시켰다는 말은 **"당신이 회사를 구한 적이 있다"의 회계 버전**이고, Jay는 그걸 CTO 앞에서 말하겠다고 제안한다.
    - **대화 설계상의 의미**: Jay가 내놓는 대가 둘 중 두 번째가 바로 이것이다. 첫째(엔지니어 둘 + 한 분기)는 **자원**, 둘째는 **공개적 귀속(public attribution)**. 아첨은 공짜지만 귀속은 리드만 줄 수 있고 되돌릴 수 없다. **`reconciliation`이라는 단어를 몰라도 대화는 읽히지만, 알면 Jay가 얼마나 구체적으로 준비했는지가 보인다** — 그는 감사 보고서와 커밋 이력을 읽고 왔다.
+6. **"…even when the answer is no. What I can't work with is finding out in a hallway." — 이 대화에서 Jay가 거는 조건, 한 문장씩.**
+   - **앞 문장 전체**: *"I'm going to make decisions you disagree with. When I do, I want to hear it directly from you, and I'll tell you what I decided and why, **even when the answer is no**."* → "제가 동의하지 않으실 결정을 내릴 겁니다. 그럴 때 저는 당신에게서 **직접** 듣고 싶고, 무엇을 왜 결정했는지 말하겠습니다. **답이 '안 된다'일 때도요.**"
+   - **`even when the answer is no`가 왜 핵심인가.** 대부분의 리더는 **받아들일 때만 설명한다.** 거절할 때는 조용해지거나, "검토해 보겠습니다"로 덮는다. Jay는 정확히 **그 불편한 경우**를 콕 집어 약속한다. 설명이 쉬운 쪽(yes)이 아니라 어려운 쪽(no)을 약속해야 약속이 값을 갖는다. **이 다섯 단어를 빼면 문장 전체가 공짜가 된다.**
+   - **`What I can't work with is ~` — 구문.** 이건 **의사분열문(pseudo-cleft, what-cleft)**이다. `What + 주어 + 동사 + is + X` 형태로 **X를 문장 끝으로 밀어 강조**한다. 그냥 *"I can't work with finding out in a hallway"*라고 해도 뜻은 같지만, `What I can't work with is…`로 시작하면 **듣는 사람이 "무엇?" 하고 기다리게 만든 뒤 답을 준다.**
+   - **의미도 주의.** `I can't work with X`는 "나는 X를 못 한다"가 아니다. **"X는 내가 같이 일할 수 없게 만드는 조건이다"** — 능력이 아니라 **경계선**을 긋는 말이다. 한국어로는 "그것만은 안 됩니다" / "그 조건에서는 같이 일할 수 없습니다"에 가깝다.
+   - **`finding out in a hallway`가 가리키는 장면.** 직역은 "복도에서 알게 되는 것". **누가 알게 되는가? Jay다.** 즉 *Fiona가 회의에서는 말하지 않고, 나중에 다른 사람들에게 말하고, 그 말이 돌고 돌아 Jay의 귀에 우연히 들어오는 상황.* 복도(hallway)는 **회의실에서 하지 않은 말이 실제로 오가는 장소**를 가리키는 영어권 사무실의 상투적 이미지다 — 우리로 치면 "탕비실에서 듣는다", "회식 자리에서 알게 된다"에 해당한다.
+   - **situation 문장과 이어진다.** 맨 위 상황 설명의 `working around him`(→ 기법 4)이 **실제로 눈에 보이는 순간이 바로 복도다.** Jay가 두려워하는 건 갈등이 아니라 **우회**이고, 복도는 우회가 남기는 흔적이다.
+   - **한 거래로 읽으면**: *직접 말해 달라* ↔ *나는 거절할 때도 이유를 말하겠다.* **양쪽 다 '불편한 쪽'을 맡는 교환**이고, 이게 이 대화에서 Jay가 내는 마지막 카드다. 자원도 인정도 아닌 **운영 규칙**.
 
 
 
@@ -43,7 +51,7 @@ Jay: That's exactly what I meant. Walk me through it.
 
 ## Words
 | narrower | /ˈnɛroʊɚ/ | 더 좁은 것 |
-| hallway | /ˈhɔlˌweɪ/ | 복도에서 알게 되다 |
+| hallway | /ˈhɔlˌweɪ/ | 복도 — 회의에서 안 한 말이 오가는 곳 |
 | unpaid | /ənˈpeɪd/ | 무급 컨설팅 |
 | obstacle | /ˈɑbstəkəl/ | 장애물 — work around가 원래 상대하는 것 |
 | reconciliation | /ˌrɛkənˌsɪliˈeɪʃən/ | 대사(對査) · 화해 |
@@ -67,5 +75,8 @@ Jay: That's exactly what I meant. Walk me through it.
 | here's my side | 내 쪽 이야기는 이렇다 |
 | everyone's been putting off | 모두가 미뤄온 |
 | I can't work with | 같이 일할 수 없는 것 |
-| finding out in a hallway | 복도에서 알게 되다 |
+| finding out in a hallway | 복도에서 (우연히) 알게 되다 — 당사자가 아니라 남을 통해 |
+| even when the answer is no | 답이 '안 된다'일 때도 |
+| What I can't work with is ~ | 내가 같이 일할 수 없는 건 ~다 (경계선 긋기 · what-cleft) |
+| hear it directly from you | 당신에게서 직접 듣다 |
 | walk me through it | 차근차근 설명해 달라 |
