@@ -30,6 +30,7 @@ Jay: That's exactly what I meant. Walk me through it.
 1. **코끼리를 먼저 부른다.** "I want to start with the obvious thing rather than pretend it isn't there." 상황을 명명하면 그 뒤의 요청이 조작처럼 들리지 않는다. 피하면 첫 일대일이 연극이 된다.
 2. **좁고 기한 있는 요청.** "for the next three months… tell me when I'm about to break something. Not in the meeting. Before the meeting." "도와 달라"는 거절할 수 없어 무의미하고, 구체적인 요청은 수락할 수 있어 의미가 있다.
 3. **대가를 먼저 낸다, 구체적으로.** "I'll get you the two engineers and the quarter… I'll say the reconciliation system was yours." 권한(자원)과 공개적 인정. 둘 다 리드만 줄 수 있는 것이고, 아첨은 아무도 못 사는 것.
+4. **`work around` + 사람 — 이 상황 전체의 이름.** situation의 마지막 문장 "a team whose most important engineer is **working around him**"은 "그의 주변에서 일한다"가 아니다. **Jay를 거치지 않고 우회해서 일을 처리한다**는 뜻이다. 구체적으로는 Jay에게 보고하지 않고 직접 결정하고, 다른 사람들과 따로 협의하고, Jay의 의사결정 구조를 피해 일을 진행하는 상황. 보통 `work around`의 목적어는 문제나 장애물이다 — "We found a way to **work around the bug**"(그 버그를 우회할 방법을 찾았다). 그런데 여기서는 목적어가 **사람**이다. 그래서 날카롭다: Jay가 "거쳐야 할 리더"가 아니라 "피해서 지나가야 할 장애물"이 되어버렸다는 뉘앙스가 실린다. 그러니 "Jay 없이 일한다"가 아니라 **"Jay를 우회해서 일한다" / "Jay를 제쳐놓고 일을 처리한다"**가 정확한 번역이다. 이 한 구절이 왜 첫 일대일이 1년을 결정하는지를 설명한다 — 실패의 결과가 갈등이 아니라 *우회*이기 때문이다.
 
 
 
@@ -40,8 +41,11 @@ Jay: That's exactly what I meant. Walk me through it.
 | narrower | /ˈnɛroʊɚ/ | 더 좁은 것 |
 | hallway | /ˈhɔlˌweɪ/ | 복도에서 알게 되다 |
 | unpaid | /ənˈpeɪd/ | 무급 컨설팅 |
+| obstacle | /ˈɑbstəkəl/ | 장애물 — work around가 원래 상대하는 것 |
 
 ## Expressions
+| working around him | 그를 우회해서 일하다 (사람을 장애물 취급) |
+| work around the bug | 버그를 우회하다 (원래 용법: 목적어가 문제) |
 | the obvious thing | 뻔한 것, 모두 아는 것 |
 | passed over for a role | 자리에서 밀리다 |
 | I'd understand if that's frustrating | 답답하셔도 이해한다 |

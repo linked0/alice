@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The "Guardian 100 best novels" — a good list travelling under a name that does not hold — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/975</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The "Guardian 100 best novels" — a good list travelling under a name that does not hold</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1822</span><span>Life</span><span title="added">2026-09-25</span><span title="source">chat</span><span title="article source"><a href="https://www.theguardian.com/books/2015/aug/17/the-100-best-novels-written-in-english-the-full-list" rel="noopener noreferrer" target="_blank">The Guardian (the real list)</a></span><span title="raw"><a href="raw/2026-09-25-guardian-100-best-novels.md">raw</a></span></p>
+      <h1>The "Guardian 100 best novels" — a good list travelling under a name that does not hold</h1>
+      <p class="lead">A ranked hundred arrived labelled "the Guardian&#39;s 100 greatest novels of all time", topped by *Middlemarch*, with Han Kang&#39;s *The Vegetarian* at 85 and a note that she is the only Asian writer on it. The list is worth having. The label is not: the Guardian&#39;s actual 100 best novels, published by Robert McCrum in 2015, is English-language only, is ordered by date rather than rank, opens with *The Pilgrim&#39;s Progress* and contains no Tolstoy, no Flaubert, no Proust, no *Beloved* and no Han Kang. The "only Asian writer" note fails on the pasted list&#39;s own contents. Both corrections are checkable in a minute, and neither travelled with the list.</p>
+      <p class="meta">Added 2026-09-25. The hundred titles are reproduced in full below because they are useful; the attribution is corrected because it is wrong. I fetched the Guardian&#39;s real list to check rather than relying on memory, and its top 25 is included for comparison. Which list the pasted ranking actually is, I could not establish — that is stated as unknown, not guessed at.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# The \"Guardian 100 best novels\" — a good list travelling under a name that does not hold\n\nA ranked hundred arrived labelled \"the Guardian's 100 greatest novels of all time\", topped by *Middlemarch*, with Han Kang's *The Vegetarian* at 85 and a note that she is the only Asian writer on it. The list is worth having. The label is not: the Guardian's actual 100 best novels, published by Robert McCrum in 2015, is English-language only, is ordered by date rather than rank, opens with *The Pilgrim's Progress* and contains no Tolstoy, no Flaubert, no Proust, no *Beloved* and no Han Kang. The \"only Asian writer\" note fails on the pasted list's own contents. Both corrections are checkable in a minute, and neither travelled with the list.\n\nAdded 2026-09-25. The hundred titles are reproduced in full below because they are useful; the attribution is corrected because it is wrong. I fetched the Guardian's real list to check rather than relying on memory, and its top 25 is included for comparison. Which list the pasted ranking actually is, I could not establish — that is stated as unknown, not guessed at.\n\n## Why\n\nBecause this is the failure mode the reading-list cards keep circling, caught in the act.\n\n[The five reading lists card](pocs-the-rule-not-the-list.html) argued that a list without its selection rule is decoration. This one arrived with a rule attached — \"the Guardian chose these\" — and the rule is false. That is worse than no rule, because a false provenance is load-bearing: it is why you would trust the ranking, quote it, buy from it. A hundred good titles wrapped in a wrong sentence is the most common form a reading list takes online, and the only defence is the thirty seconds it takes to open the publisher's own page.\n\nThe list itself is not the problem. It is a coherent, catholic, broadly defensible world canon — arguably more useful to a Korean reader than the Guardian's actual English-only list, because it admits Tolstoy, Proust, Márquez and Han Kang. It just is not the Guardian's.\n\n## How it works\n\n### 1 — The hundred, as received\n\n| # | Novel | Author | # | Novel | Author |\n|---|---|---|---|---|---|\n| 1 | Middlemarch | George Eliot | 51 | My Brilliant Friend | Elena Ferrante |\n| 2 | Beloved | Toni Morrison | 52 | The Golden Bowl | Henry James |\n| 3 | Ulysses | James Joyce | 53 | The Transit of Venus | Shirley Hazzard |\n| 4 | To the Lighthouse | Virginia Woolf | 54 | Orlando | Virginia Woolf |\n| 5 | In Search of Lost Time | Marcel Proust | 55 | The Waves | Virginia Woolf |\n| 6 | Anna Karenina | Leo Tolstoy | 56 | Mansfield Park | Jane Austen |\n| 7 | War and Peace | Leo Tolstoy | 57 | The Sound and the Fury | William Faulkner |\n| 8 | Jane Eyre | Charlotte Brontë | 58 | Disgrace | J. M. Coetzee |\n| 9 | Pride and Prejudice | Jane Austen | 59 | Never Let Me Go | Kazuo Ishiguro |\n| 10 | Madame Bovary | Gustave Flaubert | 60 | Howards End | E. M. Forster |\n| 11 | The Great Gatsby | F. Scott Fitzgerald | 61 | The Rings of Saturn | W. G. Sebald |\n| 12 | Bleak House | Charles Dickens | 62 | Half of a Yellow Sun | Chimamanda Ngozi Adichie |\n| 13 | Emma | Jane Austen | 63 | White Teeth | Zadie Smith |\n| 14 | Mrs Dalloway | Virginia Woolf | 64 | The Good Soldier | Ford Madox Ford |\n| 15 | Moby-Dick | Herman Melville | 65 | The Color Purple | Alice Walker |\n| 16 | 1984 | George Orwell | 66 | The Master and Margarita | Mikhail Bulgakov |\n| 17 | One Hundred Years of Solitude | Gabriel García Márquez | 67 | The Man Without Qualities | Robert Musil |\n| 18 | Persuasion | Jane Austen | 68 | Blood Meridian | Cormac McCarthy |\n| 19 | Tristram Shandy | Laurence Sterne | 69 | Crime and Punishment | Fyodor Dostoevsky |\n| 20 | Wuthering Heights | Emily Brontë | 70 | Jude the Obscure | Thomas Hardy |\n| 21 | The Portrait of a Lady | Henry James | 71 | Kindred | Octavia Butler |\n| 22 | Things Fall Apart | Chinua Achebe | 72 | Our Mutual Friend | Charles Dickens |\n| 23 | Midnight's Children | Salman Rushdie | 73 | Austerlitz | W. G. Sebald |\n| 24 | The Remains of the Day | Kazuo Ishiguro | 74 | Nervous Conditions | Tsitsi Dangarembga |\n| 25 | Lolita | Vladimir Nabokov | 75 | The Bluest Eye | Toni Morrison |\n| 26 | Don Quixote | Miguel de Cervantes | 76 | Dracula | Bram Stoker |\n| 27 | The Trial | Franz Kafka | 77 | Lady Chatterley's Lover / The Rainbow | D. H. Lawrence |\n| 28 | The Brothers Karamazov | Fyodor Dostoevsky | 78 | A House for Mr Biswas | V. S. Naipaul |\n| 29 | Pale Fire | Vladimir Nabokov | 79 | Go Tell It on the Mountain | James Baldwin |\n| 30 | Frankenstein | Mary Shelley | 80 | Rebecca | Daphne du Maurier |\n| 31 | The Prime of Miss Jean Brodie | Muriel Spark | 81 | Buddenbrooks | Thomas Mann |\n| 32 | The God of Small Things | Arundhati Roy | 82 | The End of the Affair | Graham Greene |\n| 33 | David Copperfield | Charles Dickens | 83 | A Farewell to Arms | Ernest Hemingway |\n| 34 | Wolf Hall | Hilary Mantel | 84 | The Talented Mr Ripley | Patricia Highsmith |\n| 35 | Great Expectations | Charles Dickens | 85 | The Vegetarian | Han Kang |\n| 36 | The Handmaid's Tale | Margaret Atwood | 86 | The Turn of the Screw | Henry James |\n| 37 | Invisible Man | Ralph Ellison | 87 | The Line of Beauty | Alan Hollinghurst |\n| 38 | The Age of Innocence | Edith Wharton | 88 | Ragtime | E. L. Doctorow |\n| 39 | Their Eyes Were Watching God | Zora Neale Hurston | 89 | The Left Hand of Darkness | Ursula K. Le Guin |\n| 40 | Song of Solomon | Toni Morrison | 90 | Jacob's Room | Virginia Woolf |\n| 41 | Heart of Darkness | Joseph Conrad | 91 | Life and Fate | Vasily Grossman |\n| 42 | The Magic Mountain | Thomas Mann | 92 | Sentimental Education | Gustave Flaubert |\n| 43 | Housekeeping | Marilynne Robinson | 93 | Invisible Cities | Italo Calvino |\n| 44 | Giovanni's Room | James Baldwin | 94 | The Known World | Edward P. Jones |\n| 45 | The Golden Notebook | Doris Lessing | 95 | The Return of the Native | Thomas Hardy |\n| 46 | The Leopard | Giuseppe Tomasi di Lampedusa | 96 | Pedro Páramo | Juan Rulfo |\n| 47 | Vanity Fair | William Makepeace Thackeray | 97 | Catch-22 | Joseph Heller |\n| 48 | The Metamorphosis | Franz Kafka | 98 | The Road | Cormac McCarthy |\n| 49 | A Fine Balance | Rohinton Mistry | 99 | The Go-Between | L. P. Hartley |\n| 50 | Wide Sargasso Sea | Jean Rhys | 100 | My Ántonia | Willa Cather |\n\n### 2 — What the Guardian actually published\n\nRobert McCrum, *The 100 best novels written in English*, a weekly series that ran 2013–2015 and closed with a full list on 17 August 2015. Its constitution is different in three ways that matter:\n\n| | The pasted list | The Guardian's list |\n|---|---|---|\n| **Scope** | World literature in translation | Written in English only |\n| **Order** | Ranked 1–100 | Chronological, 1678 → 2000 |\n| **Span** | Cervantes (1605) to Han Kang (2007) | *The Pilgrim's Progress* (1678) to *True History of the Kelly Gang* (2000) |\n\nIts first ten: *The Pilgrim's Progress* (Bunyan, 1678) · *Robinson Crusoe* (Defoe, 1719) · *Gulliver's Travels* (Swift, 1726) · *Clarissa* (Richardson, 1748) · *Tom Jones* (Fielding, 1749) · *The Life and Opinions of Tristram Shandy* (Sterne, 1759) · *Emma* (Austen, 1816) · *Frankenstein* (Shelley, 1818) · *Nightmare Abbey* (Peacock, 1818) · *The Narrative of Arthur Gordon Pym of Nantucket* (Poe, 1838). It ends at 100 with *True History of the Kelly Gang* (Carey, 2000).\n\nTitles both lists contain sit at very different places: *Middlemarch* is 1st on the pasted list and 21st in the Guardian's; *Ulysses* 3rd and 46th; *Mrs Dalloway* 14th and 50th; *Lolita* 25th and 75th; *Midnight's Children* 23rd and 91st. *Beloved*, *Wolf Hall*, *Never Let Me Go* and *The Vegetarian* are not in the Guardian's hundred at all.\n\n### 3 — The \"only Asian writer\" claim, which the list refutes by itself\n\nThe note attached to the paste says Han Kang is the only Asian author on it. She is not. On the same hundred: **Kazuo Ishiguro** appears twice (24, 59) and was born in Nagasaki; **Salman Rushdie** (23) was born in Bombay; **Arundhati Roy** (32) is Indian; **Rohinton Mistry** (49) was born in Bombay; **V. S. Naipaul** (78) was born in Trinidad to an Indian family. Whatever definition of \"Asian writer\" is used, the claim does not survive the list it is attached to.\n\nThe narrower, true statement — that Han Kang is the only writer working in Korean here, and *The Vegetarian* the only book translated from Korean — is worth making and is not the same claim. It is the kind of downgrade a sentence needs before it is repeated.\n\n### 4 — How to tell, without being an expert\n\nThe three signals that were enough here, in order of cost:\n\n1. **Open the publisher's own list.** Thirty seconds. The Guardian's is a single page and settles it outright.\n2. **Check the attached claim against the attached data.** The \"only Asian writer\" line is refuted by scrolling up the same hundred. A claim that its own evidence contradicts is the cheapest tell there is.\n3. **Read the translations for wear.** Several Korean renderings in the paste are wrong in a specific way — *Pale Fire* glossed as \"푸른 수염\" (Bluebeard), *Vanity Fair* as \"세기말\", *Go Tell It on the Mountain* as \"산상수훈 / 내 방에서 가라\", Coetzee spelled \"쿤체\", and *Lady Chatterley's Lover* and *The Rainbow* fused into one entry. Human editing does not fail like that; it fails by being late, not by confidently pairing the wrong title. Combined with a closing paragraph that recommends a YouTube video through a google.com/search link, the likeliest explanation is that the list was generated rather than transcribed. **That is an assessment from the text's behaviour, not a fact I can prove, and it is not needed for the correction — points 1 and 2 already settle the attribution.**\n\n## Where it lands in Jayverse\n\nThe fourth card in the book-list family and the one that earns the family's rule. [The five reading lists](pocs-the-rule-not-the-list.html) said a list without its rule is decoration; this says a list with a false rule is worse, because the falsehood is the part doing the persuading. The [manga](pocs-japan-media-arts-100-manga.html) and [animation](pocs-japan-media-arts-100-anime.html) cards are the contrast case: those publish their method in full, which is why their numbers can be argued with.\n\nPractical rule to carry: **when a list arrives with a publisher's name on it, open the publisher's page before passing it on.** Not because lists are usually fake, but because the check is cheap and the correction, once the list has been forwarded, is not.\n\nKeep the hundred. It is a good hundred. Cite it as \"a list circulating in Korean, attributed to the Guardian but not the Guardian's\", which is exactly as much as is known.\n\n## Verified and unverified\n\n**Verified by fetching the source.** The Guardian's *The 100 best novels written in English* was retrieved in full on 2026-09-25 from theguardian.com. It has 100 entries, runs chronologically from 1678 to 2000, and contains no Tolstoy, no Flaubert, no Proust, no *Beloved* and no Han Kang. The positions quoted in §2 (*Middlemarch* 21, *Ulysses* 46, *Mrs Dalloway* 50, *Lolita* 75, *Midnight's Children* 91) are read off that fetched list.\n\n**Verified from the paste itself.** The refutation of the \"only Asian writer\" claim needs no external source; the counter-examples are on the same hundred.\n\n**Reproduced, not verified.** The hundred titles, their authors and their ranks are as pasted. Neither the ranking nor the attribution could be traced to any publisher, so nothing about the ordering is confirmed here.\n\n**Could not establish.** Which body, if any, actually produced this ranking. It is not the Guardian's; beyond that, unknown. I looked and did not find it, and that is reported rather than filled in with a plausible-sounding source.\n\n**An assessment, clearly labelled.** §4's third point — that the list reads as generated rather than transcribed — is inference from translation errors and the closing paragraph's shape. It is not proof, the card says so, and the attribution correction does not rest on it.\n\n**Mine.** §3's narrower reformulation, §4 entirely, the Jayverse section, and the framing that false provenance is worse than absent provenance.\n"</script>
+<h2>Why</h2>
+<p>Because this is the failure mode the reading-list cards keep circling, caught in the act.</p>
+<p><a href="pocs-the-rule-not-the-list.html">The five reading lists card</a> argued that a list without its selection rule is decoration. This one arrived with a rule attached — "the Guardian chose these" — and the rule is false. That is worse than no rule, because a false provenance is load-bearing: it is why you would trust the ranking, quote it, buy from it. A hundred good titles wrapped in a wrong sentence is the most common form a reading list takes online, and the only defence is the thirty seconds it takes to open the publisher&#39;s own page.</p>
+<p>The list itself is not the problem. It is a coherent, catholic, broadly defensible world canon — arguably more useful to a Korean reader than the Guardian&#39;s actual English-only list, because it admits Tolstoy, Proust, Márquez and Han Kang. It just is not the Guardian&#39;s.</p>
+<h2>How it works</h2>
+<h3>1 — The hundred, as received</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Novel</th><th>Author</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Novel</th><th>Author</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>Middlemarch</td><td>George Eliot</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>My Brilliant Friend</td><td>Elena Ferrante</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>Beloved</td><td>Toni Morrison</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>The Golden Bowl</td><td>Henry James</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>Ulysses</td><td>James Joyce</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>The Transit of Venus</td><td>Shirley Hazzard</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>To the Lighthouse</td><td>Virginia Woolf</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>Orlando</td><td>Virginia Woolf</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>In Search of Lost Time</td><td>Marcel Proust</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>The Waves</td><td>Virginia Woolf</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>Anna Karenina</td><td>Leo Tolstoy</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>Mansfield Park</td><td>Jane Austen</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>War and Peace</td><td>Leo Tolstoy</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>The Sound and the Fury</td><td>William Faulkner</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>Jane Eyre</td><td>Charlotte Brontë</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>Disgrace</td><td>J. M. Coetzee</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>Pride and Prejudice</td><td>Jane Austen</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>Never Let Me Go</td><td>Kazuo Ishiguro</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>Madame Bovary</td><td>Gustave Flaubert</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>Howards End</td><td>E. M. Forster</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>The Great Gatsby</td><td>F. Scott Fitzgerald</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>The Rings of Saturn</td><td>W. G. Sebald</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>Bleak House</td><td>Charles Dickens</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>Half of a Yellow Sun</td><td>Chimamanda Ngozi Adichie</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>Emma</td><td>Jane Austen</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>White Teeth</td><td>Zadie Smith</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>Mrs Dalloway</td><td>Virginia Woolf</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>The Good Soldier</td><td>Ford Madox Ford</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>Moby-Dick</td><td>Herman Melville</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>The Color Purple</td><td>Alice Walker</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1984</td><td>George Orwell</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>The Master and Margarita</td><td>Mikhail Bulgakov</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>One Hundred Years of Solitude</td><td>Gabriel García Márquez</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>The Man Without Qualities</td><td>Robert Musil</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>Persuasion</td><td>Jane Austen</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>Blood Meridian</td><td>Cormac McCarthy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>Tristram Shandy</td><td>Laurence Sterne</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>Crime and Punishment</td><td>Fyodor Dostoevsky</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>Wuthering Heights</td><td>Emily Brontë</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>Jude the Obscure</td><td>Thomas Hardy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>The Portrait of a Lady</td><td>Henry James</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>Kindred</td><td>Octavia Butler</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>Things Fall Apart</td><td>Chinua Achebe</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>Our Mutual Friend</td><td>Charles Dickens</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>Midnight&#39;s Children</td><td>Salman Rushdie</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>Austerlitz</td><td>W. G. Sebald</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>The Remains of the Day</td><td>Kazuo Ishiguro</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>Nervous Conditions</td><td>Tsitsi Dangarembga</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>Lolita</td><td>Vladimir Nabokov</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>The Bluest Eye</td><td>Toni Morrison</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>Don Quixote</td><td>Miguel de Cervantes</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>Dracula</td><td>Bram Stoker</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>The Trial</td><td>Franz Kafka</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>Lady Chatterley&#39;s Lover / The Rainbow</td><td>D. H. Lawrence</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>The Brothers Karamazov</td><td>Fyodor Dostoevsky</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>A House for Mr Biswas</td><td>V. S. Naipaul</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>Pale Fire</td><td>Vladimir Nabokov</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>Go Tell It on the Mountain</td><td>James Baldwin</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>Frankenstein</td><td>Mary Shelley</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>Rebecca</td><td>Daphne du Maurier</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>The Prime of Miss Jean Brodie</td><td>Muriel Spark</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>Buddenbrooks</td><td>Thomas Mann</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>The God of Small Things</td><td>Arundhati Roy</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>The End of the Affair</td><td>Graham Greene</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>David Copperfield</td><td>Charles Dickens</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>A Farewell to Arms</td><td>Ernest Hemingway</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>Wolf Hall</td><td>Hilary Mantel</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>The Talented Mr Ripley</td><td>Patricia Highsmith</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>Great Expectations</td><td>Charles Dickens</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>The Vegetarian</td><td>Han Kang</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>The Handmaid&#39;s Tale</td><td>Margaret Atwood</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>The Turn of the Screw</td><td>Henry James</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>Invisible Man</td><td>Ralph Ellison</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>The Line of Beauty</td><td>Alan Hollinghurst</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>The Age of Innocence</td><td>Edith Wharton</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>Ragtime</td><td>E. L. Doctorow</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>Their Eyes Were Watching God</td><td>Zora Neale Hurston</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>The Left Hand of Darkness</td><td>Ursula K. Le Guin</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>Song of Solomon</td><td>Toni Morrison</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>Jacob&#39;s Room</td><td>Virginia Woolf</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>Heart of Darkness</td><td>Joseph Conrad</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>Life and Fate</td><td>Vasily Grossman</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>The Magic Mountain</td><td>Thomas Mann</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>Sentimental Education</td><td>Gustave Flaubert</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>Housekeeping</td><td>Marilynne Robinson</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>Invisible Cities</td><td>Italo Calvino</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>Giovanni&#39;s Room</td><td>James Baldwin</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>The Known World</td><td>Edward P. Jones</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>The Golden Notebook</td><td>Doris Lessing</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>The Return of the Native</td><td>Thomas Hardy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>The Leopard</td><td>Giuseppe Tomasi di Lampedusa</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>Pedro Páramo</td><td>Juan Rulfo</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>Vanity Fair</td><td>William Makepeace Thackeray</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>Catch-22</td><td>Joseph Heller</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>The Metamorphosis</td><td>Franz Kafka</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>The Road</td><td>Cormac McCarthy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>A Fine Balance</td><td>Rohinton Mistry</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>The Go-Between</td><td>L. P. Hartley</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>Wide Sargasso Sea</td><td>Jean Rhys</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>My Ántonia</td><td>Willa Cather</td></tr></tbody></table>
+<h3>2 — What the Guardian actually published</h3>
+<p>Robert McCrum, <em>The 100 best novels written in English</em>, a weekly series that ran 2013–2015 and closed with a full list on 17 August 2015. Its constitution is different in three ways that matter:</p>
+<table><thead><tr><th></th><th>The pasted list</th><th>The Guardian&#39;s list</th></tr></thead><tbody><tr><td><strong>Scope</strong></td><td>World literature in translation</td><td>Written in English only</td></tr><tr><td><strong>Order</strong></td><td>Ranked 1–100</td><td>Chronological, 1678 → 2000</td></tr><tr><td><strong>Span</strong></td><td>Cervantes (1605) to Han Kang (2007)</td><td><em>The Pilgrim&#39;s Progress</em> (1678) to <em>True History of the Kelly Gang</em> (2000)</td></tr></tbody></table>
+<p>Its first ten: <em>The Pilgrim&#39;s Progress</em> (Bunyan, 1678) · <em>Robinson Crusoe</em> (Defoe, 1719) · <em>Gulliver&#39;s Travels</em> (Swift, 1726) · <em>Clarissa</em> (Richardson, 1748) · <em>Tom Jones</em> (Fielding, 1749) · <em>The Life and Opinions of Tristram Shandy</em> (Sterne, 1759) · <em>Emma</em> (Austen, 1816) · <em>Frankenstein</em> (Shelley, 1818) · <em>Nightmare Abbey</em> (Peacock, 1818) · <em>The Narrative of Arthur Gordon Pym of Nantucket</em> (Poe, 1838). It ends at 100 with <em>True History of the Kelly Gang</em> (Carey, 2000).</p>
+<p>Titles both lists contain sit at very different places: <em>Middlemarch</em> is 1st on the pasted list and 21st in the Guardian&#39;s; <em>Ulysses</em> 3rd and 46th; <em>Mrs Dalloway</em> 14th and 50th; <em>Lolita</em> 25th and 75th; <em>Midnight&#39;s Children</em> 23rd and 91st. <em>Beloved</em>, <em>Wolf Hall</em>, <em>Never Let Me Go</em> and <em>The Vegetarian</em> are not in the Guardian&#39;s hundred at all.</p>
+<h3>3 — The "only Asian writer" claim, which the list refutes by itself</h3>
+<p>The note attached to the paste says Han Kang is the only Asian author on it. She is not. On the same hundred: <strong>Kazuo Ishiguro</strong> appears twice (24, 59) and was born in Nagasaki; <strong>Salman Rushdie</strong> (23) was born in Bombay; <strong>Arundhati Roy</strong> (32) is Indian; <strong>Rohinton Mistry</strong> (49) was born in Bombay; <strong>V. S. Naipaul</strong> (78) was born in Trinidad to an Indian family. Whatever definition of "Asian writer" is used, the claim does not survive the list it is attached to.</p>
+<p>The narrower, true statement — that Han Kang is the only writer working in Korean here, and <em>The Vegetarian</em> the only book translated from Korean — is worth making and is not the same claim. It is the kind of downgrade a sentence needs before it is repeated.</p>
+<h3>4 — How to tell, without being an expert</h3>
+<p>The three signals that were enough here, in order of cost:</p>
+<ol><li><strong>Open the publisher&#39;s own list.</strong> Thirty seconds. The Guardian&#39;s is a single page and settles it outright.</li><li><strong>Check the attached claim against the attached data.</strong> The "only Asian writer" line is refuted by scrolling up the same hundred. A claim that its own evidence contradicts is the cheapest tell there is.</li><li><strong>Read the translations for wear.</strong> Several Korean renderings in the paste are wrong in a specific way — <em>Pale Fire</em> glossed as "푸른 수염" (Bluebeard), <em>Vanity Fair</em> as "세기말", <em>Go Tell It on the Mountain</em> as "산상수훈 / 내 방에서 가라", Coetzee spelled "쿤체", and <em>Lady Chatterley&#39;s Lover</em> and <em>The Rainbow</em> fused into one entry. Human editing does not fail like that; it fails by being late, not by confidently pairing the wrong title. Combined with a closing paragraph that recommends a YouTube video through a google.com/search link, the likeliest explanation is that the list was generated rather than transcribed. <strong>That is an assessment from the text&#39;s behaviour, not a fact I can prove, and it is not needed for the correction — points 1 and 2 already settle the attribution.</strong></li></ol>
+<h2>Where it lands in Jayverse</h2>
+<p>The fourth card in the book-list family and the one that earns the family&#39;s rule. <a href="pocs-the-rule-not-the-list.html">The five reading lists</a> said a list without its rule is decoration; this says a list with a false rule is worse, because the falsehood is the part doing the persuading. The <a href="pocs-japan-media-arts-100-manga.html">manga</a> and <a href="pocs-japan-media-arts-100-anime.html">animation</a> cards are the contrast case: those publish their method in full, which is why their numbers can be argued with.</p>
+<p>Practical rule to carry: <strong>when a list arrives with a publisher&#39;s name on it, open the publisher&#39;s page before passing it on.</strong> Not because lists are usually fake, but because the check is cheap and the correction, once the list has been forwarded, is not.</p>
+<p>Keep the hundred. It is a good hundred. Cite it as "a list circulating in Korean, attributed to the Guardian but not the Guardian&#39;s", which is exactly as much as is known.</p>
+<h2>Verified and unverified</h2>
+<p><strong>Verified by fetching the source.</strong> The Guardian&#39;s <em>The 100 best novels written in English</em> was retrieved in full on 2026-09-25 from theguardian.com. It has 100 entries, runs chronologically from 1678 to 2000, and contains no Tolstoy, no Flaubert, no Proust, no <em>Beloved</em> and no Han Kang. The positions quoted in §2 (<em>Middlemarch</em> 21, <em>Ulysses</em> 46, <em>Mrs Dalloway</em> 50, <em>Lolita</em> 75, <em>Midnight&#39;s Children</em> 91) are read off that fetched list.</p>
+<p><strong>Verified from the paste itself.</strong> The refutation of the "only Asian writer" claim needs no external source; the counter-examples are on the same hundred.</p>
+<p><strong>Reproduced, not verified.</strong> The hundred titles, their authors and their ranks are as pasted. Neither the ranking nor the attribution could be traced to any publisher, so nothing about the ordering is confirmed here.</p>
+<p><strong>Could not establish.</strong> Which body, if any, actually produced this ranking. It is not the Guardian&#39;s; beyond that, unknown. I looked and did not find it, and that is reported rather than filled in with a plausible-sounding source.</p>
+<p><strong>An assessment, clearly labelled.</strong> §4&#39;s third point — that the list reads as generated rather than transcribed — is inference from translation errors and the closing paragraph&#39;s shape. It is not proof, the card says so, and the attribution correction does not rest on it.</p>
+<p><strong>Mine.</strong> §3&#39;s narrower reformulation, §4 entirely, the Jayverse section, and the framing that false provenance is worse than absent provenance.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>provenance</strong></strong></td><td>출처·내력. 미술품 용어인데 데이터·문서·주장 전부에 씀. false provenance = 거짓 출처</td></tr><tr><td><strong><strong>a name that does not hold</strong></strong></td><td>성립하지 않는 이름. hold = (주장·설명이) 버티다, 유효하다</td></tr><tr><td><strong><strong>load-bearing</strong></strong></td><td>하중을 받는. 건축 용어를 비유로 — "the falsehood is load-bearing" = 그 거짓이 구조를 떠받치고 있다</td></tr><tr><td><strong><strong>caught in the act</strong></strong></td><td>현행범으로 잡힌. 실패 사례를 실시간으로 포착했을 때</td></tr><tr><td><strong><strong>catholic</strong> (소문자)</strong></td><td>폭넓은, 편식하지 않는. 종교와 무관한 형용사 용법</td></tr><tr><td><strong><strong>broadly defensible</strong></strong></td><td>대체로 방어 가능한. 완벽하진 않지만 옹호할 수 있다는 절제된 긍정</td></tr><tr><td><strong><strong>it does not survive X</strong></strong></td><td>X를 견디지 못한다. 주장이 검증을 통과하지 못할 때의 정확한 동사</td></tr><tr><td><strong><strong>the cheapest tell</strong></strong></td><td>가장 싼 단서. tell = (포커) 무심결에 드러나는 신호</td></tr><tr><td><strong><strong>read X for wear</strong></strong></td><td>X가 닳은 흔적을 읽다. 품질·진위를 흔적으로 판별할 때</td></tr><tr><td><strong><strong>the downgrade a sentence needs</strong></strong></td><td>문장에 필요한 하향 조정. 과장된 주장을 참인 범위로 좁히는 일</td></tr><tr><td><strong><strong>pass it on</strong></strong></td><td>(그대로) 넘기다, 전달하다</td></tr><tr><td><strong><strong>as much as is known</strong></strong></td><td>알려진 만큼. 더도 덜도 아니게 인용하라고 할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# \"가디언 선정 소설 100선\" — 좋은 목록이, 성립하지 않는 이름을 달고 돌아다닌다\n\n《미들마치》를 1위로 하고 한강의 《채식주의자》를 85위에 놓은 순위 100편이 \"영국 가디언이 선정한 역대 최고의 소설 100선\"이라는 이름으로 들어왔다. 목록 자체는 가질 만하다. 이름은 아니다. 가디언이 실제로 발표한 100선은 로버트 맥크럼이 2015년에 마무리한 《영어로 쓰인 최고의 소설 100》이고, **영어 작품만** 다루며, 순위가 아니라 **연대순**이고, 《천로역정》으로 시작하며, 톨스토이도 플로베르도 프루스트도 《빌러비드》도 한강도 없다. 붙어 온 \"유일한 아시아 작가\" 주석은 그 목록 자신의 내용으로 반박된다. 두 정정 모두 1분이면 확인되는데, 목록과 함께 오지 않았다.\n\n2026-09-25 추가. 100편은 쓸모가 있으니 전부 옮겼고, 출처 표기는 틀렸으니 고쳤다. 기억에 의존하지 않고 가디언의 실제 목록을 직접 받아와 대조했으며 비교용으로 상위 항목을 함께 실었다. 붙여넣은 순위가 실제로 어느 목록인지는 밝혀내지 못했고, 추측으로 채우지 않고 미상으로 둔다.\n\n## 왜\n\n독서 목록 카드들이 계속 맴돌던 실패 양상이, 현행범으로 잡혔기 때문이다.\n\n[독서 목록 다섯 개 카드](pocs-the-rule-not-the-list.html)는 선별 규칙 없는 목록은 장식이라고 주장했다. 이 목록은 규칙을 달고 왔다 — \"가디언이 골랐다\" — 그런데 그 규칙이 거짓이다. 규칙이 없는 것보다 나쁘다. 거짓 출처는 하중을 받는 부재이기 때문이다. 순위를 믿고, 인용하고, 그걸 보고 책을 사게 만드는 게 바로 그 문장이다. 좋은 제목 100개가 틀린 문장 한 줄에 싸여 있는 것 — 온라인 독서 목록이 취하는 가장 흔한 형태이고, 방어책은 발행사 페이지를 여는 30초뿐이다.\n\n목록 자체는 문제가 아니다. 일관되고 폭이 넓고 대체로 방어 가능한 세계 정전이다. 톨스토이·프루스트·마르케스·한강을 받아들이기 때문에 영어 전용인 가디언의 실제 목록보다 한국 독자에게 오히려 더 쓸모 있다고 말할 수도 있다. 다만 가디언 것이 아닐 뿐이다.\n\n## 동작 방식\n\n### 1 — 받은 그대로의 100편\n\n| # | 작품 | 작가 | # | 작품 | 작가 |\n|---|---|---|---|---|---|\n| 1 | 미들마치 | 조지 엘리엇 | 51 | 나의 눈부신 친구 | 엘레나 페란테 |\n| 2 | 빌러비드 | 토니 모리슨 | 52 | 황금 그릇 | 헨리 제임스 |\n| 3 | 율리시스 | 제임스 조이스 | 53 | 금성의 통과 | 셜리 해저드 |\n| 4 | 등대로 | 버지니아 울프 | 54 | 올랜도 | 버지니아 울프 |\n| 5 | 잃어버린 시간을 찾아서 | 마르셀 프루스트 | 55 | 파도 | 버지니아 울프 |\n| 6 | 안나 카레니나 | 레프 톨스토이 | 56 | 맨스필드 파크 | 제인 오스틴 |\n| 7 | 전쟁과 평화 | 레프 톨스토이 | 57 | 음향과 분노 | 윌리엄 포크너 |\n| 8 | 제인 에어 | 샬럿 브론테 | 58 | 추락 | J. M. 쿳시 |\n| 9 | 오만과 편견 | 제인 오스틴 | 59 | 나를 보내지 마 | 가즈오 이시구로 |\n| 10 | 마담 보바리 | 귀스타브 플로베르 | 60 | 하워즈 엔드 | E. M. 포스터 |\n| 11 | 위대한 개츠비 | F. 스콧 피츠제럴드 | 61 | 토성의 고리 | W. G. 제발트 |\n| 12 | 황폐한 집 | 찰스 디킨스 | 62 | 태양은 노랗게 타오른다 | 치마만다 응고지 아디치에 |\n| 13 | 에마 | 제인 오스틴 | 63 | 하얀 이빨 | 제이디 스미스 |\n| 14 | 댈러웨이 부인 | 버지니아 울프 | 64 | 훌륭한 병사 | 포드 매덕스 포드 |\n| 15 | 모비 딕 | 허먼 멜빌 | 65 | 컬러 퍼플 | 앨리스 워커 |\n| 16 | 1984 | 조지 오웰 | 66 | 거장과 마르가리타 | 미하일 불가코프 |\n| 17 | 백년의 고독 | 가브리엘 가르시아 마르케스 | 67 | 특성 없는 남자 | 로베르트 무질 |\n| 18 | 설득 | 제인 오스틴 | 68 | 핏빛 자오선 | 코맥 매카시 |\n| 19 | 트리스트럼 섄디 | 로렌스 스턴 | 69 | 죄와 벌 | 표도르 도스토옙스키 |\n| 20 | 폭풍의 언덕 | 에밀리 브론테 | 70 | 무명의 주드 | 토머스 하디 |\n| 21 | 여인의 초상 | 헨리 제임스 | 71 | 킨드레드 | 옥타비아 버틀러 |\n| 22 | 모든 것이 산산이 부서지다 | 치누아 아체베 | 72 | 우리 공통의 친구 | 찰스 디킨스 |\n| 23 | 한밤의 아이들 | 살만 루슈디 | 73 | 아우스터리츠 | W. G. 제발트 |\n| 24 | 남아 있는 나날 | 가즈오 이시구로 | 74 | 신경 상태 | 치치 당가렘가 |\n| 25 | 롤리타 | 블라디미르 나보코프 | 75 | 가장 푸른 눈 | 토니 모리슨 |\n| 26 | 돈키호테 | 미겔 데 세르반테스 | 76 | 드라큘라 | 브램 스토커 |\n| 27 | 소송 | 프란츠 카프카 | 77 | 채털리 부인의 연인 / 무지개 | D. H. 로런스 |\n| 28 | 카라마조프가의 형제들 | 표도르 도스토옙스키 | 78 | 비스와스씨를 위한 집 | V. S. 나이폴 |\n| 29 | 창백한 불꽃 | 블라디미르 나보코프 | 79 | 산에 올라 고하라 | 제임스 볼드윈 |\n| 30 | 프랑켄슈타인 | 메리 셸리 | 80 | 레베카 | 대프니 듀 모리에 |\n| 31 | 진 브로디 선생의 전성기 | 뮤리얼 스파크 | 81 | 부덴브로크 가의 사람들 | 토마스 만 |\n| 32 | 작은 것들의 신 | 아룬다티 로이 | 82 | 사랑의 종말 | 그레이엄 그린 |\n| 33 | 데이비드 코퍼필드 | 찰스 디킨스 | 83 | 무기여 잘 있거라 | 어니스트 헤밍웨이 |\n| 34 | 울프 홀 | 힐러리 맨틀 | 84 | 리플리 | 퍼트리샤 하이스미스 |\n| 35 | 위대한 유산 | 찰스 디킨스 | 85 | 채식주의자 | 한강 |\n| 36 | 시녀 이야기 | 마거릿 애트우드 | 86 | 나사의 회전 | 헨리 제임스 |\n| 37 | 보이지 않는 인간 | 랠프 엘리슨 | 87 | 아름다움의 선 | 앨런 홀링허스트 |\n| 38 | 순수의 시대 | 이디스 워튼 | 88 | 래그타임 | E. L. 닥터로 |\n| 39 | 그들의 눈은 신을 보고 있었다 | 조라 닐 허스턴 | 89 | 어둠의 왼손 | 어슐러 K. 르 귄 |\n| 40 | 솔로몬의 노래 | 토니 모리슨 | 90 | 제이콥의 방 | 버지니아 울프 |\n| 41 | 어둠의 심연 | 조지프 콘래드 | 91 | 삶과 운명 | 바실리 그로스만 |\n| 42 | 마의 산 | 토마스 만 | 92 | 감정 교육 | 귀스타브 플로베르 |\n| 43 | 하우스키핑 | 메릴린 로빈슨 | 93 | 보이지 않는 도시들 | 이탈로 칼비노 |\n| 44 | 조반니의 방 | 제임스 볼드윈 | 94 | 알려진 세계 | 에드워드 P. 존스 |\n| 45 | 황금 노트북 | 도리스 레싱 | 95 | 귀향 | 토머스 하디 |\n| 46 | 표범 | 주세페 토마시 디 람페두사 | 96 | 페드로 파라모 | 후안 룰포 |\n| 47 | 허영의 시장 | 윌리엄 메이크피스 새커리 | 97 | 캐치-22 | 조지프 헬러 |\n| 48 | 변신 | 프란츠 카프카 | 98 | 로드 | 코맥 매카시 |\n| 49 | 적절한 균형 | 로힌턴 미스트리 | 99 | 중개인 | L. P. 하틀리 |\n| 50 | 광막한 사르가소 바다 | 진 리스 | 100 | 나의 안토니아 | 윌라 캐더 |\n\n### 2 — 가디언이 실제로 발표한 것\n\n로버트 맥크럼, 《영어로 쓰인 최고의 소설 100》. 2013~2015년 주간 연재로 진행돼 2015년 8월 17일 전체 목록으로 마무리됐다. 구성 원리가 세 가지 면에서 다르다.\n\n| | 붙여넣은 목록 | 가디언의 목록 |\n|---|---|---|\n| **범위** | 번역 포함 세계문학 | 영어로 쓰인 작품만 |\n| **순서** | 1~100위 순위 | 연대순, 1678 → 2000 |\n| **폭** | 세르반테스(1605)부터 한강(2007) | 《천로역정》(1678)부터 《켈리 갱 실화》(2000) |\n\n앞 열 편: 천로역정(버니언, 1678) · 로빈슨 크루소(디포, 1719) · 걸리버 여행기(스위프트, 1726) · 클라리사(리처드슨, 1748) · 톰 존스(필딩, 1749) · 트리스트럼 섄디(스턴, 1759) · 에마(오스틴, 1816) · 프랑켄슈타인(셸리, 1818) · 나이트메어 애비(피콕, 1818) · 아서 고든 핌의 모험(포, 1838). 100번은 《켈리 갱 실화》(캐리, 2000).\n\n양쪽에 다 있는 작품의 자리는 크게 다르다. 《미들마치》는 붙여넣은 목록 1위, 가디언 21번. 《율리시스》 3위 대 46번. 《댈러웨이 부인》 14위 대 50번. 《롤리타》 25위 대 75번. 《한밤의 아이들》 23위 대 91번. 《빌러비드》, 《울프 홀》, 《나를 보내지 마》, 《채식주의자》는 가디언 100선에 아예 없다.\n\n### 3 — \"유일한 아시아 작가\"라는 주장, 목록 자신이 반박한다\n\n붙여넣기에 달린 주석은 한강이 이 목록의 유일한 아시아 작가라고 한다. 아니다. 같은 100편 안에 **가즈오 이시구로**가 두 번(24, 59) 있고 그는 나가사키 출생이다. **살만 루슈디**(23)는 봄베이 출생, **아룬다티 로이**(32)는 인도인, **로힌턴 미스트리**(49)는 봄베이 출생, **V. S. 나이폴**(78)은 인도계로 트리니다드 출생이다. '아시아 작가'를 어떻게 정의하든 이 주장은 자기가 붙어 있는 목록을 견디지 못한다.\n\n더 좁은, 참인 진술 — 한강이 여기서 한국어로 쓰는 유일한 작가이고 《채식주의자》가 한국어에서 번역된 유일한 책이라는 것 — 은 말할 가치가 있고, 같은 주장이 아니다. 문장을 옮기기 전에 이 정도로 낮추는 작업이 필요하다.\n\n### 4 — 전문가가 아니어도 알아채는 법\n\n여기서 충분했던 세 신호를, 드는 비용 순으로.\n\n1. **발행사의 목록을 직접 연다.** 30초. 가디언 것은 한 페이지짜리라 그 자리에서 결판난다.\n2. **붙어 온 주장을 붙어 온 데이터로 검사한다.** \"유일한 아시아 작가\" 줄은 같은 100편을 위로 훑으면 반박된다. 자기 증거가 자기를 반박하는 주장은 가장 싼 단서다.\n3. **번역 상태를 본다.** 붙여넣기의 한국어 제목 몇 개가 특정한 방식으로 틀려 있다 — 《Pale Fire》를 \"푸른 수염\"(Bluebeard)으로, 《Vanity Fair》를 \"세기말\"로, 《Go Tell It on the Mountain》을 \"산상수훈 / 내 방에서 가라\"로 옮겼고, 쿳시(Coetzee)를 \"쿤체\"로 적었으며, 《채털리 부인의 연인》과 《무지개》를 한 항목으로 합쳐놨다. 사람의 편집은 그렇게 실패하지 않는다. 사람은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다. 마지막 문단이 google.com/search 링크로 유튜브 영상을 추천하는 형태인 것까지 합치면, 이 목록은 옮겨 적힌 것이 아니라 생성된 것일 가능성이 높다. **이건 텍스트의 거동에서 끌어낸 판단이지 증명할 수 있는 사실이 아니고, 정정에는 필요하지도 않다 — 1번과 2번으로 출처 문제는 이미 끝난다.**\n\n## Jayverse에서의 위치\n\n책 목록 계열의 네 번째 카드이고, 이 계열의 규칙이 왜 필요한지를 벌어들이는 카드다. [독서 목록 다섯 개](pocs-the-rule-not-the-list.html)는 규칙 없는 목록은 장식이라고 했다. 이 카드는 거짓 규칙이 달린 목록이 더 나쁘다고 말한다. 설득을 하고 있는 부분이 바로 그 거짓이기 때문이다. [만화](pocs-japan-media-arts-100-manga.html)와 [애니메이션](pocs-japan-media-arts-100-anime.html) 카드가 대조군이다. 그쪽은 방법을 전부 공개하고, 그래서 숫자를 두고 논쟁할 수 있다.\n\n가져갈 규칙: **발행사 이름이 붙은 목록이 오면, 넘기기 전에 그 발행사 페이지를 연다.** 목록이 대개 가짜여서가 아니라, 확인은 싸고 이미 퍼뜨린 뒤의 정정은 비싸기 때문이다.\n\n100편은 그대로 두자. 좋은 100편이다. 다만 \"한국어권에 도는 목록, 가디언 선정으로 표기돼 있으나 가디언 것은 아님\"이라고 인용하면 된다. 알려진 만큼이 정확히 그것이다.\n\n## 확인된 것과 미확인\n\n**원본을 받아와 확인함.** 가디언의 《영어로 쓰인 최고의 소설 100》을 2026-09-25에 theguardian.com에서 전체로 받았다. 100개 항목, 1678년부터 2000년까지 연대순이며 톨스토이·플로베르·프루스트·《빌러비드》·한강이 없다. §2에 인용한 자리(미들마치 21, 율리시스 46, 댈러웨이 부인 50, 롤리타 75, 한밤의 아이들 91)는 그 받아온 목록에서 읽은 것이다.\n\n**붙여넣기 자체로 확인됨.** \"유일한 아시아 작가\" 주장의 반박에는 외부 자료가 필요 없다. 반례가 같은 100편 안에 있다.\n\n**옮겼을 뿐 확인하지 않은 것.** 100편의 제목·작가·순위는 붙여넣은 그대로다. 순위도 출처도 어떤 발행사로도 추적되지 않았으므로, 순서에 대해서는 여기서 확인된 것이 없다.\n\n**한국어 제목은 내가 정리했다.** 위 표의 한국어 제목은 국내 통용 역서명을 내가 적은 것이다. 붙여넣기의 한국어 제목 일부가 틀려 있었고(§4 참조), 틀린 채로 옮기면 쓸모가 없어서 고쳤다. 원본의 오역 목록은 raw 파일에 남겼다.\n\n**밝혀내지 못한 것.** 이 순위를 실제로 만든 주체가 어디인지. 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 찾지 못했으며, 그럴듯한 출처로 채우지 않고 그대로 보고한다.\n\n**판단이며, 그렇게 표시함.** §4의 세 번째 항목 — 옮겨 적힌 게 아니라 생성된 것으로 읽힌다는 것 — 은 오역 양상과 마지막 문단의 형태에서 끌어낸 추론이다. 증명이 아니고, 카드가 그렇게 밝히고 있으며, 출처 정정은 여기에 기대지 않는다.\n\n**내 것.** §3의 좁힌 재진술, §4 전체, Jayverse 항목, 그리고 거짓 출처가 출처 부재보다 나쁘다는 프레이밍.\n"</script>
+      <h1>"가디언 선정 소설 100선" — 좋은 목록이, 성립하지 않는 이름을 달고 돌아다닌다</h1>
+      <p class="lead">《미들마치》를 1위로 하고 한강의 《채식주의자》를 85위에 놓은 순위 100편이 "영국 가디언이 선정한 역대 최고의 소설 100선"이라는 이름으로 들어왔다. 목록 자체는 가질 만하다. 이름은 아니다. 가디언이 실제로 발표한 100선은 로버트 맥크럼이 2015년에 마무리한 《영어로 쓰인 최고의 소설 100》이고, **영어 작품만** 다루며, 순위가 아니라 **연대순**이고, 《천로역정》으로 시작하며, 톨스토이도 플로베르도 프루스트도 《빌러비드》도 한강도 없다. 붙어 온 "유일한 아시아 작가" 주석은 그 목록 자신의 내용으로 반박된다. 두 정정 모두 1분이면 확인되는데, 목록과 함께 오지 않았다.</p>
+      <p class="meta">2026-09-25 추가. 100편은 쓸모가 있으니 전부 옮겼고, 출처 표기는 틀렸으니 고쳤다. 기억에 의존하지 않고 가디언의 실제 목록을 직접 받아와 대조했으며 비교용으로 상위 항목을 함께 실었다. 붙여넣은 순위가 실제로 어느 목록인지는 밝혀내지 못했고, 추측으로 채우지 않고 미상으로 둔다.</p>
+<h2>왜</h2>
+<p>독서 목록 카드들이 계속 맴돌던 실패 양상이, 현행범으로 잡혔기 때문이다.</p>
+<p><a href="pocs-the-rule-not-the-list.html">독서 목록 다섯 개 카드</a>는 선별 규칙 없는 목록은 장식이라고 주장했다. 이 목록은 규칙을 달고 왔다 — "가디언이 골랐다" — 그런데 그 규칙이 거짓이다. 규칙이 없는 것보다 나쁘다. 거짓 출처는 하중을 받는 부재이기 때문이다. 순위를 믿고, 인용하고, 그걸 보고 책을 사게 만드는 게 바로 그 문장이다. 좋은 제목 100개가 틀린 문장 한 줄에 싸여 있는 것 — 온라인 독서 목록이 취하는 가장 흔한 형태이고, 방어책은 발행사 페이지를 여는 30초뿐이다.</p>
+<p>목록 자체는 문제가 아니다. 일관되고 폭이 넓고 대체로 방어 가능한 세계 정전이다. 톨스토이·프루스트·마르케스·한강을 받아들이기 때문에 영어 전용인 가디언의 실제 목록보다 한국 독자에게 오히려 더 쓸모 있다고 말할 수도 있다. 다만 가디언 것이 아닐 뿐이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 받은 그대로의 100편</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>미들마치</td><td>조지 엘리엇</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>나의 눈부신 친구</td><td>엘레나 페란테</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>빌러비드</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>황금 그릇</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>율리시스</td><td>제임스 조이스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>금성의 통과</td><td>셜리 해저드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>등대로</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>올랜도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>잃어버린 시간을 찾아서</td><td>마르셀 프루스트</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>파도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>안나 카레니나</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>맨스필드 파크</td><td>제인 오스틴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>전쟁과 평화</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>음향과 분노</td><td>윌리엄 포크너</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>제인 에어</td><td>샬럿 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>추락</td><td>J. M. 쿳시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>오만과 편견</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>나를 보내지 마</td><td>가즈오 이시구로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>마담 보바리</td><td>귀스타브 플로베르</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>하워즈 엔드</td><td>E. M. 포스터</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>위대한 개츠비</td><td>F. 스콧 피츠제럴드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>토성의 고리</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>황폐한 집</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>태양은 노랗게 타오른다</td><td>치마만다 응고지 아디치에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>에마</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>하얀 이빨</td><td>제이디 스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>댈러웨이 부인</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>훌륭한 병사</td><td>포드 매덕스 포드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>모비 딕</td><td>허먼 멜빌</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>컬러 퍼플</td><td>앨리스 워커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1984</td><td>조지 오웰</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>거장과 마르가리타</td><td>미하일 불가코프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>백년의 고독</td><td>가브리엘 가르시아 마르케스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>특성 없는 남자</td><td>로베르트 무질</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>설득</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>핏빛 자오선</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>트리스트럼 섄디</td><td>로렌스 스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>죄와 벌</td><td>표도르 도스토옙스키</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>폭풍의 언덕</td><td>에밀리 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>무명의 주드</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>여인의 초상</td><td>헨리 제임스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>킨드레드</td><td>옥타비아 버틀러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>모든 것이 산산이 부서지다</td><td>치누아 아체베</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>우리 공통의 친구</td><td>찰스 디킨스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>한밤의 아이들</td><td>살만 루슈디</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>아우스터리츠</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>남아 있는 나날</td><td>가즈오 이시구로</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>신경 상태</td><td>치치 당가렘가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>롤리타</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>가장 푸른 눈</td><td>토니 모리슨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>돈키호테</td><td>미겔 데 세르반테스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>드라큘라</td><td>브램 스토커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>소송</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>채털리 부인의 연인 / 무지개</td><td>D. H. 로런스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>카라마조프가의 형제들</td><td>표도르 도스토옙스키</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>비스와스씨를 위한 집</td><td>V. S. 나이폴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>창백한 불꽃</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>산에 올라 고하라</td><td>제임스 볼드윈</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>프랑켄슈타인</td><td>메리 셸리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>레베카</td><td>대프니 듀 모리에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>진 브로디 선생의 전성기</td><td>뮤리얼 스파크</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>부덴브로크 가의 사람들</td><td>토마스 만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>작은 것들의 신</td><td>아룬다티 로이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>사랑의 종말</td><td>그레이엄 그린</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>데이비드 코퍼필드</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>무기여 잘 있거라</td><td>어니스트 헤밍웨이</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>울프 홀</td><td>힐러리 맨틀</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>리플리</td><td>퍼트리샤 하이스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>위대한 유산</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>채식주의자</td><td>한강</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>시녀 이야기</td><td>마거릿 애트우드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>나사의 회전</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>보이지 않는 인간</td><td>랠프 엘리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>아름다움의 선</td><td>앨런 홀링허스트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>순수의 시대</td><td>이디스 워튼</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>래그타임</td><td>E. L. 닥터로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>그들의 눈은 신을 보고 있었다</td><td>조라 닐 허스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>어둠의 왼손</td><td>어슐러 K. 르 귄</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>솔로몬의 노래</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>제이콥의 방</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>어둠의 심연</td><td>조지프 콘래드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>삶과 운명</td><td>바실리 그로스만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>마의 산</td><td>토마스 만</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>감정 교육</td><td>귀스타브 플로베르</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>하우스키핑</td><td>메릴린 로빈슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>보이지 않는 도시들</td><td>이탈로 칼비노</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>조반니의 방</td><td>제임스 볼드윈</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>알려진 세계</td><td>에드워드 P. 존스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>황금 노트북</td><td>도리스 레싱</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>귀향</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>표범</td><td>주세페 토마시 디 람페두사</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>페드로 파라모</td><td>후안 룰포</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>허영의 시장</td><td>윌리엄 메이크피스 새커리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>캐치-22</td><td>조지프 헬러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>변신</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>로드</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>적절한 균형</td><td>로힌턴 미스트리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>중개인</td><td>L. P. 하틀리</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>광막한 사르가소 바다</td><td>진 리스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>나의 안토니아</td><td>윌라 캐더</td></tr></tbody></table>
+<h3>2 — 가디언이 실제로 발표한 것</h3>
+<p>로버트 맥크럼, 《영어로 쓰인 최고의 소설 100》. 2013~2015년 주간 연재로 진행돼 2015년 8월 17일 전체 목록으로 마무리됐다. 구성 원리가 세 가지 면에서 다르다.</p>
+<table><thead><tr><th></th><th>붙여넣은 목록</th><th>가디언의 목록</th></tr></thead><tbody><tr><td><strong>범위</strong></td><td>번역 포함 세계문학</td><td>영어로 쓰인 작품만</td></tr><tr><td><strong>순서</strong></td><td>1~100위 순위</td><td>연대순, 1678 → 2000</td></tr><tr><td><strong>폭</strong></td><td>세르반테스(1605)부터 한강(2007)</td><td>《천로역정》(1678)부터 《켈리 갱 실화》(2000)</td></tr></tbody></table>
+<p>앞 열 편: 천로역정(버니언, 1678) · 로빈슨 크루소(디포, 1719) · 걸리버 여행기(스위프트, 1726) · 클라리사(리처드슨, 1748) · 톰 존스(필딩, 1749) · 트리스트럼 섄디(스턴, 1759) · 에마(오스틴, 1816) · 프랑켄슈타인(셸리, 1818) · 나이트메어 애비(피콕, 1818) · 아서 고든 핌의 모험(포, 1838). 100번은 《켈리 갱 실화》(캐리, 2000).</p>
+<p>양쪽에 다 있는 작품의 자리는 크게 다르다. 《미들마치》는 붙여넣은 목록 1위, 가디언 21번. 《율리시스》 3위 대 46번. 《댈러웨이 부인》 14위 대 50번. 《롤리타》 25위 대 75번. 《한밤의 아이들》 23위 대 91번. 《빌러비드》, 《울프 홀》, 《나를 보내지 마》, 《채식주의자》는 가디언 100선에 아예 없다.</p>
+<h3>3 — "유일한 아시아 작가"라는 주장, 목록 자신이 반박한다</h3>
+<p>붙여넣기에 달린 주석은 한강이 이 목록의 유일한 아시아 작가라고 한다. 아니다. 같은 100편 안에 <strong>가즈오 이시구로</strong>가 두 번(24, 59) 있고 그는 나가사키 출생이다. <strong>살만 루슈디</strong>(23)는 봄베이 출생, <strong>아룬다티 로이</strong>(32)는 인도인, <strong>로힌턴 미스트리</strong>(49)는 봄베이 출생, <strong>V. S. 나이폴</strong>(78)은 인도계로 트리니다드 출생이다. &#39;아시아 작가&#39;를 어떻게 정의하든 이 주장은 자기가 붙어 있는 목록을 견디지 못한다.</p>
+<p>더 좁은, 참인 진술 — 한강이 여기서 한국어로 쓰는 유일한 작가이고 《채식주의자》가 한국어에서 번역된 유일한 책이라는 것 — 은 말할 가치가 있고, 같은 주장이 아니다. 문장을 옮기기 전에 이 정도로 낮추는 작업이 필요하다.</p>
+<h3>4 — 전문가가 아니어도 알아채는 법</h3>
+<p>여기서 충분했던 세 신호를, 드는 비용 순으로.</p>
+<ol><li><strong>발행사의 목록을 직접 연다.</strong> 30초. 가디언 것은 한 페이지짜리라 그 자리에서 결판난다.</li><li><strong>붙어 온 주장을 붙어 온 데이터로 검사한다.</strong> "유일한 아시아 작가" 줄은 같은 100편을 위로 훑으면 반박된다. 자기 증거가 자기를 반박하는 주장은 가장 싼 단서다.</li><li><strong>번역 상태를 본다.</strong> 붙여넣기의 한국어 제목 몇 개가 특정한 방식으로 틀려 있다 — 《Pale Fire》를 "푸른 수염"(Bluebeard)으로, 《Vanity Fair》를 "세기말"로, 《Go Tell It on the Mountain》을 "산상수훈 / 내 방에서 가라"로 옮겼고, 쿳시(Coetzee)를 "쿤체"로 적었으며, 《채털리 부인의 연인》과 《무지개》를 한 항목으로 합쳐놨다. 사람의 편집은 그렇게 실패하지 않는다. 사람은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다. 마지막 문단이 google.com/search 링크로 유튜브 영상을 추천하는 형태인 것까지 합치면, 이 목록은 옮겨 적힌 것이 아니라 생성된 것일 가능성이 높다. <strong>이건 텍스트의 거동에서 끌어낸 판단이지 증명할 수 있는 사실이 아니고, 정정에는 필요하지도 않다 — 1번과 2번으로 출처 문제는 이미 끝난다.</strong></li></ol>
+<h2>Jayverse에서의 위치</h2>
+<p>책 목록 계열의 네 번째 카드이고, 이 계열의 규칙이 왜 필요한지를 벌어들이는 카드다. <a href="pocs-the-rule-not-the-list.html">독서 목록 다섯 개</a>는 규칙 없는 목록은 장식이라고 했다. 이 카드는 거짓 규칙이 달린 목록이 더 나쁘다고 말한다. 설득을 하고 있는 부분이 바로 그 거짓이기 때문이다. <a href="pocs-japan-media-arts-100-manga.html">만화</a>와 <a href="pocs-japan-media-arts-100-anime.html">애니메이션</a> 카드가 대조군이다. 그쪽은 방법을 전부 공개하고, 그래서 숫자를 두고 논쟁할 수 있다.</p>
+<p>가져갈 규칙: <strong>발행사 이름이 붙은 목록이 오면, 넘기기 전에 그 발행사 페이지를 연다.</strong> 목록이 대개 가짜여서가 아니라, 확인은 싸고 이미 퍼뜨린 뒤의 정정은 비싸기 때문이다.</p>
+<p>100편은 그대로 두자. 좋은 100편이다. 다만 "한국어권에 도는 목록, 가디언 선정으로 표기돼 있으나 가디언 것은 아님"이라고 인용하면 된다. 알려진 만큼이 정확히 그것이다.</p>
+<h2>확인된 것과 미확인</h2>
+<p><strong>원본을 받아와 확인함.</strong> 가디언의 《영어로 쓰인 최고의 소설 100》을 2026-09-25에 theguardian.com에서 전체로 받았다. 100개 항목, 1678년부터 2000년까지 연대순이며 톨스토이·플로베르·프루스트·《빌러비드》·한강이 없다. §2에 인용한 자리(미들마치 21, 율리시스 46, 댈러웨이 부인 50, 롤리타 75, 한밤의 아이들 91)는 그 받아온 목록에서 읽은 것이다.</p>
+<p><strong>붙여넣기 자체로 확인됨.</strong> "유일한 아시아 작가" 주장의 반박에는 외부 자료가 필요 없다. 반례가 같은 100편 안에 있다.</p>
+<p><strong>옮겼을 뿐 확인하지 않은 것.</strong> 100편의 제목·작가·순위는 붙여넣은 그대로다. 순위도 출처도 어떤 발행사로도 추적되지 않았으므로, 순서에 대해서는 여기서 확인된 것이 없다.</p>
+<p><strong>한국어 제목은 내가 정리했다.</strong> 위 표의 한국어 제목은 국내 통용 역서명을 내가 적은 것이다. 붙여넣기의 한국어 제목 일부가 틀려 있었고(§4 참조), 틀린 채로 옮기면 쓸모가 없어서 고쳤다. 원본의 오역 목록은 raw 파일에 남겼다.</p>
+<p><strong>밝혀내지 못한 것.</strong> 이 순위를 실제로 만든 주체가 어디인지. 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 찾지 못했으며, 그럴듯한 출처로 채우지 않고 그대로 보고한다.</p>
+<p><strong>판단이며, 그렇게 표시함.</strong> §4의 세 번째 항목 — 옮겨 적힌 게 아니라 생성된 것으로 읽힌다는 것 — 은 오역 양상과 마지막 문단의 형태에서 끌어낸 추론이다. 증명이 아니고, 카드가 그렇게 밝히고 있으며, 출처 정정은 여기에 기대지 않는다.</p>
+<p><strong>내 것.</strong> §3의 좁힌 재진술, §4 전체, Jayverse 항목, 그리고 거짓 출처가 출처 부재보다 나쁘다는 프레이밍.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>provenance</strong></strong></td><td>출처·내력. 미술품 용어인데 데이터·문서·주장 전부에 씀. false provenance = 거짓 출처</td></tr><tr><td><strong><strong>a name that does not hold</strong></strong></td><td>성립하지 않는 이름. hold = (주장·설명이) 버티다, 유효하다</td></tr><tr><td><strong><strong>load-bearing</strong></strong></td><td>하중을 받는. 건축 용어를 비유로 — "the falsehood is load-bearing" = 그 거짓이 구조를 떠받치고 있다</td></tr><tr><td><strong><strong>caught in the act</strong></strong></td><td>현행범으로 잡힌. 실패 사례를 실시간으로 포착했을 때</td></tr><tr><td><strong><strong>catholic</strong> (소문자)</strong></td><td>폭넓은, 편식하지 않는. 종교와 무관한 형용사 용법</td></tr><tr><td><strong><strong>broadly defensible</strong></strong></td><td>대체로 방어 가능한. 완벽하진 않지만 옹호할 수 있다는 절제된 긍정</td></tr><tr><td><strong><strong>it does not survive X</strong></strong></td><td>X를 견디지 못한다. 주장이 검증을 통과하지 못할 때의 정확한 동사</td></tr><tr><td><strong><strong>the cheapest tell</strong></strong></td><td>가장 싼 단서. tell = (포커) 무심결에 드러나는 신호</td></tr><tr><td><strong><strong>read X for wear</strong></strong></td><td>X가 닳은 흔적을 읽다. 품질·진위를 흔적으로 판별할 때</td></tr><tr><td><strong><strong>the downgrade a sentence needs</strong></strong></td><td>문장에 필요한 하향 조정. 과장된 주장을 참인 범위로 좁히는 일</td></tr><tr><td><strong><strong>pass it on</strong></strong></td><td>(그대로) 넘기다, 전달하다</td></tr><tr><td><strong><strong>as much as is known</strong></strong></td><td>알려진 만큼. 더도 덜도 아니게 인용하라고 할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-the-rule-not-the-list.html">&larr; 1821. Five reading lists, five different filters — the rule is the item, not the list</a><a href="pocs-nyt-100-books-21st-century.html">1823. The NYT&#39;s 100 best books of the century, seen through a Korean bookstore — and the 21 that never made it here &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="guardian-100-best-novels";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

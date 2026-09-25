@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Japan&#39;s 100 Media Arts, animation division — Astro Boy is 2nd with the experts and 49th with the public — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/975</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Japan&#39;s 100 Media Arts, animation division — Astro Boy is 2nd with the experts and 49th with the public</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1826</span><span>Life</span><span title="added">2026-09-25</span><span title="source">chat</span><span title="article source"><a href="https://ko.wikipedia.org/wiki/%EC%9D%BC%EB%B3%B8_%EB%AF%B8%EB%94%94%EC%96%B4_%EC%98%88%EC%88%A0_100%EC%84%A0" rel="noopener noreferrer" target="_blank">위키백과 · 일본 미디어 예술 100선</a></span><span title="raw"><a href="raw/2026-09-25-japan-media-arts-100-anime.md">raw</a></span></p>
+      <h1>Japan&#39;s 100 Media Arts, animation division — Astro Boy is 2nd with the experts and 49th with the public</h1>
+      <p class="lead">The same 2006 Agency for Cultural Affairs survey that produced the manga ranking ran an animation division alongside it, on the same method and in the same fifty days. The public put *Neon Genesis Evangelion* first; the roughly 400 experts put *Nausicaä of the Valley of the Wind* first. The sharpest number in either division is *Astro Boy*: 2nd among experts, 49th among the public. Nothing else in this project states the difference between a founder&#39;s canon and a reader&#39;s canon so plainly.</p>
+      <p class="meta">Added 2026-09-25 alongside the <a href="pocs-japan-media-arts-100-manga.html">manga division card</a>, which carries the shared method table and the same verification. The official twenty-five is the public ranking cut at 25 — checked, not assumed — so ranks 26 to 50 are the voted-for-and-not-selected list, and it contains <em>Galaxy Express 999</em>, <em>Grave of the Fireflies</em>, <em>Future Boy Conan</em>, <em>Cowboy Bebop</em> and <em>Astro Boy</em>. §3 is my reading.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Japan's 100 Media Arts, animation division — Astro Boy is 2nd with the experts and 49th with the public\n\nThe same 2006 Agency for Cultural Affairs survey that produced the manga ranking ran an animation division alongside it, on the same method and in the same fifty days. The public put *Neon Genesis Evangelion* first; the roughly 400 experts put *Nausicaä of the Valley of the Wind* first. The sharpest number in either division is *Astro Boy*: 2nd among experts, 49th among the public. Nothing else in this project states the difference between a founder's canon and a reader's canon so plainly.\n\nAdded 2026-09-25 alongside the [manga division card](pocs-japan-media-arts-100-manga.html), which carries the shared method table and the same verification. The official twenty-five is the public ranking cut at 25 — checked, not assumed — so ranks 26 to 50 are the voted-for-and-not-selected list, and it contains *Galaxy Express 999*, *Grave of the Fireflies*, *Future Boy Conan*, *Cowboy Bebop* and *Astro Boy*. §3 is my reading.\n\n## Why\n\nBecause the two panels' disagreement is bigger here than anywhere else in the survey, and it is measurable.\n\nIn the manga division Tezuka dominates the expert list and is absent from the public top five — a difference of emphasis. In animation the same split becomes a 47-place gap on a single title. *Astro Boy* is the work that created television animation as a Japanese industry in 1963, and a 2006 web poll put it 49th out of 50, one place above the *Lupin III* TV series. The experts put it second. Neither number is wrong; they are answers to different questions, and having them side by side is how you learn to hear which question is being asked.\n\nThe second reason is the exclusions. *Grave of the Fireflies*, *Cowboy Bebop* and *Galaxy Express 999* are outside the official twenty-five. Any list that leaves those out is telling you about its voters, not about animation.\n\n## How it works\n\n### 1 — The public ranking, 1 to 50\n\n**Inside the official twenty-five** — the animation quarter of \"Japan's 100 Media Arts\":\n\n| # | Work | # | Work |\n|---|---|---|---|\n| 1 | Neon Genesis Evangelion | 14 | Spirited Away |\n| 2 | Nausicaä of the Valley of the Wind | 15 | Doraemon |\n| 3 | Castle in the Sky (Laputa) | 16 | Fullmetal Alchemist: Conqueror of Shamballa |\n| 4 | Mobile Suit Gundam | 17 | Porco Rosso |\n| 5 | Lupin III: The Castle of Cagliostro | 18 | Legend of the Galactic Heroes |\n| 6 | Mushishi | 19 | Crayon Shin-chan: The Adult Empire Strikes Back |\n| 7 | Ghost in the Shell: Stand Alone Complex | 20 | Mobile Suit Gundam: Char's Counterattack |\n| 8 | My Neighbor Totoro | 21 | Cardcaptor Sakura |\n| 9 | Fullmetal Alchemist | 22 | The Melancholy of Haruhi Suzumiya |\n| 10 | Ghost in the Shell | 23 | Kamichu! |\n| 11 | Dragon Ball (anime series) | 24 | Patlabor 2: The Movie |\n| 12 | Princess Mononoke | 25 | Mobile Suit Zeta Gundam |\n| 13 | Akira | | |\n\n**Below the line, 26 to 50:**\n\n| # | Work | # | Work |\n|---|---|---|---|\n| 26 | Voices of a Distant Star | 38 | Sailor Moon (series) |\n| 27 | Patlabor: The Movie | =39 | Mobile Suit Gundam SEED |\n| 28 | Galaxy Express 999 | =39 | Sgt. Frog (Keroro) |\n| 29 | Nadia: The Secret of Blue Water | 41 | Gunbuster (Aim for the Top!) |\n| 30 | Manga Nippon Mukashibanashi | 42 | Doraemon (feature films) |\n| 31 | Crayon Shin-chan: The Storm Called… | 43 | The Brave series |\n| 32 | Grave of the Fireflies | 44 | Cowboy Bebop |\n| 33 | Future Boy Conan | 45 | Samurai 7 |\n| 34 | Howl's Moving Castle | 46 | Martian Successor Nadesico |\n| 35 | Space Battleship Yamato (series) | 47 | Heidi, Girl of the Alps |\n| 36 | Royal Space Force: The Wings of Honnêamise | 48 | Urusei Yatsura |\n| 37 | Slam Dunk (anime) | 49 | Astro Boy |\n| | | 50 | Lupin III (TV) |\n\n### 2 — The expert ranking\n\n| # | Work |\n|---|---|\n| 1 | Nausicaä of the Valley of the Wind |\n| 2 | Astro Boy |\n| 3 | Akira |\n| 4 | Lupin III: The Castle of Cagliostro |\n| 5 | Manga Nippon Mukashibanashi |\n| 6 | Mobile Suit Gundam |\n| 7 | Neon Genesis Evangelion |\n| =8 | My Neighbor Totoro · Sazae-san · Galaxy Express 999 · Doraemon |\n\n### 3 — What the two rankings say together, which is my reading\n\n**The one number to keep: *Astro Boy*, expert 2nd, public 49th.** A 47-place gap on the work that started the industry. Read it as a test you can run on any canon — find the title where the specialists and the crowd diverge most, and you have found what that field considers its own founding act versus what it actually consumes.\n\n**Second-widest: *Manga Nippon Mukashibanashi*, expert 5th, public 30th.** A folk-tale anthology that ran on TV for two decades. Experts rank it for what it did to a generation's visual vocabulary; the public does not think of it as a work at all.\n\n**The experts vote for one title the public did not rank in animation at all: *Sazae-san*.** It appears at joint 8th with them and nowhere in the public animation top 50 — though the public did place it 34th in the *manga* division. The longest-running animated series in the world, invisible as an artwork to the people watching it every Sunday.\n\n**Miyazaki holds seven of the official twenty-five** — *Nausicaä*, *Laputa*, *Cagliostro*, *Totoro*, *Mononoke*, *Spirited Away*, *Porco Rosso*. That is 28% of the division. And *Howl's Moving Castle*, then only two years old, is #34 and outside. The public voted its own back catalogue over the new release, which is the opposite of the recency effect the manga division shows.\n\n**Oshii's sequel is in and his original is out.** *Patlabor 2* at #24 makes the cut; *Patlabor: The Movie* at #27 does not. A three-place gap decides which of two films by the same director becomes part of a national selection.\n\n**The near-miss at #26 is Makoto Shinkai's *Voices of a Distant Star*.** A 25-minute film he made largely alone in 2002, one place outside the official selection in 2006 — before *Your Name*, before any of it. The most interesting entry in the list is the one that just missed.\n\n## Where it lands in Jayverse\n\nPair it with the [manga card](pocs-japan-media-arts-100-manga.html) and with [the five reading lists](pocs-the-rule-not-the-list.html) — three cards making one argument, that a list is only usable once you know how it was produced. This one adds the measurement: when the same question is put to a crowd and to specialists, the size of the disagreement is itself a readable quantity, and the biggest gap points at the field's blind spot.\n\nThe habit to carry: **find the widest expert-versus-public gap in any ranking you are handed.** It is usually one title, and it is usually the most informative thing in the document.\n\n## Verified and unverified\n\n**Verified.** The project, method, panel sizes, window and exhibition are as set out in the [manga card](pocs-japan-media-arts-100-manga.html), checked against the Japanese and Korean Wikipedia articles and the Agency's archived pages. Public #1 *Evangelion* and expert #1 *Nausicaä* are stated explicitly on the Japanese article with citations to the Agency's own per-division pages.\n\n**Verified structurally.** The twenty-five animation works Wikipedia lists as the official selection were compared title by title against the paste's ranks 1–25. They are the same twenty-five. That is what licenses calling 26–50 the below-the-line list.\n\n**From the paste only.** Ranks 2–50 and the expert list below #1. Not on either Wikipedia article.\n\n**A defect in the paste, reported rather than silently dropped.** The pasted expert list ends with \"〈마운틴 헤드〉\". *Mountainhead* is a 2025 English-language live-action film and cannot be in a 2006 Japanese animation survey. It is a paste artifact and is excluded from §2 above. Its presence is a reason to treat the unverifiable ranks with some caution.\n\n**Also odd in the paste.** The expert joint-8th holds four titles, making the \"top ten\" eleven entries. That is reproduced as given rather than trimmed.\n\n**Mine, not the source's.** All of §3, the Jayverse section, and the gap-measurement framing. The survey publishes two rankings and does not compare them.\n\n**Unverified.** Vote counts and margins anywhere; whether the expert list continued past joint 8th; the exact identity of some series entries (\"The Brave series\", \"Space Battleship Yamato series\") which the paste gives as franchises rather than single works.\n"</script>
+<h2>Why</h2>
+<p>Because the two panels&#39; disagreement is bigger here than anywhere else in the survey, and it is measurable.</p>
+<p>In the manga division Tezuka dominates the expert list and is absent from the public top five — a difference of emphasis. In animation the same split becomes a 47-place gap on a single title. <em>Astro Boy</em> is the work that created television animation as a Japanese industry in 1963, and a 2006 web poll put it 49th out of 50, one place above the <em>Lupin III</em> TV series. The experts put it second. Neither number is wrong; they are answers to different questions, and having them side by side is how you learn to hear which question is being asked.</p>
+<p>The second reason is the exclusions. <em>Grave of the Fireflies</em>, <em>Cowboy Bebop</em> and <em>Galaxy Express 999</em> are outside the official twenty-five. Any list that leaves those out is telling you about its voters, not about animation.</p>
+<h2>How it works</h2>
+<h3>1 — The public ranking, 1 to 50</h3>
+<p><strong>Inside the official twenty-five</strong> — the animation quarter of "Japan&#39;s 100 Media Arts":</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Work</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Work</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>Neon Genesis Evangelion</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>Spirited Away</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>Nausicaä of the Valley of the Wind</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>Doraemon</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>Castle in the Sky (Laputa)</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>Fullmetal Alchemist: Conqueror of Shamballa</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>Mobile Suit Gundam</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>Porco Rosso</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>Lupin III: The Castle of Cagliostro</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>Legend of the Galactic Heroes</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>Mushishi</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>Crayon Shin-chan: The Adult Empire Strikes Back</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>Ghost in the Shell: Stand Alone Complex</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>Mobile Suit Gundam: Char&#39;s Counterattack</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>My Neighbor Totoro</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>Cardcaptor Sakura</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>Fullmetal Alchemist</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>The Melancholy of Haruhi Suzumiya</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>Ghost in the Shell</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>Kamichu!</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>Dragon Ball (anime series)</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>Patlabor 2: The Movie</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>Princess Mononoke</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>Mobile Suit Zeta Gundam</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>Akira</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)"></td><td></td></tr></tbody></table>
+<p><strong>Below the line, 26 to 50:</strong></p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Work</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Work</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>Voices of a Distant Star</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>Sailor Moon (series)</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>Patlabor: The Movie</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">=39</td><td>Mobile Suit Gundam SEED</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>Galaxy Express 999</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">=39</td><td>Sgt. Frog (Keroro)</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>Nadia: The Secret of Blue Water</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>Gunbuster (Aim for the Top!)</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>Manga Nippon Mukashibanashi</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>Doraemon (feature films)</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>Crayon Shin-chan: The Storm Called…</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>The Brave series</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>Grave of the Fireflies</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>Cowboy Bebop</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>Future Boy Conan</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>Samurai 7</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>Howl&#39;s Moving Castle</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>Martian Successor Nadesico</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>Space Battleship Yamato (series)</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>Heidi, Girl of the Alps</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>Royal Space Force: The Wings of Honnêamise</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>Urusei Yatsura</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>Slam Dunk (anime)</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>Astro Boy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)"></td><td></td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>Lupin III (TV)</td></tr></tbody></table>
+<h3>2 — The expert ranking</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Work</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>Nausicaä of the Valley of the Wind</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>Astro Boy</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>Akira</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>Lupin III: The Castle of Cagliostro</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>Manga Nippon Mukashibanashi</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>Mobile Suit Gundam</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>Neon Genesis Evangelion</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">=8</td><td>My Neighbor Totoro · Sazae-san · Galaxy Express 999 · Doraemon</td></tr></tbody></table>
+<h3>3 — What the two rankings say together, which is my reading</h3>
+<p><strong>The one number to keep: <em>Astro Boy</em>, expert 2nd, public 49th.</strong> A 47-place gap on the work that started the industry. Read it as a test you can run on any canon — find the title where the specialists and the crowd diverge most, and you have found what that field considers its own founding act versus what it actually consumes.</p>
+<p><strong>Second-widest: <em>Manga Nippon Mukashibanashi</em>, expert 5th, public 30th.</strong> A folk-tale anthology that ran on TV for two decades. Experts rank it for what it did to a generation&#39;s visual vocabulary; the public does not think of it as a work at all.</p>
+<p><strong>The experts vote for one title the public did not rank in animation at all: <em>Sazae-san</em>.</strong> It appears at joint 8th with them and nowhere in the public animation top 50 — though the public did place it 34th in the <em>manga</em> division. The longest-running animated series in the world, invisible as an artwork to the people watching it every Sunday.</p>
+<p><strong>Miyazaki holds seven of the official twenty-five</strong> — <em>Nausicaä</em>, <em>Laputa</em>, <em>Cagliostro</em>, <em>Totoro</em>, <em>Mononoke</em>, <em>Spirited Away</em>, <em>Porco Rosso</em>. That is 28% of the division. And <em>Howl&#39;s Moving Castle</em>, then only two years old, is #34 and outside. The public voted its own back catalogue over the new release, which is the opposite of the recency effect the manga division shows.</p>
+<p><strong>Oshii&#39;s sequel is in and his original is out.</strong> <em>Patlabor 2</em> at #24 makes the cut; <em>Patlabor: The Movie</em> at #27 does not. A three-place gap decides which of two films by the same director becomes part of a national selection.</p>
+<p><strong>The near-miss at #26 is Makoto Shinkai&#39;s <em>Voices of a Distant Star</em>.</strong> A 25-minute film he made largely alone in 2002, one place outside the official selection in 2006 — before <em>Your Name</em>, before any of it. The most interesting entry in the list is the one that just missed.</p>
+<h2>Where it lands in Jayverse</h2>
+<p>Pair it with the <a href="pocs-japan-media-arts-100-manga.html">manga card</a> and with <a href="pocs-the-rule-not-the-list.html">the five reading lists</a> — three cards making one argument, that a list is only usable once you know how it was produced. This one adds the measurement: when the same question is put to a crowd and to specialists, the size of the disagreement is itself a readable quantity, and the biggest gap points at the field&#39;s blind spot.</p>
+<p>The habit to carry: <strong>find the widest expert-versus-public gap in any ranking you are handed.</strong> It is usually one title, and it is usually the most informative thing in the document.</p>
+<h2>Verified and unverified</h2>
+<p><strong>Verified.</strong> The project, method, panel sizes, window and exhibition are as set out in the <a href="pocs-japan-media-arts-100-manga.html">manga card</a>, checked against the Japanese and Korean Wikipedia articles and the Agency&#39;s archived pages. Public #1 <em>Evangelion</em> and expert #1 <em>Nausicaä</em> are stated explicitly on the Japanese article with citations to the Agency&#39;s own per-division pages.</p>
+<p><strong>Verified structurally.</strong> The twenty-five animation works Wikipedia lists as the official selection were compared title by title against the paste&#39;s ranks 1–25. They are the same twenty-five. That is what licenses calling 26–50 the below-the-line list.</p>
+<p><strong>From the paste only.</strong> Ranks 2–50 and the expert list below #1. Not on either Wikipedia article.</p>
+<p><strong>A defect in the paste, reported rather than silently dropped.</strong> The pasted expert list ends with "〈마운틴 헤드〉". <em>Mountainhead</em> is a 2025 English-language live-action film and cannot be in a 2006 Japanese animation survey. It is a paste artifact and is excluded from §2 above. Its presence is a reason to treat the unverifiable ranks with some caution.</p>
+<p><strong>Also odd in the paste.</strong> The expert joint-8th holds four titles, making the "top ten" eleven entries. That is reproduced as given rather than trimmed.</p>
+<p><strong>Mine, not the source&#39;s.</strong> All of §3, the Jayverse section, and the gap-measurement framing. The survey publishes two rankings and does not compare them.</p>
+<p><strong>Unverified.</strong> Vote counts and margins anywhere; whether the expert list continued past joint 8th; the exact identity of some series entries ("The Brave series", "Space Battleship Yamato series") which the paste gives as franchises rather than single works.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>a 47-place gap</strong></strong></td><td>47계단 격차. 순위 차이를 말하는 가장 자연스러운 형태 (a 3-point gap, a two-year gap)</td></tr><tr><td><strong><strong>a founder&#39;s canon vs. a reader&#39;s canon</strong></strong></td><td>창시자의 정전 대 독자의 정전. A&#39;s X vs. B&#39;s X 로 두 관점을 대비하는 틀</td></tr><tr><td><strong><strong>state it plainly</strong></strong></td><td>분명하게 말하다. plainly = 꾸밈없이, 에두르지 않고</td></tr><tr><td><strong><strong>the recency effect</strong></strong></td><td>최신 편향. 설문·기억 연구의 용어인데 일상 분석에도 그대로 씀</td></tr><tr><td><strong><strong>back catalogue</strong></strong></td><td>구작 목록. 음반·영화사의 과거 작품 전체</td></tr><tr><td><strong><strong>licenses calling X Y</strong></strong></td><td>X를 Y라고 부르는 것을 정당화한다. license = 근거를 준다 (동사)</td></tr><tr><td><strong><strong>reported rather than silently dropped</strong></strong></td><td>조용히 지우지 않고 보고함. 데이터 결함을 다루는 태도를 밝히는 정형구</td></tr><tr><td><strong><strong>a paste artifact</strong></strong></td><td>붙여넣기 과정에서 섞여 들어온 오염. artifact = 인공적으로 생긴 잡음</td></tr><tr><td><strong><strong>treat X with some caution</strong></strong></td><td>X를 다소 조심해서 다루다. 부정하지 않으면서 신뢰를 낮출 때</td></tr><tr><td><strong><strong>the near-miss</strong></strong></td><td>간발로 떨어진 것</td></tr><tr><td><strong><strong>invisible as an artwork</strong></strong></td><td>작품으로는 보이지 않는. as ~ = ~로서</td></tr><tr><td><strong><strong>blind spot</strong></strong></td><td>맹점. 개인·조직·분야 전부에 쓰임</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 일본 미디어 예술 100선, 애니메이션 부문 — 철완 아톰은 전문가 2위, 일반 49위\n\n만화 순위를 만든 2006년 문화청 설문은 같은 방법, 같은 50일 안에 애니메이션 부문도 함께 돌렸다. 일반 투표 1위는 《신세기 에반게리온》, 전문가 약 400명의 1위는 《바람계곡의 나우시카》. 두 부문을 통틀어 가장 날카로운 숫자는 《철완 아톰》이다 — 전문가 2위, 일반 49위. 창시자의 정전과 독자의 정전이 어떻게 다른지를 이보다 분명하게 말해주는 항목은 이 기획 안에 없다.\n\n2026-09-25 추가. [만화 부문 카드](pocs-japan-media-arts-100-manga.html)와 같이 들어왔고, 공통 조사 방법표와 동일한 검증은 그쪽에 있다. 공식 25편이 일반 순위를 25위에서 자른 것이라는 점은 대조로 확인했으므로, 26~50위는 \"표는 받고 선정은 안 된\" 목록이다. 거기에 《은하철도 999》, 《반딧불이의 묘》, 《미래소년 코난》, 《카우보이 비밥》, 《철완 아톰》이 있다. §3은 내 해석이다.\n\n## 왜\n\n두 집단의 불일치가 이 설문 어디보다 여기서 크고, 그게 수치로 잡히기 때문이다.\n\n만화 부문에서 데즈카는 전문가 목록을 지배하고 일반 상위 5위에는 없다 — 강조점의 차이다. 애니메이션에서는 같은 분열이 한 작품에 47계단 격차로 나타난다. 《철완 아톰》은 1963년에 일본 TV 애니메이션을 산업으로 만들어낸 작품이고, 2006년 웹 투표는 그걸 50위 중 49위에, 《루팡 3세》 TV판 바로 위에 놓았다. 전문가는 2위에 놓았다. 어느 숫자도 틀리지 않았다. 서로 다른 질문에 대한 답이고, 둘을 나란히 두는 것이 지금 어떤 질문이 오가고 있는지를 알아듣는 훈련이다.\n\n두 번째 이유는 탈락작이다. 《반딧불이의 묘》, 《카우보이 비밥》, 《은하철도 999》가 공식 25편 바깥에 있다. 그걸 빼는 목록은 애니메이션이 아니라 자기 투표자에 대해 말하고 있는 것이다.\n\n## 동작 방식\n\n### 1 — 일반 순위 1~50위\n\n**공식 25편 안쪽** — \"일본 미디어 예술 100선\"의 애니메이션 4분의 1:\n\n| # | 작품 | # | 작품 |\n|---|---|---|---|\n| 1 | 신세기 에반게리온 | 14 | 센과 치히로의 행방불명 |\n| 2 | 바람계곡의 나우시카 | 15 | 도라에몽 |\n| 3 | 천공의 성 라퓨타 | 16 | 강철의 연금술사: 샴발라를 정복하는 자 |\n| 4 | 기동전사 건담 | 17 | 붉은 돼지 |\n| 5 | 루팡 3세: 칼리오스트로의 성 | 18 | 은하영웅전설 |\n| 6 | 충사 | 19 | 짱구: 어른제국의 역습 |\n| 7 | 공각기동대 STAND ALONE COMPLEX | 20 | 기동전사 건담: 역습의 샤아 |\n| 8 | 이웃집 토토로 | 21 | 카드캡터 사쿠라 |\n| 9 | 강철의 연금술사 | 22 | 스즈미야 하루히의 우울 |\n| 10 | 공각기동대 | 23 | 카미츄! |\n| 11 | 드래곤볼 애니메이션 시리즈 | 24 | 기동경찰 패트레이버 극장판 2 |\n| 12 | 모노노케 히메 | 25 | 기동전사 Z 건담 |\n| 13 | AKIRA | | |\n\n**선 아래, 26~50위:**\n\n| # | 작품 | # | 작품 |\n|---|---|---|---|\n| 26 | 별의 목소리 | 38 | 미소녀 전사 세일러 문 시리즈 |\n| 27 | 기동경찰 패트레이버 극장판 | 공동 39 | 기동전사 건담 SEED |\n| 28 | 은하철도 999 | 공동 39 | 개구리 중사 케로로 |\n| 29 | 신비한 바다의 나디아 | 41 | 톱을 노려라! |\n| 30 | 만화 일본 옛날이야기 | 42 | 도라에몽 극장판 |\n| 31 | 짱구: 태풍을 부르는 장엄한 전설의 전투 | 43 | 용자 시리즈 |\n| 32 | 반딧불이의 묘 | 44 | 카우보이 비밥 |\n| 33 | 미래소년 코난 | 45 | 사무라이 7 |\n| 34 | 하울의 움직이는 성 | 46 | 기동전함 나데시코 |\n| 35 | 우주전함 야마토 시리즈 | 47 | 알프스의 소녀 하이디 |\n| 36 | 왕립우주군 - 오네아미스의 날개 | 48 | 시끌별 녀석들 |\n| 37 | 슬램덩크 (애니메이션) | 49 | 철완 아톰 |\n| | | 50 | 루팡 3세 (TV) |\n\n### 2 — 전문가 순위\n\n| # | 작품 |\n|---|---|\n| 1 | 바람계곡의 나우시카 |\n| 2 | 철완 아톰 |\n| 3 | AKIRA |\n| 4 | 루팡 3세: 칼리오스트로의 성 |\n| 5 | 만화 일본 옛날이야기 |\n| 6 | 기동전사 건담 |\n| 7 | 신세기 에반게리온 |\n| 공동 8 | 이웃집 토토로 · 사자에상 · 은하철도 999 · 도라에몽 |\n\n### 3 — 두 순위를 겹쳐놓으면 보이는 것, 내 해석\n\n**기억할 숫자 하나: 《철완 아톰》, 전문가 2위, 일반 49위.** 산업을 시작한 작품에 47계단 격차. 이건 어떤 정전에도 돌릴 수 있는 테스트로 읽으면 된다 — 전문가와 대중이 가장 크게 갈라지는 제목을 찾으면, 그 분야가 자기 창건 행위로 치는 것과 실제로 소비하는 것의 차이를 찾은 것이다.\n\n**두 번째로 큰 격차: 《만화 일본 옛날이야기》, 전문가 5위, 일반 30위.** 20년간 방영된 민담 옴니버스. 전문가는 그것이 한 세대의 시각 어휘에 한 일로 순위를 매기고, 일반은 그걸 '작품'으로 떠올리지도 않는다.\n\n**전문가만 표를 준 작품이 있다: 《사자에상》.** 전문가 공동 8위인데 일반 애니메이션 50위 안에는 없다 — 다만 일반은 **만화** 부문에서 이걸 34위에 놓았다. 세계 최장수 애니메이션 시리즈가, 매주 일요일 그걸 보는 사람들에게는 작품으로 보이지 않는다.\n\n**미야자키가 공식 25편 중 일곱을 가진다** — 나우시카, 라퓨타, 칼리오스트로, 토토로, 모노노케, 센과 치히로, 붉은 돼지. 부문의 28%다. 그런데 당시 2년밖에 안 된 《하울의 움직이는 성》은 34위로 바깥이다. 대중이 신작보다 자기가 아는 구작을 찍었다 — 만화 부문이 보여준 최신 편향과 정반대다.\n\n**오시이는 속편이 들어가고 1편이 떨어졌다.** 《패트레이버 극장판 2》가 24위로 통과하고 《패트레이버 극장판》이 27위로 탈락한다. 세 계단 차이가 같은 감독의 두 영화 중 어느 쪽이 국가 선정작이 되는지를 가른다.\n\n**26위, 즉 가장 아깝게 떨어진 것은 신카이 마코토의 《별의 목소리》다.** 2002년에 거의 혼자 만든 25분짜리 작품이 2006년 공식 선정 한 칸 바깥에 있다 — 《너의 이름은.》 이전, 전부 이전이다. 목록에서 가장 흥미로운 항목이 간발로 떨어진 것이라는 점을 기억해둘 만하다.\n\n## Jayverse에서의 위치\n\n[만화 카드](pocs-japan-media-arts-100-manga.html), [독서 목록 다섯 개](pocs-the-rule-not-the-list.html)와 묶어서 볼 것. 세 카드가 하나의 주장을 한다 — 목록은 어떻게 만들어졌는지를 알아야 쓸 수 있다. 이 카드가 더하는 것은 측정이다. 같은 질문을 대중과 전문가에게 던지면 불일치의 크기 자체가 읽을 수 있는 수치가 되고, 가장 큰 격차가 그 분야의 맹점을 가리킨다.\n\n가져갈 습관: **건네받은 순위에서 전문가-대중 격차가 가장 큰 항목을 찾는다.** 보통 한 개고, 보통 그 문서에서 가장 많은 정보를 담고 있다.\n\n## 확인된 것과 미확인\n\n**확인됨.** 기획·방법·패널 규모·기간·전시는 [만화 카드](pocs-japan-media-arts-100-manga.html)에 정리한 그대로이며, 일본어·한국어 위키백과와 문화청 아카이브 페이지로 대조했다. 일반 1위 《에반게리온》과 전문가 1위 《나우시카》는 일본어 문서에 문화청 부문별 페이지 각주와 함께 명시돼 있다.\n\n**구조적으로 확인됨.** 위키백과가 공식 선정작으로 나열한 애니메이션 25편을 붙여넣기의 1~25위와 제목 단위로 대조했다. 같은 25편이다. 26~50위를 '선 아래 목록'이라 부를 수 있는 근거가 이것이다.\n\n**붙여넣기에만 있는 것.** 2~50위와 전문가 1위 아래 전부. 어느 위키백과에도 없다.\n\n**붙여넣기의 결함, 조용히 지우지 않고 보고함.** 붙여넣은 전문가 목록 끝에 〈마운틴 헤드〉가 붙어 있다. 《마운틴헤드》는 2025년 영어 실사 영화이고 2006년 일본 애니메이션 설문에 있을 수 없다. 붙여넣기 과정의 오염이며 위 §2에서 제외했다. 이 오염이 있다는 사실은 확인되지 않은 순위들을 다소 조심해서 다룰 이유가 된다.\n\n**붙여넣기에서 또 하나 이상한 점.** 전문가 공동 8위에 네 편이 들어 있어 \"톱10\"이 11개 항목이 된다. 다듬지 않고 받은 그대로 옮겼다.\n\n**원본이 아니라 내 것.** §3 전부, Jayverse 항목, 격차를 측정으로 보는 프레이밍. 설문은 두 순위를 발표할 뿐 비교하지 않는다.\n\n**미확인.** 어디서든 득표 수와 표차, 전문가 목록이 공동 8위 이후로 이어졌는지, 그리고 \"용자 시리즈\"·\"우주전함 야마토 시리즈\"처럼 붙여넣기가 개별 작품이 아니라 프랜차이즈로 준 항목의 정확한 범위.\n"</script>
+      <h1>일본 미디어 예술 100선, 애니메이션 부문 — 철완 아톰은 전문가 2위, 일반 49위</h1>
+      <p class="lead">만화 순위를 만든 2006년 문화청 설문은 같은 방법, 같은 50일 안에 애니메이션 부문도 함께 돌렸다. 일반 투표 1위는 《신세기 에반게리온》, 전문가 약 400명의 1위는 《바람계곡의 나우시카》. 두 부문을 통틀어 가장 날카로운 숫자는 《철완 아톰》이다 — 전문가 2위, 일반 49위. 창시자의 정전과 독자의 정전이 어떻게 다른지를 이보다 분명하게 말해주는 항목은 이 기획 안에 없다.</p>
+      <p class="meta">2026-09-25 추가. <a href="pocs-japan-media-arts-100-manga.html">만화 부문 카드</a>와 같이 들어왔고, 공통 조사 방법표와 동일한 검증은 그쪽에 있다. 공식 25편이 일반 순위를 25위에서 자른 것이라는 점은 대조로 확인했으므로, 26~50위는 "표는 받고 선정은 안 된" 목록이다. 거기에 《은하철도 999》, 《반딧불이의 묘》, 《미래소년 코난》, 《카우보이 비밥》, 《철완 아톰》이 있다. §3은 내 해석이다.</p>
+<h2>왜</h2>
+<p>두 집단의 불일치가 이 설문 어디보다 여기서 크고, 그게 수치로 잡히기 때문이다.</p>
+<p>만화 부문에서 데즈카는 전문가 목록을 지배하고 일반 상위 5위에는 없다 — 강조점의 차이다. 애니메이션에서는 같은 분열이 한 작품에 47계단 격차로 나타난다. 《철완 아톰》은 1963년에 일본 TV 애니메이션을 산업으로 만들어낸 작품이고, 2006년 웹 투표는 그걸 50위 중 49위에, 《루팡 3세》 TV판 바로 위에 놓았다. 전문가는 2위에 놓았다. 어느 숫자도 틀리지 않았다. 서로 다른 질문에 대한 답이고, 둘을 나란히 두는 것이 지금 어떤 질문이 오가고 있는지를 알아듣는 훈련이다.</p>
+<p>두 번째 이유는 탈락작이다. 《반딧불이의 묘》, 《카우보이 비밥》, 《은하철도 999》가 공식 25편 바깥에 있다. 그걸 빼는 목록은 애니메이션이 아니라 자기 투표자에 대해 말하고 있는 것이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 일반 순위 1~50위</h3>
+<p><strong>공식 25편 안쪽</strong> — "일본 미디어 예술 100선"의 애니메이션 4분의 1:</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>신세기 에반게리온</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>센과 치히로의 행방불명</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>바람계곡의 나우시카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>도라에몽</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>천공의 성 라퓨타</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>강철의 연금술사: 샴발라를 정복하는 자</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>기동전사 건담</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>붉은 돼지</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>루팡 3세: 칼리오스트로의 성</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>은하영웅전설</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>충사</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>짱구: 어른제국의 역습</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>공각기동대 STAND ALONE COMPLEX</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>기동전사 건담: 역습의 샤아</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>이웃집 토토로</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>카드캡터 사쿠라</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>강철의 연금술사</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>스즈미야 하루히의 우울</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>공각기동대</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>카미츄!</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>드래곤볼 애니메이션 시리즈</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>기동경찰 패트레이버 극장판 2</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>모노노케 히메</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>기동전사 Z 건담</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>AKIRA</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)"></td><td></td></tr></tbody></table>
+<p><strong>선 아래, 26~50위:</strong></p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>별의 목소리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>미소녀 전사 세일러 문 시리즈</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>기동경찰 패트레이버 극장판</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">공동 39</td><td>기동전사 건담 SEED</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>은하철도 999</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">공동 39</td><td>개구리 중사 케로로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>신비한 바다의 나디아</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>톱을 노려라!</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>만화 일본 옛날이야기</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>도라에몽 극장판</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>짱구: 태풍을 부르는 장엄한 전설의 전투</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>용자 시리즈</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>반딧불이의 묘</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>카우보이 비밥</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>미래소년 코난</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>사무라이 7</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>하울의 움직이는 성</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>기동전함 나데시코</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>우주전함 야마토 시리즈</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>알프스의 소녀 하이디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>왕립우주군 - 오네아미스의 날개</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>시끌별 녀석들</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>슬램덩크 (애니메이션)</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>철완 아톰</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)"></td><td></td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>루팡 3세 (TV)</td></tr></tbody></table>
+<h3>2 — 전문가 순위</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>바람계곡의 나우시카</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>철완 아톰</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>AKIRA</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>루팡 3세: 칼리오스트로의 성</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>만화 일본 옛날이야기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>기동전사 건담</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>신세기 에반게리온</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">공동 8</td><td>이웃집 토토로 · 사자에상 · 은하철도 999 · 도라에몽</td></tr></tbody></table>
+<h3>3 — 두 순위를 겹쳐놓으면 보이는 것, 내 해석</h3>
+<p><strong>기억할 숫자 하나: 《철완 아톰》, 전문가 2위, 일반 49위.</strong> 산업을 시작한 작품에 47계단 격차. 이건 어떤 정전에도 돌릴 수 있는 테스트로 읽으면 된다 — 전문가와 대중이 가장 크게 갈라지는 제목을 찾으면, 그 분야가 자기 창건 행위로 치는 것과 실제로 소비하는 것의 차이를 찾은 것이다.</p>
+<p><strong>두 번째로 큰 격차: 《만화 일본 옛날이야기》, 전문가 5위, 일반 30위.</strong> 20년간 방영된 민담 옴니버스. 전문가는 그것이 한 세대의 시각 어휘에 한 일로 순위를 매기고, 일반은 그걸 &#39;작품&#39;으로 떠올리지도 않는다.</p>
+<p><strong>전문가만 표를 준 작품이 있다: 《사자에상》.</strong> 전문가 공동 8위인데 일반 애니메이션 50위 안에는 없다 — 다만 일반은 <strong>만화</strong> 부문에서 이걸 34위에 놓았다. 세계 최장수 애니메이션 시리즈가, 매주 일요일 그걸 보는 사람들에게는 작품으로 보이지 않는다.</p>
+<p><strong>미야자키가 공식 25편 중 일곱을 가진다</strong> — 나우시카, 라퓨타, 칼리오스트로, 토토로, 모노노케, 센과 치히로, 붉은 돼지. 부문의 28%다. 그런데 당시 2년밖에 안 된 《하울의 움직이는 성》은 34위로 바깥이다. 대중이 신작보다 자기가 아는 구작을 찍었다 — 만화 부문이 보여준 최신 편향과 정반대다.</p>
+<p><strong>오시이는 속편이 들어가고 1편이 떨어졌다.</strong> 《패트레이버 극장판 2》가 24위로 통과하고 《패트레이버 극장판》이 27위로 탈락한다. 세 계단 차이가 같은 감독의 두 영화 중 어느 쪽이 국가 선정작이 되는지를 가른다.</p>
+<p><strong>26위, 즉 가장 아깝게 떨어진 것은 신카이 마코토의 《별의 목소리》다.</strong> 2002년에 거의 혼자 만든 25분짜리 작품이 2006년 공식 선정 한 칸 바깥에 있다 — 《너의 이름은.》 이전, 전부 이전이다. 목록에서 가장 흥미로운 항목이 간발로 떨어진 것이라는 점을 기억해둘 만하다.</p>
+<h2>Jayverse에서의 위치</h2>
+<p><a href="pocs-japan-media-arts-100-manga.html">만화 카드</a>, <a href="pocs-the-rule-not-the-list.html">독서 목록 다섯 개</a>와 묶어서 볼 것. 세 카드가 하나의 주장을 한다 — 목록은 어떻게 만들어졌는지를 알아야 쓸 수 있다. 이 카드가 더하는 것은 측정이다. 같은 질문을 대중과 전문가에게 던지면 불일치의 크기 자체가 읽을 수 있는 수치가 되고, 가장 큰 격차가 그 분야의 맹점을 가리킨다.</p>
+<p>가져갈 습관: <strong>건네받은 순위에서 전문가-대중 격차가 가장 큰 항목을 찾는다.</strong> 보통 한 개고, 보통 그 문서에서 가장 많은 정보를 담고 있다.</p>
+<h2>확인된 것과 미확인</h2>
+<p><strong>확인됨.</strong> 기획·방법·패널 규모·기간·전시는 <a href="pocs-japan-media-arts-100-manga.html">만화 카드</a>에 정리한 그대로이며, 일본어·한국어 위키백과와 문화청 아카이브 페이지로 대조했다. 일반 1위 《에반게리온》과 전문가 1위 《나우시카》는 일본어 문서에 문화청 부문별 페이지 각주와 함께 명시돼 있다.</p>
+<p><strong>구조적으로 확인됨.</strong> 위키백과가 공식 선정작으로 나열한 애니메이션 25편을 붙여넣기의 1~25위와 제목 단위로 대조했다. 같은 25편이다. 26~50위를 &#39;선 아래 목록&#39;이라 부를 수 있는 근거가 이것이다.</p>
+<p><strong>붙여넣기에만 있는 것.</strong> 2~50위와 전문가 1위 아래 전부. 어느 위키백과에도 없다.</p>
+<p><strong>붙여넣기의 결함, 조용히 지우지 않고 보고함.</strong> 붙여넣은 전문가 목록 끝에 〈마운틴 헤드〉가 붙어 있다. 《마운틴헤드》는 2025년 영어 실사 영화이고 2006년 일본 애니메이션 설문에 있을 수 없다. 붙여넣기 과정의 오염이며 위 §2에서 제외했다. 이 오염이 있다는 사실은 확인되지 않은 순위들을 다소 조심해서 다룰 이유가 된다.</p>
+<p><strong>붙여넣기에서 또 하나 이상한 점.</strong> 전문가 공동 8위에 네 편이 들어 있어 "톱10"이 11개 항목이 된다. 다듬지 않고 받은 그대로 옮겼다.</p>
+<p><strong>원본이 아니라 내 것.</strong> §3 전부, Jayverse 항목, 격차를 측정으로 보는 프레이밍. 설문은 두 순위를 발표할 뿐 비교하지 않는다.</p>
+<p><strong>미확인.</strong> 어디서든 득표 수와 표차, 전문가 목록이 공동 8위 이후로 이어졌는지, 그리고 "용자 시리즈"·"우주전함 야마토 시리즈"처럼 붙여넣기가 개별 작품이 아니라 프랜차이즈로 준 항목의 정확한 범위.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>a 47-place gap</strong></strong></td><td>47계단 격차. 순위 차이를 말하는 가장 자연스러운 형태 (a 3-point gap, a two-year gap)</td></tr><tr><td><strong><strong>a founder&#39;s canon vs. a reader&#39;s canon</strong></strong></td><td>창시자의 정전 대 독자의 정전. A&#39;s X vs. B&#39;s X 로 두 관점을 대비하는 틀</td></tr><tr><td><strong><strong>state it plainly</strong></strong></td><td>분명하게 말하다. plainly = 꾸밈없이, 에두르지 않고</td></tr><tr><td><strong><strong>the recency effect</strong></strong></td><td>최신 편향. 설문·기억 연구의 용어인데 일상 분석에도 그대로 씀</td></tr><tr><td><strong><strong>back catalogue</strong></strong></td><td>구작 목록. 음반·영화사의 과거 작품 전체</td></tr><tr><td><strong><strong>licenses calling X Y</strong></strong></td><td>X를 Y라고 부르는 것을 정당화한다. license = 근거를 준다 (동사)</td></tr><tr><td><strong><strong>reported rather than silently dropped</strong></strong></td><td>조용히 지우지 않고 보고함. 데이터 결함을 다루는 태도를 밝히는 정형구</td></tr><tr><td><strong><strong>a paste artifact</strong></strong></td><td>붙여넣기 과정에서 섞여 들어온 오염. artifact = 인공적으로 생긴 잡음</td></tr><tr><td><strong><strong>treat X with some caution</strong></strong></td><td>X를 다소 조심해서 다루다. 부정하지 않으면서 신뢰를 낮출 때</td></tr><tr><td><strong><strong>the near-miss</strong></strong></td><td>간발로 떨어진 것</td></tr><tr><td><strong><strong>invisible as an artwork</strong></strong></td><td>작품으로는 보이지 않는. as ~ = ~로서</td></tr><tr><td><strong><strong>blind spot</strong></strong></td><td>맹점. 개인·조직·분야 전부에 쓰임</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-japan-media-arts-100-manga.html">&larr; 1825. Japan&#39;s 100 Media Arts, manga division — the line falls at 25, and the public and the experts disagree about #1</a><a href="pocs-systems-thinking-cynefin-dart.html">1827. Systems thinking — the four Cynefin domains decide whether you need a checklist, an analyst, a probe, or a pause &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="japan-media-arts-100-anime";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
