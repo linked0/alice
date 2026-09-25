@@ -37,7 +37,8 @@ Jay: That's exactly what I meant. Walk me through it.
    - **대화 설계상의 의미**: Jay가 내놓는 대가 둘 중 두 번째가 바로 이것이다. 첫째(엔지니어 둘 + 한 분기)는 **자원**, 둘째는 **공개적 귀속(public attribution)**. 아첨은 공짜지만 귀속은 리드만 줄 수 있고 되돌릴 수 없다. **`reconciliation`이라는 단어를 몰라도 대화는 읽히지만, 알면 Jay가 얼마나 구체적으로 준비했는지가 보인다** — 그는 감사 보고서와 커밋 이력을 읽고 왔다.
 6. **"…even when the answer is no. What I can't work with is finding out in a hallway." — 이 대화에서 Jay가 거는 조건, 한 문장씩.**
    - **앞 문장 전체**: *"I'm going to make decisions you disagree with. When I do, I want to hear it directly from you, and I'll tell you what I decided and why, **even when the answer is no**."* → "제가 동의하지 않으실 결정을 내릴 겁니다. 그럴 때 저는 당신에게서 **직접** 듣고 싶고, 무엇을 왜 결정했는지 말하겠습니다. **답이 '안 된다'일 때도요.**"
-   - **`even when the answer is no`가 왜 핵심인가.** 대부분의 리더는 **받아들일 때만 설명한다.** 거절할 때는 조용해지거나, "검토해 보겠습니다"로 덮는다. Jay는 정확히 **그 불편한 경우**를 콕 집어 약속한다. 설명이 쉬운 쪽(yes)이 아니라 어려운 쪽(no)을 약속해야 약속이 값을 갖는다. **이 다섯 단어를 빼면 문장 전체가 공짜가 된다.**
+   - **`even when the answer is no` — 먼저 누가 설명하는가.** 헷갈리기 쉬운 지점이라 못 박아둔다. **설명하는 쪽은 리더(Jay)다. 부하(Fiona)가 아니다.** 근거는 원문 자체에 있다 — `**I'll** tell you what I decided and why`. 주어가 `I`, 즉 Jay다. 그리고 `the answer`는 **Jay가 내리는 답**이지 Fiona의 답이 아니다. 앞 문장이 *"I'm going to make **decisions** you disagree with"*이므로, 결정하는 사람도 설명하는 사람도 Jay다. 이 대목을 "부하가 자기 제안을 설명한다"로 읽으면 문장이 통째로 뒤집힌다.
+   - **그래서 왜 핵심인가.** 대부분의 리더는 **자기 결정의 이유를 답이 '예스'일 때만 말해준다.** 받아들일 때는 "좋습니다, 이래서 이렇게 갑시다"가 쉽게 나온다 — 상대가 이미 만족했으니 설명이 부담이 없다. 거절할 때는 반대다. 이유를 말하면 **반론을 부르기 때문에**, 이유 없이 "안 됩니다"로 끝내거나 "검토해 보겠습니다"로 덮고 다시 꺼내지 않는다. Jay는 정확히 **그 불편한 경우**를 콕 집어 약속한다. 설명이 쉬운 쪽(yes)이 아니라 어려운 쪽(no)을 약속해야 약속에 값이 붙는다. **이 다섯 단어를 빼면 문장 전체가 공짜가 된다.**
    - **`What I can't work with is ~` — 구문.** 이건 **의사분열문(pseudo-cleft, what-cleft)**이다. `What + 주어 + 동사 + is + X` 형태로 **X를 문장 끝으로 밀어 강조**한다. 그냥 *"I can't work with finding out in a hallway"*라고 해도 뜻은 같지만, `What I can't work with is…`로 시작하면 **듣는 사람이 "무엇?" 하고 기다리게 만든 뒤 답을 준다.**
    - **의미도 주의.** `I can't work with X`는 "나는 X를 못 한다"가 아니다. **"X는 내가 같이 일할 수 없게 만드는 조건이다"** — 능력이 아니라 **경계선**을 긋는 말이다. 한국어로는 "그것만은 안 됩니다" / "그 조건에서는 같이 일할 수 없습니다"에 가깝다.
    - **`finding out in a hallway`가 가리키는 장면.** 직역은 "복도에서 알게 되는 것". **누가 알게 되는가? Jay다.** 즉 *Fiona가 회의에서는 말하지 않고, 나중에 다른 사람들에게 말하고, 그 말이 돌고 돌아 Jay의 귀에 우연히 들어오는 상황.* 복도(hallway)는 **회의실에서 하지 않은 말이 실제로 오가는 장소**를 가리키는 영어권 사무실의 상투적 이미지다 — 우리로 치면 "탕비실에서 듣는다", "회식 자리에서 알게 된다"에 해당한다.
@@ -76,7 +77,8 @@ Jay: That's exactly what I meant. Walk me through it.
 | everyone's been putting off | 모두가 미뤄온 |
 | I can't work with | 같이 일할 수 없는 것 |
 | finding out in a hallway | 복도에서 (우연히) 알게 되다 — 당사자가 아니라 남을 통해 |
-| even when the answer is no | 답이 '안 된다'일 때도 |
+| even when the answer is no | (내가 내리는) 답이 '안 된다'일 때도 — 말하는 사람은 리더 |
+| I'll tell you what I decided and why | 무엇을 왜 결정했는지 말하겠다 (주어가 리더인 것이 핵심) |
 | What I can't work with is ~ | 내가 같이 일할 수 없는 건 ~다 (경계선 긋기 · what-cleft) |
 | hear it directly from you | 당신에게서 직접 듣다 |
 | walk me through it | 차근차근 설명해 달라 |
