@@ -127,9 +127,14 @@ def load(p):
     return md, parts[0][2:].strip(), parts[1].strip(), parts[2].strip(), "\n\n".join(parts[3:])
 en_md, TITLE, SUMMARY, META, en_body = load(A.en); ko_md, TITLE_KO, SUMMARY_KO, META_KO, ko_body = load(A.ko)
 # Every item closes with "Where it lands in Jayverse" (jay, 2026-09-18: all detail pages have this section).
-assert "### Where it lands in Jayverse" in en_body or "## Where it lands in Jayverse" in en_body, "en.md needs a 'Where it lands in Jayverse' section"
+# Korean-only items (jay, 2026-09-25: "for all book items, I don't need english version") pass the same
+# Korean file as --en and --ko; the EN side then carries the Korean heading, which is accepted here.
+assert any(h in en_body for h in ("### Where it lands in Jayverse", "## Where it lands in Jayverse", "Jayverse에서의 위치")), \
+    "en.md needs a 'Where it lands in Jayverse' section (or the Korean heading, for a Korean-only item)"
 assert "Jayverse에서의 위치" in ko_body, "ko.md needs a 'Jayverse에서의 위치' section"
-WHY = re.search(r'## Why\n\n(.*?)(\n\n|$)', en_body, re.S).group(1)
+_why = re.search(r'## (?:Why|왜)\n\n(.*?)(\n\n|$)', en_body, re.S)   # '왜' for Korean-only items (jay, 2026-09-25)
+assert _why, "en.md needs a '## Why' (or '## 왜') section"
+WHY = _why.group(1)
 HOW = " · ".join(h[4:].split(" — ")[0] for h in re.findall(r'^### .*$', en_body, re.M))
 DATE_SPAN = f'<span class="topic-date" title="added" style="margin-left:auto;flex:0 0 auto;font-size:.72rem;color:var(--text2);font-variant-numeric:tabular-nums">{DATE}</span>'
 SRC_SPAN = f'<span class="topic-src" title="source" style="flex:0 0 auto;margin-left:6px;font-size:.66rem;line-height:1.5;color:var(--text2);border:1px solid currentColor;border-radius:999px;padding:0 6px;opacity:.75">{A.source}</span>'

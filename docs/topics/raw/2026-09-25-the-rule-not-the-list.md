@@ -37,3 +37,25 @@ than expanded here.
 NOT VERIFIED, carried forward from the originals: vote counts, sales and print-run claims, interview
 lengths, and all timestamps. The park-hyejin and jung-youngsu cards recorded a 2026-09-19
 verification pass on the existence of every book and author named; that pass is not repeated here.
+
+---
+
+## Appended 2026-09-25, later the same day — §6 rewritten and expanded
+
+jay: "For China and Japan book, add contemporary and current trend books also. For this book items.
+I don't want english version and add more in detail and your opinion."
+
+§6 went from two ten-book entry tables to six sub-sections: entry lists for Japan and China unchanged,
+plus contemporary sections for each, a comparison, and a final recommendation. Written in Korean only,
+by request. Nothing in it has a source: it is my selection and my opinion, and §6 says so at the top
+and again at the bottom.
+
+Claims in the new §6 that rest on memory and were NOT re-checked, flagged in the section itself:
+Korean-edition availability and exact Korean titles for every book named (especially 반샹, 정즈,
+찬쉐, 천추판, where translation status may be unstable), and prize years. The two structural
+opinions — that Japanese fiction splits into an internationally-rated stream and a Korean-bestseller
+"위로 소설" stream, and that the two liveliest Chinese currents (SF and 동북 문예부흥) are both
+detours around what cannot be written directly — are mine, not reported.
+
+Also on this date: the card became Korean-only (jay, "for all book items, I don't need english
+version"), so its EN and KO copy blobs now carry the same Korean text, and its title is Korean.
