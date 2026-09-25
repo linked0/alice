@@ -53,11 +53,11 @@ DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hour
 # right after the number (jay, 2026-09-18: first Theory item added through this script).
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
-    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag">{A.tag or "Economics"}</span>'),
-    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag">{A.tag or "Economics"}</span>'),
+    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag" data-tag="{A.tag or "Economics"}">{A.tag or "Economics"}</span>'),
+    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag" data-tag="{A.tag or "Economics"}">{A.tag or "Economics"}</span>'),
     # Life carries a chip too since 2026-09-25, but only when --tag is given: the section has items that
     # genuinely belong to no domain, and an empty chip reads worse than none.
-    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="no-results",           next_art=None,                tag=(f'<span class="topic-tag">{A.tag}</span>' if A.tag else "")),   # Life is last (jay, 2026-09-18: "Eng before Life")
+    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="no-results",           next_art=None,                tag=(f'<span class="topic-tag" data-tag="{A.tag}">{A.tag}</span>' if A.tag else "")),   # Life is last (jay, 2026-09-18: "Eng before Life")
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"
@@ -164,7 +164,7 @@ for j in nav["jump"]:
 for x in items: x.pop("n", None); x.pop("title", None)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 # convenience view used below: [key, href, color, label, n, title-html]
-items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k)), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag">[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
+items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k)), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag"[^>]*>[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
 
 # ---------------- notes.html ----------------
 p = ROOT / "notes.html"; s = p.read_text()

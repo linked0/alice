@@ -34,7 +34,7 @@ if A.map:
 if A.key: pairs.append((A.key, A.tag))
 if not pairs: ap.error("give --map or --key")
 
-CHIP = re.compile(r'<span class="topic-tag">[^<]*</span>')
+CHIP = re.compile(r'<span class="topic-tag"[^>]*>[^<]*</span>')
 NO   = re.compile(r'(<span class="topic-no">\d+</span>)')
 
 nav_path = ROOT / "topics" / "_nav.js"; nav_src = nav_path.read_text()
@@ -47,7 +47,7 @@ changed, missing = [], []
 for key, tag in pairs:
     item = by_key.get(key)
     if item is None: missing.append(key); continue
-    chip = f'<span class="topic-tag">{tag}</span>' if tag else ""
+    chip = f'<span class="topic-tag" data-tag="{tag}">{tag}</span>' if tag else ""
     before = item["text"]
     item["text"] = NO.sub(lambda m: m.group(1) + chip, CHIP.sub("", before), count=1)
     if not NO.search(before):  # no number span (shouldn't happen) — prepend

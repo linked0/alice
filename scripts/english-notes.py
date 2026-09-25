@@ -203,7 +203,7 @@ s = re.sub(rf'<a href="#{SECTION_ID}"(?: data-sec="[^"]*")? title="[^"]*">.*?</a
 
 nav_lis = "".join(
     f'        <li><a class="nav-link" href="topics/{href(x)}" data-key="{key(x)}"><span class="nav-dot" style="background:{COLORS[x["status"]][0]};" title="{COLORS[x["status"]][1]}"></span>'
-    f'<span class="nav-text"><span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
+    f'<span class="nav-text"><span class="topic-no">{shown(x)}</span><span class="topic-tag" data-tag="{E(x["tag"])}">{E(x["tag"])}</span>{E(x["title"])}</span></a></li>\n' for x in items)
 nav_group = f'      <div class="nav-group" id="{NAV_ID}" data-group>\n        <p class="nav-group-label">{LABEL} ({N})</p>\n        <ul>\n{nav_lis}        </ul>\n      </div>\n'
 anchor = '      <p class="no-results" id="no-results">'   # Eng sits after Life, last in the rail (jay, 2026-09-21: "change the order of Eng and Life"; was before Life since 2026-09-18)
 assert s.count(anchor) == 1; s = s.replace(anchor, nav_group + anchor)
@@ -212,7 +212,7 @@ def card(x):
     tech_titles = " · ".join(re.sub(r'\*\*(.+?)\*\*.*', r'\1', t).rstrip(".") for t in x["techniques"])
     first = x["dialogue"][0]
     return f'''        <li id="{key(x)}">
-          <div class="topic-head"><span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span><span class="topic-title">{E(x["title"])}</span></div>
+          <div class="topic-head"><span class="topic-no">{shown(x)}</span><span class="topic-tag" data-tag="{E(x["tag"])}">{E(x["tag"])}</span><span class="topic-title">{E(x["title"])}</span></div>
           <p class="topic-summary">{E(x["situation"])} <span style="opacity:.7">— {E(x["situation_ko"])}</span></p>
           <p class="topic-how"><strong>Opens with</strong>{E(first["who"])}: &ldquo;{inline(first["en"])}&rdquo; &middot; {len(x["dialogue"])} lines &middot; {E(tech_titles)}</p>
           <p class="topic-why"><strong>Why</strong>{inline(x["why"])}</p>
@@ -247,7 +247,7 @@ nav["jump"] = [j for j in nav["jump"] if j["id"] != SECTION_ID]; nav["jump"].ins
 nav["sections"] = [sec for sec in nav["sections"] if sec["navId"] != NAV_ID]; nav["sections"].insert(next(i for i, sec in enumerate(nav["sections"]) if sec["navId"] == "nav-sec-mindset") + 1, {
     "navId": NAV_ID, "label": f"{LABEL} ({N})",
     "items": [{"key": key(x), "href": href(x), "color": COLORS[x["status"]][0], "label": COLORS[x["status"]][1],
-               "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag">{E(x["tag"])}</span>{E(x["title"])}',
+               "text": f'<span class="topic-no">{shown(x)}</span><span class="topic-tag" data-tag="{E(x["tag"])}">{E(x["tag"])}</span>{E(x["title"])}',
                "added": x["added"], **({"done": x["done"]} if x.get("done") else {}),
                **({"dones": [s.strip() for s in x["dones"].split(",") if s.strip()]} if x.get("dones") else {})} for x in items]})
 NAVJS.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")

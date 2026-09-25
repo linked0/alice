@@ -24,7 +24,7 @@ nav = "".join(
     f'        <li><a class="nav-link" href="topics/health-{i+1}.html" data-key="health-{i+1}"><span class="nav-dot" style="background:#94a3b8;" title="LOCKED"></span>'
     f'<span class="nav-text"><span class="topic-no">{HN(i)}</span>{E(l)}</span></a></li>\n' for i, l in enumerate(labels))
 cards = "".join(f'''        <li id="health-{i+1}" class="health-item">
-          <div class="topic-head"><span class="topic-no">{HN(i)}</span><span class="topic-tag">Locked</span><span class="topic-title">{E(l)}</span></div>
+          <div class="topic-head"><span class="topic-no">{HN(i)}</span><span class="topic-tag" data-tag="Locked">Locked</span><span class="topic-title">{E(l)}</span></div>
           <p class="topic-summary health-summary">{LOCKED}</p>
           <div class="health-slot"></div>
           <p class="topic-link"><a href="topics/health-{i+1}.html">Detail &rarr;</a> &middot; <button type="button" class="copy-btn copy-inline health-open">Open here</button> &middot; <a href="#top">Top &uarr;</a> &middot; <a href="#sec-mindset">Section top &uarr;</a></p>

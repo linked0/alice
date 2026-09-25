@@ -73,7 +73,7 @@ for sec in nav["sections"]:
     name = SECTION[sec["navId"]]
     for pos, x in enumerate(sec["items"], 1):
         no = re.match(r'<span class="topic-no">(\d+)</span>', x["text"])
-        tag = re.search(r'<span class="topic-tag">([^<]*)</span>', x["text"])
+        tag = re.search(r'<span class="topic-tag"[^>]*>([^<]*)</span>', x["text"])
         row = {"no": int(no.group(1)) if no else None, "section": name, "key": x["key"], "href": x["href"], "status": x["label"], "position": pos,
                "title_en": text(re.sub(r'<span class="topic-(?:no|tag)">[^<]*</span>', "", x["text"]))}
         if tag: row["tag"] = tag.group(1)

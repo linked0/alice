@@ -189,6 +189,13 @@
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
+     칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
+     Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#b45309; background:#b4530922; }
+  @media (prefers-color-scheme: dark) {
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#fbbf24; background:#fbbf2426; }
+  }
   .topic-done { flex:0 0 auto; }
   .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
   /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
