@@ -381,7 +381,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/972</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/974</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -406,7 +406,7 @@
   <div class="solo">
     <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Ethereum and Base gave up on one wallet standard — EIP-8141 and EIP-8130 will coexist, and the first to ship sets it</p>
   <header class="topic-hero">
-      <p class="topic-kicker"><span class="topic-no">#147</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
+      <p class="topic-kicker"><span class="topic-no">#148</span><span>PoC</span><span title="added">2026-09-18</span><span title="source">file</span></p>
       <h1>Ethereum and Base gave up on one wallet standard — EIP-8141 and EIP-8130 will coexist, and the first to ship sets it</h1>
       <p class="lead">Months of talks to merge Ethereum L1&#39;s and Base&#39;s native account-abstraction proposals ended the week of 2026-09-14, confirmed by Ethlabs&#39; Derek Chiang: "Ethereum wanted to be the best version of Ethereum, and Base wanted to be the best version of Base." Both proposals change the same three things, how a transaction is approved, who pays the fee, and what happens after approval, and they diverge on what to optimise. EIP-8141, Frame Transactions, splits a transaction into programmable frames (verify the sender, authorise the gas payer, execute the calls) with full EVM execution during validation; it is built for extensibility and for swapping signature schemes if quantum computers force it, and it is a must-ship execution-layer feature for Hegotá, the fork after Glamsterdam, expected 2027. EIP-8130 is a new transaction type plus an on-chain keystore of authorised signers and authentication contracts, with a constrained verifier that reports about 63 percent lower gas than ERC-4337 smart accounts; it is built for high volume and compliance flexibility, is live on Base&#39;s Vibenet testnet, and ships in Base&#39;s Cobalt upgrade this month, testnet and mainnet. Base carries more than 60 percent of L2 transaction volume, so for the next several quarters "native AA" in practice means 8130.</p>
       <p class="meta">For Jayverse the useful reading is that an open question closed. "Which standard" became "both", and both can be designed for; an uncertainty is worse than two known targets. Rabbit&#39;s wallet work already lives in the ERC-4337 and EIP-7702 world (Dev Notes items on the AA standards matrix), and neither of those goes away; what changes is that a transaction builder targeting Base and L1 needs two native construction paths. The decision to take today is the existence of an adapter layer between intent and transaction assembly, not its implementation, and to keep signature verification in one place, which the quantum item of 2026-09-11 already asked for and 8141 now states as a design goal. Status on 2026-09-18: 8130 on Vibenet, Cobalt dates in September; 8141 in Hegotá scope, not on any live network; ERC-4337 and EIP-7702 unchanged.</p>
@@ -463,7 +463,7 @@
 <!-- vocab:end -->
 <p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
     </article>
-    <div class="pager"><a href="pocs-toss-komsco-voucher-settlement-on-optimism.html">&larr; 146. Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token</a><a href="pocs-bottomline-swift-message-new-destination.html">148. 600 banks did not go onchain — a Swift message got a new destination (Bottomline Global Pay Connect) &rarr;</a></div>
+    <div class="pager"><a href="pocs-toss-komsco-voucher-settlement-on-optimism.html">&larr; 147. Toss and KOMSCO settled a voucher on Optimism — the PoC that matters is the settlement, not the token</a><a href="pocs-bottomline-swift-message-new-destination.html">149. 600 banks did not go onchain — a Swift message got a new destination (Bottomline Global Pay Connect) &rarr;</a></div>
   </div>
   </main>
 </div>

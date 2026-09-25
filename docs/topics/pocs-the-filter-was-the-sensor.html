@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The filter he used on himself was the sensor he needed for her — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/974</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; The filter he used on himself was the sensor he needed for her</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1841</span><span>PoC</span><span title="added">2026-09-25</span><span title="source">chat</span><span title="raw"><a href="raw/2026-09-25-the-filter-was-the-sensor.md">raw</a></span></p>
+      <h1>The filter he used on himself was the sensor he needed for her</h1>
+      <p class="lead">Alice Hines profiles Jacob, a finance engineer who built a weighted spreadsheet — "How to Choose a Goddess", fifteen attributes, scores multiplied and summed, plus a homemade spin on the Secretary Problem to decide when to stop looking — and married the woman it selected. Around him she assembles a movement: a polycule planning an orgy in Excel, a New Zealand couple running Agile retrospectives on their marriage, a project manager colour-coding partner availability green, yellow and red. Her thesis is that these people differ from everyone else only in consciously admitting that relationships are transactions and the work of keeping them is labour. The article also contains a clean falsification of its own method, and does not quite say so.</p>
+      <p class="meta">The Economist, 1843 magazine, 20 February 2020, pasted by jay on 2026-09-25; no URL was given, so there is no source link. Every figure is the article&#39;s and I verified none. It predates the pandemic by a month, which matters for anything about how people meet. The five readings below are mine.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# The filter he used on himself was the sensor he needed for her\n\nAlice Hines profiles Jacob, a finance engineer who built a weighted spreadsheet — \"How to Choose a Goddess\", fifteen attributes, scores multiplied and summed, plus a homemade spin on the Secretary Problem to decide when to stop looking — and married the woman it selected. Around him she assembles a movement: a polycule planning an orgy in Excel, a New Zealand couple running Agile retrospectives on their marriage, a project manager colour-coding partner availability green, yellow and red. Her thesis is that these people differ from everyone else only in consciously admitting that relationships are transactions and the work of keeping them is labour. The article also contains a clean falsification of its own method, and does not quite say so.\n\nThe Economist, 1843 magazine, 20 February 2020, pasted by jay on 2026-09-25; no URL was given, so there is no source link. Every figure is the article's and I verified none. It predates the pandemic by a month, which matters for anything about how people meet. The five readings below are mine.\n\n## Why\n\nBecause of one sentence, placed almost as an aside, that explains the whole collapse:\n\n> \"And he was also terrible at reading her emotional signals. **After all, he'd been doing everything he could to banish anything irksome from his mind.**\"\n\n**This card's first argument.** Jacob's method for managing jealousy was suppression — distract with video games, habituate to the feeling, adopt don't-ask-don't-tell, reframe *she doesn't respect my time* into *she probably got stuck somewhere*. It worked. He stopped being bothered.\n\nAnd then his partner of several years broke up with him weeks after they had signed another year's lease, and he was **surprised**.\n\nThose are not two facts. They are one. **Emotions are not only noise to be filtered; they are also the instrument you read other people with.** Discomfort at a partner's behaviour and detection of a partner's distress run through the same channel. Turn the gain down far enough to stop feeling the first and you stop receiving the second. He built a filter and it removed the signal he most needed.\n\nHines reports this and moves on. Jacob's own account of the failure is different — he says he committed a cardinal sin of rationality by assuming others thought as he did. That is true and it is the smaller error. **The larger one is that the technique worked exactly as designed.**\n\n## How it works\n\n### 1 — What the spreadsheet was\n\nFifteen weighted attributes, each woman scored per attribute, multiplied by weight, summed. Sex weighted at roughly a third of conversation, on the reasoning that people spend less time doing it. \"Status – friends admire her\" 5. \"Will be smart, dedicated mom\" 9. \"Emotional crush\" 6. He considered pairwise ranking and statistics from a business-school pricing class, then chose simpler, on the motto: **\"A guesstimated number is better than not using numbers at all.\"**\n\nTo answer *when do I stop looking*, he adapted the **Secretary Problem** — the classic result being that you should examine about 37% of the pool, then take the next candidate better than everything seen so far.\n\nTo Hines's credit she notes what he was not doing: not rating looks, as a pick-up artist would. The scores measured compatibility, and he never claimed the system was perfect.\n\n### 2 — The largest weight sat on the least knowable thing\n\n**Second argument, and it generalises well past dating.** The article records that one category, weighted **15** — the highest number mentioned anywhere in the piece — was *entirely speculative*: **Jacob's estimate of how much his dates admired him.**\n\nSo the single largest input to the model was a guess about another person's internal state. Which is, per §Why, precisely the thing he was worst at, and worst at **because of the technique he was running elsewhere**.\n\nThe general form is worth keeping for any scoring rubric — hiring, vendor selection, prioritisation: **a weighted model concentrates its error into whatever you weighted most.** And people weight most what they care about most, which is very often what they can measure least. A rubric's weights are therefore a map of where it will fail, and the honest move is to look at the top weight and ask *how do I actually know this number*.\n\n### 3 — The model does not choose. It commits.\n\n**Third argument, and Stephanie is the proof.** The spreadsheet's winner surprised Jacob — he had expected a woman with more immediate chemistry. And Stephanie says the same from her side: **\"If I was entirely following my heart, I probably wouldn't be with him.\"** They married in 2017.\n\nSo the thing the model did was not *identify the best match*. Nobody can verify that. What it did was **override a strong immediate preference and make the decision stick** — and then stay available to be questioned. When he told her about it, she smiled and asked about the algorithm design.\n\nThat is the actual function, and Hines reaches it in her closing theory: spreadsheets work like OkCupid quizzes, psychoanalysis and astrology. **\"All these systems provide structure to the murky depths of our feelings… they help to make our contradictory and fluctuating desires comprehensible and communicable.\"**\n\nNot accurate. **Communicable.** A stated model can be examined, argued with and held to; a gut feeling cannot be any of those. Stephanie's own verdict is the one to keep: *everyone sort of does something like that — what are the pros and cons of being with this person?*\n\n### 4 — What actually survived was the boring part\n\n**Fourth argument.** Set the spreadsheet aside and look at which practices the interviewees report as *working*:\n\n| Practice | What it is, stripped of the framing |\n|---|---|\n| Evin's green/yellow/red availability grid | A schedule |\n| The Six Questions, weekly, in a shared doc | A recurring conversation with fixed prompts |\n| Yates's planner notes on every date | Written attention |\n| Madeline's to-do app with points | A routine with an external cue |\n\n**None of these optimise anything.** There is no objective function, no maximisation, no efficiency gain. They are all **scheduled attention** dressed in the vocabulary of work — and the participants say so almost explicitly. Evin: *\"It can certainly be seen as a businesslike way to look at things, but the objective is quite the opposite. Scheduling is a significant part of how I try to make sure partners feel respected.\"* Yates says the note-taking feels like work and makes them **more considerate**. Madeline, previously anxious and inconsistent with medication, says running things procedurally solved most of that.\n\nThe memorable thing in the article is the spreadsheet that picked a wife. **The thing that does the work is the weekly check-in.** Hines's own phrase for it is exact: *a DIY version of couples therapy by way of a performance review*.\n\n### 5 — Romance in marriage is recent, which changes the argument\n\n**Fifth argument: the historical frame is the strongest thing in the piece and it defuses the whole genre.** Marriage was an economic contract between families. \"Romantic\" entered usage in medieval tales about knights wooing women they then abandoned as the plot moved on. Romance was injected into marriage only at the **Industrial Revolution**, when wage labour moved work out of the home and the domestic sphere was annexed for feeling. China: the last forty years. India: arranged marriage still the norm.\n\nSo the reflex response to Jacob — *reducing human connection to a number is bad, look in their eyes, sing songs, dance* — is defending an arrangement roughly two centuries old as though it were the natural state. **Optimising a relationship is not a novel corruption of love. It is a reversion**, and the interesting question is therefore not *should you use a model* but **which model, and what does running it cost you** — which is what §Why answers.\n\nThe counter-argument deserves its place. Eleanor Wilkinson calls today's non-monogamy a **\"watered-down, apolitical vision\"** — the Oneida community of 1848 abolished possessiveness and taught children to say *we* and *ours*, never *me*; today's version is about personal customisation and fulfilling different needs with different partners. And the detail Hines lets stand without comment does the work: **Oneida is now a homeware manufacturer, and Kerista became a personal-computer distributor.** The utopias didn't fail. They were absorbed.\n\n### Where it lands in Jayverse\n\n`the-body-commits-before-you-decide` (#1842) is §Why's mechanism at the individual level. Gallo's point is that the stress response fires before you notice it — the body has already voted. Jacob's project was to stop that vote from registering at all, and §Why is the bill for it. **The two cards together: emotions arrive too fast to reason with in the moment, and suppressing them costs you a sense you need.**\n\n`damour-emotions-board-seat-empathy-tax` (#1806) is the correct version of what Jacob attempted. A seat, not a veto. He gave them neither — he tried to remove the chair — and his own closing position is a late arrival at the same place: emotions are *another data point*, \"because all you have is your brain.\"\n\n`room-sorted-by-time-constant` (#1836) and `the-brain-trust-has-no-authority` (#1840) are §4. Pixar's dailies work because showing unfinished work is scheduled rather than intended; the Six Questions work for the same reason. **A behaviour that must be remembered will not happen; put it in a structure and it will.**\n\n`the-resource-that-runs-out` (#1838) supplies the honest reading of the article's thesis. If relationships are labour, then §4's practices are that labour being made visible and distributed on purpose — which is exactly what that card says organisations fail to do, one scale down.\n\n`adults-who-put-children-first` (#1837) is the uncomfortable neighbour. Both cards are about stating a priority in advance so it survives a conflict. That card's warning applies here too: **an ordering that has to be re-chosen under pressure is not an ordering, it is a preference** — and a spreadsheet is one way to write the ordering down.\n\n`go-stand-next-to-the-standard` (#1839) supplies the missing input. Jacob's weights came from introspection alone, which is why the biggest one was a guess. Calibration comes from exposure, not from thinking harder about your own estimates.\n\n### Verified and unverified\n\n**Reported, not verified:** every figure. The 8% decline in US marriage rates, the 65% / 39% app-meeting shares for 2017, the 5% consensually-non-monogamous figure attributed to Chapman University and the University of Michigan (2014), the one-fifth lifetime figure attributed to the *Journal of Sex and Marital Therapy* (2017), and the Secretary Problem's 37%. I did not read Jacob's blog, Hannah Blume's essay, or Eleanor Wilkinson's work.\n\n**A one-sided account, and the article says so.** \"Natasha\" is a pseudonym and she declined to comment. Her position exists in the piece as Jacob's narration plus two reported lines — *\"You should have known\"* and that emotional control is *\"impossible\"*, that emotions can be repressed but never reconfigured. Those two lines are the article's most direct challenge to its own subject and they come from the person who would not be interviewed. **Weigh them accordingly, in both directions.**\n\n**Date.** February 2020. Anything about how people meet, how often they are alone, or what an open relationship costs to run predates the pandemic by a month.\n\n**Mine, and labelled in the body:** §Why (the suppression that managed jealousy is the same faculty that reads a partner, so the surprise at the breakup is the method working as designed), §2 (the largest weight sat on the least knowable input, and a weighted model concentrates error where you weighted most), §3 (the model commits rather than chooses, and its real product is communicability), §4 (the surviving practices optimise nothing — they are scheduled attention), §5 (romance in marriage is an Industrial-Revolution artefact, so this is a reversion, which narrows the question to cost).\n"</script>
+<h2>Why</h2>
+<p>Because of one sentence, placed almost as an aside, that explains the whole collapse:</p>
+<p>&gt; "And he was also terrible at reading her emotional signals. <strong>After all, he&#39;d been doing everything he could to banish anything irksome from his mind.</strong>"</p>
+<p><strong>This card&#39;s first argument.</strong> Jacob&#39;s method for managing jealousy was suppression — distract with video games, habituate to the feeling, adopt don&#39;t-ask-don&#39;t-tell, reframe <em>she doesn&#39;t respect my time</em> into <em>she probably got stuck somewhere</em>. It worked. He stopped being bothered.</p>
+<p>And then his partner of several years broke up with him weeks after they had signed another year&#39;s lease, and he was <strong>surprised</strong>.</p>
+<p>Those are not two facts. They are one. <strong>Emotions are not only noise to be filtered; they are also the instrument you read other people with.</strong> Discomfort at a partner&#39;s behaviour and detection of a partner&#39;s distress run through the same channel. Turn the gain down far enough to stop feeling the first and you stop receiving the second. He built a filter and it removed the signal he most needed.</p>
+<p>Hines reports this and moves on. Jacob&#39;s own account of the failure is different — he says he committed a cardinal sin of rationality by assuming others thought as he did. That is true and it is the smaller error. <strong>The larger one is that the technique worked exactly as designed.</strong></p>
+<h2>How it works</h2>
+<h3>1 — What the spreadsheet was</h3>
+<p>Fifteen weighted attributes, each woman scored per attribute, multiplied by weight, summed. Sex weighted at roughly a third of conversation, on the reasoning that people spend less time doing it. "Status – friends admire her" 5. "Will be smart, dedicated mom" 9. "Emotional crush" 6. He considered pairwise ranking and statistics from a business-school pricing class, then chose simpler, on the motto: <strong>"A guesstimated number is better than not using numbers at all."</strong></p>
+<p>To answer <em>when do I stop looking</em>, he adapted the <strong>Secretary Problem</strong> — the classic result being that you should examine about 37% of the pool, then take the next candidate better than everything seen so far.</p>
+<p>To Hines&#39;s credit she notes what he was not doing: not rating looks, as a pick-up artist would. The scores measured compatibility, and he never claimed the system was perfect.</p>
+<h3>2 — The largest weight sat on the least knowable thing</h3>
+<p><strong>Second argument, and it generalises well past dating.</strong> The article records that one category, weighted <strong>15</strong> — the highest number mentioned anywhere in the piece — was <em>entirely speculative</em>: <strong>Jacob&#39;s estimate of how much his dates admired him.</strong></p>
+<p>So the single largest input to the model was a guess about another person&#39;s internal state. Which is, per §Why, precisely the thing he was worst at, and worst at <strong>because of the technique he was running elsewhere</strong>.</p>
+<p>The general form is worth keeping for any scoring rubric — hiring, vendor selection, prioritisation: <strong>a weighted model concentrates its error into whatever you weighted most.</strong> And people weight most what they care about most, which is very often what they can measure least. A rubric&#39;s weights are therefore a map of where it will fail, and the honest move is to look at the top weight and ask <em>how do I actually know this number</em>.</p>
+<h3>3 — The model does not choose. It commits.</h3>
+<p><strong>Third argument, and Stephanie is the proof.</strong> The spreadsheet&#39;s winner surprised Jacob — he had expected a woman with more immediate chemistry. And Stephanie says the same from her side: <strong>"If I was entirely following my heart, I probably wouldn&#39;t be with him."</strong> They married in 2017.</p>
+<p>So the thing the model did was not <em>identify the best match</em>. Nobody can verify that. What it did was <strong>override a strong immediate preference and make the decision stick</strong> — and then stay available to be questioned. When he told her about it, she smiled and asked about the algorithm design.</p>
+<p>That is the actual function, and Hines reaches it in her closing theory: spreadsheets work like OkCupid quizzes, psychoanalysis and astrology. <strong>"All these systems provide structure to the murky depths of our feelings… they help to make our contradictory and fluctuating desires comprehensible and communicable."</strong></p>
+<p>Not accurate. <strong>Communicable.</strong> A stated model can be examined, argued with and held to; a gut feeling cannot be any of those. Stephanie&#39;s own verdict is the one to keep: <em>everyone sort of does something like that — what are the pros and cons of being with this person?</em></p>
+<h3>4 — What actually survived was the boring part</h3>
+<p><strong>Fourth argument.</strong> Set the spreadsheet aside and look at which practices the interviewees report as <em>working</em>:</p>
+<table><thead><tr><th>Practice</th><th>What it is, stripped of the framing</th></tr></thead><tbody><tr><td>Evin&#39;s green/yellow/red availability grid</td><td>A schedule</td></tr><tr><td>The Six Questions, weekly, in a shared doc</td><td>A recurring conversation with fixed prompts</td></tr><tr><td>Yates&#39;s planner notes on every date</td><td>Written attention</td></tr><tr><td>Madeline&#39;s to-do app with points</td><td>A routine with an external cue</td></tr></tbody></table>
+<p><strong>None of these optimise anything.</strong> There is no objective function, no maximisation, no efficiency gain. They are all <strong>scheduled attention</strong> dressed in the vocabulary of work — and the participants say so almost explicitly. Evin: <em>"It can certainly be seen as a businesslike way to look at things, but the objective is quite the opposite. Scheduling is a significant part of how I try to make sure partners feel respected."</em> Yates says the note-taking feels like work and makes them <strong>more considerate</strong>. Madeline, previously anxious and inconsistent with medication, says running things procedurally solved most of that.</p>
+<p>The memorable thing in the article is the spreadsheet that picked a wife. <strong>The thing that does the work is the weekly check-in.</strong> Hines&#39;s own phrase for it is exact: <em>a DIY version of couples therapy by way of a performance review</em>.</p>
+<h3>5 — Romance in marriage is recent, which changes the argument</h3>
+<p><strong>Fifth argument: the historical frame is the strongest thing in the piece and it defuses the whole genre.</strong> Marriage was an economic contract between families. "Romantic" entered usage in medieval tales about knights wooing women they then abandoned as the plot moved on. Romance was injected into marriage only at the <strong>Industrial Revolution</strong>, when wage labour moved work out of the home and the domestic sphere was annexed for feeling. China: the last forty years. India: arranged marriage still the norm.</p>
+<p>So the reflex response to Jacob — <em>reducing human connection to a number is bad, look in their eyes, sing songs, dance</em> — is defending an arrangement roughly two centuries old as though it were the natural state. <strong>Optimising a relationship is not a novel corruption of love. It is a reversion</strong>, and the interesting question is therefore not <em>should you use a model</em> but <strong>which model, and what does running it cost you</strong> — which is what §Why answers.</p>
+<p>The counter-argument deserves its place. Eleanor Wilkinson calls today&#39;s non-monogamy a <strong>"watered-down, apolitical vision"</strong> — the Oneida community of 1848 abolished possessiveness and taught children to say <em>we</em> and <em>ours</em>, never <em>me</em>; today&#39;s version is about personal customisation and fulfilling different needs with different partners. And the detail Hines lets stand without comment does the work: <strong>Oneida is now a homeware manufacturer, and Kerista became a personal-computer distributor.</strong> The utopias didn&#39;t fail. They were absorbed.</p>
+<h3>Where it lands in Jayverse</h3>
+<p><code>the-body-commits-before-you-decide</code> (#1842) is §Why&#39;s mechanism at the individual level. Gallo&#39;s point is that the stress response fires before you notice it — the body has already voted. Jacob&#39;s project was to stop that vote from registering at all, and §Why is the bill for it. <strong>The two cards together: emotions arrive too fast to reason with in the moment, and suppressing them costs you a sense you need.</strong></p>
+<p><code>damour-emotions-board-seat-empathy-tax</code> (#1806) is the correct version of what Jacob attempted. A seat, not a veto. He gave them neither — he tried to remove the chair — and his own closing position is a late arrival at the same place: emotions are <em>another data point</em>, "because all you have is your brain."</p>
+<p><code>room-sorted-by-time-constant</code> (#1836) and <code>the-brain-trust-has-no-authority</code> (#1840) are §4. Pixar&#39;s dailies work because showing unfinished work is scheduled rather than intended; the Six Questions work for the same reason. <strong>A behaviour that must be remembered will not happen; put it in a structure and it will.</strong></p>
+<p><code>the-resource-that-runs-out</code> (#1838) supplies the honest reading of the article&#39;s thesis. If relationships are labour, then §4&#39;s practices are that labour being made visible and distributed on purpose — which is exactly what that card says organisations fail to do, one scale down.</p>
+<p><code>adults-who-put-children-first</code> (#1837) is the uncomfortable neighbour. Both cards are about stating a priority in advance so it survives a conflict. That card&#39;s warning applies here too: <strong>an ordering that has to be re-chosen under pressure is not an ordering, it is a preference</strong> — and a spreadsheet is one way to write the ordering down.</p>
+<p><code>go-stand-next-to-the-standard</code> (#1839) supplies the missing input. Jacob&#39;s weights came from introspection alone, which is why the biggest one was a guess. Calibration comes from exposure, not from thinking harder about your own estimates.</p>
+<h3>Verified and unverified</h3>
+<p><strong>Reported, not verified:</strong> every figure. The 8% decline in US marriage rates, the 65% / 39% app-meeting shares for 2017, the 5% consensually-non-monogamous figure attributed to Chapman University and the University of Michigan (2014), the one-fifth lifetime figure attributed to the <em>Journal of Sex and Marital Therapy</em> (2017), and the Secretary Problem&#39;s 37%. I did not read Jacob&#39;s blog, Hannah Blume&#39;s essay, or Eleanor Wilkinson&#39;s work.</p>
+<p><strong>A one-sided account, and the article says so.</strong> "Natasha" is a pseudonym and she declined to comment. Her position exists in the piece as Jacob&#39;s narration plus two reported lines — <em>"You should have known"</em> and that emotional control is <em>"impossible"</em>, that emotions can be repressed but never reconfigured. Those two lines are the article&#39;s most direct challenge to its own subject and they come from the person who would not be interviewed. <strong>Weigh them accordingly, in both directions.</strong></p>
+<p><strong>Date.</strong> February 2020. Anything about how people meet, how often they are alone, or what an open relationship costs to run predates the pandemic by a month.</p>
+<p><strong>Mine, and labelled in the body:</strong> §Why (the suppression that managed jealousy is the same faculty that reads a partner, so the surprise at the breakup is the method working as designed), §2 (the largest weight sat on the least knowable input, and a weighted model concentrates error where you weighted most), §3 (the model commits rather than chooses, and its real product is communicability), §4 (the surviving practices optimise nothing — they are scheduled attention), §5 (romance in marriage is an Industrial-Revolution artefact, so this is a reversion, which narrows the question to cost).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>to optimise</strong></td><td>최적화하다 — 수학적 기법으로 변수를 최대·최소화하는 것에서 옴</td></tr><tr><td><strong>a weighted model</strong></td><td>가중 모델 — 항목마다 중요도를 곱해 합산하는 방식</td></tr><tr><td><strong>a scoring rubric</strong></td><td>채점 루브릭 — 채용·벤더 선정에도 쓰는 같은 구조</td></tr><tr><td><strong>to concentrate error</strong></td><td>오차를 집중시키다 — 가장 크게 가중한 곳에서 일어나는 일</td></tr><tr><td><strong>the Secretary Problem</strong></td><td>비서 문제 — 언제 탐색을 멈출지의 고전적 최적 정지 문제</td></tr><tr><td><strong>optimal stopping</strong></td><td>최적 정지 — 더 보지 않고 결정할 시점</td></tr><tr><td><strong>a guesstimate</strong></td><td>어림짐작 값 — guess + estimate</td></tr><tr><td><strong>a deal-breaker</strong></td><td>결정적 거부 조건 — 그것 하나로 끝나는 항목</td></tr><tr><td><strong>emotional labour</strong></td><td>감정 노동 — 감정을 관리하는 일 자체를 일로 보는 개념</td></tr><tr><td><strong>a retrospective</strong></td><td>회고 — 애자일에서 주기마다 돌아보는 회의</td></tr><tr><td><strong>a sprint</strong></td><td>스프린트 — 정해진 길이의 작업 주기</td></tr><tr><td><strong>an action point</strong></td><td>실행 항목 — 회고에서 나오는 다음 할 일</td></tr><tr><td><strong>a check-in</strong></td><td>점검·확인 대화 — 정기적으로 상태를 맞추는 자리</td></tr><tr><td><strong>scheduled attention</strong></td><td>예정된 주의 — 이 카드가 붙인 이름. 최적화가 아님</td></tr><tr><td><strong>to suppress vs to reconfigure</strong></td><td>억누르다 대 재구성하다 — 나타샤가 가른 구분</td></tr><tr><td><strong>to banish something from one&#39;s mind</strong></td><td>~를 머리에서 몰아내다 — 기사의 결정적 문장</td></tr><tr><td><strong>to read someone&#39;s signals</strong></td><td>남의 신호를 읽다 — 억제가 망가뜨린 능력</td></tr><tr><td><strong>to turn down the gain</strong></td><td>감도를 낮추다 — 신호 처리에서 온 비유</td></tr><tr><td><strong>cognitive bias</strong></td><td>인지 편향 — 합리주의 공동체의 핵심 관심사</td></tr><tr><td><strong>factory settings</strong></td><td>공장 초기 설정 — 타고난 성향을 부르는 비유</td></tr><tr><td><strong>to commit (a decision)</strong></td><td>(결정을) 고정시키다 — 고르는 것과 구분됨</td></tr><tr><td><strong>communicable</strong></td><td>전달 가능한 — 정확한(accurate)과 구분되는, 모델의 진짜 산물</td></tr><tr><td><strong>a reversion</strong></td><td>회귀 — 새로운 타락이 아니라 예전으로 돌아감</td></tr><tr><td><strong>to annex</strong></td><td>편입하다 — 산업혁명이 가정을 감정의 영역으로</td></tr><tr><td><strong>watered-down</strong></td><td>희석된 — 원래의 정치적 내용이 빠진</td></tr><tr><td><strong>to be absorbed (of a utopia)</strong></td><td>흡수되다 — 실패한 게 아니라 시장에 먹힌</td></tr><tr><td><strong>a one-sided account</strong></td><td>한쪽의 진술 — 상대가 취재를 거절했을 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 자기에게 쓴 필터가, 상대를 읽는 데 필요했던 센서였다\n\n앨리스 하인스가 제이컵을 취재한다. 금융권 엔지니어이고, 가중치가 걸린 스프레드시트 — \"How to Choose a Goddess\", 속성 15개, 점수에 가중치를 곱해 합산, 언제 그만 찾을지 정하려고 **비서 문제**를 직접 변형한 것까지 — 를 만들어 **그것이 고른 여자와 결혼했다.** 그 주위에 하인스는 하나의 흐름을 모은다. 엑셀로 오르지를 계획하는 폴리큘, 결혼 생활에 애자일 회고를 돌리는 뉴질랜드 부부, 파트너 가용성을 초록·노랑·빨강으로 칠하는 프로젝트 매니저. 그의 논지는 **이 사람들이 다른 모두와 다른 점은 관계가 거래이고 그것을 유지하는 일이 노동이라는 것을 의식적으로 인정한다는 것뿐**이라는 것이다. 그리고 이 기사에는 **자기 방법에 대한 깔끔한 반증이 들어 있는데, 그렇다고 말하지는 않는다.**\n\n『이코노미스트』 1843 매거진, 2020년 2월 20일. jay가 2026-09-25에 붙여넣었고 URL이 없어 출처 링크가 없다. 모든 수치가 기사의 것이고 **나는 하나도 확인하지 않았다.** 팬데믹보다 **한 달 앞선** 글이라, 사람들이 어떻게 만나는지에 관한 것에는 그 점이 걸린다. 아래 다섯 독법은 내 것이다.\n\n## 왜\n\n거의 곁가지처럼 놓인 문장 하나가 **붕괴 전체를 설명하기** 때문이다.\n\n> \"그리고 그는 **그녀의 감정 신호를 읽는 데도 형편없었다. 어쨌든 그는 거슬리는 것이면 무엇이든 머리에서 몰아내려고 할 수 있는 모든 것을 하고 있었으니까.**\"\n\n**이 카드의 첫 논증.** 제이컵의 질투 관리법은 **억제**였다. 비디오게임으로 주의를 돌리고, 그 느낌에 익숙해지고, 묻지도 말하지도 않기를 택하고, *그녀는 내 시간을 존중하지 않는다* 를 *아마 어딘가에 발이 묶였고 미안해하고 있을 것이다* 로 재구성했다. **효과가 있었다. 그는 거슬리지 않게 됐다.**\n\n그리고 몇 해를 함께한 파트너가 **1년치 임대차 계약을 다시 서명한 지 몇 주 만에** 헤어지자고 했고, 그는 **놀랐다.**\n\n이건 두 사실이 아니다. **하나다.** **감정은 걸러낼 잡음이기만 한 것이 아니라, 다른 사람을 읽는 기구이기도 하다.** 파트너의 행동에 대한 불편함과 파트너의 곤경에 대한 감지는 **같은 채널**을 지난다. 앞의 것을 안 느낄 만큼 감도를 낮추면 **뒤의 것도 수신되지 않는다.** 그는 필터를 지었고, **그것이 가장 필요했던 신호를 제거했다.**\n\n하인스는 이것을 보고하고 지나간다. 제이컵 자신의 실패 설명은 다르다. 다른 사람도 자기처럼 생각한다고 가정하는 **합리주의의 대죄**를 저질렀다는 것. 맞는 말이고 **더 작은 오류**다. **더 큰 오류는 그 기법이 설계된 대로 정확히 작동했다는 것이다.**\n\n## 동작 방식\n\n### 1 — 스프레드시트가 무엇이었나\n\n가중치 걸린 속성 15개, 사람마다 속성별 점수, 가중치를 곱해 합산. **섹스는 대화의 약 3분의 1** 가중치 — 사람들이 그 일에 쓰는 시간이 더 적다는 근거로. \"Status – friends admire her\" 5. \"Will be smart, dedicated mom\" 9. \"Emotional crush\" 6. 경영대학원 가격 책정 수업에서 배운 쌍대비교와 통계를 고려했다가 더 단순한 쪽을 택했다. 좌우명은 **\"어림짐작한 숫자가 숫자를 아예 안 쓰는 것보다 낫다.\"**\n\n*언제 그만 찾을 것인가* 에 답하려고 **비서 문제**를 변형했다. 고전적 결과는 **후보의 약 37%를 본 뒤, 그때까지 본 것보다 나은 첫 후보를 택하라**는 것이다.\n\n하인스는 그가 **하지 않은 것**도 짚는다. 픽업 아티스트처럼 외모를 매기지 않았다. 점수는 **궁합**을 쟀고, 그는 이 체계가 완벽하다고 주장한 적이 없다.\n\n### 2 — 가장 큰 가중치가 가장 알 수 없는 것에 얹혀 있었다\n\n**두 번째 논증이고, 연애를 훨씬 넘어 일반화된다.** 기사는 가중치 **15** — 글 어디에도 그보다 큰 숫자가 없다 — 짜리 항목 하나가 *전적으로 추측*이었다고 기록한다. **데이트 상대가 자기를 얼마나 흠모하는지에 대한 제이컵의 추정.**\n\n그러니 **모델의 가장 큰 단일 입력이 타인의 내면 상태에 대한 추측**이었다. 그리고 §왜에 따르면 그것은 **그가 가장 못하는 일**이었고, **다른 데서 돌리고 있던 기법 때문에** 못하게 된 일이었다.\n\n일반형은 어떤 채점 루브릭에도 남길 값이 있다. 채용, 벤더 선정, 우선순위. **가중 모델은 가장 크게 가중한 것에 오차를 집중시킨다.** 그리고 사람은 **가장 중요하게 여기는 것에 가장 크게 가중하는데, 그건 아주 자주 가장 측정하기 어려운 것**이다. 그러므로 루브릭의 가중치는 **그 루브릭이 어디서 틀릴지의 지도**이고, 정직한 수는 **맨 위 가중치를 보고 \"이 숫자를 내가 실제로 어떻게 아는가\"를 묻는 것**이다.\n\n### 3 — 모델은 고르지 않는다. 고정시킨다.\n\n**세 번째 논증이고 스테파니가 증거다.** 스프레드시트의 승자는 제이컵을 **놀라게 했다.** 그는 더 즉각적인 화학 반응이 있던 여자가 1위일 거라 예상했다. 스테파니도 자기 쪽에서 같은 말을 한다. **\"전적으로 마음을 따랐다면 아마 그와 함께 있지 않았을 거예요.\"** 둘은 2017년에 결혼했다.\n\n그러니 모델이 한 일은 *최적의 상대를 식별한 것*이 아니다. **아무도 그것을 검증할 수 없다.** 모델이 한 일은 **강한 즉각적 선호를 덮어쓰고 그 결정이 유지되게 만든 것**이고, 그러면서 **질문받을 수 있는 상태로 남은 것**이다. 그가 스프레드시트 이야기를 했을 때 그녀는 웃으며 **알고리즘 설계에 대해 물었다.**\n\n그게 실제 기능이고, 하인스도 맺음 이론에서 거기 도달한다. 스프레드시트는 OkCupid 성격 테스트, 정신분석, 점성술과 같은 방식으로 작동한다. **\"이 모든 체계는 우리 감정의 흐릿한 심연에 구조를 제공한다… 모순되고 변덕스러운 욕망을 이해 가능하고 전달 가능하게 만들어준다.\"**\n\n**정확하게가 아니다. 전달 가능하게다.** 진술된 모델은 **검토되고, 반박되고, 붙들릴 수 있다.** 직감은 그중 무엇도 될 수 없다. 스테파니 자신의 판정이 남길 말이다. *다들 어떤 식으로든 그런 걸 하잖아요 — 이 사람과 함께하는 것의 장단점이 뭔가.*\n\n### 4 — 실제로 살아남은 건 지루한 쪽이었다\n\n**네 번째 논증.** 스프레드시트를 옆으로 치우고, 취재원들이 *효과가 있다*고 보고한 관행들을 보라.\n\n| 관행 | 포장을 벗기면 |\n|---|---|\n| 에빈의 초록/노랑/빨강 가용성 표 | **일정표** |\n| 매주 공유 문서에 쓰는 여섯 가지 질문 | **정해진 질문이 있는 반복되는 대화** |\n| 예이츠의 데이트마다 남기는 플래너 메모 | **글로 남기는 주의** |\n| 마들렌의 점수 붙은 할 일 앱 | **외부 신호가 붙은 루틴** |\n\n**어느 것도 무엇을 최적화하지 않는다.** 목적 함수도, 최대화도, 효율 이득도 없다. 전부 **일의 어휘를 입은 예정된 주의**이고, 참여자들이 거의 명시적으로 그렇게 말한다. 에빈: *\"사업처럼 보는 방식으로 읽힐 수 있지만 목적은 정반대다. 일정을 잡는 것은 파트너가 존중받는다고 느끼게 하려는 노력의 상당 부분이다.\"* 예이츠는 메모가 일처럼 느껴지고 **자신을 더 사려 깊게 만든다**고 말한다. 마들렌은 불안했고 바쁜 날엔 약을 거르곤 했는데, **절차적으로 돌리자 그 대부분이 해결됐다**고 말한다.\n\n기사에서 기억에 남는 건 **아내를 고른 스프레드시트**다. **일을 하는 건 주간 점검**이다. 하인스의 표현이 정확하다. *인사 평가를 경유한 DIY 부부 상담.*\n\n### 5 — 결혼 안의 낭만은 최근의 것이고, 그게 논쟁을 바꾼다\n\n**다섯 번째 논증: 역사적 틀이 이 글에서 가장 강한 부분이고 장르 전체를 무력화한다.** 결혼은 **가문 간의 경제적 계약**이었다. \"romantic\"은 중세, 기사가 여자를 구애했다가 줄거리가 진행되면 버리는 이야기에서 쓰이기 시작했다. **낭만이 결혼 안으로 들어온 것은 산업혁명 때**다. 임금 노동이 일을 집 밖으로 옮기면서 **가정이 감정의 영역으로 편입됐다.** 중국은 지난 40년. 인도는 여전히 중매가 표준.\n\n그러니 제이컵에 대한 반사적 반응 — *인간의 연결을 숫자로 줄이는 건 나쁘다, 눈을 보라, 함께 노래하라, 춤춰라* — 은 **대략 200년 된 배치를 자연 상태인 것처럼 옹호하는 것**이다. **관계를 최적화하는 것은 사랑에 대한 새로운 타락이 아니라 회귀다.** 그러므로 흥미로운 질문은 *모델을 써야 하는가*가 아니라 **어떤 모델이고, 그걸 돌리는 데 무슨 대가가 드는가**이며, 그 답이 §왜다.\n\n반론도 자리를 가질 값이 있다. 엘리너 윌킨슨은 오늘의 비독점 관계를 **\"희석된, 탈정치적 비전\"** 이라고 부른다. 1848년 오나이다 공동체는 **소유욕을 폐지**하고 아이들에게 *나의* 가 아니라 *우리의* 라고 말하도록 가르쳤다. 오늘의 판본은 **개인 맞춤과 다른 파트너로 다른 욕구를 채우는 것**에 관한 것이다. 그리고 하인스가 논평 없이 세워둔 디테일이 일을 한다. **오나이다는 지금 고급 주방용품 제조사이고, 케리스타는 개인용 컴퓨터 유통사가 됐다.** **유토피아는 실패한 게 아니다. 흡수됐다.**\n\n### Jayverse에서의 위치\n\n`the-body-commits-before-you-decide` (#1842)가 §왜의 개인 수준 메커니즘이다. 갤로의 요점은 **스트레스 반응이 알아채기 전에 발화한다**는 것 — 몸이 이미 투표했다. 제이컵의 기획은 **그 투표가 아예 집계되지 않게 하는 것**이었고, §왜가 그 청구서다. **두 카드를 합치면: 감정은 그 순간에 따지기엔 너무 빨리 도착하고, 억누르면 필요한 감각 하나를 잃는다.**\n\n`damour-emotions-board-seat-empathy-tax` (#1806)이 제이컵이 시도한 것의 **올바른 판본**이다. **거부권이 아니라 의석.** 그는 둘 다 주지 않았다. **의자를 치우려 했다.** 그리고 그의 맺음 입장이 같은 자리에 **뒤늦게 도착한 것**이다. 감정은 *또 하나의 데이터 포인트*, \"가진 게 자기 뇌밖에 없으니까.\"\n\n`room-sorted-by-time-constant` (#1836)과 `the-brain-trust-has-no-authority` (#1840)이 §4다. 픽사의 데일리가 작동하는 이유는 미완성을 보이는 것이 **의도가 아니라 일정**이기 때문이고, 여섯 가지 질문도 같은 이유로 작동한다. **기억해야 하는 행동은 일어나지 않는다. 구조에 넣으면 일어난다.**\n\n`the-resource-that-runs-out` (#1838)이 기사 논지의 정직한 독법을 댄다. **관계가 노동이라면**, §4의 관행들은 **그 노동을 의도적으로 보이게 만들고 분배하는 것**이고, 그것이 정확히 그 카드가 조직이 실패한다고 말하는 일의 한 단계 아래다.\n\n`adults-who-put-children-first` (#1837)이 불편한 이웃이다. **두 카드 다 충돌에서 살아남도록 우선순위를 미리 진술하는 것에 관한 것**이다. 그 카드의 경고가 여기도 적용된다. **압박 아래 다시 골라야 하는 순서는 순서가 아니라 선호**이고, **스프레드시트는 그 순서를 적어두는 한 방법**이다.\n\n`go-stand-next-to-the-standard` (#1839)이 빠진 입력을 댄다. **제이컵의 가중치는 내성에서만 나왔고, 그래서 가장 큰 것이 추측이었다. 보정은 노출에서 오지 자기 추정을 더 열심히 생각하는 데서 오지 않는다.**\n\n### 확인된 것과 미확인\n\n**보고된 것이고 확인하지 않은 것:** 모든 수치. 미국 결혼율 10년간 8% 감소, 2017년 앱을 통한 만남 65%/39%, 채프먼대·미시간대(2014)의 합의된 비독점 관계 5%, 『Journal of Sex and Marital Therapy』(2017)의 평생 경험 5분의 1, 비서 문제의 37%. **제이컵의 블로그, 해나 블룸의 에세이, 엘리너 윌킨슨의 저작을 읽지 않았다.**\n\n**한쪽의 진술이고, 기사가 그렇다고 말한다.** \"나타샤\"는 가명이고 **취재를 거절했다.** 그의 입장은 이 글 안에 **제이컵의 서술과 보고된 두 마디**로 존재한다 — *\"당신이 알았어야지\"* 와, 감정 통제가 *\"불가능하다\"*, 감정은 억압될 수는 있어도 **재구성될 수는 없다**는 것. **이 두 마디가 기사의 주인공에 대한 가장 직접적인 반박이고, 인터뷰를 거절한 사람에게서 나온다. 양방향으로 무게를 달아 읽을 것.**\n\n**날짜.** 2020년 2월. **사람들이 어떻게 만나는지, 얼마나 혼자 있는지, 개방 관계를 돌리는 데 무엇이 드는지에 관한 것은 팬데믹보다 한 달 앞선다.**\n\n**내 것이고 본문에 표시한 것:** §왜(질투를 관리한 억제가 파트너를 읽는 바로 그 기능이므로, 이별에 놀란 것은 방법이 설계대로 작동한 결과), §2(가장 큰 가중치가 가장 알 수 없는 입력에 얹혀 있었고, 가중 모델은 가장 크게 가중한 곳에 오차를 집중시킨다), §3(모델은 고르는 게 아니라 고정시키고, 진짜 산물은 전달 가능성), §4(살아남은 관행들은 아무것도 최적화하지 않는다 — 예정된 주의다), §5(결혼 안의 낭만은 산업혁명의 산물이므로 이것은 회귀이고, 질문은 대가로 좁혀진다).\n"</script>
+      <h1>자기에게 쓴 필터가, 상대를 읽는 데 필요했던 센서였다</h1>
+      <p class="lead">앨리스 하인스가 제이컵을 취재한다. 금융권 엔지니어이고, 가중치가 걸린 스프레드시트 — "How to Choose a Goddess", 속성 15개, 점수에 가중치를 곱해 합산, 언제 그만 찾을지 정하려고 **비서 문제**를 직접 변형한 것까지 — 를 만들어 **그것이 고른 여자와 결혼했다.** 그 주위에 하인스는 하나의 흐름을 모은다. 엑셀로 오르지를 계획하는 폴리큘, 결혼 생활에 애자일 회고를 돌리는 뉴질랜드 부부, 파트너 가용성을 초록·노랑·빨강으로 칠하는 프로젝트 매니저. 그의 논지는 **이 사람들이 다른 모두와 다른 점은 관계가 거래이고 그것을 유지하는 일이 노동이라는 것을 의식적으로 인정한다는 것뿐**이라는 것이다. 그리고 이 기사에는 **자기 방법에 대한 깔끔한 반증이 들어 있는데, 그렇다고 말하지는 않는다.**</p>
+      <p class="meta">『이코노미스트』 1843 매거진, 2020년 2월 20일. jay가 2026-09-25에 붙여넣었고 URL이 없어 출처 링크가 없다. 모든 수치가 기사의 것이고 <strong>나는 하나도 확인하지 않았다.</strong> 팬데믹보다 <strong>한 달 앞선</strong> 글이라, 사람들이 어떻게 만나는지에 관한 것에는 그 점이 걸린다. 아래 다섯 독법은 내 것이다.</p>
+<h2>왜</h2>
+<p>거의 곁가지처럼 놓인 문장 하나가 <strong>붕괴 전체를 설명하기</strong> 때문이다.</p>
+<p>&gt; "그리고 그는 <strong>그녀의 감정 신호를 읽는 데도 형편없었다. 어쨌든 그는 거슬리는 것이면 무엇이든 머리에서 몰아내려고 할 수 있는 모든 것을 하고 있었으니까.</strong>"</p>
+<p><strong>이 카드의 첫 논증.</strong> 제이컵의 질투 관리법은 <strong>억제</strong>였다. 비디오게임으로 주의를 돌리고, 그 느낌에 익숙해지고, 묻지도 말하지도 않기를 택하고, <em>그녀는 내 시간을 존중하지 않는다</em> 를 <em>아마 어딘가에 발이 묶였고 미안해하고 있을 것이다</em> 로 재구성했다. <strong>효과가 있었다. 그는 거슬리지 않게 됐다.</strong></p>
+<p>그리고 몇 해를 함께한 파트너가 <strong>1년치 임대차 계약을 다시 서명한 지 몇 주 만에</strong> 헤어지자고 했고, 그는 <strong>놀랐다.</strong></p>
+<p>이건 두 사실이 아니다. <strong>하나다.</strong> <strong>감정은 걸러낼 잡음이기만 한 것이 아니라, 다른 사람을 읽는 기구이기도 하다.</strong> 파트너의 행동에 대한 불편함과 파트너의 곤경에 대한 감지는 <strong>같은 채널</strong>을 지난다. 앞의 것을 안 느낄 만큼 감도를 낮추면 <strong>뒤의 것도 수신되지 않는다.</strong> 그는 필터를 지었고, <strong>그것이 가장 필요했던 신호를 제거했다.</strong></p>
+<p>하인스는 이것을 보고하고 지나간다. 제이컵 자신의 실패 설명은 다르다. 다른 사람도 자기처럼 생각한다고 가정하는 <strong>합리주의의 대죄</strong>를 저질렀다는 것. 맞는 말이고 <strong>더 작은 오류</strong>다. <strong>더 큰 오류는 그 기법이 설계된 대로 정확히 작동했다는 것이다.</strong></p>
+<h2>동작 방식</h2>
+<h3>1 — 스프레드시트가 무엇이었나</h3>
+<p>가중치 걸린 속성 15개, 사람마다 속성별 점수, 가중치를 곱해 합산. <strong>섹스는 대화의 약 3분의 1</strong> 가중치 — 사람들이 그 일에 쓰는 시간이 더 적다는 근거로. "Status – friends admire her" 5. "Will be smart, dedicated mom" 9. "Emotional crush" 6. 경영대학원 가격 책정 수업에서 배운 쌍대비교와 통계를 고려했다가 더 단순한 쪽을 택했다. 좌우명은 <strong>"어림짐작한 숫자가 숫자를 아예 안 쓰는 것보다 낫다."</strong></p>
+<p><em>언제 그만 찾을 것인가</em> 에 답하려고 <strong>비서 문제</strong>를 변형했다. 고전적 결과는 <strong>후보의 약 37%를 본 뒤, 그때까지 본 것보다 나은 첫 후보를 택하라</strong>는 것이다.</p>
+<p>하인스는 그가 <strong>하지 않은 것</strong>도 짚는다. 픽업 아티스트처럼 외모를 매기지 않았다. 점수는 <strong>궁합</strong>을 쟀고, 그는 이 체계가 완벽하다고 주장한 적이 없다.</p>
+<h3>2 — 가장 큰 가중치가 가장 알 수 없는 것에 얹혀 있었다</h3>
+<p><strong>두 번째 논증이고, 연애를 훨씬 넘어 일반화된다.</strong> 기사는 가중치 <strong>15</strong> — 글 어디에도 그보다 큰 숫자가 없다 — 짜리 항목 하나가 *전적으로 추측*이었다고 기록한다. <strong>데이트 상대가 자기를 얼마나 흠모하는지에 대한 제이컵의 추정.</strong></p>
+<p>그러니 <strong>모델의 가장 큰 단일 입력이 타인의 내면 상태에 대한 추측</strong>이었다. 그리고 §왜에 따르면 그것은 <strong>그가 가장 못하는 일</strong>이었고, <strong>다른 데서 돌리고 있던 기법 때문에</strong> 못하게 된 일이었다.</p>
+<p>일반형은 어떤 채점 루브릭에도 남길 값이 있다. 채용, 벤더 선정, 우선순위. <strong>가중 모델은 가장 크게 가중한 것에 오차를 집중시킨다.</strong> 그리고 사람은 <strong>가장 중요하게 여기는 것에 가장 크게 가중하는데, 그건 아주 자주 가장 측정하기 어려운 것</strong>이다. 그러므로 루브릭의 가중치는 <strong>그 루브릭이 어디서 틀릴지의 지도</strong>이고, 정직한 수는 <strong>맨 위 가중치를 보고 "이 숫자를 내가 실제로 어떻게 아는가"를 묻는 것</strong>이다.</p>
+<h3>3 — 모델은 고르지 않는다. 고정시킨다.</h3>
+<p><strong>세 번째 논증이고 스테파니가 증거다.</strong> 스프레드시트의 승자는 제이컵을 <strong>놀라게 했다.</strong> 그는 더 즉각적인 화학 반응이 있던 여자가 1위일 거라 예상했다. 스테파니도 자기 쪽에서 같은 말을 한다. <strong>"전적으로 마음을 따랐다면 아마 그와 함께 있지 않았을 거예요."</strong> 둘은 2017년에 결혼했다.</p>
+<p>그러니 모델이 한 일은 *최적의 상대를 식별한 것*이 아니다. <strong>아무도 그것을 검증할 수 없다.</strong> 모델이 한 일은 <strong>강한 즉각적 선호를 덮어쓰고 그 결정이 유지되게 만든 것</strong>이고, 그러면서 <strong>질문받을 수 있는 상태로 남은 것</strong>이다. 그가 스프레드시트 이야기를 했을 때 그녀는 웃으며 <strong>알고리즘 설계에 대해 물었다.</strong></p>
+<p>그게 실제 기능이고, 하인스도 맺음 이론에서 거기 도달한다. 스프레드시트는 OkCupid 성격 테스트, 정신분석, 점성술과 같은 방식으로 작동한다. <strong>"이 모든 체계는 우리 감정의 흐릿한 심연에 구조를 제공한다… 모순되고 변덕스러운 욕망을 이해 가능하고 전달 가능하게 만들어준다."</strong></p>
+<p><strong>정확하게가 아니다. 전달 가능하게다.</strong> 진술된 모델은 <strong>검토되고, 반박되고, 붙들릴 수 있다.</strong> 직감은 그중 무엇도 될 수 없다. 스테파니 자신의 판정이 남길 말이다. <em>다들 어떤 식으로든 그런 걸 하잖아요 — 이 사람과 함께하는 것의 장단점이 뭔가.</em></p>
+<h3>4 — 실제로 살아남은 건 지루한 쪽이었다</h3>
+<p><strong>네 번째 논증.</strong> 스프레드시트를 옆으로 치우고, 취재원들이 *효과가 있다*고 보고한 관행들을 보라.</p>
+<table><thead><tr><th>관행</th><th>포장을 벗기면</th></tr></thead><tbody><tr><td>에빈의 초록/노랑/빨강 가용성 표</td><td><strong>일정표</strong></td></tr><tr><td>매주 공유 문서에 쓰는 여섯 가지 질문</td><td><strong>정해진 질문이 있는 반복되는 대화</strong></td></tr><tr><td>예이츠의 데이트마다 남기는 플래너 메모</td><td><strong>글로 남기는 주의</strong></td></tr><tr><td>마들렌의 점수 붙은 할 일 앱</td><td><strong>외부 신호가 붙은 루틴</strong></td></tr></tbody></table>
+<p><strong>어느 것도 무엇을 최적화하지 않는다.</strong> 목적 함수도, 최대화도, 효율 이득도 없다. 전부 <strong>일의 어휘를 입은 예정된 주의</strong>이고, 참여자들이 거의 명시적으로 그렇게 말한다. 에빈: <em>"사업처럼 보는 방식으로 읽힐 수 있지만 목적은 정반대다. 일정을 잡는 것은 파트너가 존중받는다고 느끼게 하려는 노력의 상당 부분이다."</em> 예이츠는 메모가 일처럼 느껴지고 <strong>자신을 더 사려 깊게 만든다</strong>고 말한다. 마들렌은 불안했고 바쁜 날엔 약을 거르곤 했는데, <strong>절차적으로 돌리자 그 대부분이 해결됐다</strong>고 말한다.</p>
+<p>기사에서 기억에 남는 건 <strong>아내를 고른 스프레드시트</strong>다. <strong>일을 하는 건 주간 점검</strong>이다. 하인스의 표현이 정확하다. <em>인사 평가를 경유한 DIY 부부 상담.</em></p>
+<h3>5 — 결혼 안의 낭만은 최근의 것이고, 그게 논쟁을 바꾼다</h3>
+<p><strong>다섯 번째 논증: 역사적 틀이 이 글에서 가장 강한 부분이고 장르 전체를 무력화한다.</strong> 결혼은 <strong>가문 간의 경제적 계약</strong>이었다. "romantic"은 중세, 기사가 여자를 구애했다가 줄거리가 진행되면 버리는 이야기에서 쓰이기 시작했다. <strong>낭만이 결혼 안으로 들어온 것은 산업혁명 때</strong>다. 임금 노동이 일을 집 밖으로 옮기면서 <strong>가정이 감정의 영역으로 편입됐다.</strong> 중국은 지난 40년. 인도는 여전히 중매가 표준.</p>
+<p>그러니 제이컵에 대한 반사적 반응 — <em>인간의 연결을 숫자로 줄이는 건 나쁘다, 눈을 보라, 함께 노래하라, 춤춰라</em> — 은 <strong>대략 200년 된 배치를 자연 상태인 것처럼 옹호하는 것</strong>이다. <strong>관계를 최적화하는 것은 사랑에 대한 새로운 타락이 아니라 회귀다.</strong> 그러므로 흥미로운 질문은 *모델을 써야 하는가*가 아니라 <strong>어떤 모델이고, 그걸 돌리는 데 무슨 대가가 드는가</strong>이며, 그 답이 §왜다.</p>
+<p>반론도 자리를 가질 값이 있다. 엘리너 윌킨슨은 오늘의 비독점 관계를 <strong>"희석된, 탈정치적 비전"</strong> 이라고 부른다. 1848년 오나이다 공동체는 <strong>소유욕을 폐지</strong>하고 아이들에게 <em>나의</em> 가 아니라 <em>우리의</em> 라고 말하도록 가르쳤다. 오늘의 판본은 <strong>개인 맞춤과 다른 파트너로 다른 욕구를 채우는 것</strong>에 관한 것이다. 그리고 하인스가 논평 없이 세워둔 디테일이 일을 한다. <strong>오나이다는 지금 고급 주방용품 제조사이고, 케리스타는 개인용 컴퓨터 유통사가 됐다.</strong> <strong>유토피아는 실패한 게 아니다. 흡수됐다.</strong></p>
+<h3>Jayverse에서의 위치</h3>
+<p><code>the-body-commits-before-you-decide</code> (#1842)가 §왜의 개인 수준 메커니즘이다. 갤로의 요점은 <strong>스트레스 반응이 알아채기 전에 발화한다</strong>는 것 — 몸이 이미 투표했다. 제이컵의 기획은 <strong>그 투표가 아예 집계되지 않게 하는 것</strong>이었고, §왜가 그 청구서다. <strong>두 카드를 합치면: 감정은 그 순간에 따지기엔 너무 빨리 도착하고, 억누르면 필요한 감각 하나를 잃는다.</strong></p>
+<p><code>damour-emotions-board-seat-empathy-tax</code> (#1806)이 제이컵이 시도한 것의 <strong>올바른 판본</strong>이다. <strong>거부권이 아니라 의석.</strong> 그는 둘 다 주지 않았다. <strong>의자를 치우려 했다.</strong> 그리고 그의 맺음 입장이 같은 자리에 <strong>뒤늦게 도착한 것</strong>이다. 감정은 <em>또 하나의 데이터 포인트</em>, "가진 게 자기 뇌밖에 없으니까."</p>
+<p><code>room-sorted-by-time-constant</code> (#1836)과 <code>the-brain-trust-has-no-authority</code> (#1840)이 §4다. 픽사의 데일리가 작동하는 이유는 미완성을 보이는 것이 <strong>의도가 아니라 일정</strong>이기 때문이고, 여섯 가지 질문도 같은 이유로 작동한다. <strong>기억해야 하는 행동은 일어나지 않는다. 구조에 넣으면 일어난다.</strong></p>
+<p><code>the-resource-that-runs-out</code> (#1838)이 기사 논지의 정직한 독법을 댄다. <strong>관계가 노동이라면</strong>, §4의 관행들은 <strong>그 노동을 의도적으로 보이게 만들고 분배하는 것</strong>이고, 그것이 정확히 그 카드가 조직이 실패한다고 말하는 일의 한 단계 아래다.</p>
+<p><code>adults-who-put-children-first</code> (#1837)이 불편한 이웃이다. <strong>두 카드 다 충돌에서 살아남도록 우선순위를 미리 진술하는 것에 관한 것</strong>이다. 그 카드의 경고가 여기도 적용된다. <strong>압박 아래 다시 골라야 하는 순서는 순서가 아니라 선호</strong>이고, <strong>스프레드시트는 그 순서를 적어두는 한 방법</strong>이다.</p>
+<p><code>go-stand-next-to-the-standard</code> (#1839)이 빠진 입력을 댄다. <strong>제이컵의 가중치는 내성에서만 나왔고, 그래서 가장 큰 것이 추측이었다. 보정은 노출에서 오지 자기 추정을 더 열심히 생각하는 데서 오지 않는다.</strong></p>
+<h3>확인된 것과 미확인</h3>
+<p><strong>보고된 것이고 확인하지 않은 것:</strong> 모든 수치. 미국 결혼율 10년간 8% 감소, 2017년 앱을 통한 만남 65%/39%, 채프먼대·미시간대(2014)의 합의된 비독점 관계 5%, 『Journal of Sex and Marital Therapy』(2017)의 평생 경험 5분의 1, 비서 문제의 37%. <strong>제이컵의 블로그, 해나 블룸의 에세이, 엘리너 윌킨슨의 저작을 읽지 않았다.</strong></p>
+<p><strong>한쪽의 진술이고, 기사가 그렇다고 말한다.</strong> "나타샤"는 가명이고 <strong>취재를 거절했다.</strong> 그의 입장은 이 글 안에 <strong>제이컵의 서술과 보고된 두 마디</strong>로 존재한다 — <em>"당신이 알았어야지"</em> 와, 감정 통제가 <em>"불가능하다"</em>, 감정은 억압될 수는 있어도 <strong>재구성될 수는 없다</strong>는 것. <strong>이 두 마디가 기사의 주인공에 대한 가장 직접적인 반박이고, 인터뷰를 거절한 사람에게서 나온다. 양방향으로 무게를 달아 읽을 것.</strong></p>
+<p><strong>날짜.</strong> 2020년 2월. <strong>사람들이 어떻게 만나는지, 얼마나 혼자 있는지, 개방 관계를 돌리는 데 무엇이 드는지에 관한 것은 팬데믹보다 한 달 앞선다.</strong></p>
+<p><strong>내 것이고 본문에 표시한 것:</strong> §왜(질투를 관리한 억제가 파트너를 읽는 바로 그 기능이므로, 이별에 놀란 것은 방법이 설계대로 작동한 결과), §2(가장 큰 가중치가 가장 알 수 없는 입력에 얹혀 있었고, 가중 모델은 가장 크게 가중한 곳에 오차를 집중시킨다), §3(모델은 고르는 게 아니라 고정시키고, 진짜 산물은 전달 가능성), §4(살아남은 관행들은 아무것도 최적화하지 않는다 — 예정된 주의다), §5(결혼 안의 낭만은 산업혁명의 산물이므로 이것은 회귀이고, 질문은 대가로 좁혀진다).</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong>to optimise</strong></td><td>최적화하다 — 수학적 기법으로 변수를 최대·최소화하는 것에서 옴</td></tr><tr><td><strong>a weighted model</strong></td><td>가중 모델 — 항목마다 중요도를 곱해 합산하는 방식</td></tr><tr><td><strong>a scoring rubric</strong></td><td>채점 루브릭 — 채용·벤더 선정에도 쓰는 같은 구조</td></tr><tr><td><strong>to concentrate error</strong></td><td>오차를 집중시키다 — 가장 크게 가중한 곳에서 일어나는 일</td></tr><tr><td><strong>the Secretary Problem</strong></td><td>비서 문제 — 언제 탐색을 멈출지의 고전적 최적 정지 문제</td></tr><tr><td><strong>optimal stopping</strong></td><td>최적 정지 — 더 보지 않고 결정할 시점</td></tr><tr><td><strong>a guesstimate</strong></td><td>어림짐작 값 — guess + estimate</td></tr><tr><td><strong>a deal-breaker</strong></td><td>결정적 거부 조건 — 그것 하나로 끝나는 항목</td></tr><tr><td><strong>emotional labour</strong></td><td>감정 노동 — 감정을 관리하는 일 자체를 일로 보는 개념</td></tr><tr><td><strong>a retrospective</strong></td><td>회고 — 애자일에서 주기마다 돌아보는 회의</td></tr><tr><td><strong>a sprint</strong></td><td>스프린트 — 정해진 길이의 작업 주기</td></tr><tr><td><strong>an action point</strong></td><td>실행 항목 — 회고에서 나오는 다음 할 일</td></tr><tr><td><strong>a check-in</strong></td><td>점검·확인 대화 — 정기적으로 상태를 맞추는 자리</td></tr><tr><td><strong>scheduled attention</strong></td><td>예정된 주의 — 이 카드가 붙인 이름. 최적화가 아님</td></tr><tr><td><strong>to suppress vs to reconfigure</strong></td><td>억누르다 대 재구성하다 — 나타샤가 가른 구분</td></tr><tr><td><strong>to banish something from one&#39;s mind</strong></td><td>~를 머리에서 몰아내다 — 기사의 결정적 문장</td></tr><tr><td><strong>to read someone&#39;s signals</strong></td><td>남의 신호를 읽다 — 억제가 망가뜨린 능력</td></tr><tr><td><strong>to turn down the gain</strong></td><td>감도를 낮추다 — 신호 처리에서 온 비유</td></tr><tr><td><strong>cognitive bias</strong></td><td>인지 편향 — 합리주의 공동체의 핵심 관심사</td></tr><tr><td><strong>factory settings</strong></td><td>공장 초기 설정 — 타고난 성향을 부르는 비유</td></tr><tr><td><strong>to commit (a decision)</strong></td><td>(결정을) 고정시키다 — 고르는 것과 구분됨</td></tr><tr><td><strong>communicable</strong></td><td>전달 가능한 — 정확한(accurate)과 구분되는, 모델의 진짜 산물</td></tr><tr><td><strong>a reversion</strong></td><td>회귀 — 새로운 타락이 아니라 예전으로 돌아감</td></tr><tr><td><strong>to annex</strong></td><td>편입하다 — 산업혁명이 가정을 감정의 영역으로</td></tr><tr><td><strong>watered-down</strong></td><td>희석된 — 원래의 정치적 내용이 빠진</td></tr><tr><td><strong>to be absorbed (of a utopia)</strong></td><td>흡수되다 — 실패한 게 아니라 시장에 먹힌</td></tr><tr><td><strong>a one-sided account</strong></td><td>한쪽의 진술 — 상대가 취재를 거절했을 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-sold-as-an-expert-while-becoming-one.html">&larr; 1840. Sold as an expert while still becoming one</a><a href="pocs-tao-helicopter-and-the-waterfall.html">1842. The helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_nav.js"></script>
+<script src="_progress.js"></script>
+<script>window.__NAV_CURRENT__="the-filter-was-the-sensor";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  if (!el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
