@@ -910,13 +910,35 @@ Source: 09-03 digest, services item — added 2026-09-04.</p>
     var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
     el = dot && dot.closest('a');
   }
-  if (!el) return;
+  // 레일은 페이지를 옮겨도 스크롤 위치를 그대로 물려받는다 (jay, 2026-09-25: "클릭하면 선택 항목을
+  // 가운데로 맞추려고 패널이 스크롤된다 … make it not scroll, for that timing").
+  // 가드로는 막을 수 없었던 이유: 클릭은 새 페이지를 띄우고 그 레일은 scrollTop=0에서 시작하므로,
+  // 방금까지 보이던 항목도 여기서는 화면 밖이다. 그래서 '보이면 두기'가 아니라 '위치를 넘겨주기'로 바꾼다.
+  var KEY = 'rail:pos';
+  var group = el && el.closest('[data-group]');
+  var sec = group ? group.id : '';
+  var restored = false;
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+    if (saved && saved.sec === sec && typeof saved.top === 'number') { nav.scrollTop = saved.top; restored = true; }
+  } catch (e) {}
+  var save = function (id) {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ sec: id || sec, top: nav.scrollTop })); } catch (e) {}
+  };
+  var timer;
+  nav.addEventListener('scroll', function () { clearTimeout(timer); timer = setTimeout(save, 120); }, { passive: true });
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      var g = this.closest('[data-group]');
+      if (g && g.id === sec) save(g.id);   // 같은 섹션 안에서의 이동일 때만 위치를 넘긴다
+    });
+  }
+  // 클릭으로 들어온 경우(=넘겨받은 위치가 있는 경우)에는 스크롤하지 않는다.
+  // 가운데 정렬은 저장된 위치가 없는 첫 진입에서만 — 비교할 직전 화면이 없으니 움직임으로 보이지 않는다.
+  if (restored || !el) return;
   var r = el.getBoundingClientRect();
   var c = nav.getBoundingClientRect();
-  // 조금이라도 보이면 스크롤을 건드리지 않는다 (jay, 2026-09-25: "경계에 걸쳐 잘려 있어도 스크롤하지 마라").
-  // 조건은 '완전히 보이는가'가 아니라 '겹치는가'다 — 한 줄이 반쯤 잘린 채 보이면 그것으로 충분하고,
-  // 그걸 가운데로 끌어오려고 목록을 통째로 움직이면 클릭할 때마다 불필요한 스크롤이 생긴다.
-  // 가운데 정렬은 항목이 레일 밖으로 완전히 나가 찾을 수 없을 때만 — 그게 이 코드가 원래 맡은 경우다.
   if (r.bottom > c.top + 4 && r.top < c.bottom - 4) return;
   nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
 })();
