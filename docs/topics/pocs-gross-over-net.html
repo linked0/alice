@@ -1004,6 +1004,9 @@
   if (!el) return;
   var r = el.getBoundingClientRect();
   var c = nav.getBoundingClientRect();
+  // 이미 레일 안에 보이면 스크롤을 건드리지 않는다 (jay, 2026-09-25: 클릭할 때마다 목록이 깜빡인다).
+  // 가운데로 끌어오는 건 항목이 레일 밖에 있을 때만. 보이는 항목을 재배치하면 목록 전체가 튄다.
+  if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
   nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
 })();
 </script>
