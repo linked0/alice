@@ -231,6 +231,30 @@ One conversation per day (jay, 2026-09-18; until then it was one per new item): 
   label, and the roll adds `day: recent` to its `_nav.js` entry, rendered as `data-day` on the rail dot, so the
   **Recently button shows it too** (the filter matches the label *or* `data-day`). It is still never relabelled.
 
+## The explanation goes in the item, not in the reply (jay, 2026-09-25)
+
+jay: "You should add also the explanation into the item. And make it as a rule."
+
+When jay asks for something to be added **and explained**, the explanation belongs **inside the item**. The
+chat reply is not the deliverable; it disappears. The item is the record, and it has to stand on its own for
+a reader who never saw the conversation — including jay in six months.
+
+- **The test.** Read the item with the reply deleted. If anything jay was told is missing, the item is not
+  finished. Nothing may exist only in chat.
+- **Where it goes.** Tech / Theory / Invest / Life items: `## Why`, the `### …` sections, and `### Where it
+  lands in Jayverse`. English items: `why` / `why_ko` for the frame and `## Techniques` for the moves, with
+  `## Expressions` and `## Words` carrying the language itself.
+- **The reply may be shorter than the item. It may never be richer.** If a point was worth making in chat it
+  was worth writing down; if it was not worth writing down it was padding. Summarising the item in the reply
+  is correct. Putting a point only in the reply is the error.
+- **Including the caveats.** What was not verified, what is from memory, what is someone else's reasoning
+  rather than mine — all of it goes in the item too, not only in the message. A caveat that lives in chat
+  protects nobody.
+- **Why.** Every item already separates what was reported from what it argues. That separation is worthless
+  if the argument itself was delivered somewhere that is not kept. See
+  [`raw/README.md`](raw/README.md) and the article-source rule below — same principle, one layer up: the
+  record has to hold everything a reader needs to check the claim.
+
 ## Every item carries its article source (jay, 2026-09-24)
 
 jay: "whenever you add new items, you should add the article source also." Every new item that has a public

@@ -27,10 +27,12 @@ Hana: Now it reads like a review instead of a defence.
 > 이제 **변론이 아니라 리뷰처럼** 읽히네.
 
 ## Techniques
-1. **부정 과거완료 + `when`은 시계가 아니라 상태로 시점을 찍는다.** `I hadn't stopped nursing her when I sent her on ahead`에는 날짜가 없는데 시점이 정확하다. 아기가 얼마나 어렸는지를 **몸의 사실로** 말하기 때문이다. 업무에서도 같다. `We hadn't finished the migration when the audit started.`가 "9월 18일에 감사가 시작됐다"보다 **읽는 사람에게 더 많은 것을 준다.**
+1. **부정 과거완료 + `when`은 시계가 아니라 상태로 시점을 찍는다.** `I hadn't stopped nursing her when I sent her on ahead`에는 날짜가 없는데 시점이 정확하다. 아기가 얼마나 어렸는지를 **몸의 사실로** 말하기 때문이다. 업무에서도 같다. `We hadn't finished the migration when the audit started.`가 "9월 18일에 감사가 시작됐다"보다 **읽는 사람에게 더 많은 것을 준다.** 타임스탬프는 정확하지만 **아무것도 설명하지 않는다.** 상태는 부정확해 보이면서 **왜 그렇게 됐는지를 함께 옮긴다.**
+   그리고 두 언어가 이것을 **다른 자리에서** 표시한다는 점이 핵심이다. 한국어는 **부사로** 표시한다 — "**아직** 젖을 떼지 않았을 때". 영어는 **시제 자체로** 표시한다 — `hadn't stopped`. 그래서 한국어 화자는 영어에서 이 뜻을 낼 때 부사를 찾다가 `still`을 넣고 `I was still nursing her when…`으로 간다. 그것도 맞는 문장이지만 **더 약하다.** `hadn't stopped`는 **그만두는 일이 일어날 수 있었는데 아직 일어나지 않았다**는 것까지 담고, `was still`은 상태만 담는다. 모리슨이 굳이 부정 완료를 쓴 이유가 거기 있다.
 2. **이 구문은 인과를 주장하지 않으면서 암시한다.** 표면상으로는 순서만 말한다. 그런데 독자는 끝나지 않은 상태를 **그다음 일이 그렇게 된 이유로** 받는다. 편리하고, 그래서 위험하다. **원인을 말하고 싶으면 따로 문장으로 말하라.** 시점 문장 뒤에 숨는 건 리뷰가 아니라 변론이다.
 3. **`stop ~ing`과 `stop to ~`는 정반대다.** `I stopped nursing her` = 젖 먹이기를 **그만뒀다**. `I stopped to nurse her` = 젖 먹이려고 **멈춰 섰다**. 잘 알려진 함정인데도 말할 때 한 문장씩 값을 치른다. `remember`, `forget`, `try`도 같은 짝을 갖는다.
 4. **`send someone on ahead`의 `on`을 빼지 마라.** `send her ahead`도 되지만 `on`이 붙으면 **앞으로 계속 가는 움직임**이 살아난다. 목적지가 있고 내가 나중에 따라간다는 뜻이 함께 온다. `ahead of`와 혼동하지 말 것. 그건 비교("ahead of schedule")다.
+5. **설명은 노트에 남기고 대화에는 요약만 남긴다.** 이 항목 자체가 그 규칙으로 쓰였다 (jay, 2026-09-25: "You should add also the explanation into the item. And make it as a rule"). 시험은 간단하다. **대화를 지우고 항목만 읽어도 빠진 것이 없어야 한다.** 영어 공부에서 특히 그렇다. 한 번 이해한 문장은 **일주일 뒤에 다시 이해할 수 없고**, 그때 남아 있는 것은 적어둔 것뿐이다. 말로 한 설명은 **아무것도 보호하지 못한다.**
 
 ## Expressions
 | Expression | 뜻 · 쓰이는 자리 |
@@ -48,6 +50,8 @@ Hana: Now it reads like a review instead of a defence.
 | on its face | 표면상으로는 — 문장이 명시적으로 말하는 것만 보면 |
 | deniability | 부인 가능성 — 주장하지 않았으므로 나중에 아니라고 할 수 있는 여지 |
 | ahead of schedule | 예정보다 이르게 — `send on ahead`의 `ahead`와 혼동하지 말 것 |
+| I was still ~ing when … | 아직 ~하던 중에 ~했다 — 맞지만 `hadn't stopped ~ing`보다 **약하다**. 상태만 담고 "그만둘 수 있었는데 아직"은 담지 않는다 |
+| a wall of timestamps | 타임스탬프 벽 — 정확한데 아무것도 설명하지 못하는 타임라인 |
 
 ## Words
 | to nurse | /nɚs/ | 젖을 먹이다 / 간호하다 — 문맥으로 가른다 |
