@@ -353,19 +353,29 @@ jay: &quot;separate english and korean parts as others so that I don&#39;t read 
 under an English line any more. <code>scripts/english-notes.py</code> renders it from <code>docs/topics/english/english-N.md</code>; the
 source format is unchanged (<code>&gt; 한국어</code> under each line).</li>
 </ul>
-<h2 id="new-lasts-one-week-jay-2026-09-21-make-the-new-have-the-limit-which-is-only-one-week--because-its-too-long-for-each-category">NEW lasts one week (jay, 2026-09-21: &quot;Make the New have the limit which is only one week … because it&#39;s too long for each category&quot;)</h2>
+<h2 id="new-lasts-two-business-days-korean-calendar-jay-2026-09-25-define-category-new-as-the-new-items-during-two-business-day-based-on-korea-holiday-system-supersedes-the-one-week-rule-of-2026-09-21">NEW lasts two business days, Korean calendar (jay, 2026-09-25: &quot;define category New as the new items during two business day based on Korea holiday system&quot;; supersedes the one-week rule of 2026-09-21)</h2>
 <ul>
-<li>An item is <strong>NEW</strong> for seven days from its added date, then rolls to <strong>PLANNED</strong> (grey) — the same idea as TODAY / YESTERDAY
-DONE rolling to DONE, applied at the front of the queue so the New button per category stays a week long.</li>
-<li><strong>Where:</strong> <code>reorder-by-status.py</code> does it before ranking (KST calendar days, <code>(today − added) ≥ 7</code>), then calls
-<code>roll-done-states.py</code> for the dots, counts, badge and card chips. <code>add-tech-item.py</code> and <code>english-notes.py</code> now end
-with <code>reorder-by-status.py</code>, so every run leaves the site sorted and expired. Idempotent.</li>
-<li><strong>The date it uses:</strong> <code>added</code> on the <code>_nav.js</code> item — written by <code>add-tech-item.py</code> (same value as the kicker&#39;s added
-date) and backfilled on 2026-09-21 for every existing item from its kicker, else from the page&#39;s git creation date.</li>
-<li><strong>Scope:</strong> every section except English (its statuses come from the <code>.md</code> files) and LOCKED Health cards. Life is
-included: its items are dated 09-16 or later today, so they will start expiring from 2026-09-23. Important, done and
-REVISIT items never expire; only NEW does.</li>
-<li><strong>To keep something NEW longer:</strong> mark it Important, or re-run it with a newer <code>--date</code>. Nothing is deleted — a rolled
+<li>An item is <strong>NEW</strong> on the day it was added and through the <strong>next business day</strong>. Once <strong>two or more business days</strong>
+have passed since <code>added</code>, it rolls to <strong>PLANNED</strong> (grey). So something added on a Monday is NEW Monday and Tuesday
+and grey on Wednesday; added on a Friday it is NEW Friday and Monday and grey on Tuesday.</li>
+<li><strong>A business day is Mon–Fri that is not a Korean public holiday.</strong> Weekends and 공휴일 do not count, so a long
+holiday holds the New run open. Items added on 2026-09-23 were still NEW on 09-25 because 09-24 and 09-25 were 추석.</li>
+<li><strong>The holiday table</strong> is <a href="https://github.com/linked0/rabbit/blob/main/scripts/kr_holidays.py"><code>scripts/kr_holidays.py</code></a> — a hardcoded list, because every
+script here is zero-dependency and runs offline. It <strong>refuses to guess</strong>: asked about a year it has no table for it
+raises, and both callers then leave the item NEW and print a loud warning rather than expiring it wrongly. Lunar
+holidays (설날, 부처님오신날, 추석) and 대체공휴일 move every year, so <strong>each year must be added by hand</strong>, with a
+source. Currently covered: <strong>2026 only.</strong></li>
+<li><strong>Two callers, and both had to change.</strong> <code>reorder-by-status.py</code> for Tech / Theory / Invest / Life, and
+<code>english-notes.py</code> for English, which keeps its own copy because English statuses come from the <code>.md</code> files —
+<code>status: new</code> is overridden to planned at build time and the file is not rewritten. Changing one and not the other
+is the bug this rule change nearly shipped with.</li>
+<li><strong>The date it uses:</strong> <code>added</code> on the <code>_nav.js</code> item, written by <code>add-tech-item.py</code>; for English, <code>added:</code> in the
+<code>.md</code>, or the page&#39;s git creation date.</li>
+<li><strong>Scope:</strong> every section, plus English. LOCKED Health cards are untouched. Important, done and REVISIT never expire;
+only NEW does.</li>
+<li><strong>Effect when it was introduced:</strong> 63 items rolled on the first run and 360 English items on the second. A week is a
+long time at this posting rate — the New run had stopped meaning &quot;arrived recently&quot; and started meaning &quot;arrived&quot;.</li>
+<li><strong>To keep something NEW longer:</strong> mark it Important, or re-run it with a newer <code>--date</code>. Nothing is deleted; a rolled
 item sits at the top of PLANNED, directly under the NEW run.</li>
 </ul>
 <h2 id="order-by-status-at-most-10-important-per-section-jay-2026-09-18">Order by status; at most 10 Important per section (jay, 2026-09-18)</h2>

@@ -19,18 +19,30 @@ NEXT = {"nav-sec-blockchain": ("nav-sec-fundamentals", "sec-fundamentals"), "nav
 n = ROOT / "topics" / "_nav.js"
 nav = json.loads(re.match(r'window\.__NAV__=(.*);\s*$', n.read_text(), re.S).group(1))
 s = (ROOT / "notes.html").read_text()
-# NEW lasts one week (jay, 2026-09-21: "Make the New have the limit which is only one week"): an item whose `added` date
-# is seven or more days old (KST calendar days) rolls to PLANNED before ranking. Every section except English (its
-# statuses come from the .md files) and LOCKED Health cards. Items without `added` are left alone.
+# NEW lasts two BUSINESS days (jay, 2026-09-25: "define category New as the new items during two business day based on
+# Korea holiday system"; supersedes the seven-calendar-day rule of 2026-09-21). An item is NEW on the day it was added
+# and through the next business day; once two or more business days have passed since `added` it rolls to PLANNED
+# before ranking. Business days are Mon-Fri minus Korean public holidays — see scripts/kr_holidays.py, which refuses
+# to guess about a year it has no table for. Every section except English (its statuses come from the .md files) and
+# LOCKED Health cards. Items without `added` are left alone.
 import datetime
+import kr_holidays
 TODAY = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
-NEW_DAYS = 7
-expired = []
+NEW_BUSINESS_DAYS = 2
+expired, uncovered = [], set()
 for sec in nav["sections"]:
     if sec["navId"] == "nav-sec-english": continue
     for x in sec["items"]:
-        if x["label"] == "NEW" and x.get("added") and (TODAY - datetime.date.fromisoformat(x["added"])).days >= NEW_DAYS:
+        if x["label"] != "NEW" or not x.get("added"): continue
+        try:
+            elapsed = kr_holidays.business_days_since(datetime.date.fromisoformat(x["added"]), TODAY)
+        except ValueError as e:      # no holiday table for that year: leave the item NEW and say so loudly
+            uncovered.add(str(e).split(" for ")[1].split(".")[0]); continue
+        if elapsed >= NEW_BUSINESS_DAYS:
             x["label"], x["color"] = "PLANNED", "#64748b"; expired.append(x["key"])
+if uncovered:
+    print(f"  !! kr_holidays has no table for {', '.join(sorted(uncovered))} — those items were LEFT as NEW. "
+          f"Add the year to scripts/kr_holidays.py.")
 moved_total = 0
 for navid, artid in SECTIONS.items():
     sec = next(x for x in nav["sections"] if x["navId"] == navid)
@@ -80,7 +92,7 @@ for navid, artid in SECTIONS.items():
     print(f"{navid}: {moved} items changed number; order now " + "".join({-1: "R", 0: "D", 1: "I", 2: "N", 3: "P"}[RANK[x["label"]]] for x in items))
 (ROOT / "notes.html").write_text(s)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
-print(f"reorder-by-status: {moved_total} renumbered; NEW → PLANNED after {NEW_DAYS} days: {len(expired)}" + (" (" + ", ".join(expired[:8]) + ("…" if len(expired) > 8 else "") + ")" if expired else ""))
+print(f"reorder-by-status: {moved_total} renumbered; NEW → PLANNED after {NEW_BUSINESS_DAYS} business days (KR): {len(expired)}" + (" (" + ", ".join(expired[:8]) + ("…" if len(expired) > 8 else "") + ")" if expired else ""))
 if expired:   # dots, counts, badge, card chips follow _nav.js (roll never calls back here, so no loop)
     subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "roll-done-states.py")], check=True)
 # rebuild docs/topics/index.json + index.md (scripts/build-index.py; jay, 2026-09-21: "Let the system hold the index")

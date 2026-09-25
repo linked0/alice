@@ -319,19 +319,29 @@ jay: "make the alice Knowledge Notes system aligned with … Let the system hold
   under an English line any more. `scripts/english-notes.py` renders it from `docs/topics/english/english-N.md`; the
   source format is unchanged (`> 한국어` under each line).
 
-## NEW lasts one week (jay, 2026-09-21: "Make the New have the limit which is only one week … because it's too long for each category")
+## NEW lasts two business days, Korean calendar (jay, 2026-09-25: "define category New as the new items during two business day based on Korea holiday system"; supersedes the one-week rule of 2026-09-21)
 
-- An item is **NEW** for seven days from its added date, then rolls to **PLANNED** (grey) — the same idea as TODAY / YESTERDAY
-  DONE rolling to DONE, applied at the front of the queue so the New button per category stays a week long.
-- **Where:** `reorder-by-status.py` does it before ranking (KST calendar days, `(today − added) ≥ 7`), then calls
-  `roll-done-states.py` for the dots, counts, badge and card chips. `add-tech-item.py` and `english-notes.py` now end
-  with `reorder-by-status.py`, so every run leaves the site sorted and expired. Idempotent.
-- **The date it uses:** `added` on the `_nav.js` item — written by `add-tech-item.py` (same value as the kicker's added
-  date) and backfilled on 2026-09-21 for every existing item from its kicker, else from the page's git creation date.
-- **Scope:** every section except English (its statuses come from the `.md` files) and LOCKED Health cards. Life is
-  included: its items are dated 09-16 or later today, so they will start expiring from 2026-09-23. Important, done and
-  REVISIT items never expire; only NEW does.
-- **To keep something NEW longer:** mark it Important, or re-run it with a newer `--date`. Nothing is deleted — a rolled
+- An item is **NEW** on the day it was added and through the **next business day**. Once **two or more business days**
+  have passed since `added`, it rolls to **PLANNED** (grey). So something added on a Monday is NEW Monday and Tuesday
+  and grey on Wednesday; added on a Friday it is NEW Friday and Monday and grey on Tuesday.
+- **A business day is Mon–Fri that is not a Korean public holiday.** Weekends and 공휴일 do not count, so a long
+  holiday holds the New run open. Items added on 2026-09-23 were still NEW on 09-25 because 09-24 and 09-25 were 추석.
+- **The holiday table** is [`scripts/kr_holidays.py`](../../scripts/kr_holidays.py) — a hardcoded list, because every
+  script here is zero-dependency and runs offline. It **refuses to guess**: asked about a year it has no table for it
+  raises, and both callers then leave the item NEW and print a loud warning rather than expiring it wrongly. Lunar
+  holidays (설날, 부처님오신날, 추석) and 대체공휴일 move every year, so **each year must be added by hand**, with a
+  source. Currently covered: **2026 only.**
+- **Two callers, and both had to change.** `reorder-by-status.py` for Tech / Theory / Invest / Life, and
+  `english-notes.py` for English, which keeps its own copy because English statuses come from the `.md` files —
+  `status: new` is overridden to planned at build time and the file is not rewritten. Changing one and not the other
+  is the bug this rule change nearly shipped with.
+- **The date it uses:** `added` on the `_nav.js` item, written by `add-tech-item.py`; for English, `added:` in the
+  `.md`, or the page's git creation date.
+- **Scope:** every section, plus English. LOCKED Health cards are untouched. Important, done and REVISIT never expire;
+  only NEW does.
+- **Effect when it was introduced:** 63 items rolled on the first run and 360 English items on the second. A week is a
+  long time at this posting rate — the New run had stopped meaning "arrived recently" and started meaning "arrived".
+- **To keep something NEW longer:** mark it Important, or re-run it with a newer `--date`. Nothing is deleted; a rolled
   item sits at the top of PLANNED, directly under the NEW run.
 
 ## Order by status; at most 10 Important per section (jay, 2026-09-18)

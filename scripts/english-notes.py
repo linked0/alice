@@ -89,12 +89,22 @@ def parse(path):
 
 items = sorted((parse(pathlib.Path(p)) for p in glob.glob(str(SRC / "english-*.md"))), key=lambda x: x["n"])
 assert [x["n"] for x in items] == list(range(1, len(items) + 1)), "english-N.md numbering must be 1..N without gaps"
-# NEW lasts one week here too (jay, 2026-09-21): `status: new` counts as planned once `added` is seven or more days old.
-# The .md keeps saying new; only the label, colour, number and button change — like reorder-by-status.py for the other sections.
-import datetime
+# NEW lasts two BUSINESS days here too (jay, 2026-09-25: "during two business day based on Korea holiday system";
+# supersedes the seven-calendar-day rule of 2026-09-21). `status: new` counts as planned once two or more business days
+# — Mon-Fri minus Korean public holidays, see scripts/kr_holidays.py — have passed since `added`. The .md keeps saying
+# new; only the label, colour, number and button change, like reorder-by-status.py for the other sections. A year with
+# no holiday table leaves the item NEW and warns rather than guessing.
+import datetime, kr_holidays
 _today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+_uncovered = set()
 for x in items:
-    if x["status"] == "new" and (_today - datetime.date.fromisoformat(x["added"])).days >= 7: x["status"] = "planned"
+    if x["status"] != "new": continue
+    try:
+        if kr_holidays.business_days_since(datetime.date.fromisoformat(x["added"]), _today) >= 2: x["status"] = "planned"
+    except ValueError as e:
+        _uncovered.add(str(e).split(" for ")[1].split(".")[0])
+if _uncovered:
+    print(f"  !! kr_holidays has no table for {', '.join(sorted(_uncovered))} — those Eng items were LEFT as NEW.")
 # `pin: true` puts an item first inside its own status group (jay, 2026-09-21: "Make it first" … "it's a new one so it
 # cannot beat a done item"). Without it a group is ordered by file number, so a newly added item always lands last.
 _pin = lambda x: 0 if str(x.get("pin", "")).strip().lower() in ("1", "true", "yes") else 1
