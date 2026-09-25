@@ -124,7 +124,10 @@ key = lambda x: f"english-{x['n']}"; href = lambda x: f"english-{x['n']}.html"
 # ---------------- detail pages ----------------
 tpl = TEMPLATE.read_text()
 head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
-tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
+# The rail now builds right after </nav>, before first paint (jay, 2026-09-25: "it blinks yet for
+# the left panel"), so _nav.js and __NAV_CURRENT__ live in `head`, not in `tail`. The tail starts at
+# _progress.js, and the per-page key is rewritten in `head`.
+tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_progress.js">'):]
 for idx, it in enumerate(items):
     # English and Korean in separate articles, like the PoC pages (jay, 2026-09-18: "separate english and korean
     # parts as others so that I don't read the translation first").
@@ -154,7 +157,8 @@ for idx, it in enumerate(items):
     pager = ('<div class="pager">' + (f'<a href="{href(prev)}">&larr; {shown(prev)}. {E(prev["title"])}</a>' if prev else '')
              + (f'<a href="{href(nxt)}">{shown(nxt)}. {E(nxt["title"])} &rarr;</a>' if nxt else '') + '</div>')
     page_head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(it["title"])} — {LABEL} — Knowledge Notes</title>')
-    page_tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', tail)
+    page_head = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{key(it)}"', page_head)
+    page_tail = tail
     mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; <a href="../notes.html#{SECTION_ID}">{LABEL}</a> &rsaquo; {E(it["title"])}</p>
   <header class="topic-hero">
       <p class="topic-kicker"><span class="topic-no">#{shown(it)}</span><span>{E(it["tag"])}</span><span title="added">{it["added"]}</span>{raw_span}</p>

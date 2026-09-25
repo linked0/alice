@@ -218,8 +218,11 @@ subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "r
 tpl = (ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html").read_text()
 head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
 head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(TITLE)} — Knowledge Notes</title>')
-tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
-tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', tail)
+# The rail now builds right after </nav>, before first paint (jay, 2026-09-25: "it blinks yet for
+# the left panel"), so _nav.js and __NAV_CURRENT__ live in `head`, not in `tail`. The tail starts at
+# _progress.js, and the per-page key is rewritten in `head`.
+tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_progress.js">'):]
+head = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', head)
 DONE_SPAN = f'<span title="done">done {new_item["done"][:10]}</span>' if new_item.get("done") else ""   # done date in the kicker (jay, 2026-09-21); roll-done-states.py keeps it in sync afterwards
 mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">

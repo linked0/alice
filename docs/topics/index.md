@@ -1,6 +1,6 @@
 # Knowledge Notes — index
 
-Generated 2026-09-25 21:05 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
+Generated 2026-09-25 21:22 KST by `scripts/build-index.py` — do not edit; one line per item, every section. Machine copy: [`index.json`](index.json). Search: `python3 scripts/notes-search.py <words>` answers "have I already learned this" before a new item is added. Raw sources: [`raw/`](raw/README.md). Schema: [`README.md`](README.md).
 
 Counts: Tech 316 · Theory 189 · Invest 23 · Eng 401 · Life 46 · done 76/975
 
@@ -555,7 +555,7 @@ Counts: Tech 316 · Theory 189 · Invest 23 · Eng 401 · Life 46 · done 76/975
 | 1819 | Life · Work | NEW | 2026-09-23 |  | PoC | chat |  | [Sold as an expert while still becoming one](pocs-sold-as-an-expert-while-becoming-one.html) | 전문가가 되어가는 중에 전문가로 팔린다 | `sold-as-an-expert-while-becoming-one` | [raw](raw/2026-09-23-sold-as-an-expert-while-becoming-one.md) |
 | 1820 | Life · People | NEW | 2026-09-25 |  | PoC | chat |  | [The filter he used on himself was the sensor he needed for her](pocs-the-filter-was-the-sensor.html) | 자기에게 쓴 필터가, 상대를 읽는 데 필요했던 센서였다 | `the-filter-was-the-sensor` | [raw](raw/2026-09-25-the-filter-was-the-sensor.md) |
 | 1821 | Life · Book | NEW | 2026-09-25 |  | Life | chat |  | [독서 목록 다섯, 서로 다른 필터 다섯 — 항목은 목록이 아니라 기준이다](pocs-the-rule-not-the-list.html) | 독서 목록 다섯, 서로 다른 필터 다섯 — 항목은 목록이 아니라 기준이다 | `the-rule-not-the-list` | [raw](raw/2026-09-25-the-rule-not-the-list.md) |
-| 1822 | Life · Book | NEW | 2026-09-25 |  | Life | chat |  | ["가디언 선정 소설 100선" — 좋은 목록이, 성립하지 않는 이름을 달고 돌아다닌다](pocs-guardian-100-best-novels.html) | "가디언 선정 소설 100선" — 좋은 목록이, 성립하지 않는 이름을 달고 돌아다닌다 | `guardian-100-best-novels` | [raw](raw/2026-09-25-guardian-100-best-novels.md) |
+| 1822 | Life · Book | NEW | 2026-09-25 |  | Life | chat |  | [가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록](pocs-guardian-100-best-novels.html) | 가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록 | `guardian-100-best-novels` | [raw](raw/2026-09-25-guardian-100-best-novels.md) |
 | 1823 | Life · Book | NEW | 2026-09-25 |  | Life | chat |  | [NYT 21세기 최고의 책 100선을 한국 서점에서 본 것 — 그리고 여기까지 오지 못한 21권](pocs-nyt-100-books-21st-century.html) | NYT 21세기 최고의 책 100선을 한국 서점에서 본 것 — 그리고 여기까지 오지 못한 21권 | `nyt-100-books-21st-century` | [raw](raw/2026-09-25-nyt-100-books-21st-century.md) |
 | 1824 | Life · Film | NEW | 2026-09-25 |  | Life | chat |  | [NYT가 뽑은 21세기 최고의 영화 100편, 그리고 그 안으로 들어가는 23개의 문](pocs-nyt-100-movies-21st-century.html) | NYT가 뽑은 21세기 최고의 영화 100편, 그리고 그 안으로 들어가는 23개의 문 | `nyt-100-movies-21st-century` | [raw](raw/2026-09-25-nyt-100-movies-21st-century.md) |
 | 1825 | Life · Manga | NEW | 2026-09-25 |  | Life | chat |  | [일본 미디어 예술 100선, 만화 부문 — 커트라인은 25위에 있고, 일반과 전문가는 1위부터 다르다](pocs-japan-media-arts-100-manga.html) | 일본 미디어 예술 100선, 만화 부문 — 커트라인은 25위에 있고, 일반과 전문가는 1위부터 다르다 | `japan-media-arts-100-manga` | [raw](raw/2026-09-25-japan-media-arts-100-manga.md) |

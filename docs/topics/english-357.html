@@ -400,6 +400,50 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
+<!-- rail built before paint -->
+<script src="_nav.js"></script>
+<script>window.__NAV_CURRENT__="english-357";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+</script>
     <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
@@ -455,49 +499,8 @@
   </div>
   </main>
 </div>
-<script src="_nav.js"></script>
 <script src="_progress.js"></script>
-<script>window.__NAV_CURRENT__="english-357";</script>
 <script>
-(function () {
-  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
-  if (!data) return;
-  var jw = document.getElementById('rail-jump');
-  if (jw) {
-    jw.innerHTML = data.jump.map(function (s) {
-      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
-    }).join('');
-  }
-  var sec = null;
-  for (var i = 0; i < data.sections.length && !sec; i++) {
-    for (var j = 0; j < data.sections[i].items.length; j++) {
-      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
-    }
-  }
-  var navEl = document.getElementById('nav');
-  if (navEl && sec) {
-    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
-    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
-    var render = function (s, other) {
-      var lis = s.items.map(function (it) {
-        var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
-      }).join('');
-      var group = document.createElement('div');
-      group.className = 'nav-group';
-      group.id = s.navId;
-      group.setAttribute('data-group', '');
-      if (other) group.setAttribute('data-other-section', '');
-      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
-      return group;
-    };
-    var anchor = navEl.firstChild;
-    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
-    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
-    // marked data-other-section so the mode rules that hide them keep working.
-    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
-  }
-})();
 
   // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
   const input = document.getElementById('filter');
