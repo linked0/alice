@@ -192,9 +192,9 @@
   /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
      칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
      Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
-  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#b45309; background:#b4530922; }
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"], .topic-tag[data-tag="Culture"] { color:#b45309; background:#b4530922; }
   @media (prefers-color-scheme: dark) {
-    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#fbbf24; background:#fbbf2426; }
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"], .topic-tag[data-tag="Culture"] { color:#fbbf24; background:#fbbf2426; }
   }
   .topic-done { flex:0 0 auto; }
   .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
@@ -388,7 +388,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/981</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/982</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
