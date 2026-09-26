@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-26 09:11 KST",
+"generated": "2026-09-26 11:35 KST",
 "counts": {
 "Tech": 316,
 "Theory": 189,
-"Invest": 23,
+"Invest": 24,
 "Eng": 401,
 "Life": 47
 },
 "done": 76,
-"all": 976,
+"all": 977,
 "items": [
 {
 "no": 1,
@@ -13604,10 +13604,41 @@
 {
 "no": 1511,
 "section": "Invest",
+"key": "ackman-rate-insensitive-ai-fed",
+"href": "pocs-ackman-rate-insensitive-ai-fed.html",
+"status": "IMPORTANT",
+"position": 11,
+"title_en": "EconomicsAckman asks whether rate hikes now cause inflation — the answer is no, and the premise is dissolving while he asks it",
+"tag": "Economics",
+"type": "Invest",
+"date": "2026-09-26",
+"source": "chat",
+"raw": "raw/2026-09-26-ackman-rate-insensitive-ai-fed.md",
+"title_ko": "애크먼의 질문 — 지금은 금리 인상이 인플레이션을 만드는가? 답은 아니오이고, 전제는 묻는 사이에 녹고 있다",
+"vocab": [
+"rate-insensitive demand",
+"monetary transmission",
+"a two-speed economy",
+"flip the sign",
+"load-bearing",
+"unfalsifiable",
+"the burden sits with ~",
+"pass-through",
+"cost share",
+"duration (금융)",
+"a premise with an expiry date",
+"it is a policy-cost story, not a sign-flip story",
+"over-tighten",
+"supply shock"
+]
+},
+{
+"no": 1512,
+"section": "Invest",
 "key": "referent-picks-the-regulator",
 "href": "pocs-referent-picks-the-regulator.html",
 "status": "NEW",
-"position": 11,
+"position": 12,
 "title_en": "InvestYour regulator is chosen by what the contract references",
 "tag": "Invest",
 "type": "Brief",
@@ -13642,12 +13673,12 @@
 ]
 },
 {
-"no": 1512,
+"no": 1513,
 "section": "Invest",
 "key": "public-pnl-favourite-not-odds",
 "href": "pocs-public-pnl-favourite-not-odds.html",
 "status": "NEW",
-"position": 12,
+"position": 13,
 "title_en": "InvestPublic PnL publishes the favourite, not the odds",
 "tag": "Invest",
 "type": "Brief",
@@ -13681,12 +13712,12 @@
 ]
 },
 {
-"no": 1513,
+"no": 1514,
 "section": "Invest",
 "key": "mit-financial-markets-terms-edge",
 "href": "pocs-mit-financial-markets-terms-edge.html",
 "status": "PLANNED",
-"position": 13,
+"position": 14,
 "title_en": "InvestMarkets have a shared vocabulary — learn it before you look for an edge",
 "tag": "Invest",
 "type": "Lecture",
@@ -13722,12 +13753,12 @@
 ]
 },
 {
-"no": 1514,
+"no": 1515,
 "section": "Invest",
 "key": "ueda-boj-underlying-inflation-wage-loop",
 "href": "pocs-ueda-boj-underlying-inflation-wage-loop.html",
 "status": "PLANNED",
-"position": 14,
+"position": 15,
 "title_en": "EconomicsThe Bank of Japan held rates against 3% headline inflation — because Ueda was reading a different number",
 "tag": "Economics",
 "type": "Lecture",
@@ -13763,12 +13794,12 @@
 ]
 },
 {
-"no": 1515,
+"no": 1516,
 "section": "Invest",
 "key": "twenty-one-banks-stablecoin-venture",
 "href": "pocs-twenty-one-banks-stablecoin-venture.html",
 "status": "PLANNED",
-"position": 15,
+"position": 16,
 "title_en": "EconomicsTwenty-one banks are forming a joint venture to issue a dollar stablecoin — betting on regulatory standing, not on liquidity",
 "tag": "Economics",
 "type": "PoC",
@@ -13803,12 +13834,12 @@
 ]
 },
 {
-"no": 1516,
+"no": 1517,
 "section": "Invest",
 "key": "nazarov-cftc-tokenization-us-60-percent",
 "href": "pocs-nazarov-cftc-tokenization-us-60-percent.html",
 "status": "PLANNED",
-"position": 16,
+"position": 17,
 "title_en": "EconomicsNazarov at the CFTC — if global finance moves on-chain and the US doesn't move first, it loses the 60% share that makes it the center of finance",
 "tag": "Economics",
 "type": "Talk",
@@ -13844,12 +13875,12 @@
 ]
 },
 {
-"no": 1517,
+"no": 1518,
 "section": "Invest",
 "key": "goldstein-blackrock-tokenization-next-wrapper",
 "href": "pocs-goldstein-blackrock-tokenization-next-wrapper.html",
 "status": "PLANNED",
-"position": 17,
+"position": 18,
 "title_en": "EconomicsTokenization is the next wrapper after the mutual fund and the ETF — BlackRock's COO makes the institutional case",
 "tag": "Economics",
 "type": "Talk",
@@ -13889,12 +13920,12 @@
 ]
 },
 {
-"no": 1518,
+"no": 1519,
 "section": "Invest",
 "key": "tv-fibonacci-retracement-confluence",
 "href": "pocs-tv-fibonacci-retracement-confluence.html",
 "status": "PLANNED",
-"position": 18,
+"position": 19,
 "title_en": "InvestA Fibonacci retracement is a pullback ruler, not a prophecy — anchor the swing, then confirm with structure",
 "tag": "Invest",
 "type": "Basics",
@@ -13922,12 +13953,12 @@
 ]
 },
 {
-"no": 1519,
+"no": 1520,
 "section": "Invest",
 "key": "max-pain-describes-not-pulls",
 "href": "pocs-max-pain-describes-not-pulls.html",
 "status": "PLANNED",
-"position": 19,
+"position": 20,
 "title_en": "EconomicsMax pain describes the options chain, it does not pull the price — two weeks of watching a moving target",
 "tag": "Economics",
 "type": "PoC",
@@ -13953,12 +13984,12 @@
 ]
 },
 {
-"no": 1520,
+"no": 1521,
 "section": "Invest",
 "key": "automation-and-repression-acemoglu",
 "href": "pocs-automation-and-repression-acemoglu.html",
 "status": "PLANNED",
-"position": 20,
+"position": 21,
 "title_en": "EconomicsAutomation and Repression — when control gets cheaper than sharing",
 "tag": "Economics",
 "type": "PoC",
@@ -13978,12 +14009,12 @@
 ]
 },
 {
-"no": 1521,
+"no": 1522,
 "section": "Invest",
 "key": "investing-for-programmers-book",
 "href": "pocs-investing-for-programmers-book.html",
 "status": "PLANNED",
-"position": 21,
+"position": 22,
 "title_en": "EconomicsInvesting for Programmers — understanding markets through data and code",
 "tag": "Economics",
 "type": "PoC",
@@ -14001,12 +14032,12 @@
 ]
 },
 {
-"no": 1522,
+"no": 1523,
 "section": "Invest",
 "key": "which-etf-window-not-the-size",
 "href": "pocs-which-etf-window-not-the-size.html",
 "status": "PLANNED",
-"position": 22,
+"position": 23,
 "title_en": "EconomicsETH ETF outflows — read which window, not the size",
 "tag": "Economics",
 "type": "PoC",
@@ -14029,12 +14060,12 @@
 ]
 },
 {
-"no": 1523,
+"no": 1524,
 "section": "Invest",
 "key": "services-ppi-is-the-bridge-to-core",
 "href": "pocs-services-ppi-is-the-bridge-to-core.html",
 "status": "PLANNED",
-"position": 23,
+"position": 24,
 "title_en": "EconomicsReading a PPI print — services is the bridge to core, not the headline",
 "tag": "Economics",
 "type": "PoC",
