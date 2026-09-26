@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malhotra&#39;s 15 rules for a job offer — they are really five moves, and the one that decides everything is printed last — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
+     칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
+     Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#b45309; background:#b4530922; }
+  @media (prefers-color-scheme: dark) {
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#fbbf24; background:#fbbf2426; }
+  }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/981</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+<!-- rail built before paint -->
+<script src="_nav.js"></script>
+<script>window.__NAV_CURRENT__="malhotra-fifteen-rules-five-moves";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+</script>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Malhotra&#39;s 15 rules for a job offer — they are really five moves, and the one that decides everything is printed last</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1821</span><span>Life</span><span title="added">2026-09-26</span><span title="source">chat</span><span title="article source"><a href="https://hbr.org/2014/04/15-rules-for-negotiating-a-job-offer" rel="noopener noreferrer" target="_blank">HBR · Deepak Malhotra (2014)</a></span><span title="raw"><a href="raw/2026-09-26-malhotra-fifteen-rules-five-moves.md">raw</a></span></p>
+      <h1>Malhotra&#39;s 15 rules for a job offer — they are really five moves, and the one that decides everything is printed last</h1>
+      <p class="lead">Deepak Malhotra&#39;s HBR piece (April 2014) is the standard reference on negotiating an offer, and it is better than its listicle format suggests. Read as fifteen tips it is forgettable. Read properly it contains one organising idea the article never quite states: **you are not negotiating against the company, you are arming someone inside it who has to spend political capital on you.** Likability, justification, signalling that you are actually gettable, knowing who is across the table and what cage they are in — those five rules are one move, and the move is *equip your advocate*.</p>
+      <p class="meta">The second thing worth extracting is that rule 15, the one everybody skims because it is last and sounds like a platitude, dominates all fourteen others: <strong>you can negotiate perfectly and still lose, if you are negotiating over the wrong job.</strong> And the third is that the article is twelve years old in places — its labour-market framing, its remote-work example and its silence on pay transparency all date it, while its mechanics do not.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Malhotra's 15 rules for a job offer — they are really five moves, and the one that decides everything is printed last\n\nDeepak Malhotra's HBR piece (April 2014) is the standard reference on negotiating an offer, and it is better than its listicle format suggests. Read as fifteen tips it is forgettable. Read properly it contains one organising idea the article never quite states: **you are not negotiating against the company, you are arming someone inside it who has to spend political capital on you.** Likability, justification, signalling that you are actually gettable, knowing who is across the table and what cage they are in — those five rules are one move, and the move is *equip your advocate*.\n\nThe second thing worth extracting is that rule 15, the one everybody skims because it is last and sounds like a platitude, dominates all fourteen others: **you can negotiate perfectly and still lose, if you are negotiating over the wrong job.** And the third is that the article is twelve years old in places — its labour-market framing, its remote-work example and its silence on pay transparency all date it, while its mechanics do not.\n\nAdded 2026-09-26 from jay's paste of the full text. One sentence from rule 3 — *expend political or social capital* — is kept as its own English item at [Eng #2018](english-402.html) at jay's request, with his own breakdown; it is not repeated here. The regrouping in §2, the tension analysis in §3, the dating in §4 and the Jayverse links are mine; the rules themselves are Malhotra's.\n\n## Why\n\nBecause the list format hides the structure, and structure is the only part that transfers.\n\nFifteen rules is more than anyone recalls under pressure, and a negotiation is exactly the moment when recall fails. But five moves is portable, and each of Malhotra's rules slots under one of them. Compressing a good checklist into its underlying moves is the difference between *having read* a piece and *being able to use it*, and it is the same operation the [reading-list card](pocs-the-rule-not-the-list.html) applies to book lists: **the rule transfers, the enumeration does not.**\n\nThere is a second reason, specific to this article. Its most common misreading is that it is a list of ways to extract more. It is not. Four of the fifteen — 10, 12, 13, 15 — are instructions to **ask for less, or to stop**. A checklist whose author spends a quarter of it telling you to restrain yourself is telling you where the real failure mode is.\n\n## How it works\n\n### 1 — The fifteen, as written\n\n| # | Rule |\n|---|---|\n| 1 | Don't underestimate the importance of likability |\n| 2 | Help them understand why you deserve what you're requesting |\n| 3 | Make it clear they can get you |\n| 4 | Understand the person across the table |\n| 5 | Understand their constraints |\n| 6 | Be prepared for tough questions |\n| 7 | Focus on the questioner's intent, not on the question |\n| 8 | Consider the whole deal |\n| 9 | Negotiate multiple issues simultaneously, not serially |\n| 10 | Don't negotiate just to negotiate |\n| 11 | Think through the timing of offers |\n| 12 | Avoid, ignore, or downplay ultimatums of any kind |\n| 13 | Remember, they're not out to get you |\n| 14 | Stay at the table |\n| 15 | Maintain a sense of perspective |\n\n### 2 — The five moves underneath\n\n**Move A — Equip your advocate. (1, 2, 3, 4, 13)**\nSomeone inside the company has to walk down a corridor and argue for you. Every rule in this group makes that walk easier. **Likability (1)** is not politeness, it is whether they are willing to make the walk. **Justification (2)** is the argument they will repeat when you are not in the room — so write it for them, not for you. **Gettability (3)** is the answer to \"will I spend capital and still lose him?\", which is the single question that kills improved offers. **Knowing who they are (4)** decides which arguments work: an HR partner hiring ten people cannot break precedent, a hiring manager who gets you on their team can go to bat. **And (13)** — delay and firmness usually mean constraints and competing priorities, not hostility. Reading them as hostile makes you unpleasant, which destroys Move A entirely.\n\n**Move B — Map the cage before you push on it. (5, 8)**\nEvery counterpart is boxed in somewhere and free somewhere else, and the boundaries are not where you assume. Big company hiring twenty people at once: salary band is concrete, **start date, vacation and signing bonus are soft**. Small company, novel role: **base and title may be open**, everything structural is not. And **(8)** the box is much bigger than salary — scope, reporting line, location, travel, hours, budget, promotion timing, learning support, when you are paid rather than how much. Fixating on money is negotiating inside the one dimension where the cage is usually tightest.\n\n**Move C — Ask once, ask whole, ask ranked. (9)**\nThis is the highest-leverage single tactic in the article and the most commonly botched. Serial asks punish you twice: each one resets goodwill, and the first concession is read as closing the deal. And bundling without ranking fails in a specific, predictable way — **they grant the two cheapest items and consider the matter settled.** So: everything at once, with the order stated. \"Base matters most, then start date, then the training budget\" costs one sentence and changes the outcome.\n\n**Move D — Answer intent, never the literal question. (6, 7, 12)**\n\"Do you have other offers?\" is rarely a trap; it is usually \"are we actually in this?\" **(7)** is the general key: respond to the problem the asker is trying to solve. This also resolves the honesty problem in **(6)** — you never have to lie, because the honest answer to the *intent* is almost always safer than a defensive answer to the *words*. **(12)** is the same instrument pointed at ultimatums: treat them as a mood rather than a term, and leave the other person a door they can walk back through without losing face.\n\n**Move E — Know when to stop, and that the clock is a variable. (10, 11, 14, 15)**\n**(10)** haggling over everything spends a relationship you will need for years to win pennies now. **(11)** offer timing is negotiable and most people never try — slowing one process or accelerating another to make offers land together is often worth more than any single term. **(14)** \"no\" means \"no, given today\"; trust you have not yet earned is the most common hidden reason, and six months of it changes the answer. **(15)** none of this matters if the job is wrong.\n\n### 3 — The tensions the article names but does not resolve\n\nMalhotra flags two of these himself and leaves the resolution to the reader. Here is how I would resolve them.\n\n| Tension | Resolution |\n|---|---|\n| **Be likable (1)** vs **argue you're worth more (2)** | Make the justification about **the role and the market**, not about you. \"Roles with this scope band at X\" is evidence; \"I'm exceptional\" is a claim, and claims are what make people dislike you |\n| **Show you're gettable (3)** vs **use your alternatives (11)** | Never present alternatives as threat. Present them as a **timing problem you are trying to solve in their favour** — \"I'd like to be in a position to say yes to you, and here is what's in the way\" |\n| **Never lie (6)** vs **don't give up leverage (6)** | Rule 7 is the bridge. You are not obliged to answer the literal question; you are obliged not to say false things. Answering the intent satisfies both |\n| **Ask for the whole deal (8)** vs **don't negotiate just to negotiate (10)** | Ranking (9) does this work. A ranked list of four is one ask; an unranked list of four is four asks and reads as haggling |\n\n### 4 — What has dated, twelve years on\n\nThe mechanics have held up. The furniture has not.\n\n- **The market framing is period-specific.** The article opens on a weak labour market that reduces candidate leverage. That was 2014's condition, not a permanent one, and reading the piece as if leverage is always scarce will make you ask for too little.\n- **Remote work appears as a concession to be won** — \"permission to work from home one day a week\" is offered as an example of something to justify. Post-2020 this is frequently a default, occasionally a company's own preference, and in some negotiations it is the *employer* asking you to give it up. The example inverted.\n- **Pay transparency is absent, and it changes Move B.** Since 2014 a number of US jurisdictions have required posted salary ranges. Where a band is public, rule 5 partly answers itself and rule 2's justification shifts from \"what am I worth\" to \"where in this published band do I sit, and why the top of it\". That is a different and easier argument.\n- **Equity has grown more complicated**, which mostly strengthens rule 8: the number of negotiable dimensions went up, and the number people actually use did not.\n\n**And a Korean-context caveat, stated as a caveat.** The article assumes a US hiring culture where a counter-offer is expected and unremarkable. Norms differ by market and by company, and I have not verified current Korean practice — treat the *mechanics* as portable and the *social expectations* as something to calibrate locally before using them.\n\n### 5 — Rule 15 deserves to be read first\n\nIt is printed last and sounds like a homily, so it gets skimmed. It is the only rule that can invalidate the other fourteen:\n\n> \"You can negotiate like a pro and still lose out if the negotiation you're in is the wrong one.\"\n\nThe claim underneath it is empirical, not sentimental: industry, function, trajectory, and the specific people you report to swamp offer terms as predictors of satisfaction. **A 10% better package in the wrong function is a worse outcome than a 10% worse package in the right one**, and the first is the thing candidates optimise because it is the thing that is quantified. Rule 15 is the article telling you that its own subject matter is second-order.\n\n## Where it lands in Jayverse\n\nPairs directly with [Eng #2006, the one-on-one with a passed-over senior](english-24.html) — that dialogue is Malhotra's rules running live, and reading them together makes both sharper:\n\n- Jay names the uncomfortable thing first rather than pretending. **That is rule 1** — likability is not niceness, it is not making the other person manage your avoidance.\n- Jay asks for one narrow, time-boxed thing (\"for the next three months, tell me before the meeting\") rather than \"help me\". **Rule 2** — an ask you can accept beats an ask you cannot refuse.\n- Jay offers two engineers *and* a quarter *and* public credit, together, in stated order. **That is rule 9, executed correctly**, and it is why it works.\n- Fiona answers \"That's a lot of unpaid consulting\" — **rule 2 from the other side**, putting the price on the table rather than refusing.\n\nAnd [Eng #2018](english-402.html) holds the sentence that explains why Move A works at all: the person opposite you has to **expend political capital** internally to improve your offer, and will not spend it to find out whether you would have said yes.\n\nSo the practical output is not fifteen tips, it is: **five moves, one dialogue to see them in, and one sentence to keep.** The sentence is rule 9, because it is the one people get wrong under pressure: *everything at once, in stated order of importance.*\n\n## Verified and unverified\n\n**From the paste, which was the full text.** All fifteen rules and their content, the author and affiliation, and the April 2014 HBR issue. Unlike the earlier HBR pastes in this section, this one was complete rather than a teaser, so §1 is the article's own content, not a reconstruction. The canonical URL was confirmed to resolve.\n\n**Mine, not Malhotra's.** The five-move regrouping in §2, every resolution in §3's table, the dating in §4, the argument in §5 that rule 15 should be read first, and all the Jayverse links. The article presents fifteen parallel items and does not group, rank or date them.\n\n**Asserted from general knowledge, and weaker for it.** That several US jurisdictions have introduced posted-salary-range requirements since 2014. The direction is not in doubt but I did not check which jurisdictions or their current state, and nothing else in the card depends on it.\n\n**Explicitly not verified.** Korean hiring and counter-offer norms. §4 flags this rather than guessing, because a US-calibrated tactic applied in the wrong social setting fails in exactly the way rule 1 warns about.\n\n**Not claimed.** The article cites \"experience and research\" for rule 15's claim that industry and colleagues matter more than offer terms. No study is named in the text and I did not go looking for one, so that claim is reported as the author's, not established here.\n"</script>
+<p>Added 2026-09-26 from jay&#39;s paste of the full text. One sentence from rule 3 — <em>expend political or social capital</em> — is kept as its own English item at <a href="english-402.html">Eng #2018</a> at jay&#39;s request, with his own breakdown; it is not repeated here. The regrouping in §2, the tension analysis in §3, the dating in §4 and the Jayverse links are mine; the rules themselves are Malhotra&#39;s.</p>
+<h2>Why</h2>
+<p>Because the list format hides the structure, and structure is the only part that transfers.</p>
+<p>Fifteen rules is more than anyone recalls under pressure, and a negotiation is exactly the moment when recall fails. But five moves is portable, and each of Malhotra&#39;s rules slots under one of them. Compressing a good checklist into its underlying moves is the difference between <em>having read</em> a piece and <em>being able to use it</em>, and it is the same operation the <a href="pocs-the-rule-not-the-list.html">reading-list card</a> applies to book lists: <strong>the rule transfers, the enumeration does not.</strong></p>
+<p>There is a second reason, specific to this article. Its most common misreading is that it is a list of ways to extract more. It is not. Four of the fifteen — 10, 12, 13, 15 — are instructions to <strong>ask for less, or to stop</strong>. A checklist whose author spends a quarter of it telling you to restrain yourself is telling you where the real failure mode is.</p>
+<h2>How it works</h2>
+<h3>1 — The fifteen, as written</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>Rule</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>Don&#39;t underestimate the importance of likability</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>Help them understand why you deserve what you&#39;re requesting</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>Make it clear they can get you</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>Understand the person across the table</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>Understand their constraints</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>Be prepared for tough questions</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>Focus on the questioner&#39;s intent, not on the question</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>Consider the whole deal</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>Negotiate multiple issues simultaneously, not serially</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>Don&#39;t negotiate just to negotiate</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>Think through the timing of offers</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>Avoid, ignore, or downplay ultimatums of any kind</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>Remember, they&#39;re not out to get you</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>Stay at the table</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>Maintain a sense of perspective</td></tr></tbody></table>
+<h3>2 — The five moves underneath</h3>
+<p><strong>Move A — Equip your advocate. (1, 2, 3, 4, 13)</strong></p>
+<p>Someone inside the company has to walk down a corridor and argue for you. Every rule in this group makes that walk easier. <strong>Likability (1)</strong> is not politeness, it is whether they are willing to make the walk. <strong>Justification (2)</strong> is the argument they will repeat when you are not in the room — so write it for them, not for you. <strong>Gettability (3)</strong> is the answer to "will I spend capital and still lose him?", which is the single question that kills improved offers. <strong>Knowing who they are (4)</strong> decides which arguments work: an HR partner hiring ten people cannot break precedent, a hiring manager who gets you on their team can go to bat. <strong>And (13)</strong> — delay and firmness usually mean constraints and competing priorities, not hostility. Reading them as hostile makes you unpleasant, which destroys Move A entirely.</p>
+<p><strong>Move B — Map the cage before you push on it. (5, 8)</strong></p>
+<p>Every counterpart is boxed in somewhere and free somewhere else, and the boundaries are not where you assume. Big company hiring twenty people at once: salary band is concrete, <strong>start date, vacation and signing bonus are soft</strong>. Small company, novel role: <strong>base and title may be open</strong>, everything structural is not. And <strong>(8)</strong> the box is much bigger than salary — scope, reporting line, location, travel, hours, budget, promotion timing, learning support, when you are paid rather than how much. Fixating on money is negotiating inside the one dimension where the cage is usually tightest.</p>
+<p><strong>Move C — Ask once, ask whole, ask ranked. (9)</strong></p>
+<p>This is the highest-leverage single tactic in the article and the most commonly botched. Serial asks punish you twice: each one resets goodwill, and the first concession is read as closing the deal. And bundling without ranking fails in a specific, predictable way — <strong>they grant the two cheapest items and consider the matter settled.</strong> So: everything at once, with the order stated. "Base matters most, then start date, then the training budget" costs one sentence and changes the outcome.</p>
+<p><strong>Move D — Answer intent, never the literal question. (6, 7, 12)</strong></p>
+<p>"Do you have other offers?" is rarely a trap; it is usually "are we actually in this?" <strong>(7)</strong> is the general key: respond to the problem the asker is trying to solve. This also resolves the honesty problem in <strong>(6)</strong> — you never have to lie, because the honest answer to the <em>intent</em> is almost always safer than a defensive answer to the <em>words</em>. <strong>(12)</strong> is the same instrument pointed at ultimatums: treat them as a mood rather than a term, and leave the other person a door they can walk back through without losing face.</p>
+<p><strong>Move E — Know when to stop, and that the clock is a variable. (10, 11, 14, 15)</strong></p>
+<p><strong>(10)</strong> haggling over everything spends a relationship you will need for years to win pennies now. <strong>(11)</strong> offer timing is negotiable and most people never try — slowing one process or accelerating another to make offers land together is often worth more than any single term. <strong>(14)</strong> "no" means "no, given today"; trust you have not yet earned is the most common hidden reason, and six months of it changes the answer. <strong>(15)</strong> none of this matters if the job is wrong.</p>
+<h3>3 — The tensions the article names but does not resolve</h3>
+<p>Malhotra flags two of these himself and leaves the resolution to the reader. Here is how I would resolve them.</p>
+<table><thead><tr><th>Tension</th><th>Resolution</th></tr></thead><tbody><tr><td><strong>Be likable (1)</strong> vs <strong>argue you&#39;re worth more (2)</strong></td><td>Make the justification about <strong>the role and the market</strong>, not about you. "Roles with this scope band at X" is evidence; "I&#39;m exceptional" is a claim, and claims are what make people dislike you</td></tr><tr><td><strong>Show you&#39;re gettable (3)</strong> vs <strong>use your alternatives (11)</strong></td><td>Never present alternatives as threat. Present them as a <strong>timing problem you are trying to solve in their favour</strong> — "I&#39;d like to be in a position to say yes to you, and here is what&#39;s in the way"</td></tr><tr><td><strong>Never lie (6)</strong> vs <strong>don&#39;t give up leverage (6)</strong></td><td>Rule 7 is the bridge. You are not obliged to answer the literal question; you are obliged not to say false things. Answering the intent satisfies both</td></tr><tr><td><strong>Ask for the whole deal (8)</strong> vs <strong>don&#39;t negotiate just to negotiate (10)</strong></td><td>Ranking (9) does this work. A ranked list of four is one ask; an unranked list of four is four asks and reads as haggling</td></tr></tbody></table>
+<h3>4 — What has dated, twelve years on</h3>
+<p>The mechanics have held up. The furniture has not.</p>
+<ul><li><strong>The market framing is period-specific.</strong> The article opens on a weak labour market that reduces candidate leverage. That was 2014&#39;s condition, not a permanent one, and reading the piece as if leverage is always scarce will make you ask for too little.</li><li><strong>Remote work appears as a concession to be won</strong> — "permission to work from home one day a week" is offered as an example of something to justify. Post-2020 this is frequently a default, occasionally a company&#39;s own preference, and in some negotiations it is the <em>employer</em> asking you to give it up. The example inverted.</li><li><strong>Pay transparency is absent, and it changes Move B.</strong> Since 2014 a number of US jurisdictions have required posted salary ranges. Where a band is public, rule 5 partly answers itself and rule 2&#39;s justification shifts from "what am I worth" to "where in this published band do I sit, and why the top of it". That is a different and easier argument.</li><li><strong>Equity has grown more complicated</strong>, which mostly strengthens rule 8: the number of negotiable dimensions went up, and the number people actually use did not.</li></ul>
+<p><strong>And a Korean-context caveat, stated as a caveat.</strong> The article assumes a US hiring culture where a counter-offer is expected and unremarkable. Norms differ by market and by company, and I have not verified current Korean practice — treat the <em>mechanics</em> as portable and the <em>social expectations</em> as something to calibrate locally before using them.</p>
+<h3>5 — Rule 15 deserves to be read first</h3>
+<p>It is printed last and sounds like a homily, so it gets skimmed. It is the only rule that can invalidate the other fourteen:</p>
+<p>&gt; "You can negotiate like a pro and still lose out if the negotiation you&#39;re in is the wrong one."</p>
+<p>The claim underneath it is empirical, not sentimental: industry, function, trajectory, and the specific people you report to swamp offer terms as predictors of satisfaction. <strong>A 10% better package in the wrong function is a worse outcome than a 10% worse package in the right one</strong>, and the first is the thing candidates optimise because it is the thing that is quantified. Rule 15 is the article telling you that its own subject matter is second-order.</p>
+<h2>Where it lands in Jayverse</h2>
+<p>Pairs directly with <a href="english-24.html">Eng #2006, the one-on-one with a passed-over senior</a> — that dialogue is Malhotra&#39;s rules running live, and reading them together makes both sharper:</p>
+<ul><li>Jay names the uncomfortable thing first rather than pretending. <strong>That is rule 1</strong> — likability is not niceness, it is not making the other person manage your avoidance.</li><li>Jay asks for one narrow, time-boxed thing ("for the next three months, tell me before the meeting") rather than "help me". <strong>Rule 2</strong> — an ask you can accept beats an ask you cannot refuse.</li><li>Jay offers two engineers <em>and</em> a quarter <em>and</em> public credit, together, in stated order. <strong>That is rule 9, executed correctly</strong>, and it is why it works.</li><li>Fiona answers "That&#39;s a lot of unpaid consulting" — <strong>rule 2 from the other side</strong>, putting the price on the table rather than refusing.</li></ul>
+<p>And <a href="english-402.html">Eng #2018</a> holds the sentence that explains why Move A works at all: the person opposite you has to <strong>expend political capital</strong> internally to improve your offer, and will not spend it to find out whether you would have said yes.</p>
+<p>So the practical output is not fifteen tips, it is: <strong>five moves, one dialogue to see them in, and one sentence to keep.</strong> The sentence is rule 9, because it is the one people get wrong under pressure: <em>everything at once, in stated order of importance.</em></p>
+<h2>Verified and unverified</h2>
+<p><strong>From the paste, which was the full text.</strong> All fifteen rules and their content, the author and affiliation, and the April 2014 HBR issue. Unlike the earlier HBR pastes in this section, this one was complete rather than a teaser, so §1 is the article&#39;s own content, not a reconstruction. The canonical URL was confirmed to resolve.</p>
+<p><strong>Mine, not Malhotra&#39;s.</strong> The five-move regrouping in §2, every resolution in §3&#39;s table, the dating in §4, the argument in §5 that rule 15 should be read first, and all the Jayverse links. The article presents fifteen parallel items and does not group, rank or date them.</p>
+<p><strong>Asserted from general knowledge, and weaker for it.</strong> That several US jurisdictions have introduced posted-salary-range requirements since 2014. The direction is not in doubt but I did not check which jurisdictions or their current state, and nothing else in the card depends on it.</p>
+<p><strong>Explicitly not verified.</strong> Korean hiring and counter-offer norms. §4 flags this rather than guessing, because a US-calibrated tactic applied in the wrong social setting fails in exactly the way rule 1 warns about.</p>
+<p><strong>Not claimed.</strong> The article cites "experience and research" for rule 15&#39;s claim that industry and colleagues matter more than offer terms. No study is named in the text and I did not go looking for one, so that claim is reported as the author&#39;s, not established here.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>equip your advocate</strong></strong></td><td>내 편을 무장시키다 — 상대 조직에서 나를 변호할 사람에게 논거를 쥐여주는 것</td></tr><tr><td><strong><strong>go to bat for someone</strong></strong></td><td>남을 위해 대신 나서다 (야구 비유). 기사 원문 표현</td></tr><tr><td><strong><strong>break precedent</strong></strong></td><td>전례를 깨다 — HR이 못 하는 일의 대표</td></tr><tr><td><strong><strong>ironclad constraints</strong></strong></td><td>철벽 같은 제약. 협상으로 풀리지 않는 것</td></tr><tr><td><strong><strong>an exploding offer</strong></strong></td><td>시한부 오퍼 — 빨리 수락할수록 조건이 좋아지는 구조</td></tr><tr><td><strong><strong>a stalking horse</strong></strong></td><td>들러리, 다른 쪽 값을 올리는 데 쓰이는 대상</td></tr><tr><td><strong><strong>negotiate serially vs simultaneously</strong></strong></td><td>순차 협상 대 동시 협상 — 이 기사의 핵심 전술</td></tr><tr><td><strong><strong>signal the relative importance</strong></strong></td><td>상대적 중요도를 알리다 = 순위를 붙이다</td></tr><tr><td><strong><strong>haggle over every little thing</strong></strong></td><td>사소한 것마다 흥정하다</td></tr><tr><td><strong><strong>rub people the wrong way</strong></strong></td><td>사람 심기를 건드리다</td></tr><tr><td><strong><strong>downplay</strong></strong></td><td>축소해 다루다, 대수롭지 않게 넘기다</td></tr><tr><td><strong><strong>become wedded to a position</strong></strong></td><td>어떤 입장에 매이게 되다 — 최후통첩을 굳히지 않게 하라는 맥락</td></tr><tr><td><strong><strong>maintain a sense of perspective</strong></strong></td><td>균형 감각을 유지하다</td></tr><tr><td><strong><strong>second-order</strong></strong></td><td>이차적인 — 중요하지만 결정적이지는 않은</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 말호트라의 오퍼 협상 15원칙 — 실은 다섯 개의 수이고, 전부를 결정하는 규칙이 맨 뒤에 있다\n\n디팩 말호트라의 HBR 기고(2014년 4월)는 오퍼 협상의 표준 참고문헌이고, 리스티클 형식이 암시하는 것보다 훨씬 좋은 글이다. **팁 열다섯 개로 읽으면 기억에 안 남는다.** 제대로 읽으면 글이 끝내 명시하지 않는 조직 원리 하나가 들어 있다 — **당신은 회사와 싸우는 게 아니라, 회사 안에서 당신을 위해 정치적 자본을 써야 하는 사람을 무장시키고 있는 것이다.** 호감, 정당화, 내가 실제로 잡힐 사람이라는 신호, 상대가 누구인지, 어떤 우리에 갇혀 있는지 — 이 다섯 규칙은 **하나의 수**이고, 그 수의 이름은 **내 편을 무장시키기**다.\n\n두 번째로 건질 것: 맨 뒤에 있어서 다들 대충 넘기는 **15번이 나머지 열넷을 지배한다** — **완벽하게 협상하고도 질 수 있다. 틀린 직무를 두고 협상했다면.** 세 번째: 이 글은 부분적으로 12년이 지났다. **노동시장 프레이밍, 재택근무 예시, 임금 공시에 대한 침묵**이 날짜를 드러내는데, **메커니즘은 그렇지 않다.**\n\n2026-09-26 추가. jay가 전문을 붙여넣었다. 규칙 3의 한 문장 — *expend political or social capital* — 은 jay 요청으로 [Eng #2018](english-402.html)에 본인 분해와 함께 별도 아이템으로 두었고 여기서 반복하지 않는다. §2의 재분류, §3의 긴장 분석, §4의 날짜 찍기, Jayverse 연결은 내 것이고, 규칙 자체는 말호트라의 것이다.\n\n## 왜\n\n**리스트 형식이 구조를 가리고, 옮겨지는 건 구조뿐이기 때문이다.**\n\n규칙 열다섯 개는 압박 상황에서 떠올릴 수 있는 양이 아니고, **협상은 정확히 기억이 실패하는 순간**이다. 그런데 **수 다섯 개는 들고 다닐 수 있고**, 말호트라의 규칙은 전부 그 다섯 중 하나에 들어간다. 좋은 체크리스트를 그 밑의 수로 압축하는 것이 **'읽어봤다'와 '쓸 수 있다'의 차이**이고, [독서 목록 카드](pocs-the-rule-not-the-list.html)가 책 목록에 적용한 것과 같은 조작이다 — **규칙이 옮겨지지, 나열이 옮겨지지 않는다.**\n\n이 글에만 해당하는 두 번째 이유도 있다. 가장 흔한 오독은 **더 뜯어내는 방법의 목록**으로 읽는 것이다. 아니다. 열다섯 중 넷 — 10, 12, 13, 15 — 은 **덜 요구하거나 멈추라는 지시**다. **저자가 4분의 1을 자제하라는 데 쓴 체크리스트는, 진짜 실패 지점이 어디인지 말해주고 있는 것이다.**\n\n## 동작 방식\n\n### 1 — 열다섯, 원문 그대로\n\n| # | 원문 규칙 |\n|---|---|\n| 1 | Don't underestimate the importance of likability |\n| 2 | Help them understand why you deserve what you're requesting |\n| 3 | Make it clear they can get you |\n| 4 | Understand the person across the table |\n| 5 | Understand their constraints |\n| 6 | Be prepared for tough questions |\n| 7 | Focus on the questioner's intent, not on the question |\n| 8 | Consider the whole deal |\n| 9 | Negotiate multiple issues simultaneously, not serially |\n| 10 | Don't negotiate just to negotiate |\n| 11 | Think through the timing of offers |\n| 12 | Avoid, ignore, or downplay ultimatums of any kind |\n| 13 | Remember, they're not out to get you |\n| 14 | Stay at the table |\n| 15 | Maintain a sense of perspective |\n\n### 2 — 그 밑의 다섯 수\n\n**수 A — 내 편을 무장시켜라. (1, 2, 3, 4, 13)**\n회사 안 누군가가 복도를 걸어가 당신을 변호해야 한다. 이 묶음의 모든 규칙이 **그 걸음을 쉽게 만든다.** **호감(1)**은 예의가 아니라 **그 걸음을 걸어줄 의향이 있느냐**의 문제다. **정당화(2)**는 **당신이 방에 없을 때 그 사람이 반복할 논거**다 — 그러니 자기 자신이 아니라 **그 사람을 위해** 써라. **잡힐 사람이라는 신호(3)**는 \"자본을 쓰고도 놓치는 거 아닌가?\"에 대한 답이고, **개선된 오퍼를 죽이는 단 하나의 질문**이 그것이다. **상대가 누구인지(4)**가 어떤 논거가 먹히는지를 정한다 — 열 명을 뽑는 HR은 전례를 못 깨고, 당신을 자기 팀에 앉히는 매니저는 대신 싸워줄 수 있다. 그리고 **(13)** 지연과 완강함은 보통 적대가 아니라 **제약과 우선순위**다. 적대로 읽으면 불쾌한 사람이 되고, 그러면 수 A가 통째로 무너진다.\n\n**수 B — 밀기 전에 우리의 모양을 그려라. (5, 8)**\n상대는 **어딘가는 막혀 있고 어딘가는 열려 있는데, 그 경계가 예상과 다르다.** 스무 명을 동시에 뽑는 대기업: 연봉 밴드는 콘크리트, **입사일·휴가·사이닝보너스는 무르다.** 새 직무를 처음 뽑는 작은 회사: **베이스와 직함은 열려 있을 수 있고** 구조적인 것들은 아니다. 그리고 **(8)** 상자는 연봉보다 훨씬 크다 — 스코프, 보고 라인, 근무지, 출장, 시간, 예산, 승진 시점, 학습 지원, 그리고 **얼마가 아니라 언제 받는가**. 돈에 고착되는 것은 **우리가 가장 좁은 딱 한 차원 안에서만 협상하는 것**이다.\n\n**수 C — 한 번에, 전부, 순위를 붙여서. (9)**\n이 글에서 **단일 최고 레버리지 전술이자 가장 자주 망치는 것**이다. 순차적 요구는 두 번 처벌한다. 매번 호의를 초기화하고, **첫 양보가 딜 종결로 읽힌다.** 그리고 **순위 없이 묶으면 특정하고 예측 가능한 방식으로 실패한다** — **가장 싼 두 개를 들어주고 다 해줬다고 생각한다.** 그러니 전부 한 번에, **순서를 말하면서.** \"베이스가 가장 중요하고, 그다음 입사일, 그다음 교육 예산입니다\"는 **문장 하나 값인데 결과를 바꾼다.**\n\n**수 D — 글자가 아니라 의도에 답하라. (6, 7, 12)**\n\"다른 오퍼 있으세요?\"는 덫인 경우가 드물다. 보통 **\"우리가 실제로 게임 안에 있나요?\"**다. **(7)**이 일반 열쇠다 — **묻는 사람이 풀려는 문제에 답하라.** 이게 **(6)**의 정직성 문제도 푼다 — **거짓말할 필요가 없어진다.** *의도*에 대한 정직한 답이 *글자*에 대한 방어적 답보다 거의 항상 안전하기 때문이다. **(12)**는 같은 도구를 최후통첩에 겨눈 것이다 — **조항이 아니라 기분으로 취급하고**, 상대가 **체면을 잃지 않고 되돌아 나올 문**을 남겨둬라.\n\n**수 E — 멈출 때를 알고, 시계가 변수임을 알라. (10, 11, 14, 15)**\n**(10)** 모든 것에 흥정하는 것은 **몇 년을 쓸 관계를 지금의 푼돈으로 소모하는 일**이다. **(11)** 오퍼 타이밍은 협상 가능한데 대부분 시도조차 안 한다 — 한쪽을 늦추고 다른 쪽을 당겨 **오퍼들이 함께 도착하게 만드는 것**이 단일 조건 어느 것보다 값질 때가 많다. **(14)** \"안 된다\"는 **\"오늘의 내가 보기에 안 된다\"**이고, **가장 흔한 숨은 이유는 아직 쌓이지 않은 신뢰**다. 6개월이면 답이 달라진다. **(15)** 직무가 틀렸으면 이 중 아무것도 의미가 없다.\n\n### 3 — 글이 지적하되 풀지 않은 긴장\n\n말호트라는 둘을 스스로 짚고 해결은 독자에게 맡긴다. 내가 푸는 방식은 이렇다.\n\n| 긴장 | 푸는 법 |\n|---|---|\n| **호감(1)** vs **더 받을 자격이 있다는 주장(2)** | 정당화를 **자기 자신이 아니라 직무와 시장**에 대한 것으로 만들 것. \"이 스코프의 자리는 X 대역입니다\"는 증거고, \"저는 특별합니다\"는 주장이다. **사람을 싫어지게 만드는 건 주장 쪽이다** |\n| **잡힐 사람이라는 신호(3)** vs **대안 활용(11)** | 대안을 **위협으로 내놓지 말 것.** **상대에게 유리하게 풀려는 타이밍 문제**로 제시하라 — \"예스를 할 수 있는 자리에 있고 싶은데, 이게 걸립니다\" |\n| **거짓말 금지(6)** vs **레버리지 유지(6)** | **규칙 7이 다리다.** 글자 그대로의 질문에 답할 의무는 없고, **거짓을 말하지 않을 의무만 있다.** 의도에 답하면 둘 다 충족된다 |\n| **전체 딜을 요구(8)** vs **협상을 위한 협상 금지(10)** | **순위 매기기(9)**가 이 일을 한다. **순위 붙은 네 개는 한 번의 요구고, 순위 없는 네 개는 네 번의 요구**이며 흥정으로 읽힌다 |\n\n### 4 — 12년이 지나 낡은 것\n\n**메커니즘은 버텼다. 가구는 아니다.**\n\n- **시장 프레이밍이 시기 특정적이다.** 글은 후보자 레버리지를 줄이는 **약한 노동시장**으로 시작한다. 그건 2014년의 조건이지 영구 상태가 아니고, **레버리지가 늘 희소하다고 읽으면 너무 적게 요구하게 된다.**\n- **재택근무가 얻어내야 할 양보로 등장한다** — \"주 1회 재택 허가\"가 정당화 대상 예시다. **2020년 이후 이건 자주 기본값이고**, 때로는 회사가 선호하는 것이며, 어떤 협상에서는 **고용주가 그것을 포기하라고 요구**한다. **예시가 뒤집혔다.**\n- **임금 공시가 빠져 있고, 그게 수 B를 바꾼다.** 2014년 이후 미국 여러 관할에서 **채용 공고에 급여 범위 게시**를 의무화했다. 대역이 공개돼 있으면 규칙 5가 스스로 절반 답하고, 규칙 2의 정당화는 \"내 값어치가 얼마냐\"에서 **\"이 공개 대역 안에서 내가 어디에 서고 왜 상단인가\"**로 옮겨간다. **더 쉬운 논증이다.**\n- **주식 보상이 더 복잡해졌고**, 이건 대체로 규칙 8을 강화한다. **협상 가능한 차원의 수는 늘었는데, 사람들이 실제로 쓰는 차원의 수는 안 늘었다.**\n\n**그리고 한국 맥락 유보, 유보라고 밝힘.** 이 글은 **역제안이 당연하고 무난한 미국 채용 문화**를 전제한다. 규범은 시장과 회사마다 다르고 **나는 현재 한국 관행을 확인하지 않았다** — **메커니즘은 이식 가능한 것으로, 사회적 기대치는 현지에서 보정할 것으로** 다뤄라.\n\n### 5 — 15번은 먼저 읽어야 한다\n\n맨 뒤에 있고 훈화처럼 들려서 넘어간다. **나머지 열넷을 무효로 만들 수 있는 유일한 규칙이다.**\n\n> \"완벽하게 협상하고도 질 수 있다. 당신이 있는 협상이 틀린 협상이라면.\"\n\n그 밑의 주장은 감상이 아니라 경험적이다 — **산업, 직능, 궤적, 그리고 내가 매일 보고하는 사람들**이 만족도 예측에서 **오퍼 조건을 압도한다.** **틀린 직능에서의 10% 더 나은 패키지는, 맞는 직능에서의 10% 나쁜 패키지보다 못한 결과**이고, **사람들이 앞쪽을 최적화하는 이유는 그게 수치화돼 있기 때문**이다. 15번은 **이 글이 자기 주제가 이차적이라고 말하는 부분**이다.\n\n## Jayverse에서의 위치\n\n[Eng #2006, 밀린 시니어와의 일대일](english-24.html)과 직접 짝이 된다. 그 대화는 **말호트라의 규칙이 실시간으로 돌아가는 장면**이고, 둘을 같이 읽으면 양쪽이 날카로워진다.\n\n- Jay가 **불편한 것부터 이름 붙인다.** → **규칙 1.** 호감은 상냥함이 아니라 **상대에게 내 회피를 관리시키지 않는 것**이다.\n- Jay가 \"도와 달라\"가 아니라 **좁고 기한 있는 하나**(\"앞으로 석 달, 회의 전에 말해주세요\")를 요청한다. → **규칙 2.** **수락할 수 있는 요청이 거절할 수 없는 요청을 이긴다.**\n- Jay가 엔지니어 둘 **그리고** 한 분기 **그리고** 공개 인정을 **한 번에, 순서를 밝혀서** 내놓는다. → **규칙 9를 제대로 집행한 것**이고, 그래서 작동한다.\n- Fiona가 \"That's a lot of unpaid consulting\"으로 답한다. → **반대쪽에서의 규칙 2.** 거절 대신 **가격을 테이블에 올린 것.**\n\n그리고 [Eng #2018](english-402.html)이 **수 A가 애초에 왜 작동하는지**를 설명하는 문장을 갖고 있다 — 맞은편 사람은 당신의 오퍼를 올리려고 **내부에서 political capital을 써야 하고**, **당신이 예스라고 했을지 알아보려고 그걸 쓰지는 않는다.**\n\n그래서 실무 산출물은 팁 열다섯 개가 아니라 **수 다섯 개, 그것들이 보이는 대화 하나, 그리고 간직할 문장 하나**다. 그 문장은 **규칙 9**다. 압박 아래서 사람들이 가장 자주 틀리는 것이기 때문이다 — **전부 한 번에, 중요도 순서를 밝혀서.**\n\n## 확인된 것과 미확인\n\n**붙여넣기에서 온 것이고, 전문이었다.** 열다섯 규칙 전부와 내용, 저자와 소속, 2014년 4월 HBR 호수. 이 섹션의 앞선 HBR 붙여넣기들과 달리 **이번엔 티저가 아니라 전문**이어서, §1은 재구성이 아니라 기사 자체의 내용이다. 정식 URL이 열리는 것도 확인했다.\n\n**말호트라가 아니라 내 것.** §2의 다섯 수 재분류, §3 표의 모든 해법, §4의 날짜 찍기, §5의 \"15번을 먼저 읽어야 한다\"는 주장, Jayverse 연결 전부. **기사는 열다섯 항목을 나란히 제시할 뿐 묶거나 순위 매기거나 날짜를 찍지 않는다.**\n\n**일반 지식에서 단언한 것이라 더 약함.** 2014년 이후 미국 여러 관할이 급여 범위 게시를 도입했다는 것. **방향은 의심스럽지 않지만 어느 관할인지, 현재 상태가 어떤지 확인하지 않았고**, 카드의 다른 어떤 부분도 여기에 기대지 않는다.\n\n**명시적으로 확인하지 않은 것.** 한국의 채용·역제안 관행. §4는 추측 대신 **이 점을 유보로 표시**한다. 미국에 맞춰진 전술을 다른 사회적 배경에 쓰면, **규칙 1이 경고하는 바로 그 방식으로 실패**하기 때문이다.\n\n**주장하지 않은 것.** 기사는 규칙 15의 \"산업과 동료가 오퍼 조건보다 중요하다\"에 대해 \"experience and research\"를 근거로 든다. **본문에 연구가 특정돼 있지 않고 나도 찾아보지 않았으므로**, 그 주장은 **저자의 것으로 보고할 뿐 여기서 입증된 것이 아니다.**\n"</script>
+      <h1>말호트라의 오퍼 협상 15원칙 — 실은 다섯 개의 수이고, 전부를 결정하는 규칙이 맨 뒤에 있다</h1>
+      <p class="lead">디팩 말호트라의 HBR 기고(2014년 4월)는 오퍼 협상의 표준 참고문헌이고, 리스티클 형식이 암시하는 것보다 훨씬 좋은 글이다. **팁 열다섯 개로 읽으면 기억에 안 남는다.** 제대로 읽으면 글이 끝내 명시하지 않는 조직 원리 하나가 들어 있다 — **당신은 회사와 싸우는 게 아니라, 회사 안에서 당신을 위해 정치적 자본을 써야 하는 사람을 무장시키고 있는 것이다.** 호감, 정당화, 내가 실제로 잡힐 사람이라는 신호, 상대가 누구인지, 어떤 우리에 갇혀 있는지 — 이 다섯 규칙은 **하나의 수**이고, 그 수의 이름은 **내 편을 무장시키기**다.</p>
+      <p class="meta">두 번째로 건질 것: 맨 뒤에 있어서 다들 대충 넘기는 <strong>15번이 나머지 열넷을 지배한다</strong> — <strong>완벽하게 협상하고도 질 수 있다. 틀린 직무를 두고 협상했다면.</strong> 세 번째: 이 글은 부분적으로 12년이 지났다. <strong>노동시장 프레이밍, 재택근무 예시, 임금 공시에 대한 침묵</strong>이 날짜를 드러내는데, <strong>메커니즘은 그렇지 않다.</strong></p>
+<p>2026-09-26 추가. jay가 전문을 붙여넣었다. 규칙 3의 한 문장 — <em>expend political or social capital</em> — 은 jay 요청으로 <a href="english-402.html">Eng #2018</a>에 본인 분해와 함께 별도 아이템으로 두었고 여기서 반복하지 않는다. §2의 재분류, §3의 긴장 분석, §4의 날짜 찍기, Jayverse 연결은 내 것이고, 규칙 자체는 말호트라의 것이다.</p>
+<h2>왜</h2>
+<p><strong>리스트 형식이 구조를 가리고, 옮겨지는 건 구조뿐이기 때문이다.</strong></p>
+<p>규칙 열다섯 개는 압박 상황에서 떠올릴 수 있는 양이 아니고, <strong>협상은 정확히 기억이 실패하는 순간</strong>이다. 그런데 <strong>수 다섯 개는 들고 다닐 수 있고</strong>, 말호트라의 규칙은 전부 그 다섯 중 하나에 들어간다. 좋은 체크리스트를 그 밑의 수로 압축하는 것이 <strong>&#39;읽어봤다&#39;와 &#39;쓸 수 있다&#39;의 차이</strong>이고, <a href="pocs-the-rule-not-the-list.html">독서 목록 카드</a>가 책 목록에 적용한 것과 같은 조작이다 — <strong>규칙이 옮겨지지, 나열이 옮겨지지 않는다.</strong></p>
+<p>이 글에만 해당하는 두 번째 이유도 있다. 가장 흔한 오독은 <strong>더 뜯어내는 방법의 목록</strong>으로 읽는 것이다. 아니다. 열다섯 중 넷 — 10, 12, 13, 15 — 은 <strong>덜 요구하거나 멈추라는 지시</strong>다. <strong>저자가 4분의 1을 자제하라는 데 쓴 체크리스트는, 진짜 실패 지점이 어디인지 말해주고 있는 것이다.</strong></p>
+<h2>동작 방식</h2>
+<h3>1 — 열다섯, 원문 그대로</h3>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>원문 규칙</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>Don&#39;t underestimate the importance of likability</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>Help them understand why you deserve what you&#39;re requesting</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>Make it clear they can get you</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>Understand the person across the table</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>Understand their constraints</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>Be prepared for tough questions</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>Focus on the questioner&#39;s intent, not on the question</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>Consider the whole deal</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>Negotiate multiple issues simultaneously, not serially</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>Don&#39;t negotiate just to negotiate</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>Think through the timing of offers</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>Avoid, ignore, or downplay ultimatums of any kind</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>Remember, they&#39;re not out to get you</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>Stay at the table</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>Maintain a sense of perspective</td></tr></tbody></table>
+<h3>2 — 그 밑의 다섯 수</h3>
+<p><strong>수 A — 내 편을 무장시켜라. (1, 2, 3, 4, 13)</strong></p>
+<p>회사 안 누군가가 복도를 걸어가 당신을 변호해야 한다. 이 묶음의 모든 규칙이 <strong>그 걸음을 쉽게 만든다.</strong> <strong>호감(1)</strong>은 예의가 아니라 <strong>그 걸음을 걸어줄 의향이 있느냐</strong>의 문제다. <strong>정당화(2)</strong>는 <strong>당신이 방에 없을 때 그 사람이 반복할 논거</strong>다 — 그러니 자기 자신이 아니라 <strong>그 사람을 위해</strong> 써라. <strong>잡힐 사람이라는 신호(3)</strong>는 "자본을 쓰고도 놓치는 거 아닌가?"에 대한 답이고, <strong>개선된 오퍼를 죽이는 단 하나의 질문</strong>이 그것이다. <strong>상대가 누구인지(4)</strong>가 어떤 논거가 먹히는지를 정한다 — 열 명을 뽑는 HR은 전례를 못 깨고, 당신을 자기 팀에 앉히는 매니저는 대신 싸워줄 수 있다. 그리고 <strong>(13)</strong> 지연과 완강함은 보통 적대가 아니라 <strong>제약과 우선순위</strong>다. 적대로 읽으면 불쾌한 사람이 되고, 그러면 수 A가 통째로 무너진다.</p>
+<p><strong>수 B — 밀기 전에 우리의 모양을 그려라. (5, 8)</strong></p>
+<p>상대는 <strong>어딘가는 막혀 있고 어딘가는 열려 있는데, 그 경계가 예상과 다르다.</strong> 스무 명을 동시에 뽑는 대기업: 연봉 밴드는 콘크리트, <strong>입사일·휴가·사이닝보너스는 무르다.</strong> 새 직무를 처음 뽑는 작은 회사: <strong>베이스와 직함은 열려 있을 수 있고</strong> 구조적인 것들은 아니다. 그리고 <strong>(8)</strong> 상자는 연봉보다 훨씬 크다 — 스코프, 보고 라인, 근무지, 출장, 시간, 예산, 승진 시점, 학습 지원, 그리고 <strong>얼마가 아니라 언제 받는가</strong>. 돈에 고착되는 것은 <strong>우리가 가장 좁은 딱 한 차원 안에서만 협상하는 것</strong>이다.</p>
+<p><strong>수 C — 한 번에, 전부, 순위를 붙여서. (9)</strong></p>
+<p>이 글에서 <strong>단일 최고 레버리지 전술이자 가장 자주 망치는 것</strong>이다. 순차적 요구는 두 번 처벌한다. 매번 호의를 초기화하고, <strong>첫 양보가 딜 종결로 읽힌다.</strong> 그리고 <strong>순위 없이 묶으면 특정하고 예측 가능한 방식으로 실패한다</strong> — <strong>가장 싼 두 개를 들어주고 다 해줬다고 생각한다.</strong> 그러니 전부 한 번에, <strong>순서를 말하면서.</strong> "베이스가 가장 중요하고, 그다음 입사일, 그다음 교육 예산입니다"는 <strong>문장 하나 값인데 결과를 바꾼다.</strong></p>
+<p><strong>수 D — 글자가 아니라 의도에 답하라. (6, 7, 12)</strong></p>
+<p>"다른 오퍼 있으세요?"는 덫인 경우가 드물다. 보통 <strong>"우리가 실제로 게임 안에 있나요?"</strong>다. <strong>(7)</strong>이 일반 열쇠다 — <strong>묻는 사람이 풀려는 문제에 답하라.</strong> 이게 <strong>(6)</strong>의 정직성 문제도 푼다 — <strong>거짓말할 필요가 없어진다.</strong> *의도*에 대한 정직한 답이 *글자*에 대한 방어적 답보다 거의 항상 안전하기 때문이다. <strong>(12)</strong>는 같은 도구를 최후통첩에 겨눈 것이다 — <strong>조항이 아니라 기분으로 취급하고</strong>, 상대가 <strong>체면을 잃지 않고 되돌아 나올 문</strong>을 남겨둬라.</p>
+<p><strong>수 E — 멈출 때를 알고, 시계가 변수임을 알라. (10, 11, 14, 15)</strong></p>
+<p><strong>(10)</strong> 모든 것에 흥정하는 것은 <strong>몇 년을 쓸 관계를 지금의 푼돈으로 소모하는 일</strong>이다. <strong>(11)</strong> 오퍼 타이밍은 협상 가능한데 대부분 시도조차 안 한다 — 한쪽을 늦추고 다른 쪽을 당겨 <strong>오퍼들이 함께 도착하게 만드는 것</strong>이 단일 조건 어느 것보다 값질 때가 많다. <strong>(14)</strong> "안 된다"는 <strong>"오늘의 내가 보기에 안 된다"</strong>이고, <strong>가장 흔한 숨은 이유는 아직 쌓이지 않은 신뢰</strong>다. 6개월이면 답이 달라진다. <strong>(15)</strong> 직무가 틀렸으면 이 중 아무것도 의미가 없다.</p>
+<h3>3 — 글이 지적하되 풀지 않은 긴장</h3>
+<p>말호트라는 둘을 스스로 짚고 해결은 독자에게 맡긴다. 내가 푸는 방식은 이렇다.</p>
+<table><thead><tr><th>긴장</th><th>푸는 법</th></tr></thead><tbody><tr><td><strong>호감(1)</strong> vs <strong>더 받을 자격이 있다는 주장(2)</strong></td><td>정당화를 <strong>자기 자신이 아니라 직무와 시장</strong>에 대한 것으로 만들 것. "이 스코프의 자리는 X 대역입니다"는 증거고, "저는 특별합니다"는 주장이다. <strong>사람을 싫어지게 만드는 건 주장 쪽이다</strong></td></tr><tr><td><strong>잡힐 사람이라는 신호(3)</strong> vs <strong>대안 활용(11)</strong></td><td>대안을 <strong>위협으로 내놓지 말 것.</strong> <strong>상대에게 유리하게 풀려는 타이밍 문제</strong>로 제시하라 — "예스를 할 수 있는 자리에 있고 싶은데, 이게 걸립니다"</td></tr><tr><td><strong>거짓말 금지(6)</strong> vs <strong>레버리지 유지(6)</strong></td><td><strong>규칙 7이 다리다.</strong> 글자 그대로의 질문에 답할 의무는 없고, <strong>거짓을 말하지 않을 의무만 있다.</strong> 의도에 답하면 둘 다 충족된다</td></tr><tr><td><strong>전체 딜을 요구(8)</strong> vs <strong>협상을 위한 협상 금지(10)</strong></td><td><strong>순위 매기기(9)</strong>가 이 일을 한다. <strong>순위 붙은 네 개는 한 번의 요구고, 순위 없는 네 개는 네 번의 요구</strong>이며 흥정으로 읽힌다</td></tr></tbody></table>
+<h3>4 — 12년이 지나 낡은 것</h3>
+<p><strong>메커니즘은 버텼다. 가구는 아니다.</strong></p>
+<ul><li><strong>시장 프레이밍이 시기 특정적이다.</strong> 글은 후보자 레버리지를 줄이는 <strong>약한 노동시장</strong>으로 시작한다. 그건 2014년의 조건이지 영구 상태가 아니고, <strong>레버리지가 늘 희소하다고 읽으면 너무 적게 요구하게 된다.</strong></li><li><strong>재택근무가 얻어내야 할 양보로 등장한다</strong> — "주 1회 재택 허가"가 정당화 대상 예시다. <strong>2020년 이후 이건 자주 기본값이고</strong>, 때로는 회사가 선호하는 것이며, 어떤 협상에서는 <strong>고용주가 그것을 포기하라고 요구</strong>한다. <strong>예시가 뒤집혔다.</strong></li><li><strong>임금 공시가 빠져 있고, 그게 수 B를 바꾼다.</strong> 2014년 이후 미국 여러 관할에서 <strong>채용 공고에 급여 범위 게시</strong>를 의무화했다. 대역이 공개돼 있으면 규칙 5가 스스로 절반 답하고, 규칙 2의 정당화는 "내 값어치가 얼마냐"에서 <strong>"이 공개 대역 안에서 내가 어디에 서고 왜 상단인가"</strong>로 옮겨간다. <strong>더 쉬운 논증이다.</strong></li><li><strong>주식 보상이 더 복잡해졌고</strong>, 이건 대체로 규칙 8을 강화한다. <strong>협상 가능한 차원의 수는 늘었는데, 사람들이 실제로 쓰는 차원의 수는 안 늘었다.</strong></li></ul>
+<p><strong>그리고 한국 맥락 유보, 유보라고 밝힘.</strong> 이 글은 <strong>역제안이 당연하고 무난한 미국 채용 문화</strong>를 전제한다. 규범은 시장과 회사마다 다르고 <strong>나는 현재 한국 관행을 확인하지 않았다</strong> — <strong>메커니즘은 이식 가능한 것으로, 사회적 기대치는 현지에서 보정할 것으로</strong> 다뤄라.</p>
+<h3>5 — 15번은 먼저 읽어야 한다</h3>
+<p>맨 뒤에 있고 훈화처럼 들려서 넘어간다. <strong>나머지 열넷을 무효로 만들 수 있는 유일한 규칙이다.</strong></p>
+<p>&gt; "완벽하게 협상하고도 질 수 있다. 당신이 있는 협상이 틀린 협상이라면."</p>
+<p>그 밑의 주장은 감상이 아니라 경험적이다 — <strong>산업, 직능, 궤적, 그리고 내가 매일 보고하는 사람들</strong>이 만족도 예측에서 <strong>오퍼 조건을 압도한다.</strong> <strong>틀린 직능에서의 10% 더 나은 패키지는, 맞는 직능에서의 10% 나쁜 패키지보다 못한 결과</strong>이고, <strong>사람들이 앞쪽을 최적화하는 이유는 그게 수치화돼 있기 때문</strong>이다. 15번은 <strong>이 글이 자기 주제가 이차적이라고 말하는 부분</strong>이다.</p>
+<h2>Jayverse에서의 위치</h2>
+<p><a href="english-24.html">Eng #2006, 밀린 시니어와의 일대일</a>과 직접 짝이 된다. 그 대화는 <strong>말호트라의 규칙이 실시간으로 돌아가는 장면</strong>이고, 둘을 같이 읽으면 양쪽이 날카로워진다.</p>
+<ul><li>Jay가 <strong>불편한 것부터 이름 붙인다.</strong> → <strong>규칙 1.</strong> 호감은 상냥함이 아니라 <strong>상대에게 내 회피를 관리시키지 않는 것</strong>이다.</li><li>Jay가 "도와 달라"가 아니라 <strong>좁고 기한 있는 하나</strong>("앞으로 석 달, 회의 전에 말해주세요")를 요청한다. → <strong>규칙 2.</strong> <strong>수락할 수 있는 요청이 거절할 수 없는 요청을 이긴다.</strong></li><li>Jay가 엔지니어 둘 <strong>그리고</strong> 한 분기 <strong>그리고</strong> 공개 인정을 <strong>한 번에, 순서를 밝혀서</strong> 내놓는다. → <strong>규칙 9를 제대로 집행한 것</strong>이고, 그래서 작동한다.</li><li>Fiona가 "That&#39;s a lot of unpaid consulting"으로 답한다. → <strong>반대쪽에서의 규칙 2.</strong> 거절 대신 <strong>가격을 테이블에 올린 것.</strong></li></ul>
+<p>그리고 <a href="english-402.html">Eng #2018</a>이 <strong>수 A가 애초에 왜 작동하는지</strong>를 설명하는 문장을 갖고 있다 — 맞은편 사람은 당신의 오퍼를 올리려고 <strong>내부에서 political capital을 써야 하고</strong>, <strong>당신이 예스라고 했을지 알아보려고 그걸 쓰지는 않는다.</strong></p>
+<p>그래서 실무 산출물은 팁 열다섯 개가 아니라 <strong>수 다섯 개, 그것들이 보이는 대화 하나, 그리고 간직할 문장 하나</strong>다. 그 문장은 <strong>규칙 9</strong>다. 압박 아래서 사람들이 가장 자주 틀리는 것이기 때문이다 — <strong>전부 한 번에, 중요도 순서를 밝혀서.</strong></p>
+<h2>확인된 것과 미확인</h2>
+<p><strong>붙여넣기에서 온 것이고, 전문이었다.</strong> 열다섯 규칙 전부와 내용, 저자와 소속, 2014년 4월 HBR 호수. 이 섹션의 앞선 HBR 붙여넣기들과 달리 <strong>이번엔 티저가 아니라 전문</strong>이어서, §1은 재구성이 아니라 기사 자체의 내용이다. 정식 URL이 열리는 것도 확인했다.</p>
+<p><strong>말호트라가 아니라 내 것.</strong> §2의 다섯 수 재분류, §3 표의 모든 해법, §4의 날짜 찍기, §5의 "15번을 먼저 읽어야 한다"는 주장, Jayverse 연결 전부. <strong>기사는 열다섯 항목을 나란히 제시할 뿐 묶거나 순위 매기거나 날짜를 찍지 않는다.</strong></p>
+<p><strong>일반 지식에서 단언한 것이라 더 약함.</strong> 2014년 이후 미국 여러 관할이 급여 범위 게시를 도입했다는 것. <strong>방향은 의심스럽지 않지만 어느 관할인지, 현재 상태가 어떤지 확인하지 않았고</strong>, 카드의 다른 어떤 부분도 여기에 기대지 않는다.</p>
+<p><strong>명시적으로 확인하지 않은 것.</strong> 한국의 채용·역제안 관행. §4는 추측 대신 <strong>이 점을 유보로 표시</strong>한다. 미국에 맞춰진 전술을 다른 사회적 배경에 쓰면, <strong>규칙 1이 경고하는 바로 그 방식으로 실패</strong>하기 때문이다.</p>
+<p><strong>주장하지 않은 것.</strong> 기사는 규칙 15의 "산업과 동료가 오퍼 조건보다 중요하다"에 대해 "experience and research"를 근거로 든다. <strong>본문에 연구가 특정돼 있지 않고 나도 찾아보지 않았으므로</strong>, 그 주장은 <strong>저자의 것으로 보고할 뿐 여기서 입증된 것이 아니다.</strong></p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>equip your advocate</strong></strong></td><td>내 편을 무장시키다 — 상대 조직에서 나를 변호할 사람에게 논거를 쥐여주는 것</td></tr><tr><td><strong><strong>go to bat for someone</strong></strong></td><td>남을 위해 대신 나서다 (야구 비유). 기사 원문 표현</td></tr><tr><td><strong><strong>break precedent</strong></strong></td><td>전례를 깨다 — HR이 못 하는 일의 대표</td></tr><tr><td><strong><strong>ironclad constraints</strong></strong></td><td>철벽 같은 제약. 협상으로 풀리지 않는 것</td></tr><tr><td><strong><strong>an exploding offer</strong></strong></td><td>시한부 오퍼 — 빨리 수락할수록 조건이 좋아지는 구조</td></tr><tr><td><strong><strong>a stalking horse</strong></strong></td><td>들러리, 다른 쪽 값을 올리는 데 쓰이는 대상</td></tr><tr><td><strong><strong>negotiate serially vs simultaneously</strong></strong></td><td>순차 협상 대 동시 협상 — 이 기사의 핵심 전술</td></tr><tr><td><strong><strong>signal the relative importance</strong></strong></td><td>상대적 중요도를 알리다 = 순위를 붙이다</td></tr><tr><td><strong><strong>haggle over every little thing</strong></strong></td><td>사소한 것마다 흥정하다</td></tr><tr><td><strong><strong>rub people the wrong way</strong></strong></td><td>사람 심기를 건드리다</td></tr><tr><td><strong><strong>downplay</strong></strong></td><td>축소해 다루다, 대수롭지 않게 넘기다</td></tr><tr><td><strong><strong>become wedded to a position</strong></strong></td><td>어떤 입장에 매이게 되다 — 최후통첩을 굳히지 않게 하라는 맥락</td></tr><tr><td><strong><strong>maintain a sense of perspective</strong></strong></td><td>균형 감각을 유지하다</td></tr><tr><td><strong><strong>second-order</strong></strong></td><td>이차적인 — 중요하지만 결정적이지는 않은</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-the-filter-was-the-sensor.html">&larr; 1820. The filter he used on himself was the sensor he needed for her</a><a href="pocs-the-rule-not-the-list.html">1822. 독서 목록 다섯, 서로 다른 필터 다섯 — 항목은 목록이 아니라 기준이다 &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_progress.js"></script>
+<script>
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  // 레일은 페이지를 옮겨도 스크롤 위치를 그대로 물려받는다 (jay, 2026-09-25: "클릭하면 선택 항목을
+  // 가운데로 맞추려고 패널이 스크롤된다 … make it not scroll, for that timing").
+  // 가드로는 막을 수 없었던 이유: 클릭은 새 페이지를 띄우고 그 레일은 scrollTop=0에서 시작하므로,
+  // 방금까지 보이던 항목도 여기서는 화면 밖이다. 그래서 '보이면 두기'가 아니라 '위치를 넘겨주기'로 바꾼다.
+  var KEY = 'rail:pos';
+  var group = el && el.closest('[data-group]');
+  var sec = group ? group.id : '';
+  var restored = false;
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+    if (saved && saved.sec === sec && typeof saved.top === 'number') { nav.scrollTop = saved.top; restored = true; }
+  } catch (e) {}
+  var save = function (id) {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ sec: id || sec, top: nav.scrollTop })); } catch (e) {}
+  };
+  var timer;
+  nav.addEventListener('scroll', function () { clearTimeout(timer); timer = setTimeout(save, 120); }, { passive: true });
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      var g = this.closest('[data-group]');
+      if (g && g.id === sec) save(g.id);   // 같은 섹션 안에서의 이동일 때만 위치를 넘긴다
+    });
+  }
+  // 클릭으로 들어온 경우(=넘겨받은 위치가 있는 경우)에는 스크롤하지 않는다.
+  // 가운데 정렬은 저장된 위치가 없는 첫 진입에서만 — 비교할 직전 화면이 없으니 움직임으로 보이지 않는다.
+  if (restored || !el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  if (r.bottom > c.top + 4 && r.top < c.bottom - 4) return;
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
