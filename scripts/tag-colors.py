@@ -9,7 +9,7 @@ A chip's tag is its text content, and CSS cannot select on text, so each chip al
 data-tag="<tag>" and the colours are attribute rules. The attribute is added to every chip, not just
 the Life ones, so colouring another section later is a CSS edit and nothing else.
 
-Coloured: Book, Film, Manga and Anime, all in the SAME colour (jay: "make the film, manga, anime
+Coloured: Book, Film, Manga, Anime and Culture, all in the SAME colour (jay: "make the film, manga, anime
 have the same color as the book for the flag"). They are one family - a list of works - so one
 colour marks the family rather than distinguishing its members. Work, Mind, Body and People, and
 every Theory / Invest / English chip, keep the default grey.
@@ -24,7 +24,7 @@ import pathlib, sys, glob, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent / "docs"
 APPLY = "--apply" in sys.argv
 
-MEDIA = ("Book", "Film", "Manga", "Anime")   # 목록 카드 한 묶음 — 같은 색으로 묶는다
+MEDIA = ("Book", "Film", "Manga", "Anime", "Culture")   # 작품을 다루는 한 묶음 — 같은 색으로 묶는다 (Culture: jay, 2026-09-26)
 LIGHT_HUE, DARK_HUE = "#b45309", "#fbbf24"
 LIGHT = {k: LIGHT_HUE for k in MEDIA}
 DARK  = {k: DARK_HUE for k in MEDIA}
