@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four forces, one symptom — why "the Fed is stuck" gets blamed on AI, and the reductio that ends the argument — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
+     칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
+     Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"], .topic-tag[data-tag="Culture"] { color:#b45309; background:#b4530922; }
+  @media (prefers-color-scheme: dark) {
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"], .topic-tag[data-tag="Culture"] { color:#fbbf24; background:#fbbf2426; }
+  }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/983</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+<!-- rail built before paint -->
+<script src="_nav.js"></script>
+<script>window.__NAV_CURRENT__="four-forces-one-symptom-fed";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+</script>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; Four forces, one symptom — why "the Fed is stuck" gets blamed on AI, and the reductio that ends the argument</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1513</span><span>Invest</span><span title="added">2026-09-27</span><span title="source">chat</span><span title="article source"><a href="https://seekingalpha.com/news/4647185-bill-ackman-the-fed-might-have-just-made-a-mistake-am-i-right-or-am-i-wrong" rel="noopener noreferrer" target="_blank">논평 대상: Ackman on X, 2026-09-25</a></span><span title="raw"><a href="raw/2026-09-27-four-forces-one-symptom-fed.md">raw</a></span></p>
+      <h1>Four forces, one symptom — why "the Fed is stuck" gets blamed on AI, and the reductio that ends the argument</h1>
+      <p class="lead">A Korean commentator&#39;s reply to Bill Ackman&#39;s post does something the post does not: it separates the causes. Monetary transmission to the real economy and prices (1); **fiscal dominance**, where government debt is large enough that policy is constrained by the Treasury&#39;s interest bill (2); **financial dominance**, where tightening threatens banks, bond markets and levered investors badly enough that the central bank must relent or intervene (3); and AI infrastructure demand (4). The argument is that these four produce **one visible symptom — the Fed looks stuck — and Ackman attributes all of it to (4)**, which is the optical illusion.</p>
+      <p class="meta">Then it lands the refutation that the <a href="pocs-ackman-rate-insensitive-ai-fed.html">card on Ackman&#39;s post</a> reached for and did not find. <strong>Take the logic literally and it says cutting rates would calm inflation.</strong> Nobody believes that, including Ackman. And running (1) backwards would take (2) and (3) from constrained to uncontrolled — monetary expansion into a debt overhang, which is the classic inflation, not a cure for it. <strong>A model whose symmetric implication is absurd is wrong, and you do not need to find the broken step to know it.</strong></p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# Four forces, one symptom — why \"the Fed is stuck\" gets blamed on AI, and the reductio that ends the argument\n\nA Korean commentator's reply to Bill Ackman's post does something the post does not: it separates the causes. Monetary transmission to the real economy and prices (1); **fiscal dominance**, where government debt is large enough that policy is constrained by the Treasury's interest bill (2); **financial dominance**, where tightening threatens banks, bond markets and levered investors badly enough that the central bank must relent or intervene (3); and AI infrastructure demand (4). The argument is that these four produce **one visible symptom — the Fed looks stuck — and Ackman attributes all of it to (4)**, which is the optical illusion.\n\nThen it lands the refutation that the [card on Ackman's post](pocs-ackman-rate-insensitive-ai-fed.html) reached for and did not find. **Take the logic literally and it says cutting rates would calm inflation.** Nobody believes that, including Ackman. And running (1) backwards would take (2) and (3) from constrained to uncontrolled — monetary expansion into a debt overhang, which is the classic inflation, not a cure for it. **A model whose symmetric implication is absurd is wrong, and you do not need to find the broken step to know it.**\n\nAdded 2026-09-27. The four-way split, the \"누가 컨트롤하는가\" observation and the reductio are the commentator's; §3 to §5 are mine.\n\n## Why\n\nBecause attribution is the whole game here, and it is the step everyone skips.\n\n\"The Fed is stuck\" is an observation almost everyone now agrees on. It is also **consistent with at least four different mechanisms, which imply completely different responses.** If the binding constraint is (4), you shrug and wait for the capex cycle. If it is (2), the fix is fiscal and the Fed is a bystander. If it is (3), the fix is a facility, not a rate. If it is (1), transmission is just weaker and you tighten longer. **Naming the wrong one does not produce a small error; it produces the opposite policy.**\n\nAnd there is a discipline in the reply worth copying. It does not try to find the flawed premise in Ackman's chain — a slow, contestable exercise, which is what [the earlier card](pocs-ackman-rate-insensitive-ai-fed.html) did. **It tests the conclusion's mirror image instead.** That is faster and harder to argue with, and it works on any claim of the form \"X causes the opposite of what everyone thinks\".\n\n## How it works\n\n### 1 — The four forces, and who actually holds each\n\n| | Force | What it does to policy | Who moves it |\n|---|---|---|---|\n| **1** | **Monetary transmission** — rates → demand, investment, prices | The textbook channel. Still works, just weaker | The Fed |\n| **2** | **Fiscal dominance** — debt so large that policy is hostage to the interest bill | Every hike raises the Treasury's cost; at some size the central bank cannot tighten without a fiscal crisis | Government, via deficits |\n| **3** | **Financial dominance** — tightening breaks banks, bond markets, levered holders | The bank must relent or intervene to keep the system funded | Private balance sheets, via their own positioning |\n| **4** | **AI infrastructure demand** | A large block of investment that does not respond to the rate | Nobody, for now |\n\n**The commentator's central claim**: (2), (3) and (4) together have weakened (1) a great deal, and **(2) and (3) are not the Fed's to fix**. So the Fed looks impotent, and an observer picks whichever cause they already believe in. Ackman picks (4), because (4) is the story of the decade.\n\n**And the specific weak link identified**: the claim that high financing cost gets embedded in the price of everything. The reply calls this logic thin, and it is the same hole [the earlier card](pocs-ackman-rate-insensitive-ai-fed.html) found from a different angle — interest is a small share of most cost bases, and a sector that does not need to borrow cannot be pushing interest into prices.\n\n### 2 — The reductio, which is the strongest thing here\n\nIf higher rates cause higher inflation, then by the same mechanism **lower rates should cause lower inflation.**\n\nNobody will say that out loud, and that is the point. A reader who swallows the post whole arrives at \"so cuts would calm prices?\" — and the commentator's answer is that running (1) in reverse would release exactly the two constraints that are already doing the damage:\n\n- **(2) goes from constrained to uncontrolled.** Cheaper debt service removes the discipline on deficits at the moment the debt is largest.\n- **(3) goes the same way.** Cheap funding rebuilds leverage, which is what made financial dominance binding in the first place.\n\nThe result is monetary expansion into a debt overhang, which is **the most standard inflation there is.** So the doom-loop model, taken seriously, recommends the one thing that reliably produces the outcome it claims to be avoiding.\n\n**This is a better refutation than finding the broken premise**, because it does not require agreeing on where the break is. It only requires that the mirror image be unacceptable.\n\n### 3 — Where I would push back on the reply itself\n\n**\"(2) is controlled by government, (3) by private capital markets\" is too clean.** Control of a cause is not control of a constraint.\n\n- The government **creates** fiscal dominance through deficits but has **no incentive to relieve it** — the constraint benefits the borrower. Calling that \"controlled\" suggests a hand on a lever that someone is willing to pull.\n- Financial dominance is not **controlled** by private markets either; it **emerges** from their positioning, and no participant chooses it. Worse, the central bank partly built it: years of asset purchases put duration into bank portfolios, which is precisely the exposure that made 2023 dangerous.\n\n**More importantly, (3) has a known institutional answer, and it weakens the \"Fed can't act\" framing.** In March 2023 the Fed did not stop tightening when banks broke. **It separated the instruments** — kept raising rates for inflation and stood up a dedicated facility for stability. That is the standard resolution of financial dominance: **do not slow the rate, add a tool.** So (3) constrains the Fed less than the reply implies, as long as the institution is willing to use two hands.\n\n**And (2) is the one that genuinely has no monetary answer.** If the reply had ranked its four forces rather than listing them, fiscal dominance is the one to put first — it is the only one the Fed can neither offset with a facility nor outlast.\n\n### 4 — Turning the taxonomy into something you can watch\n\nA four-way split is only useful if the four are separable in data. They are, and each has its own tell:\n\n| Force | What to watch | What would confirm it is binding |\n|---|---|---|\n| **1 Transmission** | housing starts, mortgage applications, auto credit | rate-sensitive activity contracting far more than aggregates suggest |\n| **2 Fiscal dominance** | term premium, interest as a share of federal revenue, auction tails | long yields rising on *supply* news rather than growth or inflation news |\n| **3 Financial dominance** | credit spreads, bank unrealised losses, repo and funding stress | the central bank creating facilities while still claiming a tightening stance |\n| **4 AI capex** | the debt-financed share of hyperscaler capex | capex guidance holding *while* the debt share rises — insensitivity that survives leverage |\n\nRow 4 is where [the earlier card](pocs-ackman-rate-insensitive-ai-fed.html) already has numbers: hyperscaler bond issuance went from about 2% of capex in 2022 to about 17% in 2025. **That series is the cleanest single reading on whether (4) is still rate-insensitive, and it says: less so every quarter.**\n\n### 5 — What to keep\n\n- **When one symptom has four candidate causes, name the cause before prescribing.** The prescriptions are not similar; two of them are opposites.\n- **Test the mirror image before hunting for the broken premise.** If \"X causes the reverse of the consensus\" implies something nobody will defend, you are done, and you did not have to win an argument about mechanisms.\n- **Distinguish who creates a constraint from who can relieve it.** Almost nobody who creates one has an incentive to relieve it, which is why constraints persist.\n- **A constraint with an institutional workaround is weaker than it looks.** Financial dominance has one — separate the instruments. Fiscal dominance does not.\n\n## Where it lands in Jayverse\n\nSits directly beside [the Ackman card](pocs-ackman-rate-insensitive-ai-fed.html) and completes it. That card took the argument apart from the inside — the contradiction between rate-insensitivity and cost pass-through, the duration point, the expiring premise. **This one refutes it from the outside, in one move, and the outside move is better.** Keeping both is deliberate: the inside method tells you *why* it fails, the outside method tells you *that* it fails before you have spent an hour.\n\nThe transferable pair:\n\n1. **Decompose before you attribute.** Any time a system looks stuck, list the forces that could produce that appearance and ask which is binding. The answer determines whether you act, wait, or hand the problem to someone else.\n2. **Run the claim backwards.** It costs one sentence. If the reverse is absurd and the author has not argued for asymmetry, the claim is finished.\n\nFor jay, the second is the portable one, and it is not about macro. It is the same move as checking a list against its own attached claim — [the Guardian card's](pocs-guardian-100-best-novels.html) \"only Asian writer\" note is refuted by the list it is printed on. **Cheap internal tests beat expensive external research, and should be run first.**\n\n## Verified and unverified\n\n**From the paste, and credited to it.** The four-force decomposition; the definitions of fiscal dominance and financial dominance as given; the claim that (2) and (3) are outside the Fed's control; the judgement that the \"financing cost embedded in everything\" step is weak; and the reductio that taking Ackman literally implies cuts would calm inflation. **These are the commentator's arguments, not mine.** The paste came without attribution and I did not identify the author.\n\n**Mine.** All of §3 — the objection that creating a constraint is not controlling it, the point that the central bank helped build the duration exposure behind financial dominance, the claim that separating instruments is the standard institutional answer to (3), and the ranking that puts fiscal dominance first. Also all of §4's dashboard, and §5.\n\n**Background knowledge, not fetched for this card.** That fiscal dominance and financial dominance are established terms in the literature rather than coinages. That the Fed in March 2023 kept raising rates while creating a dedicated bank funding facility. The direction of both is not controversial, but neither was re-checked here, and §3's argument leans on the second.\n\n**Carried over, already fetched.** The debt-intensity figures in §4 (about 2% of capex in 2022 to about 17% in 2025) come from [the Ackman card](pocs-ackman-rate-insensitive-ai-fed.html), where they are sourced and where the caveat about them coming from a multi-publisher summary is recorded.\n\n**Not attempted.** No estimate of how much of the weakening of (1) is attributable to each of (2), (3) and (4). That decomposition is the actual research question behind this card and it is not answered here — the card offers a way to watch it, not a measurement.\n"</script>
+<p>Added 2026-09-27. The four-way split, the "누가 컨트롤하는가" observation and the reductio are the commentator&#39;s; §3 to §5 are mine.</p>
+<h2>Why</h2>
+<p>Because attribution is the whole game here, and it is the step everyone skips.</p>
+<p>"The Fed is stuck" is an observation almost everyone now agrees on. It is also <strong>consistent with at least four different mechanisms, which imply completely different responses.</strong> If the binding constraint is (4), you shrug and wait for the capex cycle. If it is (2), the fix is fiscal and the Fed is a bystander. If it is (3), the fix is a facility, not a rate. If it is (1), transmission is just weaker and you tighten longer. <strong>Naming the wrong one does not produce a small error; it produces the opposite policy.</strong></p>
+<p>And there is a discipline in the reply worth copying. It does not try to find the flawed premise in Ackman&#39;s chain — a slow, contestable exercise, which is what <a href="pocs-ackman-rate-insensitive-ai-fed.html">the earlier card</a> did. <strong>It tests the conclusion&#39;s mirror image instead.</strong> That is faster and harder to argue with, and it works on any claim of the form "X causes the opposite of what everyone thinks".</p>
+<h2>How it works</h2>
+<h3>1 — The four forces, and who actually holds each</h3>
+<table><thead><tr><th></th><th>Force</th><th>What it does to policy</th><th>Who moves it</th></tr></thead><tbody><tr><td><strong>1</strong></td><td><strong>Monetary transmission</strong> — rates → demand, investment, prices</td><td>The textbook channel. Still works, just weaker</td><td>The Fed</td></tr><tr><td><strong>2</strong></td><td><strong>Fiscal dominance</strong> — debt so large that policy is hostage to the interest bill</td><td>Every hike raises the Treasury&#39;s cost; at some size the central bank cannot tighten without a fiscal crisis</td><td>Government, via deficits</td></tr><tr><td><strong>3</strong></td><td><strong>Financial dominance</strong> — tightening breaks banks, bond markets, levered holders</td><td>The bank must relent or intervene to keep the system funded</td><td>Private balance sheets, via their own positioning</td></tr><tr><td><strong>4</strong></td><td><strong>AI infrastructure demand</strong></td><td>A large block of investment that does not respond to the rate</td><td>Nobody, for now</td></tr></tbody></table>
+<p><strong>The commentator&#39;s central claim</strong>: (2), (3) and (4) together have weakened (1) a great deal, and <strong>(2) and (3) are not the Fed&#39;s to fix</strong>. So the Fed looks impotent, and an observer picks whichever cause they already believe in. Ackman picks (4), because (4) is the story of the decade.</p>
+<p><strong>And the specific weak link identified</strong>: the claim that high financing cost gets embedded in the price of everything. The reply calls this logic thin, and it is the same hole <a href="pocs-ackman-rate-insensitive-ai-fed.html">the earlier card</a> found from a different angle — interest is a small share of most cost bases, and a sector that does not need to borrow cannot be pushing interest into prices.</p>
+<h3>2 — The reductio, which is the strongest thing here</h3>
+<p>If higher rates cause higher inflation, then by the same mechanism <strong>lower rates should cause lower inflation.</strong></p>
+<p>Nobody will say that out loud, and that is the point. A reader who swallows the post whole arrives at "so cuts would calm prices?" — and the commentator&#39;s answer is that running (1) in reverse would release exactly the two constraints that are already doing the damage:</p>
+<ul><li><strong>(2) goes from constrained to uncontrolled.</strong> Cheaper debt service removes the discipline on deficits at the moment the debt is largest.</li><li><strong>(3) goes the same way.</strong> Cheap funding rebuilds leverage, which is what made financial dominance binding in the first place.</li></ul>
+<p>The result is monetary expansion into a debt overhang, which is <strong>the most standard inflation there is.</strong> So the doom-loop model, taken seriously, recommends the one thing that reliably produces the outcome it claims to be avoiding.</p>
+<p><strong>This is a better refutation than finding the broken premise</strong>, because it does not require agreeing on where the break is. It only requires that the mirror image be unacceptable.</p>
+<h3>3 — Where I would push back on the reply itself</h3>
+<p><strong>"(2) is controlled by government, (3) by private capital markets" is too clean.</strong> Control of a cause is not control of a constraint.</p>
+<ul><li>The government <strong>creates</strong> fiscal dominance through deficits but has <strong>no incentive to relieve it</strong> — the constraint benefits the borrower. Calling that "controlled" suggests a hand on a lever that someone is willing to pull.</li><li>Financial dominance is not <strong>controlled</strong> by private markets either; it <strong>emerges</strong> from their positioning, and no participant chooses it. Worse, the central bank partly built it: years of asset purchases put duration into bank portfolios, which is precisely the exposure that made 2023 dangerous.</li></ul>
+<p><strong>More importantly, (3) has a known institutional answer, and it weakens the "Fed can&#39;t act" framing.</strong> In March 2023 the Fed did not stop tightening when banks broke. <strong>It separated the instruments</strong> — kept raising rates for inflation and stood up a dedicated facility for stability. That is the standard resolution of financial dominance: <strong>do not slow the rate, add a tool.</strong> So (3) constrains the Fed less than the reply implies, as long as the institution is willing to use two hands.</p>
+<p><strong>And (2) is the one that genuinely has no monetary answer.</strong> If the reply had ranked its four forces rather than listing them, fiscal dominance is the one to put first — it is the only one the Fed can neither offset with a facility nor outlast.</p>
+<h3>4 — Turning the taxonomy into something you can watch</h3>
+<p>A four-way split is only useful if the four are separable in data. They are, and each has its own tell:</p>
+<table><thead><tr><th>Force</th><th>What to watch</th><th>What would confirm it is binding</th></tr></thead><tbody><tr><td><strong>1 Transmission</strong></td><td>housing starts, mortgage applications, auto credit</td><td>rate-sensitive activity contracting far more than aggregates suggest</td></tr><tr><td><strong>2 Fiscal dominance</strong></td><td>term premium, interest as a share of federal revenue, auction tails</td><td>long yields rising on <em>supply</em> news rather than growth or inflation news</td></tr><tr><td><strong>3 Financial dominance</strong></td><td>credit spreads, bank unrealised losses, repo and funding stress</td><td>the central bank creating facilities while still claiming a tightening stance</td></tr><tr><td><strong>4 AI capex</strong></td><td>the debt-financed share of hyperscaler capex</td><td>capex guidance holding <em>while</em> the debt share rises — insensitivity that survives leverage</td></tr></tbody></table>
+<p>Row 4 is where <a href="pocs-ackman-rate-insensitive-ai-fed.html">the earlier card</a> already has numbers: hyperscaler bond issuance went from about 2% of capex in 2022 to about 17% in 2025. <strong>That series is the cleanest single reading on whether (4) is still rate-insensitive, and it says: less so every quarter.</strong></p>
+<h3>5 — What to keep</h3>
+<ul><li><strong>When one symptom has four candidate causes, name the cause before prescribing.</strong> The prescriptions are not similar; two of them are opposites.</li><li><strong>Test the mirror image before hunting for the broken premise.</strong> If "X causes the reverse of the consensus" implies something nobody will defend, you are done, and you did not have to win an argument about mechanisms.</li><li><strong>Distinguish who creates a constraint from who can relieve it.</strong> Almost nobody who creates one has an incentive to relieve it, which is why constraints persist.</li><li><strong>A constraint with an institutional workaround is weaker than it looks.</strong> Financial dominance has one — separate the instruments. Fiscal dominance does not.</li></ul>
+<h2>Where it lands in Jayverse</h2>
+<p>Sits directly beside <a href="pocs-ackman-rate-insensitive-ai-fed.html">the Ackman card</a> and completes it. That card took the argument apart from the inside — the contradiction between rate-insensitivity and cost pass-through, the duration point, the expiring premise. <strong>This one refutes it from the outside, in one move, and the outside move is better.</strong> Keeping both is deliberate: the inside method tells you <em>why</em> it fails, the outside method tells you <em>that</em> it fails before you have spent an hour.</p>
+<p>The transferable pair:</p>
+<ol><li><strong>Decompose before you attribute.</strong> Any time a system looks stuck, list the forces that could produce that appearance and ask which is binding. The answer determines whether you act, wait, or hand the problem to someone else.</li><li><strong>Run the claim backwards.</strong> It costs one sentence. If the reverse is absurd and the author has not argued for asymmetry, the claim is finished.</li></ol>
+<p>For jay, the second is the portable one, and it is not about macro. It is the same move as checking a list against its own attached claim — <a href="pocs-guardian-100-best-novels.html">the Guardian card&#39;s</a> "only Asian writer" note is refuted by the list it is printed on. <strong>Cheap internal tests beat expensive external research, and should be run first.</strong></p>
+<h2>Verified and unverified</h2>
+<p><strong>From the paste, and credited to it.</strong> The four-force decomposition; the definitions of fiscal dominance and financial dominance as given; the claim that (2) and (3) are outside the Fed&#39;s control; the judgement that the "financing cost embedded in everything" step is weak; and the reductio that taking Ackman literally implies cuts would calm inflation. <strong>These are the commentator&#39;s arguments, not mine.</strong> The paste came without attribution and I did not identify the author.</p>
+<p><strong>Mine.</strong> All of §3 — the objection that creating a constraint is not controlling it, the point that the central bank helped build the duration exposure behind financial dominance, the claim that separating instruments is the standard institutional answer to (3), and the ranking that puts fiscal dominance first. Also all of §4&#39;s dashboard, and §5.</p>
+<p><strong>Background knowledge, not fetched for this card.</strong> That fiscal dominance and financial dominance are established terms in the literature rather than coinages. That the Fed in March 2023 kept raising rates while creating a dedicated bank funding facility. The direction of both is not controversial, but neither was re-checked here, and §3&#39;s argument leans on the second.</p>
+<p><strong>Carried over, already fetched.</strong> The debt-intensity figures in §4 (about 2% of capex in 2022 to about 17% in 2025) come from <a href="pocs-ackman-rate-insensitive-ai-fed.html">the Ackman card</a>, where they are sourced and where the caveat about them coming from a multi-publisher summary is recorded.</p>
+<p><strong>Not attempted.</strong> No estimate of how much of the weakening of (1) is attributable to each of (2), (3) and (4). That decomposition is the actual research question behind this card and it is not answered here — the card offers a way to watch it, not a measurement.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>fiscal dominance</strong></strong></td><td>재정지배 — 정부부채가 커서 통화정책이 이자 부담에 제약되는 상태</td></tr><tr><td><strong><strong>financial dominance</strong></strong></td><td>금융지배 — 금융안정 우려가 긴축을 제약하는 상태</td></tr><tr><td><strong><strong>the binding constraint</strong></strong></td><td>구속 조건. 실제로 발목을 잡고 있는 하나</td></tr><tr><td><strong><strong>attribution</strong></strong></td><td>귀속 — 증상을 어느 원인에 돌리는가</td></tr><tr><td><strong><strong>a reductio</strong> (reductio ad absurdum)</strong></td><td>귀류법 — 결론의 함의가 터무니없음을 보여 논박</td></tr><tr><td><strong><strong>the mirror image of a claim</strong></strong></td><td>주장의 거울상. 대칭적 함의</td></tr><tr><td><strong><strong>separate the instruments</strong></strong></td><td>도구를 분리하다 — 금리는 물가에, 설비는 안정에</td></tr><tr><td><strong><strong>a facility</strong> (중앙은행)</strong></td><td>(유동성 공급) 설비·제도</td></tr><tr><td><strong><strong>a debt overhang</strong></strong></td><td>부채 과잉</td></tr><tr><td><strong><strong>term premium</strong></strong></td><td>기간 프리미엄</td></tr><tr><td><strong><strong>auction tail</strong></strong></td><td>국채 입찰 테일 — 수요 약세 신호</td></tr><tr><td><strong><strong>unrealised losses</strong></strong></td><td>미실현손실</td></tr><tr><td><strong><strong>it emerges, it is not chosen</strong></strong></td><td>창발하는 것이지 선택되는 것이 아니다</td></tr><tr><td><strong><strong>who creates a constraint vs. who can relieve it</strong></strong></td><td>제약을 만드는 쪽과 풀 수 있는 쪽</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 네 개의 힘, 하나의 증상 — \"연준이 갇혔다\"를 왜 AI 탓으로 돌리게 되는가, 그리고 논증을 끝내는 귀류법\n\n빌 애크먼 글에 대한 한국어 논평 하나가, 원글이 하지 않은 일을 한다 — **원인을 분리한다.** 통화정책의 실물·물가 전달(1), **재정지배**(정부부채가 너무 커져 중앙은행 정책이 국채 이자 부담에 제약되는 현상, 2), **금융지배**(긴축이 은행·채권시장·레버리지 투자자에 손실과 유동성 위기를 일으켜 중앙은행이 긴축을 제한하거나 개입해야 하는 현상, 3), 그리고 AI 인프라 투자 수요(4). 논지는 이렇다 — **네 힘이 하나의 눈에 보이는 증상을 만들고(\"연준이 무력해 보인다\"), 애크먼은 그 전부를 (4) 탓으로 돌린다.** 그게 착시다.\n\n그리고 [애크먼 카드](pocs-ackman-rate-insensitive-ai-fed.html)가 더듬다 못 찾은 반박을 정확히 착지시킨다. **그 논리를 곧이곧대로 받으면 \"금리를 내리면 물가가 안정된다\"가 된다.** 아무도, 애크먼 본인도 그렇게 믿지 않는다. 게다가 (1)을 거꾸로 돌리면 (2)와 (3)이 **제약 상태에서 통제 불능 상태로** 넘어간다 — 부채 과잉 위에 통화팽창, **가장 전형적인 인플레이션**이지 그 치료제가 아니다. **대칭적 함의가 터무니없는 모형은 틀린 모형이고, 어느 단계가 깨졌는지 찾아내지 않아도 그걸 알 수 있다.**\n\n2026-09-27 추가. 네 갈래 분리, \"누가 컨트롤하는가\" 관찰, 귀류법은 논평자의 것이고, §3~§5는 내 것이다.\n\n## 왜\n\n**여기서는 귀속(attribution)이 게임의 전부인데, 모두가 건너뛰는 단계이기 때문이다.**\n\n\"연준이 갇혔다\"는 이제 거의 모두가 동의하는 관찰이다. 그리고 **최소 네 개의 서로 다른 메커니즘과 정합적인데, 그 넷은 완전히 다른 대응을 함의한다.** 구속 조건이 (4)라면 어깨를 으쓱하고 자본지출 사이클을 기다리면 된다. (2)라면 해법은 재정이고 연준은 구경꾼이다. (3)이라면 해법은 금리가 아니라 **설비(facility)**다. (1)이라면 전달이 약해졌을 뿐이니 **더 오래** 조이면 된다. **틀린 이름을 붙이는 것은 작은 오차가 아니라 정반대 정책을 낳는다.**\n\n그리고 이 논평에는 베낄 만한 규율이 하나 있다. **애크먼 사슬에서 결함 있는 전제를 찾으려 하지 않는다** — 느리고 다툼의 여지가 큰 작업이고, [앞 카드](pocs-ackman-rate-insensitive-ai-fed.html)가 한 일이 그것이다. 대신 **결론의 거울상을 시험한다.** 훨씬 빠르고 반박하기 어려우며, **\"X가 통념의 반대를 낳는다\"** 형태의 모든 주장에 통한다.\n\n## 동작 방식\n\n### 1 — 네 힘, 그리고 각각을 실제로 쥔 쪽\n\n| | 힘 | 정책에 하는 일 | 누가 움직이나 |\n|---|---|---|---|\n| **1** | **통화 전달** — 금리 → 수요·투자·물가 | 교과서 경로. 여전히 작동하되 **약해졌다** | 연준 |\n| **2** | **재정지배** — 부채가 커서 정책이 이자 부담에 인질 | 인상할 때마다 재무부 비용이 오른다. 어떤 규모를 넘으면 **재정 위기 없이 조일 수 없다** | 정부, 재정적자를 통해 |\n| **3** | **금융지배** — 긴축이 은행·채권시장·레버리지 보유자를 깨뜨린다 | 시스템 자금조달을 유지하려면 **물러서거나 개입**해야 한다 | 민간 밸런스시트, 자기 포지셔닝을 통해 |\n| **4** | **AI 인프라 수요** | 금리에 반응하지 않는 **큰 투자 블록** | 당분간 아무도 |\n\n**논평의 중심 주장**: (2)·(3)·(4)가 합쳐 (1)의 효과를 크게 떨어뜨렸고, **(2)와 (3)은 연준이 어찌할 수 있는 게 아니다.** 그래서 연준이 무력해 보이고, 관찰자는 **자기가 이미 믿는 원인**을 집는다. 애크먼은 (4)를 집는다. (4)가 이 시대의 이야기이기 때문이다.\n\n**그리고 지목된 약한 고리**: 높은 금융 비용이 **모든 재화의 가격에 녹아든다**는 주장. 논평은 이 논리가 약하다고 본다. [앞 카드](pocs-ackman-rate-insensitive-ai-fed.html)가 다른 각도에서 찾은 구멍과 같다 — **이자는 대부분의 비용 구조에서 작은 몫**이고, **빌릴 필요가 없는 부문이 이자를 가격에 밀어넣을 수는 없다.**\n\n### 2 — 귀류법, 여기서 가장 강한 것\n\n금리 인상이 인플레이션을 올린다면, **같은 메커니즘으로 금리 인하는 인플레이션을 낮춰야 한다.**\n\n아무도 그 말을 소리 내어 하지 않을 것이고, **그게 요점이다.** 원글을 통째로 삼킨 독자는 \"어 그럼 금리 인하하면 물가가 오히려 안정되는 거 아냐?\"에 도착한다. 논평의 답은, **(1)을 거꾸로 돌리면 이미 피해를 주고 있는 두 제약이 정확히 풀려난다**는 것이다.\n\n- **(2)가 제약에서 통제 불능으로.** 싼 이자는 **부채가 가장 클 때** 재정적자에 대한 규율을 없앤다.\n- **(3)도 마찬가지로.** 싼 조달은 레버리지를 다시 쌓고, **애초에 금융지배를 구속력 있게 만든 것이 그 레버리지**다.\n\n결과는 **부채 과잉 위의 통화팽창**, 존재하는 가장 표준적인 인플레이션이다. 즉 악순환 모형은 진지하게 받아들이면 **자기가 피한다고 주장하는 결과를 가장 확실히 만드는 처방**을 내놓는다.\n\n**이게 깨진 전제를 찾는 것보다 나은 반박이다.** 어디가 깨졌는지 합의할 필요가 없고, **거울상이 받아들일 수 없다는 것만 보이면 되기 때문이다.**\n\n### 3 — 논평 자체에 내가 다는 반론\n\n**\"(2)는 정부가 컨트롤, (3)은 민간자본시장이 컨트롤\"은 너무 깔끔하다.** **원인을 쥔 것과 제약을 풀 수 있는 것은 다르다.**\n\n- 정부는 재정적자로 재정지배를 **만들지만 그것을 풀 유인이 없다** — **제약의 수혜자가 차입자 자신**이다. \"컨트롤한다\"는 표현은 **누군가 당길 의향이 있는 레버**를 연상시키는데, 그런 레버가 아니다.\n- 금융지배도 민간이 **컨트롤하는** 게 아니라 **그들의 포지셔닝에서 창발**한다. 어느 참가자도 그것을 선택하지 않는다. 게다가 **중앙은행이 일부 지었다** — 수년의 자산매입이 은행 포트폴리오에 듀레이션을 밀어넣었고, **2023년을 위험하게 만든 노출이 정확히 그것**이다.\n\n**그리고 더 중요한 것: (3)에는 알려진 제도적 해법이 있고, 그게 \"연준이 못 움직인다\"는 프레이밍을 약화시킨다.** 2023년 3월, 은행이 깨졌을 때 연준은 **긴축을 멈추지 않았다.** **도구를 분리했다** — 물가에는 금리를 계속 올리고, 안정에는 전용 설비를 세웠다. 이것이 금융지배의 표준 해법이다 — **금리를 늦추지 말고 도구를 하나 더 붙여라.** 그러니 **(3)은 논평이 시사하는 것보다 연준을 덜 묶는다.** 기관이 두 손을 쓸 의향이 있는 한.\n\n**그리고 (2)가 진짜로 통화적 해법이 없는 쪽이다.** 논평이 네 힘을 나열만 하지 않고 **순위를 매겼다면**, 재정지배를 맨 앞에 뒀어야 한다. **설비로 상쇄할 수도, 버텨서 넘길 수도 없는 유일한 힘**이다.\n\n### 4 — 분류를 관찰 가능한 것으로 바꾸기\n\n네 갈래 분리는 **데이터에서 분리될 때만** 쓸모 있다. 분리된다. 각각 고유한 신호가 있다.\n\n| 힘 | 볼 것 | 구속력이 있다는 확증 |\n|---|---|---|\n| **1 전달** | 주택 착공, 모기지 신청, 자동차 할부 | 금리 민감 활동이 **총계가 시사하는 것보다 훨씬 크게** 수축 |\n| **2 재정지배** | 기간 프리미엄, 연방 세입 대비 이자 비중, 국채 입찰 테일 | 장기 금리가 성장·물가가 아니라 **공급 뉴스에** 오름 |\n| **3 금융지배** | 신용 스프레드, 은행 미실현손실, 리포·조달 스트레스 | 중앙은행이 **긴축 기조를 주장하면서 동시에 설비를 만듦** |\n| **4 AI 자본지출** | 하이퍼스케일러 자본지출의 **부채 조달 비중** | 부채 비중이 오르는 **와중에** 자본지출 가이던스가 유지 — 레버리지를 견디는 둔감성 |\n\n4행은 [앞 카드](pocs-ackman-rate-insensitive-ai-fed.html)에 이미 숫자가 있다. 하이퍼스케일러 채권 발행이 자본지출의 **2022년 약 2% → 2025년 약 17%**. **(4)가 여전히 금리에 둔감한지를 읽는 가장 깨끗한 단일 시계열이고, 답은 \"분기마다 덜\"이다.**\n\n### 5 — 남길 것\n\n- **하나의 증상에 후보 원인이 넷이면, 처방 전에 원인을 지목하라.** 처방들은 비슷하지 않다. **둘은 서로 반대**다.\n- **깨진 전제를 사냥하기 전에 거울상을 시험하라.** \"X가 통념의 반대를 낳는다\"가 **아무도 옹호하지 않을 것**을 함의하면 거기서 끝이고, 메커니즘 논쟁에서 이길 필요가 없다.\n- **제약을 만드는 쪽과 풀 수 있는 쪽을 구분하라.** 만든 쪽은 거의 언제나 **풀 유인이 없고**, 그래서 제약이 지속된다.\n- **제도적 우회로가 있는 제약은 보이는 것보다 약하다.** 금융지배에는 있다 — **도구 분리**. 재정지배에는 없다.\n\n## Jayverse에서의 위치\n\n[애크먼 카드](pocs-ackman-rate-insensitive-ai-fed.html) 바로 옆에 놓이고 그것을 완성한다. 그 카드는 **안에서** 논증을 해체했다 — 금리 둔감성과 비용 전가의 모순, 듀레이션, 만료되는 전제. **이 카드는 밖에서 한 수로 반박하고, 바깥 수가 더 낫다.** 둘 다 두는 건 의도적이다. **안쪽 방법은 왜 실패하는지를, 바깥쪽 방법은 한 시간 쓰기 전에 실패한다는 것을** 알려준다.\n\n옮길 것 둘:\n\n1. **귀속하기 전에 분해하라.** 어떤 시스템이 갇혀 보일 때마다, 그 외양을 만들 수 있는 힘들을 나열하고 **무엇이 구속하는지** 물어라. 답이 **행동할지, 기다릴지, 남에게 넘길지**를 정한다.\n2. **주장을 거꾸로 돌려보라.** 문장 하나 값이다. **역이 터무니없는데 저자가 비대칭을 논증하지 않았다면 그 주장은 끝난 것**이다.\n\njay에게는 두 번째가 들고 다닐 것이고, **거시 이야기가 아니다.** 목록을 그 목록에 붙은 주장으로 검사하는 것과 **같은 수**다 — [가디언 카드](pocs-guardian-100-best-novels.html)의 \"유일한 아시아 작가\" 주석은 **그게 인쇄된 목록 자신이 반박**한다. **싼 내부 검사가 비싼 외부 조사를 이기고, 먼저 돌려야 한다.**\n\n## 확인된 것과 미확인\n\n**붙여넣기에서 왔고, 그쪽 공으로 돌린다.** 네 힘 분해, 재정지배·금융지배의 정의, (2)와 (3)이 연준 바깥이라는 주장, \"금융 비용이 모든 가격에 녹아든다\"는 단계가 약하다는 판단, 그리고 **애크먼을 곧이곧대로 받으면 인하가 물가를 안정시킨다는 결론이 나온다는 귀류법.** **전부 논평자의 논증이지 내 것이 아니다.** 붙여넣기에 출처가 없었고 작성자를 특정하지 않았다.\n\n**내 것.** §3 전부 — 제약을 만드는 것이 컨트롤하는 것이 아니라는 반론, 금융지배 뒤의 듀레이션 노출을 중앙은행이 일부 지었다는 지적, **도구 분리가 (3)의 표준 해법**이라는 주장, 재정지배를 맨 앞에 두는 순위. 그리고 §4의 관찰 표와 §5 전부.\n\n**배경지식이고 이 카드를 위해 받아오지 않음.** 재정지배·금융지배가 **문헌에 정립된 용어**라는 것. 2023년 3월 연준이 **금리를 계속 올리면서 은행 전용 조달 설비를 만들었다**는 것. 둘 다 방향은 논쟁적이지 않지만 여기서 재확인하지 않았고, **§3의 논증이 두 번째에 기댄다.**\n\n**이월된 것, 이미 확인됨.** §4의 부채 비중 수치(2022년 약 2% → 2025년 약 17%)는 [애크먼 카드](pocs-ackman-rate-insensitive-ai-fed.html)에서 왔고, 그쪽에 출처와 **\"여러 발행처 요약에서 온 지시적 수치\"라는 유보**가 기록돼 있다.\n\n**시도하지 않은 것.** (1)의 약화 중 **얼마가 (2)·(3)·(4) 각각의 몫인지**에 대한 추정. 그 분해가 이 카드 뒤의 실제 연구 질문이고, **여기서 답하지 않는다** — 카드는 측정이 아니라 **관찰하는 방법**을 준다.\n"</script>
+      <h1>네 개의 힘, 하나의 증상 — "연준이 갇혔다"를 왜 AI 탓으로 돌리게 되는가, 그리고 논증을 끝내는 귀류법</h1>
+      <p class="lead">빌 애크먼 글에 대한 한국어 논평 하나가, 원글이 하지 않은 일을 한다 — **원인을 분리한다.** 통화정책의 실물·물가 전달(1), **재정지배**(정부부채가 너무 커져 중앙은행 정책이 국채 이자 부담에 제약되는 현상, 2), **금융지배**(긴축이 은행·채권시장·레버리지 투자자에 손실과 유동성 위기를 일으켜 중앙은행이 긴축을 제한하거나 개입해야 하는 현상, 3), 그리고 AI 인프라 투자 수요(4). 논지는 이렇다 — **네 힘이 하나의 눈에 보이는 증상을 만들고("연준이 무력해 보인다"), 애크먼은 그 전부를 (4) 탓으로 돌린다.** 그게 착시다.</p>
+      <p class="meta">그리고 <a href="pocs-ackman-rate-insensitive-ai-fed.html">애크먼 카드</a>가 더듬다 못 찾은 반박을 정확히 착지시킨다. <strong>그 논리를 곧이곧대로 받으면 "금리를 내리면 물가가 안정된다"가 된다.</strong> 아무도, 애크먼 본인도 그렇게 믿지 않는다. 게다가 (1)을 거꾸로 돌리면 (2)와 (3)이 <strong>제약 상태에서 통제 불능 상태로</strong> 넘어간다 — 부채 과잉 위에 통화팽창, <strong>가장 전형적인 인플레이션</strong>이지 그 치료제가 아니다. <strong>대칭적 함의가 터무니없는 모형은 틀린 모형이고, 어느 단계가 깨졌는지 찾아내지 않아도 그걸 알 수 있다.</strong></p>
+<p>2026-09-27 추가. 네 갈래 분리, "누가 컨트롤하는가" 관찰, 귀류법은 논평자의 것이고, §3~§5는 내 것이다.</p>
+<h2>왜</h2>
+<p><strong>여기서는 귀속(attribution)이 게임의 전부인데, 모두가 건너뛰는 단계이기 때문이다.</strong></p>
+<p>"연준이 갇혔다"는 이제 거의 모두가 동의하는 관찰이다. 그리고 <strong>최소 네 개의 서로 다른 메커니즘과 정합적인데, 그 넷은 완전히 다른 대응을 함의한다.</strong> 구속 조건이 (4)라면 어깨를 으쓱하고 자본지출 사이클을 기다리면 된다. (2)라면 해법은 재정이고 연준은 구경꾼이다. (3)이라면 해법은 금리가 아니라 <strong>설비(facility)</strong>다. (1)이라면 전달이 약해졌을 뿐이니 <strong>더 오래</strong> 조이면 된다. <strong>틀린 이름을 붙이는 것은 작은 오차가 아니라 정반대 정책을 낳는다.</strong></p>
+<p>그리고 이 논평에는 베낄 만한 규율이 하나 있다. <strong>애크먼 사슬에서 결함 있는 전제를 찾으려 하지 않는다</strong> — 느리고 다툼의 여지가 큰 작업이고, <a href="pocs-ackman-rate-insensitive-ai-fed.html">앞 카드</a>가 한 일이 그것이다. 대신 <strong>결론의 거울상을 시험한다.</strong> 훨씬 빠르고 반박하기 어려우며, <strong>"X가 통념의 반대를 낳는다"</strong> 형태의 모든 주장에 통한다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 네 힘, 그리고 각각을 실제로 쥔 쪽</h3>
+<table><thead><tr><th></th><th>힘</th><th>정책에 하는 일</th><th>누가 움직이나</th></tr></thead><tbody><tr><td><strong>1</strong></td><td><strong>통화 전달</strong> — 금리 → 수요·투자·물가</td><td>교과서 경로. 여전히 작동하되 <strong>약해졌다</strong></td><td>연준</td></tr><tr><td><strong>2</strong></td><td><strong>재정지배</strong> — 부채가 커서 정책이 이자 부담에 인질</td><td>인상할 때마다 재무부 비용이 오른다. 어떤 규모를 넘으면 <strong>재정 위기 없이 조일 수 없다</strong></td><td>정부, 재정적자를 통해</td></tr><tr><td><strong>3</strong></td><td><strong>금융지배</strong> — 긴축이 은행·채권시장·레버리지 보유자를 깨뜨린다</td><td>시스템 자금조달을 유지하려면 <strong>물러서거나 개입</strong>해야 한다</td><td>민간 밸런스시트, 자기 포지셔닝을 통해</td></tr><tr><td><strong>4</strong></td><td><strong>AI 인프라 수요</strong></td><td>금리에 반응하지 않는 <strong>큰 투자 블록</strong></td><td>당분간 아무도</td></tr></tbody></table>
+<p><strong>논평의 중심 주장</strong>: (2)·(3)·(4)가 합쳐 (1)의 효과를 크게 떨어뜨렸고, <strong>(2)와 (3)은 연준이 어찌할 수 있는 게 아니다.</strong> 그래서 연준이 무력해 보이고, 관찰자는 <strong>자기가 이미 믿는 원인</strong>을 집는다. 애크먼은 (4)를 집는다. (4)가 이 시대의 이야기이기 때문이다.</p>
+<p><strong>그리고 지목된 약한 고리</strong>: 높은 금융 비용이 <strong>모든 재화의 가격에 녹아든다</strong>는 주장. 논평은 이 논리가 약하다고 본다. <a href="pocs-ackman-rate-insensitive-ai-fed.html">앞 카드</a>가 다른 각도에서 찾은 구멍과 같다 — <strong>이자는 대부분의 비용 구조에서 작은 몫</strong>이고, <strong>빌릴 필요가 없는 부문이 이자를 가격에 밀어넣을 수는 없다.</strong></p>
+<h3>2 — 귀류법, 여기서 가장 강한 것</h3>
+<p>금리 인상이 인플레이션을 올린다면, <strong>같은 메커니즘으로 금리 인하는 인플레이션을 낮춰야 한다.</strong></p>
+<p>아무도 그 말을 소리 내어 하지 않을 것이고, <strong>그게 요점이다.</strong> 원글을 통째로 삼킨 독자는 "어 그럼 금리 인하하면 물가가 오히려 안정되는 거 아냐?"에 도착한다. 논평의 답은, <strong>(1)을 거꾸로 돌리면 이미 피해를 주고 있는 두 제약이 정확히 풀려난다</strong>는 것이다.</p>
+<ul><li><strong>(2)가 제약에서 통제 불능으로.</strong> 싼 이자는 <strong>부채가 가장 클 때</strong> 재정적자에 대한 규율을 없앤다.</li><li><strong>(3)도 마찬가지로.</strong> 싼 조달은 레버리지를 다시 쌓고, <strong>애초에 금융지배를 구속력 있게 만든 것이 그 레버리지</strong>다.</li></ul>
+<p>결과는 <strong>부채 과잉 위의 통화팽창</strong>, 존재하는 가장 표준적인 인플레이션이다. 즉 악순환 모형은 진지하게 받아들이면 <strong>자기가 피한다고 주장하는 결과를 가장 확실히 만드는 처방</strong>을 내놓는다.</p>
+<p><strong>이게 깨진 전제를 찾는 것보다 나은 반박이다.</strong> 어디가 깨졌는지 합의할 필요가 없고, <strong>거울상이 받아들일 수 없다는 것만 보이면 되기 때문이다.</strong></p>
+<h3>3 — 논평 자체에 내가 다는 반론</h3>
+<p><strong>"(2)는 정부가 컨트롤, (3)은 민간자본시장이 컨트롤"은 너무 깔끔하다.</strong> <strong>원인을 쥔 것과 제약을 풀 수 있는 것은 다르다.</strong></p>
+<ul><li>정부는 재정적자로 재정지배를 <strong>만들지만 그것을 풀 유인이 없다</strong> — <strong>제약의 수혜자가 차입자 자신</strong>이다. "컨트롤한다"는 표현은 <strong>누군가 당길 의향이 있는 레버</strong>를 연상시키는데, 그런 레버가 아니다.</li><li>금융지배도 민간이 <strong>컨트롤하는</strong> 게 아니라 <strong>그들의 포지셔닝에서 창발</strong>한다. 어느 참가자도 그것을 선택하지 않는다. 게다가 <strong>중앙은행이 일부 지었다</strong> — 수년의 자산매입이 은행 포트폴리오에 듀레이션을 밀어넣었고, <strong>2023년을 위험하게 만든 노출이 정확히 그것</strong>이다.</li></ul>
+<p><strong>그리고 더 중요한 것: (3)에는 알려진 제도적 해법이 있고, 그게 "연준이 못 움직인다"는 프레이밍을 약화시킨다.</strong> 2023년 3월, 은행이 깨졌을 때 연준은 <strong>긴축을 멈추지 않았다.</strong> <strong>도구를 분리했다</strong> — 물가에는 금리를 계속 올리고, 안정에는 전용 설비를 세웠다. 이것이 금융지배의 표준 해법이다 — <strong>금리를 늦추지 말고 도구를 하나 더 붙여라.</strong> 그러니 <strong>(3)은 논평이 시사하는 것보다 연준을 덜 묶는다.</strong> 기관이 두 손을 쓸 의향이 있는 한.</p>
+<p><strong>그리고 (2)가 진짜로 통화적 해법이 없는 쪽이다.</strong> 논평이 네 힘을 나열만 하지 않고 <strong>순위를 매겼다면</strong>, 재정지배를 맨 앞에 뒀어야 한다. <strong>설비로 상쇄할 수도, 버텨서 넘길 수도 없는 유일한 힘</strong>이다.</p>
+<h3>4 — 분류를 관찰 가능한 것으로 바꾸기</h3>
+<p>네 갈래 분리는 <strong>데이터에서 분리될 때만</strong> 쓸모 있다. 분리된다. 각각 고유한 신호가 있다.</p>
+<table><thead><tr><th>힘</th><th>볼 것</th><th>구속력이 있다는 확증</th></tr></thead><tbody><tr><td><strong>1 전달</strong></td><td>주택 착공, 모기지 신청, 자동차 할부</td><td>금리 민감 활동이 <strong>총계가 시사하는 것보다 훨씬 크게</strong> 수축</td></tr><tr><td><strong>2 재정지배</strong></td><td>기간 프리미엄, 연방 세입 대비 이자 비중, 국채 입찰 테일</td><td>장기 금리가 성장·물가가 아니라 <strong>공급 뉴스에</strong> 오름</td></tr><tr><td><strong>3 금융지배</strong></td><td>신용 스프레드, 은행 미실현손실, 리포·조달 스트레스</td><td>중앙은행이 <strong>긴축 기조를 주장하면서 동시에 설비를 만듦</strong></td></tr><tr><td><strong>4 AI 자본지출</strong></td><td>하이퍼스케일러 자본지출의 <strong>부채 조달 비중</strong></td><td>부채 비중이 오르는 <strong>와중에</strong> 자본지출 가이던스가 유지 — 레버리지를 견디는 둔감성</td></tr></tbody></table>
+<p>4행은 <a href="pocs-ackman-rate-insensitive-ai-fed.html">앞 카드</a>에 이미 숫자가 있다. 하이퍼스케일러 채권 발행이 자본지출의 <strong>2022년 약 2% → 2025년 약 17%</strong>. <strong>(4)가 여전히 금리에 둔감한지를 읽는 가장 깨끗한 단일 시계열이고, 답은 "분기마다 덜"이다.</strong></p>
+<h3>5 — 남길 것</h3>
+<ul><li><strong>하나의 증상에 후보 원인이 넷이면, 처방 전에 원인을 지목하라.</strong> 처방들은 비슷하지 않다. <strong>둘은 서로 반대</strong>다.</li><li><strong>깨진 전제를 사냥하기 전에 거울상을 시험하라.</strong> "X가 통념의 반대를 낳는다"가 <strong>아무도 옹호하지 않을 것</strong>을 함의하면 거기서 끝이고, 메커니즘 논쟁에서 이길 필요가 없다.</li><li><strong>제약을 만드는 쪽과 풀 수 있는 쪽을 구분하라.</strong> 만든 쪽은 거의 언제나 <strong>풀 유인이 없고</strong>, 그래서 제약이 지속된다.</li><li><strong>제도적 우회로가 있는 제약은 보이는 것보다 약하다.</strong> 금융지배에는 있다 — <strong>도구 분리</strong>. 재정지배에는 없다.</li></ul>
+<h2>Jayverse에서의 위치</h2>
+<p><a href="pocs-ackman-rate-insensitive-ai-fed.html">애크먼 카드</a> 바로 옆에 놓이고 그것을 완성한다. 그 카드는 <strong>안에서</strong> 논증을 해체했다 — 금리 둔감성과 비용 전가의 모순, 듀레이션, 만료되는 전제. <strong>이 카드는 밖에서 한 수로 반박하고, 바깥 수가 더 낫다.</strong> 둘 다 두는 건 의도적이다. <strong>안쪽 방법은 왜 실패하는지를, 바깥쪽 방법은 한 시간 쓰기 전에 실패한다는 것을</strong> 알려준다.</p>
+<p>옮길 것 둘:</p>
+<ol><li><strong>귀속하기 전에 분해하라.</strong> 어떤 시스템이 갇혀 보일 때마다, 그 외양을 만들 수 있는 힘들을 나열하고 <strong>무엇이 구속하는지</strong> 물어라. 답이 <strong>행동할지, 기다릴지, 남에게 넘길지</strong>를 정한다.</li><li><strong>주장을 거꾸로 돌려보라.</strong> 문장 하나 값이다. <strong>역이 터무니없는데 저자가 비대칭을 논증하지 않았다면 그 주장은 끝난 것</strong>이다.</li></ol>
+<p>jay에게는 두 번째가 들고 다닐 것이고, <strong>거시 이야기가 아니다.</strong> 목록을 그 목록에 붙은 주장으로 검사하는 것과 <strong>같은 수</strong>다 — <a href="pocs-guardian-100-best-novels.html">가디언 카드</a>의 "유일한 아시아 작가" 주석은 <strong>그게 인쇄된 목록 자신이 반박</strong>한다. <strong>싼 내부 검사가 비싼 외부 조사를 이기고, 먼저 돌려야 한다.</strong></p>
+<h2>확인된 것과 미확인</h2>
+<p><strong>붙여넣기에서 왔고, 그쪽 공으로 돌린다.</strong> 네 힘 분해, 재정지배·금융지배의 정의, (2)와 (3)이 연준 바깥이라는 주장, "금융 비용이 모든 가격에 녹아든다"는 단계가 약하다는 판단, 그리고 <strong>애크먼을 곧이곧대로 받으면 인하가 물가를 안정시킨다는 결론이 나온다는 귀류법.</strong> <strong>전부 논평자의 논증이지 내 것이 아니다.</strong> 붙여넣기에 출처가 없었고 작성자를 특정하지 않았다.</p>
+<p><strong>내 것.</strong> §3 전부 — 제약을 만드는 것이 컨트롤하는 것이 아니라는 반론, 금융지배 뒤의 듀레이션 노출을 중앙은행이 일부 지었다는 지적, <strong>도구 분리가 (3)의 표준 해법</strong>이라는 주장, 재정지배를 맨 앞에 두는 순위. 그리고 §4의 관찰 표와 §5 전부.</p>
+<p><strong>배경지식이고 이 카드를 위해 받아오지 않음.</strong> 재정지배·금융지배가 <strong>문헌에 정립된 용어</strong>라는 것. 2023년 3월 연준이 <strong>금리를 계속 올리면서 은행 전용 조달 설비를 만들었다</strong>는 것. 둘 다 방향은 논쟁적이지 않지만 여기서 재확인하지 않았고, <strong>§3의 논증이 두 번째에 기댄다.</strong></p>
+<p><strong>이월된 것, 이미 확인됨.</strong> §4의 부채 비중 수치(2022년 약 2% → 2025년 약 17%)는 <a href="pocs-ackman-rate-insensitive-ai-fed.html">애크먼 카드</a>에서 왔고, 그쪽에 출처와 <strong>"여러 발행처 요약에서 온 지시적 수치"라는 유보</strong>가 기록돼 있다.</p>
+<p><strong>시도하지 않은 것.</strong> (1)의 약화 중 <strong>얼마가 (2)·(3)·(4) 각각의 몫인지</strong>에 대한 추정. 그 분해가 이 카드 뒤의 실제 연구 질문이고, <strong>여기서 답하지 않는다</strong> — 카드는 측정이 아니라 <strong>관찰하는 방법</strong>을 준다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>fiscal dominance</strong></strong></td><td>재정지배 — 정부부채가 커서 통화정책이 이자 부담에 제약되는 상태</td></tr><tr><td><strong><strong>financial dominance</strong></strong></td><td>금융지배 — 금융안정 우려가 긴축을 제약하는 상태</td></tr><tr><td><strong><strong>the binding constraint</strong></strong></td><td>구속 조건. 실제로 발목을 잡고 있는 하나</td></tr><tr><td><strong><strong>attribution</strong></strong></td><td>귀속 — 증상을 어느 원인에 돌리는가</td></tr><tr><td><strong><strong>a reductio</strong> (reductio ad absurdum)</strong></td><td>귀류법 — 결론의 함의가 터무니없음을 보여 논박</td></tr><tr><td><strong><strong>the mirror image of a claim</strong></strong></td><td>주장의 거울상. 대칭적 함의</td></tr><tr><td><strong><strong>separate the instruments</strong></strong></td><td>도구를 분리하다 — 금리는 물가에, 설비는 안정에</td></tr><tr><td><strong><strong>a facility</strong> (중앙은행)</strong></td><td>(유동성 공급) 설비·제도</td></tr><tr><td><strong><strong>a debt overhang</strong></strong></td><td>부채 과잉</td></tr><tr><td><strong><strong>term premium</strong></strong></td><td>기간 프리미엄</td></tr><tr><td><strong><strong>auction tail</strong></strong></td><td>국채 입찰 테일 — 수요 약세 신호</td></tr><tr><td><strong><strong>unrealised losses</strong></strong></td><td>미실현손실</td></tr><tr><td><strong><strong>it emerges, it is not chosen</strong></strong></td><td>창발하는 것이지 선택되는 것이 아니다</td></tr><tr><td><strong><strong>who creates a constraint vs. who can relieve it</strong></strong></td><td>제약을 만드는 쪽과 풀 수 있는 쪽</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-ackman-rate-insensitive-ai-fed.html">&larr; 1512. Ackman asks whether rate hikes now cause inflation — the answer is no, and the premise is dissolving while he asks it</a><a href="pocs-referent-picks-the-regulator.html">1514. Your regulator is chosen by what the contract references &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_progress.js"></script>
+<script>
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  // 레일은 페이지를 옮겨도 스크롤 위치를 그대로 물려받는다 (jay, 2026-09-25: "클릭하면 선택 항목을
+  // 가운데로 맞추려고 패널이 스크롤된다 … make it not scroll, for that timing").
+  // 가드로는 막을 수 없었던 이유: 클릭은 새 페이지를 띄우고 그 레일은 scrollTop=0에서 시작하므로,
+  // 방금까지 보이던 항목도 여기서는 화면 밖이다. 그래서 '보이면 두기'가 아니라 '위치를 넘겨주기'로 바꾼다.
+  var KEY = 'rail:pos';
+  var group = el && el.closest('[data-group]');
+  var sec = group ? group.id : '';
+  var restored = false;
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+    if (saved && saved.sec === sec && typeof saved.top === 'number') { nav.scrollTop = saved.top; restored = true; }
+  } catch (e) {}
+  var save = function (id) {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ sec: id || sec, top: nav.scrollTop })); } catch (e) {}
+  };
+  var timer;
+  nav.addEventListener('scroll', function () { clearTimeout(timer); timer = setTimeout(save, 120); }, { passive: true });
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      var g = this.closest('[data-group]');
+      if (g && g.id === sec) save(g.id);   // 같은 섹션 안에서의 이동일 때만 위치를 넘긴다
+    });
+  }
+  // 클릭으로 들어온 경우(=넘겨받은 위치가 있는 경우)에는 스크롤하지 않는다.
+  // 가운데 정렬은 저장된 위치가 없는 첫 진입에서만 — 비교할 직전 화면이 없으니 움직임으로 보이지 않는다.
+  if (restored || !el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  if (r.bottom > c.top + 4 && r.top < c.bottom - 4) return;
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>
