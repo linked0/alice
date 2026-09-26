@@ -83,7 +83,7 @@ for navid, artid in SECTIONS.items():
         f = ROOT / "topics" / x["href"]
         if not f.exists(): continue
         c = f.read_text()
-        title = lambda y: re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag">[^<]*</span>)?', '', y["text"])
+        title = lambda y: re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag"[^>]*>[^<]*</span>)?', '', y["text"])
         c2 = re.sub(r'<span class="topic-no">#\d+</span>', f'<span class="topic-no">#{display(navid, idx + 1)}</span>', c, count=1)
         prev = items[idx - 1] if idx > 0 else None; nxt = items[idx + 1] if idx + 1 < len(items) else None
         pager = '<div class="pager">' + (f'<a href="{prev["href"]}">&larr; {display(navid, idx)}. {title(prev)}</a>' if prev else '') + (f'<a href="{nxt["href"]}">{display(navid, idx + 2)}. {title(nxt)} &rarr;</a>' if nxt else '') + '</div>'

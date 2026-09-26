@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록 — Knowledge Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --card:#fff; --rail:#f1f5f9; --text:#0f172a; --text2:#475569;
+    --accent:#0ea5e9; --accent-soft:#0ea5e91a; --border:#e2e8f0;
+    /* 상세 페이지 본문용 토큰 (jay, 2026-08-26: "너무 밋밋하고 구조가 없어 읽히지 않는다").
+       표·인라인 코드·인용은 그동안 스타일이 아예 없어서 마크다운이 날것으로 떨어졌다. */
+    --accent-2:#6366f1;              /* 보조 강조 — h3 점, 인용 막대, 언어 라벨 */
+    --hair:#e2e8f099;                /* 표 안쪽 얇은 선 — 바깥 테두리보다 흐리게 */
+    --chip-bg:#0ea5e914; --chip-fg:#0369a1;
+    --table-head:#f1f5f9; --table-zebra:#f8fafcd9;
+    --shadow-sm:0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md:0 10px 30px -18px rgb(15 23 42 / 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0b1220; --card:#111a2b; --rail:#0f1728; --text:#e2e8f0; --text2:#94a3b8;
+      --accent:#38bdf8; --accent-soft:#38bdf826; --border:#1e293b;
+      --accent-2:#818cf8;
+      --hair:#1e293bcc;
+      --chip-bg:#38bdf81f; --chip-fg:#7dd3fc;
+      --table-head:#16223a; --table-zebra:#ffffff08;
+      --shadow-sm:0 1px 2px rgb(0 0 0 / 0.4);
+      --shadow-md:0 10px 30px -18px rgb(0 0 0 / 0.8);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  /* 본문을 키운다 (jay, 2026-08-12) — 이 페이지는 훑는 목록이 아니라 읽는 문서다.
+     17px/1.75 는 긴 문단을 오래 읽을 때의 기준값이고, 본문 폭도 그에 맞춰 넓혔다. */
+  body { font-family:'Inter',sans-serif; font-size:17px; background:var(--bg); color:var(--text); line-height:1.75; margin:0; }
+  a { color: var(--accent); word-break: break-word; }
+  img { max-width:100%; height:auto; }
+
+  .layout { display:flex; align-items:flex-start; }
+
+  /* ── 좌측 레일: 전체 목록 ── */
+  .rail {
+    flex: 0 0 288px; width:288px; position:sticky; top:0; height:100vh;
+    background:var(--rail); border-right:1px solid var(--border);
+    display:flex; flex-direction:column;
+  }
+  .rail-head { padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+  .rail-title { display:block; font-size:1.1rem; font-weight:700; color:var(--text); text-decoration:none; line-height:1.2; }
+  /* 제목 옆 진척률 (jay, 2026-08-27) — 여섯 구획을 다 합친 done ÷ all. 구획별 숫자는
+     알약이 이미 말하므로, 여기 있는 하나는 "전체가 얼마나 끝났나" 만 말한다. */
+  /* 배지를 제목 아래 줄에 (jay, 2026-09-11) — 숫자가 커져도(95% done · 386/406) 제목 옆에서
+     넘치지 않도록, 제목이 첫 줄을 다 차지하고 배지는 다음 줄로 내려가 내용만큼만 차지한다. */
+  .rail-head { display:flex; flex-wrap:wrap; align-items:baseline; }
+  .rail-head > .rail-title { flex:1 0 100%; }
+  .rail-head > .rail-note { flex:0 0 auto; }
+  .rail-head > .rail-jump { flex:1 0 100%; }
+  /* 두 배지를 한 줄에 (jay, 2026-09-18): 빨강(현재) 옆에 파랑(전일 마감), 제목 아래 같은 줄. */
+  .rail-head > .rail-sub { flex:0 0 auto; margin-left:6px; }
+  .rail-note {
+    margin-top:6px; padding:1px 7px; border-radius:999px;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--accent); background:var(--accent-soft); white-space:nowrap;
+  }
+  /* 페이스 리마인더는 핑크 톤 (jay, 2026-09-11) — % done 배지(파랑)와 구분되는 강조. */
+  /* inline-block 으로만 (jay, 2026-09-11) — 인라인이라 세로 패딩이 안 먹어 낮아 보였다.
+     패딩은 .rail-note 기본값(1px 7px)을 그대로 써서 파란 배지와 높이가 정확히 같아진다. */
+  .rail-note-pink { color:#ec4899; background:rgba(236,72,153,0.14); display:inline-block; }
+  /* 전일 마감 배지는 회색으로 (jay, 2026-09-18: "a gray color for yesterday's status") — 빨강(현재)만 눈에 띄고, 어제 숫자는 참고용이라 한 단계 물러난다. */
+  .rail-sub .rail-note { color:#64748b; background:rgba(100,116,139,0.16); }
+  .rail-sub { display:inline-block; margin-top:0; font-size:0.76rem; color:var(--text2); }
+  /* 섹션 바로가기 (jay, 2026-08-27) — 레일은 항상 보이므로 이 줄이 곧 목차이자 돌아오는 길이다.
+     본문에 "맨 위로" 링크를 따로 두지 않는 이유가 이것. */
+  .rail-jump { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+  .rail-jump a {
+    padding:2px 9px; border:1px solid var(--border); border-radius:999px;
+    font-size:0.72rem; font-weight:600; color:var(--text2); text-decoration:none;
+    background:var(--card); white-space:nowrap;
+  }
+  .rail-jump a:hover { color:var(--accent); border-color:var(--accent); }
+  .rail-jump a.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-jump a b { font-weight:600; margin-left:4px; }
+  /* planned 를 파랗게 (jay, 2026-08-27) — 남은 일의 크기가 먼저 읽히게 하고, 전체는
+     맥락이라 흐리게 둔다. 순서도 planned/all 이다. */
+  .count-done { color:var(--accent); font-weight:600; }
+  .count-all { opacity:0.5; }
+  .rail-search { padding:14px 16px 8px; }
+  .rail-search input {
+    width:100%; padding:8px 12px; font:inherit; font-size:0.85rem;
+    color:var(--text); background:var(--card); border:1px solid var(--border); border-radius:9px;
+  }
+  .rail-search input:focus { outline:2px solid var(--accent-soft); border-color:var(--accent); }
+  /* Important/All 등급 토글 (jay, 2026-09-08) — 진입 시 기본은 Important. */
+  .rail-tier { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-break { flex-basis:100%; height:0; } /* row 1: Important · New · All; row 2: Revisit · Done · Recently (jay, 2026-09-18; Revisit 2026-09-21) */
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-tier .tier-btn[data-tier-mode="recently"] { flex:0 1 auto; padding:6px 7px; font-size:0.68rem; } /* the long label: smaller so row 2 (Revisit · Done · Recently) fits (jay, 2026-09-21: "Make the Yesterday smaller"; merged into Recently 2026-09-23) */
+  /* Important/New/All 등급 토글 — 상세 페이지 레일에도 (jay, 2026-09-18: 목록은 왼쪽 레일에서 본다). 기본은 All: 현재 항목이 늘 보이도록. */
+  .rail-tier { display:flex; gap:6px; margin-bottom:8px; }
+  .rail-tier .tier-btn {
+    flex:1 1 auto; padding:6px 10px; font:inherit; font-size:0.78rem; font-weight:600;
+    color:var(--text2); background:var(--card); border:1px solid var(--border);
+    border-radius:8px; cursor:pointer;
+  }
+  .rail-tier .tier-btn:hover { color:var(--text); }
+  .rail-tier .tier-btn.on { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .rail-nav { flex:1 1 auto; min-height:0; overflow-y:auto; padding:6px 10px 20px; }
+  .nav-group + .nav-group { margin-top:14px; }
+  .nav-group-label {
+    margin:10px 8px 6px; font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text2);
+  }
+  .rail-nav ul { list-style:none; margin:0; padding:0; }
+  .nav-link {
+    display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:8px;
+    font-size:0.9rem; line-height:1.4; color:var(--text2); text-decoration:none;
+  }
+  .nav-link:hover { background:var(--card); color:var(--text); }
+  .nav-link.active { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  /* 점이 상태를 말하는 유일한 표지라 크게 (jay, 2026-08-12) — 6px 은 색 구분이 어려웠다. */
+  .nav-dot { flex:0 0 auto; width:10px; height:10px; margin-top:6px; border-radius:999px; position:relative; }
+  /* Pass count (jay, 2026-09-21). A numeral rather than a second colour, absolutely positioned so a
+     repeat never shifts the row. */
+  .nav-dot[data-times]::after { content:attr(data-times); position:absolute; left:11px; top:-5px;
+    font-size:8px; font-weight:700; line-height:1; color:inherit; opacity:.85; }
+  .nav-dot[data-times] { color:var(--text2); }
+  .nav-text { min-width:0; flex:1 1 auto; }
+  .rail-foot { padding:12px 16px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .no-results { display:none; padding:10px; font-size:0.82rem; color:var(--text2); }
+
+  /* ── 본문 ── */
+  .content { flex:1 1 auto; min-width:0; max-width:960px; margin:0 auto; padding:34px 30px 100px; }
+  /* 상세 페이지를 레일 옆에 둘 때 (jay, 2026-08-27) — .solo 가 이미 자기 여백을 갖고 있으니
+     감싸는 .content 의 여백은 뺀다. width:100% 가 없으면 align-items:flex-start 때문에
+     좁은 화면에서 본문이 가장 넓은 자식(표·코드) 폭으로 부풀어 가로 스크롤이 생긴다. */
+  .content-solo { padding:0; width:100%; }
+  .content-solo > .solo { max-width:900px; }
+  .src { font-family: ui-monospace, monospace; font-size:0.8rem; color:var(--text2); margin-bottom:24px; word-break:break-all; }
+  .group-heading { font-size:0.84rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2); margin:38px 0 16px; scroll-margin-top:20px; }
+  .group-heading:first-child { margin-top:0; }
+  .group-count { font-weight:600; opacity:0.7; }
+  article {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.06); margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  article h1 { margin-top:0; font-size:1.55rem; line-height:1.3; }
+  article h2 { font-size:1.15rem; line-height:1.3; margin:22px 0 8px; }
+  p { margin:10px 0; word-wrap:break-word; }
+  .lead { font-size:1.05rem; color:var(--text2); font-style:italic; }
+  .meta { font-size:0.92rem; color:var(--text2); }
+  .lead strong, .meta strong { color:var(--text); }
+  .badge { font-size:0.62em; font-weight:700; padding:2px 8px; border-radius:999px; vertical-align:middle; letter-spacing:0.04em; }
+
+  /* 항목별 "관련 코드" 스니펫 (jay, 2026-08-13 요청 — docs/code/ 에서 그대로 읽어 온다). */
+  pre {
+    background:#0f172a; color:#e2e8f0; border-radius:8px; padding:14px 16px;
+    font-family: ui-monospace, monospace; font-size:0.82rem; line-height:1.55;
+    overflow-x:auto; white-space:pre; margin:10px 0;
+  }
+  .code-link { font-family: ui-monospace, monospace; font-size:0.82rem; }
+
+  /* 커리큘럼 항목 목록 (algorithms.html·math.html) — PoCs 카드 article 과 같은 모양:
+     번호·제목·상태 한 줄 + 요약 + 상세 페이지 링크 (jay, 2026-08-13). */
+  .topics { list-style:none; margin:0; padding:0; }
+  .topics li { padding:14px 0; border-top:1px solid var(--border); scroll-margin-top:20px; }
+  .topics li:first-child { border-top:0; }
+  /* Logs 목록은 항목 사이 구분선이 없는 편이 낫고, 줄 간격도 더 좁아야 한다 (jay, 2026-08-13). */
+  .topics.no-divider li { border-top:0; padding:6px 0; }
+  .topics.no-divider .meta { margin:2px 0 0; }
+  .topics.no-divider .topic-brief { margin:3px 0 0; }
+  .topics.no-divider .topic-brief li { margin:0; padding:1px 0; }
+  .topics.no-divider .topic-link { margin:3px 0 0; }
+  .topic-head { display:flex; gap:10px; align-items:baseline; }
+  .topic-no { flex:0 0 auto; min-width:2.4em; font-variant-numeric:tabular-nums; font-size:0.86rem; color:var(--text2); }
+  /* 레일·제목 안에 인라인으로 들어가는 번호 (pocs.html) — flex 자식이 아니라 글 흐름 위에 놓인다. */
+  .nav-text .topic-no, article h1 .topic-no { display:inline-block; min-width:1.9em; padding-right:.4em; } /* 3자리 번호가 제목에 붙던 것(146The…) — 고정 간격 (2026-09-08) */
+  article h1 .topic-no { font-size:0.72em; }
+  .topic-title { flex:1 1 auto; min-width:0; font-weight:600; }
+  /* 출처 태그 칩 — Theory(Economics·Algorithms·Math) 항목이 어디서 왔는지 (jay, 2026-09-11). */
+  .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
+    padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
+  .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
+     칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
+     Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#b45309; background:#b4530922; }
+  @media (prefers-color-scheme: dark) {
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#fbbf24; background:#fbbf2426; }
+  }
+  .topic-done { flex:0 0 auto; }
+  .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
+  /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
+  .topic-brief { margin:6px 0 0; padding-left:18px; color:var(--text2); font-size:0.9rem; }
+  .topic-brief li { margin:2px 0; }
+  /* How / Why 요약 (jay, 2026-08-27: "make it a little more stylish and neat").
+     전에는 굵은 라벨이 문장 안에 섞여 어디서 끝나는지 안 보였다. 라벨을 대문자 마이크로
+     라벨로 빼서 자기 줄에 세우고, 두 블록을 얇은 세로선 하나로 묶어 카드 요약이 설명문과
+     구분되게 한다. Why 는 판단이라 강조색, How 는 사실이라 중립색. */
+  .topic-how, .topic-why {
+    margin:8px 0 0; padding:2px 0 2px 12px;
+    border-left:2px solid var(--line);
+    color:var(--text2); font-size:0.9rem; line-height:1.6;
+  }
+  .topic-why { border-left-color:var(--accent-2, var(--accent)); }
+  .topic-how > strong:first-child, .topic-why > strong:first-child {
+    display:block; margin-bottom:1px;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--text3, var(--text2)); font-style:normal;
+  }
+  .topic-why > strong:first-child { color:var(--accent-2, var(--accent)); }
+  .topic-how strong, .topic-why strong { color:var(--text); }
+  .topic-why em { font-style:normal; }
+  .topic-link { margin:6px 0 0; font-size:0.88rem; }
+
+  /* ══ 항목 상세 페이지 (docs/topics/*.html) — 레일 없이 읽는 한 편 ══════════
+     2026-08-26 전면 손질 (jay: "상세 페이지가 반응형이 아니고, 스타일이 밋밋하며
+     구조가 없어 읽기 어렵다"). 고친 것 넷:
+       1) 표에 CSS 가 아예 없었다 — 카드 본문은 표가 핵심 자료인데 날것으로 떨어졌다.
+          이제 감싼 상자 안에서 가로 스크롤하므로, 좁은 화면에서 표가 짜부라지지도
+          페이지 전체를 옆으로 밀지도 않는다.
+       2) h2·h3 에 시각적 위계가 없어 한 덩어리로 읽혔다 — 색 막대와 점을 붙였다.
+       3) 인라인 코드·인용·목록에 스타일이 없었다.
+       4) 폭·여백이 고정값이라 모바일에서 답답했다 — clamp() 로 화면 폭을 따라간다. */
+  .solo {
+    max-width:860px; margin:0 auto;
+    padding: clamp(18px, 3.5vw, 36px) clamp(14px, 4vw, 28px) clamp(64px, 9vw, 96px);
+  }
+  .crumb { font-size:0.85rem; color:var(--text2); margin-bottom:18px; line-height:1.6; }
+
+  /* 표제부 — 번호·상태·제목·요약을 한 상자에 모은다. 예전에는 h1 이 본문 문단 사이에
+     그냥 얹혀 있어서 "어디부터가 이 글인지"가 보이지 않았다. */
+  .topic-hero {
+    margin-bottom:24px; padding: clamp(20px, 3.4vw, 32px) clamp(18px, 3.2vw, 30px);
+    border:1px solid var(--border); border-radius:18px;
+    background: radial-gradient(130% 150% at 0% 0%, var(--accent-soft), transparent 62%), var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .topic-kicker {
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text2);
+  }
+  .topic-kicker .topic-no { min-width:0; font-size:0.72rem; color:var(--accent); }
+  .topic-hero h1 {
+    margin:0; font-size: clamp(1.4rem, 1.05rem + 1.5vw, 2rem);
+    line-height:1.25; letter-spacing:-0.02em;
+  }
+  .topic-hero .lead { margin:12px 0 0; font-style:normal; font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem); }
+  .topic-hero .meta { margin:10px 0 0; }
+
+  /* 언어 전환 — 이중언어 페이지에서 위아래로 스크롤해 찾지 않게 한다. */
+  .lang-switch { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0; }
+  .lang-switch a {
+    padding:6px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); font-size:0.8rem; font-weight:600; text-decoration:none;
+  }
+  .lang-switch a:hover { border-color:var(--accent); color:var(--accent); }
+  /* 지금 보고 있는 언어 (jay, 2026-08-26) — 두 덩어리 각각의 머리에도 같은 전환을 둔다.
+     한국어 본문에서 영어로 돌아갈 길이 hero 까지 올라가는 것뿐이었다. */
+  .lang-switch a.on { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  .solo article .lang-switch { margin:0 0 6px; }
+  .solo article .copy-row { margin:0 0 16px; }
+
+  /* 본문 통째로 복사 (jay, 2026-08-28) — 렌더된 글이 아니라 원본 마크다운을 넘긴다.
+     읽으려고 만든 페이지에서 가져간 글을 다른 곳에 붙일 때 서식이 살아 있어야 한다.
+     모양은 .lang-switch 알약과 같게 — 바로 위에 붙어 한 벌로 읽히게. */
+  .copy-row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0; }
+  .copy-btn {
+    font:inherit; font-size:0.8rem; font-weight:600; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--border);
+    background:var(--card); color:var(--text2); cursor:pointer;
+  }
+  .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .copy-btn.ok { background:var(--accent-soft); border-color:transparent; color:var(--accent); }
+  /* 목록 행 안에서는 링크들과 한 줄에 서야 하므로 더 작고 납작하게 (jay, 2026-08-28). */
+  .copy-inline { font-size:0.72rem; padding:2px 9px; margin-left:6px; vertical-align:baseline; }
+
+  .solo article { padding: clamp(20px, 3.2vw, 32px) clamp(18px, 3vw, 30px); border-radius:16px; }
+  .solo article > :first-child { margin-top:0; }
+  .solo article h1 {
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.7rem); letter-spacing:-0.02em;
+    margin:0 0 6px; padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  /* h2 = 카드 데이터의 고정 절 제목(Why / How it works). 색 막대로 절의 시작을 표시한다. */
+  .solo article h2 {
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem); line-height:1.35;
+    margin:34px 0 10px; padding:2px 0 2px 13px; border-left:4px solid var(--accent);
+  }
+  .solo article .lang-label + h2, .solo article .lang-switch + h2 { margin-top:14px; }
+  /* h3 = 본문 안에서 필자가 직접 쓴 소제목(### ...). h2 와 구분되게 점으로. */
+  .solo article h3 {
+    font-size: clamp(0.98rem, 0.95rem + 0.25vw, 1.08rem); line-height:1.4;
+    margin:28px 0 8px; padding-left:16px; position:relative;
+  }
+  .solo article h3::before {
+    content:""; position:absolute; left:0; top:0.62em;
+    width:7px; height:7px; border-radius:999px; background:var(--accent-2);
+  }
+  .solo article h4 { font-size:0.98rem; margin:20px 0 6px; color:var(--text2); }
+  .solo article p { margin:12px 0; overflow-wrap:anywhere; }
+  .solo article ul, .solo article ol { margin:12px 0; padding-left:24px; }
+  .solo article li { margin:6px 0; }
+  .solo article li::marker { color:var(--accent); }
+  .solo article hr { border:0; border-top:1px solid var(--border); margin:26px 0; }
+  .solo blockquote {
+    margin:16px 0; padding:12px 18px; color:var(--text2);
+    border-left:3px solid var(--accent-2); background:var(--accent-soft); border-radius:0 12px 12px 0;
+  }
+  .solo blockquote > :first-child { margin-top:0; }
+  .solo blockquote > :last-child { margin-bottom:0; }
+  .solo code {
+    font-family: ui-monospace, monospace; font-size:0.88em;
+    background:var(--chip-bg); color:var(--chip-fg); padding:1px 6px; border-radius:6px;
+    word-break:break-word;
+  }
+  .solo pre code { background:none; color:inherit; padding:0; font-size:1em; }
+
+  /* 표 — 카드 본문에서 가장 정보 밀도가 높은 자리인데 스타일이 하나도 없었다.
+     감싼 상자만 가로로 스크롤하므로 페이지 본문은 절대 옆으로 밀리지 않는다. */
+  .table-wrap {
+    margin:18px 0; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm);
+  }
+  .table-wrap table { width:100%; min-width:520px; border-collapse:collapse; }
+  .solo table { font-size:0.9rem; line-height:1.6; }
+  .solo th {
+    text-align:left; padding:11px 14px; background:var(--table-head); color:var(--text2);
+    font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  .solo td { padding:12px 14px; border-top:1px solid var(--hair); vertical-align:top; }
+  .solo tbody tr:nth-child(even) { background:var(--table-zebra); }
+  .solo td:first-child { color:var(--text); }
+  /* 표 알고리즘이 첫 열을 너무 좁게 잡아 날짜가 하이픈에서 끊겼다 — 하한만 준다. */
+  .solo th:first-child, .solo td:first-child { min-width:8.5em; }
+  /* 감싸지 못한 표가 남아 있어도 페이지를 넘치게 하지는 않도록 (커리큘럼 생성기 등) */
+  .solo article > table { display:block; max-width:100%; overflow-x:auto; }
+
+  .pager { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; font-size:0.9rem; }
+  .pager a, .pager span { flex:1 1 240px; min-width:0; }
+  .pager a {
+    display:block; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:var(--card); color:var(--text); font-weight:600; text-decoration:none;
+    box-shadow:var(--shadow-sm);
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent); }
+  .pager a:last-child { text-align:right; }
+  .stub { border-left:4px solid var(--accent); background:var(--card); border-radius:0 12px 12px 0; padding:14px 18px; }
+
+  /* 상세 페이지 이중언어 — 영어가 먼저, 한국어가 뒤 (jay, 2026-08-13). */
+  .lang-divider { border:0; border-top:1px dashed var(--border); margin:30px 0; }
+  .lang-label {
+    display:inline-block; margin:0 0 14px; padding:3px 11px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  }
+
+  /* 좁은 화면: 레일이 위로 접히고 자기 높이만큼만 차지한다 (100vh 레일이 화면을 다 먹지 않게) */
+  @media (max-width: 900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    .content, .content-solo { width:100%; max-width:100%; }
+    .content-solo > .solo { max-width:100%; }
+    .rail { position:static; width:100%; flex:none; height:auto; max-height:none; border-right:0; border-bottom:1px solid var(--border); }
+    .rail-nav { max-height:320px; }
+    .content { padding:24px 18px 70px; }
+  }
+  /* 휴대폰 — 본문 글자를 한 단계 줄이고, 앞뒤 이동은 한 줄에 하나씩 (jay, 2026-08-26). */
+  @media (max-width: 640px) {
+    body { font-size:16px; }
+    .topic-hero { border-radius:14px; }
+    .solo article { border-radius:14px; }
+    .pager a, .pager span { flex-basis:100%; }
+    .pager a:last-child { text-align:left; }
+    /* 이 폭에서는 표가 반드시 가로로 잘리므로, 더 있다는 것을 오른쪽 그림자로 알린다. */
+    .table-wrap { box-shadow: var(--shadow-sm), inset -16px 0 14px -14px rgb(15 23 42 / 0.3); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail">
+    <div class="rail-head">
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/976</span>
+      <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
+      <div class="rail-jump" id="rail-jump"></div>
+    </div>
+    <div class="rail-search">
+      <div class="rail-tier" role="group" aria-label="Show which items">
+        <button type="button" class="tier-btn" data-tier-mode="important" aria-pressed="false">Important</button>
+        <button type="button" class="tier-btn" data-tier-mode="new" aria-pressed="false" title="Only items marked NEW (yellow dot)">New</button>        <button type="button" class="tier-btn on" data-tier-mode="all" aria-pressed="true">All</button>
+        <span class="tier-break" aria-hidden="true"></span>
+        <button type="button" class="tier-btn" data-tier-mode="revisit" aria-pressed="false" title="Done items to come back to later (purple dot)">Revisit</button><button type="button" class="tier-btn" data-tier-mode="repeated" aria-pressed="false" title="Finished on more than one day — the numeral beside the dot is how many">Repeated</button>
+        <button type="button" class="tier-btn" data-tier-mode="recently" aria-pressed="false" title="Done today or on the previous done-day (blue dot)">Recently</button>
+      </div>
+
+      <input id="filter" type="search" placeholder="Filter section" aria-label="Filter section" autocomplete="off">
+    </div>
+    <nav class="rail-nav" id="nav">
+
+      <p class="no-results" id="no-results">No match.</p>
+    </nav>
+<!-- rail built before paint -->
+<script src="_nav.js"></script>
+<script>window.__NAV_CURRENT__="guardian-100-best-novels";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+</script>
+    <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
+  </aside>
+  <main class="content content-solo">
+  <div class="solo">
+    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; 가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록</p>
+  <header class="topic-hero">
+      <p class="topic-kicker"><span class="topic-no">#1822</span><span>Life</span><span title="added">2026-09-25</span><span title="source">chat</span><span title="article source"><a href="https://www.theguardian.com/books/2015/aug/17/the-100-best-novels-written-in-english-the-full-list" rel="noopener noreferrer" target="_blank">The Guardian · Robert McCrum</a></span><span title="raw"><a href="raw/2026-09-25-guardian-100-best-novels.md">raw</a></span></p>
+      <h1>가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록</h1>
+      <p class="lead">가디언의 100선은 로버트 맥크럼(Robert McCrum)이 2013~2015년 주간 연재로 쓰고 2015년 8월 17일 전체 목록으로 닫은 《영어로 쓰인 최고의 소설 100》이다. **영어로 쓰인 작품만**, **순위가 아니라 연대순**, **작가당 한 편**, 『천로역정』(1678)에서 『켈리 갱 실화』(2000)까지. 이 카드는 그 100편을 전부 싣는다. 그리고 §4에 **"가디언 선정"이라는 이름을 달고 한국어권에 도는 전혀 다른 100선**을 나란히 둔다. 두 목록은 겹치는 제목이 적고, 놀랍게도 **어느 쪽이 더 나은지가 한 방향으로 정해지지 않는다.**</p>
+      <p class="meta">2026-09-25 추가, 같은 날 jay 요청으로 주-부를 바꿨다("맥크럼 목록으로 대체해주면 안 될까?"). 100편·연도·가디언의 한 줄 설명은 theguardian.com에서 직접 받아왔고, 표의 한국어 제목과 메모는 내가 붙였다. §3과 §5의 평가는 내 판단이다.</p>
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko">한국어</a></nav>
+    </header>
+    <article id="en">
+      <nav class="lang-switch" aria-label="Language"><a href="#en" class="on">English</a><a href="#ko">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-en" data-done="Copied &#10003;">Copy English</button></p>
+      <script type="application/json" id="copy-en">"# 가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록\n\n가디언의 100선은 로버트 맥크럼(Robert McCrum)이 2013~2015년 주간 연재로 쓰고 2015년 8월 17일 전체 목록으로 닫은 《영어로 쓰인 최고의 소설 100》이다. **영어로 쓰인 작품만**, **순위가 아니라 연대순**, **작가당 한 편**, 『천로역정』(1678)에서 『켈리 갱 실화』(2000)까지. 이 카드는 그 100편을 전부 싣는다. 그리고 §4에 **\"가디언 선정\"이라는 이름을 달고 한국어권에 도는 전혀 다른 100선**을 나란히 둔다. 두 목록은 겹치는 제목이 적고, 놀랍게도 **어느 쪽이 더 나은지가 한 방향으로 정해지지 않는다.**\n\n2026-09-25 추가, 같은 날 jay 요청으로 주-부를 바꿨다(\"맥크럼 목록으로 대체해주면 안 될까?\"). 100편·연도·가디언의 한 줄 설명은 theguardian.com에서 직접 받아왔고, 표의 한국어 제목과 메모는 내가 붙였다. §3과 §5의 평가는 내 판단이다.\n\n## 왜\n\n**검증 가능한 목록을 앞에 두는 게 맞기 때문이다.**\n\n전에는 이 카드의 본문이 출처 불명의 100선이었고, 가디언의 진짜 목록은 그걸 반박하는 근거로만 들어 있었다. 순서가 틀렸다. **정체를 확인할 수 없는 목록을 100줄 싣고 진짜를 각주로 두면, 카드가 가장 약한 자료를 중심으로 서 있게 된다.** 맥크럼 목록은 발행처·연재 기간·수록 이유·구성 규칙이 전부 공개돼 있다. 그게 앞에 와야 한다.\n\n**그리고 둘을 나란히 두면 더 나은 것이 나온다.** 도는 목록은 가짜 이름을 달았지만 **내용은 더 넓고**, 맥크럼 목록은 이름이 진짜지만 **범위가 훨씬 좁다.** 하나를 버리는 대신 둘을 겹쳐 읽으면, 정전이라는 물건이 어떤 선택의 합인지가 드러난다 — 이 섹션의 [독서 목록 카드](pocs-the-rule-not-the-list.html)가 계속 하려던 이야기가 그것이다.\n\n## 동작 방식\n\n### 1 — 맥크럼, 《영어로 쓰인 최고의 소설 100》 전체 (연대순)\n\n**순위가 아니다.** 1번이 1위가 아니라 가장 오래된 작품이라는 뜻이다. 한국어 제목과 오른쪽 한 줄은 내가 붙였고, 국내 역서가 드문 항목은 그렇게 적었다.\n\n| # | 연도 | 작품 | 작가 | 한 줄 |\n|---|---|---|---|---|\n| 1 | 1678 | 『천로역정』 | John Bunyan | 기독교 알레고리. 영어 산문 서사의 출발점으로 꼽힌다 |\n| 2 | 1719 | 『로빈슨 크루소』 | Daniel Defoe | 무인도 표류기. 근대 소설의 원형으로 자주 지목된다 |\n| 3 | 1726 | 『걸리버 여행기』 | Jonathan Swift | 풍자. 동화로 읽히지만 원작은 인간 혐오에 가깝다 |\n| 4 | 1748 | 『클라리사』 | Samuel Richardson | 서간체. 영어 소설 중 가장 긴 축에 든다 |\n| 5 | 1749 | 『톰 존스』 | Henry Fielding | 악한소설. 플롯 짜기의 교본으로 불린다 |\n| 6 | 1759 | 『트리스트럼 섄디』 | Laurence Sterne | 18세기 메타소설. 검은 페이지·여담으로 서사를 부순다 |\n| 7 | 1816 | 『에마』 | Jane Austen | 오스틴이 넣은 한 편. 화자를 믿으면 안 되는 구조 |\n| 8 | 1818 | 『프랑켄슈타인』 | Mary Shelley | SF의 기원. 창조물 유기에 관한 책 |\n| 9 | 1818 | 『나이트메어 애비』 | Thomas Love Peacock | 낭만주의를 조롱한 짧은 풍자. 국내 번역 드묾 |\n| 10 | 1838 | 『아서 고든 핌의 모험』 | Edgar Allan Poe | 포의 유일한 장편. 멜빌로 이어진다 |\n| 11 | 1845 | 『시빌』 | Benjamin Disraeli | 총리가 쓴 소설. '두 국민'이라는 표현의 출처 |\n| 12 | 1847 | 『제인 에어』 | Charlotte Brontë | 1인칭 성장·고딕. 50위 『광막한 사르가소 바다』의 원본 |\n| 13 | 1847 | 『폭풍의 언덕』 | Emily Brontë | 액자 구조. 사랑 이야기로 읽으면 절반을 놓친다 |\n| 14 | 1848 | 『허영의 시장』 | William Thackeray | 주인공 없는 소설이라 자칭한다 |\n| 15 | 1850 | 『데이비드 코퍼필드』 | Charles Dickens | 디킨스가 넣은 한 편. 자전적 성장기 |\n| 16 | 1850 | 『주홍 글자』 | Nathaniel Hawthorne | 청교도 뉴잉글랜드. 미국 소설의 기초석 |\n| 17 | 1851 | 『모비 딕』 | Herman Melville | 고래·백과사전·비극. 읽기보다 살아내는 책 |\n| 18 | 1865 | 『이상한 나라의 앨리스』 | Lewis Carroll | 논리 유희. 아동문학이 이 목록에 들어온 근거 |\n| 19 | 1868 | 『문스톤』 | Wilkie Collins | 영어권 최초의 본격 추리 장편으로 흔히 꼽힌다 |\n| 20 | 1868-9 | 『작은 아씨들』 | Louisa May Alcott | 여성 작가·여성 성장기. 1868년 |\n| 21 | 1871-2 | 『미들마치』 | George Eliot | 지방 사회 전체를 한 권에. 흔히 최고작으로 꼽힘 |\n| 22 | 1875 | 『우리가 사는 방식』 | Anthony Trollope | 금융 사기와 언론. 지금 읽으면 더 현대적 |\n| 23 | 1884/5 | 『허클베리 핀의 모험』 | Mark Twain | 미국 구어체 문학의 시작 |\n| 24 | 1886 | 『납치』 | Robert Louis Stevenson | 스티븐슨의 모험담. 『보물섬』이 아니라 이것 |\n| 25 | 1889 | 『보트 위의 세 남자』 | Jerome K Jerome | 빅토리아 코미디. 아직도 웃긴다 |\n| 26 | 1890 | 『네 사람의 서명』 | Arthur Conan Doyle | 홈즈 장편. 장르물이 정전에 들어온 자리 |\n| 27 | 1891 | 『도리언 그레이의 초상』 | Oscar Wilde | 와일드의 유일한 장편 |\n| 28 | 1891 | 『뉴 그럽 스트리트』 | George Gissing | 글쓰기로 먹고사는 일에 관한 소설. 국내 번역 드묾 |\n| 29 | 1895 | 『무명의 주드』 | Thomas Hardy | 하디의 마지막 소설. 혹평에 절필했다 |\n| 30 | 1895 | 『붉은 무공 훈장』 | Stephen Crane | 남북전쟁. 전투를 처음으로 감각으로 쓴 책 |\n| 31 | 1897 | 『드라큘라』 | Bram Stoker | 서간·일지 몽타주. 형식이 내용보다 앞선다 |\n| 32 | 1899 | 『어둠의 심연』 | Joseph Conrad | 식민지 콩고. 『지옥의 묵시록』의 원작 |\n| 33 | 1900 | 『시스터 캐리』 | Theodore Dreiser | 미국 자연주의. 도덕적 심판을 거부한다 |\n| 34 | 1901 | 『킴』 | Rudyard Kipling | 제국의 첩보 소설. 키플링의 양면성이 그대로 |\n| 35 | 1903 | 『야성의 부름』 | Jack London | 짧다. 개의 시점 |\n| 36 | 1904 | 『황금 그릇』 | Henry James | 후기 제임스. 문장이 가장 난해한 시기 |\n| 37 | 1904 | 『하드리아누스 7세』 | Frederick Rolfe | 기행에 가까운 자아 환상. 깊은 컷 |\n| 38 | 1908 | 『버드나무에 부는 바람』 | Kenneth Grahame | 동물 우화. 영국 전원 신화의 결정판 |\n| 39 | 1910 | 『폴리 씨의 역사』 | HG Wells | 웰스의 비SF. 소시민 희극 |\n| 40 | 1911 | 『줄라이카 돕슨』 | Max Beerbohm | 옥스퍼드 풍자. 국내 거의 안 읽힘 |\n| 41 | 1915 | 『훌륭한 병사』 | Ford Madox Ford | 신뢰할 수 없는 화자의 교과서 |\n| 42 | 1915 | 『39계단』 | John Buchan | 스파이 스릴러의 원형 |\n| 43 | 1915 | 『무지개』 | DH Lawrence | 로런스의 대표작 중 하나. 출간 당시 금서 |\n| 44 | 1915 | 『인간의 굴레에서』 | W Somerset Maugham | 자전적 성장기. 두껍다 |\n| 45 | 1920 | 『순수의 시대』 | Edith Wharton | 뉴욕 상류사회. 여성 최초 퓰리처 |\n| 46 | 1922 | 『율리시스』 | James Joyce | 하루. 문학사적 정점이자 진입 장벽의 대명사 |\n| 47 | 1922 | 『배빗』 | Sinclair Lewis | 미국 중산층 순응주의. 'babbitt'가 보통명사가 됐다 |\n| 48 | 1924 | 『인도로 가는 길』 | EM Forster | 식민지의 오해. 포스터의 마지막 소설 |\n| 49 | 1925 | 『신사는 금발을 좋아해』 | Anita Loos | 코믹 일기체. 이 자리에 있는 게 이 목록의 성격 |\n| 50 | 1925 | 『댈러웨이 부인』 | Virginia Woolf | 하루·의식의 흐름. 울프가 넣은 한 편 |\n| 51 | 1925 | 『위대한 개츠비』 | F Scott Fitzgerald | 짧고, 문장이 값을 한다 |\n| 52 | 1926 | 『롤리 윌로스』 | Sylvia Townsend Warner | 중년 여성이 마녀가 된다. 발굴형 선택 |\n| 53 | 1926 | 『태양은 다시 떠오른다』 | Ernest Hemingway | 헤밍웨이 문체의 선언 |\n| 54 | 1929 | 『몰타의 매』 | Dashiell Hammett | 하드보일드. 장르가 문장을 바꾼 사례 |\n| 55 | 1930 | 『내가 죽어 누워 있을 때』 | William Faulkner | 15명의 화자. 포크너 입문에 가장 짧다 |\n| 56 | 1932 | 『멋진 신세계』 | Aldous Huxley | 공포가 아니라 편안함으로 집행되는 디스토피아 |\n| 57 | 1932 | 『콜드 컴포트 팜』 | Stella Gibbons | 전원소설 패러디. 영국식 유머의 정점 |\n| 58 | 1932 | 『1919』 | John Dos Passos | 다큐멘터리 기법. 국내 번역 드묾 |\n| 59 | 1934 | 『북회귀선』 | Henry Miller | 외설 재판으로 유명. 문학적 평가는 갈림 |\n| 60 | 1938 | 『스쿠프』 | Evelyn Waugh | 특파원 풍자. 언론 희화의 고전 |\n| 61 | 1938 | 『머피』 | Samuel Beckett | 베케트의 초기 장편. 희곡 이전 |\n| 62 | 1939 | 『빅 슬립』 | Raymond Chandler | 챈들러. 플롯보다 문장 |\n| 63 | 1939 | 『파티 가는 길』 | Henry Green | 안개 낀 역에 갇힌 사람들. 매우 깊은 컷 |\n| 64 | 1939 | 『스윔투버즈에서』 | Flann O’Brien | 아일랜드 메타소설. 조이스 이후의 장난 |\n| 65 | 1939 | 『분노의 포도』 | John Steinbeck | 대공황 이주. 퓰리처 |\n| 66 | 1946 | 『아침의 기쁨』 | PG Wodehouse | 우드하우스. 이 목록이 즐거움을 인정한다는 증거 |\n| 67 | 1946 | 『모두가 왕의 부하들』 | Robert Penn Warren | 미국 포퓰리즘 정치. 퓰리처 |\n| 68 | 1947 | 『화산 아래서』 | Malcolm Lowry | 하루, 멕시코, 알코올. 난도 높음 |\n| 69 | 1948 | 『한낮의 열기』 | Elizabeth Bowen | 런던 대공습기의 첩보·사랑 |\n| 70 | 1949 | 『1984』 | George Orwell | 감시. 어휘가 언어에 남았다 |\n| 71 | 1951 | 『사랑의 종말』 | Graham Greene | 그린의 가톨릭 소설. 짧다 |\n| 72 | 1951 | 『호밀밭의 파수꾼』 | JD Salinger | 청소년 화자의 원형 |\n| 73 | 1953 | 『오기 마치의 모험』 | Saul Bellow | 미국 유대계 문학의 문을 연 문장 |\n| 74 | 1954 | 『파리대왕』 | William Golding | 소년들·섬·제도. 짧고 읽기 쉽다 |\n| 75 | 1955 | 『롤리타』 | Vladimir Nabokov | 문장으로 독자를 공범으로 만든다 |\n| 76 | 1957 | 『길 위에서』 | Jack Kerouac | 비트 세대. 문학적 평가는 논쟁적 |\n| 77 | 1957 | 『보스』 | Patrick White | 호주 오지 탐험. 노벨 수상 작가 |\n| 78 | 1960 | 『앵무새 죽이기』 | Harper Lee | 미국 학교 필독서의 대명사 |\n| 79 | 1960 | 『진 브로디 선생의 전성기』 | Muriel Spark | 짧다. 시간 구조가 특이하다 |\n| 80 | 1961 | 『캐치-22』 | Joseph Heller | 군 관료제 부조리. 제목이 보통명사가 됐다 |\n| 81 | 1962 | 『황금 노트북』 | Doris Lessing | 형식이 곧 주제. 레싱 노벨 |\n| 82 | 1962 | 『시계태엽 오렌지』 | Anthony Burgess | 발명된 은어. 영화보다 원작이 더 나아간다 |\n| 83 | 1964 | 『싱글 맨』 | Christopher Isherwood | 하루, 애도, 게이 화자. 짧다 |\n| 84 | 1966 | 『인 콜드 블러드』 | Truman Capote | 논픽션 소설. 장르를 만든 책 |\n| 85 | 1966 | 『벨 자』 | Sylvia Plath | 자전적. 플라스의 유일한 장편 |\n| 86 | 1969 | 『포트노이의 불평』 | Philip Roth | 독백. 출간 당시 스캔들 |\n| 87 | 1971 | 『클레어몬트의 팔프리 부인』 | Elizabeth Taylor | 노년과 외로움. 조용한 걸작 |\n| 88 | 1971 | 『래빗 리덕스』 | John Updike | 4부작 중 2권. 미국 중산층 연대기 |\n| 89 | 1977 | 『솔로몬의 노래』 | Toni Morrison | 이 목록의 유일한 흑인 작가. 노벨 |\n| 90 | 1979 | 『강가의 굽이』 | VS Naipaul | 탈식민 아프리카. 논쟁적인 작가 |\n| 91 | 1981 | 『한밤의 아이들』 | Salman Rushdie | 인도 독립. 부커 오브 부커스 |\n| 92 | 1981 | 『하우스키핑』 | Marilynne Robinson | 짧고 문장이 아름답다. 로빈슨 데뷔작 |\n| 93 | 1984 | 『머니』 | Martin Amis | 1980년대 탐욕. 화자 이름이 작가 이름 |\n| 94 | 1986 | 『부유하는 세상의 화가』 | Kazuo Ishiguro | 전후 일본. 이시구로 초기작 |\n| 95 | 1988 | 『봄의 시작』 | Penelope Fitzgerald | 1913년 모스크바. 국내 번역 드묾 |\n| 96 | 1988 | 『가정 교육』 | Anne Tyler | 가족 소설. 퓰리처 |\n| 97 | 1990 | 『여자들 사이에서』 | John McGahern | 아일랜드 가부장. 조용하고 단단하다 |\n| 98 | 1997 | 『언더월드』 | Don DeLillo | 20세기 미국 전체를 한 권에. 길다 |\n| 99 | 1999 | 『추락』 | JM Coetzee | 남아공. 부커, 그리고 쿳시 노벨 |\n| 100 | 2000 | 『켈리 갱 실화』 | Peter Carey | 구두점 없는 1인칭. 부커. 목록의 끝 |\n\n### 2 — 이 목록의 구성 규칙, 그리고 규칙이 만든 결과\n\n| 규칙 | 결과 |\n|---|---|\n| **영어로 쓰인 작품만** | 번역 0편. 톨스토이·프루스트·카프카·마르케스가 아예 후보가 아니다 |\n| **연대순, 순위 없음** | \"1위 싸움\"이 없다. 대신 **영어 소설이 300년 동안 어떻게 변했는지**가 목록의 모양으로 보인다 |\n| **작가당 한 편** | **작가 100명 = 작품 100편.** 울프도 디킨스도 오스틴도 한 편씩이다 |\n| **2000년에서 멈춤** | 21세기 작품 0편. 2015년에 쓴 목록인데 마지막이 2000년이다 |\n\n**작가당 한 편**이 이 목록의 가장 좋은 결정이라고 본다. 100칸을 100명에게 나눠 주면 **반복이 다른 이름을 밀어내는 일이 구조적으로 불가능**해진다. §4의 도는 목록은 같은 100칸을 75명에게 줬다.\n\n### 3 — 셈, 그리고 그만한 값을 하는가 — 내 평가\n\n수치는 받아온 100행을 집계한 것이다.\n\n| 항목 | 값 |\n|---|---|\n| 서로 다른 작가 | **100명** (반복 0) |\n| 번역 작품 | **0편** |\n| 여성 작가 작품 | **21 / 100** (앞 20번 안에 5편) |\n| 흑인 작가 | **1명** — 토니 모리슨(89) |\n| 연도 분포 | 1800년 이전 6 · 1800~49 8 · 1850~99 18 · **1900~49 38** · 1950~99 29 · 2000년 1 |\n\n**값을 하는 부분**\n\n- **장르를 부끄러워하지 않는다.** 코넌 도일, 스토커, 챈들러, 해밋, 캐럴, 그레이엄, 우드하우스, 제롬 K. 제롬. 정전 목록이 추리·공포·아동·유머를 넣는 일은 드물다. **이 목록은 즐거움을 성취로 인정한다.**\n- **깊은 컷이 진짜 깊다.** 프레더릭 롤프 『하드리아누스 7세』, 헨리 그린 『파티 가는 길』, 실비아 타운센드 워너 『롤리 윌로스』, 애니타 루스, 스텔라 기번스, 엘리자베스 테일러. **이름값으로 채운 목록에는 이 항목들이 없다.** 고르는 데 품이 든 흔적이다.\n- **연대순이라 읽는 법이 생긴다.** 위에서 아래로 훑으면 서간체 → 빅토리아 장편 → 모더니즘 → 전후 → 탈식민으로 **형식이 이동하는 게 보인다.** 순위 목록으로는 절대 안 보이는 것이다.\n\n**값을 못 하는 부분 — 그리고 이건 셈으로 나온다**\n\n- **흑인 작가가 100명 중 1명이다.** 모리슨 하나. **아체베 『모든 것이 산산이 부서지다』(1958)가 없다.** 영어로 쓰였고, 영어 소설의 20세기 후반을 말할 때 빠질 수 없는 책이다. 엘리슨 『보이지 않는 인간』, 볼드윈, 조라 닐 허스턴도 없다. **영어 전용 목록이면서 영어로 쓴 흑인 문학을 거의 통째로 비운 것**이고, 나는 이걸 취향이 아니라 결함으로 읽는다.\n- **여성 21%.** 도는 목록(36%)보다 낮다. 앞 20번 안에 5편인데 그중 넷이 오스틴·셸리·브론테 자매다. **20세기 여성 작가가 얇다.**\n- **1900~49년에 38편이 몰려 있다.** 한 세기의 절반에 목록의 40%에 가깝다. 모더니즘 편애가 뚜렷하다.\n- **2000년에서 끝난다.** 2015년에 마감한 목록인데 21세기 15년이 0편이다. 신중함일 수도 있고 회피일 수도 있는데, **결과적으로 \"지금\"이 없다.**\n- **영국 편중.** 미국·아일랜드·호주·남아공·인도가 들어 있지만 무게중심은 분명히 영국이다.\n\n**한 줄 판정**: **규칙이 좋고 집행이 절반만 됐다.** 작가당 한 편, 연대순, 장르 포용은 전부 잘 고른 규칙이다. 그 규칙을 **영어로 쓴 흑인 문학과 20세기 여성 작가에는 적용하지 않았다.** 그래서 이 목록은 **영어 소설사의 좋은 지도이되, 영어 소설의 공정한 대표는 아니다.**\n\n### 4 — \"가디언 선정\"이라는 이름을 달고 도는 다른 100선\n\n한국어권에 **\"영국 일간지 가디언이 선정한 역대 최고의 소설 100선\"**이라는 이름으로 도는 순위표가 있다. 『미들마치』 1위, 한강 『채식주의자』 85위, 그리고 \"한강이 유일한 아시아 작가\"라는 주석이 붙는다. **가디언 것이 아니다.** §1과 비교하면 한 번에 끝난다 — 이쪽은 번역을 23편 담고, 순위를 매기고, 톨스토이·프루스트·『빌러비드』·한강이 들어 있는데 **가디언 목록에는 넷 다 없다.** 『미들마치』는 가디언 21번, 『율리시스』는 46번이다.\n\n**\"유일한 아시아 작가\" 주석도 그 목록 자신이 반박한다.** 같은 100편 안에 가즈오 이시구로가 두 번(24, 59, 나가사키 출생), 살만 루슈디(23, 봄베이 출생), 아룬다티 로이(32), 로힌턴 미스트리(49, 봄베이 출생), V. S. 나이폴(78, 인도계)이 있다. 참인 진술은 더 좁다 — **한강이 여기서 한국어로 쓰는 유일한 작가**라는 것.\n\n**출처는 끝내 못 밝혔다.** 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 못 찾았으며, 그럴듯한 이름으로 채우지 않는다. 다만 **한국어 제목 오역의 양상**이 특징적이다 — 『Pale Fire』를 \"푸른 수염\"(Bluebeard)으로, 『Vanity Fair』를 \"세기말\"로, 『Go Tell It on the Mountain』을 \"산상수훈 / 내 방에서 가라\"로, 쿳시(Coetzee)를 \"쿤체\"로, 그리고 『채털리 부인의 연인』과 『무지개』를 한 항목으로 합쳐놨다. **사람의 편집은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다.** 마지막 문단이 google.com/search 링크로 유튜브 영상을 권하는 형태인 것까지 합치면 **생성된 목록일 가능성이 높다고 본다.** 판단이고 증명이 아니며, 출처 정정은 여기에 기대지 않는다.\n\n**그래도 이 100편을 버리지 않는 이유**는 §5에 있다.\n\n| # | 작품 | 작가 | # | 작품 | 작가 |\n|---|---|---|---|---|---|\n| 1 | 미들마치 | 조지 엘리엇 | 51 | 나의 눈부신 친구 | 엘레나 페란테 |\n| 2 | 빌러비드 | 토니 모리슨 | 52 | 황금 그릇 | 헨리 제임스 |\n| 3 | 율리시스 | 제임스 조이스 | 53 | 금성의 통과 | 셜리 해저드 |\n| 4 | 등대로 | 버지니아 울프 | 54 | 올랜도 | 버지니아 울프 |\n| 5 | 잃어버린 시간을 찾아서 | 마르셀 프루스트 | 55 | 파도 | 버지니아 울프 |\n| 6 | 안나 카레니나 | 레프 톨스토이 | 56 | 맨스필드 파크 | 제인 오스틴 |\n| 7 | 전쟁과 평화 | 레프 톨스토이 | 57 | 음향과 분노 | 윌리엄 포크너 |\n| 8 | 제인 에어 | 샬럿 브론테 | 58 | 추락 | J. M. 쿳시 |\n| 9 | 오만과 편견 | 제인 오스틴 | 59 | 나를 보내지 마 | 가즈오 이시구로 |\n| 10 | 마담 보바리 | 귀스타브 플로베르 | 60 | 하워즈 엔드 | E. M. 포스터 |\n| 11 | 위대한 개츠비 | F. 스콧 피츠제럴드 | 61 | 토성의 고리 | W. G. 제발트 |\n| 12 | 황폐한 집 | 찰스 디킨스 | 62 | 태양은 노랗게 타오른다 | 치마만다 응고지 아디치에 |\n| 13 | 에마 | 제인 오스틴 | 63 | 하얀 이빨 | 제이디 스미스 |\n| 14 | 댈러웨이 부인 | 버지니아 울프 | 64 | 훌륭한 병사 | 포드 매덕스 포드 |\n| 15 | 모비 딕 | 허먼 멜빌 | 65 | 컬러 퍼플 | 앨리스 워커 |\n| 16 | 1984 | 조지 오웰 | 66 | 거장과 마르가리타 | 미하일 불가코프 |\n| 17 | 백년의 고독 | 가브리엘 가르시아 마르케스 | 67 | 특성 없는 남자 | 로베르트 무질 |\n| 18 | 설득 | 제인 오스틴 | 68 | 핏빛 자오선 | 코맥 매카시 |\n| 19 | 트리스트럼 섄디 | 로렌스 스턴 | 69 | 죄와 벌 | 표도르 도스토옙스키 |\n| 20 | 폭풍의 언덕 | 에밀리 브론테 | 70 | 무명의 주드 | 토머스 하디 |\n| 21 | 여인의 초상 | 헨리 제임스 | 71 | 킨드레드 | 옥타비아 버틀러 |\n| 22 | 모든 것이 산산이 부서지다 | 치누아 아체베 | 72 | 우리 공통의 친구 | 찰스 디킨스 |\n| 23 | 한밤의 아이들 | 살만 루슈디 | 73 | 아우스터리츠 | W. G. 제발트 |\n| 24 | 남아 있는 나날 | 가즈오 이시구로 | 74 | 신경 상태 | 치치 당가렘가 |\n| 25 | 롤리타 | 블라디미르 나보코프 | 75 | 가장 푸른 눈 | 토니 모리슨 |\n| 26 | 돈키호테 | 미겔 데 세르반테스 | 76 | 드라큘라 | 브램 스토커 |\n| 27 | 소송 | 프란츠 카프카 | 77 | 채털리 부인의 연인 / 무지개 | D. H. 로런스 |\n| 28 | 카라마조프가의 형제들 | 표도르 도스토옙스키 | 78 | 비스와스씨를 위한 집 | V. S. 나이폴 |\n| 29 | 창백한 불꽃 | 블라디미르 나보코프 | 79 | 산에 올라 고하라 | 제임스 볼드윈 |\n| 30 | 프랑켄슈타인 | 메리 셸리 | 80 | 레베카 | 대프니 듀 모리에 |\n| 31 | 진 브로디 선생의 전성기 | 뮤리얼 스파크 | 81 | 부덴브로크 가의 사람들 | 토마스 만 |\n| 32 | 작은 것들의 신 | 아룬다티 로이 | 82 | 사랑의 종말 | 그레이엄 그린 |\n| 33 | 데이비드 코퍼필드 | 찰스 디킨스 | 83 | 무기여 잘 있거라 | 어니스트 헤밍웨이 |\n| 34 | 울프 홀 | 힐러리 맨틀 | 84 | 리플리 | 퍼트리샤 하이스미스 |\n| 35 | 위대한 유산 | 찰스 디킨스 | 85 | 채식주의자 | 한강 |\n| 36 | 시녀 이야기 | 마거릿 애트우드 | 86 | 나사의 회전 | 헨리 제임스 |\n| 37 | 보이지 않는 인간 | 랠프 엘리슨 | 87 | 아름다움의 선 | 앨런 홀링허스트 |\n| 38 | 순수의 시대 | 이디스 워튼 | 88 | 래그타임 | E. L. 닥터로 |\n| 39 | 그들의 눈은 신을 보고 있었다 | 조라 닐 허스턴 | 89 | 어둠의 왼손 | 어슐러 K. 르 귄 |\n| 40 | 솔로몬의 노래 | 토니 모리슨 | 90 | 제이콥의 방 | 버지니아 울프 |\n| 41 | 어둠의 심연 | 조지프 콘래드 | 91 | 삶과 운명 | 바실리 그로스만 |\n| 42 | 마의 산 | 토마스 만 | 92 | 감정 교육 | 귀스타브 플로베르 |\n| 43 | 하우스키핑 | 메릴린 로빈슨 | 93 | 보이지 않는 도시들 | 이탈로 칼비노 |\n| 44 | 조반니의 방 | 제임스 볼드윈 | 94 | 알려진 세계 | 에드워드 P. 존스 |\n| 45 | 황금 노트북 | 도리스 레싱 | 95 | 귀향 | 토머스 하디 |\n| 46 | 표범 | 주세페 토마시 디 람페두사 | 96 | 페드로 파라모 | 후안 룰포 |\n| 47 | 허영의 시장 | 윌리엄 메이크피스 새커리 | 97 | 캐치-22 | 조지프 헬러 |\n| 48 | 변신 | 프란츠 카프카 | 98 | 로드 | 코맥 매카시 |\n| 49 | 적절한 균형 | 로힌턴 미스트리 | 99 | 중개인 | L. P. 하틀리 |\n| 50 | 광막한 사르가소 바다 | 진 리스 | 100 | 나의 안토니아 | 윌라 캐더 |\n\n### 5 — 두 목록을 겹쳐놓으면 — 이 카드의 요점\n\n| | 맥크럼 (진짜 가디언) | 도는 목록 (출처 불명) |\n|---|---|---|\n| 작가 수 | **100명** (작가당 1편) | 75명 (울프 5, 오스틴 4, 디킨스 4) |\n| 번역 작품 | **0** | **23** (독 7, 러 6, 불 3, 스 3, 이 3, 한 1) |\n| 여성 작가 | 21 | **36** |\n| 흑인 작가 | **1명** (모리슨) | 모리슨 3편 + 볼드윈 2 + 엘리슨 + 허스턴 + 워커 + 버틀러 + 아체베 + 아디치에 + 당가렘가 |\n| 마지막 연도 | 2000 | 2010년대 |\n| 순서 | 연대순 (순위 없음) | 1~100위 |\n| 출처 | **완전 공개** | **불명** |\n\n**결과가 한 방향이 아니다.** 검증 가능한 목록이 **덜 넓고**, 정체불명의 목록이 **더 넓다.** 아체베·엘리슨·볼드윈·허스턴은 **영어로 썼는데 영어 전용 목록에 없고 세계 목록에는 있다.** 이건 우연이 아니라 **2015년 한 사람의 취향과 그 이후 10년의 정전 감각 차이**로 보는 게 맞다고 본다.\n\n**그래서 내가 내리는 결론은 \"진짜를 쓰고 가짜를 버려라\"가 아니다.**\n\n- **출처를 인용할 때는** 맥크럼 목록만 쓴다. 다른 쪽은 인용할 이름이 없다.\n- **읽을 것을 고를 때는** 두 목록을 합쳐서 본다. **교집합은 안전하고**, 맥크럼에만 있는 것은 **영어 산문사의 깊은 컷**이고, 도는 목록에만 있는 것은 **번역 문학과 흑인 문학**이다. 셋 다 필요하다.\n- **그리고 이게 이 카드 계열의 규칙을 한 번 더 확인해 준다** — 목록의 값과 목록에 붙은 이름의 값은 **따로 논다.** [§4의 판별법](pocs-guardian-100-best-novels.html)은 이름을 검사하는 방법이고, 내용의 값은 그것과 별개로 따져야 한다.\n\n### 6 — 실제로 무엇을 읽을 것인가\n\n**(가) 맥크럼 목록에서, 값어치 대비 비용이 가장 좋은 것**\n\n| # | 책 | 왜 |\n|---|---|---|\n| 8 | 『프랑켄슈타인』 | 짧고, 관용구 수익률이 가장 높다 |\n| 32 | 『어둠의 심연』 | 100쪽 남짓. 이후 100년의 식민지 서사가 여기서 갈라진다 |\n| 55 | 『내가 죽어 누워 있을 때』 | 포크너 입문으로 가장 짧다 |\n| 56 | 『멋진 신세계』 | 『1984』와 짝으로 읽어야 둘 다 이해된다 |\n| 74 | 『파리대왕』 | 짧고 빠르다 |\n| 79 | 『진 브로디 선생의 전성기』 | 200쪽 미만, 시간 구조가 영리하다 |\n| 83 | 『싱글 맨』 | 하루, 애도. 짧고 문장이 좋다 |\n| 92 | 『하우스키핑』 | 이 목록에서 문장이 가장 아름다운 축 |\n\n**(나) 맥크럼에만 있고 거의 안 알려진 것 — 이 목록을 쓰는 진짜 이유**\n\n『롤리 윌로스』(52) · 『콜드 컴포트 팜』(57) · 『파티 가는 길』(63) · 『클레어몬트의 팔프리 부인』(87) · 『봄의 시작』(95). **다른 어떤 100선에서도 이 다섯을 한꺼번에 만나기 어렵다.**\n\n**(다) 높은 평판인데 진입 비용이 잔인한 것 — 미뤄도 된다**\n\n『율리시스』(46) · 『클라리사』(4) · 『트리스트럼 섄디』(6) · 『언더월드』(98) · 『화산 아래서』(68).\n\n**(라) 두 목록에 다 있는 것 — 가장 안전한 시작**\n\n『프랑켄슈타인』 · 『제인 에어』 · 『폭풍의 언덕』 · 『미들마치』 · 『허영의 시장』 · 『모비 딕』 · 『어둠의 심연』 · 『순수의 시대』 · 『율리시스』 · 『댈러웨이 부인』 · 『위대한 개츠비』 · 『멋진 신세계』 · 『무명의 주드』 · 『드라큘라』 · 『1984』 · 『사랑의 종말』 · 『롤리타』 · 『진 브로디 선생의 전성기』 · 『황금 노트북』 · 『캐치-22』 · 『솔로몬의 노래』 · 『한밤의 아이들』 · 『하우스키핑』 · 『추락』 · 『황금 그릇』 · 『훌륭한 병사』.\n\n## Jayverse에서의 위치\n\n책 목록 계열의 한 축이고, 이 계열에서 **유일하게 \"검증된 목록\"과 \"정체불명 목록\"을 같은 카드에 담은 항목**이다. [독서 목록 다섯 개](pocs-the-rule-not-the-list.html)가 \"목록에서 옮겨지는 것은 선별 규칙\"이라고 했다면, 이 카드는 **그 규칙이 공개돼 있어도 집행이 반쪽일 수 있다**는 사례다 — 맥크럼은 규칙을 다 밝혔고, 그래도 아체베가 빠졌다.\n\n가져갈 것 둘:\n\n1. **인용할 때와 읽을 때를 분리한다.** 출처가 필요한 자리에는 검증된 목록만, 읽을 것을 고르는 자리에는 둘 다.\n2. **공개된 규칙은 면죄부가 아니다.** 규칙이 보이면 **규칙대로 집행됐는지**까지 봐야 한다. 그걸 보는 방법이 §3의 셈이다.\n\n## 확인된 것과 미확인\n\n**원문을 받아와 확인함.** 맥크럼 목록 100편의 순번·제목·작가·연도·가디언 자체 한 줄 설명은 2026-09-25에 theguardian.com에서 전체를 받아 파싱했다. 100개 항목이 빠짐없이 1~100으로 채워져 있음을 확인했고, 원문은 raw 파일 옆의 real-guardian-100.txt와 real100.json에 남겼다.\n\n**셈으로 확인됨.** 서로 다른 작가 100명(반복 0), 여성 작가 작품 21편, 연도 분포, 번역 0편 — 받아온 데이터를 스크립트로 집계한 값이다. 성별 분류는 내가 작성한 매핑에 따랐다.\n\n**\"흑인 작가 1명\"은 내가 이름을 훑어 센 것**이고 자동 집계가 아니다. 모리슨 외에 놓친 이름이 있다면 정정되어야 한다 — 다만 아체베·엘리슨·볼드윈·허스턴이 목록에 없다는 사실은 이름 대조로 확인했다.\n\n**내가 붙인 것.** §1 표의 한국어 제목과 오른쪽 한 줄 전부. 가디언의 영어 설명을 번역한 것이 아니라 내가 새로 쓴 메모이고, 국내 역서명은 통용되는 것을 적었으나 항목마다 확인하지는 않았다.\n\n**§3·§5·§6의 평가는 전부 내 판단이다.** 아체베 부재를 결함으로 읽은 것, 1900~49년 편중을 모더니즘 편애로 읽은 것, 도는 목록이 더 넓다는 비교, 읽을 순서 — 근거는 붙였지만 합의된 사실이 아니다.\n\n**§4의 목록은 옮겼을 뿐 확인하지 않았다.** 100편의 제목·작가·순위는 붙여넣은 그대로이고, 어느 발행처로도 추적되지 않았다. 생성된 목록이라는 판단은 텍스트의 거동에서 끌어낸 추론이며 증명이 아니다. 한국어 제목은 오역을 고쳐 내가 정리했고, 원본 오역 목록은 raw 파일에 남겼다.\n"</script>
+<h2>왜</h2>
+<p><strong>검증 가능한 목록을 앞에 두는 게 맞기 때문이다.</strong></p>
+<p>전에는 이 카드의 본문이 출처 불명의 100선이었고, 가디언의 진짜 목록은 그걸 반박하는 근거로만 들어 있었다. 순서가 틀렸다. <strong>정체를 확인할 수 없는 목록을 100줄 싣고 진짜를 각주로 두면, 카드가 가장 약한 자료를 중심으로 서 있게 된다.</strong> 맥크럼 목록은 발행처·연재 기간·수록 이유·구성 규칙이 전부 공개돼 있다. 그게 앞에 와야 한다.</p>
+<p><strong>그리고 둘을 나란히 두면 더 나은 것이 나온다.</strong> 도는 목록은 가짜 이름을 달았지만 <strong>내용은 더 넓고</strong>, 맥크럼 목록은 이름이 진짜지만 <strong>범위가 훨씬 좁다.</strong> 하나를 버리는 대신 둘을 겹쳐 읽으면, 정전이라는 물건이 어떤 선택의 합인지가 드러난다 — 이 섹션의 <a href="pocs-the-rule-not-the-list.html">독서 목록 카드</a>가 계속 하려던 이야기가 그것이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 맥크럼, 《영어로 쓰인 최고의 소설 100》 전체 (연대순)</h3>
+<p><strong>순위가 아니다.</strong> 1번이 1위가 아니라 가장 오래된 작품이라는 뜻이다. 한국어 제목과 오른쪽 한 줄은 내가 붙였고, 국내 역서가 드문 항목은 그렇게 적었다.</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>연도</th><th>작품</th><th>작가</th><th>한 줄</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>1678</td><td>『천로역정』</td><td>John Bunyan</td><td>기독교 알레고리. 영어 산문 서사의 출발점으로 꼽힌다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>1719</td><td>『로빈슨 크루소』</td><td>Daniel Defoe</td><td>무인도 표류기. 근대 소설의 원형으로 자주 지목된다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>1726</td><td>『걸리버 여행기』</td><td>Jonathan Swift</td><td>풍자. 동화로 읽히지만 원작은 인간 혐오에 가깝다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>1748</td><td>『클라리사』</td><td>Samuel Richardson</td><td>서간체. 영어 소설 중 가장 긴 축에 든다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>1749</td><td>『톰 존스』</td><td>Henry Fielding</td><td>악한소설. 플롯 짜기의 교본으로 불린다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>1759</td><td>『트리스트럼 섄디』</td><td>Laurence Sterne</td><td>18세기 메타소설. 검은 페이지·여담으로 서사를 부순다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>1816</td><td>『에마』</td><td>Jane Austen</td><td>오스틴이 넣은 한 편. 화자를 믿으면 안 되는 구조</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>1818</td><td>『프랑켄슈타인』</td><td>Mary Shelley</td><td>SF의 기원. 창조물 유기에 관한 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>1818</td><td>『나이트메어 애비』</td><td>Thomas Love Peacock</td><td>낭만주의를 조롱한 짧은 풍자. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>1838</td><td>『아서 고든 핌의 모험』</td><td>Edgar Allan Poe</td><td>포의 유일한 장편. 멜빌로 이어진다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>1845</td><td>『시빌』</td><td>Benjamin Disraeli</td><td>총리가 쓴 소설. &#39;두 국민&#39;이라는 표현의 출처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>1847</td><td>『제인 에어』</td><td>Charlotte Brontë</td><td>1인칭 성장·고딕. 50위 『광막한 사르가소 바다』의 원본</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>1847</td><td>『폭풍의 언덕』</td><td>Emily Brontë</td><td>액자 구조. 사랑 이야기로 읽으면 절반을 놓친다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>1848</td><td>『허영의 시장』</td><td>William Thackeray</td><td>주인공 없는 소설이라 자칭한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>1850</td><td>『데이비드 코퍼필드』</td><td>Charles Dickens</td><td>디킨스가 넣은 한 편. 자전적 성장기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1850</td><td>『주홍 글자』</td><td>Nathaniel Hawthorne</td><td>청교도 뉴잉글랜드. 미국 소설의 기초석</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>1851</td><td>『모비 딕』</td><td>Herman Melville</td><td>고래·백과사전·비극. 읽기보다 살아내는 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>1865</td><td>『이상한 나라의 앨리스』</td><td>Lewis Carroll</td><td>논리 유희. 아동문학이 이 목록에 들어온 근거</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>1868</td><td>『문스톤』</td><td>Wilkie Collins</td><td>영어권 최초의 본격 추리 장편으로 흔히 꼽힌다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>1868-9</td><td>『작은 아씨들』</td><td>Louisa May Alcott</td><td>여성 작가·여성 성장기. 1868년</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>1871-2</td><td>『미들마치』</td><td>George Eliot</td><td>지방 사회 전체를 한 권에. 흔히 최고작으로 꼽힘</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>1875</td><td>『우리가 사는 방식』</td><td>Anthony Trollope</td><td>금융 사기와 언론. 지금 읽으면 더 현대적</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>1884/5</td><td>『허클베리 핀의 모험』</td><td>Mark Twain</td><td>미국 구어체 문학의 시작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>1886</td><td>『납치』</td><td>Robert Louis Stevenson</td><td>스티븐슨의 모험담. 『보물섬』이 아니라 이것</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>1889</td><td>『보트 위의 세 남자』</td><td>Jerome K Jerome</td><td>빅토리아 코미디. 아직도 웃긴다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>1890</td><td>『네 사람의 서명』</td><td>Arthur Conan Doyle</td><td>홈즈 장편. 장르물이 정전에 들어온 자리</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>1891</td><td>『도리언 그레이의 초상』</td><td>Oscar Wilde</td><td>와일드의 유일한 장편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>1891</td><td>『뉴 그럽 스트리트』</td><td>George Gissing</td><td>글쓰기로 먹고사는 일에 관한 소설. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>1895</td><td>『무명의 주드』</td><td>Thomas Hardy</td><td>하디의 마지막 소설. 혹평에 절필했다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>1895</td><td>『붉은 무공 훈장』</td><td>Stephen Crane</td><td>남북전쟁. 전투를 처음으로 감각으로 쓴 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>1897</td><td>『드라큘라』</td><td>Bram Stoker</td><td>서간·일지 몽타주. 형식이 내용보다 앞선다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>1899</td><td>『어둠의 심연』</td><td>Joseph Conrad</td><td>식민지 콩고. 『지옥의 묵시록』의 원작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>1900</td><td>『시스터 캐리』</td><td>Theodore Dreiser</td><td>미국 자연주의. 도덕적 심판을 거부한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>1901</td><td>『킴』</td><td>Rudyard Kipling</td><td>제국의 첩보 소설. 키플링의 양면성이 그대로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>1903</td><td>『야성의 부름』</td><td>Jack London</td><td>짧다. 개의 시점</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>1904</td><td>『황금 그릇』</td><td>Henry James</td><td>후기 제임스. 문장이 가장 난해한 시기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>1904</td><td>『하드리아누스 7세』</td><td>Frederick Rolfe</td><td>기행에 가까운 자아 환상. 깊은 컷</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>1908</td><td>『버드나무에 부는 바람』</td><td>Kenneth Grahame</td><td>동물 우화. 영국 전원 신화의 결정판</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>1910</td><td>『폴리 씨의 역사』</td><td>HG Wells</td><td>웰스의 비SF. 소시민 희극</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>1911</td><td>『줄라이카 돕슨』</td><td>Max Beerbohm</td><td>옥스퍼드 풍자. 국내 거의 안 읽힘</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>1915</td><td>『훌륭한 병사』</td><td>Ford Madox Ford</td><td>신뢰할 수 없는 화자의 교과서</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>1915</td><td>『39계단』</td><td>John Buchan</td><td>스파이 스릴러의 원형</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>1915</td><td>『무지개』</td><td>DH Lawrence</td><td>로런스의 대표작 중 하나. 출간 당시 금서</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>1915</td><td>『인간의 굴레에서』</td><td>W Somerset Maugham</td><td>자전적 성장기. 두껍다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>1920</td><td>『순수의 시대』</td><td>Edith Wharton</td><td>뉴욕 상류사회. 여성 최초 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>1922</td><td>『율리시스』</td><td>James Joyce</td><td>하루. 문학사적 정점이자 진입 장벽의 대명사</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>1922</td><td>『배빗』</td><td>Sinclair Lewis</td><td>미국 중산층 순응주의. &#39;babbitt&#39;가 보통명사가 됐다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>1924</td><td>『인도로 가는 길』</td><td>EM Forster</td><td>식민지의 오해. 포스터의 마지막 소설</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>1925</td><td>『신사는 금발을 좋아해』</td><td>Anita Loos</td><td>코믹 일기체. 이 자리에 있는 게 이 목록의 성격</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>1925</td><td>『댈러웨이 부인』</td><td>Virginia Woolf</td><td>하루·의식의 흐름. 울프가 넣은 한 편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>1925</td><td>『위대한 개츠비』</td><td>F Scott Fitzgerald</td><td>짧고, 문장이 값을 한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>1926</td><td>『롤리 윌로스』</td><td>Sylvia Townsend Warner</td><td>중년 여성이 마녀가 된다. 발굴형 선택</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>1926</td><td>『태양은 다시 떠오른다』</td><td>Ernest Hemingway</td><td>헤밍웨이 문체의 선언</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>1929</td><td>『몰타의 매』</td><td>Dashiell Hammett</td><td>하드보일드. 장르가 문장을 바꾼 사례</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>1930</td><td>『내가 죽어 누워 있을 때』</td><td>William Faulkner</td><td>15명의 화자. 포크너 입문에 가장 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>1932</td><td>『멋진 신세계』</td><td>Aldous Huxley</td><td>공포가 아니라 편안함으로 집행되는 디스토피아</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>1932</td><td>『콜드 컴포트 팜』</td><td>Stella Gibbons</td><td>전원소설 패러디. 영국식 유머의 정점</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>1932</td><td>『1919』</td><td>John Dos Passos</td><td>다큐멘터리 기법. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>1934</td><td>『북회귀선』</td><td>Henry Miller</td><td>외설 재판으로 유명. 문학적 평가는 갈림</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>1938</td><td>『스쿠프』</td><td>Evelyn Waugh</td><td>특파원 풍자. 언론 희화의 고전</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>1938</td><td>『머피』</td><td>Samuel Beckett</td><td>베케트의 초기 장편. 희곡 이전</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>1939</td><td>『빅 슬립』</td><td>Raymond Chandler</td><td>챈들러. 플롯보다 문장</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>1939</td><td>『파티 가는 길』</td><td>Henry Green</td><td>안개 낀 역에 갇힌 사람들. 매우 깊은 컷</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>1939</td><td>『스윔투버즈에서』</td><td>Flann O’Brien</td><td>아일랜드 메타소설. 조이스 이후의 장난</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>1939</td><td>『분노의 포도』</td><td>John Steinbeck</td><td>대공황 이주. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>1946</td><td>『아침의 기쁨』</td><td>PG Wodehouse</td><td>우드하우스. 이 목록이 즐거움을 인정한다는 증거</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>1946</td><td>『모두가 왕의 부하들』</td><td>Robert Penn Warren</td><td>미국 포퓰리즘 정치. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>1947</td><td>『화산 아래서』</td><td>Malcolm Lowry</td><td>하루, 멕시코, 알코올. 난도 높음</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>1948</td><td>『한낮의 열기』</td><td>Elizabeth Bowen</td><td>런던 대공습기의 첩보·사랑</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>1949</td><td>『1984』</td><td>George Orwell</td><td>감시. 어휘가 언어에 남았다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>1951</td><td>『사랑의 종말』</td><td>Graham Greene</td><td>그린의 가톨릭 소설. 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>1951</td><td>『호밀밭의 파수꾼』</td><td>JD Salinger</td><td>청소년 화자의 원형</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>1953</td><td>『오기 마치의 모험』</td><td>Saul Bellow</td><td>미국 유대계 문학의 문을 연 문장</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>1954</td><td>『파리대왕』</td><td>William Golding</td><td>소년들·섬·제도. 짧고 읽기 쉽다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>1955</td><td>『롤리타』</td><td>Vladimir Nabokov</td><td>문장으로 독자를 공범으로 만든다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>1957</td><td>『길 위에서』</td><td>Jack Kerouac</td><td>비트 세대. 문학적 평가는 논쟁적</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>1957</td><td>『보스』</td><td>Patrick White</td><td>호주 오지 탐험. 노벨 수상 작가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>1960</td><td>『앵무새 죽이기』</td><td>Harper Lee</td><td>미국 학교 필독서의 대명사</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>1960</td><td>『진 브로디 선생의 전성기』</td><td>Muriel Spark</td><td>짧다. 시간 구조가 특이하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>1961</td><td>『캐치-22』</td><td>Joseph Heller</td><td>군 관료제 부조리. 제목이 보통명사가 됐다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>1962</td><td>『황금 노트북』</td><td>Doris Lessing</td><td>형식이 곧 주제. 레싱 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>1962</td><td>『시계태엽 오렌지』</td><td>Anthony Burgess</td><td>발명된 은어. 영화보다 원작이 더 나아간다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>1964</td><td>『싱글 맨』</td><td>Christopher Isherwood</td><td>하루, 애도, 게이 화자. 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>1966</td><td>『인 콜드 블러드』</td><td>Truman Capote</td><td>논픽션 소설. 장르를 만든 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>1966</td><td>『벨 자』</td><td>Sylvia Plath</td><td>자전적. 플라스의 유일한 장편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>1969</td><td>『포트노이의 불평』</td><td>Philip Roth</td><td>독백. 출간 당시 스캔들</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>1971</td><td>『클레어몬트의 팔프리 부인』</td><td>Elizabeth Taylor</td><td>노년과 외로움. 조용한 걸작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>1971</td><td>『래빗 리덕스』</td><td>John Updike</td><td>4부작 중 2권. 미국 중산층 연대기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>1977</td><td>『솔로몬의 노래』</td><td>Toni Morrison</td><td>이 목록의 유일한 흑인 작가. 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>1979</td><td>『강가의 굽이』</td><td>VS Naipaul</td><td>탈식민 아프리카. 논쟁적인 작가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>1981</td><td>『한밤의 아이들』</td><td>Salman Rushdie</td><td>인도 독립. 부커 오브 부커스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>1981</td><td>『하우스키핑』</td><td>Marilynne Robinson</td><td>짧고 문장이 아름답다. 로빈슨 데뷔작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>1984</td><td>『머니』</td><td>Martin Amis</td><td>1980년대 탐욕. 화자 이름이 작가 이름</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>1986</td><td>『부유하는 세상의 화가』</td><td>Kazuo Ishiguro</td><td>전후 일본. 이시구로 초기작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>1988</td><td>『봄의 시작』</td><td>Penelope Fitzgerald</td><td>1913년 모스크바. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>1988</td><td>『가정 교육』</td><td>Anne Tyler</td><td>가족 소설. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>1990</td><td>『여자들 사이에서』</td><td>John McGahern</td><td>아일랜드 가부장. 조용하고 단단하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>1997</td><td>『언더월드』</td><td>Don DeLillo</td><td>20세기 미국 전체를 한 권에. 길다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>1999</td><td>『추락』</td><td>JM Coetzee</td><td>남아공. 부커, 그리고 쿳시 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>2000</td><td>『켈리 갱 실화』</td><td>Peter Carey</td><td>구두점 없는 1인칭. 부커. 목록의 끝</td></tr></tbody></table>
+<h3>2 — 이 목록의 구성 규칙, 그리고 규칙이 만든 결과</h3>
+<table><thead><tr><th>규칙</th><th>결과</th></tr></thead><tbody><tr><td><strong>영어로 쓰인 작품만</strong></td><td>번역 0편. 톨스토이·프루스트·카프카·마르케스가 아예 후보가 아니다</td></tr><tr><td><strong>연대순, 순위 없음</strong></td><td>"1위 싸움"이 없다. 대신 <strong>영어 소설이 300년 동안 어떻게 변했는지</strong>가 목록의 모양으로 보인다</td></tr><tr><td><strong>작가당 한 편</strong></td><td><strong>작가 100명 = 작품 100편.</strong> 울프도 디킨스도 오스틴도 한 편씩이다</td></tr><tr><td><strong>2000년에서 멈춤</strong></td><td>21세기 작품 0편. 2015년에 쓴 목록인데 마지막이 2000년이다</td></tr></tbody></table>
+<p><strong>작가당 한 편</strong>이 이 목록의 가장 좋은 결정이라고 본다. 100칸을 100명에게 나눠 주면 <strong>반복이 다른 이름을 밀어내는 일이 구조적으로 불가능</strong>해진다. §4의 도는 목록은 같은 100칸을 75명에게 줬다.</p>
+<h3>3 — 셈, 그리고 그만한 값을 하는가 — 내 평가</h3>
+<p>수치는 받아온 100행을 집계한 것이다.</p>
+<table><thead><tr><th>항목</th><th>값</th></tr></thead><tbody><tr><td>서로 다른 작가</td><td><strong>100명</strong> (반복 0)</td></tr><tr><td>번역 작품</td><td><strong>0편</strong></td></tr><tr><td>여성 작가 작품</td><td><strong>21 / 100</strong> (앞 20번 안에 5편)</td></tr><tr><td>흑인 작가</td><td><strong>1명</strong> — 토니 모리슨(89)</td></tr><tr><td>연도 분포</td><td>1800년 이전 6 · 1800~49 8 · 1850~99 18 · <strong>1900~49 38</strong> · 1950~99 29 · 2000년 1</td></tr></tbody></table>
+<p><strong>값을 하는 부분</strong></p>
+<ul><li><strong>장르를 부끄러워하지 않는다.</strong> 코넌 도일, 스토커, 챈들러, 해밋, 캐럴, 그레이엄, 우드하우스, 제롬 K. 제롬. 정전 목록이 추리·공포·아동·유머를 넣는 일은 드물다. <strong>이 목록은 즐거움을 성취로 인정한다.</strong></li><li><strong>깊은 컷이 진짜 깊다.</strong> 프레더릭 롤프 『하드리아누스 7세』, 헨리 그린 『파티 가는 길』, 실비아 타운센드 워너 『롤리 윌로스』, 애니타 루스, 스텔라 기번스, 엘리자베스 테일러. <strong>이름값으로 채운 목록에는 이 항목들이 없다.</strong> 고르는 데 품이 든 흔적이다.</li><li><strong>연대순이라 읽는 법이 생긴다.</strong> 위에서 아래로 훑으면 서간체 → 빅토리아 장편 → 모더니즘 → 전후 → 탈식민으로 <strong>형식이 이동하는 게 보인다.</strong> 순위 목록으로는 절대 안 보이는 것이다.</li></ul>
+<p><strong>값을 못 하는 부분 — 그리고 이건 셈으로 나온다</strong></p>
+<ul><li><strong>흑인 작가가 100명 중 1명이다.</strong> 모리슨 하나. <strong>아체베 『모든 것이 산산이 부서지다』(1958)가 없다.</strong> 영어로 쓰였고, 영어 소설의 20세기 후반을 말할 때 빠질 수 없는 책이다. 엘리슨 『보이지 않는 인간』, 볼드윈, 조라 닐 허스턴도 없다. <strong>영어 전용 목록이면서 영어로 쓴 흑인 문학을 거의 통째로 비운 것</strong>이고, 나는 이걸 취향이 아니라 결함으로 읽는다.</li><li><strong>여성 21%.</strong> 도는 목록(36%)보다 낮다. 앞 20번 안에 5편인데 그중 넷이 오스틴·셸리·브론테 자매다. <strong>20세기 여성 작가가 얇다.</strong></li><li><strong>1900~49년에 38편이 몰려 있다.</strong> 한 세기의 절반에 목록의 40%에 가깝다. 모더니즘 편애가 뚜렷하다.</li><li><strong>2000년에서 끝난다.</strong> 2015년에 마감한 목록인데 21세기 15년이 0편이다. 신중함일 수도 있고 회피일 수도 있는데, <strong>결과적으로 "지금"이 없다.</strong></li><li><strong>영국 편중.</strong> 미국·아일랜드·호주·남아공·인도가 들어 있지만 무게중심은 분명히 영국이다.</li></ul>
+<p><strong>한 줄 판정</strong>: <strong>규칙이 좋고 집행이 절반만 됐다.</strong> 작가당 한 편, 연대순, 장르 포용은 전부 잘 고른 규칙이다. 그 규칙을 <strong>영어로 쓴 흑인 문학과 20세기 여성 작가에는 적용하지 않았다.</strong> 그래서 이 목록은 <strong>영어 소설사의 좋은 지도이되, 영어 소설의 공정한 대표는 아니다.</strong></p>
+<h3>4 — "가디언 선정"이라는 이름을 달고 도는 다른 100선</h3>
+<p>한국어권에 <strong>"영국 일간지 가디언이 선정한 역대 최고의 소설 100선"</strong>이라는 이름으로 도는 순위표가 있다. 『미들마치』 1위, 한강 『채식주의자』 85위, 그리고 "한강이 유일한 아시아 작가"라는 주석이 붙는다. <strong>가디언 것이 아니다.</strong> §1과 비교하면 한 번에 끝난다 — 이쪽은 번역을 23편 담고, 순위를 매기고, 톨스토이·프루스트·『빌러비드』·한강이 들어 있는데 <strong>가디언 목록에는 넷 다 없다.</strong> 『미들마치』는 가디언 21번, 『율리시스』는 46번이다.</p>
+<p><strong>"유일한 아시아 작가" 주석도 그 목록 자신이 반박한다.</strong> 같은 100편 안에 가즈오 이시구로가 두 번(24, 59, 나가사키 출생), 살만 루슈디(23, 봄베이 출생), 아룬다티 로이(32), 로힌턴 미스트리(49, 봄베이 출생), V. S. 나이폴(78, 인도계)이 있다. 참인 진술은 더 좁다 — <strong>한강이 여기서 한국어로 쓰는 유일한 작가</strong>라는 것.</p>
+<p><strong>출처는 끝내 못 밝혔다.</strong> 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 못 찾았으며, 그럴듯한 이름으로 채우지 않는다. 다만 <strong>한국어 제목 오역의 양상</strong>이 특징적이다 — 『Pale Fire』를 "푸른 수염"(Bluebeard)으로, 『Vanity Fair』를 "세기말"로, 『Go Tell It on the Mountain』을 "산상수훈 / 내 방에서 가라"로, 쿳시(Coetzee)를 "쿤체"로, 그리고 『채털리 부인의 연인』과 『무지개』를 한 항목으로 합쳐놨다. <strong>사람의 편집은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다.</strong> 마지막 문단이 google.com/search 링크로 유튜브 영상을 권하는 형태인 것까지 합치면 <strong>생성된 목록일 가능성이 높다고 본다.</strong> 판단이고 증명이 아니며, 출처 정정은 여기에 기대지 않는다.</p>
+<p><strong>그래도 이 100편을 버리지 않는 이유</strong>는 §5에 있다.</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>미들마치</td><td>조지 엘리엇</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>나의 눈부신 친구</td><td>엘레나 페란테</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>빌러비드</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>황금 그릇</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>율리시스</td><td>제임스 조이스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>금성의 통과</td><td>셜리 해저드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>등대로</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>올랜도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>잃어버린 시간을 찾아서</td><td>마르셀 프루스트</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>파도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>안나 카레니나</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>맨스필드 파크</td><td>제인 오스틴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>전쟁과 평화</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>음향과 분노</td><td>윌리엄 포크너</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>제인 에어</td><td>샬럿 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>추락</td><td>J. M. 쿳시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>오만과 편견</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>나를 보내지 마</td><td>가즈오 이시구로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>마담 보바리</td><td>귀스타브 플로베르</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>하워즈 엔드</td><td>E. M. 포스터</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>위대한 개츠비</td><td>F. 스콧 피츠제럴드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>토성의 고리</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>황폐한 집</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>태양은 노랗게 타오른다</td><td>치마만다 응고지 아디치에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>에마</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>하얀 이빨</td><td>제이디 스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>댈러웨이 부인</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>훌륭한 병사</td><td>포드 매덕스 포드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>모비 딕</td><td>허먼 멜빌</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>컬러 퍼플</td><td>앨리스 워커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1984</td><td>조지 오웰</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>거장과 마르가리타</td><td>미하일 불가코프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>백년의 고독</td><td>가브리엘 가르시아 마르케스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>특성 없는 남자</td><td>로베르트 무질</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>설득</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>핏빛 자오선</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>트리스트럼 섄디</td><td>로렌스 스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>죄와 벌</td><td>표도르 도스토옙스키</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>폭풍의 언덕</td><td>에밀리 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>무명의 주드</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>여인의 초상</td><td>헨리 제임스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>킨드레드</td><td>옥타비아 버틀러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>모든 것이 산산이 부서지다</td><td>치누아 아체베</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>우리 공통의 친구</td><td>찰스 디킨스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>한밤의 아이들</td><td>살만 루슈디</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>아우스터리츠</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>남아 있는 나날</td><td>가즈오 이시구로</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>신경 상태</td><td>치치 당가렘가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>롤리타</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>가장 푸른 눈</td><td>토니 모리슨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>돈키호테</td><td>미겔 데 세르반테스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>드라큘라</td><td>브램 스토커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>소송</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>채털리 부인의 연인 / 무지개</td><td>D. H. 로런스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>카라마조프가의 형제들</td><td>표도르 도스토옙스키</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>비스와스씨를 위한 집</td><td>V. S. 나이폴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>창백한 불꽃</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>산에 올라 고하라</td><td>제임스 볼드윈</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>프랑켄슈타인</td><td>메리 셸리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>레베카</td><td>대프니 듀 모리에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>진 브로디 선생의 전성기</td><td>뮤리얼 스파크</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>부덴브로크 가의 사람들</td><td>토마스 만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>작은 것들의 신</td><td>아룬다티 로이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>사랑의 종말</td><td>그레이엄 그린</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>데이비드 코퍼필드</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>무기여 잘 있거라</td><td>어니스트 헤밍웨이</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>울프 홀</td><td>힐러리 맨틀</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>리플리</td><td>퍼트리샤 하이스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>위대한 유산</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>채식주의자</td><td>한강</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>시녀 이야기</td><td>마거릿 애트우드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>나사의 회전</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>보이지 않는 인간</td><td>랠프 엘리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>아름다움의 선</td><td>앨런 홀링허스트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>순수의 시대</td><td>이디스 워튼</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>래그타임</td><td>E. L. 닥터로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>그들의 눈은 신을 보고 있었다</td><td>조라 닐 허스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>어둠의 왼손</td><td>어슐러 K. 르 귄</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>솔로몬의 노래</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>제이콥의 방</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>어둠의 심연</td><td>조지프 콘래드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>삶과 운명</td><td>바실리 그로스만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>마의 산</td><td>토마스 만</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>감정 교육</td><td>귀스타브 플로베르</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>하우스키핑</td><td>메릴린 로빈슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>보이지 않는 도시들</td><td>이탈로 칼비노</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>조반니의 방</td><td>제임스 볼드윈</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>알려진 세계</td><td>에드워드 P. 존스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>황금 노트북</td><td>도리스 레싱</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>귀향</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>표범</td><td>주세페 토마시 디 람페두사</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>페드로 파라모</td><td>후안 룰포</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>허영의 시장</td><td>윌리엄 메이크피스 새커리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>캐치-22</td><td>조지프 헬러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>변신</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>로드</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>적절한 균형</td><td>로힌턴 미스트리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>중개인</td><td>L. P. 하틀리</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>광막한 사르가소 바다</td><td>진 리스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>나의 안토니아</td><td>윌라 캐더</td></tr></tbody></table>
+<h3>5 — 두 목록을 겹쳐놓으면 — 이 카드의 요점</h3>
+<table><thead><tr><th></th><th>맥크럼 (진짜 가디언)</th><th>도는 목록 (출처 불명)</th></tr></thead><tbody><tr><td>작가 수</td><td><strong>100명</strong> (작가당 1편)</td><td>75명 (울프 5, 오스틴 4, 디킨스 4)</td></tr><tr><td>번역 작품</td><td><strong>0</strong></td><td><strong>23</strong> (독 7, 러 6, 불 3, 스 3, 이 3, 한 1)</td></tr><tr><td>여성 작가</td><td>21</td><td><strong>36</strong></td></tr><tr><td>흑인 작가</td><td><strong>1명</strong> (모리슨)</td><td>모리슨 3편 + 볼드윈 2 + 엘리슨 + 허스턴 + 워커 + 버틀러 + 아체베 + 아디치에 + 당가렘가</td></tr><tr><td>마지막 연도</td><td>2000</td><td>2010년대</td></tr><tr><td>순서</td><td>연대순 (순위 없음)</td><td>1~100위</td></tr><tr><td>출처</td><td><strong>완전 공개</strong></td><td><strong>불명</strong></td></tr></tbody></table>
+<p><strong>결과가 한 방향이 아니다.</strong> 검증 가능한 목록이 <strong>덜 넓고</strong>, 정체불명의 목록이 <strong>더 넓다.</strong> 아체베·엘리슨·볼드윈·허스턴은 <strong>영어로 썼는데 영어 전용 목록에 없고 세계 목록에는 있다.</strong> 이건 우연이 아니라 <strong>2015년 한 사람의 취향과 그 이후 10년의 정전 감각 차이</strong>로 보는 게 맞다고 본다.</p>
+<p><strong>그래서 내가 내리는 결론은 "진짜를 쓰고 가짜를 버려라"가 아니다.</strong></p>
+<ul><li><strong>출처를 인용할 때는</strong> 맥크럼 목록만 쓴다. 다른 쪽은 인용할 이름이 없다.</li><li><strong>읽을 것을 고를 때는</strong> 두 목록을 합쳐서 본다. <strong>교집합은 안전하고</strong>, 맥크럼에만 있는 것은 <strong>영어 산문사의 깊은 컷</strong>이고, 도는 목록에만 있는 것은 <strong>번역 문학과 흑인 문학</strong>이다. 셋 다 필요하다.</li><li><strong>그리고 이게 이 카드 계열의 규칙을 한 번 더 확인해 준다</strong> — 목록의 값과 목록에 붙은 이름의 값은 <strong>따로 논다.</strong> <a href="pocs-guardian-100-best-novels.html">§4의 판별법</a>은 이름을 검사하는 방법이고, 내용의 값은 그것과 별개로 따져야 한다.</li></ul>
+<h3>6 — 실제로 무엇을 읽을 것인가</h3>
+<p><strong>(가) 맥크럼 목록에서, 값어치 대비 비용이 가장 좋은 것</strong></p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>책</th><th>왜</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>『프랑켄슈타인』</td><td>짧고, 관용구 수익률이 가장 높다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>『어둠의 심연』</td><td>100쪽 남짓. 이후 100년의 식민지 서사가 여기서 갈라진다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>『내가 죽어 누워 있을 때』</td><td>포크너 입문으로 가장 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>『멋진 신세계』</td><td>『1984』와 짝으로 읽어야 둘 다 이해된다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>『파리대왕』</td><td>짧고 빠르다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>『진 브로디 선생의 전성기』</td><td>200쪽 미만, 시간 구조가 영리하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>『싱글 맨』</td><td>하루, 애도. 짧고 문장이 좋다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>『하우스키핑』</td><td>이 목록에서 문장이 가장 아름다운 축</td></tr></tbody></table>
+<p><strong>(나) 맥크럼에만 있고 거의 안 알려진 것 — 이 목록을 쓰는 진짜 이유</strong></p>
+<p>『롤리 윌로스』(52) · 『콜드 컴포트 팜』(57) · 『파티 가는 길』(63) · 『클레어몬트의 팔프리 부인』(87) · 『봄의 시작』(95). <strong>다른 어떤 100선에서도 이 다섯을 한꺼번에 만나기 어렵다.</strong></p>
+<p><strong>(다) 높은 평판인데 진입 비용이 잔인한 것 — 미뤄도 된다</strong></p>
+<p>『율리시스』(46) · 『클라리사』(4) · 『트리스트럼 섄디』(6) · 『언더월드』(98) · 『화산 아래서』(68).</p>
+<p><strong>(라) 두 목록에 다 있는 것 — 가장 안전한 시작</strong></p>
+<p>『프랑켄슈타인』 · 『제인 에어』 · 『폭풍의 언덕』 · 『미들마치』 · 『허영의 시장』 · 『모비 딕』 · 『어둠의 심연』 · 『순수의 시대』 · 『율리시스』 · 『댈러웨이 부인』 · 『위대한 개츠비』 · 『멋진 신세계』 · 『무명의 주드』 · 『드라큘라』 · 『1984』 · 『사랑의 종말』 · 『롤리타』 · 『진 브로디 선생의 전성기』 · 『황금 노트북』 · 『캐치-22』 · 『솔로몬의 노래』 · 『한밤의 아이들』 · 『하우스키핑』 · 『추락』 · 『황금 그릇』 · 『훌륭한 병사』.</p>
+<h2>Jayverse에서의 위치</h2>
+<p>책 목록 계열의 한 축이고, 이 계열에서 <strong>유일하게 "검증된 목록"과 "정체불명 목록"을 같은 카드에 담은 항목</strong>이다. <a href="pocs-the-rule-not-the-list.html">독서 목록 다섯 개</a>가 "목록에서 옮겨지는 것은 선별 규칙"이라고 했다면, 이 카드는 <strong>그 규칙이 공개돼 있어도 집행이 반쪽일 수 있다</strong>는 사례다 — 맥크럼은 규칙을 다 밝혔고, 그래도 아체베가 빠졌다.</p>
+<p>가져갈 것 둘:</p>
+<ol><li><strong>인용할 때와 읽을 때를 분리한다.</strong> 출처가 필요한 자리에는 검증된 목록만, 읽을 것을 고르는 자리에는 둘 다.</li><li><strong>공개된 규칙은 면죄부가 아니다.</strong> 규칙이 보이면 <strong>규칙대로 집행됐는지</strong>까지 봐야 한다. 그걸 보는 방법이 §3의 셈이다.</li></ol>
+<h2>확인된 것과 미확인</h2>
+<p><strong>원문을 받아와 확인함.</strong> 맥크럼 목록 100편의 순번·제목·작가·연도·가디언 자체 한 줄 설명은 2026-09-25에 theguardian.com에서 전체를 받아 파싱했다. 100개 항목이 빠짐없이 1~100으로 채워져 있음을 확인했고, 원문은 raw 파일 옆의 real-guardian-100.txt와 real100.json에 남겼다.</p>
+<p><strong>셈으로 확인됨.</strong> 서로 다른 작가 100명(반복 0), 여성 작가 작품 21편, 연도 분포, 번역 0편 — 받아온 데이터를 스크립트로 집계한 값이다. 성별 분류는 내가 작성한 매핑에 따랐다.</p>
+<p><strong>"흑인 작가 1명"은 내가 이름을 훑어 센 것</strong>이고 자동 집계가 아니다. 모리슨 외에 놓친 이름이 있다면 정정되어야 한다 — 다만 아체베·엘리슨·볼드윈·허스턴이 목록에 없다는 사실은 이름 대조로 확인했다.</p>
+<p><strong>내가 붙인 것.</strong> §1 표의 한국어 제목과 오른쪽 한 줄 전부. 가디언의 영어 설명을 번역한 것이 아니라 내가 새로 쓴 메모이고, 국내 역서명은 통용되는 것을 적었으나 항목마다 확인하지는 않았다.</p>
+<p><strong>§3·§5·§6의 평가는 전부 내 판단이다.</strong> 아체베 부재를 결함으로 읽은 것, 1900~49년 편중을 모더니즘 편애로 읽은 것, 도는 목록이 더 넓다는 비교, 읽을 순서 — 근거는 붙였지만 합의된 사실이 아니다.</p>
+<p><strong>§4의 목록은 옮겼을 뿐 확인하지 않았다.</strong> 100편의 제목·작가·순위는 붙여넣은 그대로이고, 어느 발행처로도 추적되지 않았다. 생성된 목록이라는 판단은 텍스트의 거동에서 끌어낸 추론이며 증명이 아니다. 한국어 제목은 오역을 고쳐 내가 정리했고, 원본 오역 목록은 raw 파일에 남겼다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>Key expressions</h2><p class="meta">Words and phrases from this page worth keeping, with the Korean meaning and the sentence they come from.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>provenance</strong></strong></td><td>출처·내력. 미술품 용어인데 데이터·문서·주장 전부에 씀. false provenance = 거짓 출처</td></tr><tr><td><strong><strong>a name that does not hold</strong></strong></td><td>성립하지 않는 이름. hold = (주장·설명이) 버티다, 유효하다</td></tr><tr><td><strong><strong>load-bearing</strong></strong></td><td>하중을 받는. 건축 용어를 비유로 — "the falsehood is load-bearing" = 그 거짓이 구조를 떠받치고 있다</td></tr><tr><td><strong><strong>caught in the act</strong></strong></td><td>현행범으로 잡힌. 실패 사례를 실시간으로 포착했을 때</td></tr><tr><td><strong><strong>catholic</strong> (소문자)</strong></td><td>폭넓은, 편식하지 않는. 종교와 무관한 형용사 용법</td></tr><tr><td><strong><strong>broadly defensible</strong></strong></td><td>대체로 방어 가능한. 완벽하진 않지만 옹호할 수 있다는 절제된 긍정</td></tr><tr><td><strong><strong>it does not survive X</strong></strong></td><td>X를 견디지 못한다. 주장이 검증을 통과하지 못할 때의 정확한 동사</td></tr><tr><td><strong><strong>the cheapest tell</strong></strong></td><td>가장 싼 단서. tell = (포커) 무심결에 드러나는 신호</td></tr><tr><td><strong><strong>read X for wear</strong></strong></td><td>X가 닳은 흔적을 읽다. 품질·진위를 흔적으로 판별할 때</td></tr><tr><td><strong><strong>the downgrade a sentence needs</strong></strong></td><td>문장에 필요한 하향 조정. 과장된 주장을 참인 범위로 좁히는 일</td></tr><tr><td><strong><strong>pass it on</strong></strong></td><td>(그대로) 넘기다, 전달하다</td></tr><tr><td><strong><strong>as much as is known</strong></strong></td><td>알려진 만큼. 더도 덜도 아니게 인용하라고 할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; All Knowledge Notes</a> &middot; <a href="../index.html">Workspace Index</a> &middot; <a href="#top">Top &uarr;</a></p>
+    </article>
+    <article id="ko" lang="ko">
+      <nav class="lang-switch" aria-label="Language"><a href="#en">English</a><a href="#ko" class="on">한국어</a></nav>
+      <p class="copy-row"><button type="button" class="copy-btn" data-copy="copy-ko" data-done="복사됨 &#10003;">Copy 한국어</button></p>
+      <script type="application/json" id="copy-ko">"# 가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록\n\n가디언의 100선은 로버트 맥크럼(Robert McCrum)이 2013~2015년 주간 연재로 쓰고 2015년 8월 17일 전체 목록으로 닫은 《영어로 쓰인 최고의 소설 100》이다. **영어로 쓰인 작품만**, **순위가 아니라 연대순**, **작가당 한 편**, 『천로역정』(1678)에서 『켈리 갱 실화』(2000)까지. 이 카드는 그 100편을 전부 싣는다. 그리고 §4에 **\"가디언 선정\"이라는 이름을 달고 한국어권에 도는 전혀 다른 100선**을 나란히 둔다. 두 목록은 겹치는 제목이 적고, 놀랍게도 **어느 쪽이 더 나은지가 한 방향으로 정해지지 않는다.**\n\n2026-09-25 추가, 같은 날 jay 요청으로 주-부를 바꿨다(\"맥크럼 목록으로 대체해주면 안 될까?\"). 100편·연도·가디언의 한 줄 설명은 theguardian.com에서 직접 받아왔고, 표의 한국어 제목과 메모는 내가 붙였다. §3과 §5의 평가는 내 판단이다.\n\n## 왜\n\n**검증 가능한 목록을 앞에 두는 게 맞기 때문이다.**\n\n전에는 이 카드의 본문이 출처 불명의 100선이었고, 가디언의 진짜 목록은 그걸 반박하는 근거로만 들어 있었다. 순서가 틀렸다. **정체를 확인할 수 없는 목록을 100줄 싣고 진짜를 각주로 두면, 카드가 가장 약한 자료를 중심으로 서 있게 된다.** 맥크럼 목록은 발행처·연재 기간·수록 이유·구성 규칙이 전부 공개돼 있다. 그게 앞에 와야 한다.\n\n**그리고 둘을 나란히 두면 더 나은 것이 나온다.** 도는 목록은 가짜 이름을 달았지만 **내용은 더 넓고**, 맥크럼 목록은 이름이 진짜지만 **범위가 훨씬 좁다.** 하나를 버리는 대신 둘을 겹쳐 읽으면, 정전이라는 물건이 어떤 선택의 합인지가 드러난다 — 이 섹션의 [독서 목록 카드](pocs-the-rule-not-the-list.html)가 계속 하려던 이야기가 그것이다.\n\n## 동작 방식\n\n### 1 — 맥크럼, 《영어로 쓰인 최고의 소설 100》 전체 (연대순)\n\n**순위가 아니다.** 1번이 1위가 아니라 가장 오래된 작품이라는 뜻이다. 한국어 제목과 오른쪽 한 줄은 내가 붙였고, 국내 역서가 드문 항목은 그렇게 적었다.\n\n| # | 연도 | 작품 | 작가 | 한 줄 |\n|---|---|---|---|---|\n| 1 | 1678 | 『천로역정』 | John Bunyan | 기독교 알레고리. 영어 산문 서사의 출발점으로 꼽힌다 |\n| 2 | 1719 | 『로빈슨 크루소』 | Daniel Defoe | 무인도 표류기. 근대 소설의 원형으로 자주 지목된다 |\n| 3 | 1726 | 『걸리버 여행기』 | Jonathan Swift | 풍자. 동화로 읽히지만 원작은 인간 혐오에 가깝다 |\n| 4 | 1748 | 『클라리사』 | Samuel Richardson | 서간체. 영어 소설 중 가장 긴 축에 든다 |\n| 5 | 1749 | 『톰 존스』 | Henry Fielding | 악한소설. 플롯 짜기의 교본으로 불린다 |\n| 6 | 1759 | 『트리스트럼 섄디』 | Laurence Sterne | 18세기 메타소설. 검은 페이지·여담으로 서사를 부순다 |\n| 7 | 1816 | 『에마』 | Jane Austen | 오스틴이 넣은 한 편. 화자를 믿으면 안 되는 구조 |\n| 8 | 1818 | 『프랑켄슈타인』 | Mary Shelley | SF의 기원. 창조물 유기에 관한 책 |\n| 9 | 1818 | 『나이트메어 애비』 | Thomas Love Peacock | 낭만주의를 조롱한 짧은 풍자. 국내 번역 드묾 |\n| 10 | 1838 | 『아서 고든 핌의 모험』 | Edgar Allan Poe | 포의 유일한 장편. 멜빌로 이어진다 |\n| 11 | 1845 | 『시빌』 | Benjamin Disraeli | 총리가 쓴 소설. '두 국민'이라는 표현의 출처 |\n| 12 | 1847 | 『제인 에어』 | Charlotte Brontë | 1인칭 성장·고딕. 50위 『광막한 사르가소 바다』의 원본 |\n| 13 | 1847 | 『폭풍의 언덕』 | Emily Brontë | 액자 구조. 사랑 이야기로 읽으면 절반을 놓친다 |\n| 14 | 1848 | 『허영의 시장』 | William Thackeray | 주인공 없는 소설이라 자칭한다 |\n| 15 | 1850 | 『데이비드 코퍼필드』 | Charles Dickens | 디킨스가 넣은 한 편. 자전적 성장기 |\n| 16 | 1850 | 『주홍 글자』 | Nathaniel Hawthorne | 청교도 뉴잉글랜드. 미국 소설의 기초석 |\n| 17 | 1851 | 『모비 딕』 | Herman Melville | 고래·백과사전·비극. 읽기보다 살아내는 책 |\n| 18 | 1865 | 『이상한 나라의 앨리스』 | Lewis Carroll | 논리 유희. 아동문학이 이 목록에 들어온 근거 |\n| 19 | 1868 | 『문스톤』 | Wilkie Collins | 영어권 최초의 본격 추리 장편으로 흔히 꼽힌다 |\n| 20 | 1868-9 | 『작은 아씨들』 | Louisa May Alcott | 여성 작가·여성 성장기. 1868년 |\n| 21 | 1871-2 | 『미들마치』 | George Eliot | 지방 사회 전체를 한 권에. 흔히 최고작으로 꼽힘 |\n| 22 | 1875 | 『우리가 사는 방식』 | Anthony Trollope | 금융 사기와 언론. 지금 읽으면 더 현대적 |\n| 23 | 1884/5 | 『허클베리 핀의 모험』 | Mark Twain | 미국 구어체 문학의 시작 |\n| 24 | 1886 | 『납치』 | Robert Louis Stevenson | 스티븐슨의 모험담. 『보물섬』이 아니라 이것 |\n| 25 | 1889 | 『보트 위의 세 남자』 | Jerome K Jerome | 빅토리아 코미디. 아직도 웃긴다 |\n| 26 | 1890 | 『네 사람의 서명』 | Arthur Conan Doyle | 홈즈 장편. 장르물이 정전에 들어온 자리 |\n| 27 | 1891 | 『도리언 그레이의 초상』 | Oscar Wilde | 와일드의 유일한 장편 |\n| 28 | 1891 | 『뉴 그럽 스트리트』 | George Gissing | 글쓰기로 먹고사는 일에 관한 소설. 국내 번역 드묾 |\n| 29 | 1895 | 『무명의 주드』 | Thomas Hardy | 하디의 마지막 소설. 혹평에 절필했다 |\n| 30 | 1895 | 『붉은 무공 훈장』 | Stephen Crane | 남북전쟁. 전투를 처음으로 감각으로 쓴 책 |\n| 31 | 1897 | 『드라큘라』 | Bram Stoker | 서간·일지 몽타주. 형식이 내용보다 앞선다 |\n| 32 | 1899 | 『어둠의 심연』 | Joseph Conrad | 식민지 콩고. 『지옥의 묵시록』의 원작 |\n| 33 | 1900 | 『시스터 캐리』 | Theodore Dreiser | 미국 자연주의. 도덕적 심판을 거부한다 |\n| 34 | 1901 | 『킴』 | Rudyard Kipling | 제국의 첩보 소설. 키플링의 양면성이 그대로 |\n| 35 | 1903 | 『야성의 부름』 | Jack London | 짧다. 개의 시점 |\n| 36 | 1904 | 『황금 그릇』 | Henry James | 후기 제임스. 문장이 가장 난해한 시기 |\n| 37 | 1904 | 『하드리아누스 7세』 | Frederick Rolfe | 기행에 가까운 자아 환상. 깊은 컷 |\n| 38 | 1908 | 『버드나무에 부는 바람』 | Kenneth Grahame | 동물 우화. 영국 전원 신화의 결정판 |\n| 39 | 1910 | 『폴리 씨의 역사』 | HG Wells | 웰스의 비SF. 소시민 희극 |\n| 40 | 1911 | 『줄라이카 돕슨』 | Max Beerbohm | 옥스퍼드 풍자. 국내 거의 안 읽힘 |\n| 41 | 1915 | 『훌륭한 병사』 | Ford Madox Ford | 신뢰할 수 없는 화자의 교과서 |\n| 42 | 1915 | 『39계단』 | John Buchan | 스파이 스릴러의 원형 |\n| 43 | 1915 | 『무지개』 | DH Lawrence | 로런스의 대표작 중 하나. 출간 당시 금서 |\n| 44 | 1915 | 『인간의 굴레에서』 | W Somerset Maugham | 자전적 성장기. 두껍다 |\n| 45 | 1920 | 『순수의 시대』 | Edith Wharton | 뉴욕 상류사회. 여성 최초 퓰리처 |\n| 46 | 1922 | 『율리시스』 | James Joyce | 하루. 문학사적 정점이자 진입 장벽의 대명사 |\n| 47 | 1922 | 『배빗』 | Sinclair Lewis | 미국 중산층 순응주의. 'babbitt'가 보통명사가 됐다 |\n| 48 | 1924 | 『인도로 가는 길』 | EM Forster | 식민지의 오해. 포스터의 마지막 소설 |\n| 49 | 1925 | 『신사는 금발을 좋아해』 | Anita Loos | 코믹 일기체. 이 자리에 있는 게 이 목록의 성격 |\n| 50 | 1925 | 『댈러웨이 부인』 | Virginia Woolf | 하루·의식의 흐름. 울프가 넣은 한 편 |\n| 51 | 1925 | 『위대한 개츠비』 | F Scott Fitzgerald | 짧고, 문장이 값을 한다 |\n| 52 | 1926 | 『롤리 윌로스』 | Sylvia Townsend Warner | 중년 여성이 마녀가 된다. 발굴형 선택 |\n| 53 | 1926 | 『태양은 다시 떠오른다』 | Ernest Hemingway | 헤밍웨이 문체의 선언 |\n| 54 | 1929 | 『몰타의 매』 | Dashiell Hammett | 하드보일드. 장르가 문장을 바꾼 사례 |\n| 55 | 1930 | 『내가 죽어 누워 있을 때』 | William Faulkner | 15명의 화자. 포크너 입문에 가장 짧다 |\n| 56 | 1932 | 『멋진 신세계』 | Aldous Huxley | 공포가 아니라 편안함으로 집행되는 디스토피아 |\n| 57 | 1932 | 『콜드 컴포트 팜』 | Stella Gibbons | 전원소설 패러디. 영국식 유머의 정점 |\n| 58 | 1932 | 『1919』 | John Dos Passos | 다큐멘터리 기법. 국내 번역 드묾 |\n| 59 | 1934 | 『북회귀선』 | Henry Miller | 외설 재판으로 유명. 문학적 평가는 갈림 |\n| 60 | 1938 | 『스쿠프』 | Evelyn Waugh | 특파원 풍자. 언론 희화의 고전 |\n| 61 | 1938 | 『머피』 | Samuel Beckett | 베케트의 초기 장편. 희곡 이전 |\n| 62 | 1939 | 『빅 슬립』 | Raymond Chandler | 챈들러. 플롯보다 문장 |\n| 63 | 1939 | 『파티 가는 길』 | Henry Green | 안개 낀 역에 갇힌 사람들. 매우 깊은 컷 |\n| 64 | 1939 | 『스윔투버즈에서』 | Flann O’Brien | 아일랜드 메타소설. 조이스 이후의 장난 |\n| 65 | 1939 | 『분노의 포도』 | John Steinbeck | 대공황 이주. 퓰리처 |\n| 66 | 1946 | 『아침의 기쁨』 | PG Wodehouse | 우드하우스. 이 목록이 즐거움을 인정한다는 증거 |\n| 67 | 1946 | 『모두가 왕의 부하들』 | Robert Penn Warren | 미국 포퓰리즘 정치. 퓰리처 |\n| 68 | 1947 | 『화산 아래서』 | Malcolm Lowry | 하루, 멕시코, 알코올. 난도 높음 |\n| 69 | 1948 | 『한낮의 열기』 | Elizabeth Bowen | 런던 대공습기의 첩보·사랑 |\n| 70 | 1949 | 『1984』 | George Orwell | 감시. 어휘가 언어에 남았다 |\n| 71 | 1951 | 『사랑의 종말』 | Graham Greene | 그린의 가톨릭 소설. 짧다 |\n| 72 | 1951 | 『호밀밭의 파수꾼』 | JD Salinger | 청소년 화자의 원형 |\n| 73 | 1953 | 『오기 마치의 모험』 | Saul Bellow | 미국 유대계 문학의 문을 연 문장 |\n| 74 | 1954 | 『파리대왕』 | William Golding | 소년들·섬·제도. 짧고 읽기 쉽다 |\n| 75 | 1955 | 『롤리타』 | Vladimir Nabokov | 문장으로 독자를 공범으로 만든다 |\n| 76 | 1957 | 『길 위에서』 | Jack Kerouac | 비트 세대. 문학적 평가는 논쟁적 |\n| 77 | 1957 | 『보스』 | Patrick White | 호주 오지 탐험. 노벨 수상 작가 |\n| 78 | 1960 | 『앵무새 죽이기』 | Harper Lee | 미국 학교 필독서의 대명사 |\n| 79 | 1960 | 『진 브로디 선생의 전성기』 | Muriel Spark | 짧다. 시간 구조가 특이하다 |\n| 80 | 1961 | 『캐치-22』 | Joseph Heller | 군 관료제 부조리. 제목이 보통명사가 됐다 |\n| 81 | 1962 | 『황금 노트북』 | Doris Lessing | 형식이 곧 주제. 레싱 노벨 |\n| 82 | 1962 | 『시계태엽 오렌지』 | Anthony Burgess | 발명된 은어. 영화보다 원작이 더 나아간다 |\n| 83 | 1964 | 『싱글 맨』 | Christopher Isherwood | 하루, 애도, 게이 화자. 짧다 |\n| 84 | 1966 | 『인 콜드 블러드』 | Truman Capote | 논픽션 소설. 장르를 만든 책 |\n| 85 | 1966 | 『벨 자』 | Sylvia Plath | 자전적. 플라스의 유일한 장편 |\n| 86 | 1969 | 『포트노이의 불평』 | Philip Roth | 독백. 출간 당시 스캔들 |\n| 87 | 1971 | 『클레어몬트의 팔프리 부인』 | Elizabeth Taylor | 노년과 외로움. 조용한 걸작 |\n| 88 | 1971 | 『래빗 리덕스』 | John Updike | 4부작 중 2권. 미국 중산층 연대기 |\n| 89 | 1977 | 『솔로몬의 노래』 | Toni Morrison | 이 목록의 유일한 흑인 작가. 노벨 |\n| 90 | 1979 | 『강가의 굽이』 | VS Naipaul | 탈식민 아프리카. 논쟁적인 작가 |\n| 91 | 1981 | 『한밤의 아이들』 | Salman Rushdie | 인도 독립. 부커 오브 부커스 |\n| 92 | 1981 | 『하우스키핑』 | Marilynne Robinson | 짧고 문장이 아름답다. 로빈슨 데뷔작 |\n| 93 | 1984 | 『머니』 | Martin Amis | 1980년대 탐욕. 화자 이름이 작가 이름 |\n| 94 | 1986 | 『부유하는 세상의 화가』 | Kazuo Ishiguro | 전후 일본. 이시구로 초기작 |\n| 95 | 1988 | 『봄의 시작』 | Penelope Fitzgerald | 1913년 모스크바. 국내 번역 드묾 |\n| 96 | 1988 | 『가정 교육』 | Anne Tyler | 가족 소설. 퓰리처 |\n| 97 | 1990 | 『여자들 사이에서』 | John McGahern | 아일랜드 가부장. 조용하고 단단하다 |\n| 98 | 1997 | 『언더월드』 | Don DeLillo | 20세기 미국 전체를 한 권에. 길다 |\n| 99 | 1999 | 『추락』 | JM Coetzee | 남아공. 부커, 그리고 쿳시 노벨 |\n| 100 | 2000 | 『켈리 갱 실화』 | Peter Carey | 구두점 없는 1인칭. 부커. 목록의 끝 |\n\n### 2 — 이 목록의 구성 규칙, 그리고 규칙이 만든 결과\n\n| 규칙 | 결과 |\n|---|---|\n| **영어로 쓰인 작품만** | 번역 0편. 톨스토이·프루스트·카프카·마르케스가 아예 후보가 아니다 |\n| **연대순, 순위 없음** | \"1위 싸움\"이 없다. 대신 **영어 소설이 300년 동안 어떻게 변했는지**가 목록의 모양으로 보인다 |\n| **작가당 한 편** | **작가 100명 = 작품 100편.** 울프도 디킨스도 오스틴도 한 편씩이다 |\n| **2000년에서 멈춤** | 21세기 작품 0편. 2015년에 쓴 목록인데 마지막이 2000년이다 |\n\n**작가당 한 편**이 이 목록의 가장 좋은 결정이라고 본다. 100칸을 100명에게 나눠 주면 **반복이 다른 이름을 밀어내는 일이 구조적으로 불가능**해진다. §4의 도는 목록은 같은 100칸을 75명에게 줬다.\n\n### 3 — 셈, 그리고 그만한 값을 하는가 — 내 평가\n\n수치는 받아온 100행을 집계한 것이다.\n\n| 항목 | 값 |\n|---|---|\n| 서로 다른 작가 | **100명** (반복 0) |\n| 번역 작품 | **0편** |\n| 여성 작가 작품 | **21 / 100** (앞 20번 안에 5편) |\n| 흑인 작가 | **1명** — 토니 모리슨(89) |\n| 연도 분포 | 1800년 이전 6 · 1800~49 8 · 1850~99 18 · **1900~49 38** · 1950~99 29 · 2000년 1 |\n\n**값을 하는 부분**\n\n- **장르를 부끄러워하지 않는다.** 코넌 도일, 스토커, 챈들러, 해밋, 캐럴, 그레이엄, 우드하우스, 제롬 K. 제롬. 정전 목록이 추리·공포·아동·유머를 넣는 일은 드물다. **이 목록은 즐거움을 성취로 인정한다.**\n- **깊은 컷이 진짜 깊다.** 프레더릭 롤프 『하드리아누스 7세』, 헨리 그린 『파티 가는 길』, 실비아 타운센드 워너 『롤리 윌로스』, 애니타 루스, 스텔라 기번스, 엘리자베스 테일러. **이름값으로 채운 목록에는 이 항목들이 없다.** 고르는 데 품이 든 흔적이다.\n- **연대순이라 읽는 법이 생긴다.** 위에서 아래로 훑으면 서간체 → 빅토리아 장편 → 모더니즘 → 전후 → 탈식민으로 **형식이 이동하는 게 보인다.** 순위 목록으로는 절대 안 보이는 것이다.\n\n**값을 못 하는 부분 — 그리고 이건 셈으로 나온다**\n\n- **흑인 작가가 100명 중 1명이다.** 모리슨 하나. **아체베 『모든 것이 산산이 부서지다』(1958)가 없다.** 영어로 쓰였고, 영어 소설의 20세기 후반을 말할 때 빠질 수 없는 책이다. 엘리슨 『보이지 않는 인간』, 볼드윈, 조라 닐 허스턴도 없다. **영어 전용 목록이면서 영어로 쓴 흑인 문학을 거의 통째로 비운 것**이고, 나는 이걸 취향이 아니라 결함으로 읽는다.\n- **여성 21%.** 도는 목록(36%)보다 낮다. 앞 20번 안에 5편인데 그중 넷이 오스틴·셸리·브론테 자매다. **20세기 여성 작가가 얇다.**\n- **1900~49년에 38편이 몰려 있다.** 한 세기의 절반에 목록의 40%에 가깝다. 모더니즘 편애가 뚜렷하다.\n- **2000년에서 끝난다.** 2015년에 마감한 목록인데 21세기 15년이 0편이다. 신중함일 수도 있고 회피일 수도 있는데, **결과적으로 \"지금\"이 없다.**\n- **영국 편중.** 미국·아일랜드·호주·남아공·인도가 들어 있지만 무게중심은 분명히 영국이다.\n\n**한 줄 판정**: **규칙이 좋고 집행이 절반만 됐다.** 작가당 한 편, 연대순, 장르 포용은 전부 잘 고른 규칙이다. 그 규칙을 **영어로 쓴 흑인 문학과 20세기 여성 작가에는 적용하지 않았다.** 그래서 이 목록은 **영어 소설사의 좋은 지도이되, 영어 소설의 공정한 대표는 아니다.**\n\n### 4 — \"가디언 선정\"이라는 이름을 달고 도는 다른 100선\n\n한국어권에 **\"영국 일간지 가디언이 선정한 역대 최고의 소설 100선\"**이라는 이름으로 도는 순위표가 있다. 『미들마치』 1위, 한강 『채식주의자』 85위, 그리고 \"한강이 유일한 아시아 작가\"라는 주석이 붙는다. **가디언 것이 아니다.** §1과 비교하면 한 번에 끝난다 — 이쪽은 번역을 23편 담고, 순위를 매기고, 톨스토이·프루스트·『빌러비드』·한강이 들어 있는데 **가디언 목록에는 넷 다 없다.** 『미들마치』는 가디언 21번, 『율리시스』는 46번이다.\n\n**\"유일한 아시아 작가\" 주석도 그 목록 자신이 반박한다.** 같은 100편 안에 가즈오 이시구로가 두 번(24, 59, 나가사키 출생), 살만 루슈디(23, 봄베이 출생), 아룬다티 로이(32), 로힌턴 미스트리(49, 봄베이 출생), V. S. 나이폴(78, 인도계)이 있다. 참인 진술은 더 좁다 — **한강이 여기서 한국어로 쓰는 유일한 작가**라는 것.\n\n**출처는 끝내 못 밝혔다.** 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 못 찾았으며, 그럴듯한 이름으로 채우지 않는다. 다만 **한국어 제목 오역의 양상**이 특징적이다 — 『Pale Fire』를 \"푸른 수염\"(Bluebeard)으로, 『Vanity Fair』를 \"세기말\"로, 『Go Tell It on the Mountain』을 \"산상수훈 / 내 방에서 가라\"로, 쿳시(Coetzee)를 \"쿤체\"로, 그리고 『채털리 부인의 연인』과 『무지개』를 한 항목으로 합쳐놨다. **사람의 편집은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다.** 마지막 문단이 google.com/search 링크로 유튜브 영상을 권하는 형태인 것까지 합치면 **생성된 목록일 가능성이 높다고 본다.** 판단이고 증명이 아니며, 출처 정정은 여기에 기대지 않는다.\n\n**그래도 이 100편을 버리지 않는 이유**는 §5에 있다.\n\n| # | 작품 | 작가 | # | 작품 | 작가 |\n|---|---|---|---|---|---|\n| 1 | 미들마치 | 조지 엘리엇 | 51 | 나의 눈부신 친구 | 엘레나 페란테 |\n| 2 | 빌러비드 | 토니 모리슨 | 52 | 황금 그릇 | 헨리 제임스 |\n| 3 | 율리시스 | 제임스 조이스 | 53 | 금성의 통과 | 셜리 해저드 |\n| 4 | 등대로 | 버지니아 울프 | 54 | 올랜도 | 버지니아 울프 |\n| 5 | 잃어버린 시간을 찾아서 | 마르셀 프루스트 | 55 | 파도 | 버지니아 울프 |\n| 6 | 안나 카레니나 | 레프 톨스토이 | 56 | 맨스필드 파크 | 제인 오스틴 |\n| 7 | 전쟁과 평화 | 레프 톨스토이 | 57 | 음향과 분노 | 윌리엄 포크너 |\n| 8 | 제인 에어 | 샬럿 브론테 | 58 | 추락 | J. M. 쿳시 |\n| 9 | 오만과 편견 | 제인 오스틴 | 59 | 나를 보내지 마 | 가즈오 이시구로 |\n| 10 | 마담 보바리 | 귀스타브 플로베르 | 60 | 하워즈 엔드 | E. M. 포스터 |\n| 11 | 위대한 개츠비 | F. 스콧 피츠제럴드 | 61 | 토성의 고리 | W. G. 제발트 |\n| 12 | 황폐한 집 | 찰스 디킨스 | 62 | 태양은 노랗게 타오른다 | 치마만다 응고지 아디치에 |\n| 13 | 에마 | 제인 오스틴 | 63 | 하얀 이빨 | 제이디 스미스 |\n| 14 | 댈러웨이 부인 | 버지니아 울프 | 64 | 훌륭한 병사 | 포드 매덕스 포드 |\n| 15 | 모비 딕 | 허먼 멜빌 | 65 | 컬러 퍼플 | 앨리스 워커 |\n| 16 | 1984 | 조지 오웰 | 66 | 거장과 마르가리타 | 미하일 불가코프 |\n| 17 | 백년의 고독 | 가브리엘 가르시아 마르케스 | 67 | 특성 없는 남자 | 로베르트 무질 |\n| 18 | 설득 | 제인 오스틴 | 68 | 핏빛 자오선 | 코맥 매카시 |\n| 19 | 트리스트럼 섄디 | 로렌스 스턴 | 69 | 죄와 벌 | 표도르 도스토옙스키 |\n| 20 | 폭풍의 언덕 | 에밀리 브론테 | 70 | 무명의 주드 | 토머스 하디 |\n| 21 | 여인의 초상 | 헨리 제임스 | 71 | 킨드레드 | 옥타비아 버틀러 |\n| 22 | 모든 것이 산산이 부서지다 | 치누아 아체베 | 72 | 우리 공통의 친구 | 찰스 디킨스 |\n| 23 | 한밤의 아이들 | 살만 루슈디 | 73 | 아우스터리츠 | W. G. 제발트 |\n| 24 | 남아 있는 나날 | 가즈오 이시구로 | 74 | 신경 상태 | 치치 당가렘가 |\n| 25 | 롤리타 | 블라디미르 나보코프 | 75 | 가장 푸른 눈 | 토니 모리슨 |\n| 26 | 돈키호테 | 미겔 데 세르반테스 | 76 | 드라큘라 | 브램 스토커 |\n| 27 | 소송 | 프란츠 카프카 | 77 | 채털리 부인의 연인 / 무지개 | D. H. 로런스 |\n| 28 | 카라마조프가의 형제들 | 표도르 도스토옙스키 | 78 | 비스와스씨를 위한 집 | V. S. 나이폴 |\n| 29 | 창백한 불꽃 | 블라디미르 나보코프 | 79 | 산에 올라 고하라 | 제임스 볼드윈 |\n| 30 | 프랑켄슈타인 | 메리 셸리 | 80 | 레베카 | 대프니 듀 모리에 |\n| 31 | 진 브로디 선생의 전성기 | 뮤리얼 스파크 | 81 | 부덴브로크 가의 사람들 | 토마스 만 |\n| 32 | 작은 것들의 신 | 아룬다티 로이 | 82 | 사랑의 종말 | 그레이엄 그린 |\n| 33 | 데이비드 코퍼필드 | 찰스 디킨스 | 83 | 무기여 잘 있거라 | 어니스트 헤밍웨이 |\n| 34 | 울프 홀 | 힐러리 맨틀 | 84 | 리플리 | 퍼트리샤 하이스미스 |\n| 35 | 위대한 유산 | 찰스 디킨스 | 85 | 채식주의자 | 한강 |\n| 36 | 시녀 이야기 | 마거릿 애트우드 | 86 | 나사의 회전 | 헨리 제임스 |\n| 37 | 보이지 않는 인간 | 랠프 엘리슨 | 87 | 아름다움의 선 | 앨런 홀링허스트 |\n| 38 | 순수의 시대 | 이디스 워튼 | 88 | 래그타임 | E. L. 닥터로 |\n| 39 | 그들의 눈은 신을 보고 있었다 | 조라 닐 허스턴 | 89 | 어둠의 왼손 | 어슐러 K. 르 귄 |\n| 40 | 솔로몬의 노래 | 토니 모리슨 | 90 | 제이콥의 방 | 버지니아 울프 |\n| 41 | 어둠의 심연 | 조지프 콘래드 | 91 | 삶과 운명 | 바실리 그로스만 |\n| 42 | 마의 산 | 토마스 만 | 92 | 감정 교육 | 귀스타브 플로베르 |\n| 43 | 하우스키핑 | 메릴린 로빈슨 | 93 | 보이지 않는 도시들 | 이탈로 칼비노 |\n| 44 | 조반니의 방 | 제임스 볼드윈 | 94 | 알려진 세계 | 에드워드 P. 존스 |\n| 45 | 황금 노트북 | 도리스 레싱 | 95 | 귀향 | 토머스 하디 |\n| 46 | 표범 | 주세페 토마시 디 람페두사 | 96 | 페드로 파라모 | 후안 룰포 |\n| 47 | 허영의 시장 | 윌리엄 메이크피스 새커리 | 97 | 캐치-22 | 조지프 헬러 |\n| 48 | 변신 | 프란츠 카프카 | 98 | 로드 | 코맥 매카시 |\n| 49 | 적절한 균형 | 로힌턴 미스트리 | 99 | 중개인 | L. P. 하틀리 |\n| 50 | 광막한 사르가소 바다 | 진 리스 | 100 | 나의 안토니아 | 윌라 캐더 |\n\n### 5 — 두 목록을 겹쳐놓으면 — 이 카드의 요점\n\n| | 맥크럼 (진짜 가디언) | 도는 목록 (출처 불명) |\n|---|---|---|\n| 작가 수 | **100명** (작가당 1편) | 75명 (울프 5, 오스틴 4, 디킨스 4) |\n| 번역 작품 | **0** | **23** (독 7, 러 6, 불 3, 스 3, 이 3, 한 1) |\n| 여성 작가 | 21 | **36** |\n| 흑인 작가 | **1명** (모리슨) | 모리슨 3편 + 볼드윈 2 + 엘리슨 + 허스턴 + 워커 + 버틀러 + 아체베 + 아디치에 + 당가렘가 |\n| 마지막 연도 | 2000 | 2010년대 |\n| 순서 | 연대순 (순위 없음) | 1~100위 |\n| 출처 | **완전 공개** | **불명** |\n\n**결과가 한 방향이 아니다.** 검증 가능한 목록이 **덜 넓고**, 정체불명의 목록이 **더 넓다.** 아체베·엘리슨·볼드윈·허스턴은 **영어로 썼는데 영어 전용 목록에 없고 세계 목록에는 있다.** 이건 우연이 아니라 **2015년 한 사람의 취향과 그 이후 10년의 정전 감각 차이**로 보는 게 맞다고 본다.\n\n**그래서 내가 내리는 결론은 \"진짜를 쓰고 가짜를 버려라\"가 아니다.**\n\n- **출처를 인용할 때는** 맥크럼 목록만 쓴다. 다른 쪽은 인용할 이름이 없다.\n- **읽을 것을 고를 때는** 두 목록을 합쳐서 본다. **교집합은 안전하고**, 맥크럼에만 있는 것은 **영어 산문사의 깊은 컷**이고, 도는 목록에만 있는 것은 **번역 문학과 흑인 문학**이다. 셋 다 필요하다.\n- **그리고 이게 이 카드 계열의 규칙을 한 번 더 확인해 준다** — 목록의 값과 목록에 붙은 이름의 값은 **따로 논다.** [§4의 판별법](pocs-guardian-100-best-novels.html)은 이름을 검사하는 방법이고, 내용의 값은 그것과 별개로 따져야 한다.\n\n### 6 — 실제로 무엇을 읽을 것인가\n\n**(가) 맥크럼 목록에서, 값어치 대비 비용이 가장 좋은 것**\n\n| # | 책 | 왜 |\n|---|---|---|\n| 8 | 『프랑켄슈타인』 | 짧고, 관용구 수익률이 가장 높다 |\n| 32 | 『어둠의 심연』 | 100쪽 남짓. 이후 100년의 식민지 서사가 여기서 갈라진다 |\n| 55 | 『내가 죽어 누워 있을 때』 | 포크너 입문으로 가장 짧다 |\n| 56 | 『멋진 신세계』 | 『1984』와 짝으로 읽어야 둘 다 이해된다 |\n| 74 | 『파리대왕』 | 짧고 빠르다 |\n| 79 | 『진 브로디 선생의 전성기』 | 200쪽 미만, 시간 구조가 영리하다 |\n| 83 | 『싱글 맨』 | 하루, 애도. 짧고 문장이 좋다 |\n| 92 | 『하우스키핑』 | 이 목록에서 문장이 가장 아름다운 축 |\n\n**(나) 맥크럼에만 있고 거의 안 알려진 것 — 이 목록을 쓰는 진짜 이유**\n\n『롤리 윌로스』(52) · 『콜드 컴포트 팜』(57) · 『파티 가는 길』(63) · 『클레어몬트의 팔프리 부인』(87) · 『봄의 시작』(95). **다른 어떤 100선에서도 이 다섯을 한꺼번에 만나기 어렵다.**\n\n**(다) 높은 평판인데 진입 비용이 잔인한 것 — 미뤄도 된다**\n\n『율리시스』(46) · 『클라리사』(4) · 『트리스트럼 섄디』(6) · 『언더월드』(98) · 『화산 아래서』(68).\n\n**(라) 두 목록에 다 있는 것 — 가장 안전한 시작**\n\n『프랑켄슈타인』 · 『제인 에어』 · 『폭풍의 언덕』 · 『미들마치』 · 『허영의 시장』 · 『모비 딕』 · 『어둠의 심연』 · 『순수의 시대』 · 『율리시스』 · 『댈러웨이 부인』 · 『위대한 개츠비』 · 『멋진 신세계』 · 『무명의 주드』 · 『드라큘라』 · 『1984』 · 『사랑의 종말』 · 『롤리타』 · 『진 브로디 선생의 전성기』 · 『황금 노트북』 · 『캐치-22』 · 『솔로몬의 노래』 · 『한밤의 아이들』 · 『하우스키핑』 · 『추락』 · 『황금 그릇』 · 『훌륭한 병사』.\n\n## Jayverse에서의 위치\n\n책 목록 계열의 한 축이고, 이 계열에서 **유일하게 \"검증된 목록\"과 \"정체불명 목록\"을 같은 카드에 담은 항목**이다. [독서 목록 다섯 개](pocs-the-rule-not-the-list.html)가 \"목록에서 옮겨지는 것은 선별 규칙\"이라고 했다면, 이 카드는 **그 규칙이 공개돼 있어도 집행이 반쪽일 수 있다**는 사례다 — 맥크럼은 규칙을 다 밝혔고, 그래도 아체베가 빠졌다.\n\n가져갈 것 둘:\n\n1. **인용할 때와 읽을 때를 분리한다.** 출처가 필요한 자리에는 검증된 목록만, 읽을 것을 고르는 자리에는 둘 다.\n2. **공개된 규칙은 면죄부가 아니다.** 규칙이 보이면 **규칙대로 집행됐는지**까지 봐야 한다. 그걸 보는 방법이 §3의 셈이다.\n\n## 확인된 것과 미확인\n\n**원문을 받아와 확인함.** 맥크럼 목록 100편의 순번·제목·작가·연도·가디언 자체 한 줄 설명은 2026-09-25에 theguardian.com에서 전체를 받아 파싱했다. 100개 항목이 빠짐없이 1~100으로 채워져 있음을 확인했고, 원문은 raw 파일 옆의 real-guardian-100.txt와 real100.json에 남겼다.\n\n**셈으로 확인됨.** 서로 다른 작가 100명(반복 0), 여성 작가 작품 21편, 연도 분포, 번역 0편 — 받아온 데이터를 스크립트로 집계한 값이다. 성별 분류는 내가 작성한 매핑에 따랐다.\n\n**\"흑인 작가 1명\"은 내가 이름을 훑어 센 것**이고 자동 집계가 아니다. 모리슨 외에 놓친 이름이 있다면 정정되어야 한다 — 다만 아체베·엘리슨·볼드윈·허스턴이 목록에 없다는 사실은 이름 대조로 확인했다.\n\n**내가 붙인 것.** §1 표의 한국어 제목과 오른쪽 한 줄 전부. 가디언의 영어 설명을 번역한 것이 아니라 내가 새로 쓴 메모이고, 국내 역서명은 통용되는 것을 적었으나 항목마다 확인하지는 않았다.\n\n**§3·§5·§6의 평가는 전부 내 판단이다.** 아체베 부재를 결함으로 읽은 것, 1900~49년 편중을 모더니즘 편애로 읽은 것, 도는 목록이 더 넓다는 비교, 읽을 순서 — 근거는 붙였지만 합의된 사실이 아니다.\n\n**§4의 목록은 옮겼을 뿐 확인하지 않았다.** 100편의 제목·작가·순위는 붙여넣은 그대로이고, 어느 발행처로도 추적되지 않았다. 생성된 목록이라는 판단은 텍스트의 거동에서 끌어낸 추론이며 증명이 아니다. 한국어 제목은 오역을 고쳐 내가 정리했고, 원본 오역 목록은 raw 파일에 남겼다.\n"</script>
+      <h1>가디언이 실제로 뽑은 영어 소설 100선 — 그리고 그 이름을 달고 도는 다른 목록</h1>
+      <p class="lead">가디언의 100선은 로버트 맥크럼(Robert McCrum)이 2013~2015년 주간 연재로 쓰고 2015년 8월 17일 전체 목록으로 닫은 《영어로 쓰인 최고의 소설 100》이다. **영어로 쓰인 작품만**, **순위가 아니라 연대순**, **작가당 한 편**, 『천로역정』(1678)에서 『켈리 갱 실화』(2000)까지. 이 카드는 그 100편을 전부 싣는다. 그리고 §4에 **"가디언 선정"이라는 이름을 달고 한국어권에 도는 전혀 다른 100선**을 나란히 둔다. 두 목록은 겹치는 제목이 적고, 놀랍게도 **어느 쪽이 더 나은지가 한 방향으로 정해지지 않는다.**</p>
+      <p class="meta">2026-09-25 추가, 같은 날 jay 요청으로 주-부를 바꿨다("맥크럼 목록으로 대체해주면 안 될까?"). 100편·연도·가디언의 한 줄 설명은 theguardian.com에서 직접 받아왔고, 표의 한국어 제목과 메모는 내가 붙였다. §3과 §5의 평가는 내 판단이다.</p>
+<h2>왜</h2>
+<p><strong>검증 가능한 목록을 앞에 두는 게 맞기 때문이다.</strong></p>
+<p>전에는 이 카드의 본문이 출처 불명의 100선이었고, 가디언의 진짜 목록은 그걸 반박하는 근거로만 들어 있었다. 순서가 틀렸다. <strong>정체를 확인할 수 없는 목록을 100줄 싣고 진짜를 각주로 두면, 카드가 가장 약한 자료를 중심으로 서 있게 된다.</strong> 맥크럼 목록은 발행처·연재 기간·수록 이유·구성 규칙이 전부 공개돼 있다. 그게 앞에 와야 한다.</p>
+<p><strong>그리고 둘을 나란히 두면 더 나은 것이 나온다.</strong> 도는 목록은 가짜 이름을 달았지만 <strong>내용은 더 넓고</strong>, 맥크럼 목록은 이름이 진짜지만 <strong>범위가 훨씬 좁다.</strong> 하나를 버리는 대신 둘을 겹쳐 읽으면, 정전이라는 물건이 어떤 선택의 합인지가 드러난다 — 이 섹션의 <a href="pocs-the-rule-not-the-list.html">독서 목록 카드</a>가 계속 하려던 이야기가 그것이다.</p>
+<h2>동작 방식</h2>
+<h3>1 — 맥크럼, 《영어로 쓰인 최고의 소설 100》 전체 (연대순)</h3>
+<p><strong>순위가 아니다.</strong> 1번이 1위가 아니라 가장 오래된 작품이라는 뜻이다. 한국어 제목과 오른쪽 한 줄은 내가 붙였고, 국내 역서가 드문 항목은 그렇게 적었다.</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>연도</th><th>작품</th><th>작가</th><th>한 줄</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>1678</td><td>『천로역정』</td><td>John Bunyan</td><td>기독교 알레고리. 영어 산문 서사의 출발점으로 꼽힌다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>1719</td><td>『로빈슨 크루소』</td><td>Daniel Defoe</td><td>무인도 표류기. 근대 소설의 원형으로 자주 지목된다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>1726</td><td>『걸리버 여행기』</td><td>Jonathan Swift</td><td>풍자. 동화로 읽히지만 원작은 인간 혐오에 가깝다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>1748</td><td>『클라리사』</td><td>Samuel Richardson</td><td>서간체. 영어 소설 중 가장 긴 축에 든다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>1749</td><td>『톰 존스』</td><td>Henry Fielding</td><td>악한소설. 플롯 짜기의 교본으로 불린다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>1759</td><td>『트리스트럼 섄디』</td><td>Laurence Sterne</td><td>18세기 메타소설. 검은 페이지·여담으로 서사를 부순다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>1816</td><td>『에마』</td><td>Jane Austen</td><td>오스틴이 넣은 한 편. 화자를 믿으면 안 되는 구조</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>1818</td><td>『프랑켄슈타인』</td><td>Mary Shelley</td><td>SF의 기원. 창조물 유기에 관한 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>1818</td><td>『나이트메어 애비』</td><td>Thomas Love Peacock</td><td>낭만주의를 조롱한 짧은 풍자. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>1838</td><td>『아서 고든 핌의 모험』</td><td>Edgar Allan Poe</td><td>포의 유일한 장편. 멜빌로 이어진다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>1845</td><td>『시빌』</td><td>Benjamin Disraeli</td><td>총리가 쓴 소설. &#39;두 국민&#39;이라는 표현의 출처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>1847</td><td>『제인 에어』</td><td>Charlotte Brontë</td><td>1인칭 성장·고딕. 50위 『광막한 사르가소 바다』의 원본</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>1847</td><td>『폭풍의 언덕』</td><td>Emily Brontë</td><td>액자 구조. 사랑 이야기로 읽으면 절반을 놓친다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>1848</td><td>『허영의 시장』</td><td>William Thackeray</td><td>주인공 없는 소설이라 자칭한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>1850</td><td>『데이비드 코퍼필드』</td><td>Charles Dickens</td><td>디킨스가 넣은 한 편. 자전적 성장기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1850</td><td>『주홍 글자』</td><td>Nathaniel Hawthorne</td><td>청교도 뉴잉글랜드. 미국 소설의 기초석</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>1851</td><td>『모비 딕』</td><td>Herman Melville</td><td>고래·백과사전·비극. 읽기보다 살아내는 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>1865</td><td>『이상한 나라의 앨리스』</td><td>Lewis Carroll</td><td>논리 유희. 아동문학이 이 목록에 들어온 근거</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>1868</td><td>『문스톤』</td><td>Wilkie Collins</td><td>영어권 최초의 본격 추리 장편으로 흔히 꼽힌다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>1868-9</td><td>『작은 아씨들』</td><td>Louisa May Alcott</td><td>여성 작가·여성 성장기. 1868년</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>1871-2</td><td>『미들마치』</td><td>George Eliot</td><td>지방 사회 전체를 한 권에. 흔히 최고작으로 꼽힘</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>1875</td><td>『우리가 사는 방식』</td><td>Anthony Trollope</td><td>금융 사기와 언론. 지금 읽으면 더 현대적</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>1884/5</td><td>『허클베리 핀의 모험』</td><td>Mark Twain</td><td>미국 구어체 문학의 시작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>1886</td><td>『납치』</td><td>Robert Louis Stevenson</td><td>스티븐슨의 모험담. 『보물섬』이 아니라 이것</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>1889</td><td>『보트 위의 세 남자』</td><td>Jerome K Jerome</td><td>빅토리아 코미디. 아직도 웃긴다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>1890</td><td>『네 사람의 서명』</td><td>Arthur Conan Doyle</td><td>홈즈 장편. 장르물이 정전에 들어온 자리</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>1891</td><td>『도리언 그레이의 초상』</td><td>Oscar Wilde</td><td>와일드의 유일한 장편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>1891</td><td>『뉴 그럽 스트리트』</td><td>George Gissing</td><td>글쓰기로 먹고사는 일에 관한 소설. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>1895</td><td>『무명의 주드』</td><td>Thomas Hardy</td><td>하디의 마지막 소설. 혹평에 절필했다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>1895</td><td>『붉은 무공 훈장』</td><td>Stephen Crane</td><td>남북전쟁. 전투를 처음으로 감각으로 쓴 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>1897</td><td>『드라큘라』</td><td>Bram Stoker</td><td>서간·일지 몽타주. 형식이 내용보다 앞선다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>1899</td><td>『어둠의 심연』</td><td>Joseph Conrad</td><td>식민지 콩고. 『지옥의 묵시록』의 원작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>1900</td><td>『시스터 캐리』</td><td>Theodore Dreiser</td><td>미국 자연주의. 도덕적 심판을 거부한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>1901</td><td>『킴』</td><td>Rudyard Kipling</td><td>제국의 첩보 소설. 키플링의 양면성이 그대로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>1903</td><td>『야성의 부름』</td><td>Jack London</td><td>짧다. 개의 시점</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>1904</td><td>『황금 그릇』</td><td>Henry James</td><td>후기 제임스. 문장이 가장 난해한 시기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>1904</td><td>『하드리아누스 7세』</td><td>Frederick Rolfe</td><td>기행에 가까운 자아 환상. 깊은 컷</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>1908</td><td>『버드나무에 부는 바람』</td><td>Kenneth Grahame</td><td>동물 우화. 영국 전원 신화의 결정판</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>1910</td><td>『폴리 씨의 역사』</td><td>HG Wells</td><td>웰스의 비SF. 소시민 희극</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>1911</td><td>『줄라이카 돕슨』</td><td>Max Beerbohm</td><td>옥스퍼드 풍자. 국내 거의 안 읽힘</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>1915</td><td>『훌륭한 병사』</td><td>Ford Madox Ford</td><td>신뢰할 수 없는 화자의 교과서</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>1915</td><td>『39계단』</td><td>John Buchan</td><td>스파이 스릴러의 원형</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>1915</td><td>『무지개』</td><td>DH Lawrence</td><td>로런스의 대표작 중 하나. 출간 당시 금서</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>1915</td><td>『인간의 굴레에서』</td><td>W Somerset Maugham</td><td>자전적 성장기. 두껍다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>1920</td><td>『순수의 시대』</td><td>Edith Wharton</td><td>뉴욕 상류사회. 여성 최초 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>1922</td><td>『율리시스』</td><td>James Joyce</td><td>하루. 문학사적 정점이자 진입 장벽의 대명사</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>1922</td><td>『배빗』</td><td>Sinclair Lewis</td><td>미국 중산층 순응주의. &#39;babbitt&#39;가 보통명사가 됐다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>1924</td><td>『인도로 가는 길』</td><td>EM Forster</td><td>식민지의 오해. 포스터의 마지막 소설</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>1925</td><td>『신사는 금발을 좋아해』</td><td>Anita Loos</td><td>코믹 일기체. 이 자리에 있는 게 이 목록의 성격</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>1925</td><td>『댈러웨이 부인』</td><td>Virginia Woolf</td><td>하루·의식의 흐름. 울프가 넣은 한 편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>1925</td><td>『위대한 개츠비』</td><td>F Scott Fitzgerald</td><td>짧고, 문장이 값을 한다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>1926</td><td>『롤리 윌로스』</td><td>Sylvia Townsend Warner</td><td>중년 여성이 마녀가 된다. 발굴형 선택</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>1926</td><td>『태양은 다시 떠오른다』</td><td>Ernest Hemingway</td><td>헤밍웨이 문체의 선언</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>1929</td><td>『몰타의 매』</td><td>Dashiell Hammett</td><td>하드보일드. 장르가 문장을 바꾼 사례</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>1930</td><td>『내가 죽어 누워 있을 때』</td><td>William Faulkner</td><td>15명의 화자. 포크너 입문에 가장 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>1932</td><td>『멋진 신세계』</td><td>Aldous Huxley</td><td>공포가 아니라 편안함으로 집행되는 디스토피아</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>1932</td><td>『콜드 컴포트 팜』</td><td>Stella Gibbons</td><td>전원소설 패러디. 영국식 유머의 정점</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>1932</td><td>『1919』</td><td>John Dos Passos</td><td>다큐멘터리 기법. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>1934</td><td>『북회귀선』</td><td>Henry Miller</td><td>외설 재판으로 유명. 문학적 평가는 갈림</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>1938</td><td>『스쿠프』</td><td>Evelyn Waugh</td><td>특파원 풍자. 언론 희화의 고전</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>1938</td><td>『머피』</td><td>Samuel Beckett</td><td>베케트의 초기 장편. 희곡 이전</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>1939</td><td>『빅 슬립』</td><td>Raymond Chandler</td><td>챈들러. 플롯보다 문장</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>1939</td><td>『파티 가는 길』</td><td>Henry Green</td><td>안개 낀 역에 갇힌 사람들. 매우 깊은 컷</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>1939</td><td>『스윔투버즈에서』</td><td>Flann O’Brien</td><td>아일랜드 메타소설. 조이스 이후의 장난</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>1939</td><td>『분노의 포도』</td><td>John Steinbeck</td><td>대공황 이주. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>1946</td><td>『아침의 기쁨』</td><td>PG Wodehouse</td><td>우드하우스. 이 목록이 즐거움을 인정한다는 증거</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>1946</td><td>『모두가 왕의 부하들』</td><td>Robert Penn Warren</td><td>미국 포퓰리즘 정치. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>1947</td><td>『화산 아래서』</td><td>Malcolm Lowry</td><td>하루, 멕시코, 알코올. 난도 높음</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>1948</td><td>『한낮의 열기』</td><td>Elizabeth Bowen</td><td>런던 대공습기의 첩보·사랑</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>1949</td><td>『1984』</td><td>George Orwell</td><td>감시. 어휘가 언어에 남았다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>1951</td><td>『사랑의 종말』</td><td>Graham Greene</td><td>그린의 가톨릭 소설. 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>1951</td><td>『호밀밭의 파수꾼』</td><td>JD Salinger</td><td>청소년 화자의 원형</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>1953</td><td>『오기 마치의 모험』</td><td>Saul Bellow</td><td>미국 유대계 문학의 문을 연 문장</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>1954</td><td>『파리대왕』</td><td>William Golding</td><td>소년들·섬·제도. 짧고 읽기 쉽다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>1955</td><td>『롤리타』</td><td>Vladimir Nabokov</td><td>문장으로 독자를 공범으로 만든다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>1957</td><td>『길 위에서』</td><td>Jack Kerouac</td><td>비트 세대. 문학적 평가는 논쟁적</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>1957</td><td>『보스』</td><td>Patrick White</td><td>호주 오지 탐험. 노벨 수상 작가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>1960</td><td>『앵무새 죽이기』</td><td>Harper Lee</td><td>미국 학교 필독서의 대명사</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>1960</td><td>『진 브로디 선생의 전성기』</td><td>Muriel Spark</td><td>짧다. 시간 구조가 특이하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>1961</td><td>『캐치-22』</td><td>Joseph Heller</td><td>군 관료제 부조리. 제목이 보통명사가 됐다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>1962</td><td>『황금 노트북』</td><td>Doris Lessing</td><td>형식이 곧 주제. 레싱 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>1962</td><td>『시계태엽 오렌지』</td><td>Anthony Burgess</td><td>발명된 은어. 영화보다 원작이 더 나아간다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>1964</td><td>『싱글 맨』</td><td>Christopher Isherwood</td><td>하루, 애도, 게이 화자. 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>1966</td><td>『인 콜드 블러드』</td><td>Truman Capote</td><td>논픽션 소설. 장르를 만든 책</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>1966</td><td>『벨 자』</td><td>Sylvia Plath</td><td>자전적. 플라스의 유일한 장편</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>1969</td><td>『포트노이의 불평』</td><td>Philip Roth</td><td>독백. 출간 당시 스캔들</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>1971</td><td>『클레어몬트의 팔프리 부인』</td><td>Elizabeth Taylor</td><td>노년과 외로움. 조용한 걸작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>1971</td><td>『래빗 리덕스』</td><td>John Updike</td><td>4부작 중 2권. 미국 중산층 연대기</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>1977</td><td>『솔로몬의 노래』</td><td>Toni Morrison</td><td>이 목록의 유일한 흑인 작가. 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>1979</td><td>『강가의 굽이』</td><td>VS Naipaul</td><td>탈식민 아프리카. 논쟁적인 작가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>1981</td><td>『한밤의 아이들』</td><td>Salman Rushdie</td><td>인도 독립. 부커 오브 부커스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>1981</td><td>『하우스키핑』</td><td>Marilynne Robinson</td><td>짧고 문장이 아름답다. 로빈슨 데뷔작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>1984</td><td>『머니』</td><td>Martin Amis</td><td>1980년대 탐욕. 화자 이름이 작가 이름</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>1986</td><td>『부유하는 세상의 화가』</td><td>Kazuo Ishiguro</td><td>전후 일본. 이시구로 초기작</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>1988</td><td>『봄의 시작』</td><td>Penelope Fitzgerald</td><td>1913년 모스크바. 국내 번역 드묾</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>1988</td><td>『가정 교육』</td><td>Anne Tyler</td><td>가족 소설. 퓰리처</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>1990</td><td>『여자들 사이에서』</td><td>John McGahern</td><td>아일랜드 가부장. 조용하고 단단하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>1997</td><td>『언더월드』</td><td>Don DeLillo</td><td>20세기 미국 전체를 한 권에. 길다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>1999</td><td>『추락』</td><td>JM Coetzee</td><td>남아공. 부커, 그리고 쿳시 노벨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>2000</td><td>『켈리 갱 실화』</td><td>Peter Carey</td><td>구두점 없는 1인칭. 부커. 목록의 끝</td></tr></tbody></table>
+<h3>2 — 이 목록의 구성 규칙, 그리고 규칙이 만든 결과</h3>
+<table><thead><tr><th>규칙</th><th>결과</th></tr></thead><tbody><tr><td><strong>영어로 쓰인 작품만</strong></td><td>번역 0편. 톨스토이·프루스트·카프카·마르케스가 아예 후보가 아니다</td></tr><tr><td><strong>연대순, 순위 없음</strong></td><td>"1위 싸움"이 없다. 대신 <strong>영어 소설이 300년 동안 어떻게 변했는지</strong>가 목록의 모양으로 보인다</td></tr><tr><td><strong>작가당 한 편</strong></td><td><strong>작가 100명 = 작품 100편.</strong> 울프도 디킨스도 오스틴도 한 편씩이다</td></tr><tr><td><strong>2000년에서 멈춤</strong></td><td>21세기 작품 0편. 2015년에 쓴 목록인데 마지막이 2000년이다</td></tr></tbody></table>
+<p><strong>작가당 한 편</strong>이 이 목록의 가장 좋은 결정이라고 본다. 100칸을 100명에게 나눠 주면 <strong>반복이 다른 이름을 밀어내는 일이 구조적으로 불가능</strong>해진다. §4의 도는 목록은 같은 100칸을 75명에게 줬다.</p>
+<h3>3 — 셈, 그리고 그만한 값을 하는가 — 내 평가</h3>
+<p>수치는 받아온 100행을 집계한 것이다.</p>
+<table><thead><tr><th>항목</th><th>값</th></tr></thead><tbody><tr><td>서로 다른 작가</td><td><strong>100명</strong> (반복 0)</td></tr><tr><td>번역 작품</td><td><strong>0편</strong></td></tr><tr><td>여성 작가 작품</td><td><strong>21 / 100</strong> (앞 20번 안에 5편)</td></tr><tr><td>흑인 작가</td><td><strong>1명</strong> — 토니 모리슨(89)</td></tr><tr><td>연도 분포</td><td>1800년 이전 6 · 1800~49 8 · 1850~99 18 · <strong>1900~49 38</strong> · 1950~99 29 · 2000년 1</td></tr></tbody></table>
+<p><strong>값을 하는 부분</strong></p>
+<ul><li><strong>장르를 부끄러워하지 않는다.</strong> 코넌 도일, 스토커, 챈들러, 해밋, 캐럴, 그레이엄, 우드하우스, 제롬 K. 제롬. 정전 목록이 추리·공포·아동·유머를 넣는 일은 드물다. <strong>이 목록은 즐거움을 성취로 인정한다.</strong></li><li><strong>깊은 컷이 진짜 깊다.</strong> 프레더릭 롤프 『하드리아누스 7세』, 헨리 그린 『파티 가는 길』, 실비아 타운센드 워너 『롤리 윌로스』, 애니타 루스, 스텔라 기번스, 엘리자베스 테일러. <strong>이름값으로 채운 목록에는 이 항목들이 없다.</strong> 고르는 데 품이 든 흔적이다.</li><li><strong>연대순이라 읽는 법이 생긴다.</strong> 위에서 아래로 훑으면 서간체 → 빅토리아 장편 → 모더니즘 → 전후 → 탈식민으로 <strong>형식이 이동하는 게 보인다.</strong> 순위 목록으로는 절대 안 보이는 것이다.</li></ul>
+<p><strong>값을 못 하는 부분 — 그리고 이건 셈으로 나온다</strong></p>
+<ul><li><strong>흑인 작가가 100명 중 1명이다.</strong> 모리슨 하나. <strong>아체베 『모든 것이 산산이 부서지다』(1958)가 없다.</strong> 영어로 쓰였고, 영어 소설의 20세기 후반을 말할 때 빠질 수 없는 책이다. 엘리슨 『보이지 않는 인간』, 볼드윈, 조라 닐 허스턴도 없다. <strong>영어 전용 목록이면서 영어로 쓴 흑인 문학을 거의 통째로 비운 것</strong>이고, 나는 이걸 취향이 아니라 결함으로 읽는다.</li><li><strong>여성 21%.</strong> 도는 목록(36%)보다 낮다. 앞 20번 안에 5편인데 그중 넷이 오스틴·셸리·브론테 자매다. <strong>20세기 여성 작가가 얇다.</strong></li><li><strong>1900~49년에 38편이 몰려 있다.</strong> 한 세기의 절반에 목록의 40%에 가깝다. 모더니즘 편애가 뚜렷하다.</li><li><strong>2000년에서 끝난다.</strong> 2015년에 마감한 목록인데 21세기 15년이 0편이다. 신중함일 수도 있고 회피일 수도 있는데, <strong>결과적으로 "지금"이 없다.</strong></li><li><strong>영국 편중.</strong> 미국·아일랜드·호주·남아공·인도가 들어 있지만 무게중심은 분명히 영국이다.</li></ul>
+<p><strong>한 줄 판정</strong>: <strong>규칙이 좋고 집행이 절반만 됐다.</strong> 작가당 한 편, 연대순, 장르 포용은 전부 잘 고른 규칙이다. 그 규칙을 <strong>영어로 쓴 흑인 문학과 20세기 여성 작가에는 적용하지 않았다.</strong> 그래서 이 목록은 <strong>영어 소설사의 좋은 지도이되, 영어 소설의 공정한 대표는 아니다.</strong></p>
+<h3>4 — "가디언 선정"이라는 이름을 달고 도는 다른 100선</h3>
+<p>한국어권에 <strong>"영국 일간지 가디언이 선정한 역대 최고의 소설 100선"</strong>이라는 이름으로 도는 순위표가 있다. 『미들마치』 1위, 한강 『채식주의자』 85위, 그리고 "한강이 유일한 아시아 작가"라는 주석이 붙는다. <strong>가디언 것이 아니다.</strong> §1과 비교하면 한 번에 끝난다 — 이쪽은 번역을 23편 담고, 순위를 매기고, 톨스토이·프루스트·『빌러비드』·한강이 들어 있는데 <strong>가디언 목록에는 넷 다 없다.</strong> 『미들마치』는 가디언 21번, 『율리시스』는 46번이다.</p>
+<p><strong>"유일한 아시아 작가" 주석도 그 목록 자신이 반박한다.</strong> 같은 100편 안에 가즈오 이시구로가 두 번(24, 59, 나가사키 출생), 살만 루슈디(23, 봄베이 출생), 아룬다티 로이(32), 로힌턴 미스트리(49, 봄베이 출생), V. S. 나이폴(78, 인도계)이 있다. 참인 진술은 더 좁다 — <strong>한강이 여기서 한국어로 쓰는 유일한 작가</strong>라는 것.</p>
+<p><strong>출처는 끝내 못 밝혔다.</strong> 가디언이 아니라는 것까지는 확실하고, 그 이상은 미상이다. 찾아봤고 못 찾았으며, 그럴듯한 이름으로 채우지 않는다. 다만 <strong>한국어 제목 오역의 양상</strong>이 특징적이다 — 『Pale Fire』를 "푸른 수염"(Bluebeard)으로, 『Vanity Fair』를 "세기말"로, 『Go Tell It on the Mountain』을 "산상수훈 / 내 방에서 가라"로, 쿳시(Coetzee)를 "쿤체"로, 그리고 『채털리 부인의 연인』과 『무지개』를 한 항목으로 합쳐놨다. <strong>사람의 편집은 늦어서 실패하지, 틀린 제목을 자신 있게 짝지어서 실패하지 않는다.</strong> 마지막 문단이 google.com/search 링크로 유튜브 영상을 권하는 형태인 것까지 합치면 <strong>생성된 목록일 가능성이 높다고 본다.</strong> 판단이고 증명이 아니며, 출처 정정은 여기에 기대지 않는다.</p>
+<p><strong>그래도 이 100편을 버리지 않는 이유</strong>는 §5에 있다.</p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>작품</th><th>작가</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">1</td><td>미들마치</td><td>조지 엘리엇</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">51</td><td>나의 눈부신 친구</td><td>엘레나 페란테</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">2</td><td>빌러비드</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">52</td><td>황금 그릇</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">3</td><td>율리시스</td><td>제임스 조이스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">53</td><td>금성의 통과</td><td>셜리 해저드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">4</td><td>등대로</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">54</td><td>올랜도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">5</td><td>잃어버린 시간을 찾아서</td><td>마르셀 프루스트</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>파도</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">6</td><td>안나 카레니나</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>맨스필드 파크</td><td>제인 오스틴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">7</td><td>전쟁과 평화</td><td>레프 톨스토이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">57</td><td>음향과 분노</td><td>윌리엄 포크너</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>제인 에어</td><td>샬럿 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">58</td><td>추락</td><td>J. M. 쿳시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">9</td><td>오만과 편견</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">59</td><td>나를 보내지 마</td><td>가즈오 이시구로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">10</td><td>마담 보바리</td><td>귀스타브 플로베르</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">60</td><td>하워즈 엔드</td><td>E. M. 포스터</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">11</td><td>위대한 개츠비</td><td>F. 스콧 피츠제럴드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">61</td><td>토성의 고리</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">12</td><td>황폐한 집</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">62</td><td>태양은 노랗게 타오른다</td><td>치마만다 응고지 아디치에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">13</td><td>에마</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">63</td><td>하얀 이빨</td><td>제이디 스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">14</td><td>댈러웨이 부인</td><td>버지니아 울프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">64</td><td>훌륭한 병사</td><td>포드 매덕스 포드</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">15</td><td>모비 딕</td><td>허먼 멜빌</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">65</td><td>컬러 퍼플</td><td>앨리스 워커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">16</td><td>1984</td><td>조지 오웰</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">66</td><td>거장과 마르가리타</td><td>미하일 불가코프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">17</td><td>백년의 고독</td><td>가브리엘 가르시아 마르케스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">67</td><td>특성 없는 남자</td><td>로베르트 무질</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">18</td><td>설득</td><td>제인 오스틴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">68</td><td>핏빛 자오선</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">19</td><td>트리스트럼 섄디</td><td>로렌스 스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">69</td><td>죄와 벌</td><td>표도르 도스토옙스키</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">20</td><td>폭풍의 언덕</td><td>에밀리 브론테</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">70</td><td>무명의 주드</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">21</td><td>여인의 초상</td><td>헨리 제임스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">71</td><td>킨드레드</td><td>옥타비아 버틀러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">22</td><td>모든 것이 산산이 부서지다</td><td>치누아 아체베</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">72</td><td>우리 공통의 친구</td><td>찰스 디킨스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">23</td><td>한밤의 아이들</td><td>살만 루슈디</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">73</td><td>아우스터리츠</td><td>W. G. 제발트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">24</td><td>남아 있는 나날</td><td>가즈오 이시구로</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>신경 상태</td><td>치치 당가렘가</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">25</td><td>롤리타</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">75</td><td>가장 푸른 눈</td><td>토니 모리슨</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">26</td><td>돈키호테</td><td>미겔 데 세르반테스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">76</td><td>드라큘라</td><td>브램 스토커</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">27</td><td>소송</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">77</td><td>채털리 부인의 연인 / 무지개</td><td>D. H. 로런스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">28</td><td>카라마조프가의 형제들</td><td>표도르 도스토옙스키</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">78</td><td>비스와스씨를 위한 집</td><td>V. S. 나이폴</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">29</td><td>창백한 불꽃</td><td>블라디미르 나보코프</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>산에 올라 고하라</td><td>제임스 볼드윈</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">30</td><td>프랑켄슈타인</td><td>메리 셸리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">80</td><td>레베카</td><td>대프니 듀 모리에</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">31</td><td>진 브로디 선생의 전성기</td><td>뮤리얼 스파크</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">81</td><td>부덴브로크 가의 사람들</td><td>토마스 만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>작은 것들의 신</td><td>아룬다티 로이</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">82</td><td>사랑의 종말</td><td>그레이엄 그린</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">33</td><td>데이비드 코퍼필드</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>무기여 잘 있거라</td><td>어니스트 헤밍웨이</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">34</td><td>울프 홀</td><td>힐러리 맨틀</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">84</td><td>리플리</td><td>퍼트리샤 하이스미스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">35</td><td>위대한 유산</td><td>찰스 디킨스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">85</td><td>채식주의자</td><td>한강</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">36</td><td>시녀 이야기</td><td>마거릿 애트우드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">86</td><td>나사의 회전</td><td>헨리 제임스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">37</td><td>보이지 않는 인간</td><td>랠프 엘리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">87</td><td>아름다움의 선</td><td>앨런 홀링허스트</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">38</td><td>순수의 시대</td><td>이디스 워튼</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">88</td><td>래그타임</td><td>E. L. 닥터로</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">39</td><td>그들의 눈은 신을 보고 있었다</td><td>조라 닐 허스턴</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">89</td><td>어둠의 왼손</td><td>어슐러 K. 르 귄</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">40</td><td>솔로몬의 노래</td><td>토니 모리슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">90</td><td>제이콥의 방</td><td>버지니아 울프</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">41</td><td>어둠의 심연</td><td>조지프 콘래드</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">91</td><td>삶과 운명</td><td>바실리 그로스만</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">42</td><td>마의 산</td><td>토마스 만</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>감정 교육</td><td>귀스타브 플로베르</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">43</td><td>하우스키핑</td><td>메릴린 로빈슨</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">93</td><td>보이지 않는 도시들</td><td>이탈로 칼비노</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">44</td><td>조반니의 방</td><td>제임스 볼드윈</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">94</td><td>알려진 세계</td><td>에드워드 P. 존스</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">45</td><td>황금 노트북</td><td>도리스 레싱</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">95</td><td>귀향</td><td>토머스 하디</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">46</td><td>표범</td><td>주세페 토마시 디 람페두사</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">96</td><td>페드로 파라모</td><td>후안 룰포</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">47</td><td>허영의 시장</td><td>윌리엄 메이크피스 새커리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">97</td><td>캐치-22</td><td>조지프 헬러</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">48</td><td>변신</td><td>프란츠 카프카</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">98</td><td>로드</td><td>코맥 매카시</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">49</td><td>적절한 균형</td><td>로힌턴 미스트리</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">99</td><td>중개인</td><td>L. P. 하틀리</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">50</td><td>광막한 사르가소 바다</td><td>진 리스</td><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">100</td><td>나의 안토니아</td><td>윌라 캐더</td></tr></tbody></table>
+<h3>5 — 두 목록을 겹쳐놓으면 — 이 카드의 요점</h3>
+<table><thead><tr><th></th><th>맥크럼 (진짜 가디언)</th><th>도는 목록 (출처 불명)</th></tr></thead><tbody><tr><td>작가 수</td><td><strong>100명</strong> (작가당 1편)</td><td>75명 (울프 5, 오스틴 4, 디킨스 4)</td></tr><tr><td>번역 작품</td><td><strong>0</strong></td><td><strong>23</strong> (독 7, 러 6, 불 3, 스 3, 이 3, 한 1)</td></tr><tr><td>여성 작가</td><td>21</td><td><strong>36</strong></td></tr><tr><td>흑인 작가</td><td><strong>1명</strong> (모리슨)</td><td>모리슨 3편 + 볼드윈 2 + 엘리슨 + 허스턴 + 워커 + 버틀러 + 아체베 + 아디치에 + 당가렘가</td></tr><tr><td>마지막 연도</td><td>2000</td><td>2010년대</td></tr><tr><td>순서</td><td>연대순 (순위 없음)</td><td>1~100위</td></tr><tr><td>출처</td><td><strong>완전 공개</strong></td><td><strong>불명</strong></td></tr></tbody></table>
+<p><strong>결과가 한 방향이 아니다.</strong> 검증 가능한 목록이 <strong>덜 넓고</strong>, 정체불명의 목록이 <strong>더 넓다.</strong> 아체베·엘리슨·볼드윈·허스턴은 <strong>영어로 썼는데 영어 전용 목록에 없고 세계 목록에는 있다.</strong> 이건 우연이 아니라 <strong>2015년 한 사람의 취향과 그 이후 10년의 정전 감각 차이</strong>로 보는 게 맞다고 본다.</p>
+<p><strong>그래서 내가 내리는 결론은 "진짜를 쓰고 가짜를 버려라"가 아니다.</strong></p>
+<ul><li><strong>출처를 인용할 때는</strong> 맥크럼 목록만 쓴다. 다른 쪽은 인용할 이름이 없다.</li><li><strong>읽을 것을 고를 때는</strong> 두 목록을 합쳐서 본다. <strong>교집합은 안전하고</strong>, 맥크럼에만 있는 것은 <strong>영어 산문사의 깊은 컷</strong>이고, 도는 목록에만 있는 것은 <strong>번역 문학과 흑인 문학</strong>이다. 셋 다 필요하다.</li><li><strong>그리고 이게 이 카드 계열의 규칙을 한 번 더 확인해 준다</strong> — 목록의 값과 목록에 붙은 이름의 값은 <strong>따로 논다.</strong> <a href="pocs-guardian-100-best-novels.html">§4의 판별법</a>은 이름을 검사하는 방법이고, 내용의 값은 그것과 별개로 따져야 한다.</li></ul>
+<h3>6 — 실제로 무엇을 읽을 것인가</h3>
+<p><strong>(가) 맥크럼 목록에서, 값어치 대비 비용이 가장 좋은 것</strong></p>
+<table><thead><tr><th style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">#</th><th>책</th><th>왜</th></tr></thead><tbody><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">8</td><td>『프랑켄슈타인』</td><td>짧고, 관용구 수익률이 가장 높다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">32</td><td>『어둠의 심연』</td><td>100쪽 남짓. 이후 100년의 식민지 서사가 여기서 갈라진다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">55</td><td>『내가 죽어 누워 있을 때』</td><td>포크너 입문으로 가장 짧다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">56</td><td>『멋진 신세계』</td><td>『1984』와 짝으로 읽어야 둘 다 이해된다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">74</td><td>『파리대왕』</td><td>짧고 빠르다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">79</td><td>『진 브로디 선생의 전성기』</td><td>200쪽 미만, 시간 구조가 영리하다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">83</td><td>『싱글 맨』</td><td>하루, 애도. 짧고 문장이 좋다</td></tr><tr><td style="width:1%;min-width:0;white-space:nowrap;padding-right:6px;color:var(--text2)">92</td><td>『하우스키핑』</td><td>이 목록에서 문장이 가장 아름다운 축</td></tr></tbody></table>
+<p><strong>(나) 맥크럼에만 있고 거의 안 알려진 것 — 이 목록을 쓰는 진짜 이유</strong></p>
+<p>『롤리 윌로스』(52) · 『콜드 컴포트 팜』(57) · 『파티 가는 길』(63) · 『클레어몬트의 팔프리 부인』(87) · 『봄의 시작』(95). <strong>다른 어떤 100선에서도 이 다섯을 한꺼번에 만나기 어렵다.</strong></p>
+<p><strong>(다) 높은 평판인데 진입 비용이 잔인한 것 — 미뤄도 된다</strong></p>
+<p>『율리시스』(46) · 『클라리사』(4) · 『트리스트럼 섄디』(6) · 『언더월드』(98) · 『화산 아래서』(68).</p>
+<p><strong>(라) 두 목록에 다 있는 것 — 가장 안전한 시작</strong></p>
+<p>『프랑켄슈타인』 · 『제인 에어』 · 『폭풍의 언덕』 · 『미들마치』 · 『허영의 시장』 · 『모비 딕』 · 『어둠의 심연』 · 『순수의 시대』 · 『율리시스』 · 『댈러웨이 부인』 · 『위대한 개츠비』 · 『멋진 신세계』 · 『무명의 주드』 · 『드라큘라』 · 『1984』 · 『사랑의 종말』 · 『롤리타』 · 『진 브로디 선생의 전성기』 · 『황금 노트북』 · 『캐치-22』 · 『솔로몬의 노래』 · 『한밤의 아이들』 · 『하우스키핑』 · 『추락』 · 『황금 그릇』 · 『훌륭한 병사』.</p>
+<h2>Jayverse에서의 위치</h2>
+<p>책 목록 계열의 한 축이고, 이 계열에서 <strong>유일하게 "검증된 목록"과 "정체불명 목록"을 같은 카드에 담은 항목</strong>이다. <a href="pocs-the-rule-not-the-list.html">독서 목록 다섯 개</a>가 "목록에서 옮겨지는 것은 선별 규칙"이라고 했다면, 이 카드는 <strong>그 규칙이 공개돼 있어도 집행이 반쪽일 수 있다</strong>는 사례다 — 맥크럼은 규칙을 다 밝혔고, 그래도 아체베가 빠졌다.</p>
+<p>가져갈 것 둘:</p>
+<ol><li><strong>인용할 때와 읽을 때를 분리한다.</strong> 출처가 필요한 자리에는 검증된 목록만, 읽을 것을 고르는 자리에는 둘 다.</li><li><strong>공개된 규칙은 면죄부가 아니다.</strong> 규칙이 보이면 <strong>규칙대로 집행됐는지</strong>까지 봐야 한다. 그걸 보는 방법이 §3의 셈이다.</li></ol>
+<h2>확인된 것과 미확인</h2>
+<p><strong>원문을 받아와 확인함.</strong> 맥크럼 목록 100편의 순번·제목·작가·연도·가디언 자체 한 줄 설명은 2026-09-25에 theguardian.com에서 전체를 받아 파싱했다. 100개 항목이 빠짐없이 1~100으로 채워져 있음을 확인했고, 원문은 raw 파일 옆의 real-guardian-100.txt와 real100.json에 남겼다.</p>
+<p><strong>셈으로 확인됨.</strong> 서로 다른 작가 100명(반복 0), 여성 작가 작품 21편, 연도 분포, 번역 0편 — 받아온 데이터를 스크립트로 집계한 값이다. 성별 분류는 내가 작성한 매핑에 따랐다.</p>
+<p><strong>"흑인 작가 1명"은 내가 이름을 훑어 센 것</strong>이고 자동 집계가 아니다. 모리슨 외에 놓친 이름이 있다면 정정되어야 한다 — 다만 아체베·엘리슨·볼드윈·허스턴이 목록에 없다는 사실은 이름 대조로 확인했다.</p>
+<p><strong>내가 붙인 것.</strong> §1 표의 한국어 제목과 오른쪽 한 줄 전부. 가디언의 영어 설명을 번역한 것이 아니라 내가 새로 쓴 메모이고, 국내 역서명은 통용되는 것을 적었으나 항목마다 확인하지는 않았다.</p>
+<p><strong>§3·§5·§6의 평가는 전부 내 판단이다.</strong> 아체베 부재를 결함으로 읽은 것, 1900~49년 편중을 모더니즘 편애로 읽은 것, 도는 목록이 더 넓다는 비교, 읽을 순서 — 근거는 붙였지만 합의된 사실이 아니다.</p>
+<p><strong>§4의 목록은 옮겼을 뿐 확인하지 않았다.</strong> 100편의 제목·작가·순위는 붙여넣은 그대로이고, 어느 발행처로도 추적되지 않았다. 생성된 목록이라는 판단은 텍스트의 거동에서 끌어낸 추론이며 증명이 아니다. 한국어 제목은 오역을 고쳐 내가 정리했고, 원본 오역 목록은 raw 파일에 남겼다.</p>
+      <!-- vocab:start -->
+<section class="vocab"><h2>핵심 표현</h2><p class="meta">이 페이지의 영어 본문에서 배울 만한 단어와 표현, 뜻과 나온 자리.</p><div class="table-wrap" style="overflow-x:auto"><table><thead><tr><th>Expression</th><th>뜻 · 쓰이는 자리</th></tr></thead><tbody><tr><td><strong><strong>provenance</strong></strong></td><td>출처·내력. 미술품 용어인데 데이터·문서·주장 전부에 씀. false provenance = 거짓 출처</td></tr><tr><td><strong><strong>a name that does not hold</strong></strong></td><td>성립하지 않는 이름. hold = (주장·설명이) 버티다, 유효하다</td></tr><tr><td><strong><strong>load-bearing</strong></strong></td><td>하중을 받는. 건축 용어를 비유로 — "the falsehood is load-bearing" = 그 거짓이 구조를 떠받치고 있다</td></tr><tr><td><strong><strong>caught in the act</strong></strong></td><td>현행범으로 잡힌. 실패 사례를 실시간으로 포착했을 때</td></tr><tr><td><strong><strong>catholic</strong> (소문자)</strong></td><td>폭넓은, 편식하지 않는. 종교와 무관한 형용사 용법</td></tr><tr><td><strong><strong>broadly defensible</strong></strong></td><td>대체로 방어 가능한. 완벽하진 않지만 옹호할 수 있다는 절제된 긍정</td></tr><tr><td><strong><strong>it does not survive X</strong></strong></td><td>X를 견디지 못한다. 주장이 검증을 통과하지 못할 때의 정확한 동사</td></tr><tr><td><strong><strong>the cheapest tell</strong></strong></td><td>가장 싼 단서. tell = (포커) 무심결에 드러나는 신호</td></tr><tr><td><strong><strong>read X for wear</strong></strong></td><td>X가 닳은 흔적을 읽다. 품질·진위를 흔적으로 판별할 때</td></tr><tr><td><strong><strong>the downgrade a sentence needs</strong></strong></td><td>문장에 필요한 하향 조정. 과장된 주장을 참인 범위로 좁히는 일</td></tr><tr><td><strong><strong>pass it on</strong></strong></td><td>(그대로) 넘기다, 전달하다</td></tr><tr><td><strong><strong>as much as is known</strong></strong></td><td>알려진 만큼. 더도 덜도 아니게 인용하라고 할 때</td></tr></tbody></table></div></section>
+<!-- vocab:end -->
+<p><a href="../notes.html?list">&larr; 전체 기술 노트</a> &middot; <a href="../index.html">워크스페이스 인덱스</a> &middot; <a href="#top">맨 위 &uarr;</a></p>
+    </article>
+    <div class="pager"><a href="pocs-the-rule-not-the-list.html">&larr; 1821. 독서 목록 다섯, 서로 다른 필터 다섯 — 항목은 목록이 아니라 기준이다</a><a href="pocs-nyt-100-books-21st-century.html">1823. NYT 21세기 최고의 책 100선 — 한국 서점의 선반을 통해 보면 21칸이 비어 있다 &rarr;</a></div>
+  </div>
+  </main>
+</div>
+<script src="_progress.js"></script>
+<script>
+
+  // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
+  const input = document.getElementById('filter');
+  const links = [...document.querySelectorAll('.nav-link')];
+  const groups = [...document.querySelectorAll('[data-group]')];
+  const noResults = document.getElementById('no-results');
+  // 레일 필터 = 텍스트 질의 + 등급 모드(Important/All)의 합성. 등급 토글이 없는 페이지에서는
+  // tierMode 가 'all' 로 남아 예전과 완전히 동일하게 동작한다 (jay, 2026-09-08).
+  const tierBtns = [...document.querySelectorAll('.rail-tier .tier-btn')];
+  let tierMode = (tierBtns.find((b) => b.classList.contains('on')) || { dataset: {} }).dataset.tierMode || 'all';
+  // 섹션 알약 = 카테고리 선택 (jay, 2026-09-18: "these buttons are operational for each category and the section
+  // runs as category selection"). 기본은 현재 항목의 섹션(목록 페이지에서는 전체); 다른 알약을 누르면 그 섹션만,
+  // 켜진 알약을 다시 누르면 기본으로. 빨간 배지의 All 이 켜져 있으면 모든 섹션이 보인다.
+  const activeLink = document.querySelector('.nav-link.active');
+  const defaultSection = activeLink && activeLink.closest('[data-group]') ? activeLink.closest('[data-group]').id : '';
+  let railSection = defaultSection;
+  const pills = [...document.querySelectorAll('.rail-jump a[data-sec]')];
+  const paintPills = () => { const allOn = document.body.classList.contains('rail-all'); for (const p of pills) p.classList.toggle('on', !allOn && !!railSection && p.dataset.sec === railSection); };
+  // "Important" 필터는 중요(빨강)만 보여 준다 (jay, 2026-09-18: "make the important button only shows important").
+  // 2026-09-08/09 에는 최근 완료와 새 항목도 함께 보였지만, 이제 New / Done / Recently 버튼이 따로 있다.
+  const isImportant = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'IMPORTANT'; }; // Important only (jay, 2026-09-18) — New / Recently / Done have their own buttons
+  const isNew = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'NEW'; };
+  const isRecently = (a) => { const d = a.querySelector('.nav-dot'); return !!d && (d.title === 'RECENTLY DONE' || d.dataset.day === 'recent'); };
+  const isDone = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'DONE'; };
+  const isRevisit = (a) => { const d = a.querySelector('.nav-dot'); return !!d && d.title === 'REVISIT'; };
+  // Finished on more than one day (jay, 2026-09-21). Reads data-times, never the title.
+  const isRepeated = (a) => { const d = a.querySelector('.nav-dot'); return !!d && +(d.dataset.times || 1) > 1; }; // done, come back later (jay, 2026-09-21)
+  function applyFilter() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const a of links) {
+      const grp = a.closest('[data-group]');
+      const inScope = document.body.classList.contains('rail-all') || (railSection ? !!grp && grp.id === railSection : !a.closest('[data-other-section]'));
+      const hit = inScope && (!q || a.textContent.toLowerCase().includes(q)) && (tierMode === 'all' || (tierMode === 'new' ? isNew(a) : tierMode === 'recently' ? isRecently(a) : tierMode === 'done' ? isDone(a) : tierMode === 'revisit' ? isRevisit(a) : tierMode === 'repeated' ? isRepeated(a) : isImportant(a)));
+      a.parentElement.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    }
+    for (const g of groups) {
+      const any = [...g.querySelectorAll('.nav-link')].some((a) => a.parentElement.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    }
+    noResults.style.display = shown ? 'none' : 'block';
+  }
+  input.addEventListener('input', applyFilter);
+  document.addEventListener('rail-all-change', () => { paintPills(); applyFilter(); }); // red badge (All categories) clicked (_progress.js)
+  for (const p of pills) {
+    p.addEventListener('click', (e) => {
+      if (document.body.classList.contains('rail-all')) {                  // a section pill turns the badge's All off
+        document.body.classList.remove('rail-all'); try { sessionStorage.setItem('rail-all', '0'); } catch (x) {}
+        document.dispatchEvent(new CustomEvent('rail-all-change'));
+      }
+      if (!p.getAttribute('href').startsWith('#')) e.preventDefault();     // detail pages: stay on the page
+      railSection = railSection === p.dataset.sec ? defaultSection : p.dataset.sec;
+      paintPills(); applyFilter();
+      const g = document.getElementById(railSection); if (g) revealInRail(g, 'top');
+    });
+  }
+  paintPills();
+  for (const b of tierBtns) {
+    b.addEventListener('click', () => {
+      tierMode = b.dataset.tierMode;
+      for (const x of tierBtns) { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      applyFilter();
+      // 모드가 바뀌면 레일을 현재 항목(상세 페이지)이나 첫 NEW 항목으로 옮긴다 — 스크롤 위치가 옛 목록 기준으로 남아
+      // 관계없는 자리에 떨어지지 않게 (jay, 2026-09-18: "clicking the all button goes to the items that are not new ones").
+      const visible = links.filter((a) => a.parentElement.style.display !== 'none');
+      const target = visible.find((a) => a.classList.contains('active')) || visible.find((a) => isNew(a)) || visible[0];
+      if (target) revealInRail(target, 'top');
+    });
+  }
+  // 진입 시 기본값: 등급 토글이 있으면 Important 만 보여 준다 (jay, 2026-09-08).
+  if (tierBtns.length) applyFilter();
+
+  // 레일이 본문을 따라가게 한다 (jay, 2026-08-27: "when a user clicks the link, the focus
+  // on left pane should be moving"). 항목이 200개를 넘으면 활성 표시만으로는 부족하다 —
+  // 표시된 항목이 레일 밖에 있으면 보이지 않으니까. 두 경로로 옮긴다:
+  //   · 섹션 바로가기 클릭 → 해당 그룹을 레일 맨 위로 (즉시, 관측자를 기다리지 않는다)
+  //   · 그냥 스크롤       → 활성 항목이 레일 밖으로 나갔을 때만 살짝 끌어온다
+  const railNav = document.querySelector('.rail-nav');
+
+  function revealInRail(el, mode) {
+    if (!railNav || !el) return;
+    const r = el.getBoundingClientRect();
+    const c = railNav.getBoundingClientRect();
+    if (mode === 'top') {
+      railNav.scrollTo({ top: railNav.scrollTop + r.top - c.top - 8, behavior: 'smooth' });
+      return;
+    }
+    // 이미 보이면 건드리지 않는다 — 읽는 중에 레일이 흔들리지 않게.
+    if (r.top >= c.top + 4 && r.bottom <= c.bottom - 4) return;
+    railNav.scrollTop += r.top - c.top - c.height / 3;
+  }
+
+  for (const a of document.querySelectorAll('a[href^="#sec-"]')) {
+    a.addEventListener('click', () => {
+      const g = document.getElementById('nav-' + a.getAttribute('href').slice(1));
+      if (g) revealInRail(g, 'top');
+    });
+  }
+
+  // 스크롤 위치에 따라 현재 항목을 표시 (읽던 자리를 목록에서 잃지 않게).
+  const spied = links.filter((a) => a.dataset.key);
+  const order = spied.map((a) => a.dataset.key);
+  const seen = new Set();
+  const observed = new Map();
+  let revealTimer;
+  // 밴드에 걸친 항목 중 "문서 순서로 첫 번째"를 고르면 언제나 한 칸 앞이 켜진다
+  // (jay, 2026-08-27: "the left pane should sync with right pane in the item's position").
+  // 앞 항목의 꼬리가 밴드 위쪽에 아직 남아 있기 때문이다. 밴드 상단에 가장 가까운 것을
+  // 고르면 방금 도착한 항목이 켜진다.
+  function syncActive() {
+    // 상세 페이지에는 관측할 본문 항목이 없다 — 그때 돌면 서버가 표시한 active 를
+    // 첫 스크롤에 지워 버리므로, 관측 대상이 없으면 아무것도 하지 않는다 (2026-09-03).
+    if (observed.size === 0) return;
+    // 읽는 선(뷰포트 10%) 을 이미 지난 항목 중 가장 아래 것이 지금 읽고 있는 항목이다.
+    // "선에 가장 가까운 것"으로 고르면 아직 시작도 안 한 다음 항목이 켜진다 — 앞 항목이
+    // 선을 덮고 있는데도. 아직 아무것도 선을 지나지 않았다면 가장 먼저 올 것을 켠다.
+    const line = window.innerHeight * 0.1;
+    let first = null;
+    let started = -Infinity;
+    let upcoming = Infinity;
+    let firstUpcoming = null;
+    for (const k of seen) {
+      const el = observed.get(k);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top <= line) {
+        if (top > started) {
+          started = top;
+          first = k;
+        }
+      } else if (top < upcoming) {
+        upcoming = top;
+        firstUpcoming = k;
+      }
+    }
+    if (first === null) first = firstUpcoming;
+    let activeEl = null;
+    for (const a of spied) {
+      const on = a.dataset.key === first;
+      a.classList.toggle('active', on);
+      if (on) activeEl = a;
+    }
+    // 긴 점프 중에는 활성 항목이 초당 수십 번 바뀐다 — 멈춘 뒤에 한 번만 끌어온다.
+    // 사용자가 실제로 스크롤하기 전에는 끌어오지 않는다 (jay, 2026-09-02) — 로드 직후
+    // 관측자의 첫 콜백이 1번 항목으로 레일을 되감아, 초기 스크롤(첫 important 가운데
+    // 정렬)을 덮어쓰는 것을 막는다. 해시 딥링크는 브라우저 앵커 스크롤이 scroll 이벤트를
+    // 내므로 여전히 첫 프레임부터 동기화된다.
+    clearTimeout(revealTimer);
+    if (userScrolled) revealTimer = setTimeout(() => revealInRail(activeEl), 120);
+  }
+
+  // 관측자는 항목이 밴드를 드나들 때만 깨어난다. 그 사이에도 기하는 계속 바뀌므로,
+  // 스크롤 중에는 프레임마다 한 번 다시 계산한다 — 빠르게 굴릴 때 한 칸 밀리는 것을 막는다.
+  let ticking = false;
+  // 해시 딥링크는 스크롤 이벤트가 리스너 등록 전에 끝날 수 있으므로 처음부터 켠다 —
+  // 특정 항목을 열었다는 것 자체가 "그 항목을 보라"는 의도다.
+  let userScrolled = !!location.hash;
+  addEventListener(
+    'scroll',
+    () => {
+      userScrolled = true;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        syncActive();
+      });
+    },
+    { passive: true }
+  );
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) seen.add(e.target.id);
+      else seen.delete(e.target.id);
+    }
+    syncActive();
+  }, { rootMargin: '-10% 0px -70% 0px' });
+  for (const key of order) {
+    const el = document.getElementById(key);
+    if (el) {
+      observed.set(key, el);
+      io.observe(el);
+    }
+  }
+
+(function () {
+  // 원본 마크다운은 <script type="application/json"> 안에 들어 있다 — 렌더된 DOM 을
+  // 긁으면 표·코드블록이 뭉개지고, 붙여넣은 쪽에서 다시 서식을 만들 수 없다.
+  const flash = (btn, msg) => {
+    const keep = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = keep; btn.classList.remove('ok'); }, 1400);
+  };
+  for (const btn of document.querySelectorAll('.copy-btn')) {
+    btn.addEventListener('click', async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      let text;
+      try { text = JSON.parse(src.textContent); } catch (e) { return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, btn.dataset.done || 'Copied');
+        return;
+      } catch (e) { /* file:// 이나 권한 거부 — 아래로 폴백 */ }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      flash(btn, ok ? (btn.dataset.done || 'Copied') : 'Copy failed');
+    });
+  }
+})();
+
+(function () {
+  var nav = document.querySelector('.rail-nav');
+  if (!nav) return;
+  var el = nav.querySelector('.nav-link.active');
+  if (!el && !location.hash) {
+    var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
+    el = dot && dot.closest('a');
+  }
+  // 레일은 페이지를 옮겨도 스크롤 위치를 그대로 물려받는다 (jay, 2026-09-25: "클릭하면 선택 항목을
+  // 가운데로 맞추려고 패널이 스크롤된다 … make it not scroll, for that timing").
+  // 가드로는 막을 수 없었던 이유: 클릭은 새 페이지를 띄우고 그 레일은 scrollTop=0에서 시작하므로,
+  // 방금까지 보이던 항목도 여기서는 화면 밖이다. 그래서 '보이면 두기'가 아니라 '위치를 넘겨주기'로 바꾼다.
+  var KEY = 'rail:pos';
+  var group = el && el.closest('[data-group]');
+  var sec = group ? group.id : '';
+  var restored = false;
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+    if (saved && saved.sec === sec && typeof saved.top === 'number') { nav.scrollTop = saved.top; restored = true; }
+  } catch (e) {}
+  var save = function (id) {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ sec: id || sec, top: nav.scrollTop })); } catch (e) {}
+  };
+  var timer;
+  nav.addEventListener('scroll', function () { clearTimeout(timer); timer = setTimeout(save, 120); }, { passive: true });
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      var g = this.closest('[data-group]');
+      if (g && g.id === sec) save(g.id);   // 같은 섹션 안에서의 이동일 때만 위치를 넘긴다
+    });
+  }
+  // 클릭으로 들어온 경우(=넘겨받은 위치가 있는 경우)에는 스크롤하지 않는다.
+  // 가운데 정렬은 저장된 위치가 없는 첫 진입에서만 — 비교할 직전 화면이 없으니 움직임으로 보이지 않는다.
+  if (restored || !el) return;
+  var r = el.getBoundingClientRect();
+  var c = nav.getBoundingClientRect();
+  if (r.bottom > c.top + 4 && r.top < c.bottom - 4) return;
+  nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
+})();
+</script>
+</body>
+</html>

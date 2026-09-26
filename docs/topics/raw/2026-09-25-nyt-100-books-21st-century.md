@@ -1,0 +1,186 @@
+# Source: NYT 100 Best Books of the 21st Century, as listed by a Korean bookstore (알라딘),
+#         plus that store's own '21세기의 책' Korean selection
+
+Captured 2026-09-25 (KST) from a paste jay sent in chat.
+
+## Heading correction
+
+The paste is headed "뉴욕 타임즈 선정 20세기 책 100". It is the 21st-century list (NYT, 2024).
+Pachinko (2017), Tomorrow and Tomorrow and Tomorrow (2022), Trust (2022) and The Vegetarian
+settle it. The card uses the correct name.
+
+## What the paste contained
+
+Part 1: a retail listing of the NYT hundred — Korean title, author, publisher, discounted price,
+points, user rating, and the NYT rank, with 품절 marked on some. Prices, points and ratings are
+commercial data with no shelf life and are NOT reproduced here or in the card.
+
+Part 2: headed '21 Century Book (Aladin)' — the store's own selection, each with a long Korean
+recommendation blurb and, on many, a named recommender.
+
+## Ranks present in the listing
+
+1. 나의 눈부신 친구 — 엘레나 페란테
+3. 울프 홀 — 힐러리 맨틀
+4. 알려진 세계 — 에드워드 P. 존스
+5. 인생수정 — 조너선 프랜즌
+6. 2666 — 로베르토 볼라뇨
+7. 언더그라운드 레일로드 — 콜슨 화이트헤드
+8. 아우스터리츠 — W. G. 제발트
+9. 나를 보내지 마 — 가즈오 이시구로
+10. 길리아드 — 메릴린 로빈슨
+11. 오스카 와오의 짧고 놀라운 삶 — 주노 디아스
+12. 상실 — 조앤 디디온
+13. 로드 — 코맥 매카시
+14. 윤곽 — 레이첼 커스크
+15. 파친코 — 이민진
+16. 캐벌리어와 클레이의 놀라운 모험 — 마이클 셰이본
+17. 배반 — 폴 비티
+18. 바르도의 링컨 — 조지 손더스
+19. 세이 나씽 — 패트릭 라든 키프
+21. 쫓겨난 사람들 — 매튜 데스몬드
+22. 안나와디의 아이들 — 캐서린 부
+23. 미움, 우정, 구애, 사랑, 결혼 — 앨리스 먼로
+24. 오버스토리 — 리처드 파워스
+26. 속죄 — 이언 매큐언
+27. 아메리카나 — 치마만다 응고지 아디치에
+28. 클라우드 아틀라스 — 데이비드 미첼
+30. 묻히지 못한 자들의 노래 — 제스민 워드
+31. 하얀 이빨 — 제이디 스미스
+32. 아름다움의 선 — 앨런 홀링허스트
+33. 바람의 잔해를 줍다 — 제스민 워드
+35. 펀 홈: 가족 희비극 — 앨리슨 벡델
+36. 세상과 나 사이 — 타네하시 코츠
+37. 세월 — 아니 에르노
+38. 야만스러운 탐정들 — 로베르토 볼라뇨
+39. 깡패단의 방문 — 제니퍼 이건
+40. 메이블 이야기 — 헬렌 맥도널드
+41. 이처럼 사소한 것들 — 클레어 키건
+42. 일곱 건의 살인에 대한 간략한 역사 — 말런 제임스
+43. 전후 유럽 1945~2005 — 토니 주트
+44. 다섯 번째 계절 — N. K. 제미신
+45. 아르고호의 선원들 — 매기 넬슨
+46. 황금방울새 — 도나 타트
+47. 자비 — 토니 모리슨
+48. 페르세폴리스 — 마르잔 사트라피
+49. 채식주의자 — 한강
+50. 트러스트 — 에르난 디아스
+51. 라이프 애프터 라이프 — 케이트 앳킨슨
+52. 기차의 꿈 — 데니스 존슨
+53. 런어웨이 — 앨리스 먼로
+54. 12월 10일 — 조지 손더스
+55. 문명전쟁 — 로렌스 라이트
+57. 노동의 배신 — 바버라 에런라이크
+58. 진실에 다가가기 — 후아 쉬
+59. 미들섹스 — 제프리 유제니디스
+61. 내 이름은 데몬 코퍼헤드 — 바버라 킹솔버
+65. 미국을 노린 음모 — 필립 로스
+67. 부모와 다른 아이들 — 앤드루 솔로몬
+68. 친구 — 시그리드 누네즈
+71. 코펜하겐 삼부작 — 토베 디틀레우센
+72. 붉은 인간의 최후 — 스베틀라나 알렉시예비치
+74. 올리브 키터리지 — 엘리자베스 스트라우트
+75. 서쪽으로 — 모신 하미드
+76. 내일 또 내일 또 내일 — 가브리엘 제빈
+77. 미국식 결혼 — 타야리 존스
+79. 청소부 매뉴얼 — 루시아 벌린
+80. 잃어버린 아이 이야기 — 엘레나 페란테
+81. 펄프헤드 — 존 제러마이아 설리번
+82. 태풍의 계절 — 페르난다 멜초르
+83. 우리가 세상을 이해하길 멈출 때 — 벵하민 라바투트
+84. 암: 만병의 황제의 역사 — 싯다르타 무케르지
+85. 패스토럴리아 — 조지 손더스
+88. 불안의 변이 — 리디아 데이비스
+89. 귀환 — 히샴 마타르
+90. 동조자 — 비엣 타인 응우옌
+91. 휴먼 스테인 — 필립 로스
+92. 홀로서기 — 엘레나 페란테
+93. 스테이션 일레븐 — 에밀리 세인트존 맨델
+94. 온 뷰티 — 제이디 스미스
+95. 튜더스, 앤불린의 몰락 — 힐러리 맨틀
+98. 벨칸토 — 앤 패칫
+
+present: 79   absent: 21
+absent ranks: 2, 20, 25, 29, 34, 56, 60, 62, 63, 64, 66, 69, 70, 73, 78, 86, 87, 96, 97, 99, 100
+
+## Titles the paste listed as multi-volume Korean editions
+
+울프 홀 1/2, 파친코 1/2 (+합본), 캐벌리어와 클레이 1/2, 아메리카나 1/2, 클라우드 아틀라스 1/2,
+하얀 이빨 1/2, 야만스러운 탐정들 1/2, 일곱 건의 살인 1/2, 전후 유럽 1/2, 황금방울새 1/2,
+미들섹스 1/2, 부모와 다른 아이들 1/2, 코펜하겐 삼부작 1/2/3, 휴먼 스테인 1/2, 온 뷰티 1/2.
+Counted once each in the card.
+
+## The store's own Korean list, as pasted (flat, with blurbs)
+
+- 페미니즘의 도전 — 정희진
+- 사람, 장소, 환대 — 김현경
+- 젠더 트러블 — 주디스 버틀러
+- 날개 환상통 — 김혜순
+- 21세기 자본 — 토마 피케티
+- 우리가 빛의 속도로 갈 수 없다면 — 김초엽
+- 당신 인생의 이야기 — 테드 창
+- 멀고도 가까운 — 리베카 솔닛
+- 세계 끝의 버섯 — 애나 로웬하웁트 칭
+- 정의란 무엇인가 — 마이클 샌델
+- 82년생 김지영 — 조남주
+- 고래 — 천명관
+- 금요일엔 돌아오렴 — 416 작가기록단
+- 끝과 시작 — 비스와바 쉼보르스카
+- 나의 눈부신 친구 — 엘레나 페란테
+- 랭스로 되돌아가다 — 디디에 에리봉
+- 망명과 자긍심 — 일라이 클레어
+- 부모와 다른 아이들 — 앤드루 솔로몬
+- 사당동 더하기 25 — 조은
+- 전쟁은 여자의 얼굴을 하지 않았다 — 스베틀라나 알렉시예비치
+- 페르세폴리스 — 마르잔 사트라피
+- 나를 보내지 마 — 가즈오 이시구로
+- 나를 찾아줘 — 길리언 플린
+- 달걀과 닭 — 클라리시 리스펙토르
+- 디디의 우산 — 황정은
+- 디아스포라 기행 — 서경식
+- 반지의 제왕 — J.R.R. 톨킨
+- 붉은 인간의 최후 — 스베틀라나 알렉시예비치
+- 사피엔스 — 유발 하라리
+- 상실 — 조앤 디디온
+- 소금꽃나무 — 김진숙
+- 시스터 아웃사이더 — 오드리 로드
+- 실격당한 자들을 위한 변론 — 김원영
+- 아픔이 길이 되려면 — 김승섭
+- 어떻게 죽을 것인가 — 아툴 가완디
+- 오월의 사회과학 — 최정운
+- 올빼미의 없음 — 배수아
+- 유언을 만난 세계 — 정창조 외
+- 일탈 — 게일 루빈
+- 축의 시대 — 카렌 암스트롱
+- 킨 — 옥타비아 버틀러
+- 타인의 고통 — 수잔 손택
+- 한국 신자유주의의 기원과 형성 — 지주형
+- 밝은 밤 — 최은영
+- 전사들의 노래 — 홍은전
+- 존재양식의 탐구 — 브뤼노 라투르
+
+Named recommenders appearing in the blurbs: 서성진, 이은혜, 김원영, 김희진, 장강명, 홍한별,
+오찬호, 조해진, 권남희, 정은숙, 노지양, 강소영, 박솔뫼, 김도현, 장혜영, 박동수, 배세진,
+이재영, 박중서, 이수현, 김명남, 장원, 이장욱, 홍명교.
+
+## Not done
+
+- The NYT's own page was not fetched (paywalled, 403). Ranks are the retailer's.
+- The 21 absent ranks were not looked up.
+
+
+---
+
+## Appended 2026-09-26 — the Korean half moved out
+
+jay: "실제로는 뉴욕타임스 100 Best Books of the 21st Century(2024년 발표)다: 이건 아이템을 따로
+만들고, #1823에서 그 내용을 빼줘."
+
+One paste, two lists, one card - wrong shape. The store's own Korean selection is now its own item,
+with its own raw file at 2026-09-26-aladin-21st-century-korean-books.md. This card keeps the NYT
+hundred and the finding that belongs to it: 79 ranks present, 21 absent, and the gaps read as a map
+of what has and has not been translated. The six-title overlap between the two lists moved with the
+Korean card, since that is where both lists are discussed.
+
+Nothing about the NYT half was re-verified during the split. The ranks are still the retailer's, not
+the paper's - nytimes.com returned 403.

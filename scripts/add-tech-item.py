@@ -33,7 +33,7 @@ ap.add_argument("--status", default="new", help="planned | done | recent (= RECE
 ap.add_argument("--done-at", help="ISO time (+09:00) the item was done; default now (KST). Day boundary 06:00 KST — see scripts/roll-done-states.py"); ap.add_argument("--date"); ap.add_argument("--type", default="PoC")
 ap.add_argument("--source", default="chat", choices=["chat", "file", "gemini"], help="where the subject came from: jay in chat, the alice-tech file, or the Gemini YouTube briefing folder (~/Documents/Gemini)")
 ap.add_argument("--section", default="blockchain", choices=["blockchain", "fundamentals", "invest", "mindset"], help="which Knowledge Notes section the item belongs to")
-ap.add_argument("--tag", default="Economics", help="Theory / Invest: the topic-tag chip (Theory: Math | Algorithms; Invest: Economics | Invest)")
+ap.add_argument("--tag", help="the topic-tag chip. Theory: Math | Algorithms (default Economics). Invest: Economics | Invest (default Economics). Life: Book | Film | Manga | Anime | Work | Mind | Body | People — no chip if omitted (jay, 2026-09-25: 'add book or something proper flag for Life items as the Theory items do'). Blockchain has no chip.")
 ap.add_argument("--vocab", help="markdown table of key expressions (Expression | 뜻 · 쓰이는 자리); copied to docs/topics/vocab/<page>.md and rendered on the page (jay, 2026-09-18: every detail page carries one)")
 ap.add_argument("--bin", choices=["deep", "converse", "file"], help="learning bin at capture time (learning-greed item, jay 2026-09-21): deep = moves the through line, gets the hours; converse = one interview sentence, no more; file = card + expressions, then release")
 ap.add_argument("--raw", help="source file (paste, fetched text, briefing) copied once into docs/topics/raw/<date>-<key>.<ext> and linked from the kicker; never overwritten")
@@ -53,9 +53,11 @@ DATE = A.date or datetime.datetime.now(datetime.timezone(datetime.timedelta(hour
 # right after the number (jay, 2026-09-18: first Theory item added through this script).
 SECTIONS = {
     "blockchain":   dict(nav="nav-sec-blockchain",   art="sec-blockchain",   label="Tech", next_nav="nav-sec-fundamentals", next_art="sec-fundamentals", tag=""),
-    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag">{A.tag}</span>'),
-    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag">{A.tag}</span>'),
-    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="no-results",           next_art=None,                tag=""),   # Life is last (jay, 2026-09-18: "Eng before Life")
+    "fundamentals": dict(nav="nav-sec-fundamentals", art="sec-fundamentals", label="Theory",         next_nav="nav-sec-invest",       next_art="sec-invest",        tag=f'<span class="topic-tag" data-tag="{A.tag or "Economics"}">{A.tag or "Economics"}</span>'),
+    "invest":       dict(nav="nav-sec-invest",       art="sec-invest",       label="Invest",         next_nav="nav-sec-english",      next_art="sec-english",       tag=f'<span class="topic-tag" data-tag="{A.tag or "Economics"}">{A.tag or "Economics"}</span>'),
+    # Life carries a chip too since 2026-09-25, but only when --tag is given: the section has items that
+    # genuinely belong to no domain, and an empty chip reads worse than none.
+    "mindset":      dict(nav="nav-sec-mindset",      art="sec-mindset",      label="Life",           next_nav="no-results",           next_art=None,                tag=(f'<span class="topic-tag" data-tag="{A.tag}">{A.tag}</span>' if A.tag else "")),   # Life is last (jay, 2026-09-18: "Eng before Life")
 }
 SEC = SECTIONS[A.section]; TAG = SEC["tag"]
 KEY, HREF = A.key, f"pocs-{A.key}.html"
@@ -125,9 +127,14 @@ def load(p):
     return md, parts[0][2:].strip(), parts[1].strip(), parts[2].strip(), "\n\n".join(parts[3:])
 en_md, TITLE, SUMMARY, META, en_body = load(A.en); ko_md, TITLE_KO, SUMMARY_KO, META_KO, ko_body = load(A.ko)
 # Every item closes with "Where it lands in Jayverse" (jay, 2026-09-18: all detail pages have this section).
-assert "### Where it lands in Jayverse" in en_body or "## Where it lands in Jayverse" in en_body, "en.md needs a 'Where it lands in Jayverse' section"
+# Korean-only items (jay, 2026-09-25: "for all book items, I don't need english version") pass the same
+# Korean file as --en and --ko; the EN side then carries the Korean heading, which is accepted here.
+assert any(h in en_body for h in ("### Where it lands in Jayverse", "## Where it lands in Jayverse", "Jayverse에서의 위치")), \
+    "en.md needs a 'Where it lands in Jayverse' section (or the Korean heading, for a Korean-only item)"
 assert "Jayverse에서의 위치" in ko_body, "ko.md needs a 'Jayverse에서의 위치' section"
-WHY = re.search(r'## Why\n\n(.*?)(\n\n|$)', en_body, re.S).group(1)
+_why = re.search(r'## (?:Why|왜)\n\n(.*?)(\n\n|$)', en_body, re.S)   # '왜' for Korean-only items (jay, 2026-09-25)
+assert _why, "en.md needs a '## Why' (or '## 왜') section"
+WHY = _why.group(1)
 HOW = " · ".join(h[4:].split(" — ")[0] for h in re.findall(r'^### .*$', en_body, re.M))
 DATE_SPAN = f'<span class="topic-date" title="added" style="margin-left:auto;flex:0 0 auto;font-size:.72rem;color:var(--text2);font-variant-numeric:tabular-nums">{DATE}</span>'
 SRC_SPAN = f'<span class="topic-src" title="source" style="flex:0 0 auto;margin-left:6px;font-size:.66rem;line-height:1.5;color:var(--text2);border:1px solid currentColor;border-radius:999px;padding:0 6px;opacity:.75">{A.source}</span>'
@@ -157,7 +164,7 @@ for j in nav["jump"]:
 for x in items: x.pop("n", None); x.pop("title", None)
 n.write_text("window.__NAV__=" + json.dumps(nav, ensure_ascii=False, separators=(",", ":")) + ";\n")
 # convenience view used below: [key, href, color, label, n, title-html]
-items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k)), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag">[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
+items = [[x["key"], x["href"], x["color"], x["label"], str(display(SEC["nav"], k)), re.sub(r'^(<span class="topic-no">\d+</span>)?(<span class="topic-tag"[^>]*>[^<]*</span>)?', '', x["text"])] for k, x in enumerate(items, 1)]
 
 # ---------------- notes.html ----------------
 p = ROOT / "notes.html"; s = p.read_text()
@@ -211,8 +218,11 @@ subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "r
 tpl = (ROOT / "topics" / "pocs-alchemy-app-is-a-budget.html").read_text()
 head = tpl[:tpl.index('<div class="solo">') + len('<div class="solo">\n')]
 head = head.replace(tpl[tpl.index('<title>'):tpl.index('</title>') + 8], f'<title>{E(TITLE)} — Knowledge Notes</title>')
-tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_nav.js">'):]
-tail = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', tail)
+# The rail now builds right after </nav>, before first paint (jay, 2026-09-25: "it blinks yet for
+# the left panel"), so _nav.js and __NAV_CURRENT__ live in `head`, not in `tail`. The tail starts at
+# _progress.js, and the per-page key is rewritten in `head`.
+tail = tpl[tpl.index('  </div>\n  </main>\n</div>\n<script src="_progress.js">'):]
+head = re.sub(r'window\.__NAV_CURRENT__="[^"]*"', f'window.__NAV_CURRENT__="{KEY}"', head)
 DONE_SPAN = f'<span title="done">done {new_item["done"][:10]}</span>' if new_item.get("done") else ""   # done date in the kicker (jay, 2026-09-21); roll-done-states.py keeps it in sync afterwards
 mid = f'''    <p class="crumb"><a href="../index.html">Workspace Index</a> &rsaquo; <a href="../notes.html">Knowledge Notes</a> &rsaquo; {E(TITLE)}</p>
   <header class="topic-hero">

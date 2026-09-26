@@ -189,6 +189,13 @@
   .topic-tag { flex:0 0 auto; font-size:0.64rem; font-weight:700; letter-spacing:0.03em; text-transform:uppercase;
     padding:1px 6px; border-radius:999px; color:var(--text2); background:var(--accent-soft); white-space:nowrap; }
   .nav-text .topic-tag { font-size:0.6rem; padding:0 5px; margin-right:.35em; vertical-align:middle; }
+  /* Life 태그 칩 색 (jay, 2026-09-25: "add some unique color for the book flag").
+     칩의 텍스트가 곧 태그값인데 CSS는 텍스트로 선택할 수 없어서 data-tag 를 함께 쓴다.
+     Book·Film·Manga·Anime 는 한 묶음이라 같은 색(jay, 2026-09-25). 나머지 칩은 기본 회색. */
+  .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#b45309; background:#b4530922; }
+  @media (prefers-color-scheme: dark) {
+    .topic-tag[data-tag="Book"], .topic-tag[data-tag="Film"], .topic-tag[data-tag="Manga"], .topic-tag[data-tag="Anime"] { color:#fbbf24; background:#fbbf2426; }
+  }
   .topic-done { flex:0 0 auto; }
   .topic-summary { margin:4px 0 0; color:var(--text2); font-size:0.94rem; }
   /* 로그 항목의 그날 작업 목록 — 한 줄로 이어붙이면 읽기 어려워 각자 줄로 둔다 (jay, 2026-08-13). */
@@ -381,7 +388,7 @@
 <div class="layout">
   <aside class="rail">
     <div class="rail-head">
-      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/974</span>
+      <a class="rail-title" href="../index.html">Rabbit</a><span class="rail-note" style="color:#ef4444;background:rgba(239,68,68,0.14);" title="current">8% &middot; 76/976</span>
       <span class="rail-sub"><span class="rail-note" style="display:inline-block;" title="closing status on 2026-09-17">14% &middot; 61/442</span></span>
       <div class="rail-jump" id="rail-jump"></div>
     </div>
@@ -400,6 +407,50 @@
 
       <p class="no-results" id="no-results">No match.</p>
     </nav>
+<!-- rail built before paint -->
+<script src="_nav.js"></script>
+<script>window.__NAV_CURRENT__="english-331";</script>
+<script>
+(function () {
+  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
+  if (!data) return;
+  var jw = document.getElementById('rail-jump');
+  if (jw) {
+    jw.innerHTML = data.jump.map(function (s) {
+      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
+    }).join('');
+  }
+  var sec = null;
+  for (var i = 0; i < data.sections.length && !sec; i++) {
+    for (var j = 0; j < data.sections[i].items.length; j++) {
+      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
+    }
+  }
+  var navEl = document.getElementById('nav');
+  if (navEl && sec) {
+    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
+    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
+    var render = function (s, other) {
+      var lis = s.items.map(function (it) {
+        var active = it.key === cur ? ' active' : '';
+        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
+      }).join('');
+      var group = document.createElement('div');
+      group.className = 'nav-group';
+      group.id = s.navId;
+      group.setAttribute('data-group', '');
+      if (other) group.setAttribute('data-other-section', '');
+      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
+      return group;
+    };
+    var anchor = navEl.firstChild;
+    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
+    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
+    // marked data-other-section so the mode rules that hide them keep working.
+    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
+  }
+})();
+</script>
     <div class="rail-foot"><a href="../notes.html?list">All Notes</a> &middot; <a href="health-1.html">&#9829; Health</a> &middot; <a href="../index.html">Index</a></div>
   </aside>
   <main class="content content-solo">
@@ -455,49 +506,8 @@
   </div>
   </main>
 </div>
-<script src="_nav.js"></script>
 <script src="_progress.js"></script>
-<script>window.__NAV_CURRENT__="english-331";</script>
 <script>
-(function () {
-  var data = window.__NAV__, cur = window.__NAV_CURRENT__;
-  if (!data) return;
-  var jw = document.getElementById('rail-jump');
-  if (jw) {
-    jw.innerHTML = data.jump.map(function (s) {
-      return '<a href="../notes.html#' + s.id + '" data-sec="nav-' + s.id + '" title="' + s.label + ' — done (' + s.done + ') / all (' + s.all + ')">' + s.label + '<b><span class="count-done">' + s.done + '</span><span class="count-all">/' + s.all + '</span></b></a>';
-    }).join('');
-  }
-  var sec = null;
-  for (var i = 0; i < data.sections.length && !sec; i++) {
-    for (var j = 0; j < data.sections[i].items.length; j++) {
-      if (data.sections[i].items[j].key === cur) { sec = data.sections[i]; break; }
-    }
-  }
-  var navEl = document.getElementById('nav');
-  if (navEl && sec) {
-    // 현재 섹션을 맨 위에, 나머지 섹션은 data-other-section 으로 그 뒤에 — Done / Recently 모드에서만 보인다
-    // (jay, 2026-09-18: "it shows the matched ones for all the categories").
-    var render = function (s, other) {
-      var lis = s.items.map(function (it) {
-        var active = it.key === cur ? ' active' : '';
-        return '<li><a class="nav-link' + active + '" href="' + it.href + '" data-key="' + it.key + '"><span class="nav-dot" style="background:' + it.color + ';" title="' + it.label + '"' + (it.day ? ' data-day="' + it.day + '"' : '') + (it.dones && it.dones.length > 1 ? ' data-times="' + it.dones.length + '"' : '') + '></span><span class="nav-text">' + it.text + '</span></a></li>';
-      }).join('');
-      var group = document.createElement('div');
-      group.className = 'nav-group';
-      group.id = s.navId;
-      group.setAttribute('data-group', '');
-      if (other) group.setAttribute('data-other-section', '');
-      group.innerHTML = '<p class="nav-group-label">' + s.label + '</p><ul>' + lis + '</ul>';
-      return group;
-    };
-    var anchor = navEl.firstChild;
-    // section order stays fixed — Tech · Theory · Invest · Eng · Life — on every page; the current section keeps its
-    // place instead of jumping to the top (jay, 2026-09-21: "The 65 should be before 1000 cohort"). Other sections are still
-    // marked data-other-section so the mode rules that hide them keep working.
-    data.sections.forEach(function (s) { navEl.insertBefore(render(s, s !== sec), anchor); });
-  }
-})();
 
   // 필터: 사이드바 항목만 걸러낸다 — 본문은 그대로 두어 링크(#anchor)가 항상 살아 있게.
   const input = document.getElementById('filter');
@@ -727,9 +737,36 @@
     var dot = nav.querySelector('.nav-dot[title="IMPORTANT"]');
     el = dot && dot.closest('a');
   }
-  if (!el) return;
+  // 레일은 페이지를 옮겨도 스크롤 위치를 그대로 물려받는다 (jay, 2026-09-25: "클릭하면 선택 항목을
+  // 가운데로 맞추려고 패널이 스크롤된다 … make it not scroll, for that timing").
+  // 가드로는 막을 수 없었던 이유: 클릭은 새 페이지를 띄우고 그 레일은 scrollTop=0에서 시작하므로,
+  // 방금까지 보이던 항목도 여기서는 화면 밖이다. 그래서 '보이면 두기'가 아니라 '위치를 넘겨주기'로 바꾼다.
+  var KEY = 'rail:pos';
+  var group = el && el.closest('[data-group]');
+  var sec = group ? group.id : '';
+  var restored = false;
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+    if (saved && saved.sec === sec && typeof saved.top === 'number') { nav.scrollTop = saved.top; restored = true; }
+  } catch (e) {}
+  var save = function (id) {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ sec: id || sec, top: nav.scrollTop })); } catch (e) {}
+  };
+  var timer;
+  nav.addEventListener('scroll', function () { clearTimeout(timer); timer = setTimeout(save, 120); }, { passive: true });
+  var links = nav.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      var g = this.closest('[data-group]');
+      if (g && g.id === sec) save(g.id);   // 같은 섹션 안에서의 이동일 때만 위치를 넘긴다
+    });
+  }
+  // 클릭으로 들어온 경우(=넘겨받은 위치가 있는 경우)에는 스크롤하지 않는다.
+  // 가운데 정렬은 저장된 위치가 없는 첫 진입에서만 — 비교할 직전 화면이 없으니 움직임으로 보이지 않는다.
+  if (restored || !el) return;
   var r = el.getBoundingClientRect();
   var c = nav.getBoundingClientRect();
+  if (r.bottom > c.top + 4 && r.top < c.bottom - 4) return;
   nav.scrollTop += (r.top - c.top) - (c.height / 2 - r.height / 2);
 })();
 </script>
