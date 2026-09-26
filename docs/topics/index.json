@@ -1,14 +1,14 @@
 {
-"generated": "2026-09-25 22:19 KST",
+"generated": "2026-09-26 09:11 KST",
 "counts": {
 "Tech": 316,
 "Theory": 189,
 "Invest": 23,
 "Eng": 401,
-"Life": 46
+"Life": 47
 },
 "done": 76,
-"all": 975,
+"all": 976,
 "items": [
 {
 "no": 1,
@@ -14903,13 +14903,13 @@
 "href": "pocs-nyt-100-books-21st-century.html",
 "status": "NEW",
 "position": 23,
-"title_en": "BookNYT 21세기 최고의 책 100선을 한국 서점에서 본 것 — 그리고 여기까지 오지 못한 21권",
+"title_en": "BookNYT 21세기 최고의 책 100선 — 한국 서점의 선반을 통해 보면 21칸이 비어 있다",
 "tag": "Book",
 "type": "Life",
 "date": "2026-09-25",
 "source": "chat",
 "raw": "raw/2026-09-25-nyt-100-books-21st-century.md",
-"title_ko": "NYT 21세기 최고의 책 100선을 한국 서점에서 본 것 — 그리고 여기까지 오지 못한 21권",
+"title_ko": "NYT 21세기 최고의 책 100선 — 한국 서점의 선반을 통해 보면 21칸이 비어 있다",
 "vocab": [
 "an honest instrument",
 "laid over",
@@ -14928,10 +14928,39 @@
 {
 "no": 1824,
 "section": "Life",
+"key": "aladin-21st-century-korean-books",
+"href": "pocs-aladin-21st-century-korean-books.html",
+"status": "NEW",
+"position": 24,
+"title_en": "Book알라딘 21세기의 책 — 한국이 스스로 고른 25년, 그리고 NYT 목록과 여섯 권만 겹친다",
+"tag": "Book",
+"type": "Life",
+"date": "2026-09-26",
+"source": "chat",
+"raw": "raw/2026-09-26-aladin-21st-century-korean-books.md",
+"title_ko": "알라딘 21세기의 책 — 한국이 스스로 고른 25년, 그리고 NYT 목록과 여섯 권만 겹친다",
+"vocab": [
+"an imported canon vs. a home-grown one",
+"the comparison comes free",
+"a signed recommendation",
+"you cannot interrogate a rank",
+"testimony travels, formal experiment does not",
+"an export flagship",
+"domestic canon",
+"skew",
+"the sample, not the subject",
+"mistake a skew for the zeitgeist",
+"a caveat",
+"neither hedges on it"
+]
+},
+{
+"no": 1825,
+"section": "Life",
 "key": "nyt-100-movies-21st-century",
 "href": "pocs-nyt-100-movies-21st-century.html",
 "status": "NEW",
-"position": 24,
+"position": 25,
 "title_en": "FilmNYT가 뽑은 21세기 최고의 영화 100편, 그리고 그 안으로 들어가는 23개의 문",
 "tag": "Film",
 "type": "Life",
@@ -14955,12 +14984,12 @@
 ]
 },
 {
-"no": 1825,
+"no": 1826,
 "section": "Life",
 "key": "japan-media-arts-100-manga",
 "href": "pocs-japan-media-arts-100-manga.html",
 "status": "NEW",
-"position": 25,
+"position": 26,
 "title_en": "Manga일본 미디어 예술 100선, 만화 부문 — 커트라인은 25위에 있고, 일반과 전문가는 1위부터 다르다",
 "tag": "Manga",
 "type": "Life",
@@ -14984,12 +15013,12 @@
 ]
 },
 {
-"no": 1826,
+"no": 1827,
 "section": "Life",
 "key": "japan-media-arts-100-anime",
 "href": "pocs-japan-media-arts-100-anime.html",
 "status": "NEW",
-"position": 26,
+"position": 27,
 "title_en": "Anime일본 미디어 예술 100선, 애니메이션 부문 — 철완 아톰은 전문가 2위, 일반 49위",
 "tag": "Anime",
 "type": "Life",
@@ -15013,12 +15042,12 @@
 ]
 },
 {
-"no": 1827,
+"no": 1828,
 "section": "Life",
 "key": "greene-reading-leaves-the-prison",
 "href": "pocs-greene-reading-leaves-the-prison.html",
 "status": "PLANNED",
-"position": 27,
+"position": 28,
 "title_en": "BookA week of your own thoughts, printed out, would embarrass you — reading is the way out of that room",
 "tag": "Book",
 "type": "Talk",
@@ -15052,12 +15081,12 @@
 ]
 },
 {
-"no": 1828,
+"no": 1829,
 "section": "Life",
 "key": "hwang-sokyong-read-classics-ai-era",
 "href": "pocs-hwang-sokyong-read-classics-ai-era.html",
 "status": "PLANNED",
-"position": 28,
+"position": 29,
 "title_en": "Book황석영: read the classics before you prompt — an AI is only as good as the question your own reading lets you ask",
 "tag": "Book",
 "type": "Talk",
@@ -15094,12 +15123,12 @@
 ]
 },
 {
-"no": 1829,
+"no": 1830,
 "section": "Life",
 "key": "systems-thinking-cynefin-dart",
 "href": "pocs-systems-thinking-cynefin-dart.html",
 "status": "PLANNED",
-"position": 29,
+"position": 30,
 "title_en": "MindSystems thinking — the four Cynefin domains decide whether you need a checklist, an analyst, a probe, or a pause",
 "tag": "Mind",
 "type": "Talk",
@@ -15136,12 +15165,12 @@
 ]
 },
 {
-"no": 1830,
+"no": 1831,
 "section": "Life",
 "key": "research-any-topic-like-a-phd",
 "href": "pocs-research-any-topic-like-a-phd.html",
 "status": "PLANNED",
-"position": 30,
+"position": 31,
 "title_en": "MindResearch any topic like a PhD student — narrow the question until the literature narrows itself",
 "tag": "Mind",
 "type": "Talk",
@@ -15177,12 +15206,12 @@
 ]
 },
 {
-"no": 1831,
+"no": 1832,
 "section": "Life",
 "key": "djokovic-discipline-watch-the-loss",
 "href": "pocs-djokovic-discipline-watch-the-loss.html",
 "status": "PLANNED",
-"position": 31,
+"position": 32,
 "title_en": "MindWatch the exact interval where it turned — Novak Djokovic on discipline, and the Kobe Bryant habit of replaying the loss",
 "tag": "Mind",
 "type": "Talk",
@@ -15219,12 +15248,12 @@
 ]
 },
 {
-"no": 1832,
+"no": 1833,
 "section": "Life",
 "key": "feifei-li-agency-barbell-spatial",
 "href": "pocs-feifei-li-agency-barbell-spatial.html",
 "status": "PLANNED",
-"position": 32,
+"position": 33,
 "title_en": "WorkThe AI labor market is splitting into a barbell — the deciding variable is agency, not job title",
 "tag": "Work",
 "type": "Talk",
@@ -15257,12 +15286,12 @@
 ]
 },
 {
-"no": 1833,
+"no": 1834,
 "section": "Life",
 "key": "lacan-rsi-desire-signifier",
 "href": "pocs-lacan-rsi-desire-signifier.html",
 "status": "PLANNED",
-"position": 33,
+"position": 34,
 "title_en": "MindDesire is demand minus need — Lacan's gap that no feature ever closes",
 "tag": "Mind",
 "type": "Talk",
@@ -15297,12 +15326,12 @@
 ]
 },
 {
-"no": 1834,
+"no": 1835,
 "section": "Life",
 "key": "herjavec-they-buy-you-be-heard",
 "href": "pocs-herjavec-they-buy-you-be-heard.html",
 "status": "PLANNED",
-"position": 34,
+"position": 35,
 "title_en": "WorkPeople don't buy the idea — they buy whether you can be heard",
 "tag": "Work",
 "type": "Talk",
@@ -15334,12 +15363,12 @@
 ]
 },
 {
-"no": 1835,
+"no": 1836,
 "section": "Life",
 "key": "rometty-resilience-relationships-attitude",
 "href": "pocs-rometty-resilience-relationships-attitude.html",
 "status": "PLANNED",
-"position": 35,
+"position": 36,
 "title_en": "WorkRometty on resilience — feed the network before the crisis, then control what you can and box what you can't",
 "tag": "Work",
 "type": "Talk",
@@ -15374,12 +15403,12 @@
 ]
 },
 {
-"no": 1836,
+"no": 1837,
 "section": "Life",
 "key": "dancing-brain-workout-cognitive-reserve",
 "href": "pocs-dancing-brain-workout-cognitive-reserve.html",
 "status": "PLANNED",
-"position": 36,
+"position": 37,
 "title_en": "BodyDance beats the treadmill — because once a movement stops requiring a decision, it stops training the brain",
 "tag": "Body",
 "type": "Talk",
@@ -15413,12 +15442,12 @@
 ]
 },
 {
-"no": 1837,
+"no": 1838,
 "section": "Life",
 "key": "kotler-flow-on-command-triggers-motivators",
 "href": "pocs-kotler-flow-on-command-triggers-motivators.html",
 "status": "PLANNED",
-"position": 37,
+"position": 38,
 "title_en": "MindFlow is not a mood — it's a challenge-skill ratio you can set on purpose",
 "tag": "Mind",
 "type": "Talk",
@@ -15452,12 +15481,12 @@
 ]
 },
 {
-"no": 1838,
+"no": 1839,
 "section": "Life",
 "key": "lieberman-exercise-myths-healthspan",
 "href": "pocs-lieberman-exercise-myths-healthspan.html",
 "status": "PLANNED",
-"position": 38,
+"position": 39,
 "title_en": "BodyLieberman on exercise myths — running doesn't wreck knees, slowing down with age does",
 "tag": "Body",
 "type": "Talk",
@@ -15491,12 +15520,12 @@
 ]
 },
 {
-"no": 1839,
+"no": 1840,
 "section": "Life",
 "key": "tang-show-up-truth-gut-follow-through",
 "href": "pocs-tang-show-up-truth-gut-follow-through.html",
 "status": "PLANNED",
-"position": 39,
+"position": 40,
 "title_en": "MindShow up for yourself — truth, gut and follow-through are a production pipeline, not a mood",
 "tag": "Mind",
 "type": "Talk",
@@ -15530,12 +15559,12 @@
 ]
 },
 {
-"no": 1840,
+"no": 1841,
 "section": "Life",
 "key": "jocko-discipline-comes-from-within",
 "href": "pocs-jocko-discipline-comes-from-within.html",
 "status": "PLANNED",
-"position": 40,
+"position": 41,
 "title_en": "MindDiscipline is not inherited — it is the order you give yourself with no one watching",
 "tag": "Mind",
 "type": "Talk",
@@ -15577,12 +15606,12 @@
 ]
 },
 {
-"no": 1841,
+"no": 1842,
 "section": "Life",
 "key": "goto-island-burger-shop-community-living-room",
 "href": "pocs-goto-island-burger-shop-community-living-room.html",
 "status": "PLANNED",
-"position": 41,
+"position": 42,
 "title_en": "WorkA remote-island burger shop — the product is the tool, the community is the point",
 "tag": "Work",
 "type": "Vlog",
@@ -15621,12 +15650,12 @@
 ]
 },
 {
-"no": 1842,
+"no": 1843,
 "section": "Life",
 "key": "piech-ai-multiplier-foundations-ten-minute-human",
 "href": "pocs-piech-ai-multiplier-foundations-ten-minute-human.html",
 "status": "PLANNED",
-"position": 42,
+"position": 43,
 "title_en": "WorkA ten-minute human beat the chatbot — Chris Piech on why the foundations still have to be yours when AI writes the code",
 "tag": "Work",
 "type": "Talk",
@@ -15665,12 +15694,12 @@
 ]
 },
 {
-"no": 1843,
+"no": 1844,
 "section": "Life",
 "key": "tao-helicopter-and-the-waterfall",
 "href": "pocs-tao-helicopter-and-the-waterfall.html",
 "status": "PLANNED",
-"position": 43,
+"position": 44,
 "title_en": "MindThe helicopter gets you to the waterfall and teaches you nothing — Terence Tao on what AI takes from the person who uses it",
 "tag": "Mind",
 "type": "Talk",
@@ -15692,12 +15721,12 @@
 ]
 },
 {
-"no": 1844,
+"no": 1845,
 "section": "Life",
 "key": "pocock-sergeant-not-general",
 "href": "pocs-pocock-sergeant-not-general.html",
 "status": "PLANNED",
-"position": 44,
+"position": 45,
 "title_en": "WorkThe agent is a good sergeant, not a general — Matt Pocock on why fundamentals matter more with AI, not less",
 "tag": "Work",
 "type": "Talk",
@@ -15720,12 +15749,12 @@
 ]
 },
 {
-"no": 1845,
+"no": 1846,
 "section": "Life",
 "key": "harris-you-did-not-author-your-last-thought",
 "href": "pocs-harris-you-did-not-author-your-last-thought.html",
 "status": "PLANNED",
-"position": 45,
+"position": 46,
 "title_en": "MindYou did not author your last thought — Harris on free will, and why that is a reason for compassion, not fatalism",
 "tag": "Mind",
 "type": "Talk",
@@ -15750,12 +15779,12 @@
 ]
 },
 {
-"no": 1846,
+"no": 1847,
 "section": "Life",
 "key": "eat-the-same-dish-twice-tokyo",
 "href": "pocs-eat-the-same-dish-twice-tokyo.html",
 "status": "PLANNED",
-"position": 46,
+"position": 47,
 "title_en": "MindEat the same dish twice — a Tokyo vlog as a method for paying attention",
 "tag": "Mind",
 "type": "Vlog",

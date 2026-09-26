@@ -167,3 +167,20 @@ Named recommenders appearing in the blurbs: 서성진, 이은혜, 김원영, 김
 
 - The NYT's own page was not fetched (paywalled, 403). Ranks are the retailer's.
 - The 21 absent ranks were not looked up.
+
+
+---
+
+## Appended 2026-09-26 — the Korean half moved out
+
+jay: "실제로는 뉴욕타임스 100 Best Books of the 21st Century(2024년 발표)다: 이건 아이템을 따로
+만들고, #1823에서 그 내용을 빼줘."
+
+One paste, two lists, one card - wrong shape. The store's own Korean selection is now its own item,
+with its own raw file at 2026-09-26-aladin-21st-century-korean-books.md. This card keeps the NYT
+hundred and the finding that belongs to it: 79 ranks present, 21 absent, and the gaps read as a map
+of what has and has not been translated. The six-title overlap between the two lists moved with the
+Korean card, since that is where both lists are discussed.
+
+Nothing about the NYT half was re-verified during the split. The ranks are still the retailer's, not
+the paper's - nytimes.com returned 403.
